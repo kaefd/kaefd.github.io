@@ -57,6 +57,9 @@
   background-color: white;
 }
 
+#profile {
+  overflow:hidden;
+}
 .rotate-center{animation:rotate-center 6s infinite alternate both}
 .rotate-scale-up{animation:rotate-scale-up 6s linear infinite alternate both}
 @keyframes rotate-scale-up{0%{transform:scale(1) rotateZ(0)}50%{transform:scale(2) rotateZ(180deg)}100%{transform:scale(1) rotateZ(360deg)}}
@@ -66,91 +69,90 @@
 <body>
   
     
-  <div id="profile" class="fluid-container bg-dark-blue py-5">
-    
-      <ul class="nav justify-content-center nav-pills gap-3">
-        <li class="nav-item">
-          <a class="nav-link border border-warning rounded-pill text-light" aria-current="page" href="#profile">Profile</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link border border-warning rounded-pill text-light" href="#skills">Skills</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link border border-warning rounded-pill text-light" href="#portfolio">Portfolio</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link border border-warning rounded-pill text-light" href="#contact">Contact</a>
-        </li>
-      </ul>
-      
+  <div id="profile" class="bg-dark-blue py-5">
 
-  	<div class="container w-75 mx-auto fondation align-items-center row">
-        
-      <div class="col">
-	  		<img class="profile rounded-circle animate__animated animate__flipInY" src="profpict.jpg" />
-	  	</div>
-      
+	  <div class="container w-50 mx-auto">
+	    <ul class="nav justify-content-center nav-pills gap-3">
+          <li class="nav-item">
+            <a class="nav-link border border-warning rounded-pill text-light" aria-current="page" href="#profile">Profile</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link border border-warning rounded-pill text-light" href="#skills">Skills</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link border border-warning rounded-pill text-light" href="#portfolio">Portfolio</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link border border-warning rounded-pill text-light" href="#contact">Contact</a>
+          </li>
+        </ul>
+	  </div>
+
+      <div class="container my-5 mx-auto align-items-center row">
+
+        <div class="col">
+          <img class="profile img-fluid rounded-circle animate__animated animate__flipInY" src="profpict.jpg" />
+        </div>
+
         <div class="box border border-warning rotate-scale-up"></div>
-        
-	  	<div class="col-lg text-light text-end">
-        <div class="box border border-warning rotate-center"></div>
-  			<h1 class="animate__animated animate__fadeInDown animate__delay-1s">IKA FADILA</h1>
-        <hr />
-  			<p class="text-secondary animate__animated animate__fadeInUp animate__delay-1s ">passionate in web programming, I love to practice something new and I hate when I can't do something</p>
-        <div class="box border border-warning rotate-center"></div>
-  		</div>
-      
-  	</div>
-    
-    <div id="skills" class="w-75 mt-5">
-      <h1 class="skill p-5 rounded-end-5 bg-gold animate__animated animate__rotateInDownLeft animate__delay-2s">SKILLS</h1>
-    </div>
-      <div class="container row my-5 mb-3 mx-auto gap-3 text-center">
-        <div class="skill-item rounded border border-warning p-4 col"><img class="img-fluid" src="html.png" style="max-height:100px; max-width:100px;" /></div>
-        <div class="skill-item rounded border border-warning p-4 col"><img class="img-fluid" src="css.png" style="max-height:100px; max-width:100px;" /></div>
-        <div class="skill-item rounded border border-warning p-4 col"><img class="img-fluid" src="js.png" style="max-height:100px; max-width:100px;" /></div>
-        <div class="skill-item rounded border border-warning p-4 col"><img class="img-fluid" src="bs.png" style="max-height:100px; max-width:100px;" /></div>
-        <div class="skill-item rounded border border-warning p-4 col"><img class="img-fluid rounded-circle" src="php.png" style="max-height:100px; min-width:100px;" /></div>
-        <div class="skill-item rounded border border-warning p-4 col"><img class="img-fluid" src="mysl.png" style="max-height:100px; min-width:100px;" /></div>
-      </div>
-      
-    <div id="portfolio" class="w-75 mt-5 ms-auto me-0">
-      <h1 class="skill p-5 ms-auto me-0 rounded-start-5 bg-gold animate__animated animate__rotateInDownRight animate__delay-4s">PORTFOLIO</h1>
-    </div>
-    <div class="container bg-dark animate__animated animate__zoomIn animate__delay-4s w-50 p-3 my-5">
-      <a class="btn btn-warning rounded position-absolute" target="_blank" href="https://forecast-komoditas.000webhostapp.com/">Try Demo</a>
-      <img class="img-fluid" src="ssa.jpg"/>
-    </div>
-    <div class="container w-75 text-center">
-      <h5 class="text-light">Aplikasi Peramalan Menggunakan Metode Double Exponential Smoothing</h5>
-      <p class="text-secondary"><em>Double Exponential Smoothing</em> adalah salah satu metode peramalan <em>time series</em> yang melakukan dua kali pemulusan menggunakan nilai parameter alpha dan beta dengan rentang 0 sampai dengan 1</p>
-      <a target="_blank" href="https://github.com/kaefd/vue-predict" class="mb-5 text-warning">source code</a>  <br/>
-      <img class="img-fluid" src="vue.png" style="width:20px" />
-      <img class="img-fluid" src="vuetify.png" style="width:20px" />
-      <img class="img-fluid" src="phpa.png" style="width:20px" />
-      <img class="img-fluid" src="mysl.png" style="width:20px" />
-    </div>
 
-    <div class="container bg-dark animate__animated animate__zoomIn animate__delay-5s w-50 p-3 my-5">
-      <a class="btn btn-warning rounded position-absolute" target="_blank" href="#">Try Demo</a>
-      <img class="img-fluid" src="ssla.png"/>
+	    	<div class="col-lg text-light text-end">
+          <div class="box border border-warning rotate-center"></div>
+    			<h1 class="animate__animated animate__fadeInDown animate__delay-1s">IKA FADILA</h1>
+          <hr />
+    			<p class="text-secondary animate__animated animate__fadeInUp animate__delay-1s ">passionate in web programming, I love to practice something new and I hate when I can't do something</p>
+          <div class="box border border-warning rotate-center"></div>
+    		</div>
+
+    	</div>
+
+        <h1 id="skills" class="skill mt-5 p-4 rounded-end bg-gold animate__animated animate__fadeInLeft animate__delay-2s">SKILLS</h1>
+        <div class="container row my-5 mb-3 mx-auto gap-3 text-center">
+          <div class="skill-item rounded border border-warning p-4 col"><img class="img-fluid" src="html.png" style="max-height:100px; max-width:100px;" /></div>
+          <div class="skill-item rounded border border-warning p-4 col"><img class="img-fluid" src="css.png" style="max-height:100px; max-width:100px;" /></div>
+          <div class="skill-item rounded border border-warning p-4 col"><img class="img-fluid" src="js.png" style="max-height:100px; max-width:100px;" /></div>
+          <div class="skill-item rounded border border-warning p-4 col"><img class="img-fluid" src="bs.png" style="max-height:100px; max-width:100px;" /></div>
+          <div class="skill-item rounded border border-warning p-4 col"><img class="img-fluid rounded-circle" src="php.png" style="max-height:100px; min-width:100px;" /></div>
+          <div class="skill-item rounded border border-warning p-4 col"><img class="img-fluid" src="mysl.png" style="max-height:100px; min-width:100px;" /></div>
+        </div>
+
+      <div id="portfolio" class="mt-5 me-0">
+        <h1 class="skill p-4 ms-auto rounded-start bg-gold animate__animated animate__fadeInRight animate__delay-4s">PORTFOLIO</h1>
+      </div>
+      <div class="container bg-dark animate__animated animate__zoomIn animate__delay-4s w-75 p-3 my-5">
+        <a class="btn btn-warning rounded position-absolute" target="_blank" href="https://forecast-komoditas.000webhostapp.com/">Try Demo</a>
+        <img class="img-fluid" src="ssa.jpg"/>
+      </div>
+      <div class="container text-center">
+        <h5 class="text-light">Aplikasi Peramalan Menggunakan Metode Double Exponential Smoothing</h5>
+        <p class="text-secondary"><em>Double Exponential Smoothing</em> adalah salah satu metode peramalan <em>time series</em> yang melakukan dua kali pemulusan menggunakan nilai parameter alpha dan beta dengan rentang 0 sampai dengan 1</p>
+        <a target="_blank" href="https://github.com/kaefd/vue-predict" class="mb-5 text-warning">source code</a>  <br/>
+        <img class="img-fluid" src="vue.png" style="width:20px" />
+        <img class="img-fluid" src="vuetify.png" style="width:20px" />
+        <img class="img-fluid" src="phpa.png" style="width:20px" />
+        <img class="img-fluid" src="mysl.png" style="width:20px" />
+      </div>
+
+      <div class="container w-75 bg-dark animate__animated animate__zoomIn animate__delay-5s p-3 my-5">
+        <a class="btn btn-warning rounded position-absolute" target="_blank" href="#">Try Demo</a>
+        <img class="img-fluid" src="ssla.png"/>
+      </div>
+      <div class="text-center">
+        <h5 class="text-light">Aplikasi E-Learning</h5>
+        <a target="_blank" href="https://github.com/kaefd/elearning" class="mb-5 text-warning">source code</a>  <br/>
+        <img class="img-fluid" src="lara.png" style="width:20px" />
+        <img class="img-fluid" src="bs.png" style="width:20px" />
+        <img class="img-fluid" src="phpa.png" style="width:20px" />
+        <img class="img-fluid" src="mysl.png" style="width:20px" />
+      </div>
+
+      <div class="container my-5 py-5 w-50 text-center">
+        <a target="_blank" href="mailto:ikfdla13@gmail.com"><img class="img-fluid" src="gm.png" style="width:25px" /></a>
+        <a target="_blank" href="https://wa.me/message/YJ4KMHWXFCXAM1"><img class="img-fluid" src="wa.png" style="width:25px" /></a>
+        <a target="_blank" href="https://github.com/kaefd"><img class="img-fluid" src="git.png" style="width:25px" /></a>
+      </div>
+
     </div>
-    <div class="container w-75 text-center">
-      <h5 class="text-light">Aplikasi E-Learning</h5>
-      <a target="_blank" href="https://github.com/kaefd/elearning" class="mb-5 text-warning">source code</a>  <br/>
-      <img class="img-fluid" src="lara.png" style="width:20px" />
-      <img class="img-fluid" src="bs.png" style="width:20px" />
-      <img class="img-fluid" src="phpa.png" style="width:20px" />
-      <img class="img-fluid" src="mysl.png" style="width:20px" />
-    </div>
-    
-    <div class="container my-5 py-5 w-50 text-center">
-      <a target="_blank" href="mailto:ikfdla13@gmail.com"><img class="img-fluid" src="gm.png" style="width:25px" /></a>
-      <a target="_blank" href="https://wa.me/message/YJ4KMHWXFCXAM1"><img class="img-fluid" src="wa.png" style="width:25px" /></a>
-      <a target="_blank" href="https://github.com/kaefd"><img class="img-fluid" src="git.png" style="width:25px" /></a>
-    </div>
-      
-  </div>
 
 </body>
 </html>
