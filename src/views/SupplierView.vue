@@ -2,7 +2,6 @@
 import TableVue from '../components/TableVue.vue';
 import NavDrawers from '../components/NavDrawers.vue';
 import AppBar from '../components/AppBar.vue';
-
 </script>
 <script>
   export default {
@@ -17,72 +16,21 @@ import AppBar from '../components/AppBar.vue';
         search: '',
         alpha: 0,
         headers: [
-          { title: 'Kode Supplier', align: 'start', key: 'suppCode'},
-          { title: 'Nama', align: 'start', key: 'suppName' },
-          { title: 'Alamat', align: 'start', key: 'address' },
-          { title: 'Kota', align: 'start', key: 'city' },
-          { title: 'Negara', align: 'start', key: 'country' },
+          { title: 'Kode Supplier', align: 'start', key: 'kode_supplier'},
+          { title: 'Nama', align: 'start', key: 'nama' },
+          { title: 'Alamat', align: 'start', key: 'alamat' },
+          { title: 'Kota', align: 'start', key: 'kota' },
+          { title: 'Negara', align: 'start', key: 'negara' },
           { title: '', align: 'start', key: 'actions', sortable: false },
         ],
-        items: [
-          {
-            suppCode: '57554u',
-            suppName: 159,
-            address: 6.0,
-            npwp: 24,
-            city: 'Kendal',
-            country: 'Indonesia'
-          },
-          {
-            suppCode: 'Bahan Penolong',
-            suppName: 375,
-            address: 0.0,
-            npwp: 94,
-            city: 'Semarang',
-            country: 'Indonesia'
-          },
-          {
-            suppCode: 'Bahan Baku',
-            suppName: 518,
-            address: 26.0,
-            npwp: 65,
-            city: 'Jakarta',
-            country: 'Indonesia'
-          },
-          {
-            suppCode: 'Bahan  Setengah Jadi',
-            suppName: 262,
-            address: 16.0,
-            npwp: 23,
-            city: 'Solo',
-            country: 'Indonesia'
-          },
-          {
-            suppCode: 'Barang Sisa (Scrap)',
-            suppName: 356,
-            address: 16.0,
-            npwp: 49,
-            city: 'Sidney',
-            country: 'Australia'
-          },
-          {
-            suppCode: 'Bahan Baku',
-            suppName: 237,
-            address: 9.0,
-            npwp: 37,
-            city: 'Kendal',
-            country: 'Indonesia'
-
-          },
-          {
-            suppCode: 'Bahan Baku',
-            suppName: 392,
-            address: 0.2,
-            npwp: 98,
-            city: 'Kendal',
-            country: 'Indonesia'
-          },
-        ],
+        items: [],
+        form: {
+          kode_supplier: '',
+          nama: '',
+          alamat: '',
+          kota: '',
+          negara: '',
+        }
       }
     },
     methods:{
@@ -92,9 +40,36 @@ import AppBar from '../components/AppBar.vue';
           s.push(this.items[i].suppCode)
         }
         return s
-      }
+      },
+      ExportToExcel(type, fn, dl) {
+       var elt = document.getElementById('tbl_exporttable_to_xls');
+       // eslint-disable-next-line no-undef
+       var wb = XLSX.utils.table_to_book(elt, { sheet: "sheet1" });
+       return dl ?
+         // eslint-disable-next-line no-undef
+         XLSX.write(wb, { bookType: type, bookSST: true, type: 'base64' }):
+         // eslint-disable-next-line no-undef
+         XLSX.writeFile(wb, fn || (this.pageTitle+'.' + (type || 'xlsx')));
+        },
+    },
+    async mounted() {
+      try {
+            const token = localStorage.getItem('token')
+            const response = await fetch('http://localhost:8000/supplier', {
+              headers: {
+                Authorization: `Bearer ${token}`
+              }
+            })
+            const data = await response.json()
+            this.items = data
+          }
+          catch (error) {
+            console.log(error);
+          }
+          
+        },
     }
-  }
+  
 </script>
 <template>
   <NavDrawers v-model="drawer"/>
@@ -120,12 +95,13 @@ import AppBar from '../components/AppBar.vue';
             class="rounded-lg ms-2"
             variant="tonal"
             size="small"
+            @click="ExportToExcel('xlsx')"
           ></v-btn>
         </div>
     </v-responsive>
     </v-row>
-    <!-- edit -->
-    <TableVue :screen="400"  :headers="headers" :items="items" :search="search" :category="this.suppCode()" :iTitle="this.actIcon[1].text" :btncolor="this.actIcon[1].color" :icon="this.actIcon[1].icon" :iVariant="this.actIcon[1].variant" :alpha="this.alpha"/>
+    <!-- VIEW -->
+    <TableVue :disabled="true" :noselect="true" id="tbl_exporttable_to_xls" :screen="400" :headers="headers" :items="items" :search="search" :category="this.suppCode()" :iTitle="this.actIcon[1].text" :btncolor="this.actIcon[1].color" :icon="this.actIcon[1].icon" :iVariant="this.actIcon[1].variant" :alpha="this.alpha"/>
 </v-container>
   </template>
 <style>

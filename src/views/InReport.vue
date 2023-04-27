@@ -1,6 +1,5 @@
 <script setup>
-import { VDataTable } from 'vuetify/labs/VDataTable'
-import ScreenDialog from '../components/ScreenDialog.vue';
+import TableVue from '../components/TableVue.vue';
 import NavDrawers from '../components/NavDrawers.vue';
 import AppBar from '../components/AppBar.vue';
 import VueDatePicker from '@vuepic/vue-datepicker';
@@ -14,7 +13,7 @@ import { ref, onMounted } from 'vue';
 
   export default {
     components: {
-    ScreenDialog, AppBar, NavDrawers,VueDatePicker, VDataTable
+    TableVue, AppBar, NavDrawers,VueDatePicker
     },
     props:['page','actIcon'],
     data () {
@@ -22,9 +21,7 @@ import { ref, onMounted } from 'vue';
         drawer: null,
         search: '',
         date: '',
-        dialog2: false,
         pageTitle: 'PEMASUKAN BARANG',
-        btn: 'Tambah Barang',
         selectCategory: 'semua',
         btnTitle: 'Tambah Data',
         cardTitle: 'Detail Barang',
@@ -52,57 +49,16 @@ import { ref, onMounted } from 'vue';
         ],
         items: [
           {
-            // numIn: 1,
-            // dateIn: '2023-03-01',
-            // doctype: 6.0,
-            // docNumb: 24,
-            // supplier: 4.0,
-            // matauang: 'idr',
-            // total: 2,
-            // rp: 14000
+            numIn: 1,
+            dateIn: 159,
+            doctype: 6.0,
+            docNumb: 24,
+            supplier: 4.0,
+            matauang: 'idr',
+            total: 2,
+            rp: 14000
           },
         ],
-        headDetails:[
-          {title: 'Kode Barang', key: 'codeItem' },
-          {title: 'Nama Barang', key: 'nameItem' },
-          {title: 'HS Code', key: 'hscode' },
-          {title: 'Jumlah', key: 'jumlah' },
-          {title: 'Jumlah Diterima', key: 'diterima' },
-          {title: 'Satuan', key: 'satuan' },
-          {title: 'Total Nilai', key: 'totalnilai' },
-          {title: '', key: 'actions', sortable: false },
-        ],
-
-        details: [
-          {
-            codeItem : 'AG',
-            nameItem : 'Atap Galvalum',
-            hscode : '4345466',
-            jumlah: 1,
-            diterima: 1,
-            satuan: 1,
-            totalnilai: 1
-          }
-        ],
-        datatext: [
-            { name: 'No Pemasukan', key: 'nokeluar', type: 'text' },
-            { name: 'Tgl Masuk', key: 'tgkeluar', type: 'date' },
-            { name: 'Supplier', key: 'customer', type: 'select' },
-            { name: 'Tipe Dokumen', key: 'doctype', type: 'select' },
-            { name: 'No Dokumen', key: 'doctno', type: 'text' },
-            { name: 'Tgl Dokumen', key: 'doctdate', type: 'date' },
-            { name: 'No Invoice', key: 'noinvoice', type: 'text' },
-            { name: 'No BL', key: 'nobl', type: 'text' },
-            { name: 'Mata Uang', key: 'matauang', type: 'text' },
-            { name: 'Kurs', key: 'kurs', type: 'text' },
-        ],
-        itemDetail: [
-                { name: 'Jumlah', key: 'jumlah' },
-                { name: 'Jumlah Diterima', key: 'received' },
-                { name: 'Nilai Total', key: 'total' }
-            ]
-
-
       }
     },
     methods: {
@@ -121,6 +77,7 @@ import { ref, onMounted } from 'vue';
          XLSX.write(wb, { bookType: type, bookSST: true, type: 'base64' }):
          XLSX.writeFile(wb, fn || (this.pageTitle+'.' + (type || 'xlsx')));
     }
+      
     },
     
   }
@@ -145,8 +102,9 @@ import { ref, onMounted } from 'vue';
       <v-responsive class="overflow-visible me-2 w-100" max-width="700" max-height="70" cols="6" xs="4">
         <div class="d-flex mt-4 align-start">
           <!-- select tipe dokumen -->
-          <v-label class="text-body-2 text-wrap pe-2">Tipe Dokumen</v-label>
           <v-select
+            label="Select"
+            value="Tioe Dokumen"
             :items="category"
             v-model="selectCategory"
             density="compact"
@@ -155,7 +113,7 @@ import { ref, onMounted } from 'vue';
             single-line
           ></v-select>
           <!-- date field -->
-          <VueDatePicker v-model="date" range :enable-time-picker="false"/>
+          <VueDatePicker v-model="date" :enable-time-picker="false" range/>
         </div>
       </v-responsive>
       <v-responsive cols="6" xs="4">
@@ -169,8 +127,6 @@ import { ref, onMounted } from 'vue';
                 class="text-blue-darken-4 pt-5 me-2"
           ></v-text-field>
 
-            <!-- add data -->
-            <ScreenDialog :itemDetail="itemDetail" :datatext="datatext" :btn="btn" :headDetails="headDetails" :details="details" :headers="headers" :items="selected()" :search="search" :category="category" :selectCategory="selectCategory" :iTitle="actIcon[0].text" :btncolor="actIcon[0].color" :icon="actIcon[0].icon" :iVariant="actIcon[0].variant" :alpha="alpha" :actIcon="actIcon" :pageTitle="pageTitle"/>
               <v-btn
               color="indigo-darken-1"
               icon="mdi-download"
@@ -183,24 +139,7 @@ import { ref, onMounted } from 'vue';
       </v-responsive>
       </v-row>
       <!-- edit data -->
-        <!-- edit data -->
-        <v-data-table
-            id="tbl_exporttable_to_xls" 
-            :headers="headers"
-            :items="items"
-            :search="search"
-            :hover="true"
-            :fixed-header="true"
-            style="cursor: pointer"
-            density="comfortable"
-            class="text-body-2 py-3 px-5"
-            height="400"
-            >
-            <!-- dialog actions -->
-            <template v-slot:item.actions="{item}">
-            <ScreenDialog :itemDetail="itemDetail" :pageTitle="pageTitle" :btn="btn" :headDetails="headDetails" :details="details" :headers="headers" :items="selected()" :search="search" :category="category" :selectCategory="selectCategory" :iTitle="actIcon[1].text" :btncolor="actIcon[1].color" :icon="actIcon[1].icon" :iVariant="actIcon[1].variant" :alpha="alpha" :actIcon="actIcon" :disable="true"/>
-            </template>
-          </v-data-table>
+        <TableVue id="tbl_exporttable_to_xls"  :headers="headers" :items="selected()" :search="search" :category="category" :selectCategory="selectCategory" :iTitle="this.actIcon[1].text" :btncolor="this.actIcon[1].color" :icon="this.actIcon[1].icon" :iVariant="this.actIcon[1].variant" :alpha="alpha"/>
   </v-container>
 
 </template>

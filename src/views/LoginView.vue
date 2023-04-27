@@ -1,55 +1,47 @@
 <script setup>
 import axios from 'axios'
+import { mapActions } from 'vuex'
 </script>
 
 <script>
 export default {
     data() {
         return {
-            email: '',
+            username: '',
             password: '',
-            alert: false
+            errorMessage: '',
         }
     },
     methods: {
+        ...mapActions(['login']),
         async login() {
-            try {
-                const response = await axios.post('https://api.escuelajs.co/api/v1/auth/login', {
-                    email: this.email,
-                    password: this.password
-                })
-                localStorage.setItem('token', response.data.access_token)
-                window.location.href = '/items'
-                //redirect to dashboard
-            } catch (error) {
-                this.alert = true
-            }
+          try {
+            const response = await axios.post('http://localhost:8000/auth/login', {
+              username: this.username,
+              password: this.password
+            })
+            const token = response.data.access_token
+            localStorage.setItem('token', token)
+            this.$router.push('/items')
+          } catch(error) {
+            this.errorMessage = error.response.data.message
+          }
         }
-    }
+    },
+    
 }
 </script>
 <template>
 
     <v-container fluid class="bg-blue-gradient d-flex flex-column justify-center align-center h-screen">
-        <!-- alert -->
-        <v-alert
-        v-model="alert"
-        max-height="100"
-        class="mb-6"
-        border="start"
-        closable
-        close-label="Close Alert"
-        color="red-darken-4"
-        title="Login Gagal !"
-        text="Silakan periksa kembali username dan password"
-        ></v-alert>
     <v-card class="bg-transparent text-white rounded-xl d-flex flex-column justify-center align-center elevation-12 py-12" width="300">
         <v-icon size="70">mdi-account</v-icon>
         <v-form @submit.prevent="login" class="text-white w-75 mt-6">
-            <v-text-field type="email" id="email" v-model="email" required class="rounded-xl" label="Username"></v-text-field>
+            <v-text-field type="text" id="username" v-model="username" required class="rounded-xl" label="Username"></v-text-field>
             <v-text-field label="Password" id="password" v-model="password" required type="Password"></v-text-field>
             <v-btn type="submit" block height="50" color="yellow-darken-4">LOGIN</v-btn>
         </v-form>
+        <div v-if="errorMessage" class="error-message text-red mt-3">{{ errorMessage }}</div>
     </v-card>
 </v-container>
 

@@ -5,7 +5,7 @@ import DialogCard from './DialogCard.vue';
 <script>
 export default {
     components: { VDataTable, DialogCard },
-    props: ['headers', 'items', 'search', 'category', 'selectCategory', 'btncolor', 'iTitle', 'icon', 'iVariant', 'alpha', 'screen'],
+    props: ['disabled', 'headers', 'items', 'search', 'category', 'selectCategory', 'btncolor', 'iTitle', 'icon', 'iVariant', 'alpha', 'screen', 'form', 'noselect'],
     
     data () {
       return {
@@ -16,7 +16,14 @@ export default {
       dialogTable(a){
         return console.log(a);
       },
-    },
+      edit(value) {
+        return this.$emit('edit', value)
+      },
+      del(v) {
+        return this.$emit('del', v)
+      }
+      
+  },
     computed: {
       row() {
         let rows = []
@@ -25,12 +32,14 @@ export default {
           rows.push(row)
         }
         return rows
+      },
+      datadef(value) {
+        return this.$emit('def', value)
       }
     }
 }
 </script>
 <template>
-  
     <v-sheet class="p-4 rounded-lg" >
     <v-data-table
       :headers="headers"
@@ -38,14 +47,16 @@ export default {
       :search="search"
       :hover="true"
       :fixed-header="true"
-      style="cursor: pointer"
+      hide-no-data
+      :item-props="id"
       density="comfortable"
       class="text-body-2 py-3 px-5"
       height="400"
     >
     <!-- dialog actions -->
-      <template v-slot:item.actions>
-        <DialogCard :screen="screen" :headers="headers" :items="items" :category="category" :btncolor="btncolor" :icon="icon" :iTitle="iTitle" :iVariant="iVariant"  :alpha="alpha"/>
+      <!-- eslint-disable-next-line vue/valid-v-slot -->
+      <template v-slot:item.actions="{ item }">
+        <DialogCard :disabled="disabled" :noselect="this.noselect" :form="form" @edit="edit" @del="del" :dataid="item.raw.id" :item="item" :screen="screen" :headers="headers" :items="items" :category="category" :btncolor="btncolor" :icon="icon" :iTitle="iTitle" :iVariant="iVariant"  :alpha="alpha"/>
       </template>
     </v-data-table>
     </v-sheet>

@@ -22,14 +22,25 @@ import { ref, onMounted } from 'vue';
         drawer: null,
         search: '',
         date: '',
+        checkStatus: 'menunggu',
         dialog2: false,
-        pageTitle: 'PEMASUKAN BARANG',
-        btn: 'Tambah Barang',
+        pageTitle: 'PENGELUARAN BARANG',
         selectCategory: 'semua',
         btnTitle: 'Tambah Data',
+        btn: 'Tambah Barang',
         cardTitle: 'Detail Barang',
         fullscreen: 'fullscreen',
         alpha: null,
+        datatext: [
+            { name: 'No Pengeluaran', key: 'nokeluar', type: 'text' },
+            { name: 'Tgl Keluar', key: 'tgkeluar', type: 'date' },
+            { name: 'Pelanggan', key: 'customer', type: 'select' },
+            { name: 'Kode Group', key: 'codegroup', type: 'select' },
+            { name: 'Tipe Dokumen', key: 'doctype', type: 'select' },
+            { name: 'No Dokumen', key: 'doctno', type: 'text' },
+            { name: 'Tgl Dokumen', key: 'doctdate', type: 'date' },
+        ],
+
         category: [
           'semua',
           'Bahan Baku',
@@ -40,24 +51,23 @@ import { ref, onMounted } from 'vue';
           'Mesin & Peralatan',
         ],
         headers: [
-          { title: 'Nomor Pemasukan', key: 'numIn'},
-          { title: 'Tanggal Masuk', key: 'dateIn' },
+          { title: 'Nomor Pengeluaran', key: 'numOut'},
+          { title: 'Tanggal Keluar', key: 'dateOut' },
           { title: 'Tipe Dokumen', key: 'doctype' },
           { title: 'No Dokumen', key: 'docNumb' },
-          { title: 'Supplier', key: 'supplier' },
-          { title: 'Mata Uang', key: 'matauang' },
-          { title: 'Total Nilai', key: 'total' },
-          { title: 'Total Nilai(Rp)', key: 'rp' },
+          { title: 'Pelanggan', key: 'pelanggan' },
+          { title: 'Kode Group', key: 'codeGroup' },
+          { title: 'Total Penjualan', key: 'total' },
           { title: '', key: 'actions', sortable: false},
         ],
         items: [
           {
-            // numIn: 1,
-            // dateIn: '2023-03-01',
+            // numOut: 1,
+            // dateOut: 159,
             // doctype: 6.0,
             // docNumb: 24,
-            // supplier: 4.0,
-            // matauang: 'idr',
+            // pelanggan: 4.0,
+            // codeGroup: 'idr',
             // total: 2,
             // rp: 14000
           },
@@ -83,26 +93,7 @@ import { ref, onMounted } from 'vue';
             satuan: 1,
             totalnilai: 1
           }
-        ],
-        datatext: [
-            { name: 'No Pemasukan', key: 'nokeluar', type: 'text' },
-            { name: 'Tgl Masuk', key: 'tgkeluar', type: 'date' },
-            { name: 'Supplier', key: 'customer', type: 'select' },
-            { name: 'Tipe Dokumen', key: 'doctype', type: 'select' },
-            { name: 'No Dokumen', key: 'doctno', type: 'text' },
-            { name: 'Tgl Dokumen', key: 'doctdate', type: 'date' },
-            { name: 'No Invoice', key: 'noinvoice', type: 'text' },
-            { name: 'No BL', key: 'nobl', type: 'text' },
-            { name: 'Mata Uang', key: 'matauang', type: 'text' },
-            { name: 'Kurs', key: 'kurs', type: 'text' },
-        ],
-        itemDetail: [
-                { name: 'Jumlah', key: 'jumlah' },
-                { name: 'Jumlah Diterima', key: 'received' },
-                { name: 'Nilai Total', key: 'total' }
-            ]
-
-
+        ]
       }
     },
     methods: {
@@ -115,12 +106,12 @@ import { ref, onMounted } from 'vue';
           }
       },
       ExportToExcel(type, fn, dl) {
-       var elt = document.getElementById('tbl_exporttable_to_xls');
-       var wb = XLSX.utils.table_to_book(elt, { sheet: "sheet1" });
-       return dl ?
-         XLSX.write(wb, { bookType: type, bookSST: true, type: 'base64' }):
-         XLSX.writeFile(wb, fn || (this.pageTitle+'.' + (type || 'xlsx')));
-    }
+         var elt = document.getElementById('tbl_exporttable_to_xls');
+         var wb = XLSX.utils.table_to_book(elt, { sheet: "sheet1" });
+         return dl ?
+           XLSX.write(wb, { bookType: type, bookSST: true, type: 'base64' }):
+           XLSX.writeFile(wb, fn || (this.pageTitle+'.' + (type || 'xlsx')));
+      }
     },
     
   }
@@ -142,43 +133,64 @@ import { ref, onMounted } from 'vue';
 
   <v-container>
     <v-row no-gutters class="bg-white align-center px-4 pb-lg-0 pb-4 my-1 mb-3 rounded-lg">
-      <v-responsive class="overflow-visible me-2 w-100" max-width="700" max-height="70" cols="6" xs="4">
-        <div class="d-flex mt-4 align-start">
+      <v-responsive class="overflow-visible me-2 w-100 " max-width="600" max-height="70" cols="6" xs="4">
+        <div class="d-flex pt-4 pb-5 align-start">
           <!-- select tipe dokumen -->
-          <v-label class="text-body-2 text-wrap pe-2">Tipe Dokumen</v-label>
+          <v-label class="my-auto me-1 text-wrap text-body-2">Tipe Dokumen</v-label>
           <v-select
             :items="category"
             v-model="selectCategory"
             density="compact"
             variant="outlined"
-            class="text-blue-darken-4 me-2 w-50"
+            class="text-blue-darken-4 me-2 w-25"
             single-line
+            hide-details
           ></v-select>
           <!-- date field -->
-          <VueDatePicker v-model="date" range :enable-time-picker="false"/>
+          <v-div class="d-flex align-center">
+            <v-label class="pe-1">Tanggal</v-label>
+            <VueDatePicker v-model="date" range :enable-time-picker="false" class="w-50"/>
+          </v-div>
         </div>
       </v-responsive>
       <v-responsive cols="6" xs="4">
-          <div class="d-flex align-center float-lg-right float-sm-left w-75">
-          <!-- search field -->
+          <div class="d-flex pt-5 pb-5 align-center float-lg-right float-sm-left w-100">
+          
+          <!-- status  -->
+          <v-div class="d-flex align-center ms-1">
+            <v-label>Status</v-label>
+            <v-select
+              :items="status"
+              v-model="checkStatus"
+              density="compact"
+              variant="outlined"
+              class="text-blue-darken-4 mx-1"
+              single-line
+              hide-details
+            ></v-select>
+          </v-div>
+            <!-- search field -->
           <v-text-field
                 v-model="search"
                 density="compact"
                 label="Search"
                 variant="outlined"
-                class="text-blue-darken-4 pt-5 me-2"
+                class="text-blue-darken-4 me-3"
+                hide-details
           ></v-text-field>
 
             <!-- add data -->
-            <ScreenDialog :itemDetail="itemDetail" :datatext="datatext" :btn="btn" :headDetails="headDetails" :details="details" :headers="headers" :items="selected()" :search="search" :category="category" :selectCategory="selectCategory" :iTitle="actIcon[0].text" :btncolor="actIcon[0].color" :icon="actIcon[0].icon" :iVariant="actIcon[0].variant" :alpha="alpha" :actIcon="actIcon" :pageTitle="pageTitle"/>
-              <v-btn
-              color="indigo-darken-1"
-              icon="mdi-download"
-              class="rounded-lg ms-2"
-              variant="tonal"
-              size="small"
-              @click="ExportToExcel('xlsx')"
-            ></v-btn>
+            <v-div class="d-flex">
+              <ScreenDialog :datatext="datatext" :pageTitle="pageTitle" :btn="btn" :headDetails="headDetails" :details="details" :headers="headers" :items="selected()" :search="search" :category="category" :selectCategory="selectCategory" :iTitle="actIcon[0].text" :btncolor="actIcon[0].color" :icon="actIcon[0].icon" :iVariant="actIcon[0].variant" :alpha="alpha" :actIcon="actIcon"/>
+                <v-btn
+                color="indigo-darken-1"
+                icon="mdi-download"
+                class="rounded-lg ms-1"
+                variant="tonal"
+                size="small"
+                @click="ExportToExcel('xlsx')"
+              ></v-btn>
+            </v-div>
           </div>
       </v-responsive>
       </v-row>
@@ -198,7 +210,7 @@ import { ref, onMounted } from 'vue';
             >
             <!-- dialog actions -->
             <template v-slot:item.actions="{item}">
-            <ScreenDialog :itemDetail="itemDetail" :pageTitle="pageTitle" :btn="btn" :headDetails="headDetails" :details="details" :headers="headers" :items="selected()" :search="search" :category="category" :selectCategory="selectCategory" :iTitle="actIcon[1].text" :btncolor="actIcon[1].color" :icon="actIcon[1].icon" :iVariant="actIcon[1].variant" :alpha="alpha" :actIcon="actIcon" :disable="true"/>
+            <ScreenDialog :headDetails="headDetails" :details="details" :headers="headers" :items="selected()" :search="search" :category="category" :selectCategory="selectCategory" :iTitle="actIcon[1].text" :btncolor="actIcon[1].color" :icon="actIcon[1].icon" :iVariant="actIcon[1].variant" :alpha="alpha" :actIcon="actIcon" :disable="true"/>
             </template>
           </v-data-table>
   </v-container>
