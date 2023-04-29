@@ -26,9 +26,9 @@ const router = createRouter({
     {
       path: '/',
       redirect: {
-        name: "login",
+        name: "items",
         meta: {
-                middleware: [guest],
+                middleware: [auth],
               },
     }
     },

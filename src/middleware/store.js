@@ -4,7 +4,6 @@ export default new Vuex.Store({
     state: {
         user: {
             loggedIn: false,
-            isSubscribed: false
         }
     },
 

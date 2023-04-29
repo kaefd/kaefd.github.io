@@ -1,13 +1,13 @@
 <script setup>
-import TableVue from '../components/TableVue.vue';
+import { defineComponent } from 'vue';
 import NavDrawers from '../components/NavDrawers.vue';
 import AppBar from '../components/AppBar.vue';
 
 </script>
 <script>
-  export default {
+  export default defineComponent({
+    name:'UserView',
     components: {
-    TableVue,
     NavDrawers,
     AppBar,
 },
@@ -96,7 +96,7 @@ import AppBar from '../components/AppBar.vue';
         this.scrollInvoked++
       },
     },
-  }
+  })
 </script>
 <template>
   <NavDrawers v-model="drawer"/>

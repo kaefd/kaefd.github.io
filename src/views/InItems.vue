@@ -6,6 +6,7 @@ import AppBar from '../components/AppBar.vue';
 import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css'
 
+
 import { ref, onMounted } from 'vue';
 
 </script>
@@ -16,7 +17,7 @@ import { ref, onMounted } from 'vue';
     components: {
     ScreenDialog, AppBar, NavDrawers,VueDatePicker, VDataTable
     },
-    props:['page','actIcon'],
+    props:['actIcon'],
     data () {
       return {
         drawer: null,
@@ -40,50 +41,29 @@ import { ref, onMounted } from 'vue';
           'Mesin & Peralatan',
         ],
         headers: [
-          { title: 'Nomor Pemasukan', key: 'numIn'},
-          { title: 'Tanggal Masuk', key: 'dateIn' },
-          { title: 'Tipe Dokumen', key: 'doctype' },
-          { title: 'No Dokumen', key: 'docNumb' },
-          { title: 'Supplier', key: 'supplier' },
-          { title: 'Mata Uang', key: 'matauang' },
-          { title: 'Total Nilai', key: 'total' },
+          { title: 'Nomor Pemasukan', key: 'no_pembelian'},
+          { title: 'Tanggal Masuk', key: 'tgl_pembelian' },
+          { title: 'Tipe Dokumen', key: 'tipe_dokumen' },
+          { title: 'No Dokumen', key: 'no_dokumen' },
+          { title: 'Supplier', key: 'kode_supplier' },
+          { title: 'Mata Uang', key: 'mata_uang' },
+          { title: 'Total Nilai', key: 'total_nilai' },
           { title: 'Total Nilai(Rp)', key: 'rp' },
           { title: '', key: 'actions', sortable: false},
         ],
-        items: [
-          {
-            // numIn: 1,
-            // dateIn: '2023-03-01',
-            // doctype: 6.0,
-            // docNumb: 24,
-            // supplier: 4.0,
-            // matauang: 'idr',
-            // total: 2,
-            // rp: 14000
-          },
-        ],
+        items: [],
         headDetails:[
-          {title: 'Kode Barang', key: 'codeItem' },
-          {title: 'Nama Barang', key: 'nameItem' },
-          {title: 'HS Code', key: 'hscode' },
+          {title: 'Kode Barang', key: 'kode_barang' },
+          {title: 'Nama Barang', key: 'nama_barang' },
+          {title: 'HS Code', key: 'hs_code' },
           {title: 'Jumlah', key: 'jumlah' },
-          {title: 'Jumlah Diterima', key: 'diterima' },
+          {title: 'Jumlah Diterima', key: 'jumlah_diterima' },
           {title: 'Satuan', key: 'satuan' },
-          {title: 'Total Nilai', key: 'totalnilai' },
+          {title: 'Total Nilai', key: 'total_nilai' },
           {title: '', key: 'actions', sortable: false },
         ],
 
-        details: [
-          {
-            codeItem : 'AG',
-            nameItem : 'Atap Galvalum',
-            hscode : '4345466',
-            jumlah: 1,
-            diterima: 1,
-            satuan: 1,
-            totalnilai: 1
-          }
-        ],
+        details: [],
         datatext: [
             { name: 'No Pemasukan', key: 'nokeluar', type: 'text' },
             { name: 'Tgl Masuk', key: 'tgkeluar', type: 'date' },
@@ -116,23 +96,61 @@ import { ref, onMounted } from 'vue';
       },
       ExportToExcel(type, fn, dl) {
        var elt = document.getElementById('tbl_exporttable_to_xls');
+       // eslint-disable-next-line no-undef
        var wb = XLSX.utils.table_to_book(elt, { sheet: "sheet1" });
        return dl ?
+         // eslint-disable-next-line no-undef
          XLSX.write(wb, { bookType: type, bookSST: true, type: 'base64' }):
+         // eslint-disable-next-line no-undef
          XLSX.writeFile(wb, fn || (this.pageTitle+'.' + (type || 'xlsx')));
-    }
+       },
+       async getData() {
+        try {
+            const token = localStorage.getItem('token')
+            const response = await fetch('http://localhost:8000/pembelian_head', {
+              headers: {
+                Authorization: `Bearer ${token}`
+              }
+            })
+            const data = await response.json()
+            this.items = data
+          }
+          catch (error) {
+            console.log(error);
+          }
+       },
+       async getDetail() {
+        try {
+            const token = localStorage.getItem('token')
+            const response = await fetch('http://localhost:8000/pembelian_detail', {
+              headers: {
+                Authorization: `Bearer ${token}`
+              }
+            })
+            const data = await response.json()
+            this.details = data
+          }
+          catch (error) {
+            console.log(error);
+          }
+       }
     },
-    
+    mounted() {
+      this.getData(),
+      this.getDetail()
+    },
+
   }
 
   const date = ref();
-
     // For demo purposes assign range from the current date
     onMounted(() => {
       const startDate = new Date();
       const endDate = new Date(new Date().setDate(startDate.getDate() + 7));
       date.value = [startDate, endDate];
+
     })
+
 </script>
 
 <template>
@@ -141,66 +159,94 @@ import { ref, onMounted } from 'vue';
   <AppBar @click.stop="drawer = !drawer" :pageTitle="pageTitle"/>
 
   <v-container>
-    <v-row no-gutters class="bg-white align-center px-4 pb-lg-0 pb-4 my-1 mb-3 rounded-lg">
-      <v-responsive class="overflow-visible me-2 w-100" max-width="700" max-height="70" cols="6" xs="4">
-        <div class="d-flex mt-4 align-start">
-          <!-- select tipe dokumen -->
-          <v-label class="text-body-2 text-wrap pe-2">Tipe Dokumen</v-label>
-          <v-select
-            :items="category"
-            v-model="selectCategory"
-            density="compact"
-            variant="outlined"
-            class="text-blue-darken-4 me-2 w-50"
-            single-line
-          ></v-select>
-          <!-- date field -->
-          <VueDatePicker v-model="date" range :enable-time-picker="false"/>
+    <v-row no-gutters class="bg-white align-center pa-4 mb-3 rounded-lg">
+      <v-responsive class="overflow-visible me-2 w-100" max-width="400">
+        <div class="d-flex align-start w-100">
+          <div class="d-flex align-center w-100">
+            <!-- TIPE DOKUMEN -->
+            <div class="w-100">
+              <v-label class="text-body-2 text-wrap">Tipe Dokumen</v-label>
+              <v-select
+                :items="category"
+                v-model="selectCategory"
+                density="compact"
+                variant="solo"
+                class="text-blue-darken-4 rounded-select me-2"
+                single-line
+                hide-details
+              ></v-select>
+            </div>
+            <!-- PERIODE -->
+            <div class="w-100">
+              <v-label v-label class="text-body-2 pe-7">Periode</v-label>
+              <VueDatePicker v-model="date" range :enable-time-picker="false" calendar-class-name="dp-custom-calendar"/>
+            </div>
+          </div>
         </div>
       </v-responsive>
-      <v-responsive cols="6" xs="4">
-          <div class="d-flex align-center float-lg-right float-sm-left w-75">
-          <!-- search field -->
-          <v-text-field
+      <v-responsive class="me-sm-0 ms-sm-auto ms-0 me-auto" max-width="400">
+          <div class="d-flex align-center pt-6">
+            <div class="w-100 d-flex align-center">
+              <!-- SEARCH -->
+              <v-text-field
                 v-model="search"
                 density="compact"
                 label="Search"
-                variant="outlined"
-                class="text-blue-darken-4 pt-5 me-2"
-          ></v-text-field>
-
-            <!-- add data -->
-            <ScreenDialog :itemDetail="itemDetail" :datatext="datatext" :btn="btn" :headDetails="headDetails" :details="details" :headers="headers" :items="selected()" :search="search" :category="category" :selectCategory="selectCategory" :iTitle="actIcon[0].text" :btncolor="actIcon[0].color" :icon="actIcon[0].icon" :iVariant="actIcon[0].variant" :alpha="alpha" :actIcon="actIcon" :pageTitle="pageTitle"/>
+                variant="solo"
+                class="text-blue-darken-4 rounded-select me-2"
+                single-line
+                hide-details
+              ></v-text-field>
+  
+              <!-- ADD DATA -->
+              <ScreenDialog :itemDetail="itemDetail" :datatext="datatext" :btn="btn" :headDetails="headDetails" :details="details" :headers="headers" :items="selected()" :search="search" :category="category" :selectCategory="selectCategory" :iTitle="actIcon[0].text" :btncolor="actIcon[0].color" :icon="actIcon[0].icon" :iVariant="actIcon[0].variant" :alpha="alpha" :actIcon="actIcon" :pageTitle="pageTitle"/>
+              
+              <!-- EXPORT DATA   -->
               <v-btn
-              color="indigo-darken-1"
-              icon="mdi-download"
-              class="rounded-lg ms-2"
-              variant="tonal"
-              size="small"
-              @click="ExportToExcel('xlsx')"
+                color="indigo-darken-1"
+                icon="mdi-download"
+                class="rounded-lg ms-2"
+                variant="tonal"
+                size="small"
+                @click="ExportToExcel('xlsx')"
             ></v-btn>
+          </div>
           </div>
       </v-responsive>
       </v-row>
-      <!-- edit data -->
-        <!-- edit data -->
-        <v-data-table
-            id="tbl_exporttable_to_xls" 
-            :headers="headers"
-            :items="items"
-            :search="search"
-            :hover="true"
-            :fixed-header="true"
-            style="cursor: pointer"
-            density="comfortable"
-            class="text-body-2 py-3 px-5"
-            height="400"
-            >
-            <!-- dialog actions -->
-            <template v-slot:item.actions="{item}">
-            <ScreenDialog :itemDetail="itemDetail" :pageTitle="pageTitle" :btn="btn" :headDetails="headDetails" :details="details" :headers="headers" :items="selected()" :search="search" :category="category" :selectCategory="selectCategory" :iTitle="actIcon[1].text" :btncolor="actIcon[1].color" :icon="actIcon[1].icon" :iVariant="actIcon[1].variant" :alpha="alpha" :actIcon="actIcon" :disable="true"/>
-            </template>
-          </v-data-table>
+        <!-- EDIT DATA -->
+        <v-sheet class="pt-5 rounded-lg">
+          <v-data-table
+              id="tbl_exporttable_to_xls" 
+              :headers="headers"
+              :items="items"
+              :search="search"
+              :hover="true"
+              :fixed-header="true"
+              density="comfortable"
+              class="text-body-2 py-3 px-5 rounded-select"
+              height="400"
+              >
+              <!-- dialog actions -->
+              <!-- eslint-disable-next-line vue/valid-v-slot -->
+              <template v-slot:item.actions="{item}">
+                <ScreenDialog :itemDetail="itemDetail" :item="item" :pageTitle="pageTitle" :btn="btn" :headDetails="headDetails" :details="details" :headers="headers" :items="selected()" :search="search" :category="category" :selectCategory="selectCategory" :iTitle="actIcon[1].text" :btncolor="actIcon[1].color" :icon="actIcon[1].icon" :iVariant="actIcon[1].variant" :alpha="alpha" :actIcon="actIcon" :disable="true"/>
+              </template>
+            </v-data-table>
+        </v-sheet>
   </v-container>
 
 </template>
+
+<style lang="scss">
+.v-data-table-header__content {
+  text-align: center;
+}
+
+.dp__main {
+    border-radius: 7px;
+    padding-bottom: 2px;
+    border: 1px solid #273d9e !important;
+  }
+
+</style>

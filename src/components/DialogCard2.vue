@@ -1,6 +1,9 @@
 <script>
+import { defineComponent } from "vue"
 
-export default {
+
+export default defineComponent({
+    name: 'DialogCard2',
     props: ['hiddenbtn', 'btn', 'itemDetail'],
     data() {
         return {
@@ -24,7 +27,7 @@ export default {
         
     }
     }
-}    
+})   
 </script>
 
 <template>
@@ -33,8 +36,8 @@ export default {
         <template v-slot:activator="{ props }">
             <v-btn
             v-bind="props"
-            class="text-body-2"
-            color="red-darken-4"
+            class="text-body-2 text-white"
+            color="#ff6e40"
             size="large"
             :hidden="hiddenbtn">
             {{ btn }}

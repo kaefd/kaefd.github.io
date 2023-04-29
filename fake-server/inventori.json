@@ -18,39 +18,21 @@
   ],
   "barang": [
     {
-      "id": 1,
-      "kategori_barang": "Barang Sisa (Scrap)",
-      "kode_barang": "b",
-      "nama_barang": "a",
-      "hs_code": "a",
-      "satuan": "a",
-      "status": true
-    },
-    {
-      "id": 4,
-      "kategori_barang": "Mesin & Peralatan",
-      "kode_barang": "edited",
-      "nama_barang": "edit",
-      "hs_code": "a",
-      "satuan": "a",
-      "status": true
-    },
-    {
-      "id": 5,
-      "kategori_barang": "Bahan Penolong",
-      "kode_barang": "edit lagi",
-      "nama_barang": "add",
-      "hs_code": "add",
-      "satuan": "add",
+      "id": 3,
+      "kategori_barang": "Barang Setengah Jadi",
+      "kode_barang": "edit",
+      "nama_barang": "test",
+      "hs_code": "test",
+      "satuan": "test",
       "status": true
     }
   ],
   "pelanggan": [
     {
       "id": 1,
-      "kode_pelanggan": "ASMT",
-      "nama": "Auri Steel Terboyo",
-      "alamat": "Terboyo",
+      "kode_pelanggan": "ASML",
+      "nama": "Auri Steel Metalindo Lombok",
+      "alamat": "Lombok",
       "npwp": "0.0.0.0",
       "status": true
     }

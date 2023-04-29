@@ -15,7 +15,7 @@ import { ref, onMounted } from 'vue';
     components: {
     TableVue, AppBar, NavDrawers,VueDatePicker
     },
-    props:['page','actIcon'],
+    props:['actIcon'],
     data () {
       return {
         drawer: null,
@@ -72,9 +72,12 @@ import { ref, onMounted } from 'vue';
       },
       ExportToExcel(type, fn, dl) {
        var elt = document.getElementById('tbl_exporttable_to_xls');
+       // eslint-disable-next-line no-undef
        var wb = XLSX.utils.table_to_book(elt, { sheet: "sheet1" });
        return dl ?
+         // eslint-disable-next-line no-undef
          XLSX.write(wb, { bookType: type, bookSST: true, type: 'base64' }):
+         // eslint-disable-next-line no-undef
          XLSX.writeFile(wb, fn || (this.pageTitle+'.' + (type || 'xlsx')));
     }
     },
@@ -138,7 +141,7 @@ import { ref, onMounted } from 'vue';
       </v-responsive>
       </v-row>
       <!-- edit data -->
-        <TableVue id="tbl_exporttable_to_xls" :headers="headers" :items="selected()" :search="search" :category="category" :selectCategory="selectCategory" :iTitle="this.actIcon[1].text" :btncolor="this.actIcon[1].color" :icon="this.actIcon[1].icon" :iVariant="this.actIcon[1].variant" :alpha="alpha"/>
+        <TableVue id="tbl_exporttable_to_xls" :headers="headers" :items="selected()" :search="search" :category="category" :selectCategory="selectCategory" :iTitle="actIcon[1].text" :btncolor="actIcon[1].color" :icon="actIcon[1].icon" :iVariant="actIcon[1].variant" :alpha="alpha"/>
   </v-container>
 
 </template>

@@ -15,6 +15,7 @@ import AppBar from '../components/AppBar.vue';
         pageTitle:'DATA SUPPLIER',
         search: '',
         alpha: 0,
+        statusselect: true,
         headers: [
           { title: 'Kode Supplier', align: 'start', key: 'kode_supplier'},
           { title: 'Nama', align: 'start', key: 'nama' },
@@ -75,15 +76,17 @@ import AppBar from '../components/AppBar.vue';
   <NavDrawers v-model="drawer"/>
   <AppBar @click.stop="drawer = !drawer" :pageTitle="pageTitle"/>
 <v-container>
-  <v-row no-gutters class="bg-white align-center px-4 my-1 mb-3 rounded-lg ">
+  <v-row no-gutters class="bg-white align-center pa-4 mb-3 rounded-lg ">
     <v-responsive class="d-flex me-2" max-width="300" cols="6" xs="4">
-      <div class="d-flex mt-5">
+      <div class="d-flex">
         <v-text-field
               v-model="search"
               density="compact"
               label="Search"
-              variant="outlined"
-              class="text-blue-darken-4"
+              variant="tonal"
+              class="text-blue-darken-4 w-50 rounded-select"
+              single-line
+              hide-details
             ></v-text-field>
       </div>
     </v-responsive>
@@ -101,7 +104,7 @@ import AppBar from '../components/AppBar.vue';
     </v-responsive>
     </v-row>
     <!-- VIEW -->
-    <TableVue :disabled="true" :noselect="true" id="tbl_exporttable_to_xls" :screen="400" :headers="headers" :items="items" :search="search" :category="this.suppCode()" :iTitle="this.actIcon[1].text" :btncolor="this.actIcon[1].color" :icon="this.actIcon[1].icon" :iVariant="this.actIcon[1].variant" :alpha="this.alpha"/>
+    <TableVue :disabled="statusselect" :noselect="statusselect" id="tbl_exporttable_to_xls" :screen="400" :headers="headers" :items="items" :search="search" :category="suppCode()" :iTitle="actIcon[1].text" :btncolor="actIcon[1].color" :icon="actIcon[1].icon" :iVariant="actIcon[1].variant" :alpha="alpha"/>
 </v-container>
   </template>
 <style>

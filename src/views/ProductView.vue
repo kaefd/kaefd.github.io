@@ -16,7 +16,7 @@ import { ref, onMounted } from 'vue';
     components: {
     ScreenDialog2, AppBar, NavDrawers,VueDatePicker, VDataTable
     },
-    props:['page','actIcon'],
+    props:['actIcon'],
     data () {
       return {
         drawer: null,
@@ -90,9 +90,12 @@ import { ref, onMounted } from 'vue';
       },
       ExportToExcel(type, fn, dl) {
        var elt = document.getElementById('tbl_exporttable_to_xls');
+       // eslint-disable-next-line no-undef
        var wb = XLSX.utils.table_to_book(elt, { sheet: "sheet1" });
        return dl ?
+         // eslint-disable-next-line no-undef
          XLSX.write(wb, { bookType: type, bookSST: true, type: 'base64' }):
+         // eslint-disable-next-line no-undef
          XLSX.writeFile(wb, fn || (this.pageTitle+'.' + (type || 'xlsx')));
     }
     },
@@ -117,15 +120,15 @@ import { ref, onMounted } from 'vue';
   <v-container>
     <v-row no-gutters class="bg-white align-center px-4 pb-lg-0 pb-4 my-1 mb-3 rounded-lg">
       <v-responsive class="overflow-visible me-2 w-100" max-width="700" max-height="70" cols="6" xs="4">
+        <!-- PERIODE -->
         <div class="d-flex align-center">
-          <!-- date field -->
           <v-label class="text-body-2 pe-3">Periode</v-label>
           <VueDatePicker v-model="date" :enable-time-picker="false" range/>
         </div>
       </v-responsive>
       <v-responsive cols="6" xs="4">
           <div class="d-flex align-center float-lg-right float-sm-left w-75">
-          <!-- search field -->
+          <!-- SEARCH -->
           <v-text-field
                 v-model="search"
                 density="compact"
@@ -134,9 +137,9 @@ import { ref, onMounted } from 'vue';
                 class="text-blue-darken-4 pt-5 me-2"
           ></v-text-field>
 
-            <!-- add data -->
+            <!-- TAMBAH DATA -->
             <ScreenDialog2 :headers="headItem" :items="items" :fastItem="fastItem" :iTitle="actIcon[0].text" :btncolor="actIcon[0].color" :icon="actIcon[0].icon" :iVariant="actIcon[0].variant" :alpha="alpha" :actIcon="actIcon"/>
-            <!-- btn export -->
+            <!-- EXPORT DATA -->
             <v-btn
               color="indigo-darken-1"
               icon="mdi-download"
@@ -148,8 +151,7 @@ import { ref, onMounted } from 'vue';
           </div>
       </v-responsive>
       </v-row>
-      <!-- edit data -->
-        <!-- edit data -->
+        <!-- EDIT DATA -->
         <v-data-table
             id="tbl_exporttable_to_xls"
             :headers="headers"
@@ -163,8 +165,9 @@ import { ref, onMounted } from 'vue';
             height="400"
             >
             <!-- dialog actions -->
+            <!-- eslint-disable-next-line vue/valid-v-slot -->
             <template v-slot:item.actions="{item}">
-            <ScreenDialog :headDetails="headDetails" :details="details" :headers="headers" :items="selected()" :search="search" :category="category" :selectCategory="selectCategory" :iTitle="actIcon[1].text" :btncolor="actIcon[1].color" :icon="actIcon[1].icon" :iVariant="actIcon[1].variant" :alpha="alpha" :actIcon="actIcon" :disable="true"/>
+            <ScreenDialog :headDetails="headDetails" :item="item" :details="details" :headers="headers" :items="selected()" :search="search" :category="category" :selectCategory="selectCategory" :iTitle="actIcon[1].text" :btncolor="actIcon[1].color" :icon="actIcon[1].icon" :iVariant="actIcon[1].variant" :alpha="alpha" :actIcon="actIcon" :disable="true"/>
             </template>
           </v-data-table>
         <!-- <TableVue :headers="headers" :items="selected()" :search="search" :category="category" :selectCategory="selectCategory" :iTitle="this.actIcon[1].text" :btncolor="this.actIcon[1].color" :icon="this.actIcon[1].icon" :iVariant="this.actIcon[1].variant" :alpha="alpha" /> -->

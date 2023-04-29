@@ -107,9 +107,12 @@ import { ref, onMounted } from 'vue';
       },
       ExportToExcel(type, fn, dl) {
          var elt = document.getElementById('tbl_exporttable_to_xls');
+         // eslint-disable-next-line no-undef
          var wb = XLSX.utils.table_to_book(elt, { sheet: "sheet1" });
          return dl ?
+           // eslint-disable-next-line no-undef
            XLSX.write(wb, { bookType: type, bookSST: true, type: 'base64' }):
+           // eslint-disable-next-line no-undef
            XLSX.writeFile(wb, fn || (this.pageTitle+'.' + (type || 'xlsx')));
       }
     },
@@ -209,8 +212,9 @@ import { ref, onMounted } from 'vue';
             height="400"
             >
             <!-- dialog actions -->
+             <!-- eslint-disable-next-line vue/valid-v-slot -->
             <template v-slot:item.actions="{item}">
-            <ScreenDialog :headDetails="headDetails" :details="details" :headers="headers" :items="selected()" :search="search" :category="category" :selectCategory="selectCategory" :iTitle="actIcon[1].text" :btncolor="actIcon[1].color" :icon="actIcon[1].icon" :iVariant="actIcon[1].variant" :alpha="alpha" :actIcon="actIcon" :disable="true"/>
+            <ScreenDialog :headDetails="headDetails" :item="item" :details="details" :headers="headers" :items="selected()" :search="search" :category="category" :selectCategory="selectCategory" :iTitle="actIcon[1].text" :btncolor="actIcon[1].color" :icon="actIcon[1].icon" :iVariant="actIcon[1].variant" :alpha="alpha" :actIcon="actIcon" :disable="true"/>
             </template>
           </v-data-table>
   </v-container>

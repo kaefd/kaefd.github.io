@@ -8,7 +8,7 @@ export default {
     components: {
     DialogCard2, VDataTable
 },
-    props:['pageTitle', 'headers', 'items', 'category', 'icon', 'actIcon', 'btncolor', 'alpha', 'iVariant', 'screen', 'headDetails', 'details','disable', 'btn', 'datatext', 'itemDetail'],
+    props:['pageTitle', 'headers', 'items', 'actIcon', 'icon', 'btncolor', 'iVariant', 'headDetails', 'details','disable', 'btn', 'datatext', 'itemDetail'],
     data () {
       return {
         dialog: false,
@@ -39,7 +39,7 @@ export default {
           </template>
           <!-- dialog content -->
           <v-card>
-                <v-toolbar>
+                <v-toolbar class="bg-blue-darken-4">
                 <v-btn
                     icon
                     dark
@@ -51,66 +51,64 @@ export default {
                 <v-spacer></v-spacer>
                 </v-toolbar>
                 <v-container>
-
-                    <v-row class="mt-1 d-flex justify-between w-100">
-                            <!-- no pemasukan -->
-                            <v-div v-for="je, j in this.datatext" :key="j">
-                                <v-if v-if="je.type == 'select'">
-                                    <v-select
-                                        :label="je.name"
-                                        variant="outlined"
-                                        density="compact"
-                                        class="max-width-25 mx-10"
-                                        @click="dialog3 = true"
-                                    ></v-select>
-                                </v-if>
-                                <v-else-if v-else-if="je.type != 'select'">
-                                    <v-text-field
-                                        variant="outlined"
-                                        :label="je.name"
-                                        density="compact"
-                                        :type="je.type"
-                                        class="max-width-25 mx-10"                         
-                                    >
-                                    </v-text-field>
-                                </v-else-if>
-                            </v-div>
-                            <div class="me-16 ms-auto">
-                                <DialogCard2 :itemDetail="itemDetail" :btn="btn" width="400" />
-                            </div>
-                            <v-dialog
-                                v-model="dialog3"
-                                width="auto"
+                    <v-row class="mt-1 d-flex justify-around w-100">
+                        <v-div v-for="je, j in this.datatext" :key="j">
+                            <v-if v-if="je.type == 'select'">
+                                <v-select
+                                    :label="je.name"
+                                    variant="solo"
+                                    density="compact"
+                                    class="max-width-25 mx-5 rounded-select"
+                                    @click="dialog3 = true"
+                                ></v-select>
+                            </v-if>
+                            <v-else-if v-else-if="je.type != 'select'">
+                                <v-text-field
+                                    variant="solo"
+                                    :label="je.name"
+                                    density="compact"
+                                    :type="je.type"
+                                    class="max-width-25 mx-5 rounded-select"                       
                                 >
-                                <v-card class="px-7 py-5 mx-auto" width="400">
-                        
-                                <v-card-title class="text-center">{{ dialItem.name }}</v-card-title>
-                                <v-card-text>{{ dialItem.code }}</v-card-text>
-                                <v-text-field
-                                    label="Jumlah"
-                                    variant="outlined"
-                                    density="compact"
-                                    :disabled="hiddenbtn"
-                                />
-                                <v-text-field
-                                    label="Jumlah Diterima"
-                                    variant="outlined"
-                                    density="compact"
-                                    :disabled="hiddenbtn"
-                                />
-                                <v-text-field
-                                    label="Nilai Total"
-                                    variant="outlined"
-                                    density="compact"
-                                    :disabled="hiddenbtn"
-                                />
-                                <v-btn variant="outlined" size="large" class="text-body-1 mb-2">Simpan</v-btn>
-                                <v-btn @click="dialog2 = false" variant="outlined" size="large" class="text-body-1">Batal</v-btn>
-                            </v-card>
-                        </v-dialog>
-                    </v-row>
+                                </v-text-field>
+                            </v-else-if>
+                        </v-div>
+                    </v-row>                    
+                <!-- TAMBAH BARANG -->
+                <div class="ms-2">
+                    <DialogCard2 :itemDetail="itemDetail" :btn="btn" width="400" />
+                </div>
+                <v-dialog
+                    v-model="dialog3"
+                    width="auto"
+                >
+                    <v-card class="px-7 py-5 mx-auto" width="400">
+                        <v-card-title class="text-center">{{ dialItem.name }}</v-card-title>
+                        <v-card-text>{{ dialItem.code }}</v-card-text>
+                        <v-text-field
+                            label="Jumlah"
+                            variant="outlined"
+                            density="compact"
+                            :disabled="hiddenbtn"
+                        />
+                        <v-text-field
+                            label="Jumlah Diterima"
+                            variant="outlined"
+                            density="compact"
+                            :disabled="hiddenbtn"
+                        />
+                        <v-text-field
+                            label="Nilai Total"
+                            variant="outlined"
+                            density="compact"
+                            :disabled="hiddenbtn"
+                        />
+                        <v-btn variant="outlined" size="large" class="text-body-1 mb-2">Simpan</v-btn>
+                        <v-btn @click="dialog2 = false" variant="outlined" size="large" class="text-body-1">Batal</v-btn>
+                    </v-card>
+                </v-dialog>
 
-                    <!-- edit data -->
+                    <!-- EDIT DATA -->
                     <v-data-table
                     :headers="headDetails"
                     :items="details"
@@ -123,6 +121,7 @@ export default {
                     height="300"
                     >
                     <!-- dialog actions -->
+                    <!-- eslint-disable-next-line vue/valid-v-slot -->
                     <template v-slot:item.actions="{item}">
                     <v-dialog v-model="dialog2">
                     <!-- button dialog -->
@@ -171,11 +170,10 @@ export default {
                 </v-dialog>
                     </template>
                     </v-data-table>
-                <v-btn :hidden="disable" class="float-end" size="large" color="blue-darken-4">Simpan</v-btn>
-                <v-btn @click="dialog=false" class="float-end me-2" size="large" variant="outlined">Batal</v-btn>
+                <v-btn :hidden="disable" class="float-end text-body-2 text-white btn-custom" color="#ff6e40">Simpan</v-btn>
+                <v-btn @click="dialog=false" class="float-end text-body-2 me-2 btn-custom" variant="outlined">Batal</v-btn>
                 </v-container>
             </v-card>
-
     </v-dialog>
 </template>
 
@@ -183,6 +181,11 @@ export default {
 
 .max-width-25 {
     width: 300px;
+}
+.btn-custom {
+    box-shadow: none;
+    width: 150px;
+    height: 45px !important;
 }
 
 </style>

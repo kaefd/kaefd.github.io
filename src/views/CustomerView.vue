@@ -1,4 +1,5 @@
 <script setup>
+import { defineComponent } from 'vue';
 import TableVue from '../components/TableVue.vue';
 import DialogCard from '../components/DialogCard.vue';
 import NavDrawers from '../components/NavDrawers.vue';
@@ -9,7 +10,9 @@ import axios from 'axios'
 </script>
 
 <script>
-  export default {
+  export default defineComponent ({
+    name: 'CustomerView',
+    props:['actIcon'],
     components: {
     TableVue, DialogCard, NavDrawers, AppBar
     },
@@ -17,12 +20,9 @@ import axios from 'axios'
       return {
         drawer: null,
         pageTitle: 'DATA PELANGGAN',
+        statusselect: true,
         search: '',
         alpha: 1,
-        actIcon: [
-          { text: 'Tambah Data', icon: 'mdi-plus', color: 'indigo-darken-1', variant: 'tonal' },
-          { text: 'Edit Data', icon: 'mdi-dots-vertical', color: 'grey-darken-1', variant: 'text' },
-        ],
         category: [
           'semua',
           'Bahan Baku',
@@ -59,32 +59,16 @@ import axios from 'axios'
          // eslint-disable-next-line no-undef
          XLSX.writeFile(wb, fn || (this.pageTitle+'.' + (type || 'xlsx')));
     },
-      async getdata() {
-        try {
-          const token = localStorage.getItem('token')
-          const response = await fetch('http://localhost:8000/pelanggan', {
-            headers: {
-              Authorization: `Bearer ${token}`
-            }
-          })
-          const data = await response.json()
-          this.items = data
-        }
-        catch (error) {
-          console.log(error);
-        }
-        
-      },
-      wait(ms) {
-        return new Promise(resolve => setTimeout(resolve, ms))
-      },
-      async updated() {
-        // eslint-disable-next-line no-constant-condition
-        while (true) {
-          await this.getdata()
-          await this.wait(5000)
-        }
-      },
+      // wait(ms) {
+      //   return new Promise(resolve => setTimeout(resolve, ms))
+      // },
+      // async updated() {
+      //   // eslint-disable-next-line no-constant-condition
+      //   while (true) {
+      //     await this.getdata()
+      //     await this.wait(5000)
+      //   }
+      // },
       successAlert() {
         this.$swal.fire(
           'Success !',
@@ -119,10 +103,14 @@ import axios from 'axios'
             status: true
           })
           .then(() => {
-              return this.successAlert()
+              // return
+              this.successAlert()
+              location.reload()
             })
-            .catch(() => {
-              return this.failedAlert()
+          .catch(() => {
+              // return
+              this.failedAlert()
+              location.reload()
             })
       },
       editForm(value) {
@@ -149,10 +137,14 @@ import axios from 'axios'
           status: true
         })
           .then(() => {
-            return this.successAlert()
+            // return
+            this.successAlert()
+            location.reload()
           })
           .catch(() => {
-            return this.failedAlert()
+            // return
+            this.failedAlert()
+            location.reload()
           })
       }, 
       del(v) {
@@ -168,55 +160,59 @@ import axios from 'axios'
         )
         axios.delete(`http://localhost:8000/pelanggan/${v}`)
         .then(() => {
-          this.$swal.fire({
-              title: 'Are you sure?',
-              text: "You won't be able to revert this!",
-              icon: 'warning',
-              showCancelButton: true,
-              confirmButtonColor: '#3085d6',
-              cancelButtonColor: '#d33',
-              confirmButtonText: 'Yes, delete it!'
-            }).then((result) => {
-              if (result.isConfirmed) {
-                this.$swal.fire(
-                  'Deleted!',
-                  'Your file has been deleted.',
-                  'success'
-                )
-              }
-            })
+            // return
+             this.successAlert()
+             location.reload()
           })
           .catch(() => {
-            return this.failedAlert()
+            // return
+             this.failedAlert()
+             location.reload()
           })
         }
       },
-      mounted() {
-        this.updated()
+      async mounted() {
+        try {
+          const token = localStorage.getItem('token')
+          const response = await fetch('http://localhost:8000/pelanggan', {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          })
+          const data = await response.json()
+          this.items = data
+        }
+        catch (error) {
+          console.log(error);
+        }
+        
+
       }
-  }
+  })
 
 </script>
 <template>
   <NavDrawers v-model="drawer"/>
   <AppBar @click.stop="drawer = !drawer" :pageTitle="pageTitle"/>
   <v-container>
-    <v-row no-gutters class="bg-white align-center justify-between px-4 my-1 mb-3 rounded-lg">
-    <v-responsive class="d-flex me-2" max-width="300" cols="6" xs="4">
-      <div class="d-flex mt-5">
+    <v-row no-gutters class="bg-white align-center justify-between rounded-lg pa-4 mb-4">
+    <v-responsive class="d-flex me-2" max-width="300">
+      <div class="d-flex w-100">
         <v-text-field
               v-model="search"
               density="compact"
               label="Search"
-              class="text-blue-darken-4"
-              variant="outlined"
-            ></v-text-field>
+              class="text-blue-darken-4 rounded-select"
+              variant="tonal"
+              single-line
+              hide-details
+        ></v-text-field>
       </div>
     </v-responsive>
-    <v-responsive cols="6" xs="4">
+    <v-responsive>
         <div class="d-flex float-right">
           <!-- add data -->
-            <DialogCard :noselect="true"  @form="submitForm" :screen="400" :iTitle="actIcon[0].text" :btncolor="actIcon[0].color" :icon="actIcon[0].icon" :iVariant="actIcon[0].variant" :headers="headers" :items="items" :category="category"  :alpha="alpha"/>
+            <DialogCard :noselect="statusselect"  @form="submitForm" :screen="400" :iTitle="actIcon[0].text" :btncolor="actIcon[0].color" :icon="actIcon[0].icon" :iVariant="actIcon[0].variant" :headers="headers" :items="items" :category="category"  :alpha="alpha"/>
             <v-btn
             color="indigo-darken-1"
             icon="mdi-download"
@@ -229,7 +225,7 @@ import axios from 'axios'
     </v-responsive>
     </v-row>
     <!-- edit -->
-    <TableVue :noselect="true" @edit="editForm" @del="del" id="tbl_exporttable_to_xls" :screen="400"  :headers="headers" :items="items" :search="search" :category="category" :iTitle="actIcon[1].text" :btncolor="actIcon[1].color" :icon="actIcon[1].icon" :iVariant="actIcon[1].variant" :alpha="alpha" :form="form"/>
+    <TableVue :noselect="statusselect" @edit="editForm" @del="del" id="tbl_exporttable_to_xls" :screen="400"  :headers="headers" :items="items" :search="search" :category="category" :iTitle="actIcon[1].text" :btncolor="actIcon[1].color" :icon="actIcon[1].icon" :iVariant="actIcon[1].variant" :alpha="alpha" :form="form"/>
   </v-container>
   </template>
 

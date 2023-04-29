@@ -3,19 +3,21 @@ import TableVue from '../components/TableVue.vue';
 import DialogCard from '../components/DialogCard.vue';
 import NavDrawers from '../components/NavDrawers.vue';
 import AppBar from '../components/AppBar.vue';
+import { defineComponent } from 'vue';
 import axios from 'axios'
 </script>
 
 
 <script>
-export default {
-    components: {
+export default defineComponent ({
+  components: {
     TableVue,
     DialogCard,
     AppBar,
     NavDrawers,
-},
-    props:['page','actIcon'],
+  },
+    name: 'itemsView',
+    props:['actIcon'],
     data () {
       return {
         drawer: null,
@@ -26,6 +28,7 @@ export default {
         cardTitle: 'Detail Barang',
         id: ['C', 'R', 'U', 'D'],
         alpha: 1,
+        statusselect: false,
         category: [
           'semua',
           'Bahan Baku',
@@ -72,33 +75,6 @@ export default {
          // eslint-disable-next-line no-undef
          XLSX.writeFile(wb, fn || (this.pageTitle+'.' + (type || 'xlsx')));
     },
-
-    async getdata() {
-      try {
-        const token = localStorage.getItem('token')
-        const response = await fetch('http://localhost:8000/barang', {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        })
-        const data = await response.json()
-        this.items = data
-      }
-      catch (error) {
-        console.log(error);
-      }
-      
-    },
-    wait(ms) {
-      return new Promise(resolve => setTimeout(resolve, ms))
-    },
-    async updated() {
-      // eslint-disable-next-line no-constant-condition
-      while (true) {
-        await this.getdata()
-        await this.wait(5000)
-      }
-    },
     successAlert() {
       this.$swal.fire(
         'Success !',
@@ -134,10 +110,14 @@ export default {
           status: true
         })
         .then(() => {
-            return this.successAlert()
+            // return  
+            this.successAlert()
+            location.reload()
           })
           .catch(() => {
-            return this.failedAlert()
+            // return 
+            this.failedAlert()
+            location.reload()
           })
       },
       editForm(value) {
@@ -165,10 +145,14 @@ export default {
           status: true
         })
           .then(() => {
-            return this.successAlert()
+            // return 
+            this.successAlert()
+            location.reload()
           })
           .catch(() => {
-            return this.failedAlert()
+            // return 
+            this.failedAlert()
+            location.reload()
           })
       },
       
@@ -185,84 +169,93 @@ export default {
           error => Promise.reject(error)
         )
         axios.delete(`http://localhost:8000/barang/${v}`)
-        .then(() => {
-          this.$swal.fire({
-              title: 'Are you sure?',
-              text: "You won't be able to revert this!",
-              icon: 'warning',
-              showCancelButton: true,
-              confirmButtonColor: '#3085d6',
-              cancelButtonColor: '#d33',
-              confirmButtonText: 'Yes, delete it!'
-            }).then((result) => {
-              if (result.isConfirmed) {
-                this.$swal.fire(
-                  'Deleted!',
-                  'Your file has been deleted.',
-                  'success'
-                )
-              }
-            })
+          .then(() => {
+              // return
+              this.successAlert()
+              location.reload()
           })
           .catch(() => {
-            return this.failedAlert()
+              // return
+              this.failedAlert()
+              location.reload()
           })
           
       }
-  },
-    mounted() {
-      this.updated()
-    }
-  }
+    },
+    async mounted() {
+        try {
+          const token = localStorage.getItem('token')
+          const response = await fetch('http://localhost:8000/barang', {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          })
+          const data = await response.json()
+          this.items = data
+        }
+        catch (error) {
+          console.log(error);
+        }
+        
+
+      }
+      
+  })
 
 </script>
 <template>
+
   <NavDrawers v-model="drawer"/>
   <AppBar @click.stop="drawer = !drawer" :pageTitle="pageTitle"/>
   <v-container>
 
 
-    <v-row no-gutters class="bg-white align-center px-4 pb-lg-0 pb-4 my-1 mb-3 rounded-lg">
-      <v-responsive class="d-flex me-2 w-100" max-width="400" max-height="70" cols="6" xs="4">
-        <div class="d-flex mt-4">
+    <v-row no-gutters class="bg-white align-center pa-4 mb-4 rounded-lg w-100">
+      <v-responsive class="d-flex ms-2 align-center mb-sm-0 mb-3" max-width="400" max-height="70">
+        <div class="d-flex w-100">
           <!-- KATEGORI -->
-          <v-label class="text-body-1 text-blue-darken-4 me-3 mt-n5">Kategori</v-label>
+          <v-label class="text-body-1 text-blue-darken-4 me-2">Kategori</v-label>
           <v-select
-            title="Kategori"
             :items="category"
             v-model="selectCategory"
             density="compact"
-            variant="outlined"
-            class="text-blue-darken-4 me-2 w-25"
+            variant="solo"
+            class="text-blue-darken-4 rounded-select"
             single-line
+            hide-details
           ></v-select>
-          <!-- SEARCH -->
-          <v-text-field
-                v-model="search"
-                density="compact"
-                label="Search"
-                variant="outlined"
-                class="text-blue-darken-4"
-              ></v-text-field>
         </div>
       </v-responsive>
-      <v-responsive cols="6" xs="4">
-          <div class="d-flex float-lg-right float-sm-left">
-            <!-- add data -->
-            <DialogCard :noselect="false" @form="submitForm" :screen="400" :iTitle="actIcon[0].text" :btncolor="actIcon[0].color" :icon="actIcon[0].icon" :iVariant="actIcon[0].variant" :headers="headers" :items="items" :category="category" :alpha="alpha" :submitForm="submitForm"/>
-              <v-btn
+      <v-responsive class="me-0 ms-auto" max-width="400">
+        <div class="d-flex align-center w-100">
+            <!-- ADD BUTTON -->
+            <DialogCard :noselect="statusselect" @form="submitForm" :screen="400" :iTitle="actIcon[0].text" :btncolor="actIcon[0].color" :icon="actIcon[0].icon" :iVariant="actIcon[0].variant" :headers="headers" :items="items" :category="category" :alpha="alpha" :submitForm="submitForm"/>
+            <!-- EXPORT BUTTON -->
+            <v-btn
               color="indigo-darken-1"
               icon="mdi-download"
-              class="rounded-lg ms-2"
+              class="rounded-lg mx-2"
               variant="tonal"
               size="small"
               @click="ExportToExcel('xlsx')"
             ></v-btn>
+
+            <!-- SEARCH -->
+            <v-text-field
+                v-model="search"
+                density="compact"
+                label="Search"
+                variant="solo"
+                class="text-blue-darken-4 rounded-select"
+                single-line
+                hide-details
+            ></v-text-field>
+
           </div>
       </v-responsive>
       </v-row>
-      <!-- edit data -->
-        <TableVue :noselect="false" @edit="editForm" @del="del" id="tbl_exporttable_to_xls" :screen="400"  :headers="headers" :items="selected()" :search="search" :category="category" :selectCategory="selectCategory" :iTitle="this.actIcon[1].text" :btncolor="this.actIcon[1].color" :icon="this.actIcon[1].icon" :iVariant="this.actIcon[1].variant" :alpha="alpha" :form="form"/>
+      <!-- EDIT BUTTON -->
+        <TableVue :noselect="statusselect" @edit="editForm" @del="del" id="tbl_exporttable_to_xls" :screen="400"  :headers="headers" :items="selected()" :search="search" :category="category" :selectCategory="selectCategory" :iTitle="actIcon[1].text" :btncolor="actIcon[1].color" :icon="actIcon[1].icon" :iVariant="actIcon[1].variant" :alpha="alpha" :form="form"/>
   </v-container>
   </template>
 <style>
@@ -275,6 +268,14 @@ export default {
 }
 .vh-75 {
   height: 75vh ;
+}
+
+.rounded-select .v-input__control {
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 7px;
+  border-color: #112ebe;
+  box-shadow: none;
 }
 
 </style>

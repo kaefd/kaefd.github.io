@@ -1,11 +1,9 @@
 <script setup>
-import { defineComponent } from 'vue';
 </script>
 
 <script>
-export default defineComponent({
-
-    props:['disabled','headers', 'items', 'category','btncolor', 'iTitle', 'act', 'icon','iVariant', 'alpha', 'screen','item', 'submitForm', 'form', 'noselect'],
+export default {
+    props:['disabled','headers', 'items', 'category','btncolor', 'iTitle', 'icon','iVariant', 'alpha', 'screen', 'item', 'submitForm', 'form', 'noselect'],
     data () {
       return {
         dialog: false,
@@ -24,6 +22,7 @@ export default defineComponent({
         if(this.item == null) {
           this.$emit('form', this.data)
         } else {
+            
             this.$emit('edit', [this.edit, this.item.raw])
         }
         this.dialog = false
@@ -35,7 +34,7 @@ export default defineComponent({
 
     }
 
-})
+}
 </script>
 <template>
     <v-dialog
@@ -48,7 +47,7 @@ export default defineComponent({
           <template v-slot:activator="{ props }">
             <v-btn
             v-bind="props"
-            class="text-body-2  rounded-lg"
+            class="text-body-2 ms-2 rounded-lg"
             :color="btncolor"
             :icon="icon"
             :variant="iVariant"
@@ -59,16 +58,12 @@ export default defineComponent({
           <!-- dialog content -->
           <v-card class="rounded-xl">
             <form ref="form" @submit.prevent="submit">
-                <v-toolbar class="bg-white">
-                <v-btn
-                    icon
-                    dark
-                    @click="dialog = false"
-                >
-                <v-icon>mdi-close</v-icon>
-                </v-btn>
-                <v-toolbar-title>{{ iTitle }}</v-toolbar-title>
+                <v-toolbar class="bg-white text-center">
+                  <v-toolbar-title>
+                    {{ iTitle }}
+                  </v-toolbar-title>
                 </v-toolbar>
+                <v-divider></v-divider>
                 <v-container class="w-75">
                   <div v-if="this.noselect == false">
                     <v-label>{{ headers[0].title }}</v-label>
@@ -106,6 +101,7 @@ export default defineComponent({
                     variant="outlined"
                     v-model="edit[0]"
                     :placeholder="Object.values(item.raw)[1]"
+                    :disabled="disabled"
                     ></v-text-field> 
                   </div>
 
@@ -125,16 +121,18 @@ export default defineComponent({
                         variant="outlined"
                         v-model="edit[i+1]"
                         :placeholder="Object.values(item.raw)[i+2]"
+                        :disabled="disabled"
                         ></v-text-field> 
                     </v-for>
-                  </v-container>
+                </v-container>
+                
                 <v-div class="d-flex">
                   <v-btn
                   type="submit"
                   color="blue-darken-1"
                   variant="tonal"
-                  height="50"
-                  class="w-50"
+                  height="57"
+                  class="w-50 rounded-0"
                   :hidden="disabled"
                   >
                   Save
@@ -143,8 +141,8 @@ export default defineComponent({
                   v-if="this.item != null"
                   color="red-darken-1"
                   variant="tonal"
-                  height="50"
-                  class="me-2 w-50"
+                  height="57"
+                  class="w-50 rounded-0"
                   :hidden="disabled"
                   @click="del(item.raw.id)"
                   >
@@ -154,8 +152,8 @@ export default defineComponent({
                   v-if="this.item == null"
                   color="red-darken-1"
                   variant="tonal"
-                  height="50"
-                  class="me-2 w-50"
+                  height="57"
+                  class="w-50 rounded-0"
                   @click=" dialog = false"
                   >
                   Cancel
