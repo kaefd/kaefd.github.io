@@ -55,7 +55,7 @@ export default {
           </template>
           <!-- dialog content -->
           <v-card>
-                <v-toolbar>
+                <v-toolbar class="bg-blue-darken-4">
                 <v-btn
                     icon
                     dark
@@ -68,30 +68,31 @@ export default {
                 </v-toolbar>
                 <v-container>
                 <v-row class="row border-sm rounded-lg my-3">
-                    <v-col cols="2" class="mt-5">
+                    <v-col class="w-100">
+                        <v-lable class="text-body-2">No Produksi</v-lable>
                         <v-text-field
-                            label="No Produksi"
                             density="compact"
                             disabled
-                            variant="outlined"
+                            variant="solo"
+                            class="rounded-select"
                             />
                     </v-col>
-                    <v-col class="d-flex align-center">
-                        <v-label class="text-body-2 pe-5">Tgl Produksi</v-label>
-                        <VueDatePicker v-model="date" :enable-time-picker="false" />
+                    <v-col class="w-100">
+                        <v-label class="text-body-2 pe-7">Tgl Produksi</v-label>
+                        <VueDatePicker v-model="date" :enable-time-picker="false" calendar-class-name="dp-custom-calendar"/>
                     </v-col>
-                    <v-col class="mt-5">
-                        <!-- <DialogCard2 width="500"/> -->
+                    <v-col class="w-100">
+                        <v-label class="text-body-2 pe-7">Kode Group</v-label>
                         <v-select
-                            label="Kode Group"
                             density="compact"
-                            variant="outlined"
+                            variant="solo"
                             :items="codeG()"
+                            class="rounded-select"
                         ></v-select>
                     </v-col>
                 </v-row>
                 <!-- table barang -->
-                <v-row class="mb-2">
+                <v-row>
                     <v-col class="border-sm rounded-lg me-3">
                         <DialogCard2 :btn="btn[0]" width="400"/>
                         <VDataTable
@@ -100,7 +101,7 @@ export default {
                         :hover="true"
                         :fixed-header="true"
                         density="compact"
-                        class="text-body-2 py-3 px-5"
+                        class="text-body-2 py-3 px-5 rounded-select"
                         height="200"
                         >
                         </VDataTable>
@@ -113,14 +114,16 @@ export default {
                         :hover="true"
                         :fixed-header="true"
                         density="compact"
-                        class="text-body-2 py-3 px-5"
+                        class="text-body-2 py-3 px-5 rounded-select"
                         height="200"
                             />
                     </v-col>
                 </v-row>
                     <!-- edit data -->
-                <v-btn :hidden="disable" class="float-end" size="large" color="blue-darken-4">Simpan</v-btn>
-                <v-btn class="float-end me-2" size="large" variant="outlined" @click="dialog = false">Batal</v-btn>
+                <v-row class="float-end">
+                    <v-btn :hidden="disable" class="me-3 mt-3 btn-custom" color="blue-darken-4">Simpan</v-btn>
+                    <v-btn class="mt-3 btn-custom" variant="tonal" @click="dialog = false">Batal</v-btn>
+                </v-row>
                 </v-container>
             </v-card>
 

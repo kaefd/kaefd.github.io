@@ -122,30 +122,30 @@ import { ref, onMounted } from 'vue';
   <AppBar @click.stop="drawer = !drawer" :pageTitle="pageTitle"/>
 
   <v-container>
-    <v-row no-gutters class="bg-white align-center px-4 pb-lg-0 pb-4 my-1 mb-3 rounded-lg">
+    <v-row no-gutters class="bg-white align-center pa-4 mb-3 rounded-lg">
       <v-responsive class="overflow-visible me-2 w-100 " max-width="600" max-height="70" cols="6" xs="4">
-        <div class="d-flex pt-4 pb-5 align-start">
-          <!-- date field -->
-          <v-div class="d-flex align-center">
-            <v-label class="pe-2">Tanggal</v-label>
-            <VueDatePicker v-model="date" range :enable-time-picker="false" class="w-50"/>
+        <div class="d-flex align-start">
+          <!-- DATE -->
+          <v-div class="w-50">
+            <v-label v-label class="text-body-2 text-blue-darken-4 pe-7">Periode</v-label>
+            <VueDatePicker v-model="periode" range :enable-time-picker="false" hide-offset-dates max-range="30" :max-date="new Date()"  @update:v-model="periode" input-class-name="dp-custom-input"/>
           </v-div>
         </div>
       </v-responsive>
-      <v-responsive cols="6" xs="4">
-          <div class="d-flex pt-5 pb-5 align-center float-lg-right float-sm-left w-50">
-          
-            <!-- search field -->
-          <v-text-field
-                v-model="search"
-                density="compact"
-                label="Search"
-                variant="outlined"
-                class="text-blue-darken-4 me-2"
-                hide-details
-          ></v-text-field>
+      <v-responsive class="me-sm-0 ms-sm-auto ms-0 me-auto" max-width="400">
+          <div class="d-flex align-center pt-6">
+            <!-- SEARCH -->
+            <v-text-field
+                  v-model="search"
+                  density="compact"
+                  label="Search"
+                  variant="solo"
+                  class="text-blue-darken-4 me-2 rounded-select"
+                  hide-details
+                  single-line
+            ></v-text-field>
 
-            <!-- add data -->
+            <!-- TAMBAH DATA -->
             <v-div class="d-flex">
               <ScreenDialog :pageTitle="pageTitle" :btn="btn" :headDetails="headers" :details="items" :headers="headers" :items="selected()" :search="search" :category="category" :selectCategory="selectCategory" :iTitle="actIcon[0].text" :btncolor="actIcon[0].color" :icon="actIcon[0].icon" :iVariant="actIcon[0].variant" :alpha="alpha" :actIcon="actIcon" :datatext="datatext"/>
                 <v-btn
@@ -171,7 +171,7 @@ import { ref, onMounted } from 'vue';
             :fixed-header="true"
             style="cursor: pointer"
             density="comfortable"
-            class="text-body-2 py-3 px-5"
+            class="text-body-2 py-3 px-5 rounded-select"
             height="400"
             >
             <!-- dialog actions -->

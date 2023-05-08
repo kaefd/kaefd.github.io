@@ -6,7 +6,6 @@ import router from './router'
 
 import vuetify from "./plugins/vuetify";
 import { loadFonts } from "./plugins/webfontloader";
-import store from './middleware/store'
 import VueSweetalert2 from 'vue-sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 
@@ -17,6 +16,5 @@ const app = createApp(App)
 app.use(createPinia())
 app.use(router)
 app.use(vuetify)
-app.use(store)
 app.use(VueSweetalert2)
 app.mount('#app')

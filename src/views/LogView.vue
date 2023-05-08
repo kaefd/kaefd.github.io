@@ -114,8 +114,9 @@ import { ref, onMounted } from 'vue';
             class="text-blue-darken-4 me-2 w-50"
             single-line
           ></v-select>
-          <!-- date field -->
-          <VueDatePicker v-model="date" :enable-time-picker="false" range/>
+          <!-- PERIODE -->
+          <v-label v-label class="text-body-2 text-blue-darken-4 pe-7">Periode</v-label>
+          <VueDatePicker v-model="periode" range :enable-time-picker="false" hide-offset-dates max-range="30" :max-date="new Date()"  @update:v-model="periode" input-class-name="dp-custom-input"/>
         </div>
       </v-responsive>
       <v-responsive cols="6" xs="4">

@@ -1,11 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-// import Middleware from '../middleware/Middleware'
-// import auth from '../middleware/auth';
-// import log from '../middleware/log';
-import store from '../middleware/store'
-import guest from '../middleware/guest'
-import auth from '../middleware/auth'
-import middlewarePipeline from '../middleware/middlewarePipeline'
+import middleware from '../middleware'
 import ItemsView from '../views/ItemsView.vue'
 import LoginView from '../views/LoginView.vue'
 import CustomerView from '../views/CustomerView.vue'
@@ -26,164 +20,118 @@ const router = createRouter({
     {
       path: '/',
       redirect: {
-        name: "items",
-        meta: {
-                middleware: [auth],
-              },
-    }
+        name: "itemsView"
+        },
+      meta: {
+        middleware: [middleware]
+      }
     },
     {
       path: '/login',
       name: 'login',
       component: LoginView,
-      meta: {
-        middleware: [guest],
-      },
     },
     {
       path: '/items',
-      name: 'items',
+      name: 'itemsView',
       component: ItemsView,
       meta: {
-        middleware: [auth],
-      },
+        middleware: [middleware]
+      }
+
     },
     {
       path: '/customers',
       name: 'customers',
       component: CustomerView,
       meta: {
-        middleware: [auth],
-      },
+        middleware: [middleware]
+      }
     },
     {
       path: '/suppliers',
       name: 'suppliers',
       component: SupplierView,
-      meta: {
-        middleware: [auth],
-      },
     },
     {
       path: '/users',
       name: 'users',
       component: UserView,
-      meta: {
-        middleware: [auth],
-      },
     },
     {
       path: '/in',
       name: 'initems',
       component: InItems,
-      meta: {
-        middleware: [auth],
-      },
     },
     {
       path: '/production',
       name: 'productions',
       component: ProductView,
-      meta: {
-        middleware: [auth],
-      },
     },
     {
       path: '/out',
       name: 'outitems',
       component: OutItem,
-      meta: {
-                middleware: [auth],
-              },
     },
     {
       path: '/send',
       name: 'send',
       component: SendView,
-      meta: {
-                middleware: [auth],
-              },
     },
     {
       path: '/stock-report',
       name: 'stockreport',
       component: StockReport,
-      meta: {
-                middleware: [auth],
-              },
     },
     {
       path: '/in-report',
       name: 'inreport',
       component: InReport,
-      meta: {
-                middleware: [auth],
-            },
     },
     {
       path: '/out-report',
       name: 'outreport',
       component: OutReport,
-      meta: {
-                middleware: [auth],
-            },
     },
     {
       path: '/log-report',
       name: 'log',
       component: LogView,
-      meta: {
-                middleware: [auth],
-            },
     },
   ]
 })
+
 router.beforeEach((to, from, next) => {
   if (!to.meta.middleware) {
-      return next()
+    return next();
   }
-  const middleware = to.meta.middleware
+
+  const middleware = to.meta.middleware;
 
   const context = {
-      to,
-      from,
-      next,
-      store
-  }
+    from,
+    next,
+    router,
+    to,
+  };
+
   return middleware[0]({
     ...context,
-    next: middlewarePipeline(context, middleware, 1)
-})
+    next: middlewarePipeline(context, middleware, 1),
+  });
+});
 
-})
+function middlewarePipeline(context, middleware, index) {
+  const nextMiddleware = middleware[index];
 
+  if (!nextMiddleware) {
+    return context.next;
+  }
 
-// router.beforeEach((to, from, next) => {
-//   if (to.meta.middleware) {
-//     const middleware = to.meta.middleware
-//     const context = { to, from, next }
+  return () => {
+    const nextPipeline = middlewarePipeline(context, middleware, index + 1);
+    nextMiddleware({ ...context, next: nextPipeline });
+  };
+}
 
-//     middleware[0]({
-//       ...context,
-//       next: middlewarePipeline(context, middleware, 1)
-//     })
-//   }else {
-//     next()
-//   }
-// })
-
-// function middlewarePipeline(context, middleware, index) {
-//   const nextMiddleware = middleware[index]
-
-//   if(!nextMiddleware){
-//     return context.next
-//   }
-
-//   return () => {
-//     nextMiddleware({
-//       ...context,
-//       next: middlewarePipeline(context, middleware, index + 1)
-//     })
-//   }
-// }
 export default router

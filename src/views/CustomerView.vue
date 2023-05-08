@@ -4,8 +4,7 @@ import TableVue from '../components/TableVue.vue';
 import DialogCard from '../components/DialogCard.vue';
 import NavDrawers from '../components/NavDrawers.vue';
 import AppBar from '../components/AppBar.vue';
-import axios from 'axios'
-
+import api from '../api';
 
 </script>
 
@@ -33,20 +32,39 @@ import axios from 'axios'
           'Mesin & Peralatan',
         ],
         headers: [
-          { title: 'Kode Pelanggan', key: 'kode_pelanggan'},
+          { title: 'Kode Pelanggan', key: 'kode_pelanggan', dis: true},
           { title: 'Nama', key: 'nama' },
           { title: 'Alamat', key: 'alamat' },
           { title: 'NPWP', key: 'npwp' },
           { title: '', key: 'actions', sortable: false},
         ],
-        items:[],
-        form: {
+        items:'',
+        keyform: [
+          'kode_pelanggan',
+          'nama',
+          'alamat',
+          'npwp',
+          'status'
+        ],
+        tambah: {
           kode_pelanggan: '',
           nama: '',
           alamat: '',
           npwp: '',
+          status: true
         }
       }
+    },
+    created() {
+        api.getData('/pelanggan?status=true')
+        .then(response => {
+          this.items = response.data
+        })
+        .catch(() => {
+          window.location.href = '/login'
+        })
+
+        
     },
     methods: {
       ExportToExcel(type, fn, dl) {
@@ -59,135 +77,85 @@ import axios from 'axios'
          // eslint-disable-next-line no-undef
          XLSX.writeFile(wb, fn || (this.pageTitle+'.' + (type || 'xlsx')));
     },
-      // wait(ms) {
-      //   return new Promise(resolve => setTimeout(resolve, ms))
-      // },
-      // async updated() {
-      //   // eslint-disable-next-line no-constant-condition
-      //   while (true) {
-      //     await this.getdata()
-      //     await this.wait(5000)
-      //   }
-      // },
-      successAlert() {
+      successAlert(m) {
         this.$swal.fire(
-          'Success !',
-          'Data berhasil diubah',
+          'Berhasil !',
+          m,
           'success'
         )
       },
-      failedAlert() {
+      failedAlert(m) {
         this.$swal.fire(
-          'Failed !',
-          'Gagal melakukan perubahan data !',
+          'Gagal !',
+          m,
           'error'
         )
       },
+      // TAMBAH DATA
       submitForm(value) {
-          axios.interceptors.request.use(
-            config => {
-              const token = localStorage.getItem('token')
-              if (token) {
-                config.headers.Authorization = `Bearer ${token}`
-              }
-              return config
-            },
-            error => Promise.reject(error)
-          )
-          axios.post('http://localhost:8000/pelanggan', {
-            id: '',
-            kode_pelanggan: value[0],
-            nama: value[1],
-            alamat: value[2],
-            npwp: value[3],
-            status: true
-          })
-          .then(() => {
-              // return
-              this.successAlert()
-              location.reload()
-            })
-          .catch(() => {
-              // return
-              this.failedAlert()
-              location.reload()
-            })
-      },
-      editForm(value) {
-        let edt = value[0]
-        let def = value[1]
-        
-        axios.interceptors.request.use(
-          config => {
-            const token = localStorage.getItem('token')
-            if (token) {
-              config.headers.Authorization = `Bearer ${token}`
-            }
-            return config
-          },
-          error => Promise.reject(error)
-        )
-        
-        axios.put(`http://localhost:8000/pelanggan/${def.id}`, {
-          id: def.id,
-          kode_pelanggan: edt[0] || def.kode_pelanggan,
-          nama: edt[1] || def.nama,
-          alamat: edt[2] || def.alamat,
-          npwp: edt[3] || def.npwp,
-          status: true
+      const myJSON = JSON.stringify(value);
+        api.postData( '/pelanggan', {
+          pelanggan : myJSON
         })
-          .then(() => {
-            // return
-            this.successAlert()
-            location.reload()
+        .then((response) => {
+            this.successAlert(response.data)
+            window.location.href = '/pelanggan'
           })
-          .catch(() => {
-            // return
-            this.failedAlert()
-            location.reload()
+          .catch((error) => {
+            this.failedAlert(error.response.data)
           })
-      }, 
-      del(v) {
-        axios.interceptors.request.use(
-          config => {
-            const token = localStorage.getItem('token')
-            if (token) {
-              config.headers.Authorization = `Bearer ${token}`
-            }
-            return config
-          },
-          error => Promise.reject(error)
-        )
-        axios.delete(`http://localhost:8000/pelanggan/${v}`)
-        .then(() => {
-            // return
-             this.successAlert()
-             location.reload()
-          })
-          .catch(() => {
-            // return
-             this.failedAlert()
-             location.reload()
-          })
-        }
       },
-      async mounted() {
-        try {
-          const token = localStorage.getItem('token')
-          const response = await fetch('http://localhost:8000/pelanggan', {
-            headers: {
-              Authorization: `Bearer ${token}`
-            }
+      // EDIT DATA
+      editForm(value) {
+      console.log(value);
+      const myJSON = JSON.stringify(value);
+        api.putData('/pelanggan', {
+          pelanggan : myJSON
+        })
+        .then(function (response) {
+          this.successAlert(response.data)
           })
-          const data = await response.json()
-          this.items = data
-        }
-        catch (error) {
-          console.log(error);
-        }
-        
-
+          .catch(function (error) {
+            this.failedAlert(error.response.data);
+          })
+      },
+      // HAPUS DATA
+      del(value) {
+      console.log(value);
+      this.pelanggan = {
+              kode_pelanggan : value.kode_pelanggan,
+              nama : value.kode_pelanggan,
+              alamat: value.alamat,
+              npwp: value.npwp,
+              status: false,
       }
+      const myJSON = JSON.stringify(this.pelanggan);
+        api.deleteData('/pelanggan', {
+          pelanggan : myJSON
+        })
+        // ALERT
+            this.$swal.fire({
+              title: 'Apakah anda yakin?',
+              text: "",
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Ya'
+            }).then((response) => {
+              if (response.isConfirmed) {
+                this.$swal.fire(
+                  'Berhasil !',
+                  'Data Berhasil Dihapus!',
+                  'success'
+                )
+              }
+            })
+          .catch(function (error) {
+            this.failedAlert(error.response.data)
+          })
+      }
+    }
   })
 
 </script>
@@ -197,22 +165,22 @@ import axios from 'axios'
   <v-container>
     <v-row no-gutters class="bg-white align-center justify-between rounded-lg pa-4 mb-4">
     <v-responsive class="d-flex me-2" max-width="300">
-      <div class="d-flex w-100">
+        <!-- SEARCH -->
         <v-text-field
               v-model="search"
               density="compact"
-              label="Search"
-              class="text-blue-darken-4 rounded-select"
+              class="bg-indigo-lighten-5 text-indigo-darken-4 rounded-lg me-2"
               variant="tonal"
+              append-inner-icon="mdi-magnify"
               single-line
               hide-details
         ></v-text-field>
-      </div>
     </v-responsive>
     <v-responsive>
         <div class="d-flex float-right">
-          <!-- add data -->
-            <DialogCard :noselect="statusselect"  @form="submitForm" :screen="400" :iTitle="actIcon[0].text" :btncolor="actIcon[0].color" :icon="actIcon[0].icon" :iVariant="actIcon[0].variant" :headers="headers" :items="items" :category="category"  :alpha="alpha"/>
+          <!-- TAMBAH DATA -->
+            <DialogCard :keyform="keyform" :tambah="tambah" :ishidden="true" :noselect="statusselect"  @form="submitForm" :screen="400" :iTitle="actIcon[0].text" :btncolor="actIcon[0].color" :icon="actIcon[0].icon" :iVariant="actIcon[0].variant" :headers="headers" :items="items" :category="category"  :alpha="alpha"/>
+            <!-- EKSPORT DATA -->
             <v-btn
             color="indigo-darken-1"
             icon="mdi-download"
@@ -225,7 +193,7 @@ import axios from 'axios'
     </v-responsive>
     </v-row>
     <!-- edit -->
-    <TableVue :noselect="statusselect" @edit="editForm" @del="del" id="tbl_exporttable_to_xls" :screen="400"  :headers="headers" :items="items" :search="search" :category="category" :iTitle="actIcon[1].text" :btncolor="actIcon[1].color" :icon="actIcon[1].icon" :iVariant="actIcon[1].variant" :alpha="alpha" :form="form"/>
+    <TableVue :keyform="keyform" :noselect="statusselect" @edit="editForm" @del="del" id="tbl_exporttable_to_xls" :screen="400"  :headers="headers" :items="items" :search="search" :category="category" :iTitle="actIcon[1].text" :btncolor="actIcon[1].color" :icon="actIcon[1].icon" :iVariant="actIcon[1].variant" :alpha="alpha" :form="form"/>
   </v-container>
   </template>
 

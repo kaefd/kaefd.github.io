@@ -2,6 +2,7 @@
 import TableVue from '../components/TableVue.vue';
 import NavDrawers from '../components/NavDrawers.vue';
 import AppBar from '../components/AppBar.vue';
+import api from '../api';
 </script>
 <script>
   export default {
@@ -15,25 +16,45 @@ import AppBar from '../components/AppBar.vue';
         pageTitle:'DATA SUPPLIER',
         search: '',
         alpha: 0,
-        statusselect: true,
         headers: [
-          { title: 'Kode Supplier', align: 'start', key: 'kode_supplier'},
-          { title: 'Nama', align: 'start', key: 'nama' },
-          { title: 'Alamat', align: 'start', key: 'alamat' },
-          { title: 'Kota', align: 'start', key: 'kota' },
-          { title: 'Negara', align: 'start', key: 'negara' },
+          { title: 'Kode Supplier', align: 'start', key: 'kode_supplier', dis: true},
+          { title: 'Nama', align: 'start', key: 'nama', dis: true },
+          { title: 'Alamat', align: 'start', key: 'alamat', dis: true },
+          { title: 'Kota', align: 'start', key: 'kota', dis: true },
+          { title: 'Negara', align: 'start', key: 'negara', dis: true },
           { title: '', align: 'start', key: 'actions', sortable: false },
         ],
         items: [],
-        form: {
+        keyform: [
+          'kode_supplier',
+          'nama',
+          'alamat',
+          'kota',
+          'negara',
+          'status'
+      ],
+        tambah: {
           kode_supplier: '',
           nama: '',
           alamat: '',
           kota: '',
           negara: '',
+          status: true
         }
       }
     },
+    created() {
+        api.getData('/supplier?status=true')
+        .then(response => {
+          this.items = response.data
+        })
+        .catch(() => {
+          window.location.href = '/login'
+        })
+
+        
+    },
+
     methods:{
       suppCode(){
         let s = []
@@ -52,25 +73,22 @@ import AppBar from '../components/AppBar.vue';
          // eslint-disable-next-line no-undef
          XLSX.writeFile(wb, fn || (this.pageTitle+'.' + (type || 'xlsx')));
         },
-    },
-    async mounted() {
-      try {
-            const token = localStorage.getItem('token')
-            const response = await fetch('http://localhost:8000/supplier', {
-              headers: {
-                Authorization: `Bearer ${token}`
-              }
-            })
-            const data = await response.json()
-            this.items = data
-          }
-          catch (error) {
-            console.log(error);
-          }
-          
+      },
+        successAlert(m) {
+          this.$swal.fire(
+            'Berhasil !',
+            m,
+            'success'
+          )
         },
-    }
-  
+        failedAlert(m) {
+          this.$swal.fire(
+            'Gagal !',
+            m,
+            'error'
+          )
+        },
+  }  
 </script>
 <template>
   <NavDrawers v-model="drawer"/>
@@ -78,17 +96,15 @@ import AppBar from '../components/AppBar.vue';
 <v-container>
   <v-row no-gutters class="bg-white align-center pa-4 mb-3 rounded-lg ">
     <v-responsive class="d-flex me-2" max-width="300" cols="6" xs="4">
-      <div class="d-flex">
+        <!-- SEARCH -->
         <v-text-field
-              v-model="search"
-              density="compact"
-              label="Search"
-              variant="tonal"
-              class="text-blue-darken-4 w-50 rounded-select"
-              single-line
-              hide-details
-            ></v-text-field>
-      </div>
+          density="compact"
+          variant="tonal"
+          class="bg-indigo-lighten-5 text-indigo-darken-4 rounded-lg"
+          append-inner-icon="mdi-magnify"
+          single-line
+          hide-details
+        ></v-text-field>
     </v-responsive>
     <v-responsive cols="6" xs="4">
         <div class="d-flex float-right">
@@ -104,7 +120,7 @@ import AppBar from '../components/AppBar.vue';
     </v-responsive>
     </v-row>
     <!-- VIEW -->
-    <TableVue :disabled="statusselect" :noselect="statusselect" id="tbl_exporttable_to_xls" :screen="400" :headers="headers" :items="items" :search="search" :category="suppCode()" :iTitle="actIcon[1].text" :btncolor="actIcon[1].color" :icon="actIcon[1].icon" :iVariant="actIcon[1].variant" :alpha="alpha"/>
+    <TableVue :keyform="keyform" :ishidden="true" :disabled="true" :noselect="true" id="tbl_exporttable_to_xls" :screen="400" :headers="headers" :items="items" :search="search" :category="suppCode()" :iTitle="actIcon[3].text" :btncolor="actIcon[3].color" :icon="actIcon[3].icon" :iVariant="actIcon[3].variant" :alpha="alpha"/>
 </v-container>
   </template>
 <style>

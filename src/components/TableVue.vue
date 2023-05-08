@@ -5,11 +5,12 @@ import DialogCard from './DialogCard.vue';
 <script>
 export default {
     components: { VDataTable, DialogCard },
-    props: ['disabled', 'headers', 'items', 'search', 'category', 'btncolor', 'iTitle', 'icon', 'iVariant', 'alpha', 'screen', 'form', 'noselect'],
+    props: ['loading', 'disabled', 'keyform', 'headers', 'items', 'search', 'category', 'btncolor', 'iTitle', 'icon', 'iVariant', 'alpha', 'screen', 'form', 'noselect', 'ishidden'],
     
     data () {
       return {
         dialog: false,
+        page: 1,
       }
     },
     methods:{
@@ -41,20 +42,22 @@ export default {
 </script>
 <template>
     <v-sheet class="p-4 rounded-lg" >
+      <!-- TABEL DATA -->
     <v-data-table
+      v-model:page="page"
       :headers="headers"
       :items="items"
       :search="search"
       :hover="true"
       :fixed-header="true"
-      :variant="tonal"
-      class="text-body-2 py-3 px-5 rounded-select"
+      hide-default-footer
+      class="text-caption py-3 px-5 rounded-lg"
       height="400"
     >
-    <!-- dialog actions -->
+    <!-- ACTION DELETE & EDIT -->
       <!-- eslint-disable-next-line vue/valid-v-slot -->
       <template v-slot:item.actions="{ item }">
-        <DialogCard :disabled="disabled" :noselect="noselect" :form="form" @edit="edit" @del="del" :item="item" :screen="screen" :headers="headers" :items="items" :category="category" :btncolor="btncolor" :icon="icon" :iTitle="iTitle" :iVariant="iVariant"  :alpha="alpha"/>
+          <DialogCard :ishidden="ishidden" :keyform="keyform" :intable="true" :disabled="disabled" :noselect="noselect" :form="item.raw" @edit="edit" @del="del" :item="item" :screen="screen" :headers="headers" :items="items" :category="category" :btncolor="btncolor" :icon="icon" :iTitle="iTitle" :iVariant="iVariant"  :alpha="alpha" />
       </template>
     </v-data-table>
     </v-sheet>

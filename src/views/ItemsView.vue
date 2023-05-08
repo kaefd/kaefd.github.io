@@ -4,7 +4,7 @@ import DialogCard from '../components/DialogCard.vue';
 import NavDrawers from '../components/NavDrawers.vue';
 import AppBar from '../components/AppBar.vue';
 import { defineComponent } from 'vue';
-import axios from 'axios'
+import api from '../api';
 </script>
 
 
@@ -25,7 +25,6 @@ export default defineComponent ({
         pageTitle: 'DATA BARANG',
         selectCategory: 'semua',
         btnTitle: 'Tambah Data',
-        cardTitle: 'Detail Barang',
         id: ['C', 'R', 'U', 'D'],
         alpha: 1,
         statusselect: false,
@@ -44,17 +43,35 @@ export default defineComponent ({
           { title: 'Nama Barang', key: 'nama_barang' },
           { title: 'HS Kode', key: 'hs_code' },
           { title: 'Satuan', key: 'satuan' },
-          { title: '', key: 'actions', sortable: false},
+          { title: 'Actions', key: 'actions', sortable: false},
         ],
-        items: [],
-        form: {
+        items: '',
+        keyform:[
+          'kategori_barang',
+          'kode_barang',
+          'nama_barang',
+          'hs_code',
+          'satuan',
+          'status',
+      ],
+      tambah: {
           kategori_barang: '',
           kode_barang: '',
           nama_barang: '',
           hs_code: '',
           satuan: '',
+          status: true,
         }
       }
+    },
+    created() {
+        api.getData('/barang?status=true')
+        .then(response => {
+          this.items = response.data
+        })
+        .catch(() => {
+          window.location.href = '/login'
+        })
     },
     methods: {
       selected(){        
@@ -75,129 +92,84 @@ export default defineComponent ({
          // eslint-disable-next-line no-undef
          XLSX.writeFile(wb, fn || (this.pageTitle+'.' + (type || 'xlsx')));
     },
-    successAlert() {
+    successAlert(m) {
       this.$swal.fire(
-        'Success !',
-        'Data berhasil diubah',
+        'Berhasil !',
+        m,
         'success'
       )
     },
-    failedAlert() {
+    failedAlert(m) {
       this.$swal.fire(
-        'Failed !',
-        'Gagal melakukan perubahan data !',
+        'Gagal !',
+        m,
         'error'
       )
     },
+    // TAMBAH DATA
     submitForm(value) {
-        axios.interceptors.request.use(
-          config => {
-            const token = localStorage.getItem('token')
-            if (token) {
-              config.headers.Authorization = `Bearer ${token}`
-            }
-            return config
-          },
-          error => Promise.reject(error)
-        )
-        axios.post('http://localhost:8000/barang', {
-          id: '',
-          kategori_barang: value[0],
-          kode_barang: value[1],
-          nama_barang: value[2],
-          hs_code: value[3],
-          satuan: value[4],
-          status: true
+        api.postData( '/barang', {
+          barang : value
         })
-        .then(() => {
-            // return  
-            this.successAlert()
-            location.reload()
+        .then((response) => {
+            this.successAlert(response.data)
+            window.location.href = '/'
           })
-          .catch(() => {
-            // return 
-            this.failedAlert()
-            location.reload()
+          .catch((error) => {
+            this.failedAlert(error.response.data)
           })
       },
+      // EDIT DATA
       editForm(value) {
-        let edt = value[0]
-        let def = value[1]
-        
-        axios.interceptors.request.use(
-          config => {
-            const token = localStorage.getItem('token')
-            if (token) {
-              config.headers.Authorization = `Bearer ${token}`
-            }
-            return config
-          },
-          error => Promise.reject(error)
-        )
-        
-        axios.put(`http://localhost:8000/barang/${def.id}`, {
-          id: def.id,
-          kategori_barang: edt[0] || def.kategori_barang,
-          kode_barang: edt[1] || def.kode_barang,
-          nama_barang: edt[2] || def.nama_barang,
-          hs_code: edt[3] || def.hs_code,
-          satuan: edt[4] || def.satuan,
-          status: true
+      const myJSON = JSON.stringify(value);
+        api.putData('/barang', {
+          barang : myJSON
         })
-          .then(() => {
-            // return 
-            this.successAlert()
-            location.reload()
+        .then((response) => {
+            this.successAlert(response.data)
           })
-          .catch(() => {
-            // return 
-            this.failedAlert()
-            location.reload()
+          .catch((error) => {
+            this.failedAlert(error.response.data);
           })
       },
-      
-      del(v) {
-        
-        axios.interceptors.request.use(
-          config => {
-            const token = localStorage.getItem('token')
-            if (token) {
-              config.headers.Authorization = `Bearer ${token}`
-            }
-            return config
-          },
-          error => Promise.reject(error)
-        )
-        axios.delete(`http://localhost:8000/barang/${v}`)
-          .then(() => {
-              // return
-              this.successAlert()
-              location.reload()
-          })
-          .catch(() => {
-              // return
-              this.failedAlert()
-              location.reload()
-          })
-          
+      // HAPUS DATA
+      del(value) {
+      this.barang = {
+              kategori_barang : value.kategori_barang,
+              kode_barang : value.kode_barang,
+              nama_barang: value.nama_barang,
+              hs_code: value.hs_code,
+              satuan: value.satuan,
+              status: false,
       }
-    },
-    async mounted() {
-        try {
-          const token = localStorage.getItem('token')
-          const response = await fetch('http://localhost:8000/barang', {
-            headers: {
-              Authorization: `Bearer ${token}`
-            }
+      const myJSON = JSON.stringify(this.barang);
+        api.deleteData('/barang', {
+          barang : myJSON
+        })
+            this.$swal.fire({
+              title: 'Apakah anda yakin?',
+              text: "",
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Ya'
+            }).then((response) => {
+              if (response.isConfirmed) {
+                this.$swal.fire(
+                  'Berhasil !',
+                  'Data Berhasil Dihapus!',
+                  'success'
+                )
+              }
+            })
+          .catch(function (error) {
+            console.log(error);
           })
-          const data = await response.json()
-          this.items = data
-        }
-        catch (error) {
-          console.log(error);
-        }
-        
-
+      },
+    },
+    mounted() {
+        api.getData
       }
       
   })
@@ -211,51 +183,52 @@ export default defineComponent ({
 
 
     <v-row no-gutters class="bg-white align-center pa-4 mb-4 rounded-lg w-100">
-      <v-responsive class="d-flex ms-2 align-center mb-sm-0 mb-3" max-width="400" max-height="70">
-        <div class="d-flex w-100">
+      <v-responsive class="d-flex align-center mb-sm-0 mb-3" max-width="300" max-height="70">
+        <div class="w-100">
           <!-- KATEGORI -->
-          <v-label class="text-body-1 text-blue-darken-4 me-2">Kategori</v-label>
+          <v-label class="text-body-2 text-blue-darken-4">Kategori</v-label>
           <v-select
             :items="category"
             v-model="selectCategory"
             density="compact"
-            variant="solo"
-            class="text-blue-darken-4 rounded-select"
+            variant="tonal"
+            class="bg-indigo-lighten-5 text-indigo-darken-4 rounded-lg me-2"
             single-line
             hide-details
           ></v-select>
         </div>
       </v-responsive>
-      <v-responsive class="me-0 ms-auto" max-width="400">
+      <v-responsive class="me-0 ms-auto mt-6" max-width="350" min-width="200">
         <div class="d-flex align-center w-100">
+            <!-- SEARCH -->
+              <v-text-field
+                  v-model="search"
+                  density="compact"
+                  variant="tonal"
+                  class="bg-indigo-lighten-5 text-indigo-darken-4 rounded-lg me-2 text-body-2"
+                  append-inner-icon="mdi-magnify"
+                  single-line
+                  hide-details
+              ></v-text-field>
+
             <!-- ADD BUTTON -->
-            <DialogCard :noselect="statusselect" @form="submitForm" :screen="400" :iTitle="actIcon[0].text" :btncolor="actIcon[0].color" :icon="actIcon[0].icon" :iVariant="actIcon[0].variant" :headers="headers" :items="items" :category="category" :alpha="alpha" :submitForm="submitForm"/>
+            <DialogCard :keyform="keyform" :tambah="tambah" :ishidden="true" :noselect="statusselect" @form="submitForm" :screen="400" :iTitle="actIcon[0].text" :btncolor="actIcon[0].color" :icon="actIcon[0].icon" :iVariant="actIcon[0].variant" :headers="headers" :items="items" :category="category" :alpha="alpha" :submitForm="submitForm"/>
             <!-- EXPORT BUTTON -->
             <v-btn
               color="indigo-darken-1"
               icon="mdi-download"
-              class="rounded-lg mx-2"
+              class="rounded-lg ms-2"
               variant="tonal"
               size="small"
               @click="ExportToExcel('xlsx')"
             ></v-btn>
 
-            <!-- SEARCH -->
-            <v-text-field
-                v-model="search"
-                density="compact"
-                label="Search"
-                variant="solo"
-                class="text-blue-darken-4 rounded-select"
-                single-line
-                hide-details
-            ></v-text-field>
 
           </div>
       </v-responsive>
       </v-row>
-      <!-- EDIT BUTTON -->
-        <TableVue :noselect="statusselect" @edit="editForm" @del="del" id="tbl_exporttable_to_xls" :screen="400"  :headers="headers" :items="selected()" :search="search" :category="category" :selectCategory="selectCategory" :iTitle="actIcon[1].text" :btncolor="actIcon[1].color" :icon="actIcon[1].icon" :iVariant="actIcon[1].variant" :alpha="alpha" :form="form"/>
+      <!-- TABLE -->
+        <TableVue :keyform="keyform" :noselect="statusselect" @edit="editForm" @del="del" id="tbl_exporttable_to_xls" :screen="400"  :headers="headers" :items="selected()" :search="search" :category="category" :selectCategory="selectCategory" :iTitle="actIcon[1].text" :btncolor="actIcon[1].color" :icon="actIcon[1].icon" :iVariant="actIcon[1].variant" :alpha="alpha" :form="form"/>
   </v-container>
   </template>
 <style>
@@ -271,11 +244,13 @@ export default defineComponent ({
 }
 
 .rounded-select .v-input__control {
-  border-width: 1px;
-  border-style: solid;
   border-radius: 7px;
-  border-color: #112ebe;
-  box-shadow: none;
+}
+.v-select__selection-text {
+  font-size: 11pt;
+}
+.v-field__input {
+  font-size: 11pt;
 }
 
 </style>

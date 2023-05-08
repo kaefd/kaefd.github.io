@@ -9,7 +9,9 @@ export default {
       return {
         actIcon: [
           { text: 'Tambah Data', icon: 'mdi-plus', color: 'indigo-darken-1', variant: 'tonal' },
-          { text: 'Edit Data', icon: 'mdi-dots-vertical', color: 'grey-darken-1', variant: 'text' },
+          { text: 'Edit Data', icon: 'mdi-pencil', color: 'indigo-darken-1', variant: 'tonal', width: '30px', height: '30px' },
+          { text: 'Hapus Data', icon: 'mdi-delete', color: 'red-darken-1', variant: 'tonal', width: '30px', height: '30px' },
+          { text: 'Detail Data', icon: 'mdi-dots-vertical', color: 'grey-darken-1', variant: 'text', width: '30px', height: '30px' },
         ],
       }
     },

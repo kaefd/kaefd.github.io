@@ -21,7 +21,7 @@ import { ref, onMounted } from 'vue';
         drawer: null,
         search: '',
         date: '',
-        pageTitle: 'PEMASUKAN BARANG',
+        pageTitle: 'LAPORAN PEMASUKAN BARANG',
         selectCategory: 'semua',
         btnTitle: 'Tambah Data',
         cardTitle: 'Detail Barang',
@@ -101,39 +101,46 @@ import { ref, onMounted } from 'vue';
   <AppBar @click.stop="drawer = !drawer" :pageTitle="pageTitle"/>
 
   <v-container>
-    <v-row no-gutters class="bg-white align-center px-4 pb-lg-0 pb-4 my-1 mb-3 rounded-lg">
-      <v-responsive class="overflow-visible me-2 w-100" max-width="700" max-height="70" cols="6" xs="4">
-        <div class="d-flex mt-4 align-start">
-          <!-- select tipe dokumen -->
-          <v-select
-            label="Select"
-            value="Tioe Dokumen"
-            :items="category"
-            v-model="selectCategory"
-            density="compact"
-            variant="outlined"
-            class="text-blue-darken-4 me-2 w-50"
-            single-line
-          ></v-select>
-          <!-- date field -->
-          <VueDatePicker v-model="date" :enable-time-picker="false" range/>
+    <v-row no-gutters class="bg-white align-center pa-4 mb-3 rounded-lg">
+      <v-responsive class="overflow-visible me-2 w-100"  max-width="400">
+        <div class="d-flex w-100">
+          <!-- TIPE DOKUMEN -->
+          <v-div class="w-100">
+            <v-label class="text-body-2 pe-7">Tipe Dokumen</v-label>
+            <v-select
+              label="Select"
+              :items="category"
+              v-model="selectCategory"
+              density="compact"
+              variant="solo"
+              class="text-blue-darken-4 rounded-select me-2"
+              single-line
+              hide-details
+            ></v-select>
+          </v-div>
+          <!-- PERIODE -->
+          <v-div class="w-100">
+            <v-label v-label class="text-body-2 text-blue-darken-4 pe-7">Periode</v-label>
+            <VueDatePicker v-model="periode" range :enable-time-picker="false" hide-offset-dates max-range="30" :max-date="new Date()"  @update:v-model="periode" input-class-name="dp-custom-input"/>
+          </v-div>
         </div>
       </v-responsive>
-      <v-responsive cols="6" xs="4">
-          <div class="d-flex align-center float-lg-right float-sm-left w-75">
-          <!-- search field -->
+      <v-responsive class="me-sm-0 ms-sm-auto ms-0 me-auto" max-width="400">
+          <div class="d-flex align-center  pt-6">
+          <!-- SEARCH -->
           <v-text-field
                 v-model="search"
                 density="compact"
                 label="Search"
-                variant="outlined"
-                class="text-blue-darken-4 pt-5 me-2"
+                variant="solo"
+                class="text-blue-darken me-2 rounded-select w-50"
+                single-line
+                hide-details
           ></v-text-field>
-
               <v-btn
               color="indigo-darken-1"
               icon="mdi-download"
-              class="rounded-lg ms-2"
+              class="rounded-lg"
               variant="tonal"
               size="small"
               @click="ExportToExcel('xlsx')"
@@ -142,7 +149,7 @@ import { ref, onMounted } from 'vue';
       </v-responsive>
       </v-row>
       <!-- edit data -->
-        <TableVue id="tbl_exporttable_to_xls"  :headers="headers" :items="selected()" :search="search" :category="category" :selectCategory="selectCategory" :iTitle="actIcon[1].text" :btncolor="actIcon[1].color" :icon="actIcon[1].icon" :iVariant="actIcon[1].variant" :alpha="alpha"/>
+        <TableVue id="tbl_exporttable_to_xls" :screen="400"  :headers="headers" :items="selected()" :search="search" :category="category" :selectCategory="selectCategory" :iTitle="actIcon[1].text" :btncolor="actIcon[1].color" :icon="actIcon[1].icon" :iVariant="actIcon[1].variant" :alpha="alpha" />
   </v-container>
 
 </template>

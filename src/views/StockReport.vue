@@ -79,39 +79,44 @@ import AppBar from '../components/AppBar.vue';
     <AppBar @click.stop="drawer = !drawer" :pageTitle="pageTitle"/>
 
     <v-container>
-    <v-row no-gutters class="bg-white align-center px-4 pb-lg-0 pb-4 my-1 mb-3 rounded-lg">
-      <v-responsive class="d-flex me-2 w-100" max-width="400" max-height="70" cols="6" xs="4">
-        <div class="d-flex mt-4">
+    <v-row no-gutters class="bg-white align-center pt-3 px-4 mb-3 rounded-lg">
+      <v-responsive class="overflow-visible me-2 w-100" max-width="400">
+        <div class="d-flex">
           <v-select
+          :items="category"
+          v-model="selectCategory"
+          density="compact"
+          variant="outlined"
+          class="text-blue-darken-4 me-2 w-100 pt-6"
+          single-line
+          ></v-select>
+          <div class="w-100">
+            <v-label class="text-body-2">Tipe Dokumen</v-label>
+            <v-select
             label="Tipe Dokumen"
             :items="category"
             v-model="selectCategory"
             density="compact"
             variant="outlined"
-            class="text-blue-darken-4 me-2 w-25"
+            class="text-blue-darken-4 me-2"
             single-line
-          ></v-select>
-          <v-select
-            label="Tipe Dokumen"
-            :items="category"
-            v-model="selectCategory"
-            density="compact"
-            variant="outlined"
-            class="text-blue-darken-4 me-2 w-25"
-            single-line
-          ></v-select>
+            hide-details
+            ></v-select>
+          </div>
         </div>
       </v-responsive>
-      <v-responsive cols="6" xs="4">
-          <div class="d-flex align-center float-lg-right float-sm-left w-50">
+      <v-responsive class="me-sm-0 ms-sm-auto ms-0 me-auto" max-width="400">
+          <div class="d-flex align-center">
+            <!-- SEARCH -->
             <v-text-field
                 v-model="search"
                 density="compact"
                 label="Search"
-                variant="outlined"
-                class="text-blue-darken-4 mt-5"
+                variant="solo"
+                class="text-blue-darken-4 rounded-select"
+                hide-details
+                single-line
             ></v-text-field>
-
               <v-btn
               color="indigo-darken-1"
               icon="mdi-download"

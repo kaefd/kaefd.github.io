@@ -60,18 +60,7 @@ import { ref, onMounted } from 'vue';
           { title: 'Total Penjualan', key: 'total' },
           { title: '', key: 'actions', sortable: false},
         ],
-        items: [
-          {
-            // numOut: 1,
-            // dateOut: 159,
-            // doctype: 6.0,
-            // docNumb: 24,
-            // pelanggan: 4.0,
-            // codeGroup: 'idr',
-            // total: 2,
-            // rp: 14000
-          },
-        ],
+        items: [],
         headDetails:[
           {title: 'Kode Barang', key: 'codeItem' },
           {title: 'Nama Barang', key: 'nameItem' },
@@ -135,60 +124,63 @@ import { ref, onMounted } from 'vue';
   <AppBar @click.stop="drawer = !drawer" :pageTitle="pageTitle"/>
 
   <v-container>
-    <v-row no-gutters class="bg-white align-center px-4 pb-lg-0 pb-4 my-1 mb-3 rounded-lg">
-      <v-responsive class="overflow-visible me-2 w-100 " max-width="600" max-height="70" cols="6" xs="4">
-        <div class="d-flex pt-4 pb-5 align-start">
-          <!-- select tipe dokumen -->
-          <v-label class="my-auto me-1 text-wrap text-body-2">Tipe Dokumen</v-label>
-          <v-select
-            :items="category"
-            v-model="selectCategory"
-            density="compact"
-            variant="outlined"
-            class="text-blue-darken-4 me-2 w-25"
-            single-line
-            hide-details
-          ></v-select>
-          <!-- date field -->
-          <v-div class="d-flex align-center">
-            <v-label class="pe-1">Tanggal</v-label>
-            <VueDatePicker v-model="date" range :enable-time-picker="false" class="w-50"/>
+    <v-row no-gutters class="bg-white align-center pa-4 mb-3 rounded-lg">
+      <v-responsive class="overflow-visible me-2 w-100" max-width="400">
+        <div class="d-flex align-start w-100">
+          <!-- TIPE DOKUMEN -->
+          <div class="w-100">
+            <v-label class="text-body-2 text-wrap2">Tipe Dokumen</v-label>
+            <v-select
+              :items="category"
+              v-model="selectCategory"
+              density="compact"
+              variant="solo"
+              class="text-blue-darken-4 rounded-select me-2"
+              single-line
+              hide-details
+            ></v-select>
+          </div>
+          <!-- PERIODE -->
+          <v-div class="w-100">
+            <v-label v-label class="text-body-2 text-blue-darken-4 pe-7">Periode</v-label>
+            <VueDatePicker v-model="periode" range :enable-time-picker="false" hide-offset-dates max-range="30" :max-date="new Date()"  @update:v-model="periode" input-class-name="dp-custom-input"/>
           </v-div>
         </div>
       </v-responsive>
-      <v-responsive cols="6" xs="4">
-          <div class="d-flex pt-5 pb-5 align-center float-lg-right float-sm-left w-100">
+      <v-responsive class="me-md-0 ms-md-auto ms-0 me-auto w-100" max-width="400">
+          <div class="d-flex align-center">
           
           <!-- status  -->
-          <v-div class="d-flex align-center ms-1">
-            <v-label>Status</v-label>
+          <v-div>
+            <v-label class="text-body-2">Status</v-label>
             <v-select
               :items="status"
               v-model="checkStatus"
               density="compact"
-              variant="outlined"
-              class="text-blue-darken-4 mx-1"
+              variant="solo"
+              class="text-blue-darken-4 rounded-select me-2"
               single-line
               hide-details
             ></v-select>
           </v-div>
-            <!-- search field -->
-          <v-text-field
-                v-model="search"
-                density="compact"
-                label="Search"
-                variant="outlined"
-                class="text-blue-darken-4 me-3"
-                hide-details
-          ></v-text-field>
-
-            <!-- add data -->
-            <v-div class="d-flex">
+          
+          <!-- add data -->
+          <v-div class="d-flex pt-6 w-100">
+              <!-- SEARCH -->
+              <v-text-field
+                    v-model="search"
+                    density="compact"
+                    label="Search"
+                    variant="solo"
+                    class="text-blue-darken-4 rounded-select me-2"
+                    hide-details
+                    single-line
+              ></v-text-field>
               <ScreenDialog :datatext="datatext" :pageTitle="pageTitle" :btn="btn" :headDetails="headDetails" :details="details" :headers="headers" :items="selected()" :search="search" :category="category" :selectCategory="selectCategory" :iTitle="actIcon[0].text" :btncolor="actIcon[0].color" :icon="actIcon[0].icon" :iVariant="actIcon[0].variant" :alpha="alpha" :actIcon="actIcon"/>
                 <v-btn
                 color="indigo-darken-1"
                 icon="mdi-download"
-                class="rounded-lg ms-1"
+                class="rounded-lg ms-2"
                 variant="tonal"
                 size="small"
                 @click="ExportToExcel('xlsx')"

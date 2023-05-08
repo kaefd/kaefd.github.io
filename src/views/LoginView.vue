@@ -1,47 +1,55 @@
 <script setup>
-import axios from 'axios'
-import { mapActions } from 'vuex'
+import api from '../api';
+// import axios from 'axios'
+// import { mapActions } from 'vuex'
+// import { Form } from "vee-validate";
+// import * as yup from "yup";
+
 </script>
 
 <script>
 export default {
+  components: {
+    // eslint-disable-next-line vue/no-reserved-component-names
+    // Form,
+  },
     data() {
-        return {
-            username: '',
-            password: '',
-            errorMessage: '',
-        }
+    return {
+      message: "",
+      username:'',
+      password:'',
+    }
+
     },
     methods: {
-        ...mapActions(['login']),
-        async login() {
-          try {
-            const response = await axios.post('http://localhost:8000/auth/login', {
-              username: this.username,
-              password: this.password
-            })
-            const token = response.data.access_token
-            localStorage.setItem('token', token)
-            this.$router.push('/items')
-          } catch(error) {
-            this.errorMessage = error.response.data.message
-          }
-        }
-    },
+      handleLogin() {
+        api.postLogin({
+          username: this.username,
+          password: this.password
+        })
+        .then(response => {
+          localStorage.setItem('token', response.data)
+          window.location.href = '/items'
+        })
+        .catch((error) => {
+          this.message = error.response.data
+        })
+
+    }
+  }
     
 }
 </script>
 <template>
-
     <v-container fluid class="bg-blue-gradient d-flex flex-column justify-center align-center h-screen">
     <v-card class="bg-transparent text-white rounded-xl d-flex flex-column justify-center align-center elevation-12 py-12" width="300">
         <v-icon size="70">mdi-account</v-icon>
-        <v-form @submit.prevent="login" class="text-white w-75 mt-6">
-            <v-text-field type="text" id="username" v-model="username" required class="rounded-xl" label="Username"></v-text-field>
-            <v-text-field label="Password" id="password" v-model="password" required type="Password"></v-text-field>
+        <v-form @submit.prevent="handleLogin" :validation-schema="schema" class="text-white w-75 mt-6">
+            <v-text-field density="compact" type="text" id="username" v-model="username" name="username" required label="Username"></v-text-field>
+            <v-text-field density="compact" label="Password" id="password" v-model="password" name="password" required type="Password"></v-text-field>
             <v-btn type="submit" block height="50" color="yellow-darken-4">LOGIN</v-btn>
         </v-form>
-        <div v-if="errorMessage" class="error-message text-red mt-3">{{ errorMessage }}</div>
+        <div v-if="message" class="error-message text-body-2 text-grey mt-3">{{ message }}</div>
     </v-card>
 </v-container>
 

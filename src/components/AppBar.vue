@@ -1,5 +1,6 @@
 <script setup>
 import { mergeProps } from 'vue'
+import api from '../api';
 </script>
 
 <script>
@@ -16,8 +17,7 @@ export default {
     methods: {
       mergeProps,
       logout() {
-        localStorage.removeItem('token');
-        window.location.href = '/login'      
+        api.logout()
       }
 
     },

@@ -18,12 +18,12 @@
   ],
   "barang": [
     {
-      "id": 3,
+      "id": 1,
       "kategori_barang": "Barang Setengah Jadi",
-      "kode_barang": "edit",
-      "nama_barang": "test",
-      "hs_code": "test",
-      "satuan": "test",
+      "kode_barang": "addd",
+      "nama_barang": "aa",
+      "hs_code": "a",
+      "satuan": "a",
       "status": true
     }
   ],

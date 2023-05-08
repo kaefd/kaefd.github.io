@@ -36,51 +36,54 @@ export default defineComponent({
         <template v-slot:activator="{ props }">
             <v-btn
             v-bind="props"
-            class="text-body-2 text-white"
+            class="text-body-2 text-white btn-custom"
             color="#ff6e40"
             size="large"
             :hidden="hiddenbtn">
             {{ btn }}
             </v-btn>
         </template>
-        <v-card class="py-5 px-3">
+        <v-card class="py-5 px-5 rounded-lg">
+            <v-card-title class="text-center mb-3">Stok Barang</v-card-title>
             <v-text-field
                 id="input"
                 v-model="search"
-                append-icon="mdi-magnify"
+                append-inner-icon="mdi-magnify"
                 label="Search"
                 single-line
                 hide-details
                 density="compact"
                 variant="outlined"
                 class="mb-4"
-                
             ></v-text-field>
+
             <v-list id="itemType" v-for="(item, i) in items" :key="i" >
                 <v-dialog v-model="dialog2">
                     <template v-slot:activator="{ props }">
                         <v-list-item
-                        style="cursor: pointer"
                         v-bind="props"
                         @click="dialItem = item"
-                        class="mx-5">
+                        class="mx-3">
                         {{ item.name }}
                     </v-list-item>
                     </template>
-                    <v-card class="px-7 py-5 mx-auto" width="400">
-                        
+
+                    <v-card class="px-7 py-5 mx-auto rounded-lg" width="400">
                         <v-card-title class="text-center">{{ dialItem.name }}</v-card-title>
                         <v-card-text>{{ dialItem.code }}</v-card-text>
                         <v-text-field
                             v-for="it in itemDetail" :key="it"
                             :label="it.name"
                             variant="outlined"
-                            density="compact"
+                            density="comfortable"
                             :disabled="hiddenbtn"
                         />
-                        <v-btn variant="outlined" size="large" class="text-body-1 mb-2">Simpan</v-btn>
-                        <v-btn @click="dialog2 = false" variant="outlined" size="large" class="text-body-1">Batal</v-btn>
+                        <div class="d-inline w-100">
+                            <v-btn class="text-body-1 btn-custom bg-blue-darken-4 w-75 me-3">Simpan</v-btn>
+                            <v-btn @click="dialog2 = false" variant="tonal" class="text-body-1 btn-custom w-auto">Batal</v-btn>
+                        </div>
                     </v-card>
+
                 </v-dialog>
             </v-list>
         </v-card>
