@@ -6,7 +6,7 @@
 export default {
     props:
     [
-      'keyform', 'tambah', 'disabled', 'ishidden', 'headers', 'items', 'category','btncolor', 'iTitle', 'icon','iVariant', 'alpha', 'screen', 'item', 'submitForm', 'form', 'noselect', 'intable'
+      'keyform', 'tambah', 'disabled', 'ishidden', 'editbtn', 'hapus', 'headers', 'items', 'category','btncolor', 'iTitle', 'icon','iVariant', 'alpha', 'screen', 'item', 'submitForm', 'form', 'noselect', 'intable'
     ],
     data () {
       
@@ -52,36 +52,35 @@ export default {
             <v-btn
             v-if="!intable"
             v-bind="props"
-            class="text-body-2 rounded-lg"
-            color="indigo-darken-1"
-            icon="mdi-plus"
-            variant="tonal"
-            size="small"
+            class="text-body-2 bg-blue-custom text-white rounded-xl elevation-0 text-caption"
+            prepend-icon="mdi-plus"
+            height="42"
+            width="150"
             >
+            Tambah Data
             </v-btn>
             <v-responsive v-if="intable" width="100">
               <!-- EDIT -->
               <v-btn
+              v-if="editbtn"
               v-bind="props"
-              class="text-caption rounded-lg"
-              :color="btncolor"
-              :icon="icon"
-              :variant="iVariant"
-              width="30"
-              height="30"
+              class="text-caption"
+              variant="text"
               >
+              <v-icon class="ms-n3 me-2">mdi-pencil</v-icon>
+              Edit Data
               </v-btn>
               <!-- HAPUS -->
               <v-btn
-              class="text-caption ms-2 rounded-lg"
-              color="orange-darken-3"
-              icon="mdi-delete"
-              variant="tonal"
-              width="30"
-              height="30"
+              v-if="hapus"
+              class="text-caption"
+              block
+              variant="text"
+              prepend-icon="mdi-delete"
               :hidden="ishidden"
               @click="del(edit)"
               >
+              Hapus Data
               </v-btn>
             </v-responsive>
           </template>
@@ -105,7 +104,7 @@ export default {
                     <v-select
                       v-if="this.item == null"
                       :items="category.slice(this.alpha, category.length)"
-                      density="comfortable"
+                      density="compact"
                       variant="outlined"
                       v-model="data[keyform[0]]"
                       required
@@ -114,7 +113,7 @@ export default {
                     <v-select
                     v-if="this.item != null"
                     :items="category.slice(this.alpha, category.length)"
-                    density="comfortable"
+                    density="compact"
                     variant="outlined"
                     v-model="edit[keyform[0]]"
                     :value="Object.values(item.raw)[0]"
@@ -126,7 +125,7 @@ export default {
                     <v-text-field
                     v-if="this.item == null"
                     :label="headers[0].title"
-                    density="comfortable"
+                    density="compact"
                     variant="outlined"
                     v-model="data[keyform[0]]"
                     required
@@ -135,7 +134,7 @@ export default {
                     <v-text-field
                     v-if="this.item != null"
                     :label="headers[0].title"
-                    density="comfortable"
+                    density="compact"
                     variant="outlined"
                     v-model="edit[keyform[0]]"
                     :readonly="headers[0].dis"
@@ -146,7 +145,7 @@ export default {
                       <v-text-field
                         v-if="this.item == null"
                         :label="h.title"
-                        density="comfortable"
+                        density="compact"
                         variant="outlined"
                         v-model="data[keyform[i+1]]"
                         required
@@ -155,7 +154,7 @@ export default {
                         <v-text-field
                         v-if="this.item != null"
                         :label="h.title"
-                        density="comfortable"
+                        density="compact"
                         variant="outlined"
                         v-model="edit[keyform[i+1]]"
                         :readonly="headers[i+1].dis"
@@ -164,17 +163,7 @@ export default {
                 </v-container>
                 
                 <v-row no-gutters>
-                  <v-col :hidden="disabled">
-                    <v-btn
-                    type="submit"
-                    color="blue-darken-1"
-                    variant="tonal"
-                    height="57"
-                    class="w-100 rounded-0"
-                    >
-                    simpan
-                    </v-btn>
-                  </v-col>
+                  
                   <v-col>
                     <v-btn
                     color="orange-darken-1"
@@ -186,8 +175,37 @@ export default {
                     batal
                     </v-btn>                  
                   </v-col>
+
+                  <v-col :hidden="disabled">
+                    <v-btn
+                    type="submit"
+                    color="blue-darken-1"
+                    variant="tonal"
+                    height="57"
+                    class="w-100 rounded-0"
+                    >
+                    simpan
+                    </v-btn>
+                  </v-col>
                 </v-row>
               </form>
             </v-card>
     </v-dialog>
 </template>
+
+<style>
+
+label.v-label{
+  font-size: 10pt !important;
+}
+
+span.v-select__selection-text {
+  font-size: 10pt !important;
+}
+
+input.v-field__input {
+  font-size: 10pt !important;
+}
+
+
+</style>

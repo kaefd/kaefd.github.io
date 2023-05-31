@@ -1,12 +1,10 @@
 <script setup>
 import { VDataTable } from 'vuetify/labs/VDataTable'
 import ScreenDialog from '../components/ScreenDialog.vue';
-import NavDrawers from '../components/NavDrawers.vue';
-import AppBar from '../components/AppBar.vue';
-import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css'
 
 import { ref, onMounted } from 'vue';
+import api from '../api';
 
 </script>
 
@@ -14,18 +12,19 @@ import { ref, onMounted } from 'vue';
 
   export default {
     components: {
-    ScreenDialog, AppBar, NavDrawers,VueDatePicker, VDataTable
+    ScreenDialog, VDataTable
     },
-    props:['actIcon'],
+    props:['actIcon', 'cetak'],
     data () {
       return {
         drawer: null,
         search: '',
-        date: '',
+        filter: false,
+        periode: [],
         checkStatus: 'menunggu',
         dialog2: false,
         pageTitle: 'PENGIRIMAN BARANG',
-        selectCategory: 'semua',
+        selectCategory: '',
         btnTitle: 'Tambah Data',
         btn: 'Tambah Barang',
         cardTitle: 'Detail Barang',
@@ -41,56 +40,172 @@ import { ref, onMounted } from 'vue';
           'Mesin & Peralatan',
         ],
         headers: [
-          { title: 'No Pengiriman', key: 'nosend'},
-          { title: 'Tgl Pengiriman', key: 'datesend' },
-          { title: 'Pelanggan', key: 'customer' },
-          { title: 'Tujuan Bongkar', key: 'tbongkar' },
-          { title: 'Supir', key: 'driver' },
-          { title: 'Polisi', key: 'police' },
+          { title: 'No Pengiriman', key: 'no_pengiriman'},
+          { title: 'Tgl Pengiriman', key: 'tgl_pengiriman' },
+          { title: 'Pelanggan', key: 'kode_pelanggan' },
+          { title: 'Tujuan Bongkar', key: 'kode_alamat_bongkar' },
+          { title: 'Supir', key: 'supir' },
+          { title: 'Polisi', key: 'no_polisi' },
           { title: '', key: 'actions', sortable: false},
         ],
-        items: [],
+        filtered: {
+          periode: []
+        },
+        pengirimanHead: '',
+        penjualanHead: '',
+        pengirimanDetail: '',
+        pelanggan: '',
+        alamatBongkar: '',
         headDetails:[
-          {title: 'Kode Barang', key: 'codeItem' },
-          {title: 'Nama Barang', key: 'nameItem' },
-          {title: 'HS Code', key: 'hscode' },
+          {title: 'No Penjualan', key: 'no_penjualan' },
+          {title: 'Tipe Dokumen', key: 'tipe_dokumen' },
+          {title: 'No Dokumen', key: 'no_dokumen' },
+          {title: 'Kode Group', key: 'kode_group' },
+          {title: 'Kode Barang', key: 'kode_barang' },
+          {title: 'Nama Barang', key: 'nama_barang' },
+          {title: 'HS Code', key: 'hs_code' },
           {title: 'Jumlah', key: 'jumlah' },
-          {title: 'Jumlah Diterima', key: 'diterima' },
           {title: 'Satuan', key: 'satuan' },
-          {title: 'Total Nilai', key: 'totalnilai' },
           {title: '', key: 'actions', sortable: false },
         ],
-
-        details: [
-          {
-            codeItem : 'AG',
-            nameItem : 'Atap Galvalum',
-            hscode : '4345466',
-            jumlah: 1,
-            diterima: 1,
-            satuan: 1,
-            totalnilai: 1
-          }
-        ],
-        datatext: [
-            { name: 'No Pengiriman', key: 'nosend', type: 'text' },
-            { name: 'Tgl Pengiriman', key: 'tglsend', type: 'date' },
-            { name: 'Pelanggan', key: 'customer', type: 'select' },
-            { name: 'Tujuan Bongkar', key: 'tbongkar', type: 'select' },
-            { name: 'Supir', key: 'driver', type: 'text' },
-            { name: 'Polisi', key: 'police', type: 'text' },
-        ],
+        datainput: {
+          no_pengiriman: '',
+          tgl_pengiriman: '',
+          nama_pelanggan: '',
+          tujuan_bongkar: '',
+          supir: '',
+          no_polisi: '',
+        },
 
       }
     },
+    created() {
+      this.today()
+      let currentDate = new Date().toJSON().slice(0, 10);
+      return this.filtered.periode = [currentDate , currentDate]
+    },
     methods: {
-      selected(){        
-        //show row selected
-        if(this.selectCategory == 'semua'){
-          return this.items
-        } else {
-          return this.items.filter(item => item.categories === this.selectCategory )
+      today() {
+        let currentDate = new Date().toJSON().slice(0, 10);
+        return this.periode = [currentDate , currentDate]
+      },
+      page(){
+        return this.$emit('page', this.pageTitle)
+      },
+      // GET DATA PENGIRIMAN-HEAD
+      getPengirimanHead() {
+        const apiUrl = '/pengiriman_head?'
+        const params = {
+          tgl_awal: this.periode[0],
+          tgl_akhir: this.periode[1],
+        }
+        api.getData(apiUrl, { params })
+        .then(response => {
+          this.pengirimanHead = response.data
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+      },
+      // GET PENGIRIMAN DETAIL
+      getPengirimanDetail() {
+        const apiUrl = '/pengiriman_detail?'
+        const params = {
+          tgl_awal: this.periode[0],
+          tgl_akhir: this.periode[1],
+        }
+        api.getData(apiUrl, { params })
+        .then(response => {
+          this.pengirimanDetail = response.data
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+      },
+      // PENJUALAN HEAD
+      getPenjualanHead() {
+        const apiUrl = '/penjualan_head?'
+        const params = {
+          tgl_awal: this.periode[0],
+          tgl_akhir: this.periode[1],
+        }
+        api.getData(apiUrl, { params })
+        .then(response => {
+          this.penjualanHead = response.data
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+      },
+      dokumenpjl(value) {
+        let nopjl = ''
+        for (let i = 0; i < this.pengirimanDetail.length; i++) {
+          if ( this.pengirimanDetail[i].no_pengiriman == value ) {
+              nopjl = this.pengirimanDetail[i].no_penjualan
           }
+          
+        }
+        for (let j = 0; j < this.penjualanHead.length; j++) {
+          if ( this.penjualanHead[j].no_penjualan == nopjl ) {
+              return this.penjualanHead[j]
+          }
+          
+        }
+      },
+      getPelanggan() {
+        const apiUrl = '/pelanggan'
+        api.getData(apiUrl)
+        .then(response => {
+          this.pelanggan = response.data
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+      },
+      namaPelanggan(value) {
+        for (let i = 0; i < this.pelanggan.length; i++) {
+          if ( this.pelanggan[i].kode_pelanggan == value ) {
+              return this.pelanggan[i].nama
+          }
+          
+        }
+      },
+      tujuanBongkar(){
+        const apiUrl = '/alamat_bongkar'
+        api.getData(apiUrl)
+        .then(response => {
+          this.alamatBongkar = response.data
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+      },
+      // namaBongkar(value) {
+      //   for (let i = 0; i < this.alamatBongkar.length; i++) {
+      //     if ( this.alamatBongkar[i].kode_pelanggan == value ) {
+      //         return this.alamatBongkar[i].nama
+      //     }
+          
+      //   }
+      // },
+      Penjualandetl(value) {
+        for (let i = 0; i < this.pengirimanDetail.length; i++) {
+          if ( this.pengirimanDetail[i].no_pengiriman == value ) {
+              return this.pengirimanDetail[i]
+          }
+          
+        }
+      },
+      namaTujuan(value){
+        for (let i = 0; i < this.alamatBongkar.length; i++) {
+          if ( this.alamatBongkar[i].kode_pelanggan == value ) {
+              return this.alamatBongkar[i].nama
+          }
+          
+        }
+      },
+      selected() {
+        this.getPengirimanHead(), this.getPengirimanDetail(), this.getPenjualanHead()
       },
       ExportToExcel(type, fn, dl) {
        var elt = document.getElementById('tbl_exporttable_to_xls');
@@ -101,85 +216,173 @@ import { ref, onMounted } from 'vue';
          XLSX.write(wb, { bookType: type, bookSST: true, type: 'base64' }):
          // eslint-disable-next-line no-undef
          XLSX.writeFile(wb, fn || (this.pageTitle+'.' + (type || 'xlsx')));
-    }
     },
+      reset() {
+        this.filtered.periode = this.today()
+        this.today()
+        this.selected()
+        
+      },
+      filterdata() {
+        this.periode[0] = this.filtered.periode[0]
+        this.periode[1] = this.filtered.periode[1]
+        this.selected()
+
+      },
+      print(i){
+        if (i == 0) {
+          return this.ExportToExcel('xlsx')
+        } else if(i == 1) {
+          return this.pdf()
+        }
+      },
+
+
+    },
+    mounted(){
+      this.page()
+      this.getPengirimanHead()
+      this.getPengirimanDetail()
+      this.getPelanggan()
+      this.tujuanBongkar()
+      this.getPenjualanHead()
+    }
     
   }
 
-  const date = ref();
+  const date = ref()
 
     // For demo purposes assign range from the current date
     onMounted(() => {
       const startDate = new Date();
-      const endDate = new Date(new Date().setDate(startDate.getDate() + 7));
-      date.value = [startDate, endDate];
+      // const endDate = new Date(new Date().setDate(startDate.getDate() + 7));
+      date.value = [startDate, startDate];
     })
+
 </script>
 
 <template>
-  
-  <NavDrawers v-model="drawer"/>
-  <AppBar @click.stop="drawer = !drawer" :pageTitle="pageTitle"/>
-
-  <v-container>
-    <v-row no-gutters class="bg-white align-center pa-4 mb-3 rounded-lg">
-      <v-responsive class="overflow-visible me-2 w-100 " max-width="600" max-height="70" cols="6" xs="4">
-        <div class="d-flex align-start">
-          <!-- DATE -->
-          <v-div class="w-50">
-            <v-label v-label class="text-body-2 text-blue-darken-4 pe-7">Periode</v-label>
-            <VueDatePicker v-model="periode" range :enable-time-picker="false" hide-offset-dates max-range="30" :max-date="new Date()"  @update:v-model="periode" input-class-name="dp-custom-input"/>
+  <v-navigation-drawer
+        class="mt-4 border-0 bg-grey-lighten-4 rounded-xl me-4 elevation-0"
+        v-model="filter"
+        location="right"
+        width="320"
+        style="height: fit-content;"
+      >
+      <v-sheet class="rounded-xl py-5 h-500 bg-transparent">
+        <v-span class="text-button ms-4">Filter</v-span>
+        <!-- PERIODE -->
+        <v-container class="pt-3 px-4">
+          <v-span class="text-caption text-weight-bold">Periode</v-span>
+          <v-divider></v-divider>
+          <v-text-field v-model="filtered.periode[0]" class="mt-4" label="Tgl Awal" type="date" density="compact" variant="outlined"></v-text-field>
+          <v-text-field v-model="filtered.periode[1]" label="Tgl Akhir" type="date" density="compact" variant="outlined"></v-text-field>
+        </v-container>
+        <!-- KATEGORI BARANG -->
+        <v-container class="py-3 px-4">            
+          <v-div class="d-flex justify-end">
+            <v-btn class="elevation-0 text-small mt-5 me-2 bg-grey-lighten-2" height="42" @click="reset()">Reset</v-btn>
+            <v-btn class="elevation-0 text-small mt-5" color="orange-lighten-1" height="42" @click="filterdata()">Filter</v-btn>
           </v-div>
+        </v-container>
+      </v-sheet>
+  </v-navigation-drawer>
+  <v-container>
+    <v-row no-gutters class="rounded-t-xl align-start pa-4 mt-n4">
+      <v-responsive class="d-flex align-center mb-sm-0 mb-1 me-sm-2 me-0" width="200" max-width="350">
+        <div class="d-flex align-center w-100">
+          <!-- SEARCH -->
+            <v-text-field
+              v-model="search"
+              density="compact"
+              variant="text"
+              class="w-75 text-indigo-darken-4 rounded-xl border me-2 text-body-2 font-small"
+              prepend-inner-icon="mdi-magnify"
+              placeholder="Search"
+              single-line
+              hide-details
+            >
+            </v-text-field>
+            <!-- BUTTON FILTER -->
+            <v-btn @click="filter = !filter " class="rounded-circle text-caption elevation-0 me-2" color="indigo" variant="tonal" icon="mdi-tune-vertical" size="small">
+            </v-btn>
+        </div>
+        <v-chip class="mt-1 me-1" color="orange" size="small">{{ periode[0] }} - {{ periode[1] }}</v-chip>
+      </v-responsive>
+      <v-responsive class="me-sm-0 ms-sm-auto ms-0 me-auto" width="200" max-width="350">
+        <div class="d-flex align-center justify-sm-end justify-start mt-md-1 mt-0">
+          <!-- TAMBAH DATA -->
+          <ScreenDialog :kirim="true" :edit="false" :supplier="pelanggan" :alamatBongkar="alamatBongkar" :datainput="datainput" :pageTitle="pageTitle" :btn="btn" :headDetails="headers" :details="items" :headers="headers" :items="items" :search="search" :category="category" :selectCategory="selectCategory" :iTitle="actIcon[0].text" :btncolor="actIcon[0].color" :icon="actIcon[0].icon" :iVariant="actIcon[0].variant" :alpha="alpha" :actIcon="actIcon" :datatext="datatext"/>
+          <!-- EXPORT BUTTON -->
+          <v-btn
+            id="cetak"
+            color="indigo-darken-1"
+            icon="mdi-dots-vertical"
+            class="rounded-xl ms-2 me-2"
+            variant="text"
+            size="small"
+          ></v-btn>
+          <v-menu activator="#cetak" transition="slide-y-transition">
+            <v-list>
+              <v-list-item
+                v-for="(c, index) in this.cetak"
+                :key="index"
+                :value="index"
+                @click="print(index)"
+                density="compact"
+                class="text-caption"
+                :prepend-icon="c.icon"
+              >
+              {{ c.title }}
+              </v-list-item>
+            </v-list>
+          </v-menu>
         </div>
       </v-responsive>
-      <v-responsive class="me-sm-0 ms-sm-auto ms-0 me-auto" max-width="400">
-          <div class="d-flex align-center pt-6">
-            <!-- SEARCH -->
-            <v-text-field
-                  v-model="search"
-                  density="compact"
-                  label="Search"
-                  variant="solo"
-                  class="text-blue-darken-4 me-2 rounded-select"
-                  hide-details
-                  single-line
-            ></v-text-field>
-
-            <!-- TAMBAH DATA -->
-            <v-div class="d-flex">
-              <ScreenDialog :pageTitle="pageTitle" :btn="btn" :headDetails="headers" :details="items" :headers="headers" :items="selected()" :search="search" :category="category" :selectCategory="selectCategory" :iTitle="actIcon[0].text" :btncolor="actIcon[0].color" :icon="actIcon[0].icon" :iVariant="actIcon[0].variant" :alpha="alpha" :actIcon="actIcon" :datatext="datatext"/>
-                <v-btn
-                color="indigo-darken-1"
-                icon="mdi-download"
-                class="rounded-lg ms-2"
-                variant="tonal"
-                size="small"
-                @click="ExportToExcel('xlsx')"
-              ></v-btn>
-            </v-div>
-          </div>
-      </v-responsive>
       </v-row>
-      <!-- edit data -->
-        <!-- edit data -->
+        <!-- EDIT DATA -->
+      <v-sheet class="p-4 rounded-b-xl">
         <v-data-table
             id="tbl_exporttable_to_xls" 
             :headers="headers"
-            :items="items"
+            :items="pengirimanHead"
             :search="search"
             :hover="true"
             :fixed-header="true"
-            style="cursor: pointer"
-            density="comfortable"
-            class="text-body-2 py-3 px-5 rounded-select"
+            density="compact"
+            class="text-caption py-3 px-5 rounded-b-xl h-75"
             height="400"
-            >
+            max-height="535">
+            <!-- CUSTOM PAGINATION STYLE -->
+              <template v-slot:bottom>
+                <!-- <v-row no-gutters class="justify-end align-center my-1">
+                  <v-pagination
+                    v-model="page"
+                    :length="4"
+                    size="small"
+                    rounded="circle"
+                    prev-icon="mdi-menu-left"
+                    next-icon="mdi-menu-right"
+                  ></v-pagination>
+                  <v-spacer></v-spacer>
+                  <span>Total: 1978 data</span>
+                </v-row> -->
+              </template>
             <!-- dialog actions -->
+            <!-- eslint-disable-next-line vue/valid-v-slot -->
+            <template v-slot:item.kode_pelanggan="{ item }">
+              <td>{{ namaPelanggan(item.raw.kode_pelanggan) }}</td>
+            </template>
+            <!-- eslint-disable-next-line vue/valid-v-slot -->
+            <template v-slot:item.kode_alamat_bongkar="{ item }">
+              <td>{{ namaTujuan(item.raw.kode_alamat_bongkar) }}</td>
+            </template>
              <!-- eslint-disable-next-line vue/valid-v-slot -->
             <template v-slot:item.actions="{item}">
-            <ScreenDialog :headDetails="headers" :item="item" :details="items" :headers="headers" :items="selected()" :search="search" :category="category" :selectCategory="selectCategory" :iTitle="actIcon[1].text" :btncolor="actIcon[1].color" :icon="actIcon[1].icon" :iVariant="actIcon[1].variant" :alpha="alpha" :actIcon="actIcon" :disable="true"/>
+              <ScreenDialog batalbtn="Pengiriman" :kirim="true" :edit="true" :namaPelanggan="namaPelanggan(item.raw.kode_pelanggan)" :namaTujuan="namaTujuan(item.raw.kode_alamat_bongkar)" :pembelian="Penjualandetl(item.raw.no_pengiriman)" :dokumenpjl="dokumenpjl(item.raw.no_pengiriman)" :pageTitle="pageTitle" :headDetails="headDetails" :headers="headers" :items="item.raw" :iTitle="actIcon[3].text" :btncolor="actIcon[3].color" :icon="actIcon[3].icon" :iVariant="actIcon[3].variant" :alpha="alpha" :actIcon="actIcon" :disable="true"/>
             </template>
           </v-data-table>
+        </v-sheet>
   </v-container>
 
 </template>

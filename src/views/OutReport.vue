@@ -100,33 +100,36 @@ import { ref, onMounted } from 'vue';
   <AppBar @click.stop="drawer = !drawer" :pageTitle="pageTitle"/>
 
   <v-container>
-    <v-row no-gutters class="bg-white align-center px-4 pb-lg-0 pb-4 my-1 mb-3 rounded-lg">
-      <v-responsive class="overflow-visible me-2 w-100" max-width="700" max-height="70" cols="6" xs="4">
-        <div class="d-flex mt-4 align-start">
+    <v-row no-gutters class="bg-white align-center pa-4 mb-4 rounded-lg w-100">
+      <v-responsive class="d-flex align-center mb-sm-0 mb-3" max-width="300" max-height="70">
+        <div class="d-flex">
           <!-- select tipe dokumen -->
           <v-select
             label="Select"
-            value="Tioe Dokumen"
+            value="Tipe Dokumen"
             :items="category"
             v-model="selectCategory"
             density="compact"
-            variant="outlined"
-            class="text-blue-darken-4 me-2 w-50"
+            variant="tonal"
+            class="bg-indigo-lighten-5 text-indigo-darken-4 rounded-lg me-2"
             single-line
+            hide-details=""
           ></v-select>
           <!-- date field -->
           <VueDatePicker v-model="date" :enable-time-picker="false" range/>
         </div>
       </v-responsive>
-      <v-responsive cols="6" xs="4">
-          <div class="d-flex align-center float-lg-right float-sm-left w-75">
+      <v-responsive class="me-0 ms-auto mt-6" max-width="350" min-width="200">
+          <div class="d-flex align-center w-100">
           <!-- search field -->
           <v-text-field
                 v-model="search"
                 density="compact"
                 label="Search"
-                variant="outlined"
-                class="text-blue-darken-4 pt-5 me-2"
+                variant="tonal"
+                single-line
+                hide-details
+                class="text-blue-darken-4 bg-indigo-lighten-5 rounded-lg"
           ></v-text-field>
 
               <v-btn

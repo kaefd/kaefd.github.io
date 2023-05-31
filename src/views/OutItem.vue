@@ -1,10 +1,8 @@
 <script setup>
 import { VDataTable } from 'vuetify/labs/VDataTable'
 import ScreenDialog from '../components/ScreenDialog.vue';
-import NavDrawers from '../components/NavDrawers.vue';
-import AppBar from '../components/AppBar.vue';
-import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css'
+import api from '../api';
 
 import { ref, onMounted } from 'vue';
 
@@ -12,86 +10,200 @@ import { ref, onMounted } from 'vue';
 
 <script>
 
+
   export default {
     components: {
-    ScreenDialog, AppBar, NavDrawers,VueDatePicker, VDataTable
+    ScreenDialog, VDataTable
     },
-    props:['page','actIcon'],
+    props:['cetak','actIcon'],
     data () {
       return {
+        filter: false,
         drawer: null,
         search: '',
-        date: '',
-        checkStatus: 'menunggu',
+        periode: '',
+        checkStatus: [],
+        pelanggan: '',
         dialog2: false,
         pageTitle: 'PENGELUARAN BARANG',
-        selectCategory: 'semua',
+        selectdokumen: [],
         btnTitle: 'Tambah Data',
         btn: 'Tambah Barang',
         cardTitle: 'Detail Barang',
         fullscreen: 'fullscreen',
         alpha: null,
-        datatext: [
-            { name: 'No Pengeluaran', key: 'nokeluar', type: 'text' },
-            { name: 'Tgl Keluar', key: 'tgkeluar', type: 'date' },
-            { name: 'Pelanggan', key: 'customer', type: 'select' },
-            { name: 'Kode Group', key: 'codegroup', type: 'select' },
-            { name: 'Tipe Dokumen', key: 'doctype', type: 'select' },
-            { name: 'No Dokumen', key: 'doctno', type: 'text' },
-            { name: 'Tgl Dokumen', key: 'doctdate', type: 'date' },
+        filtered: {
+          selectdokumen: [],
+          periode: [],
+          status: []
+        },
+        tipedokumen: [
+          'BC25',
+          'BC41',
         ],
-
-        category: [
-          'semua',
-          'Bahan Baku',
-          'Bahan Penolong',
-          'Barang Setengah Jadi',
-          'Barang Jadi',
-          'Barang Sisa (Scrap)',
-          'Mesin & Peralatan',
+        status: [
+          {title: 'menunggu', key: 'open'},
+          {title: 'selesai', key: 'close'},
         ],
         headers: [
-          { title: 'Nomor Pengeluaran', key: 'numOut'},
-          { title: 'Tanggal Keluar', key: 'dateOut' },
-          { title: 'Tipe Dokumen', key: 'doctype' },
-          { title: 'No Dokumen', key: 'docNumb' },
-          { title: 'Pelanggan', key: 'pelanggan' },
-          { title: 'Kode Group', key: 'codeGroup' },
-          { title: 'Total Penjualan', key: 'total' },
+          { title: 'Nomor Pengeluaran', key: 'no_penjualan'},
+          { title: 'Tanggal Keluar', key: 'tgl_penjualan' },
+          { title: 'Tipe Dokumen', key: 'tipe_dokumen' },
+          { title: 'No Dokumen', key: 'no_dokumen' },
+          { title: 'Pelanggan', key: 'kode_pelanggan' },
+          { title: 'Kode Group', key: 'kode_group' },
+          { title: 'Total Penjualan', key: 'total_penjualan' },
           { title: '', key: 'actions', sortable: false},
         ],
-        items: [],
+        penjualan_head: '',
+        penjualan_detail: '',
         headDetails:[
-          {title: 'Kode Barang', key: 'codeItem' },
-          {title: 'Nama Barang', key: 'nameItem' },
-          {title: 'HS Code', key: 'hscode' },
+          {title: 'Kode Barang', key: 'kode_barang' },
+          {title: 'Nama Barang', key: 'nama_barang' },
+          {title: 'HS Code', key: 'hs_code' },
           {title: 'Jumlah', key: 'jumlah' },
-          {title: 'Jumlah Diterima', key: 'diterima' },
+          {title: 'Jumlah Terkirim', key: 'jumlah_terkirim' },
           {title: 'Satuan', key: 'satuan' },
-          {title: 'Total Nilai', key: 'totalnilai' },
+          {title: 'Harga Jual', key: 'harga_jual' },
+          {title: 'Total Terjual', key: 'total_terjual' },
           {title: '', key: 'actions', sortable: false },
         ],
-
-        details: [
-          {
-            codeItem : 'AG',
-            nameItem : 'Atap Galvalum',
-            hscode : '4345466',
-            jumlah: 1,
-            diterima: 1,
-            satuan: 1,
-            totalnilai: 1
-          }
-        ]
+        groupbarang: '',
+        datainput: {
+          no_penjualan: '',
+          tgl_penjualan: '',
+          tipe_dokumen: '',
+          no_dokumen:'',
+          kode_pelanggan:'',
+          kode_group: '',
+          total_penjualan: ''
+        }
+      }
+    },
+    created() {
+      this.today()
+      let currentDate = new Date().toJSON().slice(0, 10);
+        return this.filtered.periode = [currentDate , currentDate]  
+    },
+    computed: {
+      pilihtipe() {
+        if(this.selectdokumen == ''){
+          return this.penjualan_head
+        } else {
+          return this.penjualan_head.filter(item => item.tipe_dokumen === this.selectdokumen )
+        }
       }
     },
     methods: {
+      today() {
+        let currentDate = new Date().toJSON().slice(0, 10);
+        return this.periode = [currentDate , currentDate]
+      },
+      getPenjualanHead() {
+        
+        const apiUrl = '/penjualan_head?'
+        const params = {
+        tgl_awal: this.periode[0],
+        tgl_akhir: this.periode[1],  
+        
+        }
+        api.getData(apiUrl, {params})
+        .then(response => {
+          this.penjualan_head = response.data
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+      },
+      getPenjualanDetail() {
+        
+        const apiUrl = '/penjualan_detail?'
+        const params = {
+        tgl_awal: this.periode[0],
+        tgl_akhir: this.periode[1],  
+        }
+        api.getData(apiUrl, {params})
+        .then(response => {
+          this.penjualan_detail = response.data
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+      },
+      getGroupBarang() {
+        const apiUrl = '/group_barang?'
+        api.getData(apiUrl)
+        .then(response => {
+          this.groupbarang = response.data
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+      },
+      // API GET DATA SUPPLIER
+      // ambil semua data supplier
+      getPelanggan() {
+        const apiUrl = '/pelanggan'
+        api.getData(apiUrl)
+        .then(response => {
+          this.pelanggan = response.data
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+      },
+
+      // GET NAMA SUPPLIER
+      namaPelanggan(value) {
+        for (let i = 0; i < this.pelanggan.length; i++) {
+          if ( this.pelanggan[i].kode_pelanggan == value ) {
+              return this.pelanggan[i].nama
+          }
+          
+        }
+
+      },
+      penjualan(value) {
+        for (let j = 0; j < this.penjualan_detail.length; j++) {
+          if ( this.penjualan_detail[j].no_penjualan == value ) {
+              return this.penjualan_detail[j]
+          }
+          
+        }
+
+
+      },
       selected(){        
-        //show row selected
-        if(this.selectCategory == 'semua'){
-          return this.items
-        } else {
-          return this.items.filter(item => item.categories === this.selectCategory )
+        this.getPenjualanHead(),
+        this.getPenjualanDetail(),
+        this.getPelanggan()
+      },
+      
+      numb(value) {
+            let val = (value / 1).toFixed(0).replace('.', ',')
+            return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+        },
+      statuspenjualan() {
+        for (let i = 1; i < this.status.length; i++) {
+         if(this.checkStatus == this.status[i].title)
+            this.checkStatus = this.status[i].key
+        }
+      },
+      checkstatus() {
+        var data = this.pilihtipe
+          if(this.checkStatus == ''){
+           return data
+          } else if ( this.checkStatus == 'open') {
+            return data.filter(item => item.status === this.checkStatus )
+          }else if ( this.checkStatus == 'close') {
+            return data.filter(item => item.status === this.checkStatus )
+          }
+      },
+      print(i){
+          if (i == 0) {
+            return this.ExportToExcel('xlsx')
+          } else if(i == 1) {
+            return this.pdf()
           }
       },
       ExportToExcel(type, fn, dl) {
@@ -103,9 +215,44 @@ import { ref, onMounted } from 'vue';
            XLSX.write(wb, { bookType: type, bookSST: true, type: 'base64' }):
            // eslint-disable-next-line no-undef
            XLSX.writeFile(wb, fn || (this.pageTitle+'.' + (type || 'xlsx')));
+      },
+      page(){
+        return this.$emit('page', this.pageTitle)
+      },
+      reset() {
+        this.filtered.periode = this.today()
+        this.filtered.selectdokumen = ''
+        this.filtered.status = ''
+        this.today()
+        this.selectdokumen = ''
+        this.checkStatus = ''
+        this.selected()
+        
+      },
+      filterdata() {
+        this.periode[0] = this.filtered.periode[0]
+        this.periode[1] = this.filtered.periode[1]
+        this.checkStatus = this.filtered.status
+        this.selected()
+        this.selectdokumen = this.filtered.selectdokumen
+        if(!this.selectdokumen) {
+          this.selectdokumen = ''
+          } else if (this.selectdokumen == '') {
+            this.selectdokumen = ''
+          }
+
       }
+
+
     },
-    
+      mounted() {
+        this.page()
+        this.getPenjualanHead()
+        this.getPenjualanDetail()
+        this.getPelanggan()
+        this.penjualan()
+        this.getGroupBarang()
+    }
   }
 
   const date = ref();
@@ -113,102 +260,191 @@ import { ref, onMounted } from 'vue';
     // For demo purposes assign range from the current date
     onMounted(() => {
       const startDate = new Date();
-      const endDate = new Date(new Date().setDate(startDate.getDate() + 7));
-      date.value = [startDate, endDate];
+      // const endDate = new Date(new Date().setDate(startDate.getDate() + 7));
+      date.value = [startDate, startDate];
     })
 </script>
 
 <template>
-  
-  <NavDrawers v-model="drawer"/>
-  <AppBar @click.stop="drawer = !drawer" :pageTitle="pageTitle"/>
-
+  <v-navigation-drawer
+        class="mt-4 border-0 bg-grey-lighten-4 rounded-xl me-4 elevation-0"
+        v-model="filter"
+        location="right"
+        width="320"
+        style="height: fit-content;"
+      >
+      <v-sheet class="rounded-xl py-5 h-500 bg-white">
+        <div class="d-flex align-center">
+          <v-span class="text-button ms-4">Filter</v-span>
+          <v-btn size="small" icon="mdi-close" @click="filter = false" variant="text" class="me-3 ms-auto">
+          </v-btn>
+        </div>
+        <!-- PERIODE -->
+        <v-container class="pt-3 px-4">
+          <v-span class="text-caption text-weight-bold">Periode</v-span>
+          <v-divider></v-divider>
+          <v-text-field v-model="filtered.periode[0]" class="mt-4" label="Tgl Awal" type="date" density="compact" variant="outlined"></v-text-field>
+          <v-text-field v-model="filtered.periode[1]" label="Tgl Akhir" type="date" density="compact" variant="outlined"></v-text-field>
+        </v-container>
+        <!-- TIPE DOKUMEN -->
+        <v-container class="py-3 px-4">
+          <v-span class="text-caption text-weight-bold">Tipe Dokumen</v-span>
+          <v-divider></v-divider>
+            <v-checkbox
+              v-for="label, i in tipedokumen" :key="i"
+              v-model="filtered.selectdokumen"
+              :label="label"
+              :value="label"
+              color="orange-lighten-1"
+              class="mb-n6"
+              hide-details
+            ></v-checkbox>
+          </v-container>
+          <v-container class="py-3 px-4">
+            <v-span class="text-caption text-weight-bold">Status</v-span>
+          <v-divider></v-divider>
+            <v-checkbox
+              v-for="label, i in status" :key="i"
+              v-model="filtered.status"
+              :label="label.title"
+              :value="label.key"
+              color="orange-lighten-1"
+              class="mb-n6"
+              hide-details
+            ></v-checkbox>
+            <v-div class="d-flex justify-end mt-8">
+              <v-btn class="elevation-0 text-small me-2 bg-grey-lighten-2" height="42" @click="reset()">Reset</v-btn>
+              <v-btn class="elevation-0 text-small" color="orange-lighten-1" height="42" @click="filterdata()">Filter</v-btn>
+            </v-div>
+        </v-container>
+      </v-sheet>
+  </v-navigation-drawer>
   <v-container>
-    <v-row no-gutters class="bg-white align-center pa-4 mb-3 rounded-lg">
-      <v-responsive class="overflow-visible me-2 w-100" max-width="400">
-        <div class="d-flex align-start w-100">
+    <v-row no-gutters class="rounded-t-xl align-start mt-n4 mb-2">
+      <v-responsive class="d-flex align-center mb-sm-0 mb-1 me-sm-2 me-0" width="200" max-width="350">
+        <div class="d-flex align-center w-100">
+          <!-- TAMBAH DATA -->
+          <ScreenDialog batalbtn="Pengeluaran" :datainput="datainput" :pengeluaran="true" :groupbarang="groupbarang" :supplier="pelanggan" :datatext="datatext" :pageTitle="pageTitle" :btn="btn" :headDetails="headDetails" :details="details" :headers="headers" :items="checkstatus()" :search="search" :category="category" :selectCategory="selectCategory" :iTitle="actIcon[0].text" :btncolor="actIcon[0].color" :icon="actIcon[0].icon" :iVariant="actIcon[0].variant" :alpha="alpha" :actIcon="actIcon"/>
           <!-- TIPE DOKUMEN -->
-          <div class="w-100">
-            <v-label class="text-body-2 text-wrap2">Tipe Dokumen</v-label>
+          <!-- <div class="w-50">
+            <v-label class="text-body-2 text-wrap2 text-blue-darken-4">Tipe Dokumen</v-label>
             <v-select
-              :items="category"
-              v-model="selectCategory"
+              :items="tipedokumen"
+              v-model="selectdokumen"
               density="compact"
-              variant="solo"
-              class="text-blue-darken-4 rounded-select me-2"
+              variant="tonal"
+              class="bg-indigo-lighten-5  text-blue-darken-4 rounded-lg me-2"
               single-line
               hide-details
             ></v-select>
-          </div>
+          </div> -->
           <!-- PERIODE -->
-          <v-div class="w-100">
-            <v-label v-label class="text-body-2 text-blue-darken-4 pe-7">Periode</v-label>
-            <VueDatePicker v-model="periode" range :enable-time-picker="false" hide-offset-dates max-range="30" :max-date="new Date()"  @update:v-model="periode" input-class-name="dp-custom-input"/>
-          </v-div>
+          <!-- <div class="w-100">
+            <v-label v-label class="text-body-2 text-blue-darken-4">Periode</v-label>
+            <VueDatePicker v-model="periode" range :clearable="false" :enable-time-picker="false" hide-offset-dates max-range="30" :max-date="new Date()"  @update:model-value="selected()" input-class-name="dp-custom-input"/>
+          </div> -->
         </div>
+          <!-- <v-chip class="mt-1 me-1" color="orange" size="small">{{ periode[0] }} - {{ periode[1] }}</v-chip>
+          <v-chip v-if="selectdokumen" class="mt-1" color="orange" size="small">{{ selectdokumen }}</v-chip> -->
       </v-responsive>
-      <v-responsive class="me-md-0 ms-md-auto ms-0 me-auto w-100" max-width="400">
-          <div class="d-flex align-center">
+      <v-responsive class="me-sm-0 ms-sm-auto ms-0 me-auto" width="200" max-width="450">
+        <div class="d-flex align-center justify-sm-end justify-start mt-md-1 mt-0">
           
           <!-- status  -->
-          <v-div>
-            <v-label class="text-body-2">Status</v-label>
+          <!-- <v-div class="w-50">
+            <v-label class="text-body-2 text-blue-darken-4">Status</v-label>
             <v-select
               :items="status"
+              item-title="title"
+              item-value="key"
               v-model="checkStatus"
               density="compact"
-              variant="solo"
-              class="text-blue-darken-4 rounded-select me-2"
+              variant="tonal"
+              class="text-blue-darken-4 bg-indigo-lighten-5 rounded-lg me-2"
               single-line
               hide-details
             ></v-select>
-          </v-div>
-          
-          <!-- add data -->
-          <v-div class="d-flex pt-6 w-100">
-              <!-- SEARCH -->
-              <v-text-field
-                    v-model="search"
-                    density="compact"
-                    label="Search"
-                    variant="solo"
-                    class="text-blue-darken-4 rounded-select me-2"
-                    hide-details
-                    single-line
-              ></v-text-field>
-              <ScreenDialog :datatext="datatext" :pageTitle="pageTitle" :btn="btn" :headDetails="headDetails" :details="details" :headers="headers" :items="selected()" :search="search" :category="category" :selectCategory="selectCategory" :iTitle="actIcon[0].text" :btncolor="actIcon[0].color" :icon="actIcon[0].icon" :iVariant="actIcon[0].variant" :alpha="alpha" :actIcon="actIcon"/>
-                <v-btn
-                color="indigo-darken-1"
-                icon="mdi-download"
-                class="rounded-lg ms-2"
-                variant="tonal"
-                size="small"
-                @click="ExportToExcel('xlsx')"
-              ></v-btn>
-            </v-div>
-          </div>
+          </v-div> -->
+          <!-- SEARCH -->
+            <v-text-field
+              v-model="search"
+              density="compact"
+              variant="text"
+              class="w-75 text-indigo-darken-4 rounded-xl border me-2 text-body-2 font-small"
+              prepend-inner-icon="mdi-magnify"
+              placeholder="Search"
+              single-line
+              hide-details
+            >
+            </v-text-field>
+            <!-- EXPORT BUTTON -->
+            <v-btn
+              id="cetak"
+              color="indigo"
+              icon="mdi-dots-vertical"
+              class="rounded-xl mx-2 elevation-0 bg-grey-lighten-4 text-indigo"
+              size="small"
+            ></v-btn>
+            <v-menu activator="#cetak" transition="slide-y-transition">
+              <v-list>
+                <v-list-item
+                  v-for="(c, index) in this.cetak"
+                  :key="index"
+                  :value="index"
+                  @click="print(index)"
+                  density="compact"
+                  class="text-caption"
+                  :prepend-icon="c.icon"
+                >
+                {{ c.title }}
+                </v-list-item>
+              </v-list>
+            </v-menu>
+            <!-- BUTTON FILTER -->
+          <v-btn @click="filter = !filter " class="rounded-circle text-caption elevation-0 bg-grey-lighten-4 text-indigo me-2" icon="mdi-tune-vertical" size="small">
+          </v-btn>
+        </div>
       </v-responsive>
       </v-row>
-      <!-- edit data -->
-        <!-- edit data -->
+        <!-- EDIT DATA -->
+        <v-sheet class="rounded-b-xl">
         <v-data-table
             id="tbl_exporttable_to_xls" 
             :headers="headers"
-            :items="items"
+            :items="checkstatus()"
             :search="search"
             :hover="true"
             :fixed-header="true"
-            style="cursor: pointer"
-            density="comfortable"
-            class="text-body-2 py-3 px-5"
-            height="400"
+            density="compact"
+            class="text-caption py-3 rounded-b-xl h-75"
+            height="75vh"
             >
+            <!-- CUSTOM PAGINATION STYLE -->
+            <template v-slot:bottom>
+                <!-- <v-row no-gutters class="justify-end align-center my-1">
+                  <v-pagination
+                    v-model="page"
+                    :length="4"
+                    size="small"
+                    rounded="circle"
+                    prev-icon="mdi-menu-left"
+                    next-icon="mdi-menu-right"
+                  ></v-pagination>
+                  <v-spacer></v-spacer>
+                  <span>Total: 1978 data</span>
+                </v-row> -->
+              </template>
             <!-- dialog actions -->
+            <!-- eslint-disable-next-line vue/valid-v-slot -->
+            <template v-slot:item.total_penjualan="{ item }">
+              <td>{{ numb(item.raw.total_penjualan) }}</td>
+            </template>
              <!-- eslint-disable-next-line vue/valid-v-slot -->
             <template v-slot:item.actions="{item}">
-            <ScreenDialog :headDetails="headDetails" :item="item" :details="details" :headers="headers" :items="selected()" :search="search" :category="category" :selectCategory="selectCategory" :iTitle="actIcon[1].text" :btncolor="actIcon[1].color" :icon="actIcon[1].icon" :iVariant="actIcon[1].variant" :alpha="alpha" :actIcon="actIcon" :disable="true"/>
+              <ScreenDialog batalbtn="Pengeluaran" :namaPelanggan="namaPelanggan(item.raw.kode_pelanggan)" :pembelian="penjualan(item.raw.no_penjualan)" :edit="true" :pengeluaran="true" :pageTitle="pageTitle" :headDetails="headDetails" :items="item.raw" :details="details" :headers="headers" :search="search" :category="category" :selectCategory="selectCategory" :iTitle="actIcon[3].text" :btncolor="actIcon[3].color" :icon="actIcon[3].icon" :iVariant="actIcon[3].variant" :alpha="alpha" :actIcon="actIcon" :disable="true"/>
             </template>
           </v-data-table>
+        </v-sheet>
   </v-container>
 
 </template>

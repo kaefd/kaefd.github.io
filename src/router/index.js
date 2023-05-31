@@ -4,7 +4,7 @@ import ItemsView from '../views/ItemsView.vue'
 import LoginView from '../views/LoginView.vue'
 import CustomerView from '../views/CustomerView.vue'
 import SupplierView from '../views/SupplierView.vue'
-import UserView from '../views/UserView.vue'
+// import UserView from '../views/UserView.vue'
 import InItems from '../views/InItems.vue'
 import ProductView from '../views/ProductView.vue'
 import OutItem from '../views/OutItem.vue'
@@ -56,7 +56,7 @@ const router = createRouter({
     {
       path: '/users',
       name: 'users',
-      component: UserView,
+      component: '/',
     },
     {
       path: '/in',

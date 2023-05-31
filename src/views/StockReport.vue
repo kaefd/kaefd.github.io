@@ -2,6 +2,7 @@
 import TableVue from '../components/TableVue.vue';
 import NavDrawers from '../components/NavDrawers.vue';
 import AppBar from '../components/AppBar.vue';
+import api from '../api';
 
 </script>
 
@@ -30,27 +31,40 @@ import AppBar from '../components/AppBar.vue';
           'Mesin & Peralatan',
         ],
         headers: [
-          { title: 'Kategori Barang', key: 'categories'},
-          { title: 'Kode Barang', key: 'codeItem' },
-          { title: 'Nama Barang', key: 'name' },
-          { title: 'HS Kode', key: 'hscode' },
-          { title: 'Satuan', key: 'pcs' },
-          { title: 'Stok Akhir', key: 'totalStock' },
+          { title: 'Kategori Barang', key: 'kategori_barang'},
+          { title: 'Kode Barang', key: 'kode_barang' },
+          { title: 'Nama Barang', key: 'nama_barang' },
+          { title: 'HS Kode', key: 'hs_code' },
+          { title: 'Satuan', key: 'satuan' },
+          { title: 'Stok Akhir', key: 'stok_akhir' },
           { title: '', key: 'actions', sortable: false},
         ],
-        items: [
-          {
-            categories: 'Bahan Baku',
-            codeItem: 'CAG',
-            name: 'Coil Atap Galvalum',
-            hscode: '7225900',
-            pcs: 'KG',
-            totalStock: 7888979,
-          },
-        ],
+        items: '',
+        barang: '',
       }
     },
     methods: {
+
+      getData() {
+        api.getData('/group_barang')
+        .then(response => {
+          this.items = response.data
+        })
+        .catch(() => {
+          window.location.href = '/login'
+        })
+      },
+      getDataBarang() {
+        api.getData('/barang?status=true')
+        .then(response => {
+          this.barang = response.data
+        })
+        .catch(() => {
+          window.location.href = '/login'
+        })
+      },
+
+      
       selected(){        
         //show row selected
         if(this.selectCategory == 'semua'){
@@ -70,6 +84,10 @@ import AppBar from '../components/AppBar.vue';
          XLSX.writeFile(wb, fn || (this.pageTitle+'.' + (type || 'xlsx')));
     }
       
+    },
+    mounted() {
+      this.getData()
+      this.getDataBarang()
     }
   }
 </script>
@@ -79,48 +97,53 @@ import AppBar from '../components/AppBar.vue';
     <AppBar @click.stop="drawer = !drawer" :pageTitle="pageTitle"/>
 
     <v-container>
-    <v-row no-gutters class="bg-white align-center pt-3 px-4 mb-3 rounded-lg">
-      <v-responsive class="overflow-visible me-2 w-100" max-width="400">
-        <div class="d-flex">
-          <v-select
-          :items="category"
-          v-model="selectCategory"
-          density="compact"
-          variant="outlined"
-          class="text-blue-darken-4 me-2 w-100 pt-6"
-          single-line
-          ></v-select>
+    <v-row no-gutters class="bg-white align-center pa-4 mb-4 rounded-lg w-100">
+      <v-responsive class="d-flex align-center mb-sm-0 mb-3" max-width="400" max-height="70">
+        <div class="d-flex w-100">
           <div class="w-100">
-            <v-label class="text-body-2">Tipe Dokumen</v-label>
+            <!-- KATEGORI -->
+          <v-label class="text-body-2 text-blue-darken-4">Kategori</v-label>
+          <v-select
+            :items="categories"
+            v-model="selectCategory"
+            density="compact"
+            variant="tonal"
+            class="bg-indigo-lighten-5 text-blue-darken-4 rounded-lg me-2 w-100"
+            single-line
+            hide-details
+          ></v-select>
+          </div>
+          <div class="w-100">
+            <v-label class="text-body-2 text-blue-darken-4">Tipe Dokumen</v-label>
             <v-select
             label="Tipe Dokumen"
             :items="category"
             v-model="selectCategory"
             density="compact"
-            variant="outlined"
-            class="text-blue-darken-4 me-2"
+            variant="tonal"
+            class="text-blue-darken-4 ms-2 bg-indigo-lighten-5 me-2 rounded-lg"
             single-line
             hide-details
             ></v-select>
           </div>
         </div>
       </v-responsive>
-      <v-responsive class="me-sm-0 ms-sm-auto ms-0 me-auto" max-width="400">
-          <div class="d-flex align-center">
+      <v-responsive class="me-sm-0 ms-sm-auto ms-0 me-auto" min-width="300" max-width="400">
+          <div class="d-flex w-100 align-center mt-sm-6 m-0">
             <!-- SEARCH -->
             <v-text-field
                 v-model="search"
                 density="compact"
                 label="Search"
-                variant="solo"
-                class="text-blue-darken-4 rounded-select"
+                variant="tonal"
+                class="text-blue-darken-4 bg-indigo-lighten-5 me-2 rounded-lg"
                 hide-details
                 single-line
             ></v-text-field>
               <v-btn
               color="indigo-darken-1"
               icon="mdi-download"
-              class="rounded-lg ms-2"
+              class="rounded-lg"
               variant="tonal"
               size="small"
               @click="ExportToExcel('xlsx')"
@@ -129,7 +152,7 @@ import AppBar from '../components/AppBar.vue';
       </v-responsive>
       </v-row>
       <!-- edit data -->
-        <TableVue id="tbl_exporttable_to_xls"  :screen="400"  :headers="headers" :items="selected()" :search="search" :category="category" :selectCategory="selectCategory" :iTitle="actIcon[1].text" :btncolor="actIcon[1].color" :icon="actIcon[1].icon" :iVariant="actIcon[1].variant" :alpha="alpha"/>
+        <TableVue id="tbl_exporttable_to_xls" :barang="barang"  :screen="400"  :headers="headers" :items="items" :search="search" :category="category" :selectCategory="selectCategory" :iTitle="actIcon[1].text" :btncolor="actIcon[1].color" :icon="actIcon[1].icon" :iVariant="actIcon[1].variant" :alpha="alpha" :laporanstok="true" />
   </v-container>
 
 

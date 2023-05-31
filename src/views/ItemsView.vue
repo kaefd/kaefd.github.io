@@ -1,8 +1,6 @@
 <script setup>
 import TableVue from '../components/TableVue.vue';
 import DialogCard from '../components/DialogCard.vue';
-import NavDrawers from '../components/NavDrawers.vue';
-import AppBar from '../components/AppBar.vue';
 import { defineComponent } from 'vue';
 import api from '../api';
 </script>
@@ -13,23 +11,22 @@ export default defineComponent ({
   components: {
     TableVue,
     DialogCard,
-    AppBar,
-    NavDrawers,
+    
   },
     name: 'itemsView',
-    props:['actIcon'],
+    props:['actIcon', 'cetak'],
     data () {
       return {
-        drawer: null,
         search: '',
+        filter: false,
         pageTitle: 'DATA BARANG',
-        selectCategory: 'semua',
+        selectCategory: [],
         btnTitle: 'Tambah Data',
-        id: ['C', 'R', 'U', 'D'],
         alpha: 1,
+        pilihcetak: '',
         statusselect: false,
+        show : false,
         category: [
-          'semua',
           'Bahan Baku',
           'Bahan Penolong',
           'Barang Setengah Jadi',
@@ -43,7 +40,7 @@ export default defineComponent ({
           { title: 'Nama Barang', key: 'nama_barang' },
           { title: 'HS Kode', key: 'hs_code' },
           { title: 'Satuan', key: 'satuan' },
-          { title: 'Actions', key: 'actions', sortable: false},
+          { key: 'actions', align:'center', sortable: false},
         ],
         items: '',
         keyform:[
@@ -61,10 +58,18 @@ export default defineComponent ({
           hs_code: '',
           satuan: '',
           status: true,
-        }
+        },
+      filtered: {
+        kategori_barang: []
+      }
       }
     },
     created() {
+      this.windowWidth
+        
+    },
+    methods: {
+      getData(){
         api.getData('/barang?status=true')
         .then(response => {
           this.items = response.data
@@ -72,17 +77,23 @@ export default defineComponent ({
         .catch(() => {
           window.location.href = '/login'
         })
-    },
-    methods: {
+      },
       selected(){        
-        //show row selected
-        if(this.selectCategory == 'semua'){
-          return this.items
-        } else {
-          return this.items.filter(item => item.kategori_barang === this.selectCategory )
+          if (this.selectCategory.length === 0) {
+            return this.items;
+          } else {
+            return this.items.filter(item => this.selectCategory.includes(item.kategori_barang));
           }
       },
-      ExportToExcel(type, fn, dl) {
+      print(i){
+          if (i == 0) {
+            return this.ExportToExcel('xlsx')
+          } else if(i == 1) {
+            return this.pdf()
+          }
+      },
+      
+    ExportToExcel(type, fn, dl) {
        var elt = document.getElementById('tbl_exporttable_to_xls');
        // eslint-disable-next-line no-undef
        var wb = XLSX.utils.table_to_book(elt, { sheet: "sheet1" });
@@ -90,7 +101,7 @@ export default defineComponent ({
          // eslint-disable-next-line no-undef
          XLSX.write(wb, { bookType: type, bookSST: true, type: 'base64' }):
          // eslint-disable-next-line no-undef
-         XLSX.writeFile(wb, fn || (this.pageTitle+'.' + (type || 'xlsx')));
+         XLSX.writeFile(wb, fn || (this.pageTitle+'.' + (type)));
     },
     successAlert(m) {
       this.$swal.fire(
@@ -120,7 +131,7 @@ export default defineComponent ({
           })
       },
       // EDIT DATA
-      editForm(value) {
+    editForm(value) {
       const myJSON = JSON.stringify(value);
         api.putData('/barang', {
           barang : myJSON
@@ -131,9 +142,9 @@ export default defineComponent ({
           .catch((error) => {
             this.failedAlert(error.response.data);
           })
-      },
-      // HAPUS DATA
-      del(value) {
+    },
+    // HAPUS DATA
+    del(value) {
       this.barang = {
               kategori_barang : value.kategori_barang,
               kode_barang : value.kode_barang,
@@ -166,69 +177,133 @@ export default defineComponent ({
           .catch(function (error) {
             console.log(error);
           })
+    },
+    page(){
+        return this.$emit('page', this.pageTitle)
+    },
+    filterdata() {
+        this.selectCategory = this.filtered.kategori_barang
+        if(!this.selectCategory) {
+          this.selectCategory = []
+          } else if (this.selectCategory == []) {
+            this.selectCategory = []
+          }
+
+      },
+      reset() {
+        this.filtered.kategori_barang = []
+        this.selectCategory = []
+        
       },
     },
     mounted() {
-        api.getData
+        this.getData()
+        this.page()
       }
       
   })
 
 </script>
 <template>
-
-  <NavDrawers v-model="drawer"/>
-  <AppBar @click.stop="drawer = !drawer" :pageTitle="pageTitle"/>
+  <v-navigation-drawer
+        class="mt-4 border-0 bg-grey-lighten-4 rounded-xl me-4 elevation-0"
+        v-model="filter"
+        location="right"
+        width="320"
+        style="height: fit-content;"
+      >
+      <v-sheet class="rounded-xl py-5 h-500">
+        <div class="d-flex align-center">
+          <v-span class="text-button ms-4">Filter</v-span>
+          <v-btn size="small" icon="mdi-close" @click="filter = false" variant="text" class="me-3 ms-auto">
+          </v-btn>
+        </div>
+        <!-- KATEGORI BARANG -->
+        <v-container class="py-3 px-4">
+          <v-span class="text-caption text-weight-bold">Kategori Barang</v-span>
+          <v-divider></v-divider>
+            <v-checkbox
+              v-for="label, i in category" :key="i"
+              v-model="filtered.kategori_barang"
+              :label="label"
+              :value="label"
+              color="orange-lighten-1"
+              class="mb-n6"
+              hide-details
+            ></v-checkbox>
+            <v-div class="d-flex justify-end mt-12">
+              <v-btn class="elevation-0 text-small mt-5 me-2 bg-grey-lighten-2" height="42" @click="reset()">Reset</v-btn>
+              <v-btn class="elevation-0 text-small mt-5 text-white" color="orange-lighten-1" height="42" @click="filterdata()">Filter</v-btn>
+            </v-div>
+        </v-container>
+      </v-sheet>
+  </v-navigation-drawer>
   <v-container>
-
-
-    <v-row no-gutters class="bg-white align-center pa-4 mb-4 rounded-lg w-100">
-      <v-responsive class="d-flex align-center mb-sm-0 mb-3" max-width="300" max-height="70">
-        <div class="w-100">
+    <v-row no-gutters class="rounded-t-xl align-start mb-2">
+      <v-responsive class="d-flex align-center mb-sm-0 mb-1" min-width="200">
+        <div class="d-flex align-center w-100">
           <!-- KATEGORI -->
-          <v-label class="text-body-2 text-blue-darken-4">Kategori</v-label>
-          <v-select
+          <!-- <v-select
+            label="Kategori Barang"
             :items="category"
             v-model="selectCategory"
             density="compact"
             variant="tonal"
-            class="bg-indigo-lighten-5 text-indigo-darken-4 rounded-lg me-2"
+            class="bg-indigo-lighten-5 text-indigo-darken-4 rounded-left"
             single-line
             hide-details
-          ></v-select>
-        </div>
+          ></v-select> -->
+          <!-- ADD BUTTON -->
+          <DialogCard :keyform="keyform" :tambah="tambah" :ishidden="true" :noselect="statusselect" @form="submitForm" :screen="400" :iTitle="actIcon[0].text" :btncolor="actIcon[0].color" :icon="actIcon[0].icon" :iVariant="actIcon[0].variant" :headers="headers" :items="items" :category="category" :alpha="alpha" :submitForm="submitForm"/>
+          <!-- SEARCH -->
+          
+          
+          </div>
       </v-responsive>
-      <v-responsive class="me-0 ms-auto mt-6" max-width="350" min-width="200">
-        <div class="d-flex align-center w-100">
-            <!-- SEARCH -->
-              <v-text-field
-                  v-model="search"
-                  density="compact"
-                  variant="tonal"
-                  class="bg-indigo-lighten-5 text-indigo-darken-4 rounded-lg me-2 text-body-2"
-                  append-inner-icon="mdi-magnify"
-                  single-line
-                  hide-details
-              ></v-text-field>
-
-            <!-- ADD BUTTON -->
-            <DialogCard :keyform="keyform" :tambah="tambah" :ishidden="true" :noselect="statusselect" @form="submitForm" :screen="400" :iTitle="actIcon[0].text" :btncolor="actIcon[0].color" :icon="actIcon[0].icon" :iVariant="actIcon[0].variant" :headers="headers" :items="items" :category="category" :alpha="alpha" :submitForm="submitForm"/>
+      <v-responsive class="me-sm-0 ms-sm-auto ms-0 me-auto" max-width="450">
+        <div class="d-flex align-center justify-sm-end justify-start">
+          <v-text-field
+            v-model="search"
+            density="compact"
+            variant="text"
+            class="text-indigo-darken-4 rounded-xl border text-body-2 font-small"
+            prepend-inner-icon="mdi-magnify"
+            placeholder="Search"
+            single-line
+            hide-details
+          >
+          </v-text-field>
             <!-- EXPORT BUTTON -->
             <v-btn
-              color="indigo-darken-1"
-              icon="mdi-download"
-              class="rounded-lg ms-2"
-              variant="tonal"
+              id="cetak"
+              color="indigo"
+              icon="mdi-dots-vertical"
+              class="rounded-xl mx-2 elevation-0 bg-grey-lighten-4 text-indigo"
               size="small"
-              @click="ExportToExcel('xlsx')"
             ></v-btn>
-
-
+            <v-menu activator="#cetak" transition="slide-y-transition">
+            <v-list>
+              <v-list-item
+                v-for="(c, index) in this.cetak"
+                :key="index"
+                :value="index"
+                @click="print(index)"
+                density="compact"
+                class="text-caption"
+                :prepend-icon="c.icon"
+              >
+              {{ c.title }}
+              </v-list-item>
+            </v-list>
+          </v-menu>
+          <!-- BUTTON FILTER -->
+          <v-btn @click="filter = !filter " class="rounded-circle text-caption elevation-0 bg-grey-lighten-4 text-indigo me-2" icon="mdi-tune-vertical" size="small">
+          </v-btn>
           </div>
       </v-responsive>
       </v-row>
-      <!-- TABLE -->
-        <TableVue :keyform="keyform" :noselect="statusselect" @edit="editForm" @del="del" id="tbl_exporttable_to_xls" :screen="400"  :headers="headers" :items="selected()" :search="search" :category="category" :selectCategory="selectCategory" :iTitle="actIcon[1].text" :btncolor="actIcon[1].color" :icon="actIcon[1].icon" :iVariant="actIcon[1].variant" :alpha="alpha" :form="form"/>
+        <!-- TABLE -->
+        <TableVue :windowWidth="windowWidth" :keyform="keyform" :noselect="statusselect" @edit="editForm" @del="del" id="tbl_exporttable_to_xls" :screen="400"  :headers="headers" :items="selected()" :search="search" :category="category" :selectCategory="selectCategory" :iTitle="actIcon[1].text" :btncolor="actIcon[1].color" :icon="actIcon[1].icon" :iVariant="actIcon[1].variant" :alpha="alpha" :form="form"/>
   </v-container>
   </template>
 <style>
@@ -243,14 +318,27 @@ export default defineComponent ({
   height: 75vh ;
 }
 
-.rounded-select .v-input__control {
-  border-radius: 7px;
-}
 .v-select__selection-text {
   font-size: 11pt;
 }
-.v-field__input {
-  font-size: 11pt;
+.font-small {
+  font-size: 1rem !important;
 }
-
+.rounded-right{
+  border-radius: 7px 0px 0px 7px;
+}
+.rounded-left{
+  border-radius: 0px 7px 7px 0px;
+}
+.bg-blue-custom {
+  background: #3B7AA9;
+}
+.text-blue-custom {
+  color: #3B7AA9 !important;
+}
+.dp__input {
+  font-size: 10pt !important;
+  height: 43px !important;
+  border-color: #ababab !important;
+}
 </style>

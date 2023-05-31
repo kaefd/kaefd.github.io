@@ -62,6 +62,9 @@ import { ref, onMounted } from 'vue';
       }
     },
     methods: {
+      getLaporanMasuk() {
+
+      },
       selected(){        
         //show row selected
         if(this.selectCategory == 'semua'){
@@ -106,14 +109,14 @@ import { ref, onMounted } from 'vue';
         <div class="d-flex w-100">
           <!-- TIPE DOKUMEN -->
           <v-div class="w-100">
-            <v-label class="text-body-2 pe-7">Tipe Dokumen</v-label>
+            <v-label class="text-body-2 text-blue-darken-4 pe-7">Tipe Dokumen</v-label>
             <v-select
               label="Select"
               :items="category"
               v-model="selectCategory"
               density="compact"
-              variant="solo"
-              class="text-blue-darken-4 rounded-select me-2"
+              variant="tonal"
+              class="text-blue-darken-4 bg-indigo-lighten-5 rounded-lg me-2"
               single-line
               hide-details
             ></v-select>
@@ -132,8 +135,8 @@ import { ref, onMounted } from 'vue';
                 v-model="search"
                 density="compact"
                 label="Search"
-                variant="solo"
-                class="text-blue-darken me-2 rounded-select w-50"
+                variant="tonal"
+                class="text-blue-darken-4 bg-indigo-lighten-5 me-2 rounded-lg"
                 single-line
                 hide-details
           ></v-text-field>

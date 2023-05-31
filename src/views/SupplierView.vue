@@ -1,12 +1,10 @@
 <script setup>
 import TableVue from '../components/TableVue.vue';
-import NavDrawers from '../components/NavDrawers.vue';
-import AppBar from '../components/AppBar.vue';
 import api from '../api';
 </script>
 <script>
   export default {
-    props:['actIcon'],
+    props:['actIcon', 'cetak'],
     components: {
     TableVue
 },
@@ -56,6 +54,9 @@ import api from '../api';
     },
 
     methods:{
+      page(){
+        return this.$emit('page', this.pageTitle)
+      },
       suppCode(){
         let s = []
         for (let i = 0; i < this.items.length; i++) {
@@ -63,6 +64,14 @@ import api from '../api';
         }
         return s
       },
+      print(i){
+          if (i == 0) {
+            return this.ExportToExcel('xlsx')
+          } else if(i == 1) {
+            return this.pdf()
+          }
+      },
+      
       ExportToExcel(type, fn, dl) {
        var elt = document.getElementById('tbl_exporttable_to_xls');
        // eslint-disable-next-line no-undef
@@ -71,8 +80,8 @@ import api from '../api';
          // eslint-disable-next-line no-undef
          XLSX.write(wb, { bookType: type, bookSST: true, type: 'base64' }):
          // eslint-disable-next-line no-undef
-         XLSX.writeFile(wb, fn || (this.pageTitle+'.' + (type || 'xlsx')));
-        },
+         XLSX.writeFile(wb, fn || (this.pageTitle+'.' + (type)));
+    },
       },
         successAlert(m) {
           this.$swal.fire(
@@ -88,36 +97,59 @@ import api from '../api';
             'error'
           )
         },
+
+        mounted(){
+          this.page()
+        }
   }  
 </script>
 <template>
-  <NavDrawers v-model="drawer"/>
-  <AppBar @click.stop="drawer = !drawer" :pageTitle="pageTitle"/>
 <v-container>
-  <v-row no-gutters class="bg-white align-center pa-4 mb-3 rounded-lg ">
-    <v-responsive class="d-flex me-2" max-width="300" cols="6" xs="4">
+  <v-row no-gutters class="align-center rounded-t-xl mb-2">
+    <v-responsive class="me-0 ms-auto" max-width="450">
+      <div class="d-flex">
         <!-- SEARCH -->
         <v-text-field
+          v-model="search"
           density="compact"
-          variant="tonal"
-          class="bg-indigo-lighten-5 text-indigo-darken-4 rounded-lg"
-          append-inner-icon="mdi-magnify"
+          variant="text"
+          class="text-indigo-darken-4 rounded-xl border text-body-2 font-small"
+          prepend-inner-icon="mdi-magnify"
+          placeholder="Search"
           single-line
           hide-details
-        ></v-text-field>
+      >
+      </v-text-field>
+      <!-- EXPORT BUTTON -->
+      <v-btn
+        id="cetak"
+        color="indigo"
+        icon="mdi-dots-vertical"
+        class="rounded-xl mx-2 elevation-0 bg-grey-lighten-4 text-indigo"
+        size="small"
+      ></v-btn>
+      <v-menu activator="#cetak" transition="slide-y-transition">
+        <v-list>
+          <v-list-item
+            v-for="(c, index) in this.cetak"
+            :key="index"
+            :value="index"
+            @click="print(index)"
+            density="compact"
+            class="text-caption"
+            :prepend-icon="c.icon"
+          >
+          {{ c.title }}
+          </v-list-item>
+        </v-list>
+      </v-menu>
+    </div>
     </v-responsive>
-    <v-responsive cols="6" xs="4">
+    <!-- <v-responsive cols="6" xs="4">
         <div class="d-flex float-right">
-            <v-btn
-            color="indigo-darken-1"
-            icon="mdi-download"
-            class="rounded-lg ms-2"
-            variant="tonal"
-            size="small"
-            @click="ExportToExcel('xlsx')"
-          ></v-btn>
+            
         </div>
-    </v-responsive>
+    </v-responsive> -->
     </v-row>
     <!-- VIEW -->
     <TableVue :keyform="keyform" :ishidden="true" :disabled="true" :noselect="true" id="tbl_exporttable_to_xls" :screen="400" :headers="headers" :items="items" :search="search" :category="suppCode()" :iTitle="actIcon[3].text" :btncolor="actIcon[3].color" :icon="actIcon[3].icon" :iVariant="actIcon[3].variant" :alpha="alpha"/>

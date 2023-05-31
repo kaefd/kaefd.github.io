@@ -2,8 +2,6 @@
 import { defineComponent } from 'vue';
 import TableVue from '../components/TableVue.vue';
 import DialogCard from '../components/DialogCard.vue';
-import NavDrawers from '../components/NavDrawers.vue';
-import AppBar from '../components/AppBar.vue';
 import api from '../api';
 
 </script>
@@ -11,9 +9,9 @@ import api from '../api';
 <script>
   export default defineComponent ({
     name: 'CustomerView',
-    props:['actIcon'],
+    props:['actIcon', 'cetak'],
     components: {
-    TableVue, DialogCard, NavDrawers, AppBar
+    TableVue, DialogCard
     },
     data () {
       return {
@@ -22,6 +20,7 @@ import api from '../api';
         statusselect: true,
         search: '',
         alpha: 1,
+        pilihcetak: '',
         category: [
           'semua',
           'Bahan Baku',
@@ -67,6 +66,17 @@ import api from '../api';
         
     },
     methods: {
+      page(){
+        return this.$emit('page', this.pageTitle)
+      },
+      print(i){
+          if (i == 0) {
+            return this.ExportToExcel('xlsx')
+          } else if(i == 1) {
+            return this.pdf()
+          }
+      },
+      
       ExportToExcel(type, fn, dl) {
        var elt = document.getElementById('tbl_exporttable_to_xls');
        // eslint-disable-next-line no-undef
@@ -75,8 +85,8 @@ import api from '../api';
          // eslint-disable-next-line no-undef
          XLSX.write(wb, { bookType: type, bookSST: true, type: 'base64' }):
          // eslint-disable-next-line no-undef
-         XLSX.writeFile(wb, fn || (this.pageTitle+'.' + (type || 'xlsx')));
-    },
+         XLSX.writeFile(wb, fn || (this.pageTitle+'.' + (type)));
+      },
       successAlert(m) {
         this.$swal.fire(
           'Berhasil !',
@@ -155,41 +165,60 @@ import api from '../api';
             this.failedAlert(error.response.data)
           })
       }
+    },
+    mounted(){
+      this.page()
     }
   })
 
 </script>
 <template>
-  <NavDrawers v-model="drawer"/>
-  <AppBar @click.stop="drawer = !drawer" :pageTitle="pageTitle"/>
   <v-container>
-    <v-row no-gutters class="bg-white align-center justify-between rounded-lg pa-4 mb-4">
-    <v-responsive class="d-flex me-2" max-width="300">
+    <v-row no-gutters class="rounded-t-xl align-start mb-2">
+      <v-responsive class="d-flex align-center mb-sm-0 mb-1" min-width="200">
+      <div class="d-flex align-center w-100">
+      <!-- TAMBAH DATA -->
+      <DialogCard :keyform="keyform" :tambah="tambah" :ishidden="true" :noselect="statusselect"  @form="submitForm" :screen="400" :iTitle="actIcon[0].text" :btncolor="actIcon[0].color" :icon="actIcon[0].icon" :iVariant="actIcon[0].variant" :headers="headers" :items="items" :category="category"  :alpha="alpha"/>
+    </div>
+    </v-responsive>
+    <v-responsive class="me-sm-0 ms-sm-auto ms-0 me-auto" max-width="450">
+      <div class="d-flex align-center justify-sm-end justify-start">
         <!-- SEARCH -->
         <v-text-field
-              v-model="search"
-              density="compact"
-              class="bg-indigo-lighten-5 text-indigo-darken-4 rounded-lg me-2"
-              variant="tonal"
-              append-inner-icon="mdi-magnify"
-              single-line
-              hide-details
-        ></v-text-field>
-    </v-responsive>
-    <v-responsive>
-        <div class="d-flex float-right">
-          <!-- TAMBAH DATA -->
-            <DialogCard :keyform="keyform" :tambah="tambah" :ishidden="true" :noselect="statusselect"  @form="submitForm" :screen="400" :iTitle="actIcon[0].text" :btncolor="actIcon[0].color" :icon="actIcon[0].icon" :iVariant="actIcon[0].variant" :headers="headers" :items="items" :category="category"  :alpha="alpha"/>
-            <!-- EKSPORT DATA -->
-            <v-btn
-            color="indigo-darken-1"
-            icon="mdi-download"
-            class="rounded-lg ms-2"
-            variant="tonal"
+          v-model="search"
+          density="compact"
+          variant="text"
+          class="text-indigo-darken-4 rounded-xl ms-2 border text-body-2 font-small"
+          prepend-inner-icon="mdi-magnify"
+          placeholder="Search"
+          single-line
+          hide-details
+          >
+          </v-text-field>
+        <!-- EKSPORT DATA -->
+        <v-btn
+            id="cetak"
+            color="indigo"
+            icon="mdi-dots-vertical"
+            class="rounded-xl mx-2 elevation-0 bg-grey-lighten-4 text-indigo"
             size="small"
-            @click="ExportToExcel('xlsx')"
-          ></v-btn>
-        </div>
+        ></v-btn>
+          <v-menu activator="#cetak" transition="slide-y-transition">
+            <v-list>
+              <v-list-item
+                v-for="(c, index) in this.cetak"
+                :key="index"
+                :value="index"
+                @click="print(index)"
+                density="compact"
+                class="text-caption"
+                :prepend-icon="c.icon"
+              >
+              {{ c.title }}
+              </v-list-item>
+            </v-list>
+          </v-menu>
+      </div>
     </v-responsive>
     </v-row>
     <!-- edit -->

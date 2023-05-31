@@ -1,7 +1,5 @@
 <script setup>
 import { defineComponent } from 'vue';
-import NavDrawers from '../components/NavDrawers.vue';
-import AppBar from '../components/AppBar.vue';
 import api from '../api';
 
 </script>
@@ -9,8 +7,6 @@ import api from '../api';
   export default defineComponent({
     name:'UserView',
     components: {
-    NavDrawers,
-    AppBar,
 },
     data () {
       return {
@@ -122,12 +118,7 @@ import api from '../api';
   })
 </script>
 <template>
-  <NavDrawers v-model="drawer"/>
-  <AppBar @click.stop="drawer = !drawer" :pageTitle="pageTitle"/>
 <v-container>
-
-  {{ user_otoritas[0].status }}
-
   <v-row class="d-flex w-100 mt-1 mx-auto">
   <v-col md="7" xs="12">
     <v-card class="elevation-0 pa-3 rounded-lg h-100" min-width="250">
