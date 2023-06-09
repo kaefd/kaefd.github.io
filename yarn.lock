@@ -3135,14 +3135,6 @@ pify@^4.0.1:
   resolved "https://registry.npmjs.org/pify/-/pify-4.0.1.tgz"
   integrity sha512-uB80kBFb/tfd68bVleG9T5GGsGPjJrLAUpR5PZIrhBnIaRTQRjqdJSsIKkOP6OAIFbj7GOrcudc5pNjZ+geV2g==
 
-pinia@^2.0.32:
-  version "2.0.34"
-  resolved "https://registry.npmjs.org/pinia/-/pinia-2.0.34.tgz"
-  integrity sha512-cgOoGUiyqX0SSgX8XelK9+Ri4XA2/YyNtgjogwfzIx1g7iZTaZPxm7/bZYMCLU2qHRiHhxG7SuQO0eBacFNc2Q==
-  dependencies:
-    "@vue/devtools-api" "^6.5.0"
-    vue-demi "*"
-
 pkg-conf@^3.1.0:
   version "3.1.0"
   resolved "https://registry.npmjs.org/pkg-conf/-/pkg-conf-3.1.0.tgz"
@@ -4024,11 +4016,6 @@ vite-plugin-vuetify@^1.0.0-alpha.12, vite-plugin-vuetify@^1.0.2:
   optionalDependencies:
     fsevents "~2.3.2"
 
-vue-demi@*:
-  version "0.13.11"
-  resolved "https://registry.npmjs.org/vue-demi/-/vue-demi-0.13.11.tgz"
-  integrity sha512-IR8HoEEGM65YY3ZJYAjMlKygDQn25D5ajNFNoKh9RSDMQtlzCxtfQjdQgv9jjK+m3377SsJXY8ysq8kLCZL25A==
-
 vue-demi@^0.13.11:
   version "0.13.11"
   resolved "https://registry.npmjs.org/vue-demi/-/vue-demi-0.13.11.tgz"
@@ -4070,7 +4057,7 @@ vue-sweetalert2@^5.0.5:
   dependencies:
     sweetalert2 "11.x"
 
-vue@*, "vue@^2.0.0 || >=3.0.0", "vue@^2.6.14 || ^3.2.0", vue@^3.0.0, "vue@^3.0.0-0 || ^2.6.0", vue@^3.2.0, vue@^3.2.25, vue@^3.2.47, vue@>=3.2.0, vue@3.2.47:
+vue@*, "vue@^2.0.0 || >=3.0.0", vue@^3.0.0, "vue@^3.0.0-0 || ^2.6.0", vue@^3.2.0, vue@^3.2.25, vue@^3.2.47, vue@>=3.2.0, vue@3.2.47:
   version "3.2.47"
   resolved "https://registry.npmjs.org/vue/-/vue-3.2.47.tgz"
   integrity sha512-60188y/9Dc9WVrAZeUVSDxRQOZ+z+y5nO2ts9jWXSTkMvayiWxCWOWtBQoYjLeccfXkiiPZWAHcV+WTPhkqJHQ==
