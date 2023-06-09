@@ -2,14 +2,12 @@
 import { RouterView } from 'vue-router'
 import { mergeProps } from 'vue'
 import NavDrawers from './components/NavDrawers.vue';
-import AppBar from './components/AppBar.vue';
 
 </script>
 
 <script>
 export default {
   components: {
-    AppBar,
     NavDrawers,
   },
     data () {
@@ -25,29 +23,36 @@ export default {
           {title: 'export ke pdf', icon: 'mdi-file-pdf-box'},
         ],
 
-        pageTitle: ''
+        pageTitle: '',
+        pemasukan: '',
+        produksi: '',
+        pengeluaran: '',
+        kirim: ''
       }
     },
     methods: {
       mergeProps,
       page(value) {
         this.pageTitle = value
-      }
+      },
+     
     },
     mounted() {
       this.page()
-      this.pageTitle
+      // this.getPembelian()
+      // this.getProduksihead()
+      // this.getPenjualanHead()
+      // this.getPengirimanHead()
     }
   }
 </script>
 
   <template>
       <v-layout>
-        <NavDrawers v-if="pageTitle != null" :pageTitle="pageTitle" />
-        <AppBar v-if="pageTitle != null" :pageTitle="pageTitle"/>
+        <NavDrawers v-if="pageTitle != null" :pageTitle="pageTitle" :item="items" :pemasukan="pemasukan" :produksi="produksi" :pengeluaran="pengeluaran" :kirim="kirim"/>
         <v-main>
           <v-container class="d-flex justify-center bg-grey-lighten-5" fluid style="height:70vh">
-            <RouterView :actIcon="actIcon" :cetak="cetak" @page="page" />
+            <RouterView :actIcon="actIcon" :cetak="cetak" @page="page" @pages="page" />
           </v-container>
         </v-main>
       </v-layout>

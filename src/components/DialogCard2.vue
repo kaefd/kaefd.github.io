@@ -1,11 +1,11 @@
 <script>
 import { reactive } from 'vue'
-  import { useVuelidate } from '@vuelidate/core'
-  import {  required } from '@vuelidate/validators'
+import { useVuelidate } from '@vuelidate/core'
+import {  required } from '@vuelidate/validators'
 
 export default {
     name: 'DialogCard2',
-    props: ['hiddenbtn', 'btn', 'itemDetail', 'barang', 'tambah', 'inputbahan', 'pembeliandetl' , 'getbarang'],
+    props: ['hiddenbtn', 'btn', 'itemDetail', 'pemasukan', 'penjualan', 'produksi', 'barang', 'tambah', 'inputbahan', 'pembeliandetl' , 'getbarang'],
     data() {
         return {
             search: '',
@@ -14,8 +14,12 @@ export default {
             newbarang: this.barang,
             newproduksi: this.getbarang,
             dialItem:'',
-            pemasukan_item : []
-            
+            pemasukan_item : [],
+            penjualan_detail: {
+                jumlah: '',
+                nilai: '',
+                harga_jual:'',
+            }
         }
     },
     setup() {
@@ -28,7 +32,8 @@ export default {
             satuan: '',
             nilai: '',
             no_urut:'',
-            status: ''
+            status: '',
+            harga_jual:'',
       }
 
       const state = reactive({
@@ -44,12 +49,11 @@ export default {
             satuan: { required },
             nilai: { required },
             no_urut: { required },
+            harga_jual: { required },
       }
-
       const v$ = useVuelidate(rules, state)
       function clear () {
         v$.value.$reset()
-
         for (const [key, value] of Object.entries(initialState)) {
           state[key] = value
         }
@@ -58,33 +62,34 @@ export default {
       return { state, clear, v$ }
     },
     computed: {
-        
+        terjual() {
+            return this.penjualan_detail.jumlah * this.penjualan_detail.harga_jual
+        },
         filteredItems() {
             if(!this.tambah) {
-                return this.newbarang.filter(item => {
-                        return item.nama_barang.toLowerCase().includes(this.search.toLowerCase())
+                return this.barang.filter(item => {
+                    return item.nama_barang.toLowerCase().includes(this.search.toLowerCase())
                 })
             } else {
                 return this.getbarang.filter(item => {
-                        return item.nama_barang.toLowerCase().includes(this.search.toLowerCase())
+                    return item.nama_barang.toLowerCase().includes(this.search.toLowerCase())
                 })
             }
-
         },
             masuk() {
                 return {
-
-                    
                 }
             }
         
     },
         methods: {
-            pemasukanItem(kode) {
-                    this.state.no_urut = 1
-                    this.state.hs_code = kode.hs_code
-                    this.state.satuan = kode.satuan
+            pemasukanItem(kode, i) {
+                this.state.no_urut = 1
+                this.state.hs_code = kode.hs_code
+                this.state.satuan = kode.satuan
+                if(this.pemasukan) {
                     this.pemasukan_item.push({
+                        no_pembelian: '',
                         kode_barang: kode.kode_barang,
                         nama_barang: this.state.nama_barang,
                         hs_code: this.state.hs_code,
@@ -94,8 +99,41 @@ export default {
                         nilai: this.state.nilai,
                         no_urut: this.state.no_urut
                     })
-                    this.$emit('pemasukanitem', this.pemasukan_item)
-                    return this.clear()
+                } else if(this.produksi) {
+                    this.pemasukan_item.push({
+                        no_produksi: '',
+                        kode_barang: kode.kode_barang,
+                        nama_barang: this.state.nama_barang,
+                        hs_code: this.state.hs_code,
+                        jumlah: this.state.jumlah,
+                        satuan: this.state.satuan,
+                        no_urut: this.state.no_urut,
+                        nilai: this.state.nilai,
+                    })
+                } else if(this.penjualan) {
+                    this.pemasukan_item.push({
+                        no_penjualan: '',
+                        kode_barang: kode.kode_barang,
+                        nama_barang: this.state.nama_barang,
+                        hs_code: this.state.hs_code,
+                        jumlah: this.penjualan_detail.jumlah,
+                        jumlah_terkirim: 0,
+                        satuan: this.state.satuan,
+                        harga_jual: this.penjualan_detail.harga_jual,
+                        total_terjual: this.terjual,
+                        no_urut: this.state.no_urut
+                    })
+                }
+                this.$emit('pemasukanitem', this.pemasukan_item)
+                this.clear()
+                this.penjualan_detail= {
+                    jumlah: '',
+                    nilai: '',
+                    harga_jual:'',
+                }
+                this.dialogchild[i] = false
+                this.dialog = false
+                    
                 },
         
     },
@@ -145,46 +183,82 @@ export default {
                                 </v-list-item>
                             </template>
                             <v-card class="px-7 py-5 w-100 mx-auto rounded-xl">
-                                <v-card-title class="text-center">{{ item.nama_barang }}</v-card-title>
-                                <v-span class="text-body-2 mt-n2 mb-3 text-center">{{ item.kode_barang }}</v-span>
+                                <v-span class="text-button text-center font-weight-bold">{{ item.nama_barang }}</v-span>
+                                <v-span class="text-button mt-n2 mb-3 text-center">{{ item.kode_barang }}</v-span>
                                 <form @submit.prevent="submit" ref="form">
                                     
                                     <v-text-field
+                                        v-if="!penjualan"
                                         v-model="state.jumlah"
                                         label="Jumlah"
                                         variant="outlined"
                                         density="compact"
+                                        hide-details
+                                        class="mb-3"
                                         :disabled="hiddenbtn"
                                         :error-messages="v$.jumlah.$errors.map(e => e.$message)"
                                         @input="v$.jumlah.$touch"
                                         @blur="v$.jumlah.$touch"
-
                                     />
                                     <v-text-field
-                                        v-if="!tambah"
+                                        v-if="penjualan"
+                                        v-model="penjualan_detail.jumlah"
+                                        label="Jumlah"
+                                        variant="outlined"
+                                        density="compact"
+                                        hide-details
+                                        class="mb-3"
+                                        :disabled="hiddenbtn"
+                                    />
+                                    <v-text-field
+                                        v-if="!tambah && !penjualan"
                                         v-model="state.jumlah_diterima"
                                         label="Jumlah Diterima"
                                         variant="outlined"
                                         density="compact"
+                                        hide-details
+                                        class="mb-3"
                                         :disabled="hiddenbtn"
                                         :error-messages="v$.jumlah_diterima.$errors.map(e => e.$message)"
                                         @input="v$.jumlah_diterima.$touch"
                                         @blur="v$.jumlah_diterima.$touch"
                                     />
                                     <v-text-field
-                                        v-if="!tambah"
+                                        v-if="!tambah && !penjualan"
                                         v-model="state.nilai"
                                         label="Nilai Total"
                                         variant="outlined"
                                         density="compact"
+                                        hide-details
+                                        class="mb-3"
                                         :disabled="hiddenbtn"
                                         :error-messages="v$.nilai.$errors.map(e => e.$message)"
                                         @input="v$.nilai.$touch"
                                         @blur="v$.nilai.$touch"
                                     />
+                                    <v-text-field
+                                        v-if="!tambah && this.penjualan"
+                                        v-model="penjualan_detail.harga_jual"
+                                        label="Harga"
+                                        variant="outlined"
+                                        density="compact"
+                                        hide-details
+                                        class="mb-3"
+                                        :disabled="hiddenbtn"
+                                    />
+                                    <v-text-field
+                                        v-if="!tambah && this.penjualan"
+                                        :model-value="terjual"
+                                        label="Total Harga"
+                                        variant="outlined"
+                                        density="compact"
+                                        hide-details
+                                        class="mb-3"
+                                        readonly
+                                    />
                                     <v-div class="d-inline w-100">
-                                        <v-btn @click="dialogchild[b] = false" variant="tonal" class="text-body-1 btn-custom w-auto">Batal</v-btn>
-                                        <v-btn type="submit" @click="pemasukanItem(item), dialogchild[b]=false, dialog = false" class="text-body-1 btn-custom bg-blue-darken-4 w-75 ms-3">Simpan</v-btn>
+                                        <v-btn @click="dialogchild[b] = false" variant="tonal" class="rounded-xl text-caption elevation-0 w-auto">Batal</v-btn>
+                                        <v-btn type="submit" @click="pemasukanItem(item, b)" class="rounded-xl text-caption elevation-0 bg-blue-darken-4 w-75">Simpan</v-btn>
                                     </v-div>
                                 </form>
                                 </v-card>          

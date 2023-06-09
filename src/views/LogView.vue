@@ -1,11 +1,11 @@
 <script setup>
 import TableVue from '../components/TableVue.vue';
-import NavDrawers from '../components/NavDrawers.vue';
-import AppBar from '../components/AppBar.vue';
-import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css'
-
+import api from '../api';
 import { ref, onMounted } from 'vue';
+import { jsPDF } from "jspdf";
+import 'jspdf-autotable';
+import AppBar from '../components/AppBar.vue';
 
 </script>
 
@@ -13,62 +13,101 @@ import { ref, onMounted } from 'vue';
 
   export default {
     components: {
-    TableVue, AppBar, NavDrawers,VueDatePicker
+      AppBar
     },
-    props:['actIcon'],
+    props:['actIcon', 'cetak'],
     data () {
       return {
         drawer: null,
         search: '',
-        date: '',
+        periode: [],
+        filter: false,
         pageTitle: 'LAPORAN LOG USER',
-        selectCategory: 'semua',
         btnTitle: 'Tambah Data',
         cardTitle: 'Detail Barang',
         fullscreen: 'fullscreen',
         alpha: null,
-        category: [
-          'semua',
-          'Bahan Baku',
-          'Bahan Penolong',
-          'Barang Setengah Jadi',
-          'Barang Jadi',
-          'Barang Sisa (Scrap)',
-          'Mesin & Peralatan',
+        datauser: [
+          'admin',
+          'beacukai',
         ],
         headers: [
-          { title: 'Nomor Pemasukan', key: 'numIn'},
-          { title: 'Tanggal Masuk', key: 'dateIn' },
-          { title: 'Tipe Dokumen', key: 'doctype' },
-          { title: 'No Dokumen', key: 'docNumb' },
-          { title: 'Supplier', key: 'supplier' },
-          { title: 'Mata Uang', key: 'matauang' },
-          { title: 'Total Nilai', key: 'total' },
-          { title: 'Total Nilai(Rp)', key: 'rp' },
-          { title: '', key: 'actions', sortable: false},
+          { title: 'Tanggal', key: 'tanggal'},
+          { title: 'Username', key: 'username' },
+          { title: 'Kategori', key: 'kategori' },
+          { title: 'Keterangan', key: 'keterangan' },
         ],
-        items: [
-          {
-            numIn: 1,
-            dateIn: 159,
-            doctype: 6.0,
-            docNumb: 24,
-            supplier: 4.0,
-            matauang: 'idr',
-            total: 2,
-            rp: 14000
-          },
-        ],
+        selectuser:[],
+        items: '',
+        user: '',
+        filtered: {
+          selectuser: [],
+          periode: []
+        }
       }
     },
+    created() {
+      this.today()
+    },
     methods: {
+      today() {
+        let currentDate = new Date().toJSON().slice(0, 10);
+        return this.periode = this.filtered.periode = [currentDate , currentDate]
+      },
+      getUser(){
+        const apiUrl = '/user?'
+        api.getData(apiUrl)
+        .then(response => {
+          this.user = response.data
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+      },
+      getLogUser() {
+        const apiUrl = '/log_user?'
+        const params = {
+          tgl_awal: this.periode[0],
+          tgl_akhir: this.periode[1],
+        }
+        api.getData(apiUrl, { params })
+        .then(response => {
+          this.items = response.data
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+      },
       selected(){        
-        //show row selected
-        if(this.selectCategory == 'semua'){
-          return this.items
-        } else {
-          return this.items.filter(item => item.categories === this.selectCategory )
+        if (this.selectuser.length === 0) {
+            return this.items;
+          } else {
+            return this.items.filter(item => this.selectuser.includes(item.username));
           }
+      },
+      print(i){
+          if (i == 0) {
+            return this.ExportToExcel('xlsx')
+          } else if(i == 1) {
+            return this.generatePDF()
+          }
+      },
+      generatePDF() {
+      const doc = new jsPDF({
+        orientation: "potrait",
+        unit: "in",
+        format: "a4"
+      });
+      let heading = this.pageTitle
+      let columns = this.headers
+      // text is placed using x, y coordinates
+      doc.setFontSize(14).text(heading, 0.5, 0.5).setFont('Arial', 20);
+      doc.autoTable({
+        columns,
+        body: this.items,
+        margin: { left: 0.1, top: 0.75, right: 0.1 },
+      })
+      .save(`${this.pageTitle}.pdf`);
       },
       ExportToExcel(type, fn, dl) {
        var elt = document.getElementById('tbl_exporttable_to_xls');
@@ -79,9 +118,35 @@ import { ref, onMounted } from 'vue';
          XLSX.write(wb, { bookType: type, bookSST: true, type: 'base64' }):
          // eslint-disable-next-line no-undef
          XLSX.writeFile(wb, fn || (this.pageTitle+'.' + (type || 'xlsx')));
-    }
+      },
+      page(){
+        return this.$emit('page', this.pageTitle)
+      },
+      updt() {
+        this.getUser()
+        this.getLogUser()
+      },
+      reset() {
+        this.filtered.selectuser = []
+        this.today()
+        this.selectuser = []
+        this.getLogUser()
+      },
+      filterdata() {
+        this.periode[0] = this.filtered.periode[0]
+        this.periode[1] = this.filtered.periode[1]
+        this.updt()
+        this.selectuser = this.filtered.selectuser
+        if(!this.selectuser) {
+          this.selectuser = []
+          } else if (this.selectuser == []) {
+            this.selectuser = []
+          }
+      }
     },
-    
+    mounted() {
+      this.page()
+    }
   }
 
   const date = ref();
@@ -95,52 +160,124 @@ import { ref, onMounted } from 'vue';
 </script>
 
 <template>
-  
-  <NavDrawers v-model="drawer"/>
-  <AppBar @click.stop="drawer = !drawer" :pageTitle="pageTitle"/>
-
+  <v-navigation-drawer
+    class="border-0 me-4 elevation-0"
+    v-model="filter"
+    location="left"
+    width="320"
+  >
+  <v-sheet class="rounded-xl py-5 bg-white">
+    <div class="d-flex align-center">
+      <v-span class="text-button ms-4">Filter</v-span>
+      <v-btn size="small" icon="mdi-close" @click="filter = false" variant="text" class="me-3 ms-auto">
+      </v-btn>
+    </div>
+    <!-- PERIODE -->
+    <v-container class="mb-n10">
+      <v-span class="text-caption text-weight-bold">Periode</v-span>
+      <v-divider></v-divider>
+      <v-text-field  v-model="filtered.periode[0]" class="mt-4" label="Tgl Awal" type="date" density="compact" variant="outlined"></v-text-field>
+      <v-text-field  v-model="filtered.periode[1]" label="Tgl Akhir" type="date" density="compact" variant="outlined"></v-text-field>
+    </v-container>
+    <!-- TIPE DOKUMEN -->
+    <v-container>
+      <v-span class="text-caption text-weight-bold">User</v-span>
+      <v-divider></v-divider>
+        <v-checkbox
+          v-for="label, i in datauser" :key="i"
+          v-model="filtered.selectuser"
+          :label="label"
+          :value="label"
+          color="orange-lighten-1"
+          class="mb-n6"
+          hide-details
+        ></v-checkbox>
+        <v-div class="d-flex justify-end mt-12">
+          <v-btn class="elevation-0 text-small mt-5 me-2 bg-grey-lighten-2" height="42" @click="reset()">Reset</v-btn>
+          <v-btn class="elevation-0 text-small mt-5 text-white" color="orange-lighten-1" height="42" @click="filterdata()">Filter</v-btn>
+        </v-div>
+    </v-container>
+  </v-sheet>
+  </v-navigation-drawer>
   <v-container>
-    <v-row no-gutters class="bg-white align-center px-4 pb-lg-0 pb-4 my-1 mb-3 rounded-lg">
-      <v-responsive class="overflow-visible me-2 w-100" max-width="700" max-height="70" cols="6" xs="4">
-        <div class="d-flex mt-4 align-start">
-          <!-- select tipe dokumen -->
-          <v-select
-            label="Select"
-            value="Tioe Dokumen"
-            :items="category"
-            v-model="selectCategory"
-            density="compact"
-            variant="outlined"
-            class="text-blue-darken-4 me-2 w-50"
-            single-line
-          ></v-select>
-          <!-- PERIODE -->
-          <v-label v-label class="text-body-2 text-blue-darken-4 pe-7">Periode</v-label>
-          <VueDatePicker v-model="periode" range :enable-time-picker="false" hide-offset-dates max-range="30" :max-date="new Date()"  @update:v-model="periode" input-class-name="dp-custom-input"/>
-        </div>
+    <AppBar v-if="pageTitle != null" :pageTitle="pageTitle"/>
+    <v-row no-gutters class="mb-2 mt-n4">
+      <v-responsive>
+        <!-- BUTTON FILTER -->
+        <v-btn @click="filter = !filter " class="rounded-circle text-caption elevation-0 bg-grey-lighten-4 text-indigo me-2" icon="mdi-tune-vertical" size="small">
+          </v-btn>
       </v-responsive>
-      <v-responsive cols="6" xs="4">
-          <div class="d-flex align-center float-lg-right float-sm-left w-75">
-          <!-- search field -->
+      <v-responsive class="me-0 ms-auto" max-width="450">
+        <div class="d-flex">
+          <!-- SEARCH -->
           <v-text-field
-                v-model="search"
+            v-model="search"
+            density="compact"
+            variant="text"
+            class="text-indigo-darken-4 rounded-xl border text-body-2 font-small"
+            prepend-inner-icon="mdi-magnify"
+            placeholder="Search"
+            single-line
+            hide-details
+        >
+        </v-text-field>
+          <!-- EXPORT BUTTON -->
+          <v-btn
+            id="cetak"
+            color="indigo"
+            icon="mdi-dots-vertical"
+            class="rounded-xl mx-2 elevation-0 bg-grey-lighten-4 text-indigo"
+            size="small"
+          ></v-btn>
+          <v-menu activator="#cetak" transition="slide-y-transition">
+            <v-list>
+              <v-list-item
+                v-for="(c, index) in cetak"
+                :key="index"
+                :value="index"
+                @click="print(index)"
                 density="compact"
-                label="Search"
-                variant="outlined"
-                class="text-blue-darken-4 pt-5 me-2"
-          ></v-text-field>
-
-              <v-btn
-              color="indigo-darken-1"
-              icon="mdi-download"
-              class="rounded-lg ms-2"
-              variant="tonal"
-              size="small"
-              @click="ExportToExcel('xlsx')"
-            ></v-btn>
+                class="text-caption"
+                :prepend-icon="c.icon"
+              >
+              {{ c.title }}
+              </v-list-item>
+            </v-list>
+          </v-menu>
           </div>
       </v-responsive>
       </v-row>
+      <!-- EDIT DATA -->
+      <v-sheet class="rounded-b-xl">
+      <v-data-table
+          id="tbl_exporttable_to_xls"
+          :items-per-page="selected().length"
+          :items="selected()"
+          :headers="headers"
+          :search="search"
+          :hover="true"
+          :fixed-header="true"
+          density="compact"
+          class="text-caption py-3 rounded-b-xl"
+          height="75vh"
+          >
+          <!-- CUSTOM PAGINATION STYLE -->
+          <template v-slot:bottom>
+            <!-- <v-row no-gutters class="justify-end align-center my-1">
+              <v-pagination
+                v-model="page"
+                :length="4"
+                size="small"
+                rounded="circle"
+                prev-icon="mdi-menu-left"
+                next-icon="mdi-menu-right"
+              ></v-pagination>
+              <v-spacer></v-spacer>
+              <span>Total: 1978 data</span>
+            </v-row> -->
+          </template>
+        </v-data-table>
+      </v-sheet>
       <!-- edit data -->
         <TableVue id="tbl_exporttable_to_xls" :headers="headers" :items="selected()" :search="search" :category="category" :selectCategory="selectCategory" :iTitle="actIcon[1].text" :btncolor="actIcon[1].color" :icon="actIcon[1].icon" :iVariant="actIcon[1].variant" :alpha="alpha"/>
   </v-container>

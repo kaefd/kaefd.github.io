@@ -3,8 +3,10 @@ import { VDataTable } from 'vuetify/labs/VDataTable'
 import ScreenDialog from '../components/ScreenDialog.vue';
 import '@vuepic/vue-datepicker/dist/main.css'
 import api from '../api';
-
+import { jsPDF } from "jspdf";
+import 'jspdf-autotable'
 import { ref, onMounted } from 'vue';
+import AppBar from '../components/AppBar.vue';
 
 </script>
 
@@ -13,7 +15,7 @@ import { ref, onMounted } from 'vue';
 
   export default {
     components: {
-    ScreenDialog, VDataTable
+    ScreenDialog, VDataTable, AppBar
     },
     props:['cetak','actIcon'],
     data () {
@@ -73,10 +75,16 @@ import { ref, onMounted } from 'vue';
           no_penjualan: '',
           tgl_penjualan: '',
           tipe_dokumen: '',
-          no_dokumen:'',
-          kode_pelanggan:'',
+          no_dokumen: '',
+          tgl_dokumen: '',
+          kode_pelanggan: '',
           kode_group: '',
-          total_penjualan: ''
+          total_penjualan: '',
+          tgl_input: '',
+          user_input: '',
+          tgl_batal: '',
+          user_batal: '',
+          status: ''
         }
       }
     },
@@ -87,11 +95,15 @@ import { ref, onMounted } from 'vue';
     },
     computed: {
       pilihtipe() {
-        if(this.selectdokumen == ''){
-          return this.penjualan_head
-        } else {
-          return this.penjualan_head.filter(item => item.tipe_dokumen === this.selectdokumen )
-        }
+        if (this.selectdokumen.length === 0) {
+            return this.penjualan_head;
+          } else {
+            return this.penjualan_head.filter(item => this.selectdokumen.includes(item.tipe_dokumen));
+          }
+      },
+      tglinput() {
+        let currentDate = new Date().toJSON().slice(0, 10);
+        return currentDate
       }
     },
     methods: {
@@ -140,8 +152,6 @@ import { ref, onMounted } from 'vue';
           console.log(error);
         })
       },
-      // API GET DATA SUPPLIER
-      // ambil semua data supplier
       getPelanggan() {
         const apiUrl = '/pelanggan'
         api.getData(apiUrl)
@@ -152,8 +162,42 @@ import { ref, onMounted } from 'vue';
           console.log(error);
         })
       },
-
-      // GET NAMA SUPPLIER
+      // POST PENJUALAN
+      inputhead(value, detail) {
+        let head = {
+          no_penjualan: value.no_penjualan,
+          tgl_penjualan: value.tgl_penjualan,
+          tipe_dokumen: value.tipe_dokumen,
+          no_dokumen: value.no_dokumen,
+          tgl_dokumen: value.tgl_dokumen,
+          kode_pelanggan: value.kode_pelanggan,
+          kode_group: value.kode_group,
+          total_penjualan: detail[0].total_terjual,
+          tgl_input: this.tglinput,
+          user_input: 'admin',
+          tgl_batal: value.tgl_batal,
+          user_batal: value.user_batal,
+          status: 'open'
+        }
+        // const apiUrl = '/penjualan_head?'
+        const value1 = JSON.stringify(head);
+        const value2 = JSON.stringify(detail);
+        console.log({
+          penjualan_head : value1,
+          penjualan_detail : value2,
+        });
+        // api.postData( apiUrl, {
+        //   produksi_head : value1,
+        //   produksi_detail_bahan : value2,
+        //   produksi_detail_barang : value3
+        // })
+        // .then(() => {
+        //     window.location.href = '/production' 
+        //   })
+        //   .catch((error) => {
+        //     console.log(error);
+        //   })
+      },
       namaPelanggan(value) {
         for (let i = 0; i < this.pelanggan.length; i++) {
           if ( this.pelanggan[i].kode_pelanggan == value ) {
@@ -178,7 +222,6 @@ import { ref, onMounted } from 'vue';
         this.getPenjualanDetail(),
         this.getPelanggan()
       },
-      
       numb(value) {
             let val = (value / 1).toFixed(0).replace('.', ',')
             return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
@@ -191,21 +234,36 @@ import { ref, onMounted } from 'vue';
       },
       checkstatus() {
         var data = this.pilihtipe
-          if(this.checkStatus == ''){
-           return data
-          } else if ( this.checkStatus == 'open') {
-            return data.filter(item => item.status === this.checkStatus )
-          }else if ( this.checkStatus == 'close') {
-            return data.filter(item => item.status === this.checkStatus )
+        if (this.checkStatus.length === 0) {
+            return data;
+          } else {
+            return data.filter(item => this.checkStatus.includes(item.status));
           }
       },
       print(i){
           if (i == 0) {
             return this.ExportToExcel('xlsx')
           } else if(i == 1) {
-            return this.pdf()
+            return this.generatePDF()
           }
       },
+      generatePDF() {
+      const doc = new jsPDF({
+        orientation: "portrait",
+        unit: "in",
+        format: "letter"
+      });
+      var heading = this.pageTitle
+      var columns = this.headers
+      // text is placed using x, y coordinates
+      doc.setFontSize(16).text(heading, 0.5, 1.0);
+      doc.autoTable({
+        columns,
+        body: this.items,
+        margin: { left: 0.5, top: 1.25 }
+      })
+      .save(`${this.pageTitle}.pdf`);
+    },
       ExportToExcel(type, fn, dl) {
          var elt = document.getElementById('tbl_exporttable_to_xls');
          // eslint-disable-next-line no-undef
@@ -220,12 +278,13 @@ import { ref, onMounted } from 'vue';
         return this.$emit('page', this.pageTitle)
       },
       reset() {
+        this.periode = this.today()
         this.filtered.periode = this.today()
-        this.filtered.selectdokumen = ''
-        this.filtered.status = ''
+        this.filtered.selectdokumen = []
+        this.filtered.status = []
         this.today()
-        this.selectdokumen = ''
-        this.checkStatus = ''
+        this.selectdokumen = []
+        this.checkStatus = []
         this.selected()
         
       },
@@ -236,9 +295,9 @@ import { ref, onMounted } from 'vue';
         this.selected()
         this.selectdokumen = this.filtered.selectdokumen
         if(!this.selectdokumen) {
-          this.selectdokumen = ''
-          } else if (this.selectdokumen == '') {
-            this.selectdokumen = ''
+          this.selectdokumen = []
+          } else if (this.selectdokumen == []) {
+            this.selectdokumen = []
           }
 
       }
@@ -247,11 +306,13 @@ import { ref, onMounted } from 'vue';
     },
       mounted() {
         this.page()
+        this.selected()
         this.getPenjualanHead()
         this.getPenjualanDetail()
         this.getPelanggan()
         this.penjualan()
         this.getGroupBarang()
+        this.pilihtipe
     }
   }
 
@@ -267,30 +328,30 @@ import { ref, onMounted } from 'vue';
 
 <template>
   <v-navigation-drawer
-        class="mt-4 border-0 bg-grey-lighten-4 rounded-xl me-4 elevation-0"
+        class="border-0 me-4 elevation-0"
         v-model="filter"
-        location="right"
+        location="left"
         width="320"
-        style="height: fit-content;"
       >
-      <v-sheet class="rounded-xl py-5 h-500 bg-white">
+      <v-sheet class="rounded-xl py-5 bg-white">
         <div class="d-flex align-center">
           <v-span class="text-button ms-4">Filter</v-span>
           <v-btn size="small" icon="mdi-close" @click="filter = false" variant="text" class="me-3 ms-auto">
           </v-btn>
         </div>
         <!-- PERIODE -->
-        <v-container class="pt-3 px-4">
+        <v-container class="mb-n7">
           <v-span class="text-caption text-weight-bold">Periode</v-span>
           <v-divider></v-divider>
           <v-text-field v-model="filtered.periode[0]" class="mt-4" label="Tgl Awal" type="date" density="compact" variant="outlined"></v-text-field>
           <v-text-field v-model="filtered.periode[1]" label="Tgl Akhir" type="date" density="compact" variant="outlined"></v-text-field>
         </v-container>
         <!-- TIPE DOKUMEN -->
-        <v-container class="py-3 px-4">
+        <v-container>
           <v-span class="text-caption text-weight-bold">Tipe Dokumen</v-span>
           <v-divider></v-divider>
-            <v-checkbox
+          <v-div class="d-flex">
+          <v-checkbox
               v-for="label, i in tipedokumen" :key="i"
               v-model="filtered.selectdokumen"
               :label="label"
@@ -299,11 +360,13 @@ import { ref, onMounted } from 'vue';
               class="mb-n6"
               hide-details
             ></v-checkbox>
+          </v-div>
           </v-container>
-          <v-container class="py-3 px-4">
+          <v-container>
             <v-span class="text-caption text-weight-bold">Status</v-span>
           <v-divider></v-divider>
-            <v-checkbox
+          <v-div class="d-flex">
+          <v-checkbox
               v-for="label, i in status" :key="i"
               v-model="filtered.status"
               :label="label.title"
@@ -312,7 +375,8 @@ import { ref, onMounted } from 'vue';
               class="mb-n6"
               hide-details
             ></v-checkbox>
-            <v-div class="d-flex justify-end mt-8">
+          </v-div>
+            <v-div class="d-flex justify-end mt-12 pt-12">
               <v-btn class="elevation-0 text-small me-2 bg-grey-lighten-2" height="42" @click="reset()">Reset</v-btn>
               <v-btn class="elevation-0 text-small" color="orange-lighten-1" height="42" @click="filterdata()">Filter</v-btn>
             </v-div>
@@ -320,11 +384,38 @@ import { ref, onMounted } from 'vue';
       </v-sheet>
   </v-navigation-drawer>
   <v-container>
+    <AppBar v-if="pageTitle != null" :pageTitle="pageTitle"/>
     <v-row no-gutters class="rounded-t-xl align-start mt-n4 mb-2">
       <v-responsive class="d-flex align-center mb-sm-0 mb-1 me-sm-2 me-0" width="200" max-width="350">
         <div class="d-flex align-center w-100">
+          <!-- BUTTON FILTER -->
+          <v-btn @click="filter = !filter " class="rounded-circle text-caption elevation-0 bg-grey-lighten-4 text-indigo me-2" icon="mdi-tune-vertical" size="small">
+          </v-btn>
           <!-- TAMBAH DATA -->
-          <ScreenDialog batalbtn="Pengeluaran" :datainput="datainput" :pengeluaran="true" :groupbarang="groupbarang" :supplier="pelanggan" :datatext="datatext" :pageTitle="pageTitle" :btn="btn" :headDetails="headDetails" :details="details" :headers="headers" :items="checkstatus()" :search="search" :category="category" :selectCategory="selectCategory" :iTitle="actIcon[0].text" :btncolor="actIcon[0].color" :icon="actIcon[0].icon" :iVariant="actIcon[0].variant" :alpha="alpha" :actIcon="actIcon"/>
+          <ScreenDialog
+          batalbtn="Pengeluaran"
+          :datainput="datainput"
+          :pengeluaran="true"
+          :groupbarang="groupbarang"
+          :supplier="pelanggan"
+          :datatext="datatext"
+          :pageTitle="pageTitle"
+          :btn="btn"
+          :headDetails="headDetails"
+          :details="details"
+          :headers="headers"
+          :items="checkstatus()"
+          :search="search"
+          :category="category"
+          :selectCategory="selectCategory"
+          :iTitle="actIcon[0].text"
+          :btncolor="actIcon[0].color"
+          :icon="actIcon[0].icon"
+          :iVariant="actIcon[0].variant"
+          :alpha="alpha"
+          :actIcon="actIcon"
+          @inputhead="inputhead"
+          />
           <!-- TIPE DOKUMEN -->
           <!-- <div class="w-50">
             <v-label class="text-body-2 text-wrap2 text-blue-darken-4">Tipe Dokumen</v-label>
@@ -388,7 +479,7 @@ import { ref, onMounted } from 'vue';
             <v-menu activator="#cetak" transition="slide-y-transition">
               <v-list>
                 <v-list-item
-                  v-for="(c, index) in this.cetak"
+                  v-for="(c, index) in cetak"
                   :key="index"
                   :value="index"
                   @click="print(index)"
@@ -400,9 +491,6 @@ import { ref, onMounted } from 'vue';
                 </v-list-item>
               </v-list>
             </v-menu>
-            <!-- BUTTON FILTER -->
-          <v-btn @click="filter = !filter " class="rounded-circle text-caption elevation-0 bg-grey-lighten-4 text-indigo me-2" icon="mdi-tune-vertical" size="small">
-          </v-btn>
         </div>
       </v-responsive>
       </v-row>
@@ -410,17 +498,18 @@ import { ref, onMounted } from 'vue';
         <v-sheet class="rounded-b-xl">
         <v-data-table
             id="tbl_exporttable_to_xls" 
+            items-per-page="10"
             :headers="headers"
             :items="checkstatus()"
             :search="search"
             :hover="true"
             :fixed-header="true"
             density="compact"
-            class="text-caption py-3 rounded-b-xl h-75"
-            height="75vh"
+            class="text-caption py-3 rounded-b-xl"
+            height="63vh"
             >
             <!-- CUSTOM PAGINATION STYLE -->
-            <template v-slot:bottom>
+            <!-- <template v-slot:bottom> -->
                 <!-- <v-row no-gutters class="justify-end align-center my-1">
                   <v-pagination
                     v-model="page"
@@ -433,7 +522,7 @@ import { ref, onMounted } from 'vue';
                   <v-spacer></v-spacer>
                   <span>Total: 1978 data</span>
                 </v-row> -->
-              </template>
+              <!-- </template> -->
             <!-- dialog actions -->
             <!-- eslint-disable-next-line vue/valid-v-slot -->
             <template v-slot:item.total_penjualan="{ item }">

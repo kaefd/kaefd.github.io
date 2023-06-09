@@ -1,7 +1,7 @@
 <script setup>
 import { VDataTable } from 'vuetify/labs/VDataTable'
-import VueDatePicker from '@vuepic/vue-datepicker';
 import DialogCard2 from './DialogCard2.vue';
+// import api from '../api';
 
 </script>
 
@@ -9,27 +9,39 @@ import DialogCard2 from './DialogCard2.vue';
 export default {
     components: {
     VDataTable,
-    VueDatePicker,
     DialogCard2
 },
-    props:['headers', 'headItem', 'edit', 'getbarang', 'detailbahan', 'groupbarang', 'detailbarang', 'select_kode', 'item', 'items', 'category', 'icon', 'actIcon', 'btncolor', 'alpha', 'iVariant', 'screen', 'details','disable'],
+    props:['headers', 'headItem', 'edit', 'getbarang', 'produksi', 'detailbahan', 'groupbarang', 'detailbarang', 'select_kode', 'produksi_bahan', 'produksi_barang', 'item', 'items', 'category', 'icon', 'actIcon', 'btncolor', 'alpha', 'iVariant', 'screen', 'details','disable'],
     data () {
       return {
         dialog: false,
         dialog2: false,
-        dialog3: false,
-        dialog4: false,
+        dialogbhn: [],
+        dialogbrg: [],
+        confirmdialog: false,
         dialog5: false,
         searched: '',
         inputbahan: '',
         inputbarang: '',
+        masuk: '',
         inputproduksi: {
             no_produksi: '', 
             kode_group: '',
             tgl_produksi: '',
-            tgl_input: ''
+            tgl_input: '',
+            tgl_batal: '',
+            user_input: 'admin',
+            user_batal: '',
+            status: true
         },
-        btn: ['Tambah Bahan', 'Tambah Barang']
+        btn: ['Tambah Bahan', 'Tambah Barang'],
+        required: [
+        value => {
+          if (value)  return true
+
+          return 'harus diisi !'
+        },
+      ],
       }
     },
 
@@ -47,14 +59,26 @@ export default {
         
     },
     methods: {
+        // PEMASUKAN HEAD
+    //     getPembelian() {
+    //     const apiUrl = '/pembelian_head?'
+    //     const params = {
+    //       tgl_awal: this.periode[0],
+    //       tgl_akhir: this.periode[1],
+    //     }
+    //     api.getData(apiUrl, { params })
+    //     .then(response => {
+    //       this.masuk = response.data
+    //     })
+    //     .catch((error) => {
+    //       console.log(error);
+    //     })
+    //   },
         bahanmasuk(value) {
             this.inputbahan = value
         },
         barangmasuk(value) {
             this.inputbarang = value
-        },
-        produksimasuk() {
-            return this.$emit('produksimasuk', this.inputproduksi, this.inputbahan, this.inputbarang)
         },
         input_kodegroup(value) {
             this.inputproduksi.kode_group = value
@@ -64,13 +88,34 @@ export default {
             let val = (value / 1).toFixed(0).replace('.', ',')
             return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
         },
+        deleteditem(del, p) {
+            let jenis = []
+            if(p == 'bahan') {
+                jenis = this.inputbahan
+            } else if(p == 'barang') {
+                jenis = this.inputbarang
+            }
+            for (let i = 0; i < jenis.length; i++) {
+                    if( del == jenis[i] ) {
+                        jenis.splice(i,1);
+                    }
+            }
+        },
+        confirm() {
+            this.$emit('del', this.item, this.produksi_bahan, this.produksi_barang)
+        },
+        async validate () {
+            const { valid } = await this.$refs.form.validate()
+            if (valid){
+                // 1st = head, 2nd = detailbahan, 3rd = detailbarang
+                return this.$emit('inputhead', this.inputproduksi, this.inputbahan, this.inputbarang)
+            }
+        },
     },
     mounted() {
     }
 
 }
-
-
 </script>
 
 <template>
@@ -80,7 +125,7 @@ export default {
     transition="dialog-bottom-transition"
     fullscreen
     >
-    <!-- BUTTON DIALOG -->
+        <!-- BUTTON DIALOG -->
           <template v-slot:activator="{ props }">
             <v-btn
             v-if="edit"
@@ -103,168 +148,198 @@ export default {
           </template>
           <!-- dialog content -->
             <v-card>
-                {{ inputproduksi }}
-                <v-toolbar class="bg-blue-darken-4">
+                <v-toolbar class="bg-blue-custom text-white" height="50">
                 <v-btn
                     icon
                     dark
                     @click="dialog = false"
+                    size="small"
                 >
                 <v-icon>mdi-close</v-icon>
                 </v-btn>
-                <v-toolbar-title>DETAIL PRODUKSI</v-toolbar-title>
+                <v-toolbar-title class="text-button">DETAIL PRODUKSI</v-toolbar-title>
                 <v-spacer></v-spacer>
                 </v-toolbar>
                 <v-container>
-                <v-row class="row border-sm rounded-lg my-3">
-                    <v-col class="w-100">
-                        <!-- NOMOR PRODUKSI -->
-                        <v-lable class="text-body-2">No Produksi</v-lable>
-                        <v-text-field
-                            v-if="edit"
-                            density="compact"
-                            readonly
-                            variant="outlined"
-                            :value="this.item.no_produksi"
-                            />
-                        <v-text-field
-                            v-if="!edit"
-                            density="compact"
-                            readonly
-                            variant="outlined"
-                            v-model="inputproduksi.no_produksi"
-                        />
-                    </v-col>
-                    <v-col class="w-100">
-                        <!-- TANGGAL PRODUKSI -->
-                        <v-label class="text-body-2 pe-7">Tgl Produksi</v-label>
-                        <VueDatePicker v-if="!edit" v-model="inputproduksi.tgl_produksi" :enable-time-picker="false" calendar-class-name="dp-custom-calendar"/>
-                        <v-text-field
-                            v-if="edit"
-                            density="compact"
-                            readonly
-                            variant="outlined"
-                            :value="this.item.tgl_produksi"
-                        />
-                    </v-col>
-                    <v-col class="w-100">
-                        <!-- KODE GROUP -->
-                        <v-label class="text-body-2 pe-7">Kode Group</v-label>
+                <v-form  @submit.prevent ref="form" class="mb-5 mt-1">
+                    <v-row class="row border-sm rounded-lg">
+                        <v-col class="w-100">
+                            <!-- NOMOR PRODUKSI -->
+                            <v-lable class="text-body-2">No Produksi</v-lable>
                             <v-text-field
-                                v-if="edit" 
-                                :value="this.item.kode_group"
-                                variant="outlined"
+                                v-if="edit"
                                 density="compact"
-                                style="min-width: 200px; max-width:300px"
+                                disabled
+                                class="bg-grey-lighten-4"
+                                variant="outlined"
+                                :value="item.no_produksi"
+                                hide-details
+                                />
+                            <v-text-field
+                                v-if="!edit"
+                                density="compact"
+                                disabled
+                                class="bg-grey-lighten-4"
+                                variant="outlined"
+                                hide-details
+                                v-model="inputproduksi.no_produksi"
+                            />
+                        </v-col>
+                        <v-col class="w-100">
+                            <!-- TANGGAL PRODUKSI -->
+                            <v-label class="text-body-2">Tgl Produksi</v-label>
+                            <v-text-field
+                                v-if="!edit"
+                                type="date"
+                                v-model="inputproduksi.tgl_produksi"
+                                variant="outlined"
+                                hide-details
+                                :rules="required"
+                                density="compact"
+                                />
+                            <v-text-field
+                                v-if="edit"
+                                type="date"
+                                density="compact"
                                 readonly
-                            >
-                        </v-text-field>
-                        <v-dialog v-if="!edit" v-model="dialog5" >
-                            <template v-slot:activator="{ props }">
+                                variant="outlined"
+                                :rules="required"
+                                :value="item.tgl_produksi"
+                            />
+                        </v-col>
+                        <v-col class="w-100">
+                            <!-- KODE GROUP -->
+                            <v-label class="text-body-2">Kode Group</v-label>
                                 <v-text-field
-                                v-bind="props"
-                                v-model="inputproduksi.kode_group"
-                                variant="outlined"
-                                density="compact"
-                                style="min-width: 200px; max-width:300px"
-                                readonly
+                                    v-if="edit" 
+                                    :value="item.kode_group"
+                                    variant="outlined"
+                                    density="compact"
+                                    style="min-width: 200px; max-width:300px"
+                                    readonly
+                                    :rules="required"
                                 >
                             </v-text-field>
-                        </template>
-                            <v-card class="py-5 px-5 rounded-xl mx-auto" width="400">
-                                <v-btn icon="mdi-close" variant="plain" @click="dialog5 = false"></v-btn>
-                                <v-card-title class="text-center text-blue-darken-4 mb-3">KODE GROUP</v-card-title>
-                                <v-text-field
-                                    v-model="searched"
-                                    append-inner-icon="mdi-magnify"
-                                    label="Search"
-                                    single-line
-                                    hide-details
-                                    density="compact"
+                            <v-dialog v-if="!edit" v-model="dialog5" >
+                                <template v-slot:activator="{ props }">
+                                    <v-text-field
+                                    v-bind="props"
+                                    v-model="inputproduksi.kode_group"
                                     variant="outlined"
-                                    class="mb-4"
-                                ></v-text-field>
-                                <v-list>
-                                    <v-for v-for="kode, i in filterkodegroup" :key="i">
-                                        <v-list-item
-                                        style="cursor: pointer;"
-                                        @click="input_kodegroup(kode.kode_group), inputproduksi.kode_barang = kode.kode_barang, dialog5 = false "
-                                        >
-                                            {{ kode.kode_group }}
-                                        </v-list-item>
-                                    </v-for>
-                                </v-list>
-                                </v-card>
-                        </v-dialog>
-                    </v-col>
-                </v-row>
+                                    density="compact"
+                                    style="min-width: 200px; max-width:300px"
+                                    readonly
+                                    :rules="required"
+                                    >
+                                </v-text-field>
+                            </template>
+                                <v-card class="py-5 px-5 rounded-xl mx-auto" width="400">
+                                    <v-btn icon="mdi-close" variant="plain" @click="dialog5 = false"></v-btn>
+                                    <v-card-title class="text-center text-blue-darken-4 mb-3">KODE GROUP</v-card-title>
+                                    <v-text-field
+                                        v-model="searched"
+                                        append-inner-icon="mdi-magnify"
+                                        label="Search"
+                                        single-line
+                                        hide-details
+                                        density="compact"
+                                        variant="outlined"
+                                        class="mb-4"
+                                    ></v-text-field>
+                                    <v-list>
+                                        <v-for v-for="kode, i in filterkodegroup" :key="i">
+                                            <v-list-item
+                                            style="cursor: pointer;"
+                                            @click="input_kodegroup(kode.kode_group), inputproduksi.kode_barang = kode.kode_barang, dialog5 = false "
+                                            >
+                                                {{ kode.kode_group }}
+                                            </v-list-item>
+                                        </v-for>
+                                    </v-list>
+                                    </v-card>
+                            </v-dialog>
+                        </v-col>
+                    </v-row>
+                </v-form>
                 <!-- TABLE -->
                 <v-row>
                     <!-- TABEL TAMBAH/EDIT BAHAN -->
                     <v-col class="border-sm rounded-lg me-sm-3 me-0 mb-lg-0 mb-3">
                         <!-- ITEM DIALOG ADALAH KODE BARANG YANG SESUAI DENGAN KODE GROUP YANG DIPILIH -->
-                        <DialogCard2 v-if="!edit" :btn="btn[0]" width="400" :barang="detailbahan" :tambah="true" :getbarang="select_kode" :kodebarang="inputproduksi.kode_barang" @pemasukanitem="bahanmasuk"/>
+                        <DialogCard2 v-if="!edit" :produksi="produksi" :btn="btn[0]" width="400" :barang="detailbahan" :tambah="true" :getbarang="select_kode" :kodebarang="inputproduksi.kode_barang" @pemasukanitem="bahanmasuk"/>
                         <VDataTable
-                                :headers="this.edit ? headItem : headers"
-                                :items=" this.edit ? detailbahan : inputbahan"
-                                :hover="true"
-                                :fixed-header="true"
-                                density="compact"
-                                class="text-body-2 py-3 px-5"
-                                height="200"
-                                >
-                                <!-- eslint-disable-next-line vue/valid-v-slot -->
-                                <template v-slot:item.jumlah = "{ item }">
-                                    <td>{{ numb(item.raw.jumlah) }}</td>
+                        :headers="edit ? headItem : headers"
+                        :items=" edit ? detailbahan : inputbahan"
+                        :hover="true"
+                        :fixed-header="true"
+                        density="compact"
+                        class="text-body-2 py-3 px-5 text-caption"
+                        height="40vh"
+                        >
+                        <template v-slot:bottom>
+                        </template>
+                        <!-- eslint-disable-next-line vue/valid-v-slot -->
+                        <template v-slot:item.jumlah = "{ item }">
+                            <td>{{ numb(item.raw.jumlah) }}</td>
+                        </template>
+                        <!-- eslint-disable-next-line vue/valid-v-slot -->
+                        <template v-slot:item.actions="{ item, index }">
+                            <v-dialog @update="dialogchild" v-model="dialogbhn[index]">
+                                <template v-slot:activator="{ props }">
+                                    <v-btn
+                                        v-bind="props"
+                                        :icon="actIcon[3].icon"
+                                        :color="actIcon[3].color"
+                                        :variant="actIcon[3].variant"
+                                    ></v-btn>
                                 </template>
-                                <!-- eslint-disable-next-line vue/valid-v-slot -->
-                                <template v-slot:item.actions="{ item }">
-                                    <v-dialog v-model="dialog3">
-                                        <template v-slot:activator="{ props }">
-                                            <v-btn
-                                                v-bind="props"
-                                                :icon="actIcon[3].icon"
-                                                :color="actIcon[3].color"
-                                                :variant="actIcon[3].variant"
-                                            ></v-btn>
-                                        </template>
-                                        <v-card class="px-7 py-5 mx-auto rounded-xl w-100" max-width="400">
-                                        <v-card-title class="text-center">{{ item.raw.nama_barang }}</v-card-title>
-                                        <v-span class="text-body-2 mt-n2 mb-3 text-center">{{ item.raw.kode_barang }}</v-span>
-                                            <v-text-field
-                                                v-model="item.raw.jumlah"
-                                                label="Jumlah"
-                                                variant="outlined"
-                                                density="compact"
-                                                readonly
-                                            />
-                                            <v-div v-if="!edit" class="d-inline w-100">
-                                                <v-btn @click="this.inputbahan = [], dialog3 = false" variant="tonal" class="text-body-1 btn-custom w-auto rounded-e-0">Hapus</v-btn>
-                                                <v-btn type="submit" @click="dialog3 = false" class="text-body-1 btn-custom bg-blue-darken-4 w-75 rounded-s-0">Simpan</v-btn>
-                                            </v-div>
-                                        </v-card> 
-                                    </v-dialog>
-                                </template>
+                                <v-card class="px-7 py-5 mx-auto rounded-xl w-100" max-width="400">
+                                <v-span class="text-button text-center font-weight-bold">{{ item.raw.nama_barang }}</v-span>
+                                <v-span class="text-button mt-n2 mb-3 text-center">{{ item.raw.kode_barang }}</v-span>
+                                    <v-text-field
+                                        v-if="edit"
+                                        v-model="item.raw.jumlah"
+                                        label="Jumlah"
+                                        variant="outlined"
+                                        density="compact"
+                                        readonly
+                                    />
+                                    <v-text-field
+                                        v-if="!edit"
+                                        v-model="item.raw.jumlah"
+                                        label="Jumlah"
+                                        variant="outlined"
+                                        density="compact"
+                                    />
+                                    <v-div v-if="!edit" class="d-inline w-100">
+                                        <v-btn @click="deleteditem(item.raw, 'bahan'), dialogbhn[index] = false" variant="tonal" class="text-caption rounded-xl elevation-0 w-auto me-3">Hapus</v-btn>
+                                        <v-btn type="submit" @click="dialogbhn[index] = false" class="text-caption rounded-xl elevation-0 bg-blue-darken-4 w-75">Simpan</v-btn>
+                                    </v-div>
+                                </v-card> 
+                            </v-dialog>
+                        </template>
                         </VDataTable>
                     </v-col>
                     <!-- TABEL TAMBAH BAHAN/BARANG -->
                     <v-col class="border-sm rounded-lg">
-                        <DialogCard2 v-if="!edit" :btn="btn[1]" width="400" :barang="detailbarang" :getbarang="getbarang" :inputbahan="inputbahan" :tambah="true" :kodebarang="inputproduksi.kode_barang" @pemasukanitem="barangmasuk" />
+                        <DialogCard2 :produksi="produksi" v-if="!edit" :btn="btn[1]" width="400" :barang="detailbarang" :getbarang="getbarang" :inputbahan="inputbahan" :tambah="true" :kodebarang="inputproduksi.kode_barang" @pemasukanitem="barangmasuk" />
                         <VDataTable
-                            :headers="this.edit ? headItem : headers"
-                            :items="this.edit ? detailbarang : inputbarang "
+                            :headers="edit ? headItem : headers"
+                            :items="edit ? detailbarang : inputbarang "
                             :hover="true"
                             :fixed-header="true"
                             density="compact"
-                            class="text-body-2 py-3 px-5"
-                            height="200">
+                            class="text-body-2 py-3 px-5 text-caption"
+                            height="40vh">
+                            <template v-slot:bottom>
+                            </template>
                             <!-- eslint-disable-next-line vue/valid-v-slot -->
                             <template v-slot:item.jumlah = "{ item }">
                                 <td>{{ numb(item.raw.jumlah) }}</td>
                             </template>
                             <!-- eslint-disable-next-line vue/valid-v-slot -->
-                            <template v-slot:item.actions="{ item }">
-                                <v-dialog v-model="dialog4">
+                            <template v-slot:item.actions="{ item, index }">
+                                <v-dialog @update="dialogbrg" v-model="dialogbrg[index]">
                                     <template v-slot:activator="{ props }">
                                         <v-btn
                                             v-bind="props"
@@ -274,8 +349,8 @@ export default {
                                         ></v-btn>
                                     </template>
                                     <v-card class="px-7 py-5 mx-auto rounded-xl w-100" max-width="400">
-                                    <v-card-title class="text-center">{{ item.raw.nama_barang }}</v-card-title>
-                                    <v-span class="text-body-2 mt-n2 mb-3 text-center">{{ item.raw.kode_barang }}</v-span>
+                                    <v-span class="text-button text-center font-weight-bold">{{ item.raw.nama_barang }}</v-span>
+                                    <v-span class="text-button mt-n2 mb-3 text-center">{{ item.raw.kode_barang }}</v-span>
                                         <v-text-field
                                             v-model="item.raw.jumlah"
                                             label="Jumlah"
@@ -284,8 +359,8 @@ export default {
                                             readonly
                                         />
                                         <v-div v-if="!edit" class="d-inline w-100">
-                                            <v-btn @click="this.inputbarang = [], dialog4 = false" variant="tonal" class="text-body-1 btn-custom w-auto rounded-e-0">Hapus</v-btn>
-                                            <v-btn type="submit" @click="dialog4 = false" class="text-body-1 btn-custom bg-blue-darken-4 w-75 rounded-s-0">Simpan</v-btn>
+                                            <v-btn @click="deleteditem(item.raw, 'barang'), dialogbrg = false" variant="tonal" class="text-caption rounded-xl elevation-0 w-auto me-3">Hapus</v-btn>
+                                            <v-btn type="submit" @click="dialogbrg = false" class="text-caption rounded-xl elevation-0 bg-blue-darken-4 w-75">Simpan</v-btn>
                                         </v-div>
                                     </v-card> 
                                 </v-dialog>
@@ -295,8 +370,40 @@ export default {
                 </v-row>
                     <!-- edit data -->
                 <v-row class="float-end">
-                    <v-btn :hidden="disable" class="me-3 mt-3 btn-custom" color="blue-darken-4">Simpan</v-btn>
-                    <v-btn class="mt-3 btn-custom" variant="tonal" @click="dialog = false">Batal</v-btn>
+                    <v-btn v-if="edit" class="mt-3 rounded-xl elevation-0 text-caption" height="42" width="150" variant="tonal" @click="confirmdialog=true">Batal Produksi</v-btn>
+                    <v-btn v-if="!edit" class="mt-3 rounded-xl elevation-0 text-caption" height="42" width="150" variant="tonal" @click="inputbarang = inputbahan = '', dialog = false">Batal</v-btn>
+                    <v-btn v-if="!edit" class="ms-3 mt-3 rounded-xl elevation-0 bg-blue-custom text-white text-caption" height="42" width="150" @click="validate">Simpan</v-btn>
+                    <v-dialog v-model="confirmdialog" transition="dialog-bottom-transition" width="400">
+                    <v-card class="rounded-xl">
+                        <v-card-title class="text-center my-7">Apakah Anda Yakin ?</v-card-title>
+                        <v-row no-gutters>
+                            <v-col>
+                                <v-btn
+                                color="orange-darken-1"
+                                variant="tonal"
+                                height="57"
+                                class="w-100 rounded-0"
+                                @click=" confirmdialog = false"
+                                >
+                                Tidak
+                                </v-btn>                  
+                            </v-col>
+                            <v-col>
+                                <v-btn
+                                type="submit"
+                                color="blue-darken-1"
+                                variant="tonal"
+                                height="57"
+                                class="w-100 rounded-0"
+                                @click=" inputbahan = inputbarang = [], confirm(), dialog= false, confirmdialog = false"
+                                >
+                                Ya
+                                </v-btn>
+                            </v-col>
+                            </v-row>
+                    </v-card>
+                </v-dialog>
+
                 </v-row>
                 </v-container>
             </v-card>

@@ -1,13 +1,16 @@
 <script setup>
 import { defineComponent } from 'vue';
-import api from '../api';
+// import api from '../api';
+import AppBar from '../components/AppBar.vue';
 
 </script>
 <script>
   export default defineComponent({
+    props:['actIcon', 'cetak'],
     name:'UserView',
     components: {
-},
+      AppBar
+    },
     data () {
       return {
         drawer: false,
@@ -23,21 +26,20 @@ import api from '../api';
       }
     },
     created() {
-        api.getData('/user?status=true')
-        .then(response => {
-          this.items = response.data
-        })
-        .catch(() => {
-          window.location.href = '/login'
-        })
-        api.getData('/user_otoritas?username=admin')
-        .then(response => {
-          this.user_otoritas = response.data
-        })
-        .catch(() => {
-          window.location.href = '/login'
-        })
-        
+        // api.getData('/user?status=true')
+        // .then(response => {
+        //   this.items = response.data
+        // })
+        // .catch(() => {
+        //   window.location.href = '/login'
+        // })
+        // api.getData('/user_otoritas?username=admin')
+        // .then(response => {
+        //   this.user_otoritas = response.data
+        // })
+        // .catch(() => {
+        //   window.location.href = '/login'
+        // })
     },
     computed: {
       // JENIS OTORITAS
@@ -107,102 +109,65 @@ import api from '../api';
         
     },
       methods: {
+        page(){
+          return this.$emit('page', this.pageTitle)
+        },
         dataUser(u, p) {
           this.username = u
           this.password = p
         },
         onScroll () {
-        this.scrollInvoked++
-      },
+          this.scrollInvoked++
+        },
     },
+    mounted() {
+      this.page()
+    }
   })
 </script>
 <template>
 <v-container>
-  <v-row class="d-flex w-100 mt-1 mx-auto">
-  <v-col md="7" xs="12">
-    <v-card class="elevation-0 pa-3 rounded-lg h-100" min-width="250">
-      <v-btn class="mb-5 rounded-lg" variant="tonal" icon="mdi-plus" color="indigo"></v-btn>
-      <!-- KODE USER -->
-      <v-list>
-        <v-list-item
-          class="bg-indigo-lighten-5 rounded-lg"
-          title="Kode User">
-        </v-list-item>
-
-        <v-list-item
-          v-for="item, i in items" :key="i"
-          style="cursor: pointer;"
-          @click="dataUser(item.username, item.password)"
-          :title="item.username">
-        </v-list-item>
-
-      </v-list>
-    </v-card>
-  </v-col>
-  <!-- DETAIL USER -->
-  <v-col lg="5" xs="12">
-    <v-card class="elevation-0 pt-5 rounded-lg" min-width="320">
-      <v-container class="mx-auto">
-        <p class="h5 text-center text-blue-darken-4 mb-5">DETAILS USER</p>
-        <!-- USERNAME -->
-        <v-label class="text-body-2 text-blue-darken-4">Username</v-label>
-        <v-text-field
-          v-model="username"
-          density="compact"
-          variant="tonal"
-          class="rounded-lg bg-indigo-lighten-5"
-          single-line
-          hide-details
-          />
-        <!-- PASSWORD -->
-        <v-label class="text-body-2 text-blue-darken-4">Password</v-label>
-        <v-text-field
-          v-model="password"
-          type="password"
-          density="compact"
-          variant="tonal"
-          class="rounded-lg bg-indigo-lighten-5"
-          single-line
-          hide-details
-          />
+  <AppBar v-if="pageTitle != null" :pageTitle="pageTitle"/>
+  <v-row no-gutters class="rounded-t-xl align-center mt-n4 mb-2">
+    <v-responsive class="d-flex align-center mb-sm-0 mb-1 me-sm-2 me-0" width="200" max-width="350">
+      <v-btn class="rounded-xl bg-blue-custom text-white elevation-0 text-caption" height="42" width="150">Tambah Baru</v-btn>
+    </v-responsive>
+  </v-row>
+  <v-row class="d-flex justify-space-between">
+    <v-responsive class="me-lg-0 me-2 mb-md-0 mb-2" max-width="350">
+      <v-container class="w-100 border rounded-xl vh-75">
+        <v-span class="text-caption font-weight-bold pa-3">KODE USER</v-span>
+        <v-divider></v-divider>
+        <v-list class="bg-transparent">
+          <v-list-item class="text-caption" density="compact">admin</v-list-item>
+          <v-list-item class="text-caption" density="compact">beacukai</v-list-item>
+        </v-list>
       </v-container>
-      <!-- JENIS OTORITAS -->
-      <p class="w-100 bg-blue-darken-4 pa-3 text-center">JENIS OTORITAS</p>
-      <v-list
-      v-scroll.self="onScroll"
-      class="overflow-y-auto"
-      max-height="400">
-        
-          <v-list-group>
-            <template v-slot:activator="{ props }">
-              <!-- (TITLE) JENIS OTORITAS -->
-              <v-list-item
-                  v-bind="props"
-                  class="me-0 ms-auto"
-                  height="5"
-                >
-                <v-checkbox
-                  color="blue"
-                  class="mt-5"
-                  :label="otoritas['Data Barang'][0].jenisotoritas"
-                  :model-value="user_otoritas[0].status">
-                </v-checkbox>
-            </v-list-item>
-              </template>
-    
-                <v-checkbox
-                  color="blue"
-                  :label="user_otoritas[21].jenis_otoritas"
-                  :model-value="user_otoritas[0].status"
-                  class="ms-6 mb-n6"
-                >
-                </v-checkbox>
-          </v-list-group>
-      </v-list>
-    </v-card>
-  </v-col>
-</v-row>
+    </v-responsive>
+    <v-responsive class="me-lg-0 me-2 mb-md-0 mb-2" max-width="600">
+      <v-container class="w-100 border rounded-xl vh-75">
+        <v-span class="text-caption font-weight-bold">DETAIL USER</v-span>
+        <v-divider></v-divider>
+        <v-div class="d-flex flex-column justify-center align-center mt-5">
+          <v-avatar size="75">
+            <v-icon color="grey-darken-1" size="75">mdi-account-circle</v-icon>
+          </v-avatar>
+        </v-div>
+        <v-div class="d-flex mt-2">
+            <v-list class="bg-transparent" density="compact">
+            <v-list-item class="text-caption font-weight-bold">Username</v-list-item>
+            <v-list-item class="text-caption font-weight-bold">Pasword</v-list-item>
+          </v-list>
+          <v-list class="bg-transparent" density="compact">
+            <v-list-item class="text-caption">Admin</v-list-item>
+            <v-list-item class="text-caption"></v-list-item>
+          </v-list>
+        </v-div>
+        <v-divider></v-divider>
+        <v-span class="text-caption font-weight-bold">LIHAT OTOTRITAS</v-span>
+      </v-container>
+    </v-responsive>
+  </v-row>
 
 
 </v-container>

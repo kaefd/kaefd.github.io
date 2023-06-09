@@ -2,7 +2,10 @@
 import { defineComponent } from 'vue';
 import TableVue from '../components/TableVue.vue';
 import DialogCard from '../components/DialogCard.vue';
+import { jsPDF } from "jspdf";
+import 'jspdf-autotable'
 import api from '../api';
+import AppBar from '../components/AppBar.vue';
 
 </script>
 
@@ -11,7 +14,7 @@ import api from '../api';
     name: 'CustomerView',
     props:['actIcon', 'cetak'],
     components: {
-    TableVue, DialogCard
+    TableVue, DialogCard, AppBar
     },
     data () {
       return {
@@ -73,10 +76,26 @@ import api from '../api';
           if (i == 0) {
             return this.ExportToExcel('xlsx')
           } else if(i == 1) {
-            return this.pdf()
+            return this.generatePDF()
           }
       },
-      
+      generatePDF() {
+      const doc = new jsPDF({
+        orientation: "portrait",
+        unit: "in",
+        format: "letter"
+      });
+      var heading = this.pageTitle
+      var columns = this.headers
+      // text is placed using x, y coordinates
+      doc.setFontSize(16).text(heading, 0.5, 1.0);
+      doc.autoTable({
+        columns,
+        body: this.items,
+        margin: { left: 0.5, top: 1.25 }
+      })
+      .save(`${this.pageTitle}.pdf`);
+    },
       ExportToExcel(type, fn, dl) {
        var elt = document.getElementById('tbl_exporttable_to_xls');
        // eslint-disable-next-line no-undef
@@ -174,7 +193,8 @@ import api from '../api';
 </script>
 <template>
   <v-container>
-    <v-row no-gutters class="rounded-t-xl align-start mb-2">
+    <AppBar v-if="pageTitle != null" :pageTitle="pageTitle"/>
+    <v-row no-gutters class="mt-n4 mb-2">
       <v-responsive class="d-flex align-center mb-sm-0 mb-1" min-width="200">
       <div class="d-flex align-center w-100">
       <!-- TAMBAH DATA -->
@@ -206,7 +226,7 @@ import api from '../api';
           <v-menu activator="#cetak" transition="slide-y-transition">
             <v-list>
               <v-list-item
-                v-for="(c, index) in this.cetak"
+                v-for="(c, index) in cetak"
                 :key="index"
                 :value="index"
                 @click="print(index)"

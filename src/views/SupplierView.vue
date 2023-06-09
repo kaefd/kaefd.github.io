@@ -1,12 +1,16 @@
 <script setup>
 import TableVue from '../components/TableVue.vue';
 import api from '../api';
+import { jsPDF } from "jspdf";
+import 'jspdf-autotable'
+import AppBar from '../components/AppBar.vue';
+
 </script>
 <script>
   export default {
     props:['actIcon', 'cetak'],
     components: {
-    TableVue
+    TableVue, AppBar
 },
     data () {
       return {
@@ -68,10 +72,26 @@ import api from '../api';
           if (i == 0) {
             return this.ExportToExcel('xlsx')
           } else if(i == 1) {
-            return this.pdf()
+            return this.generatePDF()
           }
       },
-      
+      generatePDF() {
+      const doc = new jsPDF({
+        orientation: "portrait",
+        unit: "in",
+        format: "letter"
+      });
+      var heading = this.pageTitle
+      var columns = this.headers
+      // text is placed using x, y coordinates
+      doc.setFontSize(16).text(heading, 0.5, 1.0);
+      doc.autoTable({
+        columns,
+        body: this.items,
+        margin: { left: 0.5, top: 1.25 }
+      })
+      .save(`${this.pageTitle}.pdf`);
+      },
       ExportToExcel(type, fn, dl) {
        var elt = document.getElementById('tbl_exporttable_to_xls');
        // eslint-disable-next-line no-undef
@@ -105,7 +125,8 @@ import api from '../api';
 </script>
 <template>
 <v-container>
-  <v-row no-gutters class="align-center rounded-t-xl mb-2">
+  <AppBar v-if="pageTitle != null" :pageTitle="pageTitle"/>
+  <v-row no-gutters class="mt-n4 mb-2">
     <v-responsive class="me-0 ms-auto" max-width="450">
       <div class="d-flex">
         <!-- SEARCH -->
@@ -118,8 +139,8 @@ import api from '../api';
           placeholder="Search"
           single-line
           hide-details
-      >
-      </v-text-field>
+        >
+        </v-text-field>
       <!-- EXPORT BUTTON -->
       <v-btn
         id="cetak"
@@ -131,7 +152,7 @@ import api from '../api';
       <v-menu activator="#cetak" transition="slide-y-transition">
         <v-list>
           <v-list-item
-            v-for="(c, index) in this.cetak"
+            v-for="(c, index) in cetak"
             :key="index"
             :value="index"
             @click="print(index)"

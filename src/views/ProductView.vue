@@ -3,7 +3,10 @@ import { VDataTable } from 'vuetify/labs/VDataTable'
 import ScreenDialog2 from '../components/ScreenDialog2.vue';
 import '@vuepic/vue-datepicker/dist/main.css'
 import api from '../api';
+import { jsPDF } from "jspdf";
+import 'jspdf-autotable'
 import { ref, onMounted } from 'vue';
+import AppBar from '../components/AppBar.vue';
 
 </script>
 
@@ -11,7 +14,7 @@ import { ref, onMounted } from 'vue';
 
   export default {
     components: {
-    ScreenDialog2, VDataTable
+    ScreenDialog2, VDataTable, AppBar
     },
     props:['actIcon', 'cetak'],
     data () {
@@ -64,7 +67,6 @@ import { ref, onMounted } from 'vue';
     },
     methods: {
       getProduksihead() {
-        
         const apiUrl = '/produksi_head?'
         const params = {
           tgl_awal: this.periode[0],
@@ -79,7 +81,6 @@ import { ref, onMounted } from 'vue';
         })
       },
       getProduksiBahan() {
-        
         const apiUrl = '/produksi_detail_bahan?'
         const params = {
           tgl_awal: this.periode[0],
@@ -130,21 +131,26 @@ import { ref, onMounted } from 'vue';
       },
       // TAMBAH DATA
       inputhead(value, detlbahan, detlbarang) {
-        const apiUrl = '/produksi_head?'
+        // const apiUrl = '/produksi_head?'
         const value1 = JSON.stringify(value);
         const value2 = JSON.stringify(detlbahan);
         const value3 = JSON.stringify(detlbarang);
-        api.postData( apiUrl, {
+        console.log({
           produksi_head : value1,
           produksi_detail_bahan : value2,
           produksi_detail_barang : value3
-        })
-        .then(() => {
-            window.location.href = '/production' 
-          })
-          .catch((error) => {
-            console.log(error);
-          })
+        });
+        // api.postData( apiUrl, {
+        //   produksi_head : value1,
+        //   produksi_detail_bahan : value2,
+        //   produksi_detail_barang : value3
+        // })
+        // .then(() => {
+        //     window.location.href = '/production' 
+        //   })
+        //   .catch((error) => {
+        //     console.log(error);
+        //   })
       },
       // HAPUS DATA
       // PRODUKSI HEAD
@@ -182,19 +188,24 @@ import { ref, onMounted } from 'vue';
         nilai: detlbarang.nilai
       }]
       const ph = JSON.stringify(this.produksi_head);
-      const dbahan = JSON.stringify(this.dbahan);
-      const dbarang = JSON.stringify(this.dbarang);
-        api.deleteData('/produksi_head', {
-          produksi_head : ph,
-          produksi_detail_bahan : dbahan,
-          produksi_detail_barang : dbarang,
-        })
-        .then(() => {
-          window.location.href = '/in'
-        })
-        .catch((error) => {
-          console.log(error);
-        })
+      const dbahan = JSON.stringify(detlbahan);
+      const dbarang = JSON.stringify(detlbarang);
+      console.log({
+        produksi_head : ph,
+        produksi_detail_bahan : dbahan,
+        produksi_detail_barang : dbarang,
+      });
+        // api.deleteData('/produksi_head', {
+        //   produksi_head : ph,
+        //   produksi_detail_bahan : dbahan,
+        //   produksi_detail_barang : dbarang,
+        // })
+        // .then(() => {
+        //   window.location.href = '/in'
+        // })
+        // .catch((error) => {
+        //   console.log(error);
+        // })
       },
       selected(){        
         return this.getProduksihead(), this.getProduksiBahan(), this.getProduksiBarang()
@@ -222,7 +233,6 @@ import { ref, onMounted } from 'vue';
             }
           }
       },
-
       jumlahbarang(value) {
         for (let i = 0; i < this.detailbarang.length; i++) {
           if ( this.detailbarang[i].no_produksi == value) {
@@ -237,7 +247,6 @@ import { ref, onMounted } from 'vue';
             }
           }
       },
-
       kodebarang(value) {
         for (let i = 0; i < this.detailbarang.length; i++) {
           if ( this.detailbarang[i].no_produksi == value) {
@@ -245,7 +254,6 @@ import { ref, onMounted } from 'vue';
             }
           }
       },
-
       kodebahan(value) {
         for (let i = 0; i < this.detailbahan.length; i++) {
           if ( this.detailbahan[i].no_produksi == value) {
@@ -253,7 +261,6 @@ import { ref, onMounted } from 'vue';
             }
           }
       },
-      
       input_kodegroup(value) {
         let kode = ''
           for (let i = 0; i < this.groupbarang.length; i++) {
@@ -268,14 +275,44 @@ import { ref, onMounted } from 'vue';
                 return this.select_kode =[ this.getbarang[j]]
               }
           }
-          },
+      },
+      detail(val, i){
+        let detail = ''
+        if( i == 'bahan' ){
+          detail = this.detailbahan
+        } else if( i == 'barang') {
+          detail = this.detailbarang
+        }
+        for (let i = 0; i < detail.length; i++) {
+          if( val == detail[i].no_produksi ) {
+            return detail[i]
+          }
+        }
+      },
       print(i){
         if (i == 0) {
           return this.ExportToExcel('xlsx')
         } else if(i == 1) {
-          return this.pdf()
+          return this.generatePDF()
         }
       },
+      generatePDF() {
+      const doc = new jsPDF({
+        orientation: "portrait",
+        unit: "in",
+        format: "letter"
+      });
+      var heading = this.pageTitle
+      var columns = this.headers
+      // text is placed using x, y coordinates
+      doc.setFontSize(16).text(heading, 0.5, 1.0);
+      doc.autoTable({
+        columns,
+        body: this.items,
+        margin: { left: 0.5, top: 1.25 }
+      })
+      .save(`${this.pageTitle}.pdf`);
+    },
       ExportToExcel(type, fn, dl) {
        var elt = document.getElementById('tbl_exporttable_to_xls');
        // eslint-disable-next-line no-undef
@@ -304,10 +341,7 @@ import { ref, onMounted } from 'vue';
       this.periode[1] = this.filtered.periode[1]
       this.selected()
     }
-
-    
     },
-    
     mounted() {
         this.getProduksihead()
         this.getProduksiBahan()
@@ -317,7 +351,6 @@ import { ref, onMounted } from 'vue';
         this.page()
     }
   }
-
   const date = ref();
 
     // For demo purposes assign range from the current date
@@ -330,11 +363,10 @@ import { ref, onMounted } from 'vue';
 
 <template>
   <v-navigation-drawer
-        class="mt-4 border-0 bg-grey-lighten-4 rounded-xl me-4 elevation-0"
+        class="border-0 me-4 elevation-0"
         v-model="filter"
-        location="right"
+        location="left"
         width="320"
-        style="height: fit-content;"
       >
       <v-sheet class="rounded-xl py-5 h-500 bg-white">
         <div class="d-flex align-center">
@@ -348,14 +380,15 @@ import { ref, onMounted } from 'vue';
           <v-divider></v-divider>
           <v-text-field v-model="filtered.periode[0]" class="mt-4" label="Tgl Awal" type="date" density="compact" variant="outlined"></v-text-field>
           <v-text-field v-model="filtered.periode[1]" label="Tgl Akhir" type="date" density="compact" variant="outlined"></v-text-field>
-          <v-div class="d-flex justify-end">
-            <v-btn class="elevation-0 text-small mt-5 me-2 bg-grey-lighten-2" height="42" @click="reset()">Reset</v-btn>
-            <v-btn class="elevation-0 text-small mt-5" color="orange-lighten-1" height="42" @click="filterdata()">Filter</v-btn>
+          <v-div class="d-flex justify-end pt-12">
+            <v-btn class="elevation-0 text-small mt-12 me-2 bg-grey-lighten-2" height="42" @click="reset()">Reset</v-btn>
+            <v-btn class="elevation-0 text-small mt-12" color="orange-lighten-1" height="42" @click="filterdata()">Filter</v-btn>
           </v-div>
         </v-container>
       </v-sheet>
   </v-navigation-drawer>
     <v-container>
+    <AppBar v-if="pageTitle != null" :pageTitle="pageTitle"/>
       <v-row no-gutters class="rounded-t-xl align-start mt-n4 mb-2">
         <v-responsive class="d-flex align-center mb-sm-0 mb-1 me-sm-2 me-0" width="200" max-width="350">
         <!-- PERIODE -->
@@ -364,8 +397,11 @@ import { ref, onMounted } from 'vue';
           <VueDatePicker v-model="periode" range :clearable="false" :enable-time-picker="false" hide-offset-dates max-range="30" :max-date="new Date()"  @update:model-value="selected()" input-class-name="dp-custom-input"/>
         </div> -->
         <div class="d-flex align-center w-100">
+        <!-- BUTTON FILTER -->
+        <v-btn @click="filter = !filter " class="rounded-circle text-caption elevation-0 bg-grey-lighten-4 text-indigo me-2" icon="mdi-tune-vertical" size="small">
+        </v-btn>
         <!-- TAMBAH DATA -->
-        <ScreenDialog2 :headers="headItem" :items="items" :groupbarang="groupbarang" :getbarang="getbarang" @input_kodegroup="input_kodegroup"  @produksimasuk="inputhead" :select_kode="select_kode" :iTitle="actIcon[0].text" :btncolor="actIcon[0].color" :icon="actIcon[0].icon" :iVariant="actIcon[0].variant" :alpha="alpha" :actIcon="actIcon"/>
+        <ScreenDialog2 :headers="headItem" :items="items" :groupbarang="groupbarang" :getbarang="getbarang" @input_kodegroup="input_kodegroup"  @inputhead="inputhead" :produksi="true" :select_kode="select_kode" :iTitle="actIcon[0].text" :btncolor="actIcon[0].color" :icon="actIcon[0].icon" :iVariant="actIcon[0].variant" :alpha="alpha" :actIcon="actIcon"/>
         </div>
         <!-- <v-chip class="mt-1 me-1" color="orange" size="small">{{ periode[0] }} - {{ periode[1] }}</v-chip> -->
       </v-responsive>
@@ -394,7 +430,7 @@ import { ref, onMounted } from 'vue';
             <v-menu activator="#cetak" transition="slide-y-transition">
               <v-list>
                 <v-list-item
-                  v-for="(c, index) in this.cetak"
+                  v-for="(c, index) in cetak"
                   :key="index"
                   :value="index"
                   @click="print(index)"
@@ -406,9 +442,6 @@ import { ref, onMounted } from 'vue';
                 </v-list-item>
               </v-list>
             </v-menu>
-            <!-- BUTTON FILTER -->
-            <v-btn @click="filter = !filter " class="rounded-circle text-caption elevation-0 bg-grey-lighten-4 text-indigo me-2" icon="mdi-tune-vertical" size="small">
-            </v-btn>
           </div>
       </v-responsive>
       </v-row>
@@ -416,6 +449,7 @@ import { ref, onMounted } from 'vue';
         <v-sheet class="rounded-b-xl">
         <v-data-table
             id="tbl_exporttable_to_xls"
+            items-per-page="10"
             :headers="headers"
             :items="items"
             :search="search"
@@ -423,23 +457,8 @@ import { ref, onMounted } from 'vue';
             :fixed-header="true"
             density="compact"
             class="text-caption py-3 rounded-b-xl"
-            height="75vh"
+            height="63vh"
             >
-            <!-- CUSTOM PAGINATION STYLE -->
-            <template v-slot:bottom>
-                <!-- <v-row no-gutters class="justify-end align-center my-1">
-                  <v-pagination
-                    v-model="page"
-                    :length="4"
-                    size="small"
-                    rounded="circle"
-                    prev-icon="mdi-menu-left"
-                    next-icon="mdi-menu-right"
-                  ></v-pagination>
-                  <v-spacer></v-spacer>
-                  <span>Total: 1978 data</span>
-                </v-row> -->
-              </template>
             <!-- dialog actions -->
             <!-- eslint-disable-next-line vue/valid-v-slot -->
             <template v-slot:item.bahan_baku="{ item }">
@@ -474,6 +493,8 @@ import { ref, onMounted } from 'vue';
                 <ScreenDialog2
                 :batalbtn="Produksi"
                 :edit="true"
+                :produksi_bahan="detail(item.raw.no_produksi, 'bahan')"
+                :produksi_barang="detail(item.raw.no_produksi, 'barang')"
                 :detailbahan="[{
                   kode_barang: kodebahan(item.raw.no_produksi),
                   nama_barang: bahanbaku(item.raw.no_produksi),
@@ -486,7 +507,7 @@ import { ref, onMounted } from 'vue';
                   jumlah: jumlahbarang(item.raw.no_produksi),
                   satuan: satuan(item.raw.no_produksi)
                 }]"
-
+                @del="del"
                 :headItem="headItem"
                 :item="item.raw"
                 :details="details"
@@ -501,7 +522,8 @@ import { ref, onMounted } from 'vue';
                 :iVariant="actIcon[1].variant"
                 :alpha="alpha"
                 :actIcon="actIcon"
-                :disable="true"/>
+                :disable="true"
+                />
               </template>
           </v-data-table>
           </v-sheet>

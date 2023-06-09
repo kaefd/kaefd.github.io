@@ -67,31 +67,18 @@ export default {
     <v-sheet class="rounded-b-xl">
       <!-- TABEL DATA -->
     <v-data-table
-      :items-per-page="totaldata"
+      items-per-page="10"
       :headers="headers"
       :items="items"
       :search="search"
       :hover="true"
       :fixed-header="true"
       density="compact"
-      class="text-caption py-3 rounded-b-xl "
-      height="70vh"
-      
+      class="text-caption py-3 rounded-b-xl"
+      height="63vh"
     >
     <!-- CUSTOM PAGINATION STYLE -->
-    <template v-slot:bottom>
-      <!-- <v-row no-gutters class="justify-end align-center my-1">
-        <v-pagination
-          v-model="page"
-          :length="page"
-          size="small"
-          rounded="circle"
-          prev-icon="mdi-menu-left"
-          next-icon="mdi-menu-right"
-         ></v-pagination>
-         <v-spacer></v-spacer>
-      </v-row> -->
-    </template>
+    
     <!-- ACTION DELETE & EDIT -->
     <!-- eslint-disable-next-line vue/valid-v-slot -->
           <template v-if="laporanstok" v-slot:item.kategori_barang="{ item }">

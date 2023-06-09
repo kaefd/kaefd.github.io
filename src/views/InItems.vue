@@ -1,8 +1,11 @@
 <script setup>
 import { VDataTable } from 'vuetify/labs/VDataTable'
 import ScreenDialog from '../components/ScreenDialog.vue';
+import AppBar from '../components/AppBar.vue';
 import '@vuepic/vue-datepicker/dist/main.css'
 import api from '../api';
+import { jsPDF } from "jspdf";
+import 'jspdf-autotable'
 import { ref, onMounted } from 'vue';
 
 </script>
@@ -10,7 +13,7 @@ import { ref, onMounted } from 'vue';
 <script>
 export default {
     components: {
-    ScreenDialog, VDataTable
+      ScreenDialog, VDataTable, AppBar
     },
     props:['actIcon', 'cetak'],
     data () {
@@ -76,6 +79,7 @@ export default {
         datainput: {
           no_pembelian: '',
           tgl_pembelian: '',
+          tgl_input: this.today(),
           kode_supplier: '',
           tipe_dokumen: '',
           no_dokumen: '',
@@ -92,14 +96,13 @@ export default {
       }
     },
     created() {
-        this.today()
         let currentDate = new Date().toJSON().slice(0, 10);
-        return this.filtered.periode = [currentDate , currentDate]
+        return this.filtered.periode = this.periode = [currentDate , currentDate]
     },
     methods: {
       today() {
         let currentDate = new Date().toJSON().slice(0, 10);
-        return this.periode = [currentDate , currentDate]
+        return currentDate
       },
       page(){
         return this.$emit('page', this.pageTitle)
@@ -121,19 +124,23 @@ export default {
       },
       // TAMBAH DATA
       inputhead(value, valuedetail) {
-        const apiUrl = '/pembelian_head?'
+        // const apiUrl = '/pembelian_head?'
         const value1 = JSON.stringify(value);
         const value2 = JSON.stringify(valuedetail);
-        api.postData( apiUrl, {
-          pembelian_head : value1,
-          pembelian_detail : value2
-        })
-        .then(() => {
-            window.location.href = '/in' 
-          })
-          .catch((error) => {
-            console.log(error);
-          })
+        console.log({
+          pembelian_head: value1,
+          pembelian_detail: value2
+        });
+        // api.postData( apiUrl, {
+        //   pembelian_head : value1,
+        //   pembelian_detail : value2
+        // })
+        // .then(() => {
+        //     window.location.href = '/in' 
+        //   })
+        //   .catch((error) => {
+        //     console.log(error);
+        //   })
       },
       // HAPUS DATA
       del(value, valuedtl) {
@@ -153,7 +160,7 @@ export default {
           status: 'false'
       }
       this.pdetail = [{
-            no_pembelian: valuedtl.no_pemelian,
+            no_pembelian: valuedtl.no_pembelian,
             kode_barang: valuedtl.kode_barang,
             nama_barang: valuedtl.nama_barang,
             hs_code: valuedtl.hs_code,
@@ -165,16 +172,20 @@ export default {
       }]
       const ph = JSON.stringify(this.pembelian_head);
       const pd = JSON.stringify(this.pdetail);
-        api.deleteData('/pembelian_head', {
-          pembelian_head : ph,
-          pembelian_detail : pd,
-        })
-        .then(() => {
-          window.location.href = '/in'
-        })
-        .catch((error) => {
-          console.log(error);
-        })
+        console.log({
+          pembelian_head: ph,
+          pembelian_detail: pd,
+        });
+        // api.deleteData('/pembelian_head', {
+        //   pembelian_head : ph,
+        //   pembelian_detail : pd,
+        // })
+        // .then(() => {
+        //   window.location.href = '/in'
+        // })
+        // .catch((error) => {
+        //   console.log(error);
+        // })
       },
       // inisialisasi
       selected(){ 
@@ -236,16 +247,31 @@ export default {
           }
           
         }
-
-
       },
       print(i){
           if (i == 0) {
             return this.ExportToExcel('xlsx')
           } else if(i == 1) {
-            return this.pdf()
+            return this.generatePDF()
           }
       },
+      generatePDF() {
+      const doc = new jsPDF({
+        orientation: "portrait",
+        unit: "in",
+        format: "letter"
+      });
+      var heading = this.pageTitle
+      var columns = this.headers
+      // text is placed using x, y coordinates
+      doc.setFontSize(16).text(heading, 0.5, 1.0);
+      doc.autoTable({
+        columns,
+        body: this.items,
+        margin: { left: 0.5, top: 1.25 }
+      })
+      .save(`${this.pageTitle}.pdf`);
+    },
       // FUNCTION EXPORT TO EXCEL
       ExportToExcel(type, fn, dl) {
        var elt = document.getElementById('tbl_exporttable_to_xls');
@@ -289,13 +315,13 @@ export default {
       
     },
     mounted() {
-      this.selected()
+      // this.selected()
       this.page()
       this.getPembelian()
       this.getSupplier()
-      this.getPembelianDetail()
-      this.pembelian()
-      this.pembeliandetl
+      // this.getPembelianDetail()
+      // this.pembelian()
+      // this.pembeliandetl
     }
   }
 
@@ -313,13 +339,12 @@ export default {
 
 <template>
   <v-navigation-drawer
-        class="mt-4 border-0 bg-grey-lighten-4 rounded-xl me-4 elevation-0"
+        class="border-0 me-4 elevation-0"
         v-model="filter"
-        location="right"
+        location="left"
         width="320"
-        style="height: fit-content;"
       >
-      <v-sheet class="rounded-xl py-5 h-500 bg-white">
+      <v-sheet class="rounded-xl py-5">
         <div class="d-flex align-center">
           <v-span class="text-button ms-4">Filter</v-span>
           <v-btn size="small" icon="mdi-close" @click="filter = false" variant="text" class="me-3 ms-auto">
@@ -352,11 +377,14 @@ export default {
         </v-container>
       </v-sheet>
   </v-navigation-drawer>
-  
   <v-container>
-    <v-row no-gutters class="rounded-t-xl align-start mt-n4 mb-2">
+    <AppBar v-if="pageTitle != null" :pageTitle="pageTitle"/>
+    <v-row no-gutters class="rounded-t-xl align-center mt-n4 mb-2">
       <v-responsive class="d-flex align-center mb-sm-0 mb-1 me-sm-2 me-0" width="200" max-width="350">
           <div class="d-flex align-center w-100">
+            <!-- BUTTON FILTER -->
+            <v-btn @click="filter = !filter " class="rounded-circle text-caption elevation-0 bg-grey-lighten-4 text-indigo me-2" icon="mdi-tune-vertical" size="small">
+            </v-btn>
             <!-- ADD DATA -->
             <ScreenDialog batalbtn="Pemasukan" :datainput="datainput" @inputhead="inputhead" :pemasukan="true" :supplier="supplier" :edit="false" :itemDetail="itemDetail" :datatext="datatext" :btn="btn" :headDetails="headDetails" :details="details" :headers="headers" :items="pilihtipe()" :pembeliandetl="pembeliandetl" :search="search" :category="tipedokumen" :selectCategory="selectCategory" :iTitle="actIcon[0].text" :btncolor="actIcon[0].color" :icon="actIcon[0].icon" :iVariant="actIcon[0].variant" :alpha="alpha" :actIcon="actIcon" :pageTitle="pageTitle"/>
           </div>
@@ -388,7 +416,7 @@ export default {
             <v-menu activator="#cetak" transition="slide-y-transition">
               <v-list>
                 <v-list-item
-                  v-for="(c, index) in this.cetak"
+                  v-for="(c, index) in cetak"
                   :key="index"
                   :value="index"
                   @click="print(index)"
@@ -400,9 +428,6 @@ export default {
                 </v-list-item>
               </v-list>
             </v-menu>
-            <!-- BUTTON FILTER -->
-            <v-btn @click="filter = !filter " class="rounded-circle text-caption elevation-0 bg-grey-lighten-4 text-indigo" icon="mdi-tune-vertical" size="small">
-            </v-btn>
           </div>
       </v-responsive>
       </v-row>
@@ -411,30 +436,16 @@ export default {
         <v-sheet class="rounded-b-xl">
           <v-data-table
               id="tbl_exporttable_to_xls"
+              items-per-page="10"
               :items="pilihtipe()"
               :headers="headers"
               :search="search"
               :hover="true"
               :fixed-header="true"
               density="compact"
-              class="text-caption py-3 rounded-b-xl h-75"
-              height="75vh"
+              class="text-caption py-3 rounded-b-xl"
+              height="63vh"
               >
-              <!-- CUSTOM PAGINATION STYLE -->
-              <template v-slot:bottom>
-                <!-- <v-row no-gutters class="justify-end align-center my-1">
-                  <v-pagination
-                    v-model="page"
-                    :length="4"
-                    size="small"
-                    rounded="circle"
-                    prev-icon="mdi-menu-left"
-                    next-icon="mdi-menu-right"
-                  ></v-pagination>
-                  <v-spacer></v-spacer>
-                  <span>Total: 1978 data</span>
-                </v-row> -->
-              </template>
               <!-- NAMA SUPPLIER -->
               <!-- eslint-disable-next-line vue/valid-v-slot -->
               <template v-slot:item.kode_supplier="{item}">
@@ -443,7 +454,7 @@ export default {
               <!-- BUTTON EDIT -->
               <!-- eslint-disable-next-line vue/valid-v-slot -->
               <template v-slot:item.actions="{item}">
-                <ScreenDialog batalbtn="Pemasukan" @del="del" :namaSupplier="namaSupplier(item.raw.kode_supplier)" :pembelian="pembelian(item.raw.no_pembelian)" :edit="true" :penjualan="false" :itemDetail="itemDetail" :datatext="datatext" :btn="btn" :headDetails="headDetails" :details="details" :headers="headers" :items="item.raw" :search="search" :category="tipedokumen" :selectCategory="selectCategory" :iTitle="actIcon[3].text" :btncolor="actIcon[3].color" :icon="actIcon[3].icon" :iVariant="actIcon[3].variant" :alpha="alpha" :actIcon="actIcon" :pageTitle="pageTitle"/>
+                <ScreenDialog batalbtn="Pemasukan" @del="del" :namaSupplier="namaSupplier(item.raw.kode_supplier)" :pembelian="pembelian(item.raw.no_pembelian)" :edit="true" :pemasukan="true" :penjualan="false" :itemDetail="itemDetail" :datatext="datatext" :btn="btn" :headDetails="headDetails" :details="details" :headers="headers" :items="item.raw" :search="search" :category="tipedokumen" :selectCategory="selectCategory" :iTitle="actIcon[3].text" :btncolor="actIcon[3].color" :icon="actIcon[3].icon" :iVariant="actIcon[3].variant" :alpha="alpha" :actIcon="actIcon" :pageTitle="pageTitle"/>
               </template>
               <!-- NILAI TOTAL -->
               <!--  eslint-disable-next-line vue/valid-v-slot -->

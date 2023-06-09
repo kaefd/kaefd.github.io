@@ -2,17 +2,18 @@
 import { VDataTable } from 'vuetify/labs/VDataTable'
 import ScreenDialog from '../components/ScreenDialog.vue';
 import '@vuepic/vue-datepicker/dist/main.css'
-
+import { jsPDF } from "jspdf";
+import 'jspdf-autotable'
 import { ref, onMounted } from 'vue';
 import api from '../api';
-
+import AppBar from '../components/AppBar.vue';
 </script>
 
 <script>
 
   export default {
     components: {
-    ScreenDialog, VDataTable
+    ScreenDialog, VDataTable, AppBar
     },
     props:['actIcon', 'cetak'],
     data () {
@@ -207,6 +208,23 @@ import api from '../api';
       selected() {
         this.getPengirimanHead(), this.getPengirimanDetail(), this.getPenjualanHead()
       },
+      generatePDF() {
+      const doc = new jsPDF({
+        orientation: "portrait",
+        unit: "in",
+        format: "letter"
+      });
+      var heading = this.pageTitle
+      var columns = this.headers
+      // text is placed using x, y coordinates
+      doc.setFontSize(16).text(heading, 0.5, 1.0);
+      doc.autoTable({
+        columns,
+        body: this.items,
+        margin: { left: 0.5, top: 1.25 }
+      })
+      .save(`${this.pageTitle}.pdf`);
+    },
       ExportToExcel(type, fn, dl) {
        var elt = document.getElementById('tbl_exporttable_to_xls');
        // eslint-disable-next-line no-undef
@@ -233,7 +251,7 @@ import api from '../api';
         if (i == 0) {
           return this.ExportToExcel('xlsx')
         } else if(i == 1) {
-          return this.pdf()
+          return this.generatePDF()
         }
       },
 
@@ -263,15 +281,17 @@ import api from '../api';
 
 <template>
   <v-navigation-drawer
-        class="mt-4 border-0 bg-grey-lighten-4 rounded-xl me-4 elevation-0"
+        class="border-0 me-4 elevation-0"
         v-model="filter"
-        location="right"
+        location="left"
         width="320"
-        style="height: fit-content;"
       >
-      <v-sheet class="rounded-xl py-5 h-500 bg-transparent">
-        <v-span class="text-button ms-4">Filter</v-span>
-        <!-- PERIODE -->
+      <v-sheet class="rounded-xl py-5 bg-white">
+        <div class="d-flex align-center">
+          <v-span class="text-button ms-4">Filter</v-span>
+          <v-btn size="small" icon="mdi-close" @click="filter = false" variant="text" class="me-3 ms-auto">
+          </v-btn>
+        </div>        <!-- PERIODE -->
         <v-container class="pt-3 px-4">
           <v-span class="text-caption text-weight-bold">Periode</v-span>
           <v-divider></v-divider>
@@ -288,44 +308,44 @@ import api from '../api';
       </v-sheet>
   </v-navigation-drawer>
   <v-container>
-    <v-row no-gutters class="rounded-t-xl align-start pa-4 mt-n4">
-      <v-responsive class="d-flex align-center mb-sm-0 mb-1 me-sm-2 me-0" width="200" max-width="350">
+    <AppBar v-if="pageTitle != null" :pageTitle="pageTitle"/>
+    <v-row no-gutters class="rounded-t-xl align-start mt-n4 mb-2">
+      <v-responsive class="d-flex align-center mb-sm-0 mb-1" min-width="200">
         <div class="d-flex align-center w-100">
+          <!-- BUTTON FILTER -->
+          <v-btn @click="filter = !filter " class="rounded-circle text-caption elevation-0 bg-grey-lighten-4 text-indigo me-2" icon="mdi-tune-vertical" size="small">
+          </v-btn>
+          <!-- TAMBAH DATA -->
+          <ScreenDialog :kirim="true" :edit="false" :supplier="pelanggan" :alamatBongkar="alamatBongkar" :datainput="datainput" :pageTitle="pageTitle" :btn="btn" :headDetails="headers" :details="items" :headers="headers" :items="items" :search="search" :category="category" :selectCategory="selectCategory" :iTitle="actIcon[0].text" :btncolor="actIcon[0].color" :icon="actIcon[0].icon" :iVariant="actIcon[0].variant" :alpha="alpha" :actIcon="actIcon" :datatext="datatext"/>
+        </div>
+        <!-- <v-chip class="mt-1 me-1" color="orange" size="small">{{ periode[0] }} - {{ periode[1] }}</v-chip> -->
+      </v-responsive>
+      <v-responsive class="me-sm-0 ms-sm-auto ms-0 me-auto" max-width="450">
+        <div class="d-flex align-center justify-sm-end justify-start">
           <!-- SEARCH -->
-            <v-text-field
+          <v-text-field
               v-model="search"
               density="compact"
               variant="text"
-              class="w-75 text-indigo-darken-4 rounded-xl border me-2 text-body-2 font-small"
+              class="text-indigo-darken-4 rounded-xl border me-2 text-body-2 font-small"
               prepend-inner-icon="mdi-magnify"
               placeholder="Search"
               single-line
               hide-details
             >
             </v-text-field>
-            <!-- BUTTON FILTER -->
-            <v-btn @click="filter = !filter " class="rounded-circle text-caption elevation-0 me-2" color="indigo" variant="tonal" icon="mdi-tune-vertical" size="small">
-            </v-btn>
-        </div>
-        <v-chip class="mt-1 me-1" color="orange" size="small">{{ periode[0] }} - {{ periode[1] }}</v-chip>
-      </v-responsive>
-      <v-responsive class="me-sm-0 ms-sm-auto ms-0 me-auto" width="200" max-width="350">
-        <div class="d-flex align-center justify-sm-end justify-start mt-md-1 mt-0">
-          <!-- TAMBAH DATA -->
-          <ScreenDialog :kirim="true" :edit="false" :supplier="pelanggan" :alamatBongkar="alamatBongkar" :datainput="datainput" :pageTitle="pageTitle" :btn="btn" :headDetails="headers" :details="items" :headers="headers" :items="items" :search="search" :category="category" :selectCategory="selectCategory" :iTitle="actIcon[0].text" :btncolor="actIcon[0].color" :icon="actIcon[0].icon" :iVariant="actIcon[0].variant" :alpha="alpha" :actIcon="actIcon" :datatext="datatext"/>
           <!-- EXPORT BUTTON -->
           <v-btn
             id="cetak"
-            color="indigo-darken-1"
+            color="indigo"
             icon="mdi-dots-vertical"
-            class="rounded-xl ms-2 me-2"
-            variant="text"
+            class="rounded-xl mx-2 elevation-0 bg-grey-lighten-4 text-indigo"
             size="small"
           ></v-btn>
           <v-menu activator="#cetak" transition="slide-y-transition">
             <v-list>
               <v-list-item
-                v-for="(c, index) in this.cetak"
+                v-for="(c, index) in cetak"
                 :key="index"
                 :value="index"
                 @click="print(index)"
@@ -344,6 +364,7 @@ import api from '../api';
       <v-sheet class="p-4 rounded-b-xl">
         <v-data-table
             id="tbl_exporttable_to_xls" 
+            items-per-page="10"
             :headers="headers"
             :items="pengirimanHead"
             :search="search"
@@ -351,24 +372,8 @@ import api from '../api';
             :fixed-header="true"
             density="compact"
             class="text-caption py-3 px-5 rounded-b-xl h-75"
-            height="400"
-            max-height="535">
-            <!-- CUSTOM PAGINATION STYLE -->
-              <template v-slot:bottom>
-                <!-- <v-row no-gutters class="justify-end align-center my-1">
-                  <v-pagination
-                    v-model="page"
-                    :length="4"
-                    size="small"
-                    rounded="circle"
-                    prev-icon="mdi-menu-left"
-                    next-icon="mdi-menu-right"
-                  ></v-pagination>
-                  <v-spacer></v-spacer>
-                  <span>Total: 1978 data</span>
-                </v-row> -->
-              </template>
-            <!-- dialog actions -->
+            height="63vh"
+            >
             <!-- eslint-disable-next-line vue/valid-v-slot -->
             <template v-slot:item.kode_pelanggan="{ item }">
               <td>{{ namaPelanggan(item.raw.kode_pelanggan) }}</td>

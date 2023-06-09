@@ -1,7 +1,10 @@
 <script setup>
 import TableVue from '../components/TableVue.vue';
 import DialogCard from '../components/DialogCard.vue';
+import AppBar from '../components/AppBar.vue';
 import { defineComponent } from 'vue';
+import { jsPDF } from "jspdf";
+import 'jspdf-autotable'
 import api from '../api';
 </script>
 
@@ -9,6 +12,7 @@ import api from '../api';
 <script>
 export default defineComponent ({
   components: {
+    AppBar,
     TableVue,
     DialogCard,
     
@@ -69,7 +73,7 @@ export default defineComponent ({
         
     },
     methods: {
-      getData(){
+    getData(){
         api.getData('/barang?status=true')
         .then(response => {
           this.items = response.data
@@ -77,22 +81,38 @@ export default defineComponent ({
         .catch(() => {
           window.location.href = '/login'
         })
-      },
-      selected(){        
-          if (this.selectCategory.length === 0) {
-            return this.items;
-          } else {
-            return this.items.filter(item => this.selectCategory.includes(item.kategori_barang));
-          }
-      },
-      print(i){
+    },
+    selected(){        
+        if (this.selectCategory.length === 0) {
+          return this.items;
+        } else {
+          return this.items.filter(item => this.selectCategory.includes(item.kategori_barang));
+        }
+    },
+    print(i){
           if (i == 0) {
             return this.ExportToExcel('xlsx')
           } else if(i == 1) {
-            return this.pdf()
+            return this.generatePDF()
           }
-      },
-      
+    },
+    generatePDF() {
+      const doc = new jsPDF({
+        orientation: "portrait",
+        unit: "in",
+        format: "letter"
+      });
+      let heading = this.pageTitle
+      let columns = this.headers
+      // text is placed using x, y coordinates
+      doc.setFontSize(16).text(heading, 0.5, 1.0);
+      doc.autoTable({
+        columns,
+        body: this.items,
+        margin: { left: 0.5, top: 1.25 }
+      })
+      .save(`${this.pageTitle}.pdf`);
+    },
     ExportToExcel(type, fn, dl) {
        var elt = document.getElementById('tbl_exporttable_to_xls');
        // eslint-disable-next-line no-undef
@@ -199,6 +219,7 @@ export default defineComponent ({
     mounted() {
         this.getData()
         this.page()
+        this.cetak
       }
       
   })
@@ -206,13 +227,12 @@ export default defineComponent ({
 </script>
 <template>
   <v-navigation-drawer
-        class="mt-4 border-0 bg-grey-lighten-4 rounded-xl me-4 elevation-0"
+        class="border-0 me-4 elevation-0"
         v-model="filter"
-        location="right"
+        location="left"
         width="320"
-        style="height: fit-content;"
       >
-      <v-sheet class="rounded-xl py-5 h-500">
+      <v-sheet class="py-5 bg-transparent">
         <div class="d-flex align-center">
           <v-span class="text-button ms-4">Filter</v-span>
           <v-btn size="small" icon="mdi-close" @click="filter = false" variant="text" class="me-3 ms-auto">
@@ -239,7 +259,8 @@ export default defineComponent ({
       </v-sheet>
   </v-navigation-drawer>
   <v-container>
-    <v-row no-gutters class="rounded-t-xl align-start mb-2">
+    <AppBar v-if="pageTitle != null" :pageTitle="pageTitle"/>
+    <v-row no-gutters class="mb-2 mt-n4">
       <v-responsive class="d-flex align-center mb-sm-0 mb-1" min-width="200">
         <div class="d-flex align-center w-100">
           <!-- KATEGORI -->
@@ -253,11 +274,11 @@ export default defineComponent ({
             single-line
             hide-details
           ></v-select> -->
+          <!-- BUTTON FILTER -->
+          <v-btn @click="filter = !filter " class="rounded-circle text-caption elevation-0 bg-grey-lighten-4 text-indigo me-2" icon="mdi-tune-vertical" size="small">
+          </v-btn>
           <!-- ADD BUTTON -->
           <DialogCard :keyform="keyform" :tambah="tambah" :ishidden="true" :noselect="statusselect" @form="submitForm" :screen="400" :iTitle="actIcon[0].text" :btncolor="actIcon[0].color" :icon="actIcon[0].icon" :iVariant="actIcon[0].variant" :headers="headers" :items="items" :category="category" :alpha="alpha" :submitForm="submitForm"/>
-          <!-- SEARCH -->
-          
-          
           </div>
       </v-responsive>
       <v-responsive class="me-sm-0 ms-sm-auto ms-0 me-auto" max-width="450">
@@ -284,7 +305,7 @@ export default defineComponent ({
             <v-menu activator="#cetak" transition="slide-y-transition">
             <v-list>
               <v-list-item
-                v-for="(c, index) in this.cetak"
+                v-for="(c, index) in cetak"
                 :key="index"
                 :value="index"
                 @click="print(index)"
@@ -296,9 +317,6 @@ export default defineComponent ({
               </v-list-item>
             </v-list>
           </v-menu>
-          <!-- BUTTON FILTER -->
-          <v-btn @click="filter = !filter " class="rounded-circle text-caption elevation-0 bg-grey-lighten-4 text-indigo me-2" icon="mdi-tune-vertical" size="small">
-          </v-btn>
           </div>
       </v-responsive>
       </v-row>
