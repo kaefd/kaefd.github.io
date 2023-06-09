@@ -129,42 +129,45 @@ import AppBar from '../components/AppBar.vue';
 <v-container>
   <AppBar v-if="pageTitle != null" :pageTitle="pageTitle"/>
   <v-row no-gutters class="rounded-t-xl align-center mt-n4 mb-2">
-    <v-responsive class="d-flex align-center mb-sm-0 mb-1 me-sm-2 me-0" width="200" max-width="350">
+    <v-responsive class="d-flex align-center mb-sm-0 mb-1 me-sm-2 me-0" width="200" max-width="400">
       <v-btn class="rounded-xl bg-blue-custom text-white elevation-0 text-caption" height="42" width="150">Tambah Baru</v-btn>
     </v-responsive>
   </v-row>
-  <v-row class="d-flex justify-space-between">
-    <v-responsive class="me-lg-0 me-2 mb-md-0 mb-2" max-width="350">
+  <v-row class="d-flex">
+    <v-responsive class="me-lg-0 me-2 mb-md-0 mb-2" max-width="400">
       <v-container class="w-100 border rounded-xl vh-75">
         <v-span class="text-caption font-weight-bold pa-3">KODE USER</v-span>
-        <v-divider></v-divider>
         <v-list class="bg-transparent">
           <v-list-item class="text-caption" density="compact">admin</v-list-item>
           <v-list-item class="text-caption" density="compact">beacukai</v-list-item>
         </v-list>
       </v-container>
     </v-responsive>
-    <v-responsive class="me-lg-0 me-2 mb-md-0 mb-2" max-width="600">
+    <v-responsive class="me-lg-0 me-2 mb-md-0 mb-2" max-width="400">
       <v-container class="w-100 border rounded-xl vh-75">
         <v-span class="text-caption font-weight-bold">DETAIL USER</v-span>
-        <v-divider></v-divider>
-        <v-div class="d-flex flex-column justify-center align-center mt-5">
-          <v-avatar size="75">
-            <v-icon color="grey-darken-1" size="75">mdi-account-circle</v-icon>
-          </v-avatar>
+        <v-div class="d-flex">
+          <v-container class="border rounded-xl mt-5 me-2">
+            <v-div class="d-flex flex-column justify-center align-center mt-5">
+              <v-avatar size="75">
+                <v-icon color="grey-darken-1" size="75">mdi-account-circle</v-icon>
+              </v-avatar>
+            </v-div>
+            <v-div class="d-flex mt-2">
+                <v-list class="bg-transparent" density="compact">
+                <v-list-item class="text-caption font-weight-bold">Username</v-list-item>
+                <v-list-item class="text-caption font-weight-bold">Pasword</v-list-item>
+              </v-list>
+              <v-list class="bg-transparent" density="compact">
+                <v-list-item class="text-caption">Admin</v-list-item>
+                <v-list-item class="text-caption"></v-list-item>
+              </v-list>
+            </v-div>
+          </v-container>
+          <v-container class="border rounded-xl mt-5">
+            <v-span class="text-caption font-weight-bold">OTOTRITAS</v-span>
+          </v-container>
         </v-div>
-        <v-div class="d-flex mt-2">
-            <v-list class="bg-transparent" density="compact">
-            <v-list-item class="text-caption font-weight-bold">Username</v-list-item>
-            <v-list-item class="text-caption font-weight-bold">Pasword</v-list-item>
-          </v-list>
-          <v-list class="bg-transparent" density="compact">
-            <v-list-item class="text-caption">Admin</v-list-item>
-            <v-list-item class="text-caption"></v-list-item>
-          </v-list>
-        </v-div>
-        <v-divider></v-divider>
-        <v-span class="text-caption font-weight-bold">LIHAT OTOTRITAS</v-span>
       </v-container>
     </v-responsive>
   </v-row>

@@ -1,6 +1,5 @@
 <script setup>
 import { RouterView } from 'vue-router'
-import { mergeProps } from 'vue'
 import NavDrawers from './components/NavDrawers.vue';
 
 </script>
@@ -31,7 +30,6 @@ export default {
       }
     },
     methods: {
-      mergeProps,
       page(value) {
         this.pageTitle = value
       },
