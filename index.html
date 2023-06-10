@@ -9,16 +9,16 @@
     <title>Vite App</title>
   </head>
   <body class="bg-grey-lighten-5">
+    <div id="app"></div>
+    <!-- <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script> -->
     <script type="importmap">
       {
         "imports": {
-          "vue": "https://unpkg.com/vue@3/dist/vue.esm-browser.js",
+          "vue": "https://unpkg.com/vue@3/dist/vue.esm-browser.js"
         }
       }
     </script>
-    <div id="app"></div>
-    <!-- <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script> -->
-    <script type="module" src="/src/main.js"></script>
+    <script type="module" src="./src/main.js"></script>
     <script type="text/javascript" src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"></script>
   </body>
 </html>
