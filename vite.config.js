@@ -20,7 +20,7 @@ import { splitVendorChunkPlugin } from 'vite'
 export default defineConfig({
   mode: 'production',
   base: "/",
-  publicPath: '/inventori/',
+  publicPath: '/',
   plugins: [vue(), vueJsx(), splitVendorChunkPlugin()],
   resolve: {
   alias: {
