@@ -2,7 +2,7 @@
   "name": "inventori",
   "version": "0.0.0",
   "private": true,
-  "homepage": "https://kaefd.github.io",
+  "homepage": "https://kaefd.github.io/",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -10,7 +10,8 @@
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
     "format": "prettier --write src/",
     "start": "json-server --watch fake-server/inventori.json",
-    "start-auth": "node src/modules/server.js"
+    "start-auth": "node src/modules/server.js",
+    "deploy": "vite build && gh-pages -d dist"
   },
   "dependencies": {
     "@quasar/extras": "^1.16.3",

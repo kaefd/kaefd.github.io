@@ -19,18 +19,8 @@ import { splitVendorChunkPlugin } from 'vite'
 // https://vitejs.dev/config/
 export default defineConfig({
   mode: 'production',
-  base: "/",
-  publicPath: '/',
+  base: "/kaefd.github.io/",
   plugins: [vue(), vueJsx(), splitVendorChunkPlugin()],
-  resolve: {
-  alias: {
-  "~": fileURLToPath(new URL('./node_modules', import.meta.url)),
-  "@": fileURLToPath(new URL('./src', import.meta.url))
-  },
-  },
-  build: {
-  chunkSizeWarningLimit: 1600,
-  },
   server: {
     headers: {
       'Permissions-Policy': 'interest-cohort=()',
@@ -42,5 +32,15 @@ export default defineConfig({
         rewrite: (path) => path.replace(/^\/api/, ''),
       },
     },
-  }
+  },
+  resolve: {
+  alias: {
+  "~": fileURLToPath(new URL('./node_modules', import.meta.url)),
+  "@": fileURLToPath(new URL('./src', import.meta.url))
+  },
+  },
+  build: {
+  chunkSizeWarningLimit: 1600,
+  },
+  
   });
