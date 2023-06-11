@@ -34,4 +34,11 @@ export default defineConfig({
   headers: {
     'Permissions-Policy': 'interest-cohort=()',
   },
+  proxy: {
+    '/api': {
+      target: 'https://auristeel.com', // Ganti dengan URL API yang sesuai
+      changeOrigin: true,
+      rewrite: (path) => path.replace(/^\/api/, ''),
+    },
+  },
   });
