@@ -4,6 +4,7 @@ import axios from 'axios'
 const instance = axios.create({
   baseURL: 'https://auristeel.com/api',
   headers: {
+    'Permissions-Policy': 'interest-cohort=()',
     'csrf': localStorage.getItem('token'),
     'accept': '*/*',
     'Content-Type': 'application/json',
