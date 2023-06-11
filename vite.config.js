@@ -31,14 +31,16 @@ export default defineConfig({
   build: {
   chunkSizeWarningLimit: 1600,
   },
-  headers: {
-    'Permissions-Policy': 'interest-cohort=()',
-  },
-  proxy: {
-    '/api': {
-      target: 'https://auristeel.com', // Ganti dengan URL API yang sesuai
-      changeOrigin: true,
-      rewrite: (path) => path.replace(/^\/api/, ''),
+  server: {
+    headers: {
+      'Permissions-Policy': 'interest-cohort=()',
     },
-  },
+    proxy: {
+      '/api': {
+        target: 'https://auristeel.com', // Ganti dengan URL API yang sesuai
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ''),
+      },
+    },
+  }
   });
