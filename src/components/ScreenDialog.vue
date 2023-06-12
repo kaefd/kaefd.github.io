@@ -117,14 +117,14 @@ export default {
     
     mounted() {
         api.getData
-        // this.items
-        // this.dataitem
+        this.items
+        this.dataitem
         this.edit
-        // this.pengeluaran
-        this.namaSupplier
-        this.namaPelanggan
-        // this.penjualan
+        this.penjualan
+        this.nama_pelanggan
+        this.pengeluaran
         this.pembelian_detail
+        this.nama_supplier
     }
 }
 
