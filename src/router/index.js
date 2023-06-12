@@ -16,7 +16,6 @@ import LogView from '../views/LogView.vue'
 
 const router = createRouter({
   history: createWebHashHistory(),
-  base: '/#/',
   routes: [
     {
       path: '/',
