@@ -79,7 +79,7 @@ export default defineComponent ({
           this.items = response.data
         })
         .catch(() => {
-          window.location.href = '/#/login'
+          window.location.href = '/login'
         })
     },
     selected(){        
