@@ -79,7 +79,7 @@ export default defineComponent ({
           this.items = response.data
         })
         .catch(() => {
-          window.location.href = '/#/login'
+          return this.$router.push('login');
         })
     },
     selected(){        
