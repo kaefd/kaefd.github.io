@@ -95,7 +95,6 @@ import AppBar from '../components/AppBar.vue';
         })
       },
       getProduksiBarang() {
-        
         const apiUrl = '/produksi_detail_barang?'
         const params = {
           tgl_awal: this.periode[0],
@@ -110,7 +109,6 @@ import AppBar from '../components/AppBar.vue';
         })
       },
       getGroupBarang() {
-        
         const apiUrl = '/group_barang?'
         api.getData(apiUrl)
         .then(response => {
@@ -210,56 +208,36 @@ import AppBar from '../components/AppBar.vue';
       selected(){        
         return this.getProduksihead(), this.getProduksiBahan(), this.getProduksiBarang()
       },
-
-      bahanbaku(value) {
+      dataTable(value, params) {
         for (let i = 0; i < this.detailbahan.length; i++) {
-          if ( this.detailbahan[i].no_produksi == value) {
-              return this.detailbahan[i].nama_barang
+          for (let j = 0; j < this.detailbarang.length; j++) {
+            if (this.detailbahan[i].no_produksi == value) {
+              if(params == 'baku') {
+                return this.detailbahan[i].nama_barang
+              }
+              else if(params == 'jumlah') {
+                return this.detailbahan[i].jumlah
+              }
+              else if(params == 'kodebhn') {
+                return this.detailbahan[i].kode_barang
+              }
+            }
+            else if(this.detailbarang[j].no_produksi == value) {
+              if(params == 'brgjadi') {
+                return this.detailbarang[j].nama_barang
+              }
+              else if(params == 'jumlahbrg') {
+                return this.detailbarang[j].jumlah
+              }
+              else if(params == 'satuan') {
+                return this.detailbarang[j].satuan
+              }
+              else if(params == 'kodebrg') {
+                return this.detailbarang[j].kode_barang
+              }
             }
           }
-      },
-      jumlah(value) {
-        for (let i = 0; i < this.detailbahan.length; i++) {
-          if ( this.detailbahan[i].no_produksi == value) {
-              return this.detailbahan[i].jumlah
-            }
-          }
-      },
-
-      barangjadi(value) {
-        for (let i = 0; i < this.detailbarang.length; i++) {
-          if ( this.detailbarang[i].no_produksi == value) {
-              return this.detailbarang[i].nama_barang
-            }
-          }
-      },
-      jumlahbarang(value) {
-        for (let i = 0; i < this.detailbarang.length; i++) {
-          if ( this.detailbarang[i].no_produksi == value) {
-              return this.detailbarang[i].jumlah
-            }
-          }
-      },
-      satuan(value) {
-        for (let i = 0; i < this.detailbarang.length; i++) {
-          if ( this.detailbarang[i].no_produksi == value) {
-              return this.detailbarang[i].satuan
-            }
-          }
-      },
-      kodebarang(value) {
-        for (let i = 0; i < this.detailbarang.length; i++) {
-          if ( this.detailbarang[i].no_produksi == value) {
-              return this.detailbarang[i].kode_barang
-            }
-          }
-      },
-      kodebahan(value) {
-        for (let i = 0; i < this.detailbahan.length; i++) {
-          if ( this.detailbahan[i].no_produksi == value) {
-              return this.detailbahan[i].kode_barang
-            }
-          }
+        }
       },
       input_kodegroup(value) {
         let kode = ''
@@ -308,11 +286,26 @@ import AppBar from '../components/AppBar.vue';
       doc.setFontSize(16).text(heading, 0.5, 1.0);
       doc.autoTable({
         columns,
-        body: this.items,
+        body: this.printdata(),
         margin: { left: 0.5, top: 1.25 }
       })
       .save(`${this.pageTitle}.pdf`);
-    },
+      },
+      printdata(){
+        let a = []
+        for (let i = 0; i < this.items.length; i++) {
+          a.push({
+            no_produksi: this.items[i].no_produksi,
+            tgl_produksi: this.items[i].tgl_produksi,
+            kode_group: this.items[i].kode_group,
+            bahan_baku: this.dataTable(this.items[i].no_produksi, 'baku'),
+            jumlah: this.dataTable(this.items[i].no_produksi, 'jumlah'),
+            barang_jadi: this.dataTable(this.items[i].no_produksi, 'brgjadi'),
+            jml_barang_jadi: this.dataTable(this.items[i].no_produksi, 'jumlahbrg'),
+          })
+        }
+        return a
+      },
       ExportToExcel(type, fn, dl) {
        var elt = document.getElementById('tbl_exporttable_to_xls');
        // eslint-disable-next-line no-undef
@@ -322,34 +315,34 @@ import AppBar from '../components/AppBar.vue';
          XLSX.write(wb, { bookType: type, bookSST: true, type: 'base64' }):
          // eslint-disable-next-line no-undef
          XLSX.writeFile(wb, fn || (this.pageTitle+'.' + (type || 'xlsx')));
-    },
-    page(){
-        return this.$emit('page', this.pageTitle)
-    },
-    today() {
-        let currentDate = new Date().toJSON().slice(0, 10);
-        return this.periode = [currentDate , currentDate]
       },
-    reset() {
-      this.filtered.periode = this.today()
-      this.today()
-      this.selected()
-    
-    },
-    filterdata() {
-      this.periode[0] = this.filtered.periode[0]
-      this.periode[1] = this.filtered.periode[1]
-      this.selected()
-    }
-    },
-    mounted() {
-        this.getProduksihead()
-        this.getProduksiBahan()
-        this.getProduksiBarang()
-        this.getGroupBarang()
-        this.getBarang()
-        this.page()
-    }
+      page(){
+          return this.$emit('page', this.pageTitle)
+      },
+      today() {
+          let currentDate = new Date().toJSON().slice(0, 10);
+          return this.periode = [currentDate , currentDate]
+        },
+      reset() {
+        this.filtered.periode = this.today()
+        this.today()
+        this.selected()
+      
+      },
+      filterdata() {
+        this.periode[0] = this.filtered.periode[0]
+        this.periode[1] = this.filtered.periode[1]
+        this.selected()
+      }
+      },
+      mounted() {
+          this.getProduksihead()
+          this.getProduksiBahan()
+          this.getProduksiBarang()
+          this.getGroupBarang()
+          this.getBarang()
+          this.page()
+      }
   }
   const date = ref();
 
@@ -462,31 +455,19 @@ import AppBar from '../components/AppBar.vue';
             <!-- dialog actions -->
             <!-- eslint-disable-next-line vue/valid-v-slot -->
             <template v-slot:item.bahan_baku="{ item }">
-              <td>{{ bahanbaku(item.raw.no_produksi) }}</td>
+              <td>{{ dataTable(item.raw.no_produksi, 'baku') }}</td>
             </template>
             <!-- eslint-disable-next-line vue/valid-v-slot -->
             <template v-slot:item.jumlah="{ item }">
-              <td>{{ jumlah(item.raw.no_produksi) }}</td>
+              <td>{{ dataTable(item.raw.no_produksi, 'jumlah') }}</td>
             </template>
             <!-- eslint-disable-next-line vue/valid-v-slot -->
             <template v-slot:item.barang_jadi="{ item }">
-              <td>{{ barangjadi(item.raw.no_produksi) }}</td>
+              <td>{{ dataTable(item.raw.no_produksi, 'brgjadi') }}</td>
             </template>
             <!-- eslint-disable-next-line vue/valid-v-slot -->
             <template v-slot:item.jml_barang_jadi="{ item }">
-              <td>{{ jumlahbarang(item.raw.no_produksi) }}</td>
-            </template>
-            <!-- eslint-disable-next-line vue/valid-v-slot -->
-            <template v-slot:item.satuan="{ item }">
-              <td>{{ satuan(item.raw.no_produksi) }}</td>
-            </template>
-            <!-- eslint-disable-next-line vue/valid-v-slot -->
-            <template v-slot:item.kodebarang="{ item }">
-              <td>{{ kodebarang(item.raw.no_produksi) }}</td>
-            </template>
-             <!-- eslint-disable-next-line vue/valid-v-slot -->
-             <template v-slot:item.kodebahan="{ item }">
-              <td>{{ kodebahan(item.raw.no_produksi) }}</td>
+              <td>{{ dataTable(item.raw.no_produksi, 'jumlahbrg') }}</td>
             </template>
             <!-- eslint-disable-next-line vue/valid-v-slot -->
             <template v-slot:item.actions="{ item }">
@@ -496,16 +477,16 @@ import AppBar from '../components/AppBar.vue';
                 :produksi_bahan="detail(item.raw.no_produksi, 'bahan')"
                 :produksi_barang="detail(item.raw.no_produksi, 'barang')"
                 :detailbahan="[{
-                  kode_barang: kodebahan(item.raw.no_produksi),
-                  nama_barang: bahanbaku(item.raw.no_produksi),
-                  jumlah: jumlah(item.raw.no_produksi),
-                  satuan: satuan(item.raw.no_produksi)
+                  kode_barang: dataTable(item.raw.no_produksi, 'kodebhn'),
+                  nama_barang: dataTable(item.raw.no_produksi, 'baku'),
+                  jumlah: dataTable(item.raw.no_produksi, 'jumlah'),
+                  satuan: dataTable(item.raw.no_produksi, 'satuan')
                 }]"
                 :detailbarang="[{
-                  kode_barang: kodebarang(item.raw.no_produksi),
-                  nama_barang: barangjadi(item.raw.no_produksi),
-                  jumlah: jumlahbarang(item.raw.no_produksi),
-                  satuan: satuan(item.raw.no_produksi)
+                  kode_barang: dataTable(item.raw.no_produksi, 'kodebrg'),
+                  nama_barang: dataTable(item.raw.no_produksi, 'brgjadi'),
+                  jumlah: dataTable(item.raw.no_produksi, 'jumlahbrg'),
+                  satuan: dataTable(item.raw.no_produksi, 'satuan')
                 }]"
                 @del="del"
                 :headItem="headItem"

@@ -21,11 +21,11 @@ import AppBar from '../components/AppBar.vue';
         drawer: null,
         pageTitle: 'DATA PELANGGAN',
         statusselect: true,
+        confirmdialog: false,
         search: '',
         alpha: 1,
         pilihcetak: '',
         category: [
-          'semua',
           'Bahan Baku',
           'Bahan Penolong',
           'Barang Setengah Jadi',
@@ -63,10 +63,8 @@ import AppBar from '../components/AppBar.vue';
           this.items = response.data
         })
         .catch(() => {
-          window.location.href = '/login'
+          return this.$router.push('login');
         })
-
-        
     },
     methods: {
       page(){
@@ -152,37 +150,17 @@ import AppBar from '../components/AppBar.vue';
       del(value) {
       console.log(value);
       this.pelanggan = {
-              kode_pelanggan : value.kode_pelanggan,
-              nama : value.kode_pelanggan,
-              alamat: value.alamat,
-              npwp: value.npwp,
-              status: false,
+        kode_pelanggan : value.kode_pelanggan,
+        nama : value.kode_pelanggan,
+        alamat: value.alamat,
+        npwp: value.npwp,
+        status: false,
       }
       const myJSON = JSON.stringify(this.pelanggan);
-        api.deleteData('/pelanggan', {
-          pelanggan : myJSON
-        })
-        // ALERT
-            this.$swal.fire({
-              title: 'Apakah anda yakin?',
-              text: "",
-              icon: 'warning',
-              showCancelButton: true,
-              confirmButtonColor: '#3085d6',
-              cancelButtonColor: '#d33',
-              confirmButtonText: 'Ya'
-            }).then((response) => {
-              if (response.isConfirmed) {
-                this.$swal.fire(
-                  'Berhasil !',
-                  'Data Berhasil Dihapus!',
-                  'success'
-                )
-              }
-            })
-          .catch(function (error) {
-            this.failedAlert(error.response.data)
-          })
+        console.log(myJSON);
+        // api.deleteData('/pelanggan', {
+        //   pelanggan : myJSON
+        // })
       }
     },
     mounted(){

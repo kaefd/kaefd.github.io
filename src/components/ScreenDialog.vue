@@ -161,7 +161,6 @@ export default {
             >
             </v-btn>
           </template>
-          
           <!-- dialog content -->
             <v-card class="bg-grey-lighten-5">
                 <v-toolbar class="bg-blue-custom text-white" height="50">
@@ -176,10 +175,9 @@ export default {
                 <v-toolbar-title class="text-button mt-1">{{ 'DETAIL '+ pageTitle }}</v-toolbar-title>
                 <v-spacer></v-spacer>
                 </v-toolbar>
-
                 <v-container class="mt-5">
                     <!-- EDIT -->
-                    <v-row v-if="edit">
+                    <v-row v-if="edit" style="height:40vh">
                     <v-col>
                         <v-text-field
                             :label="penjualan ? 'No Penjualan' : (kirim ? 'No Pengiriman' : 'No Pemasukan'  )"
@@ -373,7 +371,7 @@ export default {
                     </v-row>
                     <v-form  @submit.prevent ref="form">
                     <!-- TAMBAH PEMASUKAN -->
-                        <v-row v-if="!edit && pemasukan">
+                    <v-row v-if="!edit && pemasukan">
                             <!-- PEMASUKAN ITEM -->
                             <v-col>
                                 <v-text-field
@@ -537,7 +535,7 @@ export default {
                                 >
                                 </v-text-field>
                             </v-col>
-                        </v-row>
+                    </v-row>
                     <!-- TAMBAH PENGELUARAN -->
                     <v-row v-if="!edit && pengeluaran">
                         <v-col>
@@ -701,7 +699,7 @@ export default {
                     :fixed-header="true"
                     density="compact"
                     class="text-caption py-3 px-5"
-                    height="150"
+                    height="200"
                     >
                     <!-- CUSTOM PAGINATION STYLE -->
                     <template v-slot:bottom>
@@ -748,7 +746,6 @@ export default {
                                 <v-btn
                                 v-bind="props"
                                 class="text-body-2  rounded-lg"
-                                :color="actIcon[3].color"
                                 :icon="actIcon[3].icon"
                                 variant="plain"
                                 height="30"
@@ -756,9 +753,9 @@ export default {
                                 </v-btn>
                             </template>
                             <v-responsive class="bg-white mx-auto px-7 pb-7 pt-5 rounded-xl" width="400">
-                                <v-btn @click="detaildial[index] = false" icon="mdi-close" variant="text"></v-btn>
-                                <v-card-title class="text-center mt-n5">{{ item.raw.nama_barang }}</v-card-title>
-                                <v-card-subtitle class="text-center mb-2">{{ item.raw.hs_code }}</v-card-subtitle>
+                                <v-btn @click="detaildial[index] = false" icon="mdi-close" variant="text" size="small"></v-btn>
+                                <v-card-title class="text-center text-button font-weight-bold mt-n5">{{ item.raw.nama_barang }}</v-card-title>
+                                <v-card-subtitle class="text-caption text-center mb-2 mt-n3">{{ item.raw.hs_code }}</v-card-subtitle>
                                 <v-label>Jumlah</v-label>
                                 <v-text-field
                                     variant="outlined"

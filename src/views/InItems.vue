@@ -211,19 +211,6 @@ export default {
           console.log(error);
         })
       },
-      
-      // GET NAMA SUPPLIER
-      // parameter value adalah kode supplier dalam kolom data pembelian
-      // jika kode supplier == kode_supplier -> tampilkan nama supplier
-      namaSupplier(value) {
-        for (let i = 0; i < this.supplier.length; i++) {
-          if ( this.supplier[i].kode_supplier == value ) {
-              return this.supplier[i].nama
-          }
-          
-        }
-
-      },
       // GET DATA PEMBELIAN-DETAIL
       getPembelianDetail() {
         const apiUrl = '/pembelian_detail?'
@@ -267,11 +254,11 @@ export default {
       doc.setFontSize(16).text(heading, 0.5, 1.0);
       doc.autoTable({
         columns,
-        body: this.items,
+        body: this.printdata(),
         margin: { left: 0.5, top: 1.25 }
       })
       .save(`${this.pageTitle}.pdf`);
-    },
+      },
       // FUNCTION EXPORT TO EXCEL
       ExportToExcel(type, fn, dl) {
        var elt = document.getElementById('tbl_exporttable_to_xls');
@@ -282,12 +269,53 @@ export default {
          XLSX.write(wb, { bookType: type, bookSST: true, type: 'base64' }):
          // eslint-disable-next-line no-undef
          XLSX.writeFile(wb, fn || (this.pageTitle+'.' + (type || 'xlsx')));
-       },
-       numb(value) {
+      },
+      dataTable(value, params) {
+        if(params == 'nama') {
+          for (let i = 0; i < this.supplier.length; i++) {
+            if(this.supplier[i].kode_supplier == value) {
+              return this.supplier[i].nama
+            }
+          }
+        }
+        else if(params == 'pembelian') {
+          for (let j = 0; j < this.pembeliandetl.length; j++) {
+            if ( this.pembeliandetl[j].no_pembelian == value ) {
+                return this.pembeliandetl[j]
+            }
+          }
+        }
+        else if(params == 'total') {
+          return this.numb(value)
+        }
+        else if(params == 'rp') {
+          let kurs = value.kurs
+          let nilai = value.total_nilai
+          return this.numb(kurs * nilai)
+        }
+      },
+      printdata(){
+        let a = []
+        for (let i = 0; i < this.items.length; i++) {
+          a.push({
+            no_pembelian: this.items[i].no_pembelian,
+            tgl_pembelian: this.items[i].tgl_pembelian,
+            tipe_dokumen: this.items[i].tipe_dokumen,
+            no_dokumen: this.items[i].no_dokumen,
+            kode_supplier: this.dataTable(this.items[i].kode_supplier, 'nama'),
+            kode_group: this.items[i].kode_group,
+            kurs: this.items[i].kurs,
+            total_nilai: this.dataTable(this.items[i].total_nilai, 'total'),
+            rp: this.dataTable(this.items[i], 'rp'),
+          })
+        }
+        return a
+      },
+      numb(value) {
             let val = (value / 1).toFixed(0).replace('.', ',')
             return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-        },
-       totalnilai(data){
+      },
+      totalnilai(data){
           let kurs = data.kurs
           let nilai = data.total_nilai
           return kurs * nilai
@@ -298,7 +326,6 @@ export default {
         this.today()
         this.selectdokumen = []
         this.selected()
-        
       },
       filterdata() {
         this.periode[0] = this.filtered.periode[0]
@@ -312,16 +339,15 @@ export default {
           }
 
       }
-      
     },
     mounted() {
-      // this.selected()
+      this.selected()
       this.page()
       this.getPembelian()
       this.getSupplier()
-      // this.getPembelianDetail()
-      // this.pembelian()
-      // this.pembeliandetl
+      this.getPembelianDetail()
+      this.pembelian()
+      this.pembeliandetl
     }
   }
 
@@ -449,22 +475,46 @@ export default {
               <!-- NAMA SUPPLIER -->
               <!-- eslint-disable-next-line vue/valid-v-slot -->
               <template v-slot:item.kode_supplier="{item}">
-                  <td>{{ namaSupplier(item.raw.kode_supplier) }}</td>
+                  <td>{{ dataTable(item.raw.kode_supplier, 'nama') }}</td>
               </template>
               <!-- BUTTON EDIT -->
               <!-- eslint-disable-next-line vue/valid-v-slot -->
               <template v-slot:item.actions="{item}">
-                <ScreenDialog batalbtn="Pemasukan" @del="del" :namaSupplier="namaSupplier(item.raw.kode_supplier)" :pembelian="pembelian(item.raw.no_pembelian)" :edit="true" :pemasukan="true" :penjualan="false" :itemDetail="itemDetail" :datatext="datatext" :btn="btn" :headDetails="headDetails" :details="details" :headers="headers" :items="item.raw" :search="search" :category="tipedokumen" :selectCategory="selectCategory" :iTitle="actIcon[3].text" :btncolor="actIcon[3].color" :icon="actIcon[3].icon" :iVariant="actIcon[3].variant" :alpha="alpha" :actIcon="actIcon" :pageTitle="pageTitle"/>
+                <ScreenDialog
+                batalbtn="Pemasukan"
+                @del="del"
+                :namaSupplier="dataTable(item.raw.kode_supplier, 'nama')"
+                :pembelian="dataTable(item.raw.no_pembelian, 'pembelian')"
+                :edit="true"
+                :pemasukan="true"
+                :penjualan="false"
+                :itemDetail="itemDetail"
+                :datatext="datatext"
+                :btn="btn"
+                :headDetails="headDetails"
+                :details="details"
+                :headers="headers"
+                :items="item.raw"
+                :search="search"
+                :category="tipedokumen"
+                :selectCategory="selectCategory"
+                :iTitle="actIcon[3].text"
+                :btncolor="actIcon[3].color"
+                :icon="actIcon[3].icon"
+                :iVariant="actIcon[3].variant"
+                :alpha="alpha"
+                :actIcon="actIcon"
+                :pageTitle="pageTitle"/>
               </template>
               <!-- NILAI TOTAL -->
               <!--  eslint-disable-next-line vue/valid-v-slot -->
               <template v-slot:item.total_nilai= "{ item }">
-                <td>{{ numb(item.raw.total_nilai) }}</td>
+                <td>{{ dataTable(item.raw.total_nilai, 'total') }}</td>
               </template>
               <!-- TOTAL NILAI -->
               <!-- eslint-disable-next-line vue/valid-v-slot -->
               <template v-slot:item.rp= "{ item }">
-                <td>{{ numb(totalnilai(item.raw)) }}</td>
+                <td>{{ dataTable(item.raw, 'rp') }}</td>
               </template>
             </v-data-table>
         </v-sheet>

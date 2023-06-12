@@ -11,6 +11,7 @@ export default {
       return {
         dialog: false,
         totaldata: this.items.length,
+        confirmdialog: []
       }
     },
     methods:{
@@ -21,6 +22,7 @@ export default {
         return this.$emit('edit', value)
       },
       del(v) {
+        this.confirmdialog = false
         return this.$emit('del', v)
       },
       slotitem(kode, param) {
@@ -35,7 +37,6 @@ export default {
               }
               else if( param == 'hc') {
                 return this.barang[i].hs_code
-
               }
               else if( param =='s') {
                 return this.barang[i].satuan
@@ -97,7 +98,7 @@ export default {
               <td>{{ slotitem(item.raw.kode_barang, 's') }}</td>
           </template>
       <!-- eslint-disable-next-line vue/valid-v-slot -->
-      <template v-slot:item.actions="{ item }">
+      <template v-slot:item.actions="{ item, index }">
         <!-- <div class="d-flex justify-center">
           <DialogCard :ishidden="ishidden" :keyform="keyform" :intable="true" :disabled="disabled" :noselect="noselect" :form="item.raw" @edit="edit" @del="del" :item="item" :screen="screen" :headers="headers" :items="items" :category="category" :btncolor="btncolor" :icon="icon" :iTitle="iTitle" :iVariant="iVariant"  :alpha="alpha" />
         </div> -->
@@ -108,16 +109,45 @@ export default {
               <v-list-item class="pa-0">
                 <DialogCard editbtn="true" :ishidden="ishidden" :keyform="keyform" :intable="true" :disabled="disabled" :noselect="noselect" :form="item.raw" @edit="edit" @del="del" :item="item" :screen="screen" :headers="headers" :items="items" :category="category" :btncolor="btncolor" :icon="icon" :iTitle="iTitle" :iVariant="iVariant"  :alpha="alpha" />
               </v-list-item>
-              <v-list-item class="pa-0">
+              <v-list-item v-if="!ishidden" class="pa-0" @click="confirmdialog[index] =  true">
                 <DialogCard hapus="true" :ishidden="ishidden" :keyform="keyform" :intable="true" :disabled="disabled" :noselect="noselect" :form="item.raw" @edit="edit" @del="del" :item="item" :screen="screen" :headers="headers" :items="items" :category="category" :btncolor="btncolor" :icon="icon" :iTitle="iTitle" :iVariant="iVariant"  :alpha="alpha" />
               </v-list-item>
             </v-list>
           </v-menu>
       </v-btn>
+      <v-dialog v-model="confirmdialog[index]" transition="dialog-bottom-transition" width="350">
+      <v-card class="rounded-xl">
+          <v-card-title class="text-center my-7">Apakah Anda Yakin ?</v-card-title>
+          <v-row no-gutters>
+            <v-col>
+                <v-btn
+                color="orange-darken-1"
+                variant="tonal"
+                height="57"
+                class="w-100 rounded-0"
+                @click="confirmdialog[index] = false"
+                >
+                Tidak
+                </v-btn>                  
+            </v-col>
+            <v-col>
+                <v-btn
+                type="submit"
+                color="blue-darken-1"
+                variant="tonal"
+                height="57"
+                class="w-100 rounded-0"
+                @click="del(item.raw)"
+                >
+                Ya
+                </v-btn>
+            </v-col>
+            </v-row>
+      </v-card>
+    </v-dialog>
       </template>
     </v-data-table>
     </v-sheet>
-    
 </template>
 
 <style lang="scss">

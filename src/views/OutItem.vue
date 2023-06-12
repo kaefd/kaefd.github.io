@@ -312,7 +312,7 @@ import AppBar from '../components/AppBar.vue';
         this.getPelanggan()
         this.penjualan()
         this.getGroupBarang()
-        this.pilihtipe
+        // this.pilihtipe
     }
   }
 
