@@ -1,7 +1,7 @@
 
-export default function ({ next, router }) {
+export default function ({ next }) {
   if (localStorage.getItem('token') == false) {
-    return router.push('/#/login');
+    window.location.href = '/#/login'
   }
 
   return next();
