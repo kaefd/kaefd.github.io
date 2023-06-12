@@ -9,7 +9,7 @@ export default {
     components: {
     DialogCard2, VDataTable
     },
-    props:['pembelianbaru', 'namaPelanggan', 'groupbarang', 'batalbtn', 'pemasukan', 'alamatBongkar', 'namaTujuan', 'datainput', 'pageTitle', 'pengeluaran', 'dokumenpjl', 'namaSupplier', 'pengirimanDetail', 'pembelian', 'pelanggan', 'supplier', 'pembeliandetl', 'edit', 'kirim', 'headers', 'items', 'actIcon', 'icon', 'btncolor', 'search', 'iVariant', 'headDetails', 'details','disable', 'btn', 'datatext', 'itemDetail', 'category'],
+    props:['pembelianbaru', 'namaPelanggan', 'groupbarang', 'batalbtn', 'pemasukan', 'alamatBongkar', 'totalpenjualan', 'namaTujuan', 'datainput', 'pageTitle', 'pengeluaran', 'dokumenpjl', 'namaSupplier', 'pengirimanDetail', 'pembelian', 'pelanggan', 'supplier', 'pembeliandetl', 'edit', 'kirim', 'headers', 'items', 'actIcon', 'icon', 'btncolor', 'search', 'iVariant', 'headDetails', 'details','disable', 'btn', 'datatext', 'itemDetail', 'category'],
     data () {
       return {
         dialog: false,
@@ -27,15 +27,15 @@ export default {
         barang: '',
         namasupplier: '',
         dataitem: this.items,
-        nama_supplier : this.namaSupplier,
-        nama_pelanggan : this.namaPelanggan,
-        tujuan_bongkar: this.namaTujuan,
+        nama_supplier : '',
+        nama_pelanggan : '',
+        tujuan_bongkar: '',
         pembelian_input: '',
         pembelian_detail: [this.pembelian],
         inputdata: this.datainput,
         kurs: '',
         pemasukan_detail: '',
-        penjualan: this.pengeluaran,
+        penjualan: '',
         required: [
         value => {
           if (value)  return true
@@ -48,7 +48,6 @@ export default {
     },
     
     created() {
-        this.kirim
         this.pembelian_detail
         api.getData('/barang?status=true')
             .then(response => {
@@ -120,11 +119,15 @@ export default {
         this.items
         this.dataitem
         this.edit
-        this.penjualan
-        this.nama_pelanggan
         this.pengeluaran
+        this.penjualan
         this.pembelian_detail
-        this.nama_supplier
+        this.$nextTick(() => {
+            this.nama_supplier = this.namaSupplier,
+            this.nama_pelanggan=  this.namaPelanggan,
+            this.tujuan_bongkar= this.namaTujuan,
+            this.penjualan= this.pengeluaran
+      });
     }
 }
 
@@ -180,7 +183,7 @@ export default {
                     <v-row v-if="edit" style="height:40vh">
                     <v-col>
                         <v-text-field
-                            :label="penjualan ? 'No Penjualan' : (kirim ? 'No Pengiriman' : 'No Pemasukan'  )"
+                            :label="penjualan ? 'No Penjualan' : (kirim ? 'No Pengiriman' : 'No Pemasukan' )"
                             :model-value= "penjualan ? dataitem.no_penjualan : (kirim ? dataitem.no_pengiriman : dataitem.no_pembelian)"
                             variant="outlined"
                             density="compact"
@@ -727,8 +730,8 @@ export default {
                         <td>{{numb(item.raw.harga_jual)}}</td>
                     </template>
                     <!-- eslint-disable-next-line vue/valid-v-slot -->
-                    <template v-if="penjualan" v-slot:item.total_terjual="{item}">
-                        <td>{{numb(item.raw.total_terjual)}}</td>
+                    <template v-if="penjualan" v-slot:item.total_terjual>
+                        <td>{{totalpenjualan}}</td>
                     </template>
                     <!-- eslint-disable-next-line vue/valid-v-slot -->
                     <template v-if="kirim" v-slot:item.tipe_dokumen>

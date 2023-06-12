@@ -32,7 +32,6 @@ import AppBar from '../components/AppBar.vue';
         fullscreen: 'fullscreen',
         alpha: null,
         category: [
-          'semua',
           'Bahan Baku',
           'Bahan Penolong',
           'Barang Setengah Jadi',
@@ -140,18 +139,31 @@ import AppBar from '../components/AppBar.vue';
       },
       dokumenpjl(value) {
         let nopjl = ''
+        // for (let i = 0; i < this.pengirimanDetail.length; i++) {
+        //   if ( this.pengirimanDetail[i].no_pengiriman == value ) {
+        //       nopjl = this.pengirimanDetail[i].no_penjualan
+        //   }
+          
+        // }
+        // for (let j = 0; j < this.penjualanHead.length; j++) {
+        //   if ( this.penjualanHead[j].no_penjualan == nopjl ) {
+        //       return this.penjualanHead[j]
+        //   }
+          
+        // }
+
         for (let i = 0; i < this.pengirimanDetail.length; i++) {
-          if ( this.pengirimanDetail[i].no_pengiriman == value ) {
+          for (let j = 0; j < this.penjualanHead.length; j++) {
+            if (this.pengirimanDetail[i].no_pengiriman == this.penjualanHead[j].no_penjualan == value) {
               nopjl = this.pengirimanDetail[i].no_penjualan
+              if(this.penjualanHead[j].no_penjualan == nopjl) {
+                return this.penjualanHead[j]
+              }
+            }
           }
-          
         }
-        for (let j = 0; j < this.penjualanHead.length; j++) {
-          if ( this.penjualanHead[j].no_penjualan == nopjl ) {
-              return this.penjualanHead[j]
-          }
-          
-        }
+
+        
       },
       getPelanggan() {
         const apiUrl = '/pelanggan'
@@ -384,7 +396,25 @@ import AppBar from '../components/AppBar.vue';
             </template>
              <!-- eslint-disable-next-line vue/valid-v-slot -->
             <template v-slot:item.actions="{item}">
-              <ScreenDialog batalbtn="Pengiriman" :kirim="true" :edit="true" :namaPelanggan="namaPelanggan(item.raw.kode_pelanggan)" :namaTujuan="namaTujuan(item.raw.kode_alamat_bongkar)" :pembelian="Penjualandetl(item.raw.no_pengiriman)" :dokumenpjl="dokumenpjl(item.raw.no_pengiriman)" :pageTitle="pageTitle" :headDetails="headDetails" :headers="headers" :items="item.raw" :iTitle="actIcon[3].text" :btncolor="actIcon[3].color" :icon="actIcon[3].icon" :iVariant="actIcon[3].variant" :alpha="alpha" :actIcon="actIcon" :disable="true"/>
+              <ScreenDialog
+              batalbtn="Pengiriman"
+              :kirim="true"
+              :edit="true"
+              :namaPelanggan="namaPelanggan(item.raw.kode_pelanggan)"
+              :namaTujuan="namaTujuan(item.raw.kode_alamat_bongkar)"
+              :pembelian="Penjualandetl(item.raw.no_pengiriman)"
+              :dokumenpjl="dokumenpjl(item.raw.no_pengiriman)"
+              :pageTitle="pageTitle"
+              :headDetails="headDetails"
+              :headers="headers"
+              :items="item.raw"
+              :iTitle="actIcon[3].text"
+              :btncolor="actIcon[3].color"
+              :icon="actIcon[3].icon"
+              :iVariant="actIcon[3].variant"
+              :alpha="alpha"
+              :actIcon="actIcon"
+              :disable="true"/>
             </template>
           </v-data-table>
         </v-sheet>
