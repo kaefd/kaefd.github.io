@@ -11,6 +11,7 @@ export default {
                     { title: 'Ubah Password', value: 'changepass' },
                     { title: 'Logout', value: 'logout'},
                 ],
+            title: this.pageTitle
         }
     },
     methods: {

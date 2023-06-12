@@ -15,7 +15,7 @@ import OutReport from '../views/OutReport.vue'
 import LogView from '../views/LogView.vue'
 
 const router = createRouter({
-  history: createWebHashHistory(),
+  history: createWebHashHistory('/'),
   routes: [
     {
       path: '/',

@@ -15,6 +15,7 @@ export default {
   },
     data() {
     return {
+      pageTitle: null,
       message: "",
       username:'',
       password:'',
@@ -22,6 +23,9 @@ export default {
 
     },
     methods: {
+      page(){
+        return this.$emit('page', this.pageTitle)
+      },
       handleLogin() {
         api.postLogin({
           username: this.username,
@@ -29,14 +33,17 @@ export default {
         })
         .then(response => {
           localStorage.setItem('token', response.data)
-          window.location.href = '/items'
+          window.location.href = '/'
         })
         .catch((error) => {
           this.message = error.response.data
         })
 
     }
-  }
+  },
+  mounted() {
+    this.page()
+  },
     
 }
 </script>
