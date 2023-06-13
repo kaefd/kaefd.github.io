@@ -70,7 +70,7 @@ export default {
           </v-btn>
           <!-- LIHAT -->
           <v-btn
-          v-if="editbtn"
+          v-if="editbtn && ishidden"
           v-bind="props"
           class="text-caption"
           variant="text"
@@ -167,7 +167,7 @@ export default {
                 </v-for>
             </v-container>
             <v-row no-gutters>
-              <v-col>
+              <v-col  :hidden="disabled">
                 <v-btn
                 color="orange-darken-1"
                 variant="tonal"
