@@ -1,6 +1,7 @@
 <script setup>
 import { VDataTable } from 'vuetify/labs/VDataTable'
-import ScreenDialog from '../components/ScreenDialog.vue';
+import PengirimanDetail from './PengirimanDetail.vue';
+import SuratJalan from './SuratJalan.vue';
 import '@vuepic/vue-datepicker/dist/main.css'
 import { jsPDF } from "jspdf";
 import 'jspdf-autotable'
@@ -13,7 +14,7 @@ import AppBar from '../components/AppBar.vue';
 
   export default {
     components: {
-    ScreenDialog, VDataTable, AppBar
+    SuratJalan, PengirimanDetail, VDataTable, AppBar
     },
     props:['actIcon', 'cetak'],
     data () {
@@ -138,32 +139,13 @@ import AppBar from '../components/AppBar.vue';
         })
       },
       dokumenpjl(value) {
-        let nopjl = ''
-        // for (let i = 0; i < this.pengirimanDetail.length; i++) {
-        //   if ( this.pengirimanDetail[i].no_pengiriman == value ) {
-        //       nopjl = this.pengirimanDetail[i].no_penjualan
-        //   }
-          
-        // }
-        // for (let j = 0; j < this.penjualanHead.length; j++) {
-        //   if ( this.penjualanHead[j].no_penjualan == nopjl ) {
-        //       return this.penjualanHead[j]
-        //   }
-          
-        // }
-
-        for (let i = 0; i < this.pengirimanDetail.length; i++) {
-          for (let j = 0; j < this.penjualanHead.length; j++) {
-            if (this.pengirimanDetail[i].no_pengiriman == this.penjualanHead[j].no_penjualan == value) {
-              nopjl = this.pengirimanDetail[i].no_penjualan
-              if(this.penjualanHead[j].no_penjualan == nopjl) {
-                return this.penjualanHead[j]
-              }
+          for (let i = 0; i < this.pengirimanDetail.length; i++) {
+          for (let k = 0; k < this.penjualanHead.length; k++) {
+            if(this.pengirimanDetail[i].no_pengiriman == value || this.pengirimanDetail[i].no_penjualan == this.penjualanHead[k].no_penjualan) {
+              return this.penjualanHead[k]
             }
           }
         }
-
-        
       },
       getPelanggan() {
         const apiUrl = '/pelanggan'
@@ -328,7 +310,7 @@ import AppBar from '../components/AppBar.vue';
           <v-btn @click="filter = !filter " class="rounded-circle text-caption elevation-0 bg-grey-lighten-4 text-indigo me-2" icon="mdi-tune-vertical" size="small">
           </v-btn>
           <!-- TAMBAH DATA -->
-          <ScreenDialog :kirim="true" :edit="false" :supplier="pelanggan" :alamatBongkar="alamatBongkar" :datainput="datainput" :pageTitle="pageTitle" :btn="btn" :headDetails="headers" :details="items" :headers="headers" :items="items" :search="search" :category="category" :selectCategory="selectCategory" :iTitle="actIcon[0].text" :btncolor="actIcon[0].color" :icon="actIcon[0].icon" :iVariant="actIcon[0].variant" :alpha="alpha" :actIcon="actIcon" :datatext="datatext"/>
+          <PengirimanDetail :kirim="true" :edit="false" :supplier="pelanggan" :alamatBongkar="alamatBongkar" :datainput="datainput" :pageTitle="pageTitle" :btn="btn" :headDetails="headers" :details="items" :headers="headers" :items="items" :search="search" :category="category" :selectCategory="selectCategory" :iTitle="actIcon[0].text" :btncolor="actIcon[0].color" :icon="actIcon[0].icon" :iVariant="actIcon[0].variant" :alpha="alpha" :actIcon="actIcon" :datatext="datatext"/>
         </div>
         <!-- <v-chip class="mt-1 me-1" color="orange" size="small">{{ periode[0] }} - {{ periode[1] }}</v-chip> -->
       </v-responsive>
@@ -395,28 +377,38 @@ import AppBar from '../components/AppBar.vue';
               <td>{{ namaTujuan(item.raw.kode_alamat_bongkar) }}</td>
             </template>
              <!-- eslint-disable-next-line vue/valid-v-slot -->
-            <template v-slot:item.actions="{item}">
-              <ScreenDialog
-              batalbtn="Pengiriman"
-              :kirim="true"
-              :edit="true"
-              :namaPelanggan="namaPelanggan(item.raw.kode_pelanggan)"
-              :namaTujuan="namaTujuan(item.raw.kode_alamat_bongkar)"
-              :pembelian="Penjualandetl(item.raw.no_pengiriman)"
-              :dokumenpjl="dokumenpjl(item.raw.no_pengiriman)"
-              :pageTitle="pageTitle"
-              :headDetails="headDetails"
-              :headers="headers"
-              :items="item.raw"
-              :iTitle="actIcon[3].text"
-              :btncolor="actIcon[3].color"
-              :icon="actIcon[3].icon"
-              :iVariant="actIcon[3].variant"
-              :alpha="alpha"
-              :actIcon="actIcon"
-              :disable="true"/>
+              <template v-slot:item.actions="{ item }">
+                <v-btn size="small" variant="text" color="grey-darken-2">
+                  <v-icon>mdi-dots-vertical</v-icon>
+                  <v-menu activator="parent" transition="slide-y-transition">
+                    <v-list density="compact" class="px-3">
+                      <v-list-item class="pa-0">
+                        <PengirimanDetail
+                          batalbtn="Pengiriman"
+                          :kirim="true"
+                          :edit="true"
+                          :namaPelanggan="namaPelanggan(item.raw.kode_pelanggan)"
+                          :namaTujuan="namaTujuan(item.raw.kode_alamat_bongkar)"
+                          :pengiriman="Penjualandetl(item.raw.no_pengiriman)"
+                          :dokumenpjl="dokumenpjl(item.raw.no_pengiriman)"
+                          :pageTitle="pageTitle"
+                          :headDetails="headDetails"
+                          :headers="headers"
+                          :items="item.raw"
+                          :iTitle="actIcon[3].text"
+                          :btncolor="actIcon[3].color"
+                          :icon="actIcon[3].icon"
+                          :iVariant="actIcon[3].variant"
+                          :alpha="alpha"
+                          :actIcon="actIcon"
+                          :disable="true"/>
+                      </v-list-item>
+                      <SuratJalan :namaPelanggan="namaPelanggan(item.raw.kode_pelanggan)" :namaTujuan="namaTujuan(item.raw.kode_alamat_bongkar)" :pengiriman="Penjualandetl(item.raw.no_pengiriman)" :items="item.raw"/>
+                    </v-list>
+                  </v-menu>
+              </v-btn>
             </template>
-          </v-data-table>
+            </v-data-table>
         </v-sheet>
   </v-container>
 

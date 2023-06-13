@@ -79,7 +79,6 @@ export default {
       height="63vh"
     >
     <!-- CUSTOM PAGINATION STYLE -->
-    
     <!-- ACTION DELETE & EDIT -->
     <!-- eslint-disable-next-line vue/valid-v-slot -->
           <template v-if="laporanstok" v-slot:item.kategori_barang="{ item }">

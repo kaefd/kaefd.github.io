@@ -1,6 +1,6 @@
 <script setup>
 import { VDataTable } from 'vuetify/labs/VDataTable'
-import ScreenDialog from '../components/ScreenDialog.vue';
+import PemasukanDetail from './PemasukanDetail.vue';
 import AppBar from '../components/AppBar.vue';
 import '@vuepic/vue-datepicker/dist/main.css'
 import api from '../api';
@@ -13,7 +13,7 @@ import { ref, onMounted } from 'vue';
 <script>
 export default {
     components: {
-      ScreenDialog, VDataTable, AppBar
+      PemasukanDetail, VDataTable, AppBar
     },
     props:['actIcon', 'cetak'],
     data () {
@@ -68,7 +68,6 @@ export default {
           {title: 'Total Nilai', key: 'nilai' },
           {key: 'actions', sortable: false },
         ],
-        
         details: [],
         itemDetail: [
                 { name: 'Jumlah', key: 'jumlah' },
@@ -91,8 +90,6 @@ export default {
           user_input: 'admin',
           status: 'true'
         },
-
-
       }
     },
     created() {
@@ -412,7 +409,7 @@ export default {
             <v-btn @click="filter = !filter " class="rounded-circle text-caption elevation-0 bg-grey-lighten-4 text-indigo me-2" icon="mdi-tune-vertical" size="small">
             </v-btn>
             <!-- ADD DATA -->
-            <ScreenDialog batalbtn="Pemasukan" :datainput="datainput" @inputhead="inputhead" :pemasukan="true" :supplier="supplier" :edit="false" :itemDetail="itemDetail" :datatext="datatext" :btn="btn" :headDetails="headDetails" :details="details" :headers="headers" :items="pilihtipe()" :pembeliandetl="pembeliandetl" :search="search" :category="tipedokumen" :selectCategory="selectCategory" :iTitle="actIcon[0].text" :btncolor="actIcon[0].color" :icon="actIcon[0].icon" :iVariant="actIcon[0].variant" :alpha="alpha" :actIcon="actIcon" :pageTitle="pageTitle"/>
+            <PemasukanDetail batalbtn="Pemasukan" :datainput="datainput" @inputhead="inputhead" :pemasukan="true" :supplier="supplier" :edit="false" :itemDetail="itemDetail" :datatext="datatext" :btn="btn" :headDetails="headDetails" :details="details" :headers="headers" :items="pilihtipe()" :pembeliandetl="pembeliandetl" :search="search" :category="tipedokumen" :selectCategory="selectCategory" :iTitle="actIcon[0].text" :btncolor="actIcon[0].color" :icon="actIcon[0].icon" :iVariant="actIcon[0].variant" :alpha="alpha" :actIcon="actIcon" :pageTitle="pageTitle"/>
           </div>
           <!-- <v-chip class="mt-1 me-1" color="orange" size="small">{{ periode[0] }} - {{ periode[1] }}</v-chip>
           <v-chip v-if="selectdokumen" class="mt-1" color="orange" size="small">{{ selectdokumen }}</v-chip> -->
@@ -480,14 +477,12 @@ export default {
               <!-- BUTTON EDIT -->
               <!-- eslint-disable-next-line vue/valid-v-slot -->
               <template v-slot:item.actions="{item}">
-                <ScreenDialog
+                <PemasukanDetail
                 batalbtn="Pemasukan"
                 @del="del"
                 :namaSupplier="dataTable(item.raw.kode_supplier, 'nama')"
                 :pembelian="dataTable(item.raw.no_pembelian, 'pembelian')"
                 :edit="true"
-                :pemasukan="true"
-                :penjualan="false"
                 :itemDetail="itemDetail"
                 :datatext="datatext"
                 :btn="btn"
@@ -502,7 +497,6 @@ export default {
                 :btncolor="actIcon[3].color"
                 :icon="actIcon[3].icon"
                 :iVariant="actIcon[3].variant"
-                :alpha="alpha"
                 :actIcon="actIcon"
                 :pageTitle="pageTitle"/>
               </template>

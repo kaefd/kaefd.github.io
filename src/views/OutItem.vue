@@ -1,6 +1,6 @@
 <script setup>
 import { VDataTable } from 'vuetify/labs/VDataTable'
-import ScreenDialog from '../components/ScreenDialog.vue';
+import PengeluaranDetail from './PengeluaranDetail.vue';
 import '@vuepic/vue-datepicker/dist/main.css'
 import api from '../api';
 import { jsPDF } from "jspdf";
@@ -15,7 +15,7 @@ import AppBar from '../components/AppBar.vue';
 
   export default {
     components: {
-    ScreenDialog, VDataTable, AppBar
+      PengeluaranDetail, VDataTable, AppBar
     },
     props:['cetak','actIcon'],
     data () {
@@ -392,7 +392,7 @@ import AppBar from '../components/AppBar.vue';
           <v-btn @click="filter = !filter " class="rounded-circle text-caption elevation-0 bg-grey-lighten-4 text-indigo me-2" icon="mdi-tune-vertical" size="small">
           </v-btn>
           <!-- TAMBAH DATA -->
-          <ScreenDialog
+          <PengeluaranDetail
           batalbtn="Pengeluaran"
           :datainput="datainput"
           :pengeluaran="true"
@@ -530,7 +530,7 @@ import AppBar from '../components/AppBar.vue';
             </template>
              <!-- eslint-disable-next-line vue/valid-v-slot -->
             <template v-slot:item.actions="{item}">
-              <ScreenDialog batalbtn="Pengeluaran" :namaPelanggan="namaPelanggan(item.raw.kode_pelanggan)" :totalpenjualan="numb(item.raw.total_penjualan)" :pembelian="penjualan(item.raw.no_penjualan)" :edit="true" :pengeluaran="true" :pageTitle="pageTitle" :headDetails="headDetails" :items="item.raw" :details="details" :headers="headers" :search="search" :category="category" :selectCategory="selectCategory" :iTitle="actIcon[3].text" :btncolor="actIcon[3].color" :icon="actIcon[3].icon" :iVariant="actIcon[3].variant" :alpha="alpha" :actIcon="actIcon" :disable="true"/>
+              <PemasukanDetail batalbtn="Pengeluaran" :namaPelanggan="namaPelanggan(item.raw.kode_pelanggan)" :totalpenjualan="numb(item.raw.total_penjualan)" :penjualan="penjualan(item.raw.no_penjualan)" :edit="true" :pengeluaran="true" :pageTitle="pageTitle" :headDetails="headDetails" :items="item.raw" :details="details" :headers="headers" :search="search" :category="category" :selectCategory="selectCategory" :iTitle="actIcon[3].text" :btncolor="actIcon[3].color" :icon="actIcon[3].icon" :iVariant="actIcon[3].variant" :alpha="alpha" :actIcon="actIcon" :disable="true"/>
             </template>
           </v-data-table>
         </v-sheet>

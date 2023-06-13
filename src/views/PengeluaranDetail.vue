@@ -1,6 +1,6 @@
 <script>
 import { VDataTable } from 'vuetify/labs/VDataTable'
-import DialogCard2 from './DialogCard2.vue';
+import DialogCard2 from '../components/DialogCard2.vue';
 import api from '../api';
 
 export default {
@@ -32,7 +32,6 @@ export default {
         inputdata: this.datainput,
         kurs: '',
         pemasukan_detail: '',
-        pembelian_detail : [this.pembelian],
         penjualan_detail : [this.penjualan],
         required: [
         value => {
@@ -111,7 +110,6 @@ export default {
     },
     
     mounted() {
-        this.detail
         this.edit
         api.getData
         // this.items
@@ -162,7 +160,7 @@ export default {
             </v-btn>
           </template>
           <!-- dialog content -->
-            <v-card class="bg-grey-lighten-5">
+            <v-card>
                 <v-toolbar class="bg-blue-custom text-white" height="50">
                     <v-btn
                         icon
@@ -180,8 +178,8 @@ export default {
                 <v-row v-if="edit">
                     <v-col>
                     <v-text-field
-                        :label="pengeluaran ? 'No Penjualan' : (kirim ? 'No Pengiriman' : 'No Pemasukan' )"
-                        :model-value= "pengeluaran ? dataitem.no_penjualan : (kirim ? dataitem.no_pengiriman : dataitem.no_pembelian)"
+                        label="No Penjualan"
+                        v-model= "dataitem.no_penjualan"
                         variant="outlined"
                         density="compact"
                         style="min-width: 200px; max-width:300px"
@@ -189,18 +187,8 @@ export default {
                     >
                     </v-text-field>
                     <v-text-field
-                        :label="pengeluaran ? 'Tgl Penjualan' : (kirim ? 'Tgl Pengiriman' : 'Tgl Pemasukan')"
-                        :model-value="pengeluaran ? dataitem.tgl_penjualan : (kirim ? dataitem.tgl_pengiriman :  dataitem.tgl_pembelian)"
-                        variant="outlined"
-                        density="compact"
-                        style="min-width: 200px; max-width:300px"
-                        readonly
-                    >
-                    </v-text-field>
-                    <v-text-field
-                        v-if="!pengeluaran && !kirim"
-                        label="Nama Supplier"
-                        :model-value="nama_supplier"
+                        label="Tgl Penjualan"
+                        v-model="dataitem.tgl_penjualan"
                         variant="outlined"
                         density="compact"
                         style="min-width: 200px; max-width:300px"
@@ -210,9 +198,8 @@ export default {
                     </v-col>
                     <v-col>
                     <v-text-field
-                        v-if="kirim || pengeluaran"
                         label="Pelanggan"
-                        :model-value="kirim ? kode_pelanggan : dataitem.kode_pelanggan"
+                        v-model="dataitem.kode_pelanggan"
                         variant="outlined"
                         density="compact"
                         style="min-width: 200px; max-width:300px"
@@ -220,49 +207,8 @@ export default {
                     >
                     </v-text-field>
                     <v-text-field
-                        v-if="kirim"
-                        label="Tujuan Bongkar"
-                        :model-value="tujuan_bongkar"
-                        variant="outlined"
-                        density="compact"
-                        style="min-width: 200px; max-width:300px"
-                        readonly
-                    >
-                    </v-text-field>
-                    <v-text-field
-                        v-if="pengeluaran"
                         label="Kode Group"
-                        :model-value="dataitem.kode_group"
-                        variant="outlined"
-                        density="compact"
-                        style="min-width: 200px; max-width:300px"
-                        readonly
-                    >
-                    </v-text-field>
-                    <v-text-field
-                        v-if="!pengeluaran && !kirim"
-                        label="Tipe Dokumen"
-                        :model-value="dataitem.tipe_dokumen"
-                        variant="outlined"
-                        density="compact"
-                        style="min-width: 200px; max-width:300px"
-                        readonly
-                    >
-                    </v-text-field>
-                    <v-text-field
-                        v-if="!pengeluaran && !kirim "
-                        label="No Dokumen"
-                        :model-value="dataitem.no_dokumen"
-                        variant="outlined"
-                        density="compact"
-                        style="min-width: 200px; max-width:300px"
-                        readonly
-                    >
-                    </v-text-field>
-                    <v-text-field
-                        v-if="!pengeluaran && !kirim"
-                        label="Tgl Dokumen"
-                        :model-value="dataitem.tgl_dokumen"
+                        v-model="dataitem.kode_group"
                         variant="outlined"
                         density="compact"
                         style="min-width: 200px; max-width:300px"
@@ -272,9 +218,8 @@ export default {
                     </v-col>
                     <v-col>
                         <v-text-field
-                        v-if="pengeluaran"
                         label="Tipe Dokumen"
-                        :model-value="dataitem.tipe_dokumen"
+                        v-model="dataitem.tipe_dokumen"
                         variant="outlined"
                         density="compact"
                         style="min-width: 200px; max-width:300px"
@@ -282,9 +227,8 @@ export default {
                     >
                     </v-text-field>
                     <v-text-field
-                        v-if="pengeluaran"
                         label="No Dokumen"
-                        :model-value="dataitem.no_dokumen"
+                        v-model="dataitem.no_dokumen"
                         variant="outlined"
                         density="compact"
                         style="min-width: 200px; max-width:300px"
@@ -292,71 +236,8 @@ export default {
                     >
                     </v-text-field>
                     <v-text-field
-                        v-if="pengeluaran"
                         label="Tgl Dokumen"
-                        :model-value="dataitem.tgl_dokumen"
-                        variant="outlined"
-                        density="compact"
-                        style="min-width: 200px; max-width:300px"
-                        readonly
-                    >
-                    </v-text-field>
-                    <v-text-field
-                        v-if="!pengeluaran && !kirim"
-                        label="No Invoice"
-                        :model-value="dataitem.no_invoice"
-                        variant="outlined"
-                        density="compact"
-                        style="min-width: 200px; max-width:300px"
-                        readonly
-                    >
-                    </v-text-field>
-                    <v-text-field
-                        v-if="!pengeluaran && !kirim"
-                        label="No BL"
-                        :model-value="dataitem.no_bl"
-                        variant="outlined"
-                        density="compact"
-                        style="min-width: 200px; max-width:300px"
-                        readonly
-                    >
-                    </v-text-field>
-                    <v-text-field
-                        v-if="!pengeluaran && !kirim"
-                        label="Mata Uang"
-                        :model-value="dataitem.mata_uang"
-                        variant="outlined"
-                        density="compact"
-                        style="min-width: 200px; max-width:300px"
-                        readonly
-                    >
-                    </v-text-field>
-                    <v-text-field
-                        v-if="!pengeluaran && !kirim"
-                        label="Kurs"
-                        :model-value="kurs"
-                        variant="outlined"
-                        density="compact"
-                        style="min-width: 200px; max-width:300px"
-                        readonly
-                    >
-                    </v-text-field>
-                    <!-- SUPIR -->
-                    <v-text-field
-                        v-if="kirim"
-                        label="Supir"
-                        :model-value="dataitem.supir"
-                        variant="outlined"
-                        density="compact"
-                        style="min-width: 200px; max-width:300px"
-                        readonly
-                    >
-                    </v-text-field>
-                    <!-- NO POLISI -->
-                    <v-text-field
-                        v-if="kirim"
-                        label="No Polisi"
-                        :model-value="dataitem.no_polisi"
+                        v-model="dataitem.tgl_dokumen"
                         variant="outlined"
                         density="compact"
                         style="min-width: 200px; max-width:300px"
@@ -366,172 +247,6 @@ export default {
                     </v-col>
                 </v-row>
                     <v-form  @submit.prevent ref="form">
-                    <!-- TAMBAH PEMASUKAN -->
-                    <v-row v-if="!edit && pemasukan">
-                            <!-- PEMASUKAN ITEM -->
-                            <v-col>
-                                <v-text-field
-                                    label="No Pemasukan"
-                                    v-model= "inputdata.no_pembelian"
-                                    variant="outlined"
-                                    density="compact"
-                                    class="bg-grey-lighten-4 mb-5 border-0"
-                                    style="min-width: 200px; max-width:300px"
-                                    hide-details
-                                    readonly
-                                    disabled
-                                >
-                                </v-text-field>
-                                <v-text-field
-                                    type="date"
-                                    variant="outlined"
-                                    density="compact"
-                                    label="Tgl Pemasukan"
-                                    v-model="inputdata.tgl_pembelian"
-                                    :rules="required"
-                                    hide-details
-                                    style="min-width: 200px; max-width:300px"
-                                    color="grey"
-                                    class="mb-5"
-                                />
-                                <!-- SUPPLIER -->
-                                <v-dialog v-if="!edit" v-model="dialog4">
-                                    <template v-slot:activator="{props}">
-                                        <v-text-field
-                                            v-bind="props"
-                                            label="Supplier"
-                                            v-model="namasupplier"
-                                            variant="outlined"
-                                            density="compact"
-                                            style="min-width: 200px; max-width:300px"
-                                            class="mb-5"
-                                            hide-details
-                                            :rules="required"
-                                        >
-                                    </v-text-field>
-
-                                    </template>
-                                    
-                                    <v-card class="py-5 px-5 rounded-xl mx-auto" width="400">
-                                        <v-btn icon="mdi-close" variant="plain" @click="dialog4 = false"></v-btn>
-                                        <v-card-title v-if="!kirim" class="text-center text-blue-darken-4 mb-3">SUPPLIER</v-card-title>
-                                        <v-card-title v-if="kirim" class="text-center text-blue-darken-4 mb-3">PELANGGAN</v-card-title>
-                                        <v-text-field
-                                            v-model="searched"
-                                            append-inner-icon="mdi-magnify"
-                                            label="Search"
-                                            single-line
-                                            hide-details
-                                            density="compact"
-                                            variant="outlined"
-                                            class="mb-4"
-                                        ></v-text-field>
-                                        <v-list>
-                                            <v-for v-for="s, i in filtersupplier" :key="i">
-                                                <v-list-item
-                                                v-if="!kirim"
-                                                style="cursor: pointer;"
-                                                @click="inputdata.kode_supplier = s.kode_supplier, namasupplier=s.nama, dialog4 = false "
-                                                >
-                                                    {{ s.nama }}
-                                                </v-list-item>
-                                                <v-list-item
-                                                v-if="kirim"
-                                                style="cursor: pointer;"
-                                                @click="inputdata.kode_pelanggan = s.kode_pelanggan, dialog4 = false "
-                                                >
-                                                    {{ s.nama }}
-                                                </v-list-item>
-                                            </v-for>
-                                        </v-list>
-                                    </v-card>
-                                </v-dialog>
-                            </v-col>
-                            <!-- DOKUMEN -->
-                            <v-col>
-                                <v-select
-                                    label="Tipe Dokumen"
-                                    v-model="inputdata.tipe_dokumen"
-                                    :items="tipe_dokumen"
-                                    :rules="required"
-                                    variant="outlined"
-                                    density="compact"
-                                    class="mb-5"
-                                    hide-details
-                                    style="min-width: 200px; max-width:300px"
-                                >
-                                </v-select>
-                                <v-text-field
-                                    label="No Dokumen"
-                                    v-model="inputdata.no_dokumen"
-                                    variant="outlined"
-                                    density="compact"
-                                    class="mb-5"
-                                    hide-details
-                                    :rules="required"
-                                    style="min-width: 200px; max-width:300px"
-                                >
-                                </v-text-field>
-                                <v-text-field
-                                    type="date"
-                                    variant="outlined"
-                                    density="compact"
-                                    label="Tgl Dokumen"
-                                    v-model="inputdata.tgl_dokumen"
-                                    :rules="required"
-                                    hide-details
-                                    style="min-width: 200px; max-width:300px"
-                                    color="grey"
-                                    class="mb-5"
-                                />
-                            </v-col>
-                            <v-col>
-                                <v-text-field
-                                    label="No Invoice"
-                                    v-model="inputdata.no_invoice"
-                                    variant="outlined"
-                                    density="compact"
-                                    class="mb-5"
-                                    hide-details
-                                    :rules="required"
-                                    style="min-width: 200px; max-width:300px"
-                                >
-                                </v-text-field>
-                                <v-text-field
-                                    label="No BL"
-                                    v-model="inputdata.no_bl"
-                                    variant="outlined"
-                                    density="compact"
-                                    class="mb-5"
-                                    hide-details
-                                    :rules="required"
-                                    style="min-width: 200px; max-width:300px"
-                                >
-                                </v-text-field>
-                                <v-text-field
-                                    label="Mata Uang"
-                                    v-model="inputdata.mata_uang"
-                                    variant="outlined"
-                                    density="compact"
-                                    class="mb-5"
-                                    hide-details
-                                    :rules="required"
-                                    style="min-width: 200px; max-width:300px"
-                                >
-                                </v-text-field>
-                                <v-text-field
-                                    label="Kurs"
-                                    v-model="inputdata.kurs"
-                                    variant="outlined"
-                                    density="compact"
-                                    class="mb-5"
-                                    hide-details
-                                    :rules="required"
-                                    style="min-width: 200px; max-width:300px"
-                                >
-                                </v-text-field>
-                            </v-col>
-                    </v-row>
                     <!-- TAMBAH PENGELUARAN -->
                     <v-row v-if="!edit && pengeluaran">
                         <v-col>
@@ -690,7 +405,7 @@ export default {
                     <!-- TABEL EDIT/VIEW -->
                     <v-data-table
                     :headers="headDetails"
-                    :items="!edit ? pembelian_input : (pemasukan ? pembelian_detail : penjualan_detail)"
+                    :items="edit ? penjualan_detail : pembelian_input"
                     :hover="true"
                     :fixed-header="true"
                     density="compact"
@@ -707,34 +422,16 @@ export default {
                         {{numb(item.raw.jumlah)}}
                     </template>
                     <!-- eslint-disable-next-line vue/valid-v-slot -->
-                    <template v-slot:item.jumlah_diterima="{item}">
-                        <v-span v-if="pemasukan">
-                            {{numb(item.raw.jumlah_diterima)}}
-                        </v-span>
-                    </template>
-                    <!-- eslint-disable-next-line vue/valid-v-slot -->
-                    <template v-slot:item.nilai="{item}">
-                        <v-span v-if="pemasukan">
-                            {{numb(item.raw.nilai)}}
-                        </v-span>
-                    </template>
-                    <!-- eslint-disable-next-line vue/valid-v-slot -->
                     <template v-slot:item.jumlah_terkirim="{item}">
-                        <v-span v-if="pengeluaran">
-                            {{numb(item.raw.jumlah_terkirim)}}
-                        </v-span>
+                        {{numb(item.raw.jumlah_terkirim)}}
                     </template>
                     <!-- eslint-disable-next-line vue/valid-v-slot -->
                     <template v-slot:item.harga_jual="{item}">
-                        <v-span v-if="pengeluaran">
-                            {{numb(item.raw.harga_jual)}}
-                        </v-span>
+                        {{numb(item.raw.harga_jual)}}
                     </template>
                     <!-- eslint-disable-next-line vue/valid-v-slot -->
                     <template v-slot:item.total_terjual>
-                        <v-span v-if="pengeluaran">
-                            {{totalpenjualan}}
-                        </v-span>
+                        {{totalpenjualan}}
                     </template>
                     <!-- eslint-disable-next-line vue/valid-v-slot -->
                     <template v-slot:item.tipe_dokumen>
@@ -773,45 +470,23 @@ export default {
                                     class="mb-1"
                                 >
                                 </v-text-field>
-                                <v-label v-if="pemasukan">Jumlah diterima</v-label>
-                                <v-label v-if="pengeluaran">Jumlah Terkirim</v-label>
+                                <v-labe>Jumlah Terkirim</v-labe>
                                 <v-text-field
-                                    v-if="pengeluaran"
                                     variant="outlined"
                                     density="compact"
-                                    :value="pengeluaran ? numb(item.raw.jumlah_terkirim) : numb(item.raw.jumlah_diterima)"
+                                    :value="numb(item.raw.jumlah_terkirim)"
                                     readonly
                                     hide-details
                                     class="mb-1"
                                 />
-                                <v-text-field
-                                    v-if="pemasukan && edit"
-                                    :value="numb(item.raw.jumlah)"
-                                    variant="outlined"
-                                    density="compact"
-                                    readonly
-                                    hide-details
-                                    class="mb-1"
-                                />
-                                <v-label v-if="pemasukan">Total Nilai</v-label>
                                 <v-label v-if="pengeluaran">Harga Jual</v-label>
                                 <v-text-field
-                                    v-if="pengeluaran"
                                     variant="outlined"
                                     density="compact"
                                     :value="numb(item.raw.harga_jual)"
                                     readonly
                                     hide-details
                                     class="mb-4"
-                                />
-                                <v-text-field
-                                    v-if="pemasukan && edit"
-                                    :value="numb(item.raw.nilai)"
-                                    variant="outlined"
-                                    density="compact"
-                                    readonly
-                                    hide-details
-                                    class="mb-1"
                                 />
                                 <v-div v-if="!edit" class="d-flex w-100">
                                     <v-btn @click="deleteditem(item.raw), detaildial[index] = false" :hidden="disable" variant="tonal" class="text-caption rounded-xl elevation-0 w-25">Hapus</v-btn>
@@ -822,7 +497,6 @@ export default {
                     </template>
                     </v-data-table>
                 <v-btn v-if="!edit" @click="validate" :hidden="disable" class="float-end text-body-2 text-white elevation-0 rounded-xl" height="42" width="150" color="#ff6e40">Simpan</v-btn>
-                <v-btn v-if="!pengeluaran && !edit" @click="dialog=false" class="float-end rounded-xl text-body-2 me-2" height="42" width="150" variant="outlined" color="grey-darken-2">Batal</v-btn>
                 <v-btn v-if="edit" @click="confirmdialog = true" size="large" class="float-end rounded-xl text-body-2 me-2" height="42" width="150" variant="tonal">Batal {{ batalbtn }}</v-btn>
                 <v-dialog v-model="confirmdialog" transition="dialog-bottom-transition" width="400">
                 <v-card class="rounded-xl">
