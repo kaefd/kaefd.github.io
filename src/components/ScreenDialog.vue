@@ -31,11 +31,10 @@ export default {
         nama_pelanggan : '',
         tujuan_bongkar: '',
         pembelian_input: '',
-        pembelian_detail: [this.pembelian],
+        pembelian_detail: [],
         inputdata: this.datainput,
         kurs: '',
         pemasukan_detail: '',
-        penjualan: '',
         required: [
         value => {
           if (value)  return true
@@ -48,7 +47,6 @@ export default {
     },
     
     created() {
-        this.pembelian_detail
         api.getData('/barang?status=true')
             .then(response => {
             this.barang = response.data
@@ -68,16 +66,19 @@ export default {
                     return item.nama.toLowerCase().includes(this.searched.toLowerCase())
                 })
             },
-            filteralamat() {
+        filteralamat() {
             return this.alamatBongkar.filter(item => {
                     return item.nama.toLowerCase().includes(this.searched.toLowerCase())
                 })
             },
-            filterkodegroup() {
+        filterkodegroup() {
             return this.groupbarang.filter(item => {
                     return item.kode_group.toLowerCase().includes(this.searched.toLowerCase())
-                })
-            },
+            })
+        },
+        inputdetail() {
+            return this.pembelian_detail = [this.pembelian]
+        }
     },
     methods:{
         numb(value) {
@@ -117,10 +118,12 @@ export default {
     mounted() {
         api.getData
         this.items
+        this.pemasukan
+        this.pengeluaran
         this.dataitem
         this.edit
-        this.pembelian_detail
         this.$nextTick(() => {
+            // this.pembelian_detail= [this.pembelian],
             this.nama_supplier = this.namaSupplier,
             this.nama_pelanggan=  this.namaPelanggan,
             this.tujuan_bongkar= this.namaTujuan
@@ -690,7 +693,7 @@ export default {
                     <!-- TABEL EDIT/VIEW -->
                     <v-data-table
                     :headers="headDetails"
-                    :items="edit ? pembelian_detail : pembelian_input"
+                    :items="edit ? inputdetail : pembelian_input"
                     :hover="true"
                     :fixed-header="true"
                     density="compact"
@@ -703,15 +706,15 @@ export default {
                     <!-- dialog actions -->
                     <!-- CUSTOM KOLOM -->
                     <!-- eslint-disable-next-line vue/valid-v-slot -->
-                    <template v-if="!pengeluaran && kirim" v-slot:item.jumlah="{item}">
+                    <template v-if="kirim" v-slot:item.jumlah="{item}">
                         <td>{{numb(item.raw.jumlah)}}</td>
                     </template>
                     <!-- eslint-disable-next-line vue/valid-v-slot -->
-                    <template v-if="!pengeluaran" v-slot:item.jumlah_diterima="{item}">
+                    <template v-if="pemasukan" v-slot:item.jumlah_diterima="{item}">
                         <td>{{numb(item.raw.jumlah_diterima)}}</td>
                     </template>
                     <!-- eslint-disable-next-line vue/valid-v-slot -->
-                    <template v-if="!pengeluaran" v-slot:item.nilai="{item}">
+                    <template v-if="pemasukan" v-slot:item.nilai="{item}">
                         <td>{{numb(item.raw.nilai)}}</td>
                     </template>
                     <!-- eslint-disable-next-line vue/valid-v-slot -->
@@ -763,8 +766,8 @@ export default {
                                     class="mb-1"
                                 >
                                 </v-text-field>
-                                <v-label v-if="!pengeluaran && !kirim">Jumlah diterima</v-label>
-                                <v-label v-if="pengeluaran && !kirim">Jumlah Terkirim</v-label>
+                                <v-label v-if="pemasukan">Jumlah diterima</v-label>
+                                <v-label v-if="pengeluaran">Jumlah Terkirim</v-label>
                                 <v-text-field
                                     v-if="pengeluaran"
                                     variant="outlined"
@@ -783,13 +786,13 @@ export default {
                                     hide-details
                                     class="mb-1"
                                 />
-                                <v-label v-if="!pengeluaran && !kirim">Total Nilai</v-label>
-                                <v-label v-if="pengeluaran && !kirim">Harga Jual</v-label>
+                                <v-label v-if="pemasukan">Total Nilai</v-label>
+                                <v-label v-if="pengeluaran">Harga Jual</v-label>
                                 <v-text-field
                                     v-if="pengeluaran"
                                     variant="outlined"
                                     density="compact"
-                                    :value="pengeluaran ? numb(item.raw.harga_jual) : numb(item.raw.nilai)"
+                                    :value="numb(item.raw.harga_jual)"
                                     readonly
                                     hide-details
                                     class="mb-4"
