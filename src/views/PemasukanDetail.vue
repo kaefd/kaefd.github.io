@@ -197,6 +197,17 @@ export default {
                     >
                     </v-text-field>
                     <v-text-field
+                        label="Nama Supplier"
+                        :model-value="namaSupplier"
+                        variant="outlined"
+                        density="compact"
+                        style="min-width: 200px; max-width:300px"
+                        readonly
+                    >
+                    </v-text-field>
+                    </v-col>
+                    <v-col>
+                        <v-text-field
                         label="Tipe Dokumen"
                         v-model="dataitem.tipe_dokumen"
                         variant="outlined"
@@ -507,7 +518,7 @@ export default {
                                     hide-details
                                     class="mb-1"
                                 />
-                                <v-label v-if="pemasukan">Total Nilai</v-label>
+                                <v-label>Total Nilai</v-label>
                                 <v-text-field
                                     :value="numb(item.raw.nilai)"
                                     variant="outlined"

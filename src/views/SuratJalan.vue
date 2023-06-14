@@ -6,12 +6,20 @@ export default {
             jalan: false,
             kirim: [this.pengiriman]
         }
+    },
+    methods: {
+        print() {
+            window.print()
+        }
     }
 }
 </script>
 
 <template>
-    <v-dialog v-model="jalan" width="700">
+    <v-dialog
+        v-model="jalan"
+        fullscreen
+        :scrim="false">
         <template v-slot:activator="{ props }">
             <v-list-item class="text-small" v-bind="props">Cetak Surat Jalan</v-list-item>
         </template>
@@ -29,12 +37,13 @@ export default {
             <v-btn
             icon
             class="text-white"
+            @click="print()"
             >
                 <v-icon>mdi-printer</v-icon>
             </v-btn>
         </v-toolbar>
-        <v-card class="h-100">
-            <v-sheet class="border mx-auto text-center my-5 pa-3" width="600">
+        <v-card id="suratjalan">
+            <v-sheet class="border mx-auto text-center my-5 pa-3 page">
                 <v-span class="text-h6 font-weight-bold">PT. AURI STEEL METALINDO</v-span>
                 <v-divider thickness="3" color="black" class="border-opacity-100 mt-3 mb-1"></v-divider>
                 <v-span class="text-h7 font-weight-bold">SURAT JALAN</v-span>
@@ -81,12 +90,12 @@ export default {
                         v-for="item, i in kirim"
                         :key="i"
                     >
-                        <td>{{ i+1 }}</td>
-                        <td>{{ item.nama_barang }}</td>
-                        <td>{{ item.qty }}</td>
-                        <td>{{ item.satuan }}</td>
-                        <td>{{ item.jumlah }}</td>
-                        <td>{{ item.keterangan }}</td>
+                        <td class="text-left">{{ i+1 }}</td>
+                        <td class="text-left">{{ item.nama_barang }}</td>
+                        <td class="text-left">{{ item.qty }}</td>
+                        <td class="text-left">{{ item.satuan }}</td>
+                        <td class="text-left">{{ item.jumlah }}</td>
+                        <td class="text-left">{{ item.keterangan }}</td>
                     </tr>
                     <tr>
                         <td></td>
@@ -115,3 +124,22 @@ export default {
         </v-card>
     </v-dialog>
 </template>
+<style>
+.page {
+    width: 21cm;
+    min-height: 14cm
+}
+@media print {
+  body {
+    visibility: hidden;
+  }
+  #suratjalan {
+    visibility: visible;
+    position: absolute;
+    width: 21cm;
+    min-height: 14cm;
+    left: 0;
+    top: 0;
+  }
+}
+</style>
