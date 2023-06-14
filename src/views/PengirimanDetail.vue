@@ -7,7 +7,7 @@ export default {
     components: {
     DialogCard2, VDataTable
     },
-    props:['pembelianbaru', 'namaPelanggan', 'groupbarang', 'batalbtn', 'pengiriman', 'pemasukan', 'alamatBongkar', 'totalpenjualan', 'namaTujuan', 'datainput', 'pageTitle', 'pengeluaran', 'dokumenpjl', 'namaSupplier', 'pengirimanDetail', 'pembelian', 'pelanggan', 'supplier', 'pembeliandetl', 'edit', 'kirim', 'headers', 'items', 'actIcon', 'icon', 'btncolor', 'search', 'iVariant', 'headDetails', 'details','disable', 'btn', 'datatext', 'itemDetail', 'category'],
+    props:['pembelianbaru', 'namaPelanggan', 'detail_kirim','detailkirim', 'nokirim', 'nopjl', 'groupbarang', 'batalbtn', 'pengiriman', 'pemasukan', 'alamatBongkar', 'totalpenjualan', 'namaTujuan', 'datainput', 'pageTitle', 'pengeluaran', 'no', 'tipe', 'namaSupplier', 'pengirimanDetail', 'pembelian', 'pelanggan', 'supplier', 'pembeliandetl', 'edit', 'kirim', 'headers', 'items', 'actIcon', 'icon', 'btncolor', 'search', 'iVariant', 'headDetails', 'details','disable', 'btn', 'datatext', 'itemDetail', 'category'],
     data () {
       return {
         dialog: false,
@@ -30,9 +30,11 @@ export default {
         nama_pelanggan : '',
         tujuan_bongkar: '',
         pembelian_input: '',
+        detailpengiriman: '',
         kode_pelanggan: this.namaPelanggan,
         inputdata: this.datainput,
         kurs: '',
+        nomorkirim: '',
         pemasukan_detail: '',
         pengiriman_detail : [this.pengiriman],
         required: [
@@ -58,6 +60,7 @@ export default {
             let k = (this.dataitem.kurs / 1).toFixed(3).replace('.', ',')
             this.kurs = k.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
         }
+        
     },
     computed: {
         filtersupplier() {
@@ -77,6 +80,16 @@ export default {
         },
     },
     methods:{
+        getDetail() {
+               const apiUrl = '/penjualan_head/' + this.nopjl
+               api.getData(apiUrl)
+               .then(response => {
+               this.detailpengiriman = response.data
+               })
+               .catch((error) => {
+               console.log(error);
+               })
+        },
         numb(value) {
             let val = (value / 1).toFixed(0).replace('.', ',')
             return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
@@ -115,7 +128,7 @@ export default {
         this.detail
         this.edit
         api.getData
-        this.dokumenpjl
+        this.getDetail()
         // this.items
         // this.pemasukan
         // this.pengeluaran
@@ -127,6 +140,7 @@ export default {
             this.nama_pelanggan=  this.namaPelanggan,
             this.tujuan_bongkar= this.namaTujuan
         });
+        
     }
 }
 
@@ -330,11 +344,11 @@ export default {
                 <!-- CUSTOM KOLOM -->
                 <!-- eslint-disable-next-line vue/valid-v-slot -->
                 <template v-slot:item.tipe_dokumen>
-                    {{ dokumenpjl.tipe_dokumen }}
+                    {{ detailpengiriman[0].tipe_dokumen }}
                 </template>
                 <!-- eslint-disable-next-line vue/valid-v-slot -->
                 <template v-slot:item.no_dokumen>
-                    {{ dokumenpjl.no_dokumen }}
+                    {{ detailpengiriman[0].no_dokumen }}
                 </template>
                 <!-- eslint-disable-next-line vue/valid-v-slot -->
                 <template v-slot:item.actions="{ item, index }">

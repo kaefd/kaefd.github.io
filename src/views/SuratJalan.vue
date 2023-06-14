@@ -1,16 +1,41 @@
 <script>
+import api from '../api';
 export default {
-    props: ['items', 'namaPelanggan', 'namaTujuan', 'pengiriman'],
+    props: ['items', 'namaPelanggan', 'namaTujuan', 'pengiriman', 'alamatPelanggan','nokirim', 'detail_kirim', 'nopjl'],
     data () {
         return {
             jalan: false,
-            kirim: [this.pengiriman]
+            kirim: [this.pengiriman],
+            detailpengiriman: ''
         }
     },
     methods: {
+        getDetail() {
+            const apiUrl = '/penjualan_head/' + this.nopjl
+            api.getData(apiUrl)
+            .then(response => {
+            this.detailpengiriman = response.data
+            })
+            .catch((error) => {
+            console.log(error);
+            })
+        },
         print() {
             window.print()
-        }
+        },
+        sum() {
+            let arr = []
+            for (let i = 0; i < this.kirim.length; i++) {
+                arr.push(this.kirim[i].jumlah)
+            }
+            return arr.reduce((total, current) => {
+                return total + current;
+            }, 0);
+            }
+        },
+
+    mounted() {
+        this.getDetail()
     }
 }
 </script>
@@ -53,7 +78,7 @@ export default {
                         <v-span class="me-2">PENERIMA</v-span>
                         <v-span class="text-start">
                             {{ namaTujuan }} <br/>
-                            {alamt}
+                            {{ alamatPelanggan }}
                         </v-span>
                     </v-div>
                     <v-spacer></v-spacer>
@@ -82,7 +107,7 @@ export default {
                         <th class="text-left bg-white">Qty</th>
                         <th class="text-left bg-white">Satuan</th>
                         <th class="text-left bg-white">Berat (KG)</th>
-                        <th class="text-left bg-white">Keterangan</th>
+                        <th class="text-left bg-white">Keterangan(Ex.BC)</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -95,14 +120,14 @@ export default {
                         <td class="text-left">{{ item.qty }}</td>
                         <td class="text-left">{{ item.satuan }}</td>
                         <td class="text-left">{{ item.jumlah }}</td>
-                        <td class="text-left">{{ item.keterangan }}</td>
+                        <td class="text-left">{{ detailpengiriman[i].no_dokumen }}/{{ detailpengiriman[i].tipe_dokumen.slice(2) }}</td>
                     </tr>
                     <tr>
                         <td></td>
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td></td>
+                        <td class="text-left font-weight-bold">{{ sum() }}</td>
                     </tr>
                     </tbody>
                 </v-table>

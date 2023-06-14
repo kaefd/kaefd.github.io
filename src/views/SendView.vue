@@ -54,7 +54,7 @@ import AppBar from '../components/AppBar.vue';
         },
         pengirimanHead: '',
         penjualanHead: '',
-        pengirimanDetail: '',
+        kirim_detail: '',
         pelanggan: '',
         alamatBongkar: '',
         headDetails:[
@@ -77,10 +77,15 @@ import AppBar from '../components/AppBar.vue';
           supir: '',
           no_polisi: '',
         },
+        nokirim: '0',
+        detailkirim: '',
+        no: '',
+        tipe: ''
 
       }
     },
     created() {
+      this.nokirim
       this.today()
       let currentDate = new Date().toJSON().slice(0, 10);
       return this.filtered.periode = [currentDate , currentDate]
@@ -117,7 +122,7 @@ import AppBar from '../components/AppBar.vue';
         }
         api.getData(apiUrl, { params })
         .then(response => {
-          this.pengirimanDetail = response.data
+          this.kirim_detail = response.data
         })
         .catch((error) => {
           console.log(error);
@@ -138,15 +143,7 @@ import AppBar from '../components/AppBar.vue';
           console.log(error);
         })
       },
-      dokumenpjl(value) {
-          for (let i = 0; i < this.pengirimanDetail.length; i++) {
-          for (let k = 0; k < this.penjualanHead.length; k++) {
-            if(this.pengirimanDetail[i].no_pengiriman == value || this.pengirimanDetail[i].no_penjualan == this.penjualanHead[k].no_penjualan) {
-              return this.penjualanHead[k]
-            }
-          }
-        }
-      },
+      
       getPelanggan() {
         const apiUrl = '/pelanggan'
         api.getData(apiUrl)
@@ -161,6 +158,14 @@ import AppBar from '../components/AppBar.vue';
         for (let i = 0; i < this.pelanggan.length; i++) {
           if ( this.pelanggan[i].kode_pelanggan == value ) {
               return this.pelanggan[i].nama
+          }
+          
+        }
+      },
+      alamatPelanggan(value) {
+        for (let i = 0; i < this.pelanggan.length; i++) {
+          if ( this.pelanggan[i].kode_pelanggan == value ) {
+              return this.pelanggan[i].alamat
           }
           
         }
@@ -184,9 +189,9 @@ import AppBar from '../components/AppBar.vue';
       //   }
       // },
       Penjualandetl(value) {
-        for (let i = 0; i < this.pengirimanDetail.length; i++) {
-          if ( this.pengirimanDetail[i].no_pengiriman == value ) {
-              return this.pengirimanDetail[i]
+        for (let i = 0; i < this.kirim_detail.length; i++) {
+          if ( this.kirim_detail[i].no_pengiriman == value ) {
+              return this.kirim_detail[i]
           }
           
         }
@@ -261,7 +266,6 @@ import AppBar from '../components/AppBar.vue';
     }
     
   }
-
   const date = ref()
 
     // For demo purposes assign range from the current date
@@ -388,9 +392,12 @@ import AppBar from '../components/AppBar.vue';
                           :kirim="true"
                           :edit="true"
                           :namaPelanggan="namaPelanggan(item.raw.kode_pelanggan)"
+                          :alamatPelanggan="alamatPelanggan(item.raw.kode_pelanggan)"
                           :namaTujuan="namaTujuan(item.raw.kode_alamat_bongkar)"
                           :pengiriman="Penjualandetl(item.raw.no_pengiriman)"
-                          :dokumenpjl="dokumenpjl(item.raw.no_pengiriman)"
+                          :nokirim="item.raw.no_pengiriman"
+                          :detail_kirim="kirim_detail"
+                          :nopjl="Penjualandetl(item.raw.no_pengiriman).no_penjualan"
                           :pageTitle="pageTitle"
                           :headDetails="headDetails"
                           :headers="headers"
@@ -403,7 +410,16 @@ import AppBar from '../components/AppBar.vue';
                           :actIcon="actIcon"
                           :disable="true"/>
                       </v-list-item>
-                      <SuratJalan :namaPelanggan="namaPelanggan(item.raw.kode_pelanggan)" :namaTujuan="namaTujuan(item.raw.kode_alamat_bongkar)" :pengiriman="Penjualandetl(item.raw.no_pengiriman)" :items="item.raw"/>
+                      <SuratJalan
+                      :alamatPelanggan="alamatPelanggan(item.raw.kode_pelanggan)"
+                      :namaPelanggan="namaPelanggan(item.raw.kode_pelanggan)"
+                      :namaTujuan="namaTujuan(item.raw.kode_alamat_bongkar)"
+                      :pengiriman="Penjualandetl(item.raw.no_pengiriman)"
+                      :items="item.raw"
+                      :nokirim="item.raw.no_pengiriman"
+                      :detail_kirim="kirim_detail"
+                      :nopjl="Penjualandetl(item.raw.no_pengiriman).no_penjualan"
+                      />
                     </v-list>
                   </v-menu>
               </v-btn>
