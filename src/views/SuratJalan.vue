@@ -75,11 +75,11 @@ export default {
                 <v-span class="text-h6 font-weight-bold">PT. AURI STEEL METALINDO</v-span>
                 <v-divider thickness="3" color="black" class="border-opacity-100 mt-3 mb-1"></v-divider>
                 <v-span class="text-h6 font-weight-bold">SURAT JALAN</v-span>
-                <v-div class="d-flex mt-3 text-body-1">
+                <v-div class="d-flex mt-3">
                     <!-- PENERIMA -->
-                    <v-div class="d-flex">
+                    <v-div class="d-flex  text-body-2">
                         <v-span class="me-2">PENERIMA :</v-span>
-                        <v-span class="text-start w-75">
+                        <v-span class="text-start w-50">
                             {{ uppercase(namaTujuan) }} <br/>
                             {{ uppercase(alamatPelanggan) }}
                         </v-span>
@@ -95,7 +95,7 @@ export default {
                         </v-div>
                         <!-- TGL PENGIRIMAN -->
                         <v-div class="d-flex flex-column">
-                            <v-span class="text-start">: {no surat jalan}</v-span>
+                            <v-span class="text-start">: PJS-{{ items.no_pengiriman.slice(4) }}</v-span>
                             <v-span class="text-start">: {{ items.tgl_pengiriman }}</v-span>
                             <v-span class="text-start">: {{ items.supir }}/{{ items.no_polisi }}</v-span>
                         </v-div>
