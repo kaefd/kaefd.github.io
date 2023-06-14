@@ -20,6 +20,9 @@ export default {
             console.log(error);
             })
         },
+        uppercase(v) {
+            return v.toUpperCase()
+        },
         print() {
             window.print()
         },
@@ -68,17 +71,17 @@ export default {
             </v-btn>
         </v-toolbar>
         <v-card id="suratjalan">
-            <v-sheet class="border mx-auto text-center my-5 pa-3 page">
+            <v-sheet class="mx-auto text-center pa-3 page">
                 <v-span class="text-h6 font-weight-bold">PT. AURI STEEL METALINDO</v-span>
                 <v-divider thickness="3" color="black" class="border-opacity-100 mt-3 mb-1"></v-divider>
-                <v-span class="text-h7 font-weight-bold">SURAT JALAN</v-span>
-                <v-div class="d-flex mt-3 text-caption">
+                <v-span class="text-h6 font-weight-bold">SURAT JALAN</v-span>
+                <v-div class="d-flex mt-3 text-body-1">
                     <!-- PENERIMA -->
                     <v-div class="d-flex">
-                        <v-span class="me-2">PENERIMA</v-span>
-                        <v-span class="text-start">
-                            {{ namaTujuan }} <br/>
-                            {{ alamatPelanggan }}
+                        <v-span class="me-2">PENERIMA :</v-span>
+                        <v-span class="text-start w-75">
+                            {{ uppercase(namaTujuan) }} <br/>
+                            {{ uppercase(alamatPelanggan) }}
                         </v-span>
                     </v-div>
                     <v-spacer></v-spacer>
@@ -99,7 +102,7 @@ export default {
                     </v-div>
                 </v-div>
                 <!-- TABEL BARANG -->
-                <v-table density="compact" class="text-caption my-5 pb-5">
+                <v-table density="compact" class="text-body-1 my-5 pb-5">
                     <thead>
                     <tr>
                         <th class="text-left bg-white">No</th>
@@ -131,7 +134,7 @@ export default {
                     </tr>
                     </tbody>
                 </v-table>
-                <v-div class="d-flex flex-column align-start text-caption">
+                <v-div class="d-flex flex-column align-start text-body-1">
                     <v-text class="d-flex flex-column align-start">
                         Keterangan
                         <v-span class="ms-3">1. Surat Jalan ini merupakan bukti penerimaan barang</v-span>
@@ -152,7 +155,7 @@ export default {
 <style>
 .page {
     width: 21cm;
-    min-height: 14cm
+    height: 12cm
 }
 @media print {
   body {
@@ -162,7 +165,7 @@ export default {
     visibility: visible;
     position: absolute;
     width: 21cm;
-    min-height: 14cm;
+    height: 12cm;
     left: 0;
     top: 0;
   }

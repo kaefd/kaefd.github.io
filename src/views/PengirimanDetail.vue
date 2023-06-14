@@ -176,6 +176,7 @@ export default {
           </template>
           <!-- dialog content -->
             <v-card>
+                {{ inputdata }}
                 <v-toolbar class="bg-blue-custom text-white" height="50">
                     <v-btn
                         icon
@@ -264,9 +265,7 @@ export default {
                         variant="outlined"
                         density="compact"
                         style="min-width: 200px; max-width:300px"
-                        readonly
-                        disabled
-                        class="bg-grey-lighten-4 mb-5"
+                        class="mb-5"
                         hide-details
                     >
                     </v-text-field>
@@ -361,7 +360,7 @@ export default {
                 <!-- TABEL EDIT/VIEW -->
                 <v-data-table
                 :headers="headDetails"
-                :items="edit ? pengiriman_detail : inputdata"
+                :items="edit ? pengiriman_detail : pembelian_input"
                 :hover="true"
                 :fixed-header="true"
                 density="compact"
