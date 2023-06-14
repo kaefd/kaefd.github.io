@@ -240,6 +240,21 @@ import AppBar from '../components/AppBar.vue';
             return data.filter(item => this.checkStatus.includes(item.status));
           }
       },
+      printdata() {
+        let a = []
+        for (let i = 0; i < this.penjualan_head.length; i++) {
+          a.push({
+            no_penjualan: this.penjualan_head[i].no_penjualan,
+            tgl_penjualan: this.penjualan_head[i].tgl_penjualan,
+            tipe_dokumen: this.penjualan_head[i].tipe_dokumen,
+            no_dokumen: this.penjualan_head[i].no_dokumen,
+            kode_pelanggan: this.penjualan_head[i].kode_pelanggan,
+            kode_group: this.penjualan_head[i].kode_group,
+            total_penjualan: this.numb(this.penjualan_head[i].total_penjualan),
+          })
+        }
+        return a
+      },
       print(i){
           if (i == 0) {
             return this.ExportToExcel('xlsx')
@@ -259,7 +274,7 @@ import AppBar from '../components/AppBar.vue';
       doc.setFontSize(16).text(heading, 0.5, 1.0);
       doc.autoTable({
         columns,
-        body: this.items,
+        body: this.printdata(),
         margin: { left: 0.5, top: 1.25 }
       })
       .save(`${this.pageTitle}.pdf`);
@@ -393,28 +408,28 @@ import AppBar from '../components/AppBar.vue';
           </v-btn>
           <!-- TAMBAH DATA -->
           <PengeluaranDetail
-          batalbtn="Pengeluaran"
-          :datainput="datainput"
-          :pengeluaran="true"
-          :groupbarang="groupbarang"
-          :supplier="pelanggan"
-          :datatext="datatext"
-          :pageTitle="pageTitle"
-          :btn="btn"
-          :headDetails="headDetails"
-          :details="details"
-          :headers="headers"
-          :items="checkstatus()"
-          :search="search"
-          :category="category"
-          :selectCategory="selectCategory"
-          :iTitle="actIcon[0].text"
-          :btncolor="actIcon[0].color"
-          :icon="actIcon[0].icon"
-          :iVariant="actIcon[0].variant"
-          :alpha="alpha"
-          :actIcon="actIcon"
-          @inputhead="inputhead"
+            batalbtn="Pengeluaran"
+            :datainput="datainput"
+            :pengeluaran="true"
+            :groupbarang="groupbarang"
+            :supplier="pelanggan"
+            :datatext="datatext"
+            :pageTitle="pageTitle"
+            :btn="btn"
+            :headDetails="headDetails"
+            :details="details"
+            :headers="headers"
+            :items="checkstatus()"
+            :search="search"
+            :category="category"
+            :selectCategory="selectCategory"
+            :iTitle="actIcon[0].text"
+            :btncolor="actIcon[0].color"
+            :icon="actIcon[0].icon"
+            :iVariant="actIcon[0].variant"
+            :alpha="alpha"
+            :actIcon="actIcon"
+            @inputhead="inputhead"
           />
           <!-- TIPE DOKUMEN -->
           <!-- <div class="w-50">
@@ -530,7 +545,7 @@ import AppBar from '../components/AppBar.vue';
             </template>
              <!-- eslint-disable-next-line vue/valid-v-slot -->
             <template v-slot:item.actions="{item}">
-              <PemasukanDetail batalbtn="Pengeluaran" :namaPelanggan="namaPelanggan(item.raw.kode_pelanggan)" :totalpenjualan="numb(item.raw.total_penjualan)" :penjualan="penjualan(item.raw.no_penjualan)" :edit="true" :pengeluaran="true" :pageTitle="pageTitle" :headDetails="headDetails" :items="item.raw" :details="details" :headers="headers" :search="search" :category="category" :selectCategory="selectCategory" :iTitle="actIcon[3].text" :btncolor="actIcon[3].color" :icon="actIcon[3].icon" :iVariant="actIcon[3].variant" :alpha="alpha" :actIcon="actIcon" :disable="true"/>
+              <PengeluaranDetail batalbtn="Pengeluaran" :namaPelanggan="namaPelanggan(item.raw.kode_pelanggan)" :penjualan="penjualan(item.raw.no_penjualan)" :edit="true" :pengeluaran="true" :pageTitle="pageTitle" :headDetails="headDetails" :items="item.raw" :details="details" :headers="headers" :search="search" :category="category" :selectCategory="selectCategory" :iTitle="actIcon[3].text" :btncolor="actIcon[3].color" :icon="actIcon[3].icon" :iVariant="actIcon[3].variant" :alpha="alpha" :actIcon="actIcon" :disable="true"/>
             </template>
           </v-data-table>
         </v-sheet>

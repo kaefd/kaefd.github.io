@@ -23,6 +23,7 @@ export default {
         arr: [],
         tipe_dokumen: ['BC23', 'BC40'],
         searched: '',
+        nama:'',
         barang: '',
         namasupplier: '',
         dataitem: this.items,
@@ -259,7 +260,7 @@ export default {
                     <v-col>
                     <v-text-field
                         label="No Pengiriman"
-                        v-model= "pembelian_input.no_pengiriman"
+                        v-model= "inputdata.no_pengiriman"
                         variant="outlined"
                         density="compact"
                         style="min-width: 200px; max-width:300px"
@@ -272,31 +273,63 @@ export default {
                     <v-text-field
                         label="Tgl Pengiriman"
                         type="date"
-                        v-model="pembelian_input.tgl_pengiriman"
+                        v-model="inputdata.tgl_pengiriman"
                         variant="outlined"
                         density="compact"
                         style="min-width: 200px; max-width:300px"
-                        readonly
                     >
                     </v-text-field>
                     </v-col>
                     <v-col>
-                    <v-text-field
-                        label="Pelanggan"
-                        v-model="pembelian_input.kode_pelanggan"
-                        variant="outlined"
-                        density="compact"
-                        style="min-width: 200px; max-width:300px"
-                        readonly
-                    >
-                    </v-text-field>
+                        <v-dialog v-model="dialog4">
+                            <template v-slot:activator="{props}">
+                                <v-text-field
+                                    v-bind="props"
+                                    label="Pelanggan"
+                                    v-model="nama"
+                                    variant="outlined"
+                                    density="compact"
+                                    style="min-width: 200px; max-width:300px"
+                                    class="mb-5"
+                                    hide-details
+                                    :rules="required"
+                                >
+                            </v-text-field>
+                            </template>
+                            <v-card class="py-5 px-5 rounded-xl mx-auto" width="400">
+                                <v-btn icon="mdi-close" variant="plain" @click="dialog4 = false"></v-btn>
+                                <v-card-title class="text-center text-blue-darken-4 mb-3 mt-n12 text-button font-weight-bold">PELANGGAN</v-card-title>
+                                <v-text-field
+                                    v-model="searched"
+                                    append-inner-icon="mdi-magnify"
+                                    label="Search"
+                                    single-line
+                                    hide-details
+                                    :rules="required"
+                                    density="compact"
+                                    variant="outlined"
+                                    class="mb-4"
+                                ></v-text-field>
+                                <v-list>
+                                    <v-for v-for="s, i in filtersupplier" :key="i">
+                                        <v-list-item
+                                        density="compact"
+                                        style="cursor: pointer;"
+                                        class="text-caption"
+                                        @click="inputdata.nama_pelanggan = s.kode_pelanggan, nama = s.nama, dialog4 = false "
+                                        >
+                                            {{ s.nama }}
+                                        </v-list-item>
+                                    </v-for>
+                                </v-list>
+                            </v-card>
+                        </v-dialog>
                     <v-text-field
                         label="Tujuan Bongkar"
-                        v-model="pembelian_input.tujuan_bongkar"
+                        v-model="inputdata.tujuan_bongkar"
                         variant="outlined"
                         density="compact"
                         style="min-width: 200px; max-width:300px"
-                        readonly
                     >
                     </v-text-field>
                 </v-col>
@@ -304,21 +337,19 @@ export default {
                     <!-- SUPIR -->
                     <v-text-field
                         label="Supir"
-                        :model-value="pembelian_input.supir"
+                        v-model="inputdata.supir"
                         variant="outlined"
                         density="compact"
                         style="min-width: 200px; max-width:300px"
-                        readonly
                     >
                     </v-text-field>
                     <!-- NO POLISI -->
                     <v-text-field
                         label="No Polisi"
-                        :model-value="pembelian_input.no_polisi"
+                        v-model="inputdata.no_polisi"
                         variant="outlined"
                         density="compact"
                         style="min-width: 200px; max-width:300px"
-                        readonly
                     >
                     </v-text-field>
                 </v-col>     
@@ -330,7 +361,7 @@ export default {
                 <!-- TABEL EDIT/VIEW -->
                 <v-data-table
                 :headers="headDetails"
-                :items="edit ? pengiriman_detail : pembelian_input"
+                :items="edit ? pengiriman_detail : inputdata"
                 :hover="true"
                 :fixed-header="true"
                 density="compact"
@@ -374,7 +405,6 @@ export default {
                                 density="compact"
                                 :value="numb(item.raw.jumlah)"
                                 active="true"
-                                readonly
                                 hide-details
                                 class="mb-1"
                             >

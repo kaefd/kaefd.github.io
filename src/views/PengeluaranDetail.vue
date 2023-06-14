@@ -7,7 +7,7 @@ export default {
     components: {
     DialogCard2, VDataTable
     },
-    props:['pembelianbaru', 'namaPelanggan', 'groupbarang', 'batalbtn', 'penjualan', 'pemasukan', 'alamatBongkar', 'totalpenjualan', 'namaTujuan', 'datainput', 'pageTitle', 'pengeluaran', 'dokumenpjl', 'namaSupplier', 'pengirimanDetail', 'pembelian', 'pelanggan', 'supplier', 'pembeliandetl', 'edit', 'kirim', 'headers', 'items', 'actIcon', 'icon', 'btncolor', 'search', 'iVariant', 'headDetails', 'details','disable', 'btn', 'datatext', 'itemDetail', 'category'],
+    props:['pembelianbaru', 'namaPelanggan', 'groupbarang', 'batalbtn', 'penjualan', 'pemasukan', 'alamatBongkar', 'namaTujuan', 'datainput', 'pageTitle', 'pengeluaran', 'dokumenpjl', 'namaSupplier', 'pengirimanDetail', 'pembelian', 'pelanggan', 'supplier', 'pembeliandetl', 'edit', 'kirim', 'headers', 'items', 'actIcon', 'icon', 'btncolor', 'search', 'iVariant', 'headDetails', 'details','disable', 'btn', 'datatext', 'itemDetail', 'category'],
     data () {
       return {
         dialog: false,
@@ -22,6 +22,7 @@ export default {
         arr: [],
         tipe_dokumen: ['BC23', 'BC40'],
         searched: '',
+        nama:'',
         barang: '',
         namasupplier: '',
         dataitem: this.items,
@@ -150,7 +151,7 @@ export default {
             <v-btn
             v-if="edit"
             v-bind="props"
-            class="text-body-2  rounded-lg"
+            class="text-body-2 rounded-lg"
             :color="btncolor"
             :icon="icon"
             :variant="iVariant"
@@ -282,7 +283,7 @@ export default {
                                 <v-text-field
                                     v-bind="props"
                                     label="Pelanggan"
-                                    v-model="inputdata.kode_pelanggan"
+                                    v-model="nama"
                                     variant="outlined"
                                     density="compact"
                                     style="min-width: 200px; max-width:300px"
@@ -294,7 +295,7 @@ export default {
                             </template>
                             <v-card class="py-5 px-5 rounded-xl mx-auto" width="400">
                                 <v-btn icon="mdi-close" variant="plain" @click="dialog4 = false"></v-btn>
-                                <v-card-title class="text-center text-blue-darken-4 mb-3">PELANGGAN</v-card-title>
+                                <v-card-title class="text-center text-blue-darken-4 mb-3 mt-n12 text-button font-weight-bold">PELANGGAN</v-card-title>
                                 <v-text-field
                                     v-model="searched"
                                     append-inner-icon="mdi-magnify"
@@ -309,8 +310,10 @@ export default {
                                 <v-list>
                                     <v-for v-for="s, i in filtersupplier" :key="i">
                                         <v-list-item
+                                        density="compact"
                                         style="cursor: pointer;"
-                                        @click="inputdata.kode_pelanggan = s.kode_pelanggan, dialog4 = false "
+                                        class="text-caption"
+                                        @click="inputdata.kode_pelanggan = s.kode_pelanggan, nama = s.nama, dialog4 = false "
                                         >
                                             {{ s.nama }}
                                         </v-list-item>
@@ -336,7 +339,7 @@ export default {
                         </template>
                             <v-card class="py-5 px-5 rounded-xl mx-auto" width="400">
                                 <v-btn icon="mdi-close" variant="plain" @click="dialogkodeg = false"></v-btn>
-                                <v-card-title class="text-center text-blue-darken-4 mb-3">KODE GROUP</v-card-title>
+                                <v-card-title class="text-center text-blue-darken-4 mb-3 text-button font-weight-bold mt-n12">KODE GROUP</v-card-title>
                                 <v-text-field
                                     v-model="searched"
                                     append-inner-icon="mdi-magnify"
@@ -352,6 +355,8 @@ export default {
                                     <v-for v-for="kode, i in filterkodegroup" :key="i">
                                         <v-list-item
                                         style="cursor: pointer;"
+                                        class="text-caption"
+                                        density="compact"
                                         @click="inputdata.kode_group = kode.kode_group, dialogkodeg = false "
                                         >
                                             {{ kode.kode_group }}
@@ -371,7 +376,7 @@ export default {
                                 style="min-width: 200px; max-width:300px"
                                 :rules="required"
                                 hide-details
-                                class="mb-5"
+                                class="mb-5 text-caption"
                             >
                             </v-select>
                             <v-text-field
@@ -400,12 +405,12 @@ export default {
                     </v-row>
                     <!-- BUTTON TAMBAH BARANG -->
                     <v-div v-if="!edit" :pembelianbaru="pembelianbaru" :pembeliandetl="pembeliandetl" class="text-sm-left text-center">
-                        <DialogCard2 @reset="reset"  :barang="barang" :itemDetail="itemDetail" @pemasukanitem="itemmasuk" :pemasukan="pemasukan" :penjualan="penjualan" :btn="btn" width="400" />
+                        <DialogCard2 @reset="reset" :penjualan="true"  :barang="barang" :itemDetail="itemDetail" @pemasukanitem="itemmasuk" :pemasukan="pemasukan" :btn="btn" width="400" />
                     </v-div>
                     <!-- TABEL EDIT/VIEW -->
                     <v-data-table
                     :headers="headDetails"
-                    :items="edit ? penjualan_detail : pembelian_input"
+                    :items="edit ? [penjualan] : pembelian_input"
                     :hover="true"
                     :fixed-header="true"
                     density="compact"
@@ -430,8 +435,8 @@ export default {
                         {{numb(item.raw.harga_jual)}}
                     </template>
                     <!-- eslint-disable-next-line vue/valid-v-slot -->
-                    <template v-slot:item.total_terjual>
-                        {{totalpenjualan}}
+                    <template v-slot:item.total_terjual="{item}">
+                        {{ numb(item.raw.jumlah_terkirim * item.raw.harga_jual) }}
                     </template>
                     <!-- eslint-disable-next-line vue/valid-v-slot -->
                     <template v-slot:item.tipe_dokumen>
@@ -470,7 +475,7 @@ export default {
                                     class="mb-1"
                                 >
                                 </v-text-field>
-                                <v-labe>Jumlah Terkirim</v-labe>
+                                <v-label>Jumlah Terkirim</v-label>
                                 <v-text-field
                                     variant="outlined"
                                     density="compact"
@@ -551,4 +556,5 @@ input#input-335.v-field__input {
 .dp__pointer {
     background: #fafafa !important;
 }
+
 </style>

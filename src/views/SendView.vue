@@ -289,7 +289,8 @@ import AppBar from '../components/AppBar.vue';
           <v-span class="text-button ms-4">Filter</v-span>
           <v-btn size="small" icon="mdi-close" @click="filter = false" variant="text" class="me-3 ms-auto">
           </v-btn>
-        </div>        <!-- PERIODE -->
+        </div>        
+        <!-- PERIODE -->
         <v-container class="pt-3 px-4">
           <v-span class="text-caption text-weight-bold">Periode</v-span>
           <v-divider></v-divider>
