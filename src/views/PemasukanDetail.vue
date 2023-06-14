@@ -448,7 +448,7 @@ export default {
                     <!-- TABEL EDIT/VIEW -->
                     <v-data-table
                     :headers="headDetails"
-                    :items="edit ? pembelian_detail : pembelian_input"
+                    :items="edit ? [pembelian] : pembelian_input"
                     :hover="true"
                     :fixed-header="true"
                     density="compact"
