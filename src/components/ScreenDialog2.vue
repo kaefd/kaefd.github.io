@@ -223,6 +223,7 @@ export default {
                             <v-dialog v-model="dialog5" >
                                 <template v-slot:activator="{ props }">
                                     <v-text-field
+                                    v-if="!edit"
                                     v-bind="props"
                                     v-model="inputproduksi.kode_group"
                                     variant="outlined"
