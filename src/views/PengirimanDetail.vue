@@ -158,9 +158,7 @@ export default {
                 this.$emit('inputhead', this.inputdata, this.pembelian_input)
             }
         },
-        
     },
-    
     mounted() {
         this.detail
         this.edit

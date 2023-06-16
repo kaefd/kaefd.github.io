@@ -153,7 +153,7 @@ import AppBar from '../components/AppBar.vue';
       // HAPUS DATA
       // PRODUKSI HEAD
       del(value, detlbahan, detlbarang) {
-        this.produksi_head = {
+        let produksi_head = {
           no_produksi: value.no_produksi,
           tgl_produksi: value.tgl_produksi,
           kode_group: value.kode_group,
@@ -163,29 +163,7 @@ import AppBar from '../components/AppBar.vue';
           user_batal: "admin",
           status: 'false'
         }
-        // DETAIL BAHAN
-        this.produksi_detail_bahan = [{
-          no_produksi: detlbahan.no_produksi,
-          no_urut: detlbahan.no_urut,
-          kode_barang: detlbahan.kode_barang,
-          nama_barang: detlbahan.nama_barang,
-          hs_code: detlbahan.hs_code,
-          jumlah: detlbahan.jumlah,
-          satuan: detlbahan.satuan,
-          nilai: detlbahan.nilai
-      }]
-      // DETAIL BARANG
-      this.produksi_detail_barang = [{
-        no_produksi: detlbarang.no_produksi,
-        no_urut: detlbarang.no_urut,
-        kode_barang: detlbarang.kode_barang,
-        nama_barang: detlbarang.nama_barang,
-        hs_code: detlbarang.hs_code,
-        jumlah: detlbarang.jumlah,
-        satuan: detlbarang.satuan,
-        nilai: detlbarang.nilai
-      }]
-      const ph = JSON.stringify(this.produksi_head);
+      const ph = JSON.stringify(produksi_head);
       const dbahan = JSON.stringify(detlbahan);
       const dbarang = JSON.stringify(detlbarang);
       console.log({

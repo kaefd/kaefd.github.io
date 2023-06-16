@@ -6,7 +6,7 @@ import api from '../api';
 
 export default {
     name: 'DialogCard2',
-    props: ['hiddenbtn', 'btn', 'itemDetail', 'pemasukan', 'nokirim', 'belumkirim', 'belumkirim_detail', 'blmkirim', 'penjualan', 'pengeluaran', 'pengiriman', 'produksi', 'barang', 'tambah', 'inputbahan', 'pembeliandetl' , 'getbarang'],
+    props: ['hiddenbtn', 'btn', 'itemDetail', 'pemasukan', 'nokirim', 'belumkirim', 'kodegroup', 'kodebarang', 'belumkirim_detail', 'blmkirim', 'penjualan', 'pengeluaran', 'pengiriman', 'produksi', 'barang', 'tambah', 'inputbahan', 'pembeliandetl' , 'getbarang'],
     data() {
         return {
             search: '',
@@ -15,6 +15,7 @@ export default {
             newbarang: this.barang,
             newproduksi: this.getbarang,
             groupbarang: '',
+            bahan: this.inputbahan,
             dialItem:'',
             pjl: '',
             pemasukan_item : [],
@@ -151,10 +152,13 @@ export default {
         if(this.pengiriman) {
             for (let i = 0; i < this.groupbarang.length; i++) {
                 if(this.groupbarang[i].kode_group == this.pjl_detail(kode.no_penjualan, 'kode')) {
-                    nilai = this.groupbarang[i].nilai_akhir / this.groupbarang[i].stok_akhir
+                        for (let j = 0; j < this.belumkirim_detail.length; j++) {
+                            if(this.groupbarang[i].kode_barang == this.belumkirim_detail[j].kode_barang) {
+                                nilai = this.groupbarang[i].nilai_akhir / this.groupbarang[i].stok_akhir
+                            }
+                    }
                 }
             }
-
         }
         if(this.pemasukan) {
             this.pemasukan_item.push({
@@ -169,15 +173,20 @@ export default {
                 no_urut: this.state.no_urut
             })
         } else if(this.produksi) {
+            for (let i = 0; i < this.groupbarang.length; i++) {
+                if(this.groupbarang[i].kode_group == this.kodegroup && this.groupbarang[i].kode_barang == this.kodebarang) {
+                    nilai = this.groupbarang[i].nilai_akhir / this.groupbarang[i].stok_akhir
+                }
+            }
                 this.pemasukan_item.push({
                     no_produksi: '',
                     kode_barang: kode.kode_barang,
                     nama_barang: this.state.nama_barang,
                     hs_code: this.state.hs_code,
-                    jumlah: this.state.jumlah,
+                    jumlah: this.penjualan_detail.jumlah,
                     satuan: this.state.satuan,
-                    no_urut: this.state.no_urut,
-                    nilai: this.state.nilai,
+                    no_urut: 1,
+                    nilai: nilai,
                 })
         } else if(this.pengeluaran) {
             this.pemasukan_item.push({
@@ -224,6 +233,7 @@ export default {
     },
     mounted() {
         this.getgroupbarang()
+        this.bahan
     }
 } 
 </script>
@@ -239,7 +249,7 @@ export default {
             class="text-body-2 bg-blue-custom text-white rounded-xl elevation-0 text-caption"
             prepend-icon="mdi-plus"
             height="40"
-            :disabled="this.getbarang == '' || this.inputbahan == '' ? true : false"
+            :disabled="getbarang == '' || inputbahan == '' ? true : false"
             >
             Tambah Barang
         </v-btn>

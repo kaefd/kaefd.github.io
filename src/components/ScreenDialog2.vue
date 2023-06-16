@@ -163,9 +163,9 @@ export default {
                 <v-container>
                 <v-form  @submit.prevent ref="form" class="mb-5 mt-1">
                     <v-row class="row border-sm rounded-lg">
-                        <v-col class="w-100">
+                        <v-col class="w-100 text-grey">
                             <!-- NOMOR PRODUKSI -->
-                            <v-lable class="text-body-2">No Produksi</v-lable>
+                            <v-lable class="text-caption">No Produksi</v-lable>
                             <v-text-field
                                 v-if="edit"
                                 density="compact"
@@ -220,7 +220,7 @@ export default {
                                     :rules="required"
                                 >
                             </v-text-field>
-                            <v-dialog v-if="!edit" v-model="dialog5" >
+                            <v-dialog v-model="dialog5" >
                                 <template v-slot:activator="{ props }">
                                     <v-text-field
                                     v-bind="props"
@@ -230,18 +230,20 @@ export default {
                                     style="min-width: 200px; max-width:300px"
                                     readonly
                                     :rules="required"
+                                    hide-details
                                     >
                                 </v-text-field>
                             </template>
                                 <v-card class="py-5 px-5 rounded-xl mx-auto" width="400">
                                     <v-btn icon="mdi-close" variant="plain" @click="dialog5 = false"></v-btn>
-                                    <v-card-title class="text-center text-blue-darken-4 mb-3">KODE GROUP</v-card-title>
+                                    <v-card-title class="text-center text-blue-darken-4 mb-3 text-button font-weight-bold mt-n12">KODE GROUP</v-card-title>
                                     <v-text-field
                                         v-model="searched"
                                         append-inner-icon="mdi-magnify"
                                         label="Search"
                                         single-line
                                         hide-details
+                                        :rules="required"
                                         density="compact"
                                         variant="outlined"
                                         class="mb-4"
@@ -250,23 +252,27 @@ export default {
                                         <v-for v-for="kode, i in filterkodegroup" :key="i">
                                             <v-list-item
                                             style="cursor: pointer;"
+                                            class="text-caption"
+                                            density="compact"
                                             @click="input_kodegroup(kode.kode_group), inputproduksi.kode_barang = kode.kode_barang, dialog5 = false "
                                             >
-                                                {{ kode.kode_group }}
+                                                <v-span class="font-weight-bold">{{ kode.kode_group }}</v-span> <br>
+                                                <v-span class="text-small">stok akhir: {{ numb(kode.stok_akhir) }}</v-span>
                                             </v-list-item>
+                                            <v-divider></v-divider>
                                         </v-for>
                                     </v-list>
-                                    </v-card>
-                            </v-dialog>
+                                </v-card>
+                        </v-dialog>
                         </v-col>
                     </v-row>
                 </v-form>
                 <!-- TABLE -->
                 <v-row>
                     <!-- TABEL TAMBAH/EDIT BAHAN -->
-                    <v-col class="border-sm rounded-lg me-sm-3 me-0 mb-lg-0 mb-3">
+                    <v-col class="border-sm rounded-lg me-lg-3 me-0 mb-lg-0 mb-3">
                         <!-- ITEM DIALOG ADALAH KODE BARANG YANG SESUAI DENGAN KODE GROUP YANG DIPILIH -->
-                        <DialogCard2 v-if="!edit" :produksi="produksi" :btn="btn[0]" width="400" :barang="detailbahan" :tambah="true" :getbarang="select_kode" :kodebarang="inputproduksi.kode_barang" @pemasukanitem="bahanmasuk"/>
+                        <DialogCard2 v-if="!edit" :produksi="true" :btn="btn[0]" width="400" :barang="detailbahan" :tambah="true" :getbarang="select_kode" :kodebarang="inputproduksi.kode_barang" :kodegroup="inputproduksi.kode_group" @pemasukanitem="bahanmasuk"/>
                         <VDataTable
                         :headers="edit ? headItem : headers"
                         :items=" edit ? detailbahan : inputbahan"
@@ -320,9 +326,9 @@ export default {
                         </template>
                         </VDataTable>
                     </v-col>
-                    <!-- TABEL TAMBAH BAHAN/BARANG -->
+                    <!-- TABEL TAMBAH BARANG -->
                     <v-col class="border-sm rounded-lg">
-                        <DialogCard2 :produksi="produksi" v-if="!edit" :btn="btn[1]" width="400" :barang="detailbarang" :getbarang="getbarang" :inputbahan="inputbahan" :tambah="true" :kodebarang="inputproduksi.kode_barang" @pemasukanitem="barangmasuk" />
+                        <DialogCard2 :produksi="true" v-if="!edit" :kodegroup="inputproduksi.kode_group" :btn="btn[1]" width="400" :barang="detailbarang" :getbarang="getbarang" :inputbahan="inputbahan" :tambah="true" :kodebarang="inputproduksi.kode_barang" @pemasukanitem="barangmasuk" />
                         <VDataTable
                             :headers="edit ? headItem : headers"
                             :items="edit ? detailbarang : inputbarang "

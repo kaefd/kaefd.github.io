@@ -273,7 +273,6 @@ export default {
                                 :rules="required"
                             />
                         </v-col>
-                        <!-- DOKUMEN -->
                         <v-col>
                         <!-- PELANGGAN -->
                         <v-dialog v-model="dialog4">
