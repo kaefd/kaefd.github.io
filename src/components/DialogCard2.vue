@@ -6,7 +6,7 @@ import api from '../api';
 
 export default {
     name: 'DialogCard2',
-    props: ['hiddenbtn', 'btn', 'itemDetail', 'pemasukan', 'nokirim', 'belumkirim', 'belumkirim_detail', 'blmkirim', 'penjualan', 'pengiriman', 'produksi', 'barang', 'tambah', 'inputbahan', 'pembeliandetl' , 'getbarang'],
+    props: ['hiddenbtn', 'btn', 'itemDetail', 'pemasukan', 'nokirim', 'belumkirim', 'belumkirim_detail', 'blmkirim', 'penjualan', 'pengeluaran', 'pengiriman', 'produksi', 'barang', 'tambah', 'inputbahan', 'pembeliandetl' , 'getbarang'],
     data() {
         return {
             search: '',
@@ -90,81 +90,6 @@ export default {
         
     },
     methods: {
-    pemasukanItem(kode, i) {
-        this.state.no_urut = 1
-        this.state.hs_code = kode.hs_code
-        this.state.satuan = kode.satuan
-        let nilai = ''
-        for (let i = 0; i < this.groupbarang.length; i++) {
-            if(this.groupbarang[i].kode_group == this.pjl_detail(kode.no_penjualan, 'kode')) {
-                nilai = this.groupbarang[i].nilai_akhir / this.groupbarang[i].stok_akhir
-            }
-        }
-        if(this.pemasukan) {
-                    this.pemasukan_item.push({
-                        no_pembelian: '',
-                        kode_barang: kode.kode_barang,
-                        nama_barang: this.state.nama_barang,
-                        hs_code: this.state.hs_code,
-                        jumlah: this.state.jumlah,
-                        jumlah_diterima: this.state.jumlah_diterima,
-                        satuan: this.state.satuan,
-                        nilai: this.state.nilai,
-                        no_urut: this.state.no_urut
-                    })
-        } else if(this.produksi) {
-                    this.pemasukan_item.push({
-                        no_produksi: '',
-                        kode_barang: kode.kode_barang,
-                        nama_barang: this.state.nama_barang,
-                        hs_code: this.state.hs_code,
-                        jumlah: this.state.jumlah,
-                        satuan: this.state.satuan,
-                        no_urut: this.state.no_urut,
-                        nilai: this.state.nilai,
-                    })
-        } else if(this.penjualan) {
-                    this.pemasukan_item.push({
-                        no_penjualan: '',
-                        kode_barang: kode.kode_barang,
-                        nama_barang: this.state.nama_barang,
-                        hs_code: this.state.hs_code,
-                        jumlah: this.penjualan_detail.jumlah,
-                        jumlah_terkirim: 0,
-                        satuan: this.state.satuan,
-                        harga_jual: this.penjualan_detail.harga_jual,
-                        total_terjual: this.terjual,
-                        no_urut: this.state.no_urut
-                    })
-        }else if(this.pengiriman) {
-            this.pemasukan_item.push({
-                no_penjualan: kode.no_penjualan,
-                no_pengiriman: this.nokirim,
-                kode_barang: kode.kode_barang,
-                nama_barang: kode.nama_barang,
-                kode_group: this.pjl_detail(kode.no_penjualan, 'kode'),
-                tipe_dokumen: this.pjl_detail(kode.no_penjualan, 'tipe'),
-                no_dokumen: this.pjl_detail(kode.no_penjualan, 'no'),
-                hs_code: this.state.hs_code,
-                jumlah: this.penjualan_detail.jumlah,
-                jumlah_terkirim: this.penjualan_detail.jumlah_terkirim,
-                satuan: this.state.satuan,
-                no_urut: 1,
-                nilai: nilai
-
-            })
-        }
-        this.$emit('pemasukanitem', this.pemasukan_item)
-        this.clear()
-        this.penjualan_detail= {
-            jumlah: '',
-            nilai: '',
-            harga_jual:'',
-        }
-        this.dialogchild[i] = false
-        this.dialog = false
-                    
-    },
     numb(value) {
             let val = (value / 1).toFixed(0).replace('.', ',')
             return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
@@ -218,7 +143,84 @@ export default {
 
       done('ok')
     },
-        
+    pemasukanItem(kode, i) {
+        this.state.no_urut = 1
+        this.state.hs_code = kode.hs_code
+        this.state.satuan = kode.satuan
+        let nilai = ''
+        if(this.pengiriman) {
+            for (let i = 0; i < this.groupbarang.length; i++) {
+                if(this.groupbarang[i].kode_group == this.pjl_detail(kode.no_penjualan, 'kode')) {
+                    nilai = this.groupbarang[i].nilai_akhir / this.groupbarang[i].stok_akhir
+                }
+            }
+
+        }
+        if(this.pemasukan) {
+            this.pemasukan_item.push({
+                no_pembelian: '',
+                kode_barang: kode.kode_barang,
+                nama_barang: this.state.nama_barang,
+                hs_code: this.state.hs_code,
+                jumlah: this.state.jumlah,
+                jumlah_diterima: this.state.jumlah_diterima,
+                satuan: this.state.satuan,
+                nilai: this.state.nilai,
+                no_urut: this.state.no_urut
+            })
+        } else if(this.produksi) {
+                this.pemasukan_item.push({
+                    no_produksi: '',
+                    kode_barang: kode.kode_barang,
+                    nama_barang: this.state.nama_barang,
+                    hs_code: this.state.hs_code,
+                    jumlah: this.state.jumlah,
+                    satuan: this.state.satuan,
+                    no_urut: this.state.no_urut,
+                    nilai: this.state.nilai,
+                })
+        } else if(this.pengeluaran) {
+            this.pemasukan_item.push({
+                no_penjualan: '',
+                kode_barang: kode.kode_barang,
+                nama_barang: this.state.nama_barang,
+                hs_code: this.state.hs_code,
+                jumlah: this.penjualan_detail.jumlah,
+                jumlah_terkirim: 0,
+                satuan: this.state.satuan,
+                harga_jual: this.penjualan_detail.harga_jual,
+                total_terjual: this.terjual,
+                no_urut: 1
+            })
+        }else if(this.pengiriman) {
+            this.pemasukan_item.push({
+                no_penjualan: kode.no_penjualan,
+                no_pengiriman: this.nokirim,
+                kode_barang: kode.kode_barang,
+                nama_barang: kode.nama_barang,
+                kode_group: this.pjl_detail(kode.no_penjualan, 'kode'),
+                tipe_dokumen: this.pjl_detail(kode.no_penjualan, 'tipe'),
+                no_dokumen: this.pjl_detail(kode.no_penjualan, 'no'),
+                hs_code: this.state.hs_code,
+                jumlah: this.penjualan_detail.jumlah,
+                jumlah_terkirim: this.penjualan_detail.jumlah_terkirim,
+                satuan: this.state.satuan,
+                no_urut: 1,
+                nilai: nilai
+            })
+        }
+        this.$emit('pemasukanitem', this.pemasukan_item)
+        this.clear()
+        this.penjualan_detail= {
+            jumlah: '',
+            nilai: '',
+            harga_jual:'',
+        }
+        this.dialogchild[i] = false
+        this.dialog = false
+                    
+    },
+
     },
     mounted() {
         this.getgroupbarang()
@@ -297,20 +299,6 @@ export default {
                                 <v-span class="text-caption mt-n5 mb-3 text-center">{{ item.hs_code }}</v-span>
                                 <form @submit.prevent="submit" ref="form">
                                     <v-text-field
-                                        v-if="penjualan"
-                                        v-model="state.jumlah"
-                                        label="Jumlah"
-                                        variant="outlined"
-                                        density="compact"
-                                        hide-details
-                                        class="mb-3"
-                                        :disabled="hiddenbtn"
-                                        :error-messages="v$.jumlah.$errors.map(e => e.$message)"
-                                        @input="v$.jumlah.$touch"
-                                        @blur="v$.jumlah.$touch"
-                                    />
-                                    <v-text-field
-                                        v-if="!penjualan"
                                         v-model="penjualan_detail.jumlah"
                                         label="Jumlah"
                                         variant="outlined"
@@ -319,7 +307,7 @@ export default {
                                         class="mb-3"
                                         :disabled="hiddenbtn"
                                     />
-                                    <v-text-field
+                                    <!-- <v-text-field
                                         v-if="!tambah && !penjualan && !pengiriman"
                                         v-model="state.jumlah_diterima"
                                         label="Jumlah Diterima"
@@ -331,8 +319,8 @@ export default {
                                         :error-messages="v$.jumlah_diterima.$errors.map(e => e.$message)"
                                         @input="v$.jumlah_diterima.$touch"
                                         @blur="v$.jumlah_diterima.$touch"
-                                    />
-                                    <v-text-field
+                                    /> -->
+                                    <!-- <v-text-field
                                         v-if="!tambah && !penjualan && !pengiriman"
                                         v-model="state.nilai"
                                         label="Nilai Total"
@@ -344,9 +332,9 @@ export default {
                                         :error-messages="v$.nilai.$errors.map(e => e.$message)"
                                         @input="v$.nilai.$touch"
                                         @blur="v$.nilai.$touch"
-                                    />
+                                    /> -->
                                     <v-text-field
-                                        v-if="!tambah && penjualan"
+                                        v-if="!tambah && pengeluaran"
                                         v-model="penjualan_detail.harga_jual"
                                         label="Harga"
                                         variant="outlined"
@@ -356,7 +344,7 @@ export default {
                                         :disabled="hiddenbtn"
                                     />
                                     <v-text-field
-                                        v-if="!tambah && penjualan"
+                                        v-if="!tambah && pengeluaran"
                                         :model-value="terjual"
                                         label="Total Harga"
                                         variant="outlined"

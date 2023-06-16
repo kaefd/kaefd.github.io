@@ -198,6 +198,39 @@ import AppBar from '../components/AppBar.vue';
         //     console.log(error);
         //   })
       },
+      del(head, detail) {
+        let penjualan_head = {
+          no_penjualan: head.no_penjualan,
+          tgl_penjualan: head.tgl_penjualan,
+          tipe_dokumen: head.tipe_dokumen,
+          no_dokumen: head.no_dokumen,
+          tgl_dokumen: head.tgl_dokumen,
+          kode_pelanggan: head.kode_pelanggan,
+          kode_group: head.kode_group,
+          total_penjualan: head.total_penjualan,
+          tgl_input: head.tgl_input,
+          user_input: head.user_input,
+          tgl_batal: head.tgl_batal,
+          user_batal: 'admin',
+          status: false
+      }
+      const ph = JSON.stringify(penjualan_head);
+      const pd = JSON.stringify(detail);
+        console.log({
+          penjualan_head: ph,
+          penjualan_detail: pd,
+        });
+        // api.deleteData('/pembelian_head', {
+        //   pembelian_head : ph,
+        //   pembelian_detail : pd,
+        // })
+        // .then(() => {
+        //   window.location.href = '/in'
+        // })
+        // .catch((error) => {
+        //   console.log(error);
+        // })
+      },
       namaPelanggan(value) {
         for (let i = 0; i < this.pelanggan.length; i++) {
           if ( this.pelanggan[i].kode_pelanggan == value ) {
@@ -455,7 +488,6 @@ import AppBar from '../components/AppBar.vue';
       </v-responsive>
       <v-responsive class="me-sm-0 ms-sm-auto ms-0 me-auto" width="200" max-width="450">
         <div class="d-flex align-center justify-sm-end justify-start mt-md-1 mt-0">
-          
           <!-- status  -->
           <!-- <v-div class="w-50">
             <v-label class="text-body-2 text-blue-darken-4">Status</v-label>
@@ -545,7 +577,7 @@ import AppBar from '../components/AppBar.vue';
             </template>
              <!-- eslint-disable-next-line vue/valid-v-slot -->
             <template v-slot:item.actions="{item}">
-              <PengeluaranDetail batalbtn="Pengeluaran" :namaPelanggan="namaPelanggan(item.raw.kode_pelanggan)" :penjualan="penjualan(item.raw.no_penjualan)" :edit="true" :pengeluaran="true" :pageTitle="pageTitle" :headDetails="headDetails" :items="item.raw" :details="details" :headers="headers" :search="search" :category="category" :selectCategory="selectCategory" :iTitle="actIcon[3].text" :btncolor="actIcon[3].color" :icon="actIcon[3].icon" :iVariant="actIcon[3].variant" :alpha="alpha" :actIcon="actIcon" :disable="true"/>
+              <PengeluaranDetail @del="del" batalbtn="Pengeluaran" :namaPelanggan="namaPelanggan(item.raw.kode_pelanggan)" :penjualan="penjualan(item.raw.no_penjualan)" :edit="true" :pengeluaran="true" :pageTitle="pageTitle" :headDetails="headDetails" :items="item.raw" :details="details" :headers="headers" :search="search" :category="category" :selectCategory="selectCategory" :iTitle="actIcon[3].text" :btncolor="actIcon[3].color" :icon="actIcon[3].icon" :iVariant="actIcon[3].variant" :alpha="alpha" :actIcon="actIcon" :disable="true"/>
             </template>
           </v-data-table>
         </v-sheet>

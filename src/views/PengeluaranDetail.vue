@@ -44,7 +44,6 @@ export default {
 
       }
     },
-    
     created() {
         api.getData('/barang?status=true')
             .then(response => {
@@ -84,7 +83,7 @@ export default {
             this.pembelian_input = value
         },
         confirm() {
-            this.$emit('del', this.dataitem, this.pembelian)
+            this.$emit('del', this.dataitem, [this.penjualan])
            
         },
         totalharga(v){
@@ -109,7 +108,6 @@ export default {
         },
         
     },
-    
     mounted() {
         this.edit
         api.getData
@@ -409,7 +407,7 @@ export default {
                     </v-row>
                     <!-- BUTTON TAMBAH BARANG -->
                     <v-div v-if="!edit" :pembelianbaru="pembelianbaru" :pembeliandetl="pembeliandetl" class="text-sm-left text-center">
-                        <DialogCard2 @reset="reset" :penjualan="true"  :barang="barang" :itemDetail="itemDetail" @pemasukanitem="itemmasuk" :pemasukan="pemasukan" :btn="btn" width="400" />
+                        <DialogCard2 @reset="reset" :pengeluaran="true"  :barang="barang" :itemDetail="itemDetail" @pemasukanitem="itemmasuk" :btn="btn" width="400" />
                     </v-div>
                     <!-- TABEL EDIT/VIEW -->
                     <v-data-table
@@ -484,20 +482,20 @@ export default {
                                     class="mb-1"
                                 >
                                 </v-text-field>
-                                <v-label>Jumlah Terkirim</v-label>
-                                <v-text-field
-                                    variant="outlined"
-                                    density="compact"
-                                    :value="numb(item.raw.jumlah_terkirim)"
-                                    readonly
-                                    hide-details
-                                    class="mb-1"
-                                />
-                                <v-label v-if="pengeluaran">Harga Jual</v-label>
+                                <v-label>Harga</v-label>
                                 <v-text-field
                                     variant="outlined"
                                     density="compact"
                                     :value="numb(item.raw.harga_jual)"
+                                    readonly
+                                    hide-details
+                                    class="mb-4"
+                                />
+                                <v-label>Total Harga</v-label>
+                                <v-text-field
+                                    variant="outlined"
+                                    density="compact"
+                                    :value="numb(item.raw.harga_jual * item.raw.jumlah)"
                                     readonly
                                     hide-details
                                     class="mb-4"

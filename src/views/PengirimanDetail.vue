@@ -135,7 +135,7 @@ export default {
             this.pembelian_input = value
         },
         confirm() {
-            this.$emit('del', this.dataitem, this.pembelian)
+            this.$emit('del', this.dataitem, [this.pengiriman])
            
         },
         totalharga(v){
