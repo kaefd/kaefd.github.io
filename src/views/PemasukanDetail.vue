@@ -323,8 +323,7 @@ export default {
                                     
                                     <v-card class="py-5 px-5 rounded-xl mx-auto" width="400">
                                         <v-btn icon="mdi-close" variant="plain" @click="dialog4 = false"></v-btn>
-                                        <v-card-title v-if="!kirim" class="text-center text-blue-darken-4 mb-3">SUPPLIER</v-card-title>
-                                        <v-card-title v-if="kirim" class="text-center text-blue-darken-4 mb-3">PELANGGAN</v-card-title>
+                                        <v-card-title class="text-center text-blue-darken-4 mb-3 mt-n12 text-button font-weight-bold">SUPPLIER</v-card-title>
                                         <v-text-field
                                             v-model="searched"
                                             append-inner-icon="mdi-magnify"
@@ -338,16 +337,10 @@ export default {
                                         <v-list>
                                             <v-for v-for="s, i in filtersupplier" :key="i">
                                                 <v-list-item
-                                                v-if="!kirim"
                                                 style="cursor: pointer;"
+                                                class="text-caption"
+                                                density="compact"
                                                 @click="inputdata.kode_supplier = s.kode_supplier, namasupplier=s.nama, dialog4 = false "
-                                                >
-                                                    {{ s.nama }}
-                                                </v-list-item>
-                                                <v-list-item
-                                                v-if="kirim"
-                                                style="cursor: pointer;"
-                                                @click="inputdata.kode_pelanggan = s.kode_pelanggan, dialog4 = false "
                                                 >
                                                     {{ s.nama }}
                                                 </v-list-item>

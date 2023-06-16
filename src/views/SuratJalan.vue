@@ -120,8 +120,8 @@ export default {
                     >
                         <td class="text-left">{{ i+1 }}</td>
                         <td class="text-left">{{ item.nama_barang }}</td>
-                        <td class="text-left">{{ item.qty }}</td>
-                        <td class="text-left">{{ item.satuan }}</td>
+                        <td class="text-left" contenteditable>{{ item.qty }}</td>
+                        <td class="text-left" contenteditable></td>
                         <td class="text-left">{{ item.jumlah }}</td>
                         <td class="text-left">{{ detailpengiriman[i].no_dokumen }}/{{ detailpengiriman[i].tipe_dokumen.slice(2) }}</td>
                     </tr>

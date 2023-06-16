@@ -21,6 +21,7 @@ import AppBar from '../components/AppBar.vue';
       return {
         drawer: null,
         search: '',
+        tgl:'',
         filter: false,
         periode: [],
         checkStatus: 'menunggu',
@@ -72,10 +73,15 @@ import AppBar from '../components/AppBar.vue';
         datainput: {
           no_pengiriman: '',
           tgl_pengiriman: '',
-          nama_pelanggan: '',
-          tujuan_bongkar: '',
+          kode_pelanggan: '',
+          kode_alamat_bongkar: '',
           supir: '',
           no_polisi: '',
+          user_input: '',
+          tgl_input: '',
+          tgl_batal:'',
+          user_batal: '',
+          status: ''
         },
         nokirim: '0',
         detailkirim: '',
@@ -88,7 +94,8 @@ import AppBar from '../components/AppBar.vue';
       this.nokirim
       this.today()
       let currentDate = new Date().toJSON().slice(0, 10);
-      return this.filtered.periode = [currentDate , currentDate]
+      this.filtered.periode = [currentDate , currentDate]
+      this.tgl = currentDate
     },
     methods: {
       today() {
@@ -143,7 +150,16 @@ import AppBar from '../components/AppBar.vue';
           console.log(error);
         })
       },
-      
+      tujuanBongkar(){
+        const apiUrl = '/alamat_bongkar'
+        api.getData(apiUrl)
+        .then(response => {
+        this.alamatBongkar = response.data
+        })
+        .catch((error) => {
+        console.log(error);
+        })
+        },
       getPelanggan() {
         const apiUrl = '/pelanggan'
         api.getData(apiUrl)
@@ -170,30 +186,23 @@ import AppBar from '../components/AppBar.vue';
           
         }
       },
-      tujuanBongkar(){
-        const apiUrl = '/alamat_bongkar'
-        api.getData(apiUrl)
-        .then(response => {
-          this.alamatBongkar = response.data
-        })
-        .catch((error) => {
-          console.log(error);
-        })
-      },
-      // namaBongkar(value) {
-      //   for (let i = 0; i < this.alamatBongkar.length; i++) {
-      //     if ( this.alamatBongkar[i].kode_pelanggan == value ) {
-      //         return this.alamatBongkar[i].nama
-      //     }
-          
-      //   }
-      // },
       Penjualandetl(value) {
         for (let i = 0; i < this.kirim_detail.length; i++) {
           if ( this.kirim_detail[i].no_pengiriman == value ) {
               return this.kirim_detail[i]
           }
           
+        }
+      },
+      pjl_detail(value) {
+        for (let i = 0; i < this.pengirimanHead.length; i++) {
+          for (let j = 0; j < this.penjualanHead.length; j++) {
+            if ( this.pengirimanHead[i].no_pengiriman == value ) {
+              if(this.penjualanHead[j].no_penjualan == this.pengirimanHead.no_penjualan) {
+                return this.penjualanHead[j]
+              } 
+            }else 'salah'
+          }
         }
       },
       namaTujuan(value){
@@ -207,6 +216,20 @@ import AppBar from '../components/AppBar.vue';
       selected() {
         this.getPengirimanHead(), this.getPengirimanDetail(), this.getPenjualanHead()
       },
+      printdata() {
+        let a = []
+        for (let i = 0; i < this.pengirimanHead.length; i++) {
+          a.push({
+            no_pengiriman: this.pengirimanHead[i].no_pengiriman,
+            tgl_pengiriman: this.pengirimanHead[i].tgl_pengiriman,
+            kode_pelanggan: this.namaPelanggan(this.pengirimanHead[i].kode_pelanggan),
+            kode_alamat_bongkar: this.namaTujuan(this.pengirimanHead[i].kode_alamat_bongkar),
+            supir: this.pengirimanHead[i].supir,
+            no_polisi: this.pengirimanHead[i].no_polisi,
+          })
+        }
+        return a
+      },
       generatePDF() {
       const doc = new jsPDF({
         orientation: "portrait",
@@ -219,11 +242,11 @@ import AppBar from '../components/AppBar.vue';
       doc.setFontSize(16).text(heading, 0.5, 1.0);
       doc.autoTable({
         columns,
-        body: this.items,
+        body: this.printdata(),
         margin: { left: 0.5, top: 1.25 }
       })
       .save(`${this.pageTitle}.pdf`);
-    },
+      },
       ExportToExcel(type, fn, dl) {
        var elt = document.getElementById('tbl_exporttable_to_xls');
        // eslint-disable-next-line no-undef
@@ -233,7 +256,7 @@ import AppBar from '../components/AppBar.vue';
          XLSX.write(wb, { bookType: type, bookSST: true, type: 'base64' }):
          // eslint-disable-next-line no-undef
          XLSX.writeFile(wb, fn || (this.pageTitle+'.' + (type || 'xlsx')));
-    },
+      },
       reset() {
         this.filtered.periode = this.today()
         this.today()
@@ -253,7 +276,38 @@ import AppBar from '../components/AppBar.vue';
           return this.generatePDF()
         }
       },
-
+      inputhead(head, detail) {
+        let h = {
+          no_pengiriman: head.no_pengiriman,
+          tgl_pengiriman: head.tgl_pengiriman,
+          kode_pelanggan: head.kode_pelanggan,
+          kode_alamat_bongkar: head.kode_alamat_bongkar,
+          supir: head.supir,
+          no_polisi: head.no_polisi,
+          user_input: 'admin',
+          tgl_input: this.tgl,
+          tgl_batal:head.tgl_batal,
+          user_batal: head.user_batal,
+          status: true
+        }
+        // const apiUrl = '/pembelian_head?'
+        const value1 = JSON.stringify(h);
+        const value2 = JSON.stringify(detail);
+        console.log({
+          pengiriman_head: value1,
+          pengiriman_detail: value2
+        });
+        // api.postData( apiUrl, {
+        //   pengiriman_head : value1,
+        //   pengiriman_detail : value2
+        // })
+        // .then(() => {
+        //     window.location.href = '/in' 
+        //   })
+        //   .catch((error) => {
+        //     console.log(error);
+        //   })
+      }
 
     },
     mounted(){
@@ -261,8 +315,8 @@ import AppBar from '../components/AppBar.vue';
       this.getPengirimanHead()
       this.getPengirimanDetail()
       this.getPelanggan()
-      this.tujuanBongkar()
       this.getPenjualanHead()
+      this.tujuanBongkar()
     }
     
   }
@@ -315,7 +369,7 @@ import AppBar from '../components/AppBar.vue';
           <v-btn @click="filter = !filter " class="rounded-circle text-caption elevation-0 bg-grey-lighten-4 text-indigo me-2" icon="mdi-tune-vertical" size="small">
           </v-btn>
           <!-- TAMBAH DATA -->
-          <PengirimanDetail :kirim="true" :edit="false" :supplier="pelanggan" :alamatBongkar="alamatBongkar" :datainput="datainput" :pageTitle="pageTitle" :btn="btn" :headDetails="headers" :details="items" :headers="headers" :items="items" :search="search" :category="category" :selectCategory="selectCategory" :iTitle="actIcon[0].text" :btncolor="actIcon[0].color" :icon="actIcon[0].icon" :iVariant="actIcon[0].variant" :alpha="alpha" :actIcon="actIcon" :datatext="datatext"/>
+          <PengirimanDetail @inputhead="inputhead" :kirim="true" :edit="false" :supplier="pelanggan" :datainput="datainput" :pageTitle="pageTitle" :btn="btn" :headDetails="headDetails" :details="items" :headers="headers" :items="items" :search="search" :category="category" :selectCategory="selectCategory" :iTitle="actIcon[0].text" :btncolor="actIcon[0].color" :icon="actIcon[0].icon" :iVariant="actIcon[0].variant" :alpha="alpha" :actIcon="actIcon" :datatext="datatext"/>
         </div>
         <!-- <v-chip class="mt-1 me-1" color="orange" size="small">{{ periode[0] }} - {{ periode[1] }}</v-chip> -->
       </v-responsive>
@@ -399,6 +453,7 @@ import AppBar from '../components/AppBar.vue';
                           :nokirim="item.raw.no_pengiriman"
                           :detail_kirim="kirim_detail"
                           :nopjl="Penjualandetl(item.raw.no_pengiriman).no_penjualan"
+                          :pjl_detail="pjl_detail(item.raw.no_pengiriman)"
                           :pageTitle="pageTitle"
                           :headDetails="headDetails"
                           :headers="headers"

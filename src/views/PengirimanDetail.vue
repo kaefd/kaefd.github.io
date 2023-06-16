@@ -7,7 +7,7 @@ export default {
     components: {
     DialogCard2, VDataTable
     },
-    props:['pembelianbaru', 'namaPelanggan', 'detail_kirim','detailkirim', 'nokirim', 'nopjl', 'groupbarang', 'batalbtn', 'pengiriman', 'pemasukan', 'alamatBongkar', 'totalpenjualan', 'namaTujuan', 'datainput', 'pageTitle', 'pengeluaran', 'no', 'tipe', 'namaSupplier', 'pengirimanDetail', 'pembelian', 'pelanggan', 'supplier', 'pembeliandetl', 'edit', 'kirim', 'headers', 'items', 'actIcon', 'icon', 'btncolor', 'search', 'iVariant', 'headDetails', 'details','disable', 'btn', 'datatext', 'itemDetail', 'category'],
+    props:['pembelianbaru', 'namaPelanggan', 'detail_kirim','detailkirim', 'nokirim', 'nopjl', 'pjl_detail', 'groupbarang', 'batalbtn', 'pengiriman', 'pemasukan', 'totalpenjualan', 'namaTujuan', 'datainput', 'pageTitle', 'pengeluaran', 'no', 'tipe', 'namaSupplier', 'pengirimanDetail', 'pembelian', 'pelanggan', 'supplier', 'pembeliandetl', 'edit', 'kirim', 'headers', 'items', 'actIcon', 'icon', 'btncolor', 'search', 'iVariant', 'headDetails', 'details','disable', 'btn', 'datatext', 'itemDetail', 'category'],
     data () {
       return {
         dialog: false,
@@ -15,6 +15,7 @@ export default {
         dialog3: false,
         dialog4: false,
         dialogb: false,
+        dialogbongkar: false,
         jalan: false,
         confirmdialog: false,
         dialogkodeg: false,
@@ -24,13 +25,16 @@ export default {
         tipe_dokumen: ['BC23', 'BC40'],
         searched: '',
         nama:'',
+        tujuan:'',
         barang: '',
+        belumkirim: '',
+        belumkirim_detail: '',
         namasupplier: '',
         dataitem: this.items,
+        alamatBongkar: '',
         nama_supplier : '',
         nama_pelanggan : '',
-        tujuan_bongkar: '',
-        pembelian_input: '',
+        pembelian_input: [],
         detailpengiriman: '',
         kode_pelanggan: this.namaPelanggan,
         inputdata: this.datainput,
@@ -50,18 +54,10 @@ export default {
     },
     
     created() {
-        api.getData('/barang?status=true')
-            .then(response => {
-            this.barang = response.data
-            })
-            .catch(() => {
-            window.location.href = '/login'
-            })
         if(this.edit) {
-            let k = (this.dataitem.kurs / 1).toFixed(3).replace('.', ',')
-            this.kurs = k.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-        }
-        
+                let k = (this.dataitem.kurs / 1).toFixed(3).replace('.', ',')
+                this.kurs = k.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+            }
     },
     computed: {
         filtersupplier() {
@@ -81,15 +77,55 @@ export default {
         },
     },
     methods:{
+        getBarang() {
+            api.getData('/barang?status=true')
+            .then(response => {
+            this.barang = response.data
+            })
+            .catch(() => {
+            window.location.href = '/login'
+            })
+            
+        },
         getDetail() {
-               const apiUrl = '/penjualan_head/' + this.nopjl
-               api.getData(apiUrl)
-               .then(response => {
-               this.detailpengiriman = response.data
-               })
-               .catch((error) => {
-               console.log(error);
-               })
+            const apiUrl = '/penjualan_head/' + this.nopjl
+            api.getData(apiUrl)
+            .then(response => {
+            this.detailpengiriman = response.data
+            })
+            .catch((error) => {
+            console.log(error);
+            })
+        },
+        tujuanBongkar(){
+            const apiUrl = '/alamat_bongkar'
+            api.getData(apiUrl)
+            .then(response => {
+            this.alamatBongkar = response.data
+            })
+            .catch((error) => {
+            console.log(error);
+            })
+        },
+        belumterkirim(){
+            const apiUrl = '/penjualan_head/belum_terkirim'
+            api.getData(apiUrl)
+            .then(response => {
+            this.belumkirim = response.data
+            })
+            .catch((error) => {
+            console.log(error);
+            })
+        },
+        belumterkirim_detail(){
+            const apiUrl = '/penjualan_detail/belum_terkirim'
+            api.getData(apiUrl)
+            .then(response => {
+            this.belumkirim_detail = response.data
+            })
+            .catch((error) => {
+            console.log(error);
+            })
         },
         numb(value) {
             let val = (value / 1).toFixed(0).replace('.', ',')
@@ -128,8 +164,11 @@ export default {
     mounted() {
         this.detail
         this.edit
-        api.getData
+        this.getBarang()
         this.getDetail()
+        this.tujuanBongkar()
+        this.belumterkirim()
+        this.belumterkirim_detail()
         // this.items
         // this.pemasukan
         // this.pengeluaran
@@ -138,8 +177,7 @@ export default {
         // this.penjualan
         this.$nextTick(() => {
             this.nama_supplier = this.namaSupplier,
-            this.nama_pelanggan=  this.namaPelanggan,
-            this.tujuan_bongkar= this.namaTujuan
+            this.nama_pelanggan=  this.namaPelanggan
         });
         
     }
@@ -176,12 +214,11 @@ export default {
           </template>
           <!-- dialog content -->
             <v-card>
-                {{ inputdata }}
                 <v-toolbar class="bg-blue-custom text-white" height="50">
                     <v-btn
                         icon
                         dark
-                        @click="pembelian_input = [], dialog = false"
+                        @click="pembelian_input = [], inputdata = [], dialog = false"
                         size="small"
                     >
                     <v-icon>mdi-close</v-icon>
@@ -224,7 +261,7 @@ export default {
                     </v-text-field>
                     <v-text-field
                         label="Tujuan Bongkar"
-                        v-model="tujuan_bongkar"
+                        :model-value="namaTujuan"
                         variant="outlined"
                         density="compact"
                         style="min-width: 200px; max-width:300px"
@@ -280,57 +317,103 @@ export default {
                     </v-text-field>
                     </v-col>
                     <v-col>
+                        <!-- PELANGGAN -->
                         <v-dialog v-model="dialog4">
                             <template v-slot:activator="{props}">
                                 <v-text-field
                                     v-bind="props"
                                     label="Pelanggan"
-                                    v-model="nama"
+                                    v-model="inputdata.nama"
                                     variant="outlined"
                                     density="compact"
                                     style="min-width: 200px; max-width:300px"
                                     class="mb-5"
                                     hide-details
                                     :rules="required"
+                                    readonly
                                 >
                             </v-text-field>
                             </template>
-                            <v-card class="py-5 px-5 rounded-xl mx-auto" width="400">
-                                <v-btn icon="mdi-close" variant="plain" @click="dialog4 = false"></v-btn>
-                                <v-card-title class="text-center text-blue-darken-4 mb-3 mt-n12 text-button font-weight-bold">PELANGGAN</v-card-title>
-                                <v-text-field
-                                    v-model="searched"
-                                    append-inner-icon="mdi-magnify"
-                                    label="Search"
-                                    single-line
-                                    hide-details
-                                    :rules="required"
-                                    density="compact"
-                                    variant="outlined"
-                                    class="mb-4"
-                                ></v-text-field>
-                                <v-list>
-                                    <v-for v-for="s, i in filtersupplier" :key="i">
-                                        <v-list-item
+                            <v-card class="py-5 px-5 rounded-xl mx-auto vh-75 w-100" max-width="350">
+                                <v-div>
+                                    <v-btn icon="mdi-close" variant="plain" @click="dialog4 = false"></v-btn>
+                                    <v-card-title class="text-center text-blue-darken-4 mb-3 mt-n12 text-button font-weight-bold">PELANGGAN</v-card-title>
+                                    <v-text-field
+                                        v-model="searched"
+                                        append-inner-icon="mdi-magnify"
+                                        label="Search"
+                                        single-line
+                                        hide-details
+                                        :rules="required"
                                         density="compact"
-                                        style="cursor: pointer;"
-                                        class="text-caption"
-                                        @click="inputdata.nama_pelanggan = s.kode_pelanggan, nama = s.nama, dialog4 = false "
-                                        >
-                                            {{ s.nama }}
-                                        </v-list-item>
-                                    </v-for>
-                                </v-list>
+                                        variant="outlined"
+                                        class="mb-4"
+                                    ></v-text-field>
+                                    <v-list>
+                                        <v-for v-for="s, i in filtersupplier" :key="i">
+                                            <v-list-item
+                                            density="compact"
+                                            style="cursor: pointer;"
+                                            class="text-caption"
+                                            @click="inputdata.kode_pelanggan = s.kode_pelanggan, inputdata.nama = s.nama, dialog4 = false "
+                                            >
+                                                {{ s.nama }}
+                                            </v-list-item>
+                                        </v-for>
+                                    </v-list>
+                                </v-div>
                             </v-card>
                         </v-dialog>
-                    <v-text-field
-                        label="Tujuan Bongkar"
-                        v-model="inputdata.tujuan_bongkar"
-                        variant="outlined"
-                        density="compact"
-                        style="min-width: 200px; max-width:300px"
-                    >
-                    </v-text-field>
+                        <!-- ALAMAT BONGKAR -->
+                        <v-dialog v-model="dialogbongkar">
+                            <template v-slot:activator="{props}">
+                                <v-text-field
+                                    v-bind="props"
+                                    label="Tujuan Bongkar"
+                                    v-model="inputdata.tujuan"
+                                    variant="outlined"
+                                    density="compact"
+                                    style="min-width: 200px; max-width:300px"
+                                    class="mb-5"
+                                    hide-details
+                                    :rules="required"
+                                    readonly
+                                >
+                            </v-text-field>
+                            </template>
+                            <v-card class="py-5 px-5 rounded-xl mx-auto w-100" max-width="400">
+                                    <v-btn icon="mdi-close" variant="plain" @click="dialogbongkar = false"></v-btn>
+                                    <v-card-title class="text-center text-blue-darken-4 mb-3 mt-n12 text-button font-weight-bold">ALAMAT BONGKAR</v-card-title>
+                                    <v-text-field
+                                        v-model="searched"
+                                        append-inner-icon="mdi-magnify"
+                                        label="Search"
+                                        single-line
+                                        hide-details
+                                        :rules="required"
+                                        density="compact"
+                                        variant="outlined"
+                                        class="mb-4"
+                                    ></v-text-field>
+                                    <v-list class="overflow-auto">
+                                        <v-for v-for="s, i in filteralamat" :key="i">
+                                            <v-list-item
+                                            density="compact"
+                                            style="cursor: pointer;"
+                                            class="text-caption"
+                                            @click="inputdata.kode_alamat_bongkar = s.kode_pelanggan, inputdata.tujuan = s.nama, dialogbongkar = false "
+                                            >
+                                                <v-span class="font-weight-medium">{{ s.nama }}</v-span> <br>
+                                                <v-span class="text-small">
+                                                    {{ s.alamat }} -
+                                                    {{ s.kabupaten }}
+                                                </v-span>
+                                                <v-divider></v-divider>
+                                            </v-list-item>
+                                        </v-for>
+                                    </v-list>
+                            </v-card>
+                        </v-dialog>
                 </v-col>
                 <v-col>
                     <!-- SUPIR -->
@@ -355,16 +438,16 @@ export default {
                 </v-row>
                 <!-- BUTTON TAMBAH BARANG -->
                 <v-div v-if="!edit" class="text-sm-left text-center">
-                    <DialogCard2 @reset="reset"  :barang="barang" :itemDetail="itemDetail" @pemasukanitem="itemmasuk" :pemasukan="pemasukan" :penjualan="penjualan" :btn="btn" width="400" />
+                    <DialogCard2 @reset="reset" :nokirim="inputdata.no_pengiriman" :blmkirim="true" :belumkirim="belumkirim" :belumkirim_detail="belumkirim_detail" :barang="barang" :itemDetail="itemDetail" @pemasukanitem="itemmasuk" :pengiriman="true" :penjualan="penjualan" :btn="btn" width="400" />
                 </v-div>
                 <!-- TABEL EDIT/VIEW -->
                 <v-data-table
                 :headers="headDetails"
-                :items="edit ? pengiriman_detail : pembelian_input"
+                :items="edit ? [pengiriman] : pembelian_input"
                 :hover="true"
                 :fixed-header="true"
                 density="compact"
-                class="text-caption mt-12 pt-12 mb-5 px-5"
+                class="text-caption mt-5 mb-5 px-5"
                 height="200"
                 >
                 <!-- CUSTOM PAGINATION STYLE -->
@@ -373,12 +456,22 @@ export default {
                 <!-- dialog actions -->
                 <!-- CUSTOM KOLOM -->
                 <!-- eslint-disable-next-line vue/valid-v-slot -->
-                <template v-slot:item.tipe_dokumen>
-                    {{ detailpengiriman[0].tipe_dokumen }}
+                <template v-slot:item.tipe_dokumen="{item, index}">
+                    <v-if v-if="!edit">
+                        {{ item.raw.tipe_dokumen }}
+                    </v-if>
+                    <v-if v-if="edit">
+                        {{ detailpengiriman[index].tipe_dokumen }}
+                    </v-if>
                 </template>
                 <!-- eslint-disable-next-line vue/valid-v-slot -->
-                <template v-slot:item.no_dokumen>
-                    {{ detailpengiriman[0].no_dokumen }}
+                <template v-slot:item.no_dokumen="{item, index}">
+                    <v-if v-if="!edit">
+                        {{ item.raw.no_dokumen }}
+                    </v-if>
+                    <v-if v-if="edit">
+                        {{ detailpengiriman[index].no_dokumen }}
+                    </v-if>
                 </template>
                 <!-- eslint-disable-next-line vue/valid-v-slot -->
                 <template v-slot:item.actions="{ item, index }">
@@ -417,7 +510,7 @@ export default {
                 </template>
                 </v-data-table>
                 <v-btn v-if="!edit" @click="validate" :hidden="disable" class="float-end text-body-2 text-white elevation-0 rounded-xl" height="42" width="150" color="#ff6e40">Simpan</v-btn>
-                <v-btn v-if="!edit" @click="dialog=false" class="float-end rounded-xl text-body-2 me-2" height="42" width="150" variant="outlined" color="grey-darken-2">Batal</v-btn>
+                <v-btn v-if="!edit" @click="pembelian_input = [], inputdata = [], dialog=false" class="float-end rounded-xl text-body-2 me-2" height="42" width="150" variant="outlined" color="grey-darken-2">Batal</v-btn>
                 <v-btn v-if="edit" @click="confirmdialog = true" size="large" class="float-end rounded-xl text-body-2 me-2" height="42" width="150" variant="tonal">Batal {{ batalbtn }}</v-btn>
                 <v-dialog v-model="confirmdialog" transition="dialog-bottom-transition" width="400">
                 <v-card class="rounded-xl">

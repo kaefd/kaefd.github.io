@@ -67,7 +67,7 @@ import AppBar from '../components/AppBar.vue';
           {title: 'Jumlah Terkirim', key: 'jumlah_terkirim' },
           {title: 'Satuan', key: 'satuan' },
           {title: 'Harga Jual', key: 'harga_jual' },
-          {title: 'Total Terjual', key: 'total_terjual' },
+          {title: 'Total Harga', key: 'total_terjual' },
           {title: '', key: 'actions', sortable: false },
         ],
         groupbarang: '',
