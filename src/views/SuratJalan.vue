@@ -34,8 +34,8 @@ export default {
             return arr.reduce((total, current) => {
                 return total + current;
             }, 0);
-            }
-        },
+        }
+    },
 
     mounted() {
         this.getDetail()

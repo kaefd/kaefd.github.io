@@ -69,11 +69,6 @@ export default {
           {key: 'actions', sortable: false },
         ],
         details: [],
-        itemDetail: [
-                { name: 'Jumlah', key: 'jumlah' },
-                { name: 'Jumlah Diterima', key: 'received' },
-                { name: 'Nilai Total', key: 'total' }
-            ],
         
         datainput: {
           no_pembelian: '',
@@ -487,7 +482,7 @@ export default {
                 :datatext="datatext"
                 :btn="btn"
                 :headDetails="headDetails"
-                :details="details"
+                :details="[details]"
                 :headers="headers"
                 :items="item.raw"
                 :search="search"

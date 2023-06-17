@@ -19,6 +19,7 @@ import AppBar from '../components/AppBar.vue';
         search: '',
         searched: '',
         group_barang: [],
+        kode_barang: [],
         filter: false,
         dialoggb: false,
         pageTitle: 'LAPORAN STOK BARANG',
@@ -41,25 +42,35 @@ import AppBar from '../components/AppBar.vue';
           { title: 'HS Kode', key: 'hs_code' },
           { title: 'Satuan', key: 'satuan' },
           { title: 'Stok Akhir', key: 'stok_akhir' },
-          { title: '', key: 'actions', sortable: false},
+          { title: '', key: 'actions'},
         ],
         items: '',
         barang: '',
         filtered: {
         kategori_barang: [],
-        group_barang: []
+        group_barang: [],
+        kode_barang: []
       }
       }
     },
     computed: {
+      dataitem() {
+        let item = ''
+        let kode = []
+        for (let i = 0; i < this.items.length; i++) {
+          kode.push(this.items[i].kode_barang)
+        }
+        
+        return item
+      },
       filterkodegroup() {
-        return this.items.filter(item => {
+        return this.barang.filter(item => {
             return item.kode_group.toLowerCase().includes(this.searched.toLowerCase())
         })
       },
       selected(){        
         if (this.selectCategory.length === 0) {
-          return this.items
+          return this.barang
         } else {
           // barang berdasarkan kategori
           let dt = []
@@ -68,13 +79,29 @@ import AppBar from '../components/AppBar.vue';
               dt.push(a[i].kode_barang)
           }
           // item berdasarkan kategori
-          return this.items.filter(it => dt.includes(it.kode_barang))
+          return this.barang.filter(it => dt.includes(it.kode_barang))
         }
       },
+      kodebarang() {
+        let a = []
+        for (let i = 0; i < this.barang.length; i++) {
+          a.push(this.barang[i].kode_barang)
+        }
+        return a
+      },
+      filter_kodebarang() {
+        let data = this.selected
+        if (this.kode_barang.length === 0) {
+          return data
+        } else {
+          return data.filter(item => this.kode_barang.includes(item.kode_barang));
+        }
+      },
+      
     },
     methods: {
       data(){
-        let data = this.selected
+        let data = this.filter_kodebarang
         if (this.group_barang.length === 0) {
           return data
         } else {
@@ -154,9 +181,11 @@ import AppBar from '../components/AppBar.vue';
           this.selectCategory = []
         }
         this.group_barang = this.filtered.group_barang
+        this.kode_barang = this.filtered.kode_barang
       },
       reset() {
         this.filtered.group_barang = []
+        this.filtered.kode_barang = []
         this.filtered.kategori_barang = []
         this.selectCategory = []
         this.group_barang = []
@@ -199,7 +228,7 @@ import AppBar from '../components/AppBar.vue';
         </v-container>
         <!-- GROUP BARANG -->
         <v-container>
-          <v-span class="text-caption text-weight-bold">Group Barang</v-span>
+          <v-span class="text-caption text-weight-bold">Kode Group</v-span>
           <v-divider></v-divider>
           <v-combobox
             :items="kodegroup()"
@@ -214,7 +243,25 @@ import AppBar from '../components/AppBar.vue';
             chips
             closable-chips
           ></v-combobox>
-          <v-div class="d-flex justify-end mt-5">
+        </v-container>
+        <!-- KODE BARANG -->
+        <v-container>
+          <v-span class="text-caption text-weight-bold">Kode Barang</v-span>
+          <v-divider></v-divider>
+          <v-combobox
+            :items="kodebarang"
+            v-model="filtered.kode_barang"
+            multiple
+            variant="underlined"
+            density="compact"
+            class="overflow-auto h-50"
+            hide-details
+            single-line
+            hide-selected
+            chips
+            closable-chips
+          ></v-combobox>
+          <v-div class="d-flex justify-end mt-3">
               <v-btn class="elevation-0 text-small mt-5 me-2 bg-grey-lighten-2" height="42" @click="reset()">Reset</v-btn>
               <v-btn class="elevation-0 text-small mt-5 text-white" color="orange-lighten-1" height="42" @click="filterdata()">Filter</v-btn>
           </v-div>
@@ -224,12 +271,12 @@ import AppBar from '../components/AppBar.vue';
     <v-container>
     <AppBar v-if="pageTitle != null" :pageTitle="pageTitle"/>
         <v-row no-gutters class="mb-2 mt-n4">
-        <v-responsive>
-          <!-- BUTTON FILTER -->
-          <v-btn @click="filter = !filter " class="rounded-circle text-caption elevation-0 bg-grey-lighten-4 text-indigo me-2" icon="mdi-tune-vertical" size="small">
-          </v-btn>
-        </v-responsive>
-        <v-responsive class="me-0 ms-auto" max-width="450">
+          <v-responsive>
+            <!-- BUTTON FILTER -->
+            <v-btn @click="filter = !filter " class="rounded-circle text-caption elevation-0 bg-grey-lighten-4 text-indigo me-2" icon="mdi-tune-vertical" size="small">
+            </v-btn>
+          </v-responsive>
+          <v-responsive class="me-0 ms-auto" max-width="450">
           <div class="d-flex">
             <!-- SEARCH -->
             <v-text-field
@@ -270,7 +317,7 @@ import AppBar from '../components/AppBar.vue';
         </v-responsive>
         </v-row>
         <!-- TABEL -->
-        <TableVue id="tbl_exporttable_to_xls" :barang="barang"  :screen="400"  :headers="headers" :items="data()" :search="search" :category="category" :selectCategory="selectCategory" :iTitle="actIcon[1].text" :btncolor="actIcon[1].color" :icon="actIcon[1].icon" :iVariant="actIcon[1].variant" :alpha="alpha" :laporanstok="true" />
+        <TableVue id="tbl_exporttable_to_xls" :stokbarang="items" :groupbarang="items" :barang="barang" :headers="headers" :items="data()" :search="search" :category="category" :selectCategory="selectCategory" :iTitle="actIcon[1].text" :btncolor="actIcon[1].color" :icon="actIcon[1].icon" :iVariant="actIcon[1].variant" :alpha="alpha" :laporanstok="true" />
   </v-container>
 
 

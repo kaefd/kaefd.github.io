@@ -1,7 +1,7 @@
 <script setup>
 import '@vuepic/vue-datepicker/dist/main.css'
 import { VDataTable } from 'vuetify/labs/VDataTable'
-import ScreenDialog from '../components/ScreenDialog.vue';
+import PemasukanDetail from './PemasukanDetail.vue';
 import api from '../api';
 import { ref, onMounted } from 'vue';
 import { jsPDF } from "jspdf";
@@ -12,7 +12,7 @@ import AppBar from '../components/AppBar.vue';
 <script>
   export default {
     components: {
-    VDataTable, ScreenDialog, AppBar
+    VDataTable, PemasukanDetail, AppBar
     },
     props:['actIcon', 'cetak'],
     data () {
@@ -47,6 +47,17 @@ import AppBar from '../components/AppBar.vue';
           { title: 'Total Nilai', key: 'total_nilai' },
           { title: '', key: 'actions', sortable: false},
         ],
+        headDetails:[
+          {title: 'Kode Barang', key: 'kode_barang' },
+          {title: 'Nama Barang', key: 'nama_barang' },
+          {title: 'HS Code', key: 'hs_code' },
+          {title: 'Jumlah', key: 'jumlah' },
+          {title: 'Jumlah Diterima', key: 'jumlah_diterima' },
+          {title: 'Satuan', key: 'satuan' },
+          {title: 'Total Nilai', key: 'nilai' },
+          {key: 'actions', sortable: false },
+        ],
+        details: '',
         items: '',
         pembeliandetl: '',
         barang: '',
@@ -400,7 +411,26 @@ import AppBar from '../components/AppBar.vue';
           <!-- BUTTON EDIT -->
           <!-- eslint-disable-next-line vue/valid-v-slot -->
           <template v-slot:item.actions="{item}">
-            <ScreenDialog batalbtn="Pemasukan" @del="del" :namaSupplier="dataTable(item.raw.kode_supplier, 'nama')" :pembelian="pembeliandetl" :barang="barang" :edit="true" :penjualan="false" :itemDetail="itemDetail" :datatext="datatext" :btn="btn" :headDetails="headDetails" :details="details" :headers="headers" :items="item.raw" :search="search" :category="tipedokumen" :selectCategory="selectCategory" :iTitle="actIcon[3].text" :btncolor="actIcon[3].color" :icon="actIcon[3].icon" :iVariant="actIcon[3].variant" :alpha="alpha" :actIcon="actIcon" :pageTitle="pageTitle"/>
+            <PemasukanDetail batalbtn="Pemasukan"
+                @del="del"
+                :namaSupplier="dataTable(item.raw.kode_supplier, 'nama')"
+                :pembelian="dataTable(item.raw.no_pembelian, 'pembelian')"
+                :edit="true"
+                :datatext="datatext"
+                :btn="btn"
+                :headDetails="headDetails"
+                :details="details"
+                :headers="headers"
+                :items="item.raw"
+                :search="search"
+                :category="tipedokumen"
+                :selectCategory="selectCategory"
+                :iTitle="actIcon[3].text"
+                :btncolor="actIcon[3].color"
+                :icon="actIcon[3].icon"
+                :iVariant="actIcon[3].variant"
+                :actIcon="actIcon"
+                :pageTitle="pageTitle"/>
           </template>
           <!-- NILAI TOTAL -->
           <!--  eslint-disable-next-line vue/valid-v-slot -->
