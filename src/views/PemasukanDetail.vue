@@ -151,13 +151,11 @@ export default {
             <v-btn
             v-if="edit"
             v-bind="props"
-            class="text-body-2  rounded-lg"
-            :color="btncolor"
-            :icon="icon"
-            :variant="iVariant"
-            height="30"
-            width="30"
+            size="small"
+            variant="text"
+            color="grey-darken-2"
             >
+            <v-icon>{{ icon }}</v-icon>
             </v-btn>
           </template>
           <!-- dialog content -->
@@ -180,7 +178,7 @@ export default {
                     <v-col>
                     <v-text-field
                         label="No Pemasukan"
-                        v-model= "dataitem.no_pembelian"
+                        :model-value="items.no_pembelian"
                         variant="outlined"
                         density="compact"
                         style="min-width: 200px; max-width:300px"
@@ -189,7 +187,7 @@ export default {
                     </v-text-field>
                     <v-text-field
                         label="Tgl Pemasukan"
-                        v-model="dataitem.tgl_pembelian"
+                        :model-value="items.tgl_pembelian"
                         variant="outlined"
                         density="compact"
                         style="min-width: 200px; max-width:300px"
@@ -198,7 +196,7 @@ export default {
                     </v-text-field>
                     <v-text-field
                         label="Nama Supplier"
-                        :model-value="namaSupplier"
+                        :model-value="items.kode_supplier"
                         variant="outlined"
                         density="compact"
                         style="min-width: 200px; max-width:300px"
@@ -209,7 +207,7 @@ export default {
                     <v-col>
                         <v-text-field
                         label="Tipe Dokumen"
-                        v-model="dataitem.tipe_dokumen"
+                        :model-value="items.tipe_dokumen"
                         variant="outlined"
                         density="compact"
                         style="min-width: 200px; max-width:300px"
@@ -218,7 +216,7 @@ export default {
                     </v-text-field>
                     <v-text-field
                         label="No Dokumen"
-                        v-model="dataitem.no_dokumen"
+                        :model-value="items.no_dokumen"
                         variant="outlined"
                         density="compact"
                         style="min-width: 200px; max-width:300px"
@@ -227,7 +225,7 @@ export default {
                     </v-text-field>
                     <v-text-field
                         label="Tgl Dokumen"
-                        v-model="dataitem.tgl_dokumen"
+                        :model-value="items.tgl_dokumen"
                         variant="outlined"
                         density="compact"
                         style="min-width: 200px; max-width:300px"
@@ -238,7 +236,7 @@ export default {
                     <v-col>
                     <v-text-field
                         label="No Invoice"
-                        v-model="dataitem.no_invoice"
+                        :model-value="items.no_invoice"
                         variant="outlined"
                         density="compact"
                         style="min-width: 200px; max-width:300px"
@@ -247,7 +245,7 @@ export default {
                     </v-text-field>
                     <v-text-field
                         label="No BL"
-                        v-model="dataitem.no_bl"
+                        :model-value="items.no_bl"
                         variant="outlined"
                         density="compact"
                         style="min-width: 200px; max-width:300px"
@@ -256,7 +254,7 @@ export default {
                     </v-text-field>
                     <v-text-field
                         label="Mata Uang"
-                        v-model="dataitem.mata_uang"
+                        :model-value="items.mata_uang"
                         variant="outlined"
                         density="compact"
                         style="min-width: 200px; max-width:300px"
@@ -265,7 +263,7 @@ export default {
                     </v-text-field>
                     <v-text-field
                         label="Kurs"
-                        v-model="kurs"
+                        :model-value="items.kurs"
                         variant="outlined"
                         density="compact"
                         style="min-width: 200px; max-width:300px"
@@ -480,11 +478,12 @@ export default {
                             <template v-slot:activator="{ props }">
                                 <v-btn
                                 v-bind="props"
-                                class="text-body-2  rounded-lg"
-                                :icon="actIcon[3].icon"
-                                variant="plain"
-                                height="30"
-                                width="30">
+                                size="small"
+                                variant="text"
+                                color="grey-darken-2"
+                                icon
+                                >
+                                    <v-icon>mdi-dot-vertical</v-icon>
                                 </v-btn>
                             </template>
                             <v-responsive class="bg-white mx-auto px-7 pb-7 pt-5 rounded-xl" width="400">

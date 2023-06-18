@@ -49,7 +49,7 @@ export default {
           { title: 'Mata Uang', key: 'mata_uang' },
           { title: 'Total Nilai', key: 'total_nilai' },
           { title: 'Total Nilai(Rp)', key: 'rp' },
-          { key: 'actions', sortable: false},
+          { key: 'actions'},
         ],
         items: '',
         supplier: '',
@@ -66,7 +66,7 @@ export default {
           {title: 'Jumlah Diterima', key: 'jumlah_diterima' },
           {title: 'Satuan', key: 'satuan' },
           {title: 'Total Nilai', key: 'nilai' },
-          {key: 'actions', sortable: false },
+          {key: 'actions'},
         ],
         details: [],
         
@@ -82,8 +82,9 @@ export default {
           no_bl: '',
           mata_uang: '',
           kurs: '',
-          user_input: 'admin',
-          status: 'true'
+          user_input: '',
+          user_batal: '',
+          status: ''
         },
       }
     },
@@ -91,10 +92,50 @@ export default {
         let currentDate = new Date().toJSON().slice(0, 10);
         return this.filtered.periode = this.periode = [currentDate , currentDate]
     },
+    computed: {
+      datatable() {
+        let a = []
+        
+        for (let i = 0; i < this.items.length; i++) {
+          for (let k = 0; k < this.supplier.length; k++) {
+            if(this.items[i].kode_supplier == this.supplier[k].kode_supplier) {
+              a.push({
+                no_pembelian: this.items[i].no_pembelian,
+                tgl_pembelian: this.items[i].tgl_pembelian,
+                tipe_dokumen: this.items[i].tipe_dokumen,
+                no_dokumen: this.items[i].no_dokumen,
+                tgl_dokumen: this.formatDate(this.items[i].tgl_dokumen),
+                kode_supplier: this.supplier[k].nama,
+                mata_uang: this.items[i].mata_uang,
+                total_nilai: this.numb(this.items[i].total_nilai),
+                rp: this.numb(this.items[i].total_nilai * this.items[i].kurs),
+                no_invoice: this.items[i].no_invoice,
+                no_bl: this.items[i].no_bl,
+                kurs: this.items[i].kurs,
+                user_input: this.items[i].user_input,
+                user_batal: this.items[i].user_batal,
+                tgl_input: this.items[i].tgl_input,
+                tgl_batal: this.items[i].tgl_batal,
+                status: this.items[i].status,
+              })
+            }
+          }
+        }
+        return a
+      }
+    },
     methods: {
       today() {
         let currentDate = new Date().toJSON().slice(0, 10);
         return currentDate
+      },
+      formatDate(value){
+        let options = {
+          day: '2-digit',
+          year: 'numeric',
+          month: 'long'
+        }
+         return new Date(value).toLocaleDateString('id', options)
       },
       page(){
         return this.$emit('page', this.pageTitle)
@@ -186,9 +227,9 @@ export default {
       // SELECT TIPE DOKUMEN
       pilihtipe() {
         if (this.selectdokumen.length === 0) {
-            return this.items;
+            return this.datatable;
           } else {
-            return this.items.filter(item => this.selectdokumen.includes(item.tipe_dokumen));
+            return this.datatable.filter(item => this.selectdokumen.includes(item.tipe_dokumen));
           }
       },
       // API GET DATA SUPPLIER
@@ -464,12 +505,10 @@ export default {
               class="text-caption py-3 rounded-b-xl"
               height="63vh"
               >
-              <!-- NAMA SUPPLIER -->
               <!-- eslint-disable-next-line vue/valid-v-slot -->
-              <template v-slot:item.kode_supplier="{item}">
-                  <td>{{ dataTable(item.raw.kode_supplier, 'nama') }}</td>
+              <template v-slot:item.tgl_pembelian="{item}">
+                {{ formatDate(item.raw.tgl_pembelian) }}
               </template>
-              <!-- BUTTON EDIT -->
               <!-- eslint-disable-next-line vue/valid-v-slot -->
               <template v-slot:item.actions="{item}">
                 <PemasukanDetail
@@ -494,16 +533,6 @@ export default {
                 :iVariant="actIcon[3].variant"
                 :actIcon="actIcon"
                 :pageTitle="pageTitle"/>
-              </template>
-              <!-- NILAI TOTAL -->
-              <!--  eslint-disable-next-line vue/valid-v-slot -->
-              <template v-slot:item.total_nilai= "{ item }">
-                <td>{{ dataTable(item.raw.total_nilai, 'total') }}</td>
-              </template>
-              <!-- TOTAL NILAI -->
-              <!-- eslint-disable-next-line vue/valid-v-slot -->
-              <template v-slot:item.rp= "{ item }">
-                <td>{{ dataTable(item.raw, 'rp') }}</td>
               </template>
             </v-data-table>
         </v-sheet>
