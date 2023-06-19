@@ -18,7 +18,7 @@ const router = createRouter({
   history: createWebHashHistory(),
   routes: [
     {
-      path: '/',
+     path: '/',
       redirect: {
         name: "itemsView"
         },

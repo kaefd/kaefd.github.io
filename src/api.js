@@ -1,4 +1,3 @@
-
 import axios from 'axios'
 
 const instance = axios.create({
@@ -31,7 +30,9 @@ export default {
     return instance.delete(url, {data: payload})
   },
   logout() {
-    localStorage.clear()
-    return router.push('login');
+    localStorage.removeItem('token')
+    localStorage.clear();
+    sessionStorage.clear();
+    return window.location.href = '/#/login'
   }
 }
