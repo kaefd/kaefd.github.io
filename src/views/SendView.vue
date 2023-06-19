@@ -92,15 +92,34 @@ import AppBar from '../components/AppBar.vue';
     },
     created() {
       this.nokirim
-      this.today()
-      let currentDate = new Date().toJSON().slice(0, 10);
-      this.filtered.periode = [currentDate , currentDate]
-      this.tgl = currentDate
+      this.periode = [this.tglawal(), this.today()]
+      this.filtered.periode = [this.tglawal(), this.today()]
     },
     methods: {
       today() {
         let currentDate = new Date().toJSON().slice(0, 10);
-        return this.periode = [currentDate , currentDate]
+        return currentDate
+      },
+      tglawal() {
+        let d = new Date();
+        let m = d.getMonth();
+        d.setMonth(d.getMonth() - 1);
+        
+        // If still in same month, set date to last day of 
+        // previous month
+        if (d.getMonth() == m) d.setDate(0);
+        d.setHours(0, 0, 0, 0);
+    
+        //tl_awal
+        return d.toJSON().slice(0, 10)
+      },
+      formatDate(value){
+        let options = {
+          day: '2-digit',
+          year: 'numeric',
+          month: 'long'
+        }
+         return new Date(value).toLocaleDateString('id', options)
       },
       page(){
         return this.$emit('page', this.pageTitle)
@@ -258,8 +277,8 @@ import AppBar from '../components/AppBar.vue';
          XLSX.writeFile(wb, fn || (this.pageTitle+'.' + (type || 'xlsx')));
       },
       reset() {
-        this.filtered.periode = this.today()
-        this.today()
+        this.periode = [this.tglawal(), this.today()]
+        this.filtered.periode = [this.tglawal(), this.today()]
         this.selected()
         
       },
@@ -446,7 +465,7 @@ import AppBar from '../components/AppBar.vue';
       </v-responsive>
       </v-row>
         <!-- EDIT DATA -->
-      <v-sheet class="p-4 rounded-b-xl">
+      <v-sheet class="p-4">
         <v-data-table
             id="tbl_exporttable_to_xls" 
             items-per-page="10"
@@ -456,9 +475,13 @@ import AppBar from '../components/AppBar.vue';
             :hover="true"
             :fixed-header="true"
             density="compact"
-            class="text-caption py-3 px-5 rounded-b-xl h-75"
+            class="text-caption py-3 px-5 h-75"
             height="63vh"
             >
+            <!-- eslint-disable-next-line vue/valid-v-slot -->
+              <template v-slot:item.tgl_pengiriman="{item}">
+                {{ formatDate(item.raw.tgl_pengiriman) }}
+              </template>
             <!-- eslint-disable-next-line vue/valid-v-slot -->
             <template v-slot:item.kode_pelanggan="{ item }">
               <td>{{ namaPelanggan(item.raw.kode_pelanggan) }}</td>

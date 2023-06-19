@@ -317,7 +317,23 @@ import AppBar from '../components/AppBar.vue';
         </v-responsive>
         </v-row>
         <!-- TABEL -->
-        <TableVue id="tbl_exporttable_to_xls" :stokbarang="items" :groupbarang="items" :barang="barang" :headers="headers" :items="data()" :search="search" :category="category" :selectCategory="selectCategory" :iTitle="actIcon[1].text" :btncolor="actIcon[1].color" :icon="actIcon[1].icon" :iVariant="actIcon[1].variant" :alpha="alpha" :laporanstok="true" />
+        <TableVue
+        id="tbl_exporttable_to_xls"
+        :stokbarang="items"
+        :groupbarang="items"
+        :barang="barang"
+        :headers="headers"
+        :items="data()"
+        :search="search"
+        :category="category"
+        :selectCategory="selectCategory"
+        :iTitle="actIcon[1].text"
+        :btncolor="actIcon[1].color"
+        :icon="actIcon[1].icon"
+        :iVariant="actIcon[1].variant"
+        :alpha="alpha"
+        :laporanstok="true"
+        />
   </v-container>
 
 

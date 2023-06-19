@@ -31,7 +31,7 @@ export default {
     return instance.delete(url, {data: payload})
   },
   logout() {
-    localStorage.removeItem('token')
-    window.location.href = '/#/login'
+    localStorage.clear()
+    return router.push('login');
   }
 }

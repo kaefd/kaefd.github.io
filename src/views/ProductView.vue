@@ -61,9 +61,8 @@ import AppBar from '../components/AppBar.vue';
       }
     },
     created() {
-        this.today()
-        let currentDate = new Date().toJSON().slice(0, 10);
-        return this.filtered.periode = [currentDate , currentDate]
+        this.periode = [this.tglawal(), this.today()]
+        this.filtered.periode = [this.tglawal(), this.today()]
     },
     methods: {
       getProduksihead() {
@@ -298,12 +297,33 @@ import AppBar from '../components/AppBar.vue';
           return this.$emit('page', this.pageTitle)
       },
       today() {
-          let currentDate = new Date().toJSON().slice(0, 10);
-          return this.periode = [currentDate , currentDate]
-        },
+        let currentDate = new Date().toJSON().slice(0, 10);
+        return currentDate
+      },
+      tglawal() {
+        let d = new Date();
+        let m = d.getMonth();
+        d.setMonth(d.getMonth() - 1);
+        
+        // If still in same month, set date to last day of 
+        // previous month
+        if (d.getMonth() == m) d.setDate(0);
+        d.setHours(0, 0, 0, 0);
+    
+        //tl_awal
+        return d.toJSON().slice(0, 10)
+      },
+      formatDate(value){
+        let options = {
+          day: '2-digit',
+          year: 'numeric',
+          month: 'long'
+        }
+         return new Date(value).toLocaleDateString('id', options)
+      },
       reset() {
-        this.filtered.periode = this.today()
-        this.today()
+        this.periode = [this.tglawal(), this.today()]
+        this.filtered.periode = [this.tglawal(), this.today()]
         this.selected()
       
       },
@@ -435,6 +455,10 @@ import AppBar from '../components/AppBar.vue';
             <template v-slot:item.bahan_baku="{ item }">
               <td>{{ dataTable(item.raw.no_produksi, 'baku') }}</td>
             </template>
+            <!-- eslint-disable-next-line vue/valid-v-slot -->
+              <template v-slot:item.tgl_produksi="{item}">
+                {{ formatDate(item.raw.tgl_produksi) }}
+              </template>
             <!-- eslint-disable-next-line vue/valid-v-slot -->
             <template v-slot:item.jumlah="{ item }">
               <td>{{ dataTable(item.raw.no_produksi, 'jumlah') }}</td>

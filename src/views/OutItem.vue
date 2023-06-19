@@ -89,9 +89,8 @@ import AppBar from '../components/AppBar.vue';
       }
     },
     created() {
-      this.today()
-      let currentDate = new Date().toJSON().slice(0, 10);
-        return this.filtered.periode = [currentDate , currentDate]  
+      this.periode = [this.tglawal(), this.today()]
+      this.filtered.periode = [this.tglawal(), this.today()] 
     },
     computed: {
       pilihtipe() {
@@ -109,7 +108,28 @@ import AppBar from '../components/AppBar.vue';
     methods: {
       today() {
         let currentDate = new Date().toJSON().slice(0, 10);
-        return this.periode = [currentDate , currentDate]
+        return currentDate
+      },
+      tglawal() {
+        let d = new Date();
+        let m = d.getMonth();
+        d.setMonth(d.getMonth() - 1);
+        
+        // If still in same month, set date to last day of 
+        // previous month
+        if (d.getMonth() == m) d.setDate(0);
+        d.setHours(0, 0, 0, 0);
+    
+        //tl_awal
+        return d.toJSON().slice(0, 10)
+      },
+      formatDate(value){
+        let options = {
+          day: '2-digit',
+          year: 'numeric',
+          month: 'long'
+        }
+         return new Date(value).toLocaleDateString('id', options)
       },
       getPenjualanHead() {
         
@@ -247,8 +267,6 @@ import AppBar from '../components/AppBar.vue';
           }
           
         }
-
-
       },
       selected(){        
         this.getPenjualanHead(),
@@ -326,8 +344,8 @@ import AppBar from '../components/AppBar.vue';
         return this.$emit('page', this.pageTitle)
       },
       reset() {
-        this.periode = this.today()
-        this.filtered.periode = this.today()
+        this.periode = [this.tglawal(), this.today()]
+        this.filtered.periode = [this.tglawal(), this.today()]
         this.filtered.selectdokumen = []
         this.filtered.status = []
         this.today()
@@ -542,7 +560,7 @@ import AppBar from '../components/AppBar.vue';
       </v-responsive>
       </v-row>
         <!-- EDIT DATA -->
-        <v-sheet class="rounded-b-xl">
+        <v-sheet>
         <v-data-table
             id="tbl_exporttable_to_xls" 
             items-per-page="10"
@@ -555,6 +573,10 @@ import AppBar from '../components/AppBar.vue';
             class="text-caption py-3 rounded-b-xl"
             height="63vh"
             >
+            <!-- eslint-disable-next-line vue/valid-v-slot -->
+              <template v-slot:item.tgl_penjualan="{item}">
+                {{ formatDate(item.raw.tgl_penjualan) }}
+              </template>
             <!-- CUSTOM PAGINATION STYLE -->
             <!-- <template v-slot:bottom> -->
                 <!-- <v-row no-gutters class="justify-end align-center my-1">

@@ -22,7 +22,7 @@ import api from '../api';
         navtitle: '',
         drawer: null,
         rail: true,
-        drawerMaster: null,
+        drawerMaster: true,
         pemasukan: '',
         pemasukandetail: '',
         pengeluaran: '',
@@ -310,7 +310,7 @@ import api from '../api';
 
 <template>
     <v-navigation-drawer
-    class="py-sm-5 py-0"
+    class="py-sm-5 py-0 bg-blue-custom"
     v-model="drawer"
     permanent
     rail
@@ -324,7 +324,7 @@ import api from '../api';
       />
     </v-avatar>
     <v-row class="justify-center">
-    <v-list class="d-flex flex-sm-column" active-color="#3B7AA9">
+    <v-list class="d-flex flex-sm-column" active-color="white">
     <v-list-item
       class="rounded-lg text-caption mb-sm-5 mb-0 mt-sm-4 mt-0"
       value="master"
@@ -378,14 +378,24 @@ import api from '../api';
     </v-row>
     </v-navigation-drawer>
     <v-navigation-drawer
-      v-model="drawerMaster"
-      temporary
-      class="elevation-0 border-0"
+      :model-value="windowWidth > 900 ? '' : drawerMaster"
+      :permanent="windowWidth > 900 ? true : false"
+      class="border-0 elevation-2"
     >
     <v-list nav density="comfortable" class="ms-n2 my-sm-4 my-0" active-color="#3B7AA9">
-    <v-for v-for="i, in pages" :key="i">
-      <v-span v-if="navtitle == i.key" class="text-button ms-6">{{ i.value }}</v-span>
-    </v-for>
+    <v-div class="d-flex align-center">
+      <v-for v-for="i, in pages" :key="i">
+        <v-span v-if="navtitle == i.key" class="text-button ms-6">{{ i.value }}</v-span>
+      </v-for>
+      <v-spacer></v-spacer>
+      <v-btn
+        icon
+        variant="text"
+        size="small"
+        >
+          <v-icon color="indigo">mdi-chevron-double-left</v-icon>
+        </v-btn>
+    </v-div>
     <v-divider class="mb-3"></v-divider>
     <!-- MASTER -->
     <v-div  v-if="navtitle == 'master'">

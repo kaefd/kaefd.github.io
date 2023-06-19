@@ -255,6 +255,7 @@ export default {
         </v-btn>
     </template>
     <v-card class="py-5 px-2 rounded-xl">
+    {{pembelian_input}}
             <v-card-title v-if="blmkirim" class="text-center text-button font-weight-bold mb-3">PENGELUARAN BELUM TERKIRIM</v-card-title>
             <v-card-title v-if="!blmkirim" class="text-center text-button font-weight-bold mb-3">STOK BARANG</v-card-title>
             <v-text-field
@@ -309,6 +310,7 @@ export default {
                                 <v-span class="text-caption mt-n5 mb-3 text-center">{{ item.hs_code }}</v-span>
                                 <form @submit.prevent="submit" ref="form">
                                     <v-text-field
+                                        v-if="!pemasukan"
                                         v-model="penjualan_detail.jumlah"
                                         label="Jumlah"
                                         variant="outlined"
@@ -317,8 +319,18 @@ export default {
                                         class="mb-3"
                                         :disabled="hiddenbtn"
                                     />
-                                    <!-- <v-text-field
-                                        v-if="!tambah && !penjualan && !pengiriman"
+                                    <v-text-field
+                                        v-if="pemasukan"
+                                        v-model="state.jumlah"
+                                        label="Jumlah"
+                                        variant="outlined"
+                                        density="compact"
+                                        hide-details
+                                        class="mb-3"
+                                        :disabled="hiddenbtn"
+                                    />
+                                    <v-text-field
+                                        v-if="pemasukan"
                                         v-model="state.jumlah_diterima"
                                         label="Jumlah Diterima"
                                         variant="outlined"
@@ -326,23 +338,16 @@ export default {
                                         hide-details
                                         class="mb-3"
                                         :disabled="hiddenbtn"
-                                        :error-messages="v$.jumlah_diterima.$errors.map(e => e.$message)"
-                                        @input="v$.jumlah_diterima.$touch"
-                                        @blur="v$.jumlah_diterima.$touch"
-                                    /> -->
-                                    <!-- <v-text-field
-                                        v-if="!tambah && !penjualan && !pengiriman"
+                                    />
+                                    <v-text-field
+                                        v-if="pemasukan"
                                         v-model="state.nilai"
                                         label="Nilai Total"
                                         variant="outlined"
                                         density="compact"
                                         hide-details
                                         class="mb-3"
-                                        :disabled="hiddenbtn"
-                                        :error-messages="v$.nilai.$errors.map(e => e.$message)"
-                                        @input="v$.nilai.$touch"
-                                        @blur="v$.nilai.$touch"
-                                    /> -->
+                                    />
                                     <v-text-field
                                         v-if="!tambah && pengeluaran"
                                         v-model="penjualan_detail.harga_jual"

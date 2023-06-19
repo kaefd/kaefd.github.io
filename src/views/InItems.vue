@@ -69,7 +69,6 @@ export default {
           {key: 'actions'},
         ],
         details: [],
-        
         datainput: {
           no_pembelian: '',
           tgl_pembelian: '',
@@ -89,8 +88,8 @@ export default {
       }
     },
     created() {
-        let currentDate = new Date().toJSON().slice(0, 10);
-        return this.filtered.periode = this.periode = [currentDate , currentDate]
+       this.periode = [this.tglawal(), this.today()]
+       this.filtered.periode = [this.tglawal(), this.today()]
     },
     computed: {
       datatable() {
@@ -128,6 +127,19 @@ export default {
       today() {
         let currentDate = new Date().toJSON().slice(0, 10);
         return currentDate
+      },
+      tglawal() {
+        let d = new Date();
+        let m = d.getMonth();
+        d.setMonth(d.getMonth() - 1);
+        
+        // If still in same month, set date to last day of 
+        // previous month
+        if (d.getMonth() == m) d.setDate(0);
+        d.setHours(0, 0, 0, 0);
+    
+        //tl_awal
+        return d.toJSON().slice(0, 10)
       },
       formatDate(value){
         let options = {
@@ -354,9 +366,9 @@ export default {
           return kurs * nilai
       },
       reset() {
-        this.filtered.periode = this.today()
+        this.periode = [this.tglawal(), this.today()]
+        this.filtered.periode = [this.tglawal(), this.today()]
         this.filtered.selectdokumen = []
-        this.today()
         this.selectdokumen = []
         this.selected()
       },

@@ -7,12 +7,11 @@ export default {
     components: {
         VDataTable
     },
-    props: ['kode_group', 'barang', 'kode_barang', 'stokbarang', 'groupbarang', 'itm', ],
+    props: ['kode_group', 'barang', 'kode_barang', 'stokbarang', 'groupbarang'],
     data () {
       return {
         dialog: false,
         dialogbrg: false,
-        items: '',
         logbrg: '',
         log_brg: '',
         headers: [
@@ -40,28 +39,30 @@ export default {
     }
     },
     created() {
+        
+    },
+    computed: {
+        items () {
         let a = []
-        for (let i = 0; i < this.stokbarang.length; i++) {
-            for (let j = 0; j < this.barang.length; j++) {
-                if(this.stokbarang[i].kode_barang == this.kode_barang) {
-                    if(this.stokbarang[i].kode_barang == this.barang[j].kode_barang) {
-                        a.push({
-                            kode_group: '',
-                            kategori_barang: this.barang[j].kategori_barang,
-                            kode_barang: this.kode_barang,
-                            nama_barang: this.barang[j].nama_barang,
-                            hs_code: this.barang[j].hs_code,
-                            satuan: this.barang[j].satuan,
-                            stok_akhir: this.stokbarang[i].stok_akhir
-                        })
+            for (let i = 0; i < this.stokbarang.length; i++) {
+                for (let j = 0; j < this.barang.length; j++) {
+                    if(this.stokbarang[i].kode_barang == this.kode_barang) {
+                        if(this.stokbarang[i].kode_barang == this.barang[j].kode_barang) {
+                            a.push({
+                                kode_group: '',
+                                kategori_barang: this.barang[j].kategori_barang,
+                                kode_barang: this.kode_barang,
+                                nama_barang: this.barang[j].nama_barang,
+                                hs_code: this.barang[j].hs_code,
+                                satuan: this.barang[j].satuan,
+                                stok_akhir: this.stokbarang[i].stok_akhir
+                            })
+                        }
                     }
                 }
             }
+            return a
         }
-        this.items = a
-    },
-    computed: {
-        
     },
     methods: {
         kodegroup(v) {
@@ -120,7 +121,7 @@ export default {
           </v-btn>
         </template>
         <!-- dialog content -->
-        <v-card class="bg-grey-lighten-5">
+        <v-card class="bg-grey-lighten-5 w-100">
             <v-toolbar class="bg-blue-custom text-white" height="50">
                 <v-btn
                     icon

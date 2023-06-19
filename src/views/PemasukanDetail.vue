@@ -164,7 +164,7 @@ export default {
                     <v-btn
                         icon
                         dark
-                        @click="pembelian_input = [], dialog = false"
+                        @click="pembelian_input = [], inputdata = [],  dialog = false"
                         size="small"
                     >
                     <v-icon>mdi-close</v-icon>
@@ -434,7 +434,7 @@ export default {
                     </v-row>
                     <!-- BUTTON TAMBAH BARANG -->
                     <v-div v-if="!edit" :pembelianbaru="pembelianbaru" :pembeliandetl="pembeliandetl" class="text-sm-left text-center">
-                        <DialogCard2 @reset="reset"  :barang="barang" :itemDetail="itemDetail" @pemasukanitem="itemmasuk" :pemasukan="pemasukan" :penjualan="penjualan" :btn="btn" width="400" />
+                        <DialogCard2 @reset="reset"  :barang="barang" :itemDetail="itemDetail" @pemasukanitem="itemmasuk" :pemasukan="true" :btn="btn" width="400" />
                     </v-div>
                     <!-- TABEL EDIT/VIEW -->
                     <v-data-table
@@ -483,7 +483,7 @@ export default {
                                 color="grey-darken-2"
                                 icon
                                 >
-                                    <v-icon>mdi-dot-vertical</v-icon>
+                                    <v-icon>mdi-dots-vertical</v-icon>
                                 </v-btn>
                             </template>
                             <v-responsive class="bg-white mx-auto px-7 pb-7 pt-5 rounded-xl" width="400">
@@ -552,7 +552,7 @@ export default {
                             variant="tonal"
                             height="57"
                             class="w-100 rounded-0"
-                            @click=" inputdata = [], confirm(), dialog3 = false, dialog= false, confirmdialog = false"
+                            @click="inputdata = [], pembelian_input = [], confirm(), dialog3 = false, dialog= false, confirmdialog = false"
                             >
                             Ya
                             </v-btn>

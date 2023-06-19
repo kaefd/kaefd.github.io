@@ -80,19 +80,18 @@ export default {
 }
 </script>
 <template>
-    <v-sheet class="rounded-b-xl">
+    <v-sheet>
       <!-- TABEL DATA -->
-    <v-data-table
-      items-per-page="10"
-      :headers="headers"
-      :items="items"
-      :search="search"
-      :hover="true"
-      :fixed-header="true"
-      density="compact"
-      class="text-caption py-3 rounded-b-xl"
-      height="63vh"
-    >
+      <v-data-table
+        items-per-page="10"
+        :headers="headers"
+        :items="items"
+        :search="search"
+        :hover="true"
+        :fixed-header="true"
+        density="compact"
+        class="text-caption py-3"
+      >
     <!-- CUSTOM PAGINATION STYLE -->
     <!-- ACTION DELETE & EDIT -->
       <!-- eslint-disable-next-line vue/valid-v-slot -->
@@ -166,7 +165,7 @@ export default {
       </template>
       <!-- eslint-disable-next-line vue/valid-v-slot -->
       <template v-if="laporanstok" v-slot:item.actions="{item}">
-        <LogBarang :headers="headers" :barang="barang" :groupbarang="groupbarang" :stokbarang="stokbarang" :kode_group="item.raw.kode_group" :kode_barang="item.raw.kode_barang"/>
+        <LogBarang :headers="headers" :barang="barang" :groupbarang="groupbarang" :stokbarang="stokbarang" :item="item.raw" :kode_group="item.raw.kode_group" :kode_barang="item.raw.kode_barang"/>
       </template>
     </v-data-table>
     </v-sheet>

@@ -178,7 +178,7 @@ export default {
                     <v-col>
                     <v-text-field
                         label="No Penjualan"
-                        v-model= "dataitem.no_penjualan"
+                        v-model= "items.no_penjualan"
                         variant="outlined"
                         density="compact"
                         style="min-width: 200px; max-width:300px"
@@ -187,7 +187,7 @@ export default {
                     </v-text-field>
                     <v-text-field
                         label="Tgl Penjualan"
-                        v-model="dataitem.tgl_penjualan"
+                        v-model="items.tgl_penjualan"
                         variant="outlined"
                         density="compact"
                         style="min-width: 200px; max-width:300px"
@@ -198,7 +198,7 @@ export default {
                     <v-col>
                     <v-text-field
                         label="Pelanggan"
-                        v-model="dataitem.kode_pelanggan"
+                        v-model="items.kode_pelanggan"
                         variant="outlined"
                         density="compact"
                         style="min-width: 200px; max-width:300px"
@@ -207,7 +207,7 @@ export default {
                     </v-text-field>
                     <v-text-field
                         label="Kode Group"
-                        v-model="dataitem.kode_group"
+                        v-model="items.kode_group"
                         variant="outlined"
                         density="compact"
                         style="min-width: 200px; max-width:300px"
@@ -218,7 +218,7 @@ export default {
                     <v-col>
                         <v-text-field
                         label="Tipe Dokumen"
-                        v-model="dataitem.tipe_dokumen"
+                        v-model="items.tipe_dokumen"
                         variant="outlined"
                         density="compact"
                         style="min-width: 200px; max-width:300px"
@@ -227,7 +227,7 @@ export default {
                     </v-text-field>
                     <v-text-field
                         label="No Dokumen"
-                        v-model="dataitem.no_dokumen"
+                        v-model="items.no_dokumen"
                         variant="outlined"
                         density="compact"
                         style="min-width: 200px; max-width:300px"
@@ -236,7 +236,7 @@ export default {
                     </v-text-field>
                     <v-text-field
                         label="Tgl Dokumen"
-                        v-model="dataitem.tgl_dokumen"
+                        v-model="items.tgl_dokumen"
                         variant="outlined"
                         density="compact"
                         style="min-width: 200px; max-width:300px"
