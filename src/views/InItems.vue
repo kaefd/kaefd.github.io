@@ -164,7 +164,7 @@ export default {
           this.items = response.data
         })
         .catch((error) => {
-          console.log(error);
+          return this.$router.push({ path: '/login' })
         })
       },
       // TAMBAH DATA
@@ -253,7 +253,7 @@ export default {
           this.supplier = response.data
         })
         .catch((error) => {
-          console.log(error);
+          return this.$router.push('login');
         })
       },
       // GET DATA PEMBELIAN-DETAIL
@@ -268,7 +268,7 @@ export default {
           return this.pembeliandetl = response.data
         })
         .catch((error) => {
-          console.log(error);
+          return this.$router.push('login');
         })
       },
       // GET DATA PEMBELIAN-DETAIL

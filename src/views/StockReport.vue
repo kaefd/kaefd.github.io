@@ -120,7 +120,7 @@ import AppBar from '../components/AppBar.vue';
           this.items = response.data
         })
         .catch(() => {
-          window.location.href = '/login'
+          return this.$router.push('login');
         })
       },
       getDataBarang() {
@@ -129,7 +129,7 @@ import AppBar from '../components/AppBar.vue';
           this.barang = response.data
         })
         .catch(() => {
-          window.location.href = '/login'
+          return this.$router.push('login');
         })
       },
       print(i){

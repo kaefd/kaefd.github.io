@@ -81,7 +81,7 @@ export default {
             this.logbrg = response.data
             })
             .catch((error) => {
-            console.log(error);
+            return this.$router.push('login');
             })
         },
         log(kodegroup, kodebrg) {

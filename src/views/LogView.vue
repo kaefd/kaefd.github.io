@@ -61,7 +61,7 @@ import AppBar from '../components/AppBar.vue';
           this.user = response.data
         })
         .catch((error) => {
-          console.log(error);
+          return this.$router.push('login');
         })
       },
       getLogUser() {
@@ -75,7 +75,7 @@ import AppBar from '../components/AppBar.vue';
           this.items = response.data
         })
         .catch((error) => {
-          console.log(error);
+          return this.$router.push('login');
         })
       },
       selected(){        

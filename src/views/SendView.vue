@@ -136,7 +136,7 @@ import AppBar from '../components/AppBar.vue';
           this.pengirimanHead = response.data
         })
         .catch((error) => {
-          console.log(error);
+          return this.$router.push('login');
         })
       },
       // GET PENGIRIMAN DETAIL
@@ -151,7 +151,7 @@ import AppBar from '../components/AppBar.vue';
           this.kirim_detail = response.data
         })
         .catch((error) => {
-          console.log(error);
+          return this.$router.push('login');
         })
       },
       // PENJUALAN HEAD
@@ -166,7 +166,7 @@ import AppBar from '../components/AppBar.vue';
           this.penjualanHead = response.data
         })
         .catch((error) => {
-          console.log(error);
+          return this.$router.push('login');
         })
       },
       tujuanBongkar(){
@@ -176,7 +176,7 @@ import AppBar from '../components/AppBar.vue';
         this.alamatBongkar = response.data
         })
         .catch((error) => {
-        console.log(error);
+        return this.$router.push('login');
         })
         },
       getPelanggan() {
@@ -186,7 +186,7 @@ import AppBar from '../components/AppBar.vue';
           this.pelanggan = response.data
         })
         .catch((error) => {
-          console.log(error);
+          return this.$router.push('login');
         })
       },
       namaPelanggan(value) {

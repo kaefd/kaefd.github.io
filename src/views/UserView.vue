@@ -58,7 +58,7 @@ import AppBar from '../components/AppBar.vue';
             this.items = response.data
           })
           .catch(() => {
-            window.location.href = '/login'
+            return this.$router.push('login');
           })
         },
         getOtoritas(){
@@ -71,7 +71,7 @@ import AppBar from '../components/AppBar.vue';
             this.user_otoritas = response.data
           })
           .catch(() => {
-            window.location.href = '/login'
+            return this.$router.push('login');
           })
         },
         page(){

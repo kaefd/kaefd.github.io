@@ -50,7 +50,7 @@ export default {
             this.barang = response.data
             })
             .catch(() => {
-            window.location.href = '/login'
+                return this.$router.push('login');
             })
         if(this.edit) {
             let k = (this.dataitem.kurs / 1).toFixed(3).replace('.', ',')

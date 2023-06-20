@@ -1,3 +1,4 @@
+import router from './router'
 import axios from 'axios'
 
 const instance = axios.create({
@@ -33,6 +34,6 @@ export default {
     localStorage.removeItem('token')
     localStorage.clear();
     sessionStorage.clear();
-    return window.location.href = '/#/login'
+    router.push({ path: '/login' })
   }
 }

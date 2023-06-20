@@ -83,7 +83,7 @@ export default {
             this.barang = response.data
             })
             .catch(() => {
-            window.location.href = '/login'
+                return this.$router.push('login');
             })
             
         },
@@ -94,7 +94,7 @@ export default {
             this.detailpengiriman = response.data
             })
             .catch((error) => {
-            console.log(error);
+                return this.$router.push('login');
             })
         },
         tujuanBongkar(){
@@ -104,7 +104,7 @@ export default {
             this.alamatBongkar = response.data
             })
             .catch((error) => {
-            console.log(error);
+                return this.$router.push('login');
             })
         },
         belumterkirim(){
@@ -114,7 +114,7 @@ export default {
             this.belumkirim = response.data
             })
             .catch((error) => {
-            console.log(error);
+                return this.$router.push('login');
             })
         },
         belumterkirim_detail(){
@@ -124,7 +124,7 @@ export default {
             this.belumkirim_detail = response.data
             })
             .catch((error) => {
-            console.log(error);
+                return this.$router.push('login');
             })
         },
         numb(value) {

@@ -19,12 +19,12 @@ const router = createRouter({
   routes: [
     {
      path: '/',
+     meta: {
+        middleware: [middleware]
+      },
       redirect: {
         name: "itemsView"
-        },
-      meta: {
-        middleware: [middleware]
-      }
+        }
     },
     {
       path: '/login',
@@ -34,68 +34,97 @@ const router = createRouter({
     {
       path: '/items',
       name: 'itemsView',
-      component: ItemsView,
       meta: {
         middleware: [middleware]
-      }
-
+      },
+      component: ItemsView,
     },
     {
       path: '/customers',
       name: 'customers',
-      component: CustomerView,
       meta: {
         middleware: [middleware]
-      }
+      },
+      component: CustomerView,
     },
     {
       path: '/suppliers',
       name: 'suppliers',
+      meta: {
+        middleware: [middleware]
+      },
       component: SupplierView,
     },
     {
       path: '/users',
       name: 'users',
+      meta: {
+        middleware: [middleware]
+      },
       component: UserView,
     },
     {
       path: '/in',
       name: 'initems',
+      meta: {
+        middleware: [middleware]
+      },
       component: InItems,
     },
     {
       path: '/production',
       name: 'productions',
+      meta: {
+        middleware: [middleware]
+      },
       component: ProductView,
     },
     {
       path: '/out',
       name: 'outitems',
+      meta: {
+        middleware: [middleware]
+      },
       component: OutItem,
     },
     {
       path: '/send',
       name: 'send',
+      meta: {
+        middleware: [middleware]
+      },
       component: SendView,
     },
     {
       path: '/stock-report',
       name: 'stockreport',
+      meta: {
+        middleware: [middleware]
+      },
       component: StockReport,
     },
     {
       path: '/in-report',
       name: 'inreport',
+      meta: {
+        middleware: [middleware]
+      },
       component: InReport,
     },
     {
       path: '/out-report',
       name: 'outreport',
+      meta: {
+        middleware: [middleware]
+      },
       component: OutReport,
     },
     {
       path: '/log-report',
       name: 'log',
+      meta: {
+        middleware: [middleware]
+      },
       component: LogView,
     },
   ]

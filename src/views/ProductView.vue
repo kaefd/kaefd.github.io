@@ -76,7 +76,7 @@ import AppBar from '../components/AppBar.vue';
           this.items = response.data
         })
         .catch((error) => {
-          console.log(error);
+          return this.$router.push('login');
         })
       },
       getProduksiBahan() {
@@ -90,7 +90,7 @@ import AppBar from '../components/AppBar.vue';
           this.detailbahan = response.data
         })
         .catch((error) => {
-          console.log(error);
+          return this.$router.push('login');
         })
       },
       getProduksiBarang() {
@@ -104,7 +104,7 @@ import AppBar from '../components/AppBar.vue';
           this.detailbarang = response.data
         })
         .catch((error) => {
-          console.log(error);
+          return this.$router.push('login');
         })
       },
       getGroupBarang() {
@@ -114,7 +114,7 @@ import AppBar from '../components/AppBar.vue';
           this.groupbarang = response.data
         })
         .catch((error) => {
-          console.log(error);
+          return this.$router.push('login');
         })
       },
       getBarang() {
@@ -123,7 +123,7 @@ import AppBar from '../components/AppBar.vue';
           this.getbarang = response.data
         })
         .catch(() => {
-          window.location.href = '/login'
+          return this.$router.push('login');
         })
       },
       // TAMBAH DATA

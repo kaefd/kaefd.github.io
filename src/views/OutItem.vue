@@ -144,7 +144,7 @@ import AppBar from '../components/AppBar.vue';
           this.penjualan_head = response.data
         })
         .catch((error) => {
-          console.log(error);
+          return this.$router.push('login');
         })
       },
       getPenjualanDetail() {
@@ -159,7 +159,7 @@ import AppBar from '../components/AppBar.vue';
           this.penjualan_detail = response.data
         })
         .catch((error) => {
-          console.log(error);
+          return this.$router.push('login');
         })
       },
       getGroupBarang() {
@@ -169,7 +169,7 @@ import AppBar from '../components/AppBar.vue';
           this.groupbarang = response.data
         })
         .catch((error) => {
-          console.log(error);
+          return this.$router.push('login');
         })
       },
       getPelanggan() {
@@ -179,7 +179,7 @@ import AppBar from '../components/AppBar.vue';
           this.pelanggan = response.data
         })
         .catch((error) => {
-          console.log(error);
+          return this.$router.push('login');
         })
       },
       // POST PENJUALAN
@@ -215,7 +215,7 @@ import AppBar from '../components/AppBar.vue';
         //     window.location.href = '/production' 
         //   })
         //   .catch((error) => {
-        //     console.log(error);
+        //     return this.$router.push('login');
         //   })
       },
       del(head, detail) {
@@ -248,7 +248,7 @@ import AppBar from '../components/AppBar.vue';
         //   window.location.href = '/in'
         // })
         // .catch((error) => {
-        //   console.log(error);
+        //   return this.$router.push('login');
         // })
       },
       namaPelanggan(value) {

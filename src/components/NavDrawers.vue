@@ -157,7 +157,7 @@ import api from '../api';
           return this.pemasukan = response.data
         })
         .catch((error) => {
-          console.log(error);
+          return this.$router.push('login');
         })
       },
       getPembelianDetail() {
@@ -171,7 +171,7 @@ import api from '../api';
           return this.pemasukandetail = response.data
         })
         .catch((error) => {
-          console.log(error);
+          return this.$router.push('login');
         })
       },
       getProduksihead() {
@@ -185,7 +185,7 @@ import api from '../api';
           this.produksi = response.data
         })
         .catch((error) => {
-          console.log(error);
+          return this.$router.push('login');
         })
       },
       getProduksiDetail() {
@@ -199,7 +199,7 @@ import api from '../api';
           this.produksidetail = response.data
         })
         .catch((error) => {
-          console.log(error);
+          return this.$router.push('login');
         })
       },
       getPenjualanHead() {
@@ -213,7 +213,7 @@ import api from '../api';
           this.pengeluaran = response.data
         })
         .catch((error) => {
-          console.log(error);
+          return this.$router.push('login');
         })
       },
       getPenjualanDetail() {
@@ -227,7 +227,7 @@ import api from '../api';
           this.pengeluarandetail = response.data
         })
         .catch((error) => {
-          console.log(error);
+          return this.$router.push('login');
         })
       },
       getPengirimanHead() {
@@ -241,7 +241,7 @@ import api from '../api';
           this.kirim = response.data
         })
         .catch((error) => {
-          console.log(error);
+          return this.$router.push('login');
         })
       },
       getPengirimanDetail() {
@@ -255,7 +255,7 @@ import api from '../api';
           this.kirimdetail = response.data
         })
         .catch((error) => {
-          console.log(error);
+          return this.$router.push('login');
         })
       },
       numb(value) {

@@ -77,7 +77,7 @@ import AppBar from '../components/AppBar.vue';
           this.items = response.data
         })
         .catch((error) => {
-          console.log(error);
+          return this.$router.push('login');
         })
       },
       getPenjualanDetail() {
@@ -91,7 +91,7 @@ import AppBar from '../components/AppBar.vue';
           this.pjldetail = response.data
         })
         .catch((error) => {
-          console.log(error);
+          return this.$router.push('login');
         })
       },
       getPelanggan() {
@@ -101,7 +101,7 @@ import AppBar from '../components/AppBar.vue';
           this.pelanggan = response.data
         })
         .catch((error) => {
-          console.log(error);
+          return this.$router.push('login');
         })
       },
       getData(){
@@ -110,7 +110,7 @@ import AppBar from '../components/AppBar.vue';
           this.barang = response.data
         })
         .catch(() => {
-          window.location.href = '/login'
+          return this.$router.push('login');
         })
       },
       pilihtipe() {

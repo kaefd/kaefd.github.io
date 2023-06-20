@@ -90,7 +90,7 @@ import AppBar from '../components/AppBar.vue';
           this.items = response.data
         })
         .catch((error) => {
-          console.log(error);
+          return this.$router.push('login');
         })
       },
       // GET DATA PEMBELIAN-DETAIL
@@ -105,7 +105,7 @@ import AppBar from '../components/AppBar.vue';
           return this.pembeliandetl = response.data
         })
         .catch((error) => {
-          console.log(error);
+          return this.$router.push('login');
         })
       },
       getSupplier() {
@@ -115,7 +115,7 @@ import AppBar from '../components/AppBar.vue';
           this.supplier = response.data
         })
         .catch((error) => {
-          console.log(error);
+          return this.$router.push('login');
         })
       },
       getData(){
@@ -124,7 +124,7 @@ import AppBar from '../components/AppBar.vue';
           this.barang = response.data
         })
         .catch(() => {
-          window.location.href = '/login'
+          return this.$router.push('login');
         })
       },
       numb(value) {
