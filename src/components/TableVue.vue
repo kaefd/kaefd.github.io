@@ -91,6 +91,7 @@ export default {
         :fixed-header="true"
         density="compact"
         class="text-caption py-3"
+        height="65vh"
       >
     <!-- CUSTOM PAGINATION STYLE -->
     <!-- ACTION DELETE & EDIT -->

@@ -22,7 +22,7 @@ import api from '../api';
         navtitle: '',
         drawer: null,
         rail: true,
-        drawerMaster: true,
+        drawerMaster: null,
         pemasukan: '',
         pemasukandetail: '',
         pengeluaran: '',
@@ -285,12 +285,12 @@ import api from '../api';
         } else if (value == 'kirim') {
           this.getPengirimanHead()
         }
-        this.drawerMaster =! this.drawerMaster
         for (let i = 0; i < this.pages.length; i++) {
           if(value == this.pages[i].key) {
             this.navtitle = this.pages[i].key
           }
         }
+        this.drawerMaster = true
         return this.navtitle
       },
       subnav() {
@@ -330,10 +330,10 @@ import api from '../api';
     v-model="drawer"
     permanent
     rail
-    :location="windowWidth < 600 ? 'bottom' : 'left'"
+    :location="windowWidth < 700 ? 'bottom' : 'left'"
     >
     
-    <v-avatar v-if="windowWidth > 600" class="mx-2">
+    <v-avatar v-if="windowWidth > 700" class="mx-2">
       <img
         src="../assets/img/logo.png"
         width="50"
@@ -350,7 +350,7 @@ import api from '../api';
       <v-icon>mdi-database</v-icon>
       <v-tooltip
           activator="parent"
-          :location="windowWidth > 600 ? 'start' : 'top'"
+          :location="windowWidth > 700 ? 'start' : 'top'"
         >
           Data Master
         </v-tooltip>
@@ -365,7 +365,7 @@ import api from '../api';
         <v-icon>mdi-chart-donut</v-icon>
         <v-tooltip
           activator="parent"
-          :location="windowWidth > 600 ? 'start' : 'top'"
+          :location="windowWidth > 700 ? 'start' : 'top'"
         >
           Produksi Barang
         </v-tooltip>
@@ -385,7 +385,7 @@ import api from '../api';
       <v-icon>mdi-folder-outline</v-icon>
       <v-tooltip
         activator="parent"
-        :location="windowWidth > 600 ? 'start' : 'top'"
+        :location="windowWidth > 700 ? 'start' : 'top'"
       >
         Laporan
       </v-tooltip>
@@ -404,15 +404,6 @@ import api from '../api';
       <v-span v-if="!page() && !laporan()" class="text-button ms-5">{{ pageTitle }}</v-span>
       <v-span v-if="page()" class="text-button ms-5">MASTER</v-span>
       <v-span v-if="laporan()" class="text-button ms-5">LAPORAN</v-span>
-      <v-spacer></v-spacer>
-      <v-btn
-        icon
-        variant="text"
-        size="small"
-        @click="drawerMaster = false"
-        >
-          <v-icon color="indigo">mdi-chevron-double-left</v-icon>
-        </v-btn>
     </v-div>
     <v-divider class="mb-3"></v-divider>
     <!-- MASTER -->
