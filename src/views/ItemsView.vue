@@ -324,39 +324,39 @@ export default defineComponent ({
         <TableVue style="height:66vh" :windowWidth="windowWidth" :keyform="keyform" :noselect="statusselect" @edit="editForm" @del="del" id="tbl_exporttable_to_xls" :screen="400"  :headers="headers" :items="selected()" :search="search" :category="category" :selectCategory="selectCategory" :iTitle="actIcon[1].text" :btncolor="actIcon[1].color" :icon="actIcon[1].icon" :iVariant="actIcon[1].variant" :alpha="alpha" :form="form"/>
   </v-container>
   </template>
-<style>
-
-.w-30 {
-  max-width: 32vw;
-}
-.w-20 {
-  width: 20vw !important;
-}
-.vh-75 {
-  height: 75vh ;
-}
-
-.v-select__selection-text {
-  font-size: 11pt;
-}
-.font-small {
-  font-size: 1rem !important;
-}
-.rounded-right{
-  border-radius: 7px 0px 0px 7px;
-}
-.rounded-left{
-  border-radius: 0px 7px 7px 0px;
-}
-.bg-blue-custom {
-  background: #3B7AA9;
-}
-.text-blue-custom {
-  color: #3B7AA9 !important;
-}
-.dp__input {
-  font-size: 10pt !important;
-  height: 43px !important;
-  border-color: #ababab !important;
-}
-</style>
+  <style>
+  
+  .w-30 {
+    max-width: 32vw;
+  }
+  .w-20 {
+    width: 20vw !important;
+  }
+  .vh-75 {
+    height: 75vh ;
+  }
+  
+  .v-select__selection-text {
+    font-size: 11pt;
+  }
+  .font-small {
+    font-size: 1rem !important;
+  }
+  .rounded-right{
+    border-radius: 7px 0px 0px 7px;
+  }
+  .rounded-left{
+    border-radius: 0px 7px 7px 0px;
+  }
+  .bg-blue-custom {
+    background: #3B7AA9;
+  }
+  .text-blue-custom {
+    color: #3B7AA9 !important;
+  }
+  .dp__input {
+    font-size: 10pt !important;
+    height: 43px !important;
+    border-color: #ababab !important;
+  }
+  </style>

@@ -144,7 +144,7 @@ import api from '../api';
           this.pageTitle == 'DATA USER'
         ){
           return true
-        } else return false
+        }
       },
       getPembelian() {
         const apiUrl = '/pembelian_head?'
@@ -270,7 +270,7 @@ import api from '../api';
           this.pageTitle == 'LAPORAN LOG USER'
         ){
           return true
-        } else return false
+        }
       },
       onResize() {
       this.windowWidth = window.innerWidth
@@ -291,13 +291,29 @@ import api from '../api';
             this.navtitle = this.pages[i].key
           }
         }
+        return this.navtitle
       },
-      
+      subnav() {
+        if(this.page()) {
+          this.navtitle = 'master'
+          this.draw('master')
+          return this.page()
+        }
+        if(this.pageTitle == 'PEMASUKAN BARANG') {
+          this.draw('masuk')
+          return this.pageTitle
+        }
+        if(this.pageTitle == 'PRODUKSI BARANG') {
+          this.draw('produksi')
+          return this.pageTitle
+        }
+      }
     },
     mounted() {
       this.page()
       this.$nextTick(() => {
       window.addEventListener('resize', this.onResize);
+      this.getPembelian()
       this.getPembelianDetail()
       this.getProduksiDetail()
       this.getPenjualanDetail()
@@ -328,7 +344,7 @@ import api from '../api';
     <v-list-item
       class="rounded-lg text-caption mb-sm-5 mb-0 mt-sm-4 mt-0"
       value="master"
-      @click="draw('master')"
+      @click="pageTitle = 'MASTER', draw('master')"
       :active="page()"
       >
       <v-icon>mdi-database</v-icon>
@@ -340,7 +356,7 @@ import api from '../api';
         </v-tooltip>
     </v-list-item>
     <RouterLink to="/in">
-      <v-list-item class="rounded-lg text-caption mb-sm-5 mb-0" :active="pageTitle == 'PEMASUKAN BARANG' ? true : false" value="inItems" @click="draw('masuk')">
+      <v-list-item class="rounded-lg text-caption mb-sm-5 mb-0" :active="pageTitle == 'PEMASUKAN BARANG' ? true : false" value="inItems" @click="navtitle = '', draw('masuk')">
       <v-icon>mdi-inbox-arrow-down</v-icon>
       </v-list-item>
     </RouterLink>
@@ -365,7 +381,7 @@ import api from '../api';
         <v-icon>mdi-send-variant</v-icon>
       </v-list-item>
     </RouterLink>
-    <v-list-item class="rounded-lg text-caption mb-sm-5 mb-0" :active="laporan()" value="laporan" @click="draw('laporan')">
+    <v-list-item class="rounded-lg text-caption mb-sm-5 mb-0" :active="laporan()" value="laporan" @click="pageTitle = 'LAPORAN', draw('laporan')">
       <v-icon>mdi-folder-outline</v-icon>
       <v-tooltip
         activator="parent"
@@ -377,28 +393,30 @@ import api from '../api';
   </v-list>
     </v-row>
     </v-navigation-drawer>
+    // SUB NAVDRAWER
     <v-navigation-drawer
-      :model-value="windowWidth > 900 ? '' : drawerMaster"
+      v-model="drawerMaster"
       :permanent="windowWidth > 900 ? true : false"
       class="border-0 elevation-2"
     >
     <v-list nav density="comfortable" class="ms-n2 my-sm-4 my-0" active-color="#3B7AA9">
     <v-div class="d-flex align-center">
-      <v-for v-for="i, in pages" :key="i">
-        <v-span v-if="navtitle == i.key" class="text-button ms-6">{{ i.value }}</v-span>
-      </v-for>
+      <v-span v-if="!page() && !laporan()" class="text-button ms-5">{{ pageTitle }}</v-span>
+      <v-span v-if="page()" class="text-button ms-5">MASTER</v-span>
+      <v-span v-if="laporan()" class="text-button ms-5">LAPORAN</v-span>
       <v-spacer></v-spacer>
       <v-btn
         icon
         variant="text"
         size="small"
+        @click="drawerMaster = false"
         >
           <v-icon color="indigo">mdi-chevron-double-left</v-icon>
         </v-btn>
     </v-div>
     <v-divider class="mb-3"></v-divider>
     <!-- MASTER -->
-    <v-div  v-if="navtitle == 'master'">
+    <v-div  v-if="pageTitle == 'MASTER' || page()"> 
       <RouterLink to="/items">
       <v-list-item title="Data Barang" class="rounded-left-lg  ps-6" :active="pageTitle == 'DATA BARANG' ? true : false" value="items"/>
       </RouterLink>
@@ -413,7 +431,7 @@ import api from '../api';
       </RouterLink>
     </v-div>
     <!-- PEMASUKAN BARANG -->
-    <v-div v-if="navtitle == 'masuk' " class="d-flex flex-column">
+    <v-div v-if="pageTitle == 'PEMASUKAN BARANG'" class="d-flex flex-column">
       <v-span class="text-body-2 ms-6 mt-5">Aktivitas Terakhir</v-span>
       <div class="pb-5">
         <v-div v-for="p, i in pemasukan_brg" :key="i" class="d-flex flex-column ms-5 pt-5">
@@ -427,7 +445,7 @@ import api from '../api';
       </div>
     </v-div>
     <!-- PRODUKSI -->
-    <v-div v-if="navtitle == 'produksi' " class="d-flex flex-column">
+    <v-div v-if="pageTitle == 'PRODUKSI BARANG'" class="d-flex flex-column">
       <v-span class="text-body-2 ms-6 mt-5">Aktivitas Terakhir</v-span>
       <v-div>
       <v-div v-for="p, i in produksi_h" :key="i" class="d-flex flex-column ms-5 pt-5">
@@ -441,7 +459,7 @@ import api from '../api';
       </v-div>
     </v-div>
     <!-- PENGELUARAN -->
-    <div v-if="navtitle == 'keluar' " class="d-flex flex-column">
+    <div v-if="pageTitle == 'PENGELUARAN BARANG'" class="d-flex flex-column">
       <v-span class="text-body-2 ms-6 mt-5">Aktivitas Terakhir</v-span>
       <div>
         <v-div v-for="p, i in pengeluaran_h" :key="i" class="d-flex flex-column ms-5 pt-5">
@@ -455,7 +473,7 @@ import api from '../api';
       </div>
     </div>
     <!-- PENGIRIMAN -->
-    <v-div v-if="navtitle == 'kirim' " class="d-flex flex-column">
+    <v-div v-if="pageTitle == 'PENGIRIMAN BARANG'" class="d-flex flex-column">
       <v-span class="text-body-2 ms-6 mt-5">Aktivitas Terakhir</v-span>
       <div class="pb-5">
         <v-div v-for="p, i in kirim_h" :key="i" class="d-flex flex-column ms-5 pt-5">
@@ -469,7 +487,7 @@ import api from '../api';
         </div>
     </v-div>
     <!-- LAPORAN -->
-    <v-div  v-if="navtitle == 'laporan' ">
+    <v-div v-if="pageTitle == 'LAPORAN' || laporan()">
       <RouterLink to="/stock-report">
       <v-list-item title="Laporan Stok Barang" class="rounded-left-lg  ps-6" :active="pageTitle == 'LAPORAN STOK BARANG' ? true : false" value="stok"/>
       </RouterLink>
