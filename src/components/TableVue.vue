@@ -80,7 +80,7 @@ export default {
 }
 </script>
 <template>
-    <v-sheet>
+    <v-sheet height="90%">
       <!-- TABEL DATA -->
       <v-data-table
         items-per-page="10"
@@ -90,8 +90,8 @@ export default {
         :hover="true"
         :fixed-header="true"
         density="compact"
-        class="text-caption py-3"
-        height="65vh"
+        class="text-caption py-3 h-100"
+        height="100%"
       >
     <!-- CUSTOM PAGINATION STYLE -->
     <!-- ACTION DELETE & EDIT -->
@@ -171,18 +171,3 @@ export default {
     </v-data-table>
     </v-sheet>
 </template>
-
-<style lang="scss">
-.v-theme--light > .v-data-table {
-  --v-theme-surface: #fafafa;
-}
-
-.v-table  {
-    background: var(--v-theme-surface);
-}
-
-th {
-  background: #fafafa !important;
-}
-
-</style>

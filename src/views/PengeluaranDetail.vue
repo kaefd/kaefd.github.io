@@ -149,13 +149,11 @@ export default {
             <v-btn
             v-if="edit"
             v-bind="props"
-            class="text-body-2 rounded-lg"
-            :color="btncolor"
-            :icon="icon"
-            :variant="iVariant"
-            height="30"
-            width="30"
+            size="small"
+            variant="text"
+            color="grey-darken-2"
             >
+            <v-icon>mdi-dots-vertical</v-icon>
             </v-btn>
           </template>
           <!-- dialog content -->

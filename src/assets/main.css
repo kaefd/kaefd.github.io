@@ -1,35 +1,59 @@
-@import './base.css';
-
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-
-  font-weight: normal;
+/*SIZING STYLE*/
+vh-100 {
+  height: 100vh !important;
+}
+vw-100 {
+  width: 100vw !important;
 }
 
-a,
-.green {
+  .w-30 {
+    max-width: 32vw;
+  }
+  .w-20 {
+    width: 20vw !important;
+  }
+  .vh-75 {
+    height: 75vh ;
+  }
+  .v-select__selection-text {
+    font-size: 11pt;
+  }
+  .font-small {
+    font-size: 1rem !important;
+  }
+  .rounded-right{
+    border-radius: 7px 0px 0px 7px;
+  }
+  .rounded-left{
+    border-radius: 0px 7px 7px 0px;
+  }
+  .bg-blue-custom {
+    background: #3B7AA9;
+  }
+  .text-blue-custom {
+    color: #3B7AA9 !important;
+  }
+  .dp__input {
+    font-size: 10pt !important;
+    height: 43px !important;
+    border-color: #ababab !important;
+  }
+
+.v-theme--light > .v-data-table {
+  --v-theme-surface: #fafafa;
+}
+
+.v-table  {
+    background: var(--v-theme-surface);
+}
+
+th {
+  background: #fafafa !important;
+}
+
+
+/*LINK STYLE*/
+
+a {
   text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
-  transition: 0.4s;
-}
-
-@media (hover: hover) {
-  a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
-  }
-}
-
-@media (min-width: 1024px) {
-  body {
-    display: flex;
-    place-items: center;
-  }
-
-  #app {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0 2rem;
-  }
 }

@@ -378,10 +378,10 @@ import AppBar from '../components/AppBar.vue';
         </v-container>
       </v-sheet>
   </v-navigation-drawer>
-    <v-container>
     <AppBar v-if="pageTitle != null" :pageTitle="pageTitle"/>
-      <v-row no-gutters class="rounded-t-xl align-start mt-n4 mb-2">
-        <v-responsive class="d-flex align-center mb-sm-0 mb-1 me-sm-2 me-0" width="200" max-width="350">
+    <v-container class="pt-9 h-100">
+      <v-row no-gutters class="align-start mt-n4 mb-2">
+        <v-responsive class="d-flex align-start mb-sm-0 mb-1 me-sm-2 me-0" width="200" max-width="350">
         <!-- PERIODE -->
         <!-- <div class="w-100">
           <v-label v-label class="text-body-2 text-blue-darken-4">Periode</v-label>
@@ -437,7 +437,7 @@ import AppBar from '../components/AppBar.vue';
       </v-responsive>
       </v-row>
         <!-- EDIT DATA -->
-        <v-sheet class="rounded-b-xl">
+        <v-sheet height="90%">
         <v-data-table
             id="tbl_exporttable_to_xls"
             items-per-page="10"
@@ -447,8 +447,8 @@ import AppBar from '../components/AppBar.vue';
             :hover="true"
             :fixed-header="true"
             density="compact"
-            class="text-caption py-3 rounded-b-xl"
-            height="63vh"
+            class="text-caption py-3 h-100"
+            height="100%"
             >
             <!-- dialog actions -->
             <!-- eslint-disable-next-line vue/valid-v-slot -->

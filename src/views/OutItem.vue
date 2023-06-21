@@ -449,8 +449,8 @@ import AppBar from '../components/AppBar.vue';
         </v-container>
       </v-sheet>
   </v-navigation-drawer>
-  <v-container>
-    <AppBar v-if="pageTitle != null" :pageTitle="pageTitle"/>
+  <AppBar v-if="pageTitle != null" :pageTitle="pageTitle"/>
+  <v-container class="pt-9 h-100">
     <v-row no-gutters class="rounded-t-xl align-start mt-n4 mb-2">
       <v-responsive class="d-flex align-center mb-sm-0 mb-1 me-sm-2 me-0" width="200" max-width="350">
         <div class="d-flex align-center w-100">
@@ -560,7 +560,7 @@ import AppBar from '../components/AppBar.vue';
       </v-responsive>
       </v-row>
         <!-- EDIT DATA -->
-        <v-sheet>
+        <v-sheet height="90%">
         <v-data-table
             id="tbl_exporttable_to_xls" 
             items-per-page="10"
@@ -570,8 +570,8 @@ import AppBar from '../components/AppBar.vue';
             :hover="true"
             :fixed-header="true"
             density="compact"
-            class="text-caption py-3 rounded-b-xl"
-            height="63vh"
+            class="text-caption py-3 h-100"
+            height="100%"
             >
             <!-- eslint-disable-next-line vue/valid-v-slot -->
               <template v-slot:item.tgl_penjualan="{item}">

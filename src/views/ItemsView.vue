@@ -229,6 +229,7 @@ export default defineComponent ({
   <v-navigation-drawer
         class="border-0 me-4 elevation-0"
         v-model="filter"
+        permanent
         location="left"
         width="320"
       >
@@ -258,8 +259,8 @@ export default defineComponent ({
         </v-container>
       </v-sheet>
   </v-navigation-drawer>
-  <v-container>
     <AppBar v-if="pageTitle != null" :pageTitle="pageTitle"/>
+  <v-container class="pt-9 h-100">
     <v-row no-gutters class="mb-2 mt-n4">
       <v-responsive class="d-flex align-center mb-sm-0 mb-1" min-width="200">
         <div class="d-flex align-center w-100">
@@ -326,37 +327,4 @@ export default defineComponent ({
   </template>
   <style>
   
-  .w-30 {
-    max-width: 32vw;
-  }
-  .w-20 {
-    width: 20vw !important;
-  }
-  .vh-75 {
-    height: 75vh ;
-  }
-  
-  .v-select__selection-text {
-    font-size: 11pt;
-  }
-  .font-small {
-    font-size: 1rem !important;
-  }
-  .rounded-right{
-    border-radius: 7px 0px 0px 7px;
-  }
-  .rounded-left{
-    border-radius: 0px 7px 7px 0px;
-  }
-  .bg-blue-custom {
-    background: #3B7AA9;
-  }
-  .text-blue-custom {
-    color: #3B7AA9 !important;
-  }
-  .dp__input {
-    font-size: 10pt !important;
-    height: 43px !important;
-    border-color: #ababab !important;
-  }
   </style>

@@ -130,12 +130,13 @@ export default {
             <v-btn
             v-if="edit"
             v-bind="props"
-            class="text-body-2  rounded-lg"
-            :color="actIcon[3].color"
-            :icon="actIcon[3].icon"
-            :variant="actIcon[3].variant"
-            size="small">
+            size="small"
+            variant="text"
+            color="grey-darken-2"
+            >
+            <v-icon>mdi-dots-vertical</v-icon>
             </v-btn>
+            
             <v-btn
             v-if="!edit"
             v-bind="props"

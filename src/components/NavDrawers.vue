@@ -276,6 +276,12 @@ import api from '../api';
       this.windowWidth = window.innerWidth
       },
       draw(value) {
+        this.drawerMaster = true
+        for (let i = 0; i < this.pages.length; i++) {
+          if(value == this.pages[i].key) {
+            this.navtitle = this.pages[i].key
+          }
+        }
         if (value == 'masuk') {
           this.getPembelian()
         } else if(value == 'produksi') {
@@ -285,13 +291,8 @@ import api from '../api';
         } else if (value == 'kirim') {
           this.getPengirimanHead()
         }
-        for (let i = 0; i < this.pages.length; i++) {
-          if(value == this.pages[i].key) {
-            this.navtitle = this.pages[i].key
-          }
-        }
-        this.drawerMaster = true
-        return this.navtitle
+        this.navtitle = null
+        
       },
       subnav() {
         if(this.page()) {
@@ -330,10 +331,10 @@ import api from '../api';
     v-model="drawer"
     permanent
     rail
-    :location="windowWidth < 700 ? 'bottom' : 'left'"
+    :location="windowWidth < 600 ? 'bottom' : 'left'"
     >
     
-    <v-avatar v-if="windowWidth > 700" class="mx-2">
+    <v-avatar v-if="windowWidth > 600" class="mx-2">
       <img
         src="../assets/img/logo.png"
         width="50"
@@ -356,12 +357,12 @@ import api from '../api';
         </v-tooltip>
     </v-list-item>
     <RouterLink to="/in">
-      <v-list-item class="rounded-lg text-caption mb-sm-5 mb-0" :active="pageTitle == 'PEMASUKAN BARANG' ? true : false" value="inItems" @click="navtitle = '', draw('masuk')">
+      <v-list-item class="rounded-lg text-caption mb-sm-5 mb-0" :active="pageTitle == 'PEMASUKAN BARANG' ? true : false" value="inItems" @click="pageTitle='PEMASUKAN BARANG', draw('masuk')">
       <v-icon>mdi-inbox-arrow-down</v-icon>
       </v-list-item>
     </RouterLink>
     <RouterLink to="/production">
-      <v-list-item class="rounded-lg text-caption mb-sm-5 mb-0" :active="pageTitle == 'PRODUKSI BARANG' ? true : false" value="productItems" @click="draw('produksi')">
+      <v-list-item class="rounded-lg text-caption mb-sm-5 mb-0" :active="pageTitle == 'PRODUKSI BARANG' ? true : false" value="productItems" @click="pageTitle='PRODUKSI BARANG', draw('produksi')">
         <v-icon>mdi-chart-donut</v-icon>
         <v-tooltip
           activator="parent"
@@ -372,12 +373,12 @@ import api from '../api';
       </v-list-item>
     </RouterLink>
     <RouterLink to="/out">
-      <v-list-item class="rounded-lg text-caption mb-sm-5 mb-0" :active="pageTitle == 'PENGELUARAN BARANG' ? true : false" value="outItems" @click="draw('keluar')">
+      <v-list-item class="rounded-lg text-caption mb-sm-5 mb-0" :active="pageTitle == 'PENGELUARAN BARANG' ? true : false" value="outItems" @click="pageTitle='PENGELUARAN BARANG', draw('keluar')">
         <v-icon>mdi-inbox-arrow-up</v-icon>
       </v-list-item>
     </RouterLink>
     <RouterLink to="/send">
-      <v-list-item class="rounded-lg text-caption mb-sm-5 mb-0" :active="pageTitle == 'PENGIRIMAN BARANG' ? true : false" value="sendItems" @click="draw('kirim')">
+      <v-list-item class="rounded-lg text-caption mb-sm-5 mb-0" :active="pageTitle == 'PENGIRIMAN BARANG' ? true : false" value="sendItems" @click="pageTitle='PENGIRIMAN BARANG', draw('kirim')">
         <v-icon>mdi-send-variant</v-icon>
       </v-list-item>
     </RouterLink>
@@ -393,7 +394,6 @@ import api from '../api';
   </v-list>
     </v-row>
     </v-navigation-drawer>
-    // SUB NAVDRAWER
     <v-navigation-drawer
       v-model="drawerMaster"
       :permanent="windowWidth > 900 ? true : false"

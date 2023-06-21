@@ -300,8 +300,8 @@ import AppBar from '../components/AppBar.vue';
     </v-container>
   </v-sheet>
   </v-navigation-drawer>
-  <v-container>
-    <AppBar v-if="pageTitle != null" :pageTitle="pageTitle"/>
+  <AppBar v-if="pageTitle != null" :pageTitle="pageTitle"/>
+  <v-container class="pt-9 h-100">
     <v-row no-gutters class="mb-2 mt-n4">
       <v-responsive>
         <!-- BUTTON FILTER -->
@@ -349,7 +349,7 @@ import AppBar from '../components/AppBar.vue';
       </v-responsive>
       </v-row>
       <!-- EDIT DATA -->
-      <v-sheet class="rounded-b-xl">
+      <v-sheet height="90%">
       <v-data-table
           id="tbl_exporttable_to_xls"
           items-per-page="10"
@@ -359,8 +359,8 @@ import AppBar from '../components/AppBar.vue';
           :hover="true"
           :fixed-header="true"
           density="compact"
-          class="text-caption py-3 rounded-b-xl"
-          height="63vh"
+          class="text-caption py-3 h-100"
+          height="100%"
           >
           <!-- eslint-disable-next-line vue/valid-v-slot -->
           <template v-slot:item.nama="{item}">

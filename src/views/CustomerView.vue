@@ -170,8 +170,8 @@ import AppBar from '../components/AppBar.vue';
 
 </script>
 <template>
-  <v-container>
-    <AppBar v-if="pageTitle != null" :pageTitle="pageTitle"/>
+  <AppBar v-if="pageTitle != null" :pageTitle="pageTitle"/>
+  <v-container class="pt-9 h-100">
     <v-row no-gutters class="mt-n4 mb-2">
       <v-responsive class="d-flex align-center mb-sm-0 mb-1" min-width="200">
       <div class="d-flex align-center w-100">

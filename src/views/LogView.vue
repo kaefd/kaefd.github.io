@@ -199,8 +199,8 @@ import AppBar from '../components/AppBar.vue';
     </v-container>
   </v-sheet>
   </v-navigation-drawer>
-  <v-container>
-    <AppBar v-if="pageTitle != null" :pageTitle="pageTitle"/>
+  <AppBar v-if="pageTitle != null" :pageTitle="pageTitle"/>
+  <v-container class="pt-9 h-100">
     <v-row no-gutters class="mb-2 mt-n4">
       <v-responsive>
         <!-- BUTTON FILTER -->
@@ -248,7 +248,6 @@ import AppBar from '../components/AppBar.vue';
       </v-responsive>
       </v-row>
       <!-- EDIT DATA -->
-      <v-sheet class="rounded-b-xl">
       <v-data-table
           id="tbl_exporttable_to_xls"
           :items-per-page="selected().length"
@@ -258,26 +257,14 @@ import AppBar from '../components/AppBar.vue';
           :hover="true"
           :fixed-header="true"
           density="compact"
-          class="text-caption py-3 rounded-b-xl"
-          height="75vh"
+          class="text-caption py-3 h-100"
+          height="100%"
           >
           <!-- CUSTOM PAGINATION STYLE -->
           <template v-slot:bottom>
-            <!-- <v-row no-gutters class="justify-end align-center my-1">
-              <v-pagination
-                v-model="page"
-                :length="4"
-                size="small"
-                rounded="circle"
-                prev-icon="mdi-menu-left"
-                next-icon="mdi-menu-right"
-              ></v-pagination>
-              <v-spacer></v-spacer>
-              <span>Total: 1978 data</span>
-            </v-row> -->
+            
           </template>
         </v-data-table>
-      </v-sheet>
       <!-- edit data -->
         <TableVue id="tbl_exporttable_to_xls" :headers="headers" :items="selected()" :search="search" :category="category" :selectCategory="selectCategory" :iTitle="actIcon[1].text" :btncolor="actIcon[1].color" :icon="actIcon[1].icon" :iVariant="actIcon[1].variant" :alpha="alpha"/>
   </v-container>

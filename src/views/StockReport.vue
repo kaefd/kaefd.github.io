@@ -268,8 +268,8 @@ import AppBar from '../components/AppBar.vue';
         </v-container>
       </v-sheet>
   </v-navigation-drawer>
-    <v-container>
     <AppBar v-if="pageTitle != null" :pageTitle="pageTitle"/>
+    <v-container class="pt-9 h-100">
         <v-row no-gutters class="mb-2 mt-n4">
           <v-responsive>
             <!-- BUTTON FILTER -->
