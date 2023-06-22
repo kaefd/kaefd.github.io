@@ -74,7 +74,7 @@ export default {
     <v-div class="circle-2"></v-div>
   </v-div>
   <v-div class="d-flex justify-end align-center absolute m-center">
-    <img src="../assets/img/just logo.png" class="bg-img"/>
+    <img src="../assets/img/just_logo.png" class="bg-img"/>
     <v-card class="rounded-xlarger pa-11 card-login elevation-5 d-flex flex-column justify-space-between">
       <h4 class="text-center text-h4 font-weight-bold mb-7">USER LOGIN</h4>
       <v-form @submit.prevent="handleLogin" :validation-schema="schema">
