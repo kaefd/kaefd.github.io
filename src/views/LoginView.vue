@@ -89,8 +89,8 @@ export default {
           density="compact"
           hide-details
         >
-          <img v-if="user" src="../assets/img/USER1.png" class="ms-3 mb-2 me-5" style="width:20px; height:25px" />
-          <img v-if="!user" src="../assets/img/USER.png" class="ms-3 mb-2 me-5" style="width:20px; height:25px" />
+          <img v-if="user" :src="../assets/img/USER1.png" class="ms-3 mb-2 me-5" style="width:20px; height:25px" />
+          <img v-if="!user" :src="../assets/img/USER.png" class="ms-3 mb-2 me-5" style="width:20px; height:25px" />
         </v-text-field>
       </v-div>
       <v-span class="text-h6 font-weight-medium text-blue-custom  mt-7">Password</v-span>
@@ -104,8 +104,8 @@ export default {
           density="compact"
           hide-details
         >
-          <img v-if="pass" src="../assets/img/PASS1.png" class="ms-3 mb-2  me-5" style="width:20px; height:25px" />
-          <img v-if="!pass" src="../assets/img/PASS.png" class="ms-3 mb-2  me-5" style="width:20px; height:25px" />
+          <img v-if="pass" :src="../assets/img/PASS1.png" class="ms-3 mb-2  me-5" style="width:20px; height:25px" />
+          <img v-if="!pass" :src="../assets/img/PASS.png" class="ms-3 mb-2  me-5" style="width:20px; height:25px" />
         </v-text-field>
       </v-div>
       <v-btn
