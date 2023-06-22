@@ -64,7 +64,7 @@ export default {
   </v-row>
 -->
 <v-container fluid class="d-flex justify-space-between h-100 w-100 overflow-hidden">
-  <v-div class="animate__animated animate__bounceInDown animate__delay-2s absolute w-25 ma-5">
+  <v-div class="animate__animated animate__bounceInDown animate__delay-2s absolute text-hidden w-25 ma-5">
     <v-span class="text-h2 font-weight-bold">WELCOME TO AURI STEEL</v-span>
   </v-div>
   <v-row position="absolute" class="ms-n15p">
