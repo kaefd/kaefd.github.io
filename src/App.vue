@@ -48,7 +48,7 @@ export default {
   <template>
       <v-layout>
         <NavDrawers v-if="pageTitle != null" :pageTitle="pageTitle" :item="items" :pemasukan="pemasukan" :produksi="produksi" :pengeluaran="pengeluaran" :kirim="kirim"/>
-        <v-main class="vh-100 vw-100 justify-center">
+        <v-main class="vh-100 vw-100">
             <RouterView :actIcon="actIcon" :cetak="cetak" @page="page" @pages="page" />
         </v-main>
       </v-layout>

@@ -5,7 +5,9 @@ vh-100 {
 vw-100 {
   width: 100vw !important;
 }
-
+.vw-50{
+  width: 50vw;
+}
   .w-30 {
     max-width: 32vw;
   }
@@ -51,9 +53,141 @@ th {
   background: #fafafa !important;
 }
 
+.absolute {
+  position: absolute;
+}
+.m-center{
+  display: flex;
+  align-self: center;
+  margin-left: 40%;
+}
+/*MARGIN*/
 
+.ms-n15p {
+  margin-left: -15%;
+}
+
+/*BORDER*/
+.rounded-xlarger {
+  border-radius: 15%;
+}
 /*LINK STYLE*/
 
 a {
   text-decoration: none;
+}
+
+.card-login {
+  width: 500px;
+  height: 500px;
+}
+.input-small {
+  height: 15px;
+}
+/*BACKGROUND*/
+
+  .bg-img {
+    position: absolute;
+    max-width: 65vw;
+  }
+  
+  .circle-1 {
+    height: 200px;
+    width: 200px;
+    background: #1675a9;
+    border-radius: 50%;
+    margin-bottom: -15% ;
+    margin-top: auto;
+    position: relative;
+  }
+  
+  .circle-2 {
+    height: 150px;
+    width: 150px;
+    background: #1675a9;
+    border-radius: 50%;
+    margin-right: -25%;
+    margin-left: auto;
+    margin-bottom: -25% ;
+    margin-top: auto;
+    
+  }
+  
+  .circle-3 {
+    height: 200px;
+    width: 200px;
+    background: #0e2240;
+    border-radius: 50%;
+    margin-right: -10%;
+    margin-bottom: auto;
+    margin-top: -15%;
+    position: absolute;
+  }
+  
+  .circle-4 {
+    height: 200px;
+    width: 200px;
+    background: #0e2240;
+    border-radius: 50%;
+    margin-right: -70%;
+    margin-left: auto;
+    margin-bottom: ;
+    margin-top: 60%;
+  }
+
+@media (max-width: 900px) {
+  
+  .bg-img {
+    max-width: 80vw;
+  }
+  .circle-1 {
+    height: 300px;
+    width: 300px;
+  }
+  
+  .circle-2 {
+    height: 150px;
+    width: 150px;
+  }
+  
+  .circle-3 {
+    height: 300px;
+    width: 300px;
+  }
+  
+  .circle-4 {
+    height: 200px;
+    width: 200px;
+  }
+  .m-center{
+    display: flex;
+    align-self: center;
+    margin-left: 25%;
+  }
+  .card-login {
+    width: 400px;
+  }
+}
+
+@media (min-width: 900px) {
+  
+  .circle-1 {
+    height: 500px;
+    width:500px;
+  }
+  
+  .circle-2 {
+    height: 250px;
+    width: 250px;
+  }
+  
+  .circle-3 {
+    height: 400px;
+    width: 400px;
+  }
+  
+  .circle-4 {
+    height: 200px;
+    width: 200px;
+  }
 }
