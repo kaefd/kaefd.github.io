@@ -1,5 +1,6 @@
 <script setup>
 import api from '../api';
+import 'animate.css';
 // import axios from 'axios'
 // import { mapActions } from 'vuex'
 // import { Form } from "vee-validate";
@@ -63,19 +64,22 @@ export default {
   </v-row>
 -->
 <v-container fluid class="d-flex justify-space-between h-100 w-100 overflow-hidden">
+  <v-div class="animate__animated animate__bounceInDown animate__delay-2s absolute w-25 ma-5">
+    <v-span class="text-h2 font-weight-bold">WELCOME TO AURI STEEL</v-span>
+  </v-div>
   <v-row position="absolute" class="ms-n15p">
-    <v-div class="circle-1"></v-div>
+    <v-div class="animate__animated animate__zoomIn animate__delay-2s circle-1"></v-div>
   </v-row>
   <v-div class="d-flex flex-column justify-space-between align-end">
     <v-div class="d-flex flex-column justify-space-between">
-      <v-div class="circle-3"></v-div>
-      <v-div class="circle-4"></v-div>
+      <v-div class="animate__animated animate__zoomIn animate__delay-2s circle-3"></v-div>
+      <v-div class="animate__animated animate__zoomIn animate__delay-2s circle-4"></v-div>
     </v-div>
-    <v-div class="circle-2"></v-div>
+    <v-div class="animate__animated animate__zoomIn animate__delay-2s circle-2"></v-div>
   </v-div>
   <v-div class="d-flex justify-end align-center absolute m-center">
-    <img src="../assets/img/just_logo.png" class="bg-img"/>
-    <v-card class="rounded-xlarger pa-11 card-login elevation-5 d-flex flex-column justify-space-between">
+    <img src="../assets/img/just_logo.png" class="animate__animated animate__zoomIn animate__delay-2s bg-img"/>
+    <v-card class="animate__animated animate__fadeInUpBig animate__delay-4s rounded-xlarger pa-11 card-login elevation-5 d-flex flex-column justify-space-between">
       <h4 class="text-center text-h4 font-weight-bold mb-7">USER LOGIN</h4>
       <v-form @submit.prevent="handleLogin" :validation-schema="schema">
       <v-span class="text-h6 font-weight-medium text-blue-custom">Username</v-span>
