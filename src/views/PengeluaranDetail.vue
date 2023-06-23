@@ -366,18 +366,31 @@ export default {
                         </v-dialog>
                         </v-col>
                         <v-col>
-                            <v-select
+                            <v-text-field
+                                id="tipe"
                                 label="Tipe Dokumen"
                                 v-model="inputdata.tipe_dokumen"
-                                :items="tipe_dokumen"
+                                :rules="required"
                                 variant="outlined"
                                 density="compact"
-                                style="min-width: 200px; max-width:300px"
-                                :rules="required"
+                                class="mb-5"
                                 hide-details
-                                class="mb-5 text-caption"
-                            >
-                            </v-select>
+                                readonly
+                                style="min-width: 200px; max-width:300px"
+                                >                                
+                                </v-text-field>
+                                <v-menu activator="#tipe" class="elevation-0">
+                                    <v-list>
+                                      <v-list-item
+                                        v-for="(item, index) in tipe_dokumen"
+                                        :key="index"
+                                        :value="index"
+                                        density="compact"
+                                      >
+                                        <v-list-item-title @click="inputdata.tipe_dokumen = item" class="text-caption">{{ item }}</v-list-item-title>
+                                      </v-list-item>
+                                    </v-list>
+                                </v-menu>
                             <v-text-field
                                 label="No Dokumen"
                                 v-model="inputdata.no_dokumen"

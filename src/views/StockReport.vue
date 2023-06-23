@@ -235,25 +235,7 @@ import AppBar from '../components/AppBar.vue';
             v-model="filtered.group_barang"
             multiple
             variant="underlined"
-            density="compact"
-            class="overflow-auto h-50"
-            hide-details
-            single-line
-            hide-selected
-            chips
-            closable-chips
-          ></v-combobox>
-        </v-container>
-        <!-- KODE BARANG -->
-        <v-container>
-          <v-span class="text-caption text-weight-bold">Kode Barang</v-span>
-          <v-divider></v-divider>
-          <v-combobox
-            :items="kodebarang"
-            v-model="filtered.kode_barang"
-            multiple
-            variant="underlined"
-            density="compact"
+            density="compact text-small"
             class="overflow-auto h-50"
             hide-details
             single-line
