@@ -20,7 +20,7 @@ export default {
         valid: false,
         detaildial: [],
         arr: [],
-        tipe_dokumen: ['BC23', 'BC40'],
+        tipe_dokumen: ['BC23', 'BC40', 'PPKEK-LDP', 'PPKEK-TDDP'],
         searched: '',
         barang: '',
         namasupplier: '',
