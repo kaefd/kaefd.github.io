@@ -23,6 +23,7 @@ import AppBar from '../components/AppBar.vue';
         search: '',
         tgl:'',
         filter: false,
+        confirmdialog: false,
         periode: [],
         checkStatus: 'menunggu',
         dialog2: false,
@@ -55,6 +56,8 @@ import AppBar from '../components/AppBar.vue';
         },
         pengirimanHead: '',
         penjualanHead: '',
+        head: '',
+        detail: '',
         kirim_detail: '',
         pelanggan: '',
         alamatBongkar: '',
@@ -328,22 +331,22 @@ import AppBar from '../components/AppBar.vue';
         //   })
       },
       // HAPUS DATA
-      del(head, valuedtl) {
+      del() {
       let pengiriman_head = {
-          no_pengiriman: head.no_pengiriman,
-          tgl_pengiriman: head.tgl_pengiriman,
-          kode_pelanggan: head.kode_pelanggan,
-          kode_alamat_bongkar: head.kode_alamat_bongkar,
-          supir: head.supir,
-          no_polisi: head.no_polisi,
-          user_input: head.user_input,
-          tgl_input: head.tgl_input,
-          tgl_batal:head.tgl_batal,
-          user_batal: 'admin',
+          no_pengiriman: this.head.no_pengiriman,
+          tgl_pengiriman: this.head.tgl_pengiriman,
+          kode_pelanggan: this.head.kode_pelanggan,
+          kode_alamat_bongkar: this.head.kode_alamat_bongkar,
+          supir: this.head.supir,
+          no_polisi: this.head.no_polisi,
+          user_input: this.head.user_input,
+          tgl_input: this.head.tgl_input,
+          tgl_batal:this.head.tgl_batal,
+          user_batal: this.head.user_batal,
           status: false
       }
       const ph = JSON.stringify(pengiriman_head);
-      const pd = JSON.stringify(valuedtl);
+      const pd = JSON.stringify(this.detail);
         console.log({
           pengiriman_head: ph,
           pengiriman_detail: pd,
@@ -359,7 +362,12 @@ import AppBar from '../components/AppBar.vue';
         //   console.log(error);
         // })
       },
-
+      confirm(head, detail){
+        this.confirmdialog = true
+        this.head = head
+        this.detail = detail
+      },
+      
     },
     mounted(){
       this.page()
@@ -501,7 +509,7 @@ import AppBar from '../components/AppBar.vue';
                           batalbtn="Pengiriman"
                           :kirim="true"
                           :edit="true"
-                          @del="del"
+                          @confirm="confirm"
                           :namaPelanggan="namaPelanggan(item.raw.kode_pelanggan)"
                           :alamatPelanggan="alamatPelanggan(item.raw.kode_pelanggan)"
                           :namaTujuan="namaTujuan(item.raw.kode_alamat_bongkar)"
@@ -539,6 +547,36 @@ import AppBar from '../components/AppBar.vue';
             </template>
             </v-data-table>
         </v-sheet>
+        <v-dialog v-model="confirmdialog" transition="dialog-bottom-transition" width="400">
+            <v-card class="rounded-xl">
+                <v-card-title class="text-center my-7">Apakah Anda Yakin ?</v-card-title>
+                <v-row no-gutters>
+                    <v-col>
+                        <v-btn
+                        color="orange-darken-1"
+                        variant="tonal"
+                        height="57"
+                        class="w-100 rounded-0"
+                        @click="confirmdialog = false"
+                        >
+                        Tidak
+                        </v-btn>                  
+                    </v-col>
+                    <v-col>
+                        <v-btn
+                        type="submit"
+                        color="blue-darken-1"
+                        variant="tonal"
+                        height="57"
+                        class="w-100 rounded-0"
+                        @click="del(), confirmdialog = false"
+                        >
+                        Ya
+                        </v-btn>
+                    </v-col>
+                </v-row>
+            </v-card>
+        </v-dialog>
   </v-container>
 
 </template>

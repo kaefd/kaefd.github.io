@@ -18,7 +18,6 @@ export default {
         dialog2: false,
         dialogbhn: [],
         dialogbrg: [],
-        confirmdialog: false,
         dialog5: false,
         searched: '',
         inputbahan: '',
@@ -102,7 +101,7 @@ export default {
             }
         },
         confirm() {
-            this.$emit('del', this.item, this.produksi_bahan, this.produksi_barang)
+            this.$emit('confirm', this.item, this.produksi_bahan, this.produksi_barang)
         },
         async validate () {
             const { valid } = await this.$refs.form.validate()
@@ -127,15 +126,6 @@ export default {
     >
         <!-- BUTTON DIALOG -->
           <template v-slot:activator="{ props }">
-            <v-btn
-            v-if="edit"
-            v-bind="props"
-            size="small"
-            variant="text"
-            color="grey-darken-2"
-            >
-            <v-icon>mdi-dots-vertical</v-icon>
-            </v-btn>
             
             <v-btn
             v-if="!edit"
@@ -146,6 +136,27 @@ export default {
             >
             Tambah Baru
             </v-btn>
+            
+            <v-menu>
+            <template v-slot:activator="{ props }">
+                <!-- LIHAT DATA -->
+                <v-btn
+                id="menu-actions"
+                v-if="edit"
+                size="small"
+                variant="text"
+                color="grey-darken-2"
+                v-bind="props"
+                icon
+                >
+                <v-icon>mdi-dots-vertical</v-icon>
+                </v-btn>
+            </template>
+                <v-list>
+                  <v-list-item class="text-caption" density="compact" v-bind="props" >Lihat Data</v-list-item>
+                  <v-list-item class="text-caption" density="compact" @click="confirm()" >Batal Produksi</v-list-item>
+                </v-list>
+            </v-menu>
           </template>
           <!-- dialog content -->
             <v-card>
@@ -295,11 +306,14 @@ export default {
                             <v-dialog @update="dialogchild" v-model="dialogbhn[index]">
                                 <template v-slot:activator="{ props }">
                                     <v-btn
+                                        variant="text"
+                                        size="small"
+                                        color="grey-darken-2"
+                                        icon
                                         v-bind="props"
-                                        :icon="actIcon[3].icon"
-                                        :color="actIcon[3].color"
-                                        :variant="actIcon[3].variant"
-                                    ></v-btn>
+                                        >
+                                        <v-icon>mdi-dots-vertical</v-icon>
+                                    </v-btn>
                                 </template>
                                 <v-card class="px-7 py-5 mx-auto rounded-xl w-100" max-width="400">
                                 <v-span class="text-button text-center font-weight-bold">{{ item.raw.nama_barang }}</v-span>
@@ -350,11 +364,14 @@ export default {
                                 <v-dialog @update="dialogbrg" v-model="dialogbrg[index]">
                                     <template v-slot:activator="{ props }">
                                         <v-btn
+                                            variant="text"
+                                            color="grey-darken-2"
+                                            icon
                                             v-bind="props"
-                                            :icon="actIcon[3].icon"
-                                            :color="actIcon[3].color"
-                                            :variant="actIcon[3].variant"
-                                        ></v-btn>
+                                            size="small"
+                                            >
+                                            <v-icon>mdi-dots-vertical</v-icon>
+                                        </v-btn>
                                     </template>
                                     <v-card class="px-7 py-5 mx-auto rounded-xl w-100" max-width="400">
                                     <v-span class="text-button text-center font-weight-bold">{{ item.raw.nama_barang }}</v-span>
@@ -378,40 +395,8 @@ export default {
                 </v-row>
                     <!-- edit data -->
                 <v-row class="float-end">
-                    <v-btn v-if="edit" class="mt-3 rounded-xl elevation-0 text-caption" height="42" width="150" variant="tonal" @click="confirmdialog=true">Batal Produksi</v-btn>
                     <v-btn v-if="!edit" class="mt-3 rounded-xl elevation-0 text-caption" height="42" width="150" variant="tonal" @click="inputbarang = inputbahan = '', dialog = false">Batal</v-btn>
                     <v-btn v-if="!edit" class="ms-3 mt-3 rounded-xl elevation-0 bg-blue-custom text-white text-caption" height="42" width="150" @click="validate">Simpan</v-btn>
-                    <v-dialog v-model="confirmdialog" transition="dialog-bottom-transition" width="400">
-                    <v-card class="rounded-xl">
-                        <v-card-title class="text-center my-7">Apakah Anda Yakin ?</v-card-title>
-                        <v-row no-gutters>
-                            <v-col>
-                                <v-btn
-                                color="orange-darken-1"
-                                variant="tonal"
-                                height="57"
-                                class="w-100 rounded-0"
-                                @click=" confirmdialog = false"
-                                >
-                                Tidak
-                                </v-btn>                  
-                            </v-col>
-                            <v-col>
-                                <v-btn
-                                type="submit"
-                                color="blue-darken-1"
-                                variant="tonal"
-                                height="57"
-                                class="w-100 rounded-0"
-                                @click=" inputbahan = inputbarang = [], confirm(), dialog= false, confirmdialog = false"
-                                >
-                                Ya
-                                </v-btn>
-                            </v-col>
-                            </v-row>
-                    </v-card>
-                </v-dialog>
-
                 </v-row>
                 </v-container>
             </v-card>

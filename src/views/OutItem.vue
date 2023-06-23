@@ -27,6 +27,7 @@ import AppBar from '../components/AppBar.vue';
         checkStatus: [],
         pelanggan: '',
         dialog2: false,
+        confirmdialog: false,
         pageTitle: 'PENGELUARAN BARANG',
         selectdokumen: [],
         btnTitle: 'Tambah Data',
@@ -59,6 +60,8 @@ import AppBar from '../components/AppBar.vue';
         ],
         penjualan_head: '',
         penjualan_detail: '',
+        head: '',
+        detail: '',
         headDetails:[
           {title: 'Kode Barang', key: 'kode_barang' },
           {title: 'Nama Barang', key: 'nama_barang' },
@@ -218,24 +221,24 @@ import AppBar from '../components/AppBar.vue';
         //     return this.$router.push('login');
         //   })
       },
-      del(head, detail) {
+      del() {
         let penjualan_head = {
-          no_penjualan: head.no_penjualan,
-          tgl_penjualan: head.tgl_penjualan,
-          tipe_dokumen: head.tipe_dokumen,
-          no_dokumen: head.no_dokumen,
-          tgl_dokumen: head.tgl_dokumen,
-          kode_pelanggan: head.kode_pelanggan,
-          kode_group: head.kode_group,
-          total_penjualan: head.total_penjualan,
-          tgl_input: head.tgl_input,
-          user_input: head.user_input,
-          tgl_batal: head.tgl_batal,
+          no_penjualan: this.head.no_penjualan,
+          tgl_penjualan: this.head.tgl_penjualan,
+          tipe_dokumen: this.head.tipe_dokumen,
+          no_dokumen: this.head.no_dokumen,
+          tgl_dokumen: this.head.tgl_dokumen,
+          kode_pelanggan: this.head.kode_pelanggan,
+          kode_group: this.head.kode_group,
+          total_penjualan: this.head.total_penjualan,
+          tgl_input: this.head.tgl_input,
+          user_input: this.head.user_input,
+          tgl_batal: this.head.tgl_batal,
           user_batal: 'admin',
           status: false
       }
       const ph = JSON.stringify(penjualan_head);
-      const pd = JSON.stringify(detail);
+      const pd = JSON.stringify(this.detail);
         console.log({
           penjualan_head: ph,
           penjualan_detail: pd,
@@ -250,6 +253,11 @@ import AppBar from '../components/AppBar.vue';
         // .catch((error) => {
         //   return this.$router.push('login');
         // })
+      },
+      confirm(head, detail){
+        this.confirmdialog = true
+        this.head = head
+        this.detail = detail
       },
       namaPelanggan(value) {
         for (let i = 0; i < this.pelanggan.length; i++) {
@@ -599,10 +607,40 @@ import AppBar from '../components/AppBar.vue';
             </template>
              <!-- eslint-disable-next-line vue/valid-v-slot -->
             <template v-slot:item.actions="{item}">
-              <PengeluaranDetail @del="del" batalbtn="Pengeluaran" :namaPelanggan="namaPelanggan(item.raw.kode_pelanggan)" :penjualan="penjualan(item.raw.no_penjualan)" :edit="true" :pengeluaran="true" :pageTitle="pageTitle" :headDetails="headDetails" :items="item.raw" :details="details" :headers="headers" :search="search" :category="category" :selectCategory="selectCategory" :iTitle="actIcon[3].text" :btncolor="actIcon[3].color" :icon="actIcon[3].icon" :iVariant="actIcon[3].variant" :alpha="alpha" :actIcon="actIcon" :disable="true"/>
+              <PengeluaranDetail @confirm="confirm" batalbtn="Pengeluaran" :namaPelanggan="namaPelanggan(item.raw.kode_pelanggan)" :penjualan="penjualan(item.raw.no_penjualan)" :edit="true" :pengeluaran="true" :pageTitle="pageTitle" :headDetails="headDetails" :items="item.raw" :details="details" :headers="headers" :search="search" :category="category" :selectCategory="selectCategory" :iTitle="actIcon[3].text" :btncolor="actIcon[3].color" :icon="actIcon[3].icon" :iVariant="actIcon[3].variant" :alpha="alpha" :actIcon="actIcon" :disable="true"/>
             </template>
           </v-data-table>
         </v-sheet>
+        <v-dialog v-model="confirmdialog" transition="dialog-bottom-transition" width="400">
+           <v-card class="rounded-xl">
+               <v-card-title class="text-center my-7">Apakah Anda Yakin ?</v-card-title>
+               <v-row no-gutters>
+                   <v-col>
+                       <v-btn
+                       color="orange-darken-1"
+                       variant="tonal"
+                       height="57"
+                       class="w-100 rounded-0"
+                       @click=" confirmdialog = false"
+                       >
+                       Tidak
+                       </v-btn>                  
+                   </v-col>
+                   <v-col>
+                       <v-btn
+                       type="submit"
+                       color="blue-darken-1"
+                       variant="tonal"
+                       height="57"
+                       class="w-100 rounded-0"
+                       @click="del(), confirmdialog = false"
+                       >
+                       Ya
+                       </v-btn>
+                   </v-col>
+                   </v-row>
+           </v-card>
+        </v-dialog>
   </v-container>
 
 </template>

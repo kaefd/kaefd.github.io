@@ -15,7 +15,6 @@ export default {
         dialog3: false,
         dialog4: false,
         dialogb: false,
-        confirmdialog: false,
         dialogkodeg: false,
         valid: false,
         detaildial: [],
@@ -83,8 +82,7 @@ export default {
             this.pembelian_input = value
         },
         confirm() {
-            this.$emit('del', this.dataitem, this.pembelian)
-           
+            this.$emit('confirm', this.dataitem, this.pembelian)
         },
         totalharga(v){
                 if (this.dataitem.no_penjualan == v ) {
@@ -146,17 +144,26 @@ export default {
             >
             Tambah Baru
             </v-btn>
-
-           <!-- LIHAT DATA -->
-            <v-btn
-            v-if="edit"
-            v-bind="props"
-            size="small"
-            variant="text"
-            color="grey-darken-2"
-            >
-            <v-icon>{{ icon }}</v-icon>
-            </v-btn>
+            <v-menu>
+            <template v-slot:activator="{ props }">
+                <!-- LIHAT DATA -->
+                <v-btn
+                id="menu-actions"
+                v-if="edit"
+                size="small"
+                variant="text"
+                color="grey-darken-2"
+                v-bind="props"
+                icon
+                >
+                <v-icon>{{ icon }}</v-icon>
+                </v-btn>
+            </template>
+                <v-list>
+                  <v-list-item class="text-caption" density="compact" v-bind="props" >Lihat Data</v-list-item>
+                  <v-list-item class="text-caption" density="compact" @click="confirm()" >Batal Pemasukan</v-list-item>
+                </v-list>
+            </v-menu>
           </template>
           <!-- dialog content -->
             <v-card>
@@ -542,37 +549,6 @@ export default {
                     </v-data-table>
                 <v-btn v-if="!edit" @click="validate" :hidden="disable" class="float-end text-body-2 text-white elevation-0 rounded-xl" height="42" width="150" color="#ff6e40">Simpan</v-btn>
                 <v-btn v-if="!edit" @click="dialog=false" class="float-end rounded-xl text-body-2 me-2" height="42" width="150" variant="outlined" color="grey-darken-2">Batal</v-btn>
-                <v-btn v-if="edit" @click="confirmdialog = true" size="large" class="float-end rounded-xl text-body-2 me-2" height="42" width="150" variant="tonal">Batal {{ batalbtn }}</v-btn>
-                <v-dialog v-model="confirmdialog" transition="dialog-bottom-transition" width="400">
-                <v-card class="rounded-xl">
-                    <v-card-title class="text-center my-7">Apakah Anda Yakin ?</v-card-title>
-                    <v-row no-gutters>
-                        <v-col>
-                            <v-btn
-                            color="orange-darken-1"
-                            variant="tonal"
-                            height="57"
-                            class="w-100 rounded-0"
-                            @click=" confirmdialog = false"
-                            >
-                            Tidak
-                            </v-btn>                  
-                        </v-col>
-                        <v-col>
-                            <v-btn
-                            type="submit"
-                            color="blue-darken-1"
-                            variant="tonal"
-                            height="57"
-                            class="w-100 rounded-0"
-                            @click="inputdata = [], pembelian_input = [], confirm(), dialog3 = false, dialog= false, confirmdialog = false"
-                            >
-                            Ya
-                            </v-btn>
-                        </v-col>
-                        </v-row>
-                </v-card>
-                </v-dialog>
             </v-form>
                 </v-container>
             </v-card>

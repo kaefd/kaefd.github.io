@@ -23,6 +23,7 @@ export default {
         periode: [],
         filter: false,
         dialog2: false,
+        confirmdialog: false,
         pageTitle: 'PEMASUKAN BARANG',
         btn: 'Tambah Barang',
         selectdokumen: [],
@@ -188,35 +189,37 @@ export default {
         //   })
       },
       // HAPUS DATA
-      del(value, valuedtl) {
-      this.pembelian_head = {
-          no_pembelian: value.no_pembelian,
-          tgl_pembelian: value.tgl_pembelian,
-          kode_supplier: value.kode_supplier,
-          tipe_dokumen: value.tipe_dokumen,
-          no_dokumen: value.no_dokumen,
-          tgl_dokumen: value.tgl_dokumen,
-          no_invoice: value.no_invoice,
-          no_bl: value.no_bl,
-          mata_uang: value.mata_uang,
-          kurs: value.kurs,
+      del() {
+      let head = ''
+      let detail = ''
+      head = {
+          no_pembelian: this.pembelian_head.no_pembelian,
+          tgl_pembelian: this.pembelian_head.tgl_pembelian,
+          kode_supplier: this.pembelian_head.kode_supplier,
+          tipe_dokumen: this.pembelian_head.tipe_dokumen,
+          no_dokumen: this.pembelian_head.no_dokumen,
+          tgl_dokumen: this.pembelian_head.tgl_dokumen,
+          no_invoice: this.pembelian_head.no_invoice,
+          no_bl: this.pembelian_head.no_bl,
+          mata_uang: this.pembelian_head.mata_uang,
+          kurs: this.pembelian_head.kurs,
           user_input: 'admin',
           user_batal: 'admin',
           status: 'false'
       }
-      this.pdetail = [{
-            no_pembelian: valuedtl.no_pembelian,
-            kode_barang: valuedtl.kode_barang,
-            nama_barang: valuedtl.nama_barang,
-            hs_code: valuedtl.hs_code,
-            jumlah: valuedtl.jumlah,
-            jumlah_diterima: valuedtl.jumlah_diterima,
-            satuan: valuedtl.satuan,
-            nilai: valuedtl.nilai,
-            no_urut:valuedtl.no_urut,
+      detail = [{
+            no_pembelian: this.pdetail.no_pembelian,
+            kode_barang: this.pdetail.kode_barang,
+            nama_barang: this.pdetail.nama_barang,
+            hs_code: this.pdetail.hs_code,
+            jumlah: this.pdetail.jumlah,
+            jumlah_diterima: this.pdetail.jumlah_diterima,
+            satuan: this.pdetail.satuan,
+            nilai: this.pdetail.nilai,
+            no_urut:this.pdetail.no_urut,
       }]
-      const ph = JSON.stringify(this.pembelian_head);
-      const pd = JSON.stringify(this.pdetail);
+      const ph = JSON.stringify(head);
+      const pd = JSON.stringify(detail);
         console.log({
           pembelian_head: ph,
           pembelian_detail: pd,
@@ -231,6 +234,11 @@ export default {
         // .catch((error) => {
         //   console.log(error);
         // })
+      },
+      confirm(head, detail){
+        this.confirmdialog = true
+        this.pembelian_head = head
+        this.pdetail = detail
       },
       // inisialisasi
       selected(){ 
@@ -502,7 +510,6 @@ export default {
           </div>
       </v-responsive>
       </v-row>
-
         <!-- EDIT DATA -->
         <v-sheet height="90%">
           <v-data-table
@@ -524,7 +531,7 @@ export default {
               <template v-slot:item.actions="{item}">
                 <PemasukanDetail
                 batalbtn="Pemasukan"
-                @del="del"
+                @confirm="confirm"
                 :namaSupplier="dataTable(item.raw.kode_supplier, 'nama')"
                 :pembelian="dataTable(item.raw.no_pembelian, 'pembelian')"
                 :edit="true"
@@ -547,6 +554,36 @@ export default {
               </template>
             </v-data-table>
         </v-sheet>
+        <v-dialog v-model="confirmdialog" transition="dialog-bottom-transition" width="400">
+            <v-card class="rounded-xl">
+                <v-card-title class="text-center my-7">Apakah Anda Yakin ?</v-card-title>
+                <v-row no-gutters>
+                    <v-col>
+                        <v-btn
+                        color="orange-darken-1"
+                        variant="tonal"
+                        height="57"
+                        class="w-100 rounded-0"
+                        @click="confirmdialog = false"
+                        >
+                        Tidak
+                        </v-btn>                  
+                    </v-col>
+                    <v-col>
+                        <v-btn
+                        type="submit"
+                        color="blue-darken-1"
+                        variant="tonal"
+                        height="57"
+                        class="w-100 rounded-0"
+                        @click="del(), confirmdialog = false"
+                        >
+                        Ya
+                        </v-btn>
+                    </v-col>
+                </v-row>
+            </v-card>
+        </v-dialog>
   </v-container>
 
 </template>

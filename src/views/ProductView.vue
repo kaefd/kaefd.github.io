@@ -24,6 +24,7 @@ import AppBar from '../components/AppBar.vue';
         search: '',
         periode: [],
         dialog2: false,
+        confirmdialog: false,
         pageTitle: 'PRODUKSI BARANG',
         selectCategory: 'semua',
         btnTitle: 'Tambah Data',
@@ -45,6 +46,9 @@ import AppBar from '../components/AppBar.vue';
         },
         items: '',
         detailbahan: '',
+        head: '',
+        detailbhn: '',
+        detailbrg: '',
         detailbarang: '',
         groupbarang: '',
         getbarang:'',
@@ -151,20 +155,20 @@ import AppBar from '../components/AppBar.vue';
       },
       // HAPUS DATA
       // PRODUKSI HEAD
-      del(value, detlbahan, detlbarang) {
+      del() {
         let produksi_head = {
-          no_produksi: value.no_produksi,
-          tgl_produksi: value.tgl_produksi,
-          kode_group: value.kode_group,
-          tgl_input: value.tgl_input,
-          user_input: value.user_input,
-          tgl_batal: value.tgl_batal,
-          user_batal: "admin",
+          no_produksi: this.head.no_produksi,
+          tgl_produksi: this.head.tgl_produksi,
+          kode_group: this.head.kode_group,
+          tgl_input: this.head.tgl_input,
+          user_input: this.head.user_input,
+          tgl_batal: this.head.tgl_batal,
+          user_batal: this.head.user_batal,
           status: 'false'
         }
       const ph = JSON.stringify(produksi_head);
-      const dbahan = JSON.stringify(detlbahan);
-      const dbarang = JSON.stringify(detlbarang);
+      const dbahan = JSON.stringify(this.detailbhn);
+      const dbarang = JSON.stringify(this.detailbrg);
       console.log({
         produksi_head : ph,
         produksi_detail_bahan : dbahan,
@@ -181,6 +185,12 @@ import AppBar from '../components/AppBar.vue';
         // .catch((error) => {
         //   console.log(error);
         // })
+      },
+      confirm(head, detailbrg, detailbhn){
+        this.confirmdialog = true
+        this.head = head
+        this.detailbrg = detailbrg
+        this.detailbhn = detailbhn
       },
       selected(){        
         return this.getProduksihead(), this.getProduksiBahan(), this.getProduksiBarang()
@@ -490,7 +500,7 @@ import AppBar from '../components/AppBar.vue';
                   jumlah: dataTable(item.raw.no_produksi, 'jumlahbrg'),
                   satuan: dataTable(item.raw.no_produksi, 'satuan')
                 }]"
-                @del="del"
+                @confirm="confirm"
                 :headItem="headItem"
                 :item="item.raw"
                 :details="details"
@@ -510,6 +520,36 @@ import AppBar from '../components/AppBar.vue';
               </template>
           </v-data-table>
           </v-sheet>
+          <v-dialog v-model="confirmdialog" transition="dialog-bottom-transition" width="400">
+            <v-card class="rounded-xl">
+                <v-card-title class="text-center my-7">Apakah Anda Yakin ?</v-card-title>
+                <v-row no-gutters>
+                    <v-col>
+                        <v-btn
+                        color="orange-darken-1"
+                        variant="tonal"
+                        height="57"
+                        class="w-100 rounded-0"
+                        @click="confirmdialog = false"
+                        >
+                        Tidak
+                        </v-btn>                  
+                    </v-col>
+                    <v-col>
+                        <v-btn
+                        type="submit"
+                        color="blue-darken-1"
+                        variant="tonal"
+                        height="57"
+                        class="w-100 rounded-0"
+                        @click="del(), confirmdialog = false"
+                        >
+                        Ya
+                        </v-btn>
+                    </v-col>
+                </v-row>
+            </v-card>
+        </v-dialog>
         <!-- <TableVue :headers="headers" :items="selected()" :search="search" :category="category" :selectCategory="selectCategory" :iTitle="this.actIcon[1].text" :btncolor="this.actIcon[1].color" :icon="this.actIcon[1].icon" :iVariant="this.actIcon[1].variant" :alpha="alpha" /> -->
   </v-container>
 

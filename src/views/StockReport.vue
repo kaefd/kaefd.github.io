@@ -235,7 +235,7 @@ import AppBar from '../components/AppBar.vue';
             v-model="filtered.group_barang"
             multiple
             variant="underlined"
-            density="compact text-small"
+            density="compact"
             class="overflow-auto h-50"
             hide-details
             single-line
