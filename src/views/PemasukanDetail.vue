@@ -326,7 +326,7 @@ export default {
 
                                     </template>
                                     
-                                    <v-card class="py-5 px-5 rounded-xl mx-auto" width="400">
+                                    <v-card class="py-5 px-5 rounded-xl mx-auto w-100" max-width="400">
                                         <v-btn icon="mdi-close" size="small" variant="plain" @click="dialog4 = false"></v-btn>
                                         <v-card-title class="text-center text-blue-darken-4 mb-3 mt-n10 text-button font-weight-bold">SUPPLIER</v-card-title>
                                         <v-text-field
@@ -468,8 +468,8 @@ export default {
                     >
                     <!-- CUSTOM PAGINATION STYLE -->
                     <template v-slot:bottom>
-                        <v-span v-if="laporan" class="float-end me-5 text-caption font-weight-bold">Jumlah : {{ total }}</v-span>
-                        <v-span v-if="!laporan" class="float-end me-5 text-caption font-weight-bold">Jumlah : {{ numb(pembelian[0].nilai) }}</v-span>
+                        <v-span v-if="laporan && edit" class="float-end me-5 text-caption font-weight-bold">Jumlah : {{ total }}</v-span>
+                        <v-span v-if="!laporan && edit" class="float-end me-5 text-caption font-weight-bold">Jumlah : {{ numb(pembelian[0].nilai) }}</v-span>
                     </template>
                     <!-- dialog actions -->
                     <!-- CUSTOM KOLOM -->

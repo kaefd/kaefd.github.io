@@ -281,12 +281,13 @@ export default {
       },
       // GET DATA PEMBELIAN-DETAIL
       pembelian(value) {
+        let p = []
         for (let j = 0; j < this.pembeliandetl.length; j++) {
           if ( this.pembeliandetl[j].no_pembelian == value ) {
-              return this.pembeliandetl[j]
+              p.push(this.pembeliandetl[j])
           }
-          
         }
+        return p
       },
       print(i){
           if (i == 0) {
