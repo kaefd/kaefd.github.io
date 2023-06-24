@@ -79,9 +79,9 @@ export default {
     </v-div>
     <v-div class="animate__animated animate__zoomIn animate__delay-2s circle-2"></v-div>
   </v-div>
-  <v-div class="absolute w-100">
-    <v-form @submit.prevent="handleLogin" :validation-schema="schema">
-    <v-container class="w-50 me-md-12 mx-auto">
+  <v-div class="absolute w-100 ms-n4 h-75 my-auto">
+    <v-container class="me-md-12 mx-auto w-card ">
+      <v-form @submit.prevent="handleLogin" :validation-schema="schema">
       <v-card class="animate__animated animate__fadeInUpBig animate__delay-4s rounded-xlarger pa-11 card-login elevation-5 d-flex flex-column justify-space-around">
           <h4 class="text-center text-h6 font-weight-bold text-blue-custom">USER LOGIN</h4>
           <v-div>
@@ -124,8 +124,8 @@ export default {
         </v-btn>
         <div v-if="message" class="error-message text-body-2 text-red pt-3">{{ message }}</div>
       </v-card>
+    </v-form>
     </v-container>
-  </v-form>
   </v-div>
 </v-container>
 </template>
