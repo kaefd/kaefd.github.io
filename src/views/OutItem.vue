@@ -146,7 +146,7 @@ import AppBar from '../components/AppBar.vue';
         .then(response => {
           this.penjualan_head = response.data
         })
-        .catch((error) => {
+        .catch(() => {
           return this.$router.push('login');
         })
       },
@@ -161,7 +161,7 @@ import AppBar from '../components/AppBar.vue';
         .then(response => {
           this.penjualan_detail = response.data
         })
-        .catch((error) => {
+        .catch(() => {
           return this.$router.push('login');
         })
       },
@@ -171,7 +171,7 @@ import AppBar from '../components/AppBar.vue';
         .then(response => {
           this.groupbarang = response.data
         })
-        .catch((error) => {
+        .catch(() => {
           return this.$router.push('login');
         })
       },
@@ -181,7 +181,7 @@ import AppBar from '../components/AppBar.vue';
         .then(response => {
           this.pelanggan = response.data
         })
-        .catch((error) => {
+        .catch(() => {
           return this.$router.push('login');
         })
       },
@@ -234,7 +234,7 @@ import AppBar from '../components/AppBar.vue';
           tgl_input: this.head.tgl_input,
           user_input: this.head.user_input,
           tgl_batal: this.head.tgl_batal,
-          user_batal: 'admin',
+          user_batal: '',
           status: false
       }
       const ph = JSON.stringify(penjualan_head);
@@ -269,12 +269,13 @@ import AppBar from '../components/AppBar.vue';
 
       },
       penjualan(value) {
+        let p = []
         for (let j = 0; j < this.penjualan_detail.length; j++) {
           if ( this.penjualan_detail[j].no_penjualan == value ) {
-              return this.penjualan_detail[j]
+              p.push(this.penjualan_detail[j])
           }
-          
         }
+        return p
       },
       selected(){        
         this.getPenjualanHead(),

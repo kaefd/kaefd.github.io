@@ -69,7 +69,8 @@ import AppBar from '../components/AppBar.vue';
       }
     },
     created() {
-      this.today()
+      this.periode = [this.tglawal(), this.today()]
+      this.filtered.periode = [this.tglawal(), this.today()]
     },
     methods: {
       page(){
@@ -77,7 +78,28 @@ import AppBar from '../components/AppBar.vue';
       },
       today() {
         let currentDate = new Date().toJSON().slice(0, 10);
-        return this.periode = this.filtered.periode = [currentDate , currentDate]
+        return currentDate
+      },
+      tglawal() {
+        let d = new Date();
+        let m = d.getMonth();
+        d.setMonth(d.getMonth() - 1);
+        
+        // If still in same month, set date to last day of 
+        // previous month
+        if (d.getMonth() == m) d.setDate(0);
+        d.setHours(0, 0, 0, 0);
+    
+        //tl_awal
+        return d.toJSON().slice(0, 10)
+      },
+      formatDate(value){
+        let options = {
+          day: '2-digit',
+          year: 'numeric',
+          month: 'long'
+        }
+         return new Date(value).toLocaleDateString('id', options)
       },
       getPembelian() {
         const apiUrl = '/pembelian_head?'
@@ -89,7 +111,7 @@ import AppBar from '../components/AppBar.vue';
         .then(response => {
           this.items = response.data
         })
-        .catch((error) => {
+        .catch(() => {
           return this.$router.push('login');
         })
       },
@@ -104,7 +126,7 @@ import AppBar from '../components/AppBar.vue';
         .then(response => {
           return this.pembeliandetl = response.data
         })
-        .catch((error) => {
+        .catch(() => {
           return this.$router.push('login');
         })
       },
@@ -114,7 +136,7 @@ import AppBar from '../components/AppBar.vue';
         .then(response => {
           this.supplier = response.data
         })
-        .catch((error) => {
+        .catch(() => {
           return this.$router.push('login');
         })
       },
@@ -152,6 +174,16 @@ import AppBar from '../components/AppBar.vue';
             }
           }
         }
+        if(col == 'pembelian') {
+          let p = []
+          for (let j = 0; j < this.pembeliandetl.length; j++) {
+            if ( this.pembeliandetl[j].no_pembelian == value ) {
+                p.push(this.pembeliandetl[j])
+            }
+          }
+          return p
+        }
+
         if(col == 'total') {
             return this.numb(value)
         }
@@ -233,7 +265,8 @@ import AppBar from '../components/AppBar.vue';
       },
       reset() {
         this.filtered.selectdokumen = []
-        this.today()
+        this.periode = [this.tglawal(), this.today()]
+        this.filtered.periode = [this.tglawal(), this.today()]
         this.selectdokumen = []
         this.getPembelian()
       },
@@ -251,6 +284,7 @@ import AppBar from '../components/AppBar.vue';
     },
     mounted() {
       this.page()
+      this.updt()
     }
   }
   const date = ref();
@@ -411,15 +445,19 @@ import AppBar from '../components/AppBar.vue';
           <!-- BUTTON EDIT -->
           <!-- eslint-disable-next-line vue/valid-v-slot -->
           <template v-slot:item.actions="{item}">
-            <PemasukanDetail batalbtn="Pemasukan"
-                @del="del"
+            <PemasukanDetail
+                batalbtn="Pemasukan"
+                @confirm="confirm"
+                :laporan="true"
                 :namaSupplier="dataTable(item.raw.kode_supplier, 'nama')"
                 :pembelian="dataTable(item.raw.no_pembelian, 'pembelian')"
+                :total="dataTable(item.raw.total_nilai, 'total')"
                 :edit="true"
+                :itemDetail="itemDetail"
                 :datatext="datatext"
                 :btn="btn"
                 :headDetails="headDetails"
-                :details="details"
+                :details="[details]"
                 :headers="headers"
                 :items="item.raw"
                 :search="search"

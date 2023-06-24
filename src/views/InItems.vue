@@ -332,11 +332,13 @@ export default {
           }
         }
         else if(params == 'pembelian') {
+          let p = []
           for (let j = 0; j < this.pembeliandetl.length; j++) {
             if ( this.pembeliandetl[j].no_pembelian == value ) {
-                return this.pembeliandetl[j]
+                p.push(this.pembeliandetl[j])
             }
           }
+          return p
         }
         else if(params == 'total') {
           return this.numb(value)

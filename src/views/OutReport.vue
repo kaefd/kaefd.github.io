@@ -6,14 +6,14 @@ import { ref, onMounted } from 'vue';
 import { jsPDF } from "jspdf";
 import 'jspdf-autotable'
 import AppBar from '../components/AppBar.vue';
-
+import PengeluaranDetail from './PengeluaranDetail.vue';
 </script>
 
 <script>
 
   export default {
     components: {
-      AppBar
+      AppBar, PengeluaranDetail
     },
     props:['actIcon', 'cetak'],
     data () {
@@ -48,6 +48,17 @@ import AppBar from '../components/AppBar.vue';
           { title: 'Jumlah', key: 'jumlah' },
           { title: '', key: 'actions', sortable: false},
         ],
+        headDetails:[
+          {title: 'Kode Barang', key: 'kode_barang' },
+          {title: 'Nama Barang', key: 'nama_barang' },
+          {title: 'HS Code', key: 'hs_code' },
+          {title: 'Jumlah', key: 'jumlah' },
+          {title: 'Jumlah Terkirim', key: 'jumlah_terkirim' },
+          {title: 'Satuan', key: 'satuan' },
+          {title: 'Harga Jual', key: 'harga_jual' },
+          {title: 'Total Harga', key: 'total_terjual' },
+          {title: '', key: 'actions', sortable: false },
+        ],
         items: '',
         pjldetail: '',
         pelanggan: '',
@@ -59,12 +70,34 @@ import AppBar from '../components/AppBar.vue';
       }
     },
     created() {
-      this.today()
+      this.periode = [this.tglawal(), this.today()]
+       this.filtered.periode = [this.tglawal(), this.today()]
     },
     methods: {
       today() {
         let currentDate = new Date().toJSON().slice(0, 10);
-        return this.periode = this.filtered.periode = [currentDate , currentDate]
+        return currentDate
+      },
+      tglawal() {
+        let d = new Date();
+        let m = d.getMonth();
+        d.setMonth(d.getMonth() - 1);
+        
+        // If still in same month, set date to last day of 
+        // previous month
+        if (d.getMonth() == m) d.setDate(0);
+        d.setHours(0, 0, 0, 0);
+    
+        //tl_awal
+        return d.toJSON().slice(0, 10)
+      },
+      formatDate(value){
+        let options = {
+          day: '2-digit',
+          year: 'numeric',
+          month: 'long'
+        }
+         return new Date(value).toLocaleDateString('id', options)
       },
       getPenjualan() {
         const apiUrl = '/penjualan_head?'
@@ -76,7 +109,7 @@ import AppBar from '../components/AppBar.vue';
         .then(response => {
           this.items = response.data
         })
-        .catch((error) => {
+        .catch(() => {
           return this.$router.push('login');
         })
       },
@@ -90,7 +123,7 @@ import AppBar from '../components/AppBar.vue';
         .then(response => {
           this.pjldetail = response.data
         })
-        .catch((error) => {
+        .catch(() => {
           return this.$router.push('login');
         })
       },
@@ -100,7 +133,7 @@ import AppBar from '../components/AppBar.vue';
         .then(response => {
           this.pelanggan = response.data
         })
-        .catch((error) => {
+        .catch(() => {
           return this.$router.push('login');
         })
       },
@@ -130,6 +163,22 @@ import AppBar from '../components/AppBar.vue';
       },
       page(){
         return this.$emit('page', this.pageTitle)
+      },
+      namaPelanggan(value) {
+        for (let i = 0; i < this.pelanggan.length; i++) {
+          if ( this.pelanggan[i].kode_pelanggan == value ) {
+              return this.pelanggan[i].nama
+          }
+        }
+      },
+      penjualan(value) {
+        let p = []
+        for (let j = 0; j < this.pjldetail.length; j++) {
+          if ( this.pjldetail[j].no_penjualan == value ) {
+              p.push(this.pjldetail[j])
+          }
+        }
+        return p
       },
       dataTable(value, col) {
         if(col === 'nama') {
@@ -227,7 +276,8 @@ import AppBar from '../components/AppBar.vue';
       },
       reset() {
         this.filtered.selectdokumen = []
-        this.today()
+        this.periode = [this.tglawal(), this.today()]
+        this.filtered.periode = [this.tglawal(), this.today()]
         this.selectdokumen = []
         this.getPenjualan()
       },
@@ -245,6 +295,7 @@ import AppBar from '../components/AppBar.vue';
     },
     mounted() {
       this.page()
+      this.updt()
       this.getData()
       this.getPelanggan()
     }
@@ -388,7 +439,11 @@ import AppBar from '../components/AppBar.vue';
           </template>
           <!-- eslint-disable-next-line vue/valid-v-slot -->
           <template v-slot:item.jumlah="{item}">
-              {{ dataTable(item.raw.no_penjualan, 'jumlah') }}
+            {{ dataTable(item.raw.no_penjualan, 'jumlah') }}
+          </template>
+          <!-- eslint-disable-next-line vue/valid-v-slot -->
+          <template v-slot:item.actions="{item}">
+              <PengeluaranDetail @confirm="confirm" batalbtn="Pengeluaran" :laporan="true" :namaPelanggan="namaPelanggan(item.raw.kode_pelanggan)" :penjualan="penjualan(item.raw.no_penjualan)" :edit="true" :pengeluaran="true" :pageTitle="pageTitle" :headDetails="headDetails" :items="item.raw" :details="details" :headers="headers" :search="search" :category="category" :selectCategory="selectCategory" :iTitle="actIcon[3].text" :btncolor="actIcon[3].color" :icon="actIcon[3].icon" :iVariant="actIcon[3].variant" :alpha="alpha" :actIcon="actIcon" :disable="true"/>
           </template>
         </v-data-table>
       </v-sheet>

@@ -47,12 +47,34 @@ import AppBar from '../components/AppBar.vue';
       }
     },
     created() {
-      this.today()
+      this.periode = [this.tglawal(), this.today()]
+      this.filtered.periode = [this.tglawal(), this.today()]
     },
     methods: {
       today() {
         let currentDate = new Date().toJSON().slice(0, 10);
-        return this.periode = this.filtered.periode = [currentDate , currentDate]
+        return currentDate
+      },
+      tglawal() {
+        let d = new Date();
+        let m = d.getMonth();
+        d.setMonth(d.getMonth() - 1);
+        
+        // If still in same month, set date to last day of 
+        // previous month
+        if (d.getMonth() == m) d.setDate(0);
+        d.setHours(0, 0, 0, 0);
+    
+        //tl_awal
+        return d.toJSON().slice(0, 10)
+      },
+      formatDate(value){
+        let options = {
+          day: '2-digit',
+          year: 'numeric',
+          month: 'long'
+        }
+         return new Date(value).toLocaleDateString('id', options)
       },
       getUser(){
         const apiUrl = '/user?'
@@ -60,7 +82,7 @@ import AppBar from '../components/AppBar.vue';
         .then(response => {
           this.user = response.data
         })
-        .catch((error) => {
+        .catch(() => {
           return this.$router.push('login');
         })
       },
@@ -74,7 +96,7 @@ import AppBar from '../components/AppBar.vue';
         .then(response => {
           this.items = response.data
         })
-        .catch((error) => {
+        .catch(() => {
           return this.$router.push('login');
         })
       },
@@ -128,7 +150,8 @@ import AppBar from '../components/AppBar.vue';
       },
       reset() {
         this.filtered.selectuser = []
-        this.today()
+        this.periode = [this.tglawal(), this.today()]
+        this.filtered.periode = [this.tglawal(), this.today()]
         this.selectuser = []
         this.getLogUser()
       },
@@ -146,6 +169,7 @@ import AppBar from '../components/AppBar.vue';
     },
     mounted() {
       this.page()
+      this.updt()
     }
   }
 

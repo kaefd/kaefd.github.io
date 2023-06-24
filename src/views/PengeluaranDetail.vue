@@ -7,7 +7,7 @@ export default {
     components: {
     DialogCard2, VDataTable
     },
-    props:['pembelianbaru', 'namaPelanggan', 'groupbarang', 'batalbtn', 'penjualan', 'pemasukan', 'alamatBongkar', 'namaTujuan', 'datainput', 'pageTitle', 'pengeluaran', 'dokumenpjl', 'namaSupplier', 'pengirimanDetail', 'pembelian', 'pelanggan', 'supplier', 'pembeliandetl', 'edit', 'kirim', 'headers', 'items', 'actIcon', 'icon', 'btncolor', 'search', 'iVariant', 'headDetails', 'details','disable', 'btn', 'datatext', 'itemDetail', 'category'],
+    props:['pembelianbaru', 'namaPelanggan', 'laporan', 'groupbarang', 'batalbtn', 'penjualan', 'pemasukan', 'alamatBongkar', 'namaTujuan', 'datainput', 'pageTitle', 'pengeluaran', 'dokumenpjl', 'namaSupplier', 'pengirimanDetail', 'pembelian', 'pelanggan', 'supplier', 'pembeliandetl', 'edit', 'kirim', 'headers', 'items', 'actIcon', 'icon', 'btncolor', 'search', 'iVariant', 'headDetails', 'details','disable', 'btn', 'datatext', 'itemDetail', 'category'],
     data () {
       return {
         dialog: false,
@@ -160,7 +160,7 @@ export default {
             </template>
                 <v-list>
                   <v-list-item class="text-caption" density="compact" v-bind="props" >Lihat Data</v-list-item>
-                  <v-list-item class="text-caption" density="compact" @click="confirm()" >Batal Pemasukan</v-list-item>
+                  <v-list-item v-if="!laporan" class="text-caption" density="compact" @click="confirm()" >Batal Pengeluaran</v-list-item>
                 </v-list>
             </v-menu>
           </template>
@@ -296,7 +296,7 @@ export default {
                                 >
                             </v-text-field>
                             </template>
-                            <v-card class="py-5 px-5 rounded-xl mx-auto vh-75" width="350">
+                            <v-card class="py-5 px-5 rounded-xl mx-auto vh-90" width="400">
                                 <v-div>
                                     <v-btn icon="mdi-close" variant="plain" size="small" @click="dialog4 = false"></v-btn>
                                     <v-card-title class="text-center text-blue-darken-4 mb-3 mt-n12 text-button font-weight-bold">PELANGGAN</v-card-title>
@@ -343,7 +343,7 @@ export default {
                                 </v-text-field>
                             </template>
                                 <v-card class="py-5 px-5 rounded-xl mx-auto" width="400">
-                                    <v-btn icon="mdi-close" variant="plain" @click="dialogkodeg = false"></v-btn>
+                                    <v-btn icon="mdi-close" size="small" variant="plain" @click="dialogkodeg = false"></v-btn>
                                     <v-card-title class="text-center text-blue-darken-4 mb-3 text-button font-weight-bold mt-n12">KODE GROUP</v-card-title>
                                     <v-text-field
                                         v-model="searched"
@@ -430,7 +430,7 @@ export default {
                     <!-- TABEL EDIT/VIEW -->
                     <v-data-table
                     :headers="headDetails"
-                    :items="edit ? [penjualan] : pembelian_input"
+                    :items="edit ? penjualan : pembelian_input"
                     :hover="true"
                     :fixed-header="true"
                     density="compact"

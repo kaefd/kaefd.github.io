@@ -7,7 +7,7 @@ export default {
     components: {
     DialogCard2, VDataTable
     },
-    props:['pembelianbaru', 'namaPelanggan', 'groupbarang', 'batalbtn', 'penjualan', 'pemasukan', 'alamatBongkar', 'totalpenjualan', 'namaTujuan', 'datainput', 'pageTitle', 'pengeluaran', 'dokumenpjl', 'namaSupplier', 'pengirimanDetail', 'pembelian', 'pelanggan', 'supplier', 'pembeliandetl', 'edit', 'kirim', 'headers', 'items', 'actIcon', 'icon', 'btncolor', 'search', 'iVariant', 'headDetails', 'details','disable', 'btn', 'datatext', 'itemDetail', 'category'],
+    props:['pembelianbaru', 'laporan', 'namaPelanggan', 'total', 'groupbarang', 'batalbtn', 'penjualan', 'pemasukan', 'alamatBongkar', 'totalpenjualan', 'namaTujuan', 'datainput', 'pageTitle', 'pengeluaran', 'dokumenpjl', 'namaSupplier', 'pengirimanDetail', 'pembelian', 'pelanggan', 'supplier', 'pembeliandetl', 'edit', 'kirim', 'headers', 'items', 'actIcon', 'icon', 'btncolor', 'search', 'iVariant', 'headDetails', 'details','disable', 'btn', 'datatext', 'itemDetail', 'category'],
     data () {
       return {
         dialog: false,
@@ -161,7 +161,7 @@ export default {
             </template>
                 <v-list>
                   <v-list-item class="text-caption" density="compact" v-bind="props" >Lihat Data</v-list-item>
-                  <v-list-item class="text-caption" density="compact" @click="confirm()" >Batal Pemasukan</v-list-item>
+                  <v-list-item v-if="!laporan" class="text-caption" density="compact" @click="confirm()" >Batal Pemasukan</v-list-item>
                 </v-list>
             </v-menu>
           </template>
@@ -270,7 +270,7 @@ export default {
                     </v-text-field>
                     <v-text-field
                         label="Kurs"
-                        :model-value="items.kurs"
+                        :model-value="numb(items.kurs)"
                         variant="outlined"
                         density="compact"
                         style="min-width: 200px; max-width:300px"
@@ -459,15 +459,17 @@ export default {
                     <!-- TABEL EDIT/VIEW -->
                     <v-data-table
                     :headers="headDetails"
-                    :items="edit ? [pembelian] : pembelian_input"
+                    :items="edit ? pembelian : pembelian_input"
                     :hover="true"
                     :fixed-header="true"
                     density="compact"
                     class="text-caption my-7 px-5"
-                    height="160"
+                    :height="edit ? 200 : 150"
                     >
                     <!-- CUSTOM PAGINATION STYLE -->
                     <template v-slot:bottom>
+                        <v-span v-if="laporan" class="float-end me-5 text-caption font-weight-bold">Jumlah : {{ total }}</v-span>
+                        <v-span v-if="!laporan" class="float-end me-5 text-caption font-weight-bold">Jumlah : {{ numb(pembelian[0].nilai) }}</v-span>
                     </template>
                     <!-- dialog actions -->
                     <!-- CUSTOM KOLOM -->
