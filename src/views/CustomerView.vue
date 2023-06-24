@@ -148,7 +148,6 @@ import AppBar from '../components/AppBar.vue';
       },
       // HAPUS DATA
       del(value) {
-      console.log(value);
       this.pelanggan = {
         kode_pelanggan : value.kode_pelanggan,
         nama : value.kode_pelanggan,
@@ -157,7 +156,9 @@ import AppBar from '../components/AppBar.vue';
         status: false,
       }
       const myJSON = JSON.stringify(this.pelanggan);
-        console.log(myJSON);
+        console.log({
+          pelanggan : myJSON
+        });
         // api.deleteData('/pelanggan', {
         //   pelanggan : myJSON
         // })

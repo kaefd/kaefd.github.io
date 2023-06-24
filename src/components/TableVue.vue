@@ -22,8 +22,8 @@ export default {
       edit(value) {
         return this.$emit('edit', value)
       },
-      del(v) {
-        this.confirmdialog = false
+      del(v, i) {
+        this.confirmdialog[i] =  false
         return this.$emit('del', v)
       },
       numb(value) {
@@ -121,10 +121,10 @@ export default {
           <v-menu activator="parent" transition="slide-y-transition">
             <v-list density="compact" class="px-3">
               <v-list-item class="pa-0">
-                <DialogCard editbtn="true" :ishidden="ishidden" :keyform="keyform" :intable="true" :disabled="disabled" :noselect="noselect" :form="item.raw" @edit="edit" @del="del" :item="item" :screen="screen" :headers="headers" :items="items" :category="category" :btncolor="btncolor" :icon="icon" :iTitle="iTitle" :iVariant="iVariant"  :alpha="alpha" />
+                <DialogCard editbtn="true" :ishidden="ishidden" :keyform="keyform" :intable="true" :disabled="disabled" :noselect="noselect" :form="item.raw" @edit="edit" :item="item" :screen="screen" :headers="headers" :items="items" :category="category" :btncolor="btncolor" :icon="icon" :iTitle="iTitle" :iVariant="iVariant"  :alpha="alpha" />
               </v-list-item>
               <v-list-item v-if="!ishidden" class="pa-0" @click="confirmdialog[index] =  true">
-                <DialogCard hapus="true" :ishidden="ishidden" :keyform="keyform" :intable="true" :disabled="disabled" :noselect="noselect" :form="item.raw" @edit="edit" @del="del" :item="item" :screen="screen" :headers="headers" :items="items" :category="category" :btncolor="btncolor" :icon="icon" :iTitle="iTitle" :iVariant="iVariant"  :alpha="alpha" />
+                <DialogCard hapus="true" :ishidden="ishidden" :keyform="keyform" :intable="true" :disabled="disabled" :noselect="noselect" :form="item.raw" @edit="edit" :item="item" :screen="screen" :headers="headers" :items="items" :category="category" :btncolor="btncolor" :icon="icon" :iTitle="iTitle" :iVariant="iVariant"  :alpha="alpha" />
               </v-list-item>
             </v-list>
           </v-menu>
@@ -151,7 +151,7 @@ export default {
                 variant="tonal"
                 height="57"
                 class="w-100 rounded-0"
-                @click="del(item.raw)"
+                @click="del(item.raw, index)"
                 >
                 Ya
                 </v-btn>

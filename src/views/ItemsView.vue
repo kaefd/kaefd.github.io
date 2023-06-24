@@ -142,12 +142,11 @@ export default defineComponent ({
         api.postData( '/barang', {
           barang : value
         })
-        .then((response) => {
-            this.successAlert(response.data)
-            window.location.href = '/'
+        .then(() => {
+            return this.$router.push('items');
           })
           .catch((error) => {
-            this.failedAlert(error.response.data)
+            console.log(error);
           })
       },
       // EDIT DATA
@@ -156,47 +155,36 @@ export default defineComponent ({
         api.putData('/barang', {
           barang : myJSON
         })
-        .then((response) => {
-            this.successAlert(response.data)
-          })
+        .then(() => {
+          return this.$router.push('items');
+        })
           .catch((error) => {
-            this.failedAlert(error.response.data);
-          })
+            console.log(error);
+        })
     },
     // HAPUS DATA
-    del(value) {
-      this.barang = {
-              kategori_barang : value.kategori_barang,
-              kode_barang : value.kode_barang,
-              nama_barang: value.nama_barang,
-              hs_code: value.hs_code,
-              satuan: value.satuan,
+    del(v) {
+      let barang = {
+              kategori_barang : v.kategori_barang,
+              kode_barang : v.kode_barang,
+              nama_barang: v.nama_barang,
+              hs_code: v.hs_code,
+              satuan: v.satuan,
               status: false,
       }
-      const myJSON = JSON.stringify(this.barang);
-        api.deleteData('/barang', {
-          barang : myJSON
-        })
-            this.$swal.fire({
-              title: 'Apakah anda yakin?',
-              text: "",
-              icon: 'warning',
-              showCancelButton: true,
-              confirmButtonColor: '#3085d6',
-              cancelButtonColor: '#d33',
-              confirmButtonText: 'Ya'
-            }).then((response) => {
-              if (response.isConfirmed) {
-                this.$swal.fire(
-                  'Berhasil !',
-                  'Data Berhasil Dihapus!',
-                  'success'
-                )
-              }
-            })
-          .catch(function (error) {
-            console.log(error);
-          })
+      const jsonBarang = JSON.stringify(barang);
+      console.log({
+        barang : jsonBarang
+      });
+        // api.deleteData('/barang', {
+        //   barang : myJSON
+        // })
+        // .then(() => {
+        //   return this.$router.push('items');
+        //   })
+        // .catch(function (error) {
+        //   console.log(error);
+        // })
     },
     page(){
         return this.$emit('page', this.pageTitle)

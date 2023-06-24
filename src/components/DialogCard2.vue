@@ -254,10 +254,10 @@ export default {
             Tambah Barang
         </v-btn>
     </template>
-    <v-card class="py-5 px-2 rounded-xl">
-    {{pembelian_input}}
-            <v-card-title v-if="blmkirim" class="text-center text-button font-weight-bold mb-3">PENGELUARAN BELUM TERKIRIM</v-card-title>
-            <v-card-title v-if="!blmkirim" class="text-center text-button font-weight-bold mb-3">STOK BARANG</v-card-title>
+    <v-card class="py-5 px-6 rounded-xl">
+        <v-btn icon="mdi-close" variant="plain" size="small" @click="dialog = false"></v-btn>
+            <v-card-title v-if="blmkirim" class="text-center text-blue-darken-4 text-button font-weight-bold mb-3 mt-n10">PENGELUARAN BELUM TERKIRIM</v-card-title>
+            <v-card-title v-if="!blmkirim" class="text-center text-blue-darken-4 text-button font-weight-bold mb-3 mt-n10">STOK BARANG</v-card-title>
             <v-text-field
                 id="input"
                 v-model="search"
@@ -270,115 +270,115 @@ export default {
                 class="mb-4"
             ></v-text-field>
             <v-list class="me-2">
-                <v-infinite-scroll :items="filteredItems" :onLoad="load">
-                    <template v-for="(item, b) in filteredItems" :key="item">
-                        <v-list-item
-                            v-if="!blmkirim"
-                            class="text-caption"
-                            density="compact"
-                            @click="dialogchild[b] = true, state.nama_barang = item.nama_barang"
-                            >
-                            {{ item.nama_barang }}
-                        </v-list-item>
-                        <v-list-item
-                            v-if="blmkirim"
-                            @click="dialogchild[b] = true"
-                            class="text-caption"
-                            density="compact"
-                            >
-                            <v-div class="d-flex">
-                                <v-div>
-                                <!-- penjualandetail belumkirim(tipedokumen-nodokumen) -->
-                                <v-span class="font-weight-medium">{{ pjl_detail(item.no_penjualan, 'tipe') }}-{{ pjl_detail(item.no_penjualan, 'no') }}</v-span> <br>
-                                <v-span class="text-small">
-                                    <!-- penjualandetail belumkirim(pjl, nama, kodegroup) -->
-                                    {{  item.nama_barang }} ({{ pjl_detail(item.no_penjualan, 'kode') }}) <br>
-                                    <!-- penjualandetail(jumlah-terkirim) -->
-                                    Jumlah belum terkirim: {{ numb(item.jumlah - item.jumlah_terkirim) }}  <br>
-                                    Stok barang: {{ stok(pjl_detail(item.no_penjualan, 'kode'), item.kode_barang) }}
-                                </v-span>
-                            </v-div>
-                            <v-spacer></v-spacer>
-                            <v-span class="font-weight-medium">{{ item.no_penjualan }}</v-span>
-                            </v-div>
-                            <v-divider></v-divider>
-                        </v-list-item>
-                        <v-dialog @update="dialogchild" width="400" v-model="dialogchild[b]">
-                            <v-card class="px-7 py-5 w-100 mx-auto rounded-xl">
-                                <v-span class="text-button text-center font-weight-bold">{{ item.nama_barang }}</v-span>
-                                <v-span class="text-button mt-n3 mb-3 text-center">{{ item.kode_barang }}</v-span>
-                                <v-span class="text-caption mt-n5 mb-3 text-center">{{ item.hs_code }}</v-span>
-                                <form @submit.prevent="submit" ref="form">
-                                    <v-text-field
-                                        v-if="!pemasukan"
-                                        v-model="penjualan_detail.jumlah"
-                                        label="Jumlah"
-                                        variant="outlined"
-                                        density="compact"
-                                        hide-details
-                                        class="mb-3"
-                                        :disabled="hiddenbtn"
-                                    />
-                                    <v-text-field
-                                        v-if="pemasukan"
-                                        v-model="state.jumlah"
-                                        label="Jumlah"
-                                        variant="outlined"
-                                        density="compact"
-                                        hide-details
-                                        class="mb-3"
-                                        :disabled="hiddenbtn"
-                                    />
-                                    <v-text-field
-                                        v-if="pemasukan"
-                                        v-model="state.jumlah_diterima"
-                                        label="Jumlah Diterima"
-                                        variant="outlined"
-                                        density="compact"
-                                        hide-details
-                                        class="mb-3"
-                                        :disabled="hiddenbtn"
-                                    />
-                                    <v-text-field
-                                        v-if="pemasukan"
-                                        v-model="state.nilai"
-                                        label="Nilai Total"
-                                        variant="outlined"
-                                        density="compact"
-                                        hide-details
-                                        class="mb-3"
-                                    />
-                                    <v-text-field
-                                        v-if="!tambah && pengeluaran"
-                                        v-model="penjualan_detail.harga_jual"
-                                        label="Harga"
-                                        variant="outlined"
-                                        density="compact"
-                                        hide-details
-                                        class="mb-3"
-                                        :disabled="hiddenbtn"
-                                    />
-                                    <v-text-field
-                                        v-if="!tambah && pengeluaran"
-                                        :model-value="terjual"
-                                        label="Total Harga"
-                                        variant="outlined"
-                                        density="compact"
-                                        hide-details
-                                        class="mb-3"
-                                        readonly
-                                    />
-                                    <v-div class="d-inline w-100">
-                                        <v-btn @click="dialogchild[b] = false" variant="tonal" class="rounded-xl text-caption elevation-0">Batal</v-btn>
-                                        <v-btn type="submit" @click="pemasukanItem(item, b)" class="rounded-xl text-caption elevation-0 bg-blue-darken-4 w-75 float-end">Simpan</v-btn>
-                                    </v-div>
-                                </form>
-                            </v-card>          
-                        </v-dialog>
-                    </template>
-                </v-infinite-scroll>
-            </v-list>
-        </v-card>
+            <v-infinite-scroll :items="filteredItems" :onLoad="load">
+                <template v-for="(item, b) in filteredItems" :key="item">
+                    <v-list-item
+                        v-if="!blmkirim"
+                        class="text-caption"
+                        density="compact"
+                        @click="dialogchild[b] = true, state.nama_barang = item.nama_barang"
+                        >
+                        {{ item.nama_barang }}
+                    </v-list-item>
+                    <v-list-item
+                        v-if="blmkirim"
+                        @click="dialogchild[b] = true"
+                        class="text-caption"
+                        density="compact"
+                        >
+                        <v-div class="d-flex">
+                            <v-div>
+                            <!-- penjualandetail belumkirim(tipedokumen-nodokumen) -->
+                            <v-span class="font-weight-medium">{{ pjl_detail(item.no_penjualan, 'tipe') }}-{{ pjl_detail(item.no_penjualan, 'no') }}</v-span> <br>
+                            <v-span class="text-small">
+                                <!-- penjualandetail belumkirim(pjl, nama, kodegroup) -->
+                                {{  item.nama_barang }} ({{ pjl_detail(item.no_penjualan, 'kode') }}) <br>
+                                <!-- penjualandetail(jumlah-terkirim) -->
+                                Jumlah belum terkirim: {{ numb(item.jumlah - item.jumlah_terkirim) }}  <br>
+                                Stok barang: {{ stok(pjl_detail(item.no_penjualan, 'kode'), item.kode_barang) }}
+                            </v-span>
+                        </v-div>
+                        <v-spacer></v-spacer>
+                        <v-span class="font-weight-medium">{{ item.no_penjualan }}</v-span>
+                        </v-div>
+                        <v-divider></v-divider>
+                    </v-list-item>
+                    <v-dialog @update="dialogchild" width="400" v-model="dialogchild[b]">
+                        <v-card class="px-7 py-5 w-100 mx-auto rounded-xl">
+                            <v-span class="text-button text-center font-weight-bold">{{ item.nama_barang }}</v-span>
+                            <v-span class="text-button mt-n3 mb-3 text-center">{{ item.kode_barang }}</v-span>
+                            <v-span class="text-caption mt-n5 mb-3 text-center">{{ item.hs_code }}</v-span>
+                            <form @submit.prevent="submit" ref="form">
+                                <v-text-field
+                                    v-if="!pemasukan"
+                                    v-model="penjualan_detail.jumlah"
+                                    label="Jumlah"
+                                    variant="outlined"
+                                    density="compact"
+                                    hide-details
+                                    class="mb-3"
+                                    :disabled="hiddenbtn"
+                                />
+                                <v-text-field
+                                    v-if="pemasukan"
+                                    v-model="state.jumlah"
+                                    label="Jumlah"
+                                    variant="outlined"
+                                    density="compact"
+                                    hide-details
+                                    class="mb-3"
+                                    :disabled="hiddenbtn"
+                                />
+                                <v-text-field
+                                    v-if="pemasukan"
+                                    v-model="state.jumlah_diterima"
+                                    label="Jumlah Diterima"
+                                    variant="outlined"
+                                    density="compact"
+                                    hide-details
+                                    class="mb-3"
+                                    :disabled="hiddenbtn"
+                                />
+                                <v-text-field
+                                    v-if="pemasukan"
+                                    v-model="state.nilai"
+                                    label="Nilai Total"
+                                    variant="outlined"
+                                    density="compact"
+                                    hide-details
+                                    class="mb-3"
+                                />
+                                <v-text-field
+                                    v-if="!tambah && pengeluaran"
+                                    v-model="penjualan_detail.harga_jual"
+                                    label="Harga"
+                                    variant="outlined"
+                                    density="compact"
+                                    hide-details
+                                    class="mb-3"
+                                    :disabled="hiddenbtn"
+                                />
+                                <v-text-field
+                                    v-if="!tambah && pengeluaran"
+                                    :model-value="terjual"
+                                    label="Total Harga"
+                                    variant="outlined"
+                                    density="compact"
+                                    hide-details
+                                    class="mb-3"
+                                    readonly
+                                />
+                                <v-div class="d-inline w-100">
+                                    <v-btn @click="dialogchild[b] = false" variant="tonal" class="rounded-xl text-caption elevation-0">Batal</v-btn>
+                                    <v-btn type="submit" @click="pemasukanItem(item, b)" class="rounded-xl text-caption elevation-0 bg-blue-darken-4 w-75 float-end">Simpan</v-btn>
+                                </v-div>
+                            </form>
+                        </v-card>          
+                    </v-dialog>
+                </template>
+            </v-infinite-scroll>
+        </v-list>
+    </v-card>
         
     </v-dialog>
 </template>

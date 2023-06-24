@@ -164,7 +164,7 @@ export default {
         .then(response => {
           this.items = response.data
         })
-        .catch((error) => {
+        .catch(() => {
           return this.$router.push({ path: '/login' })
         })
       },
@@ -184,8 +184,8 @@ export default {
         // .then(() => {
         //     window.location.href = '/in' 
         //   })
-        //   .catch((error) => {
-        //     console.log(error);
+        //   .catch(() => {
+        //     console.log();
         //   })
       },
       // HAPUS DATA
@@ -231,8 +231,8 @@ export default {
         // .then(() => {
         //   window.location.href = '/in'
         // })
-        // .catch((error) => {
-        //   console.log(error);
+        // .catch(() => {
+        //   console.log();
         // })
       },
       confirm(head, detail){
@@ -260,7 +260,7 @@ export default {
         .then(response => {
           this.supplier = response.data
         })
-        .catch((error) => {
+        .catch(() => {
           return this.$router.push('login');
         })
       },
@@ -275,7 +275,7 @@ export default {
         .then(response => {
           return this.pembeliandetl = response.data
         })
-        .catch((error) => {
+        .catch(() => {
           return this.$router.push('login');
         })
       },

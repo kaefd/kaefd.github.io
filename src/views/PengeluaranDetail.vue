@@ -184,7 +184,7 @@ export default {
                     <v-col>
                     <v-text-field
                         label="No Penjualan"
-                        v-model= "items.no_penjualan"
+                        :model-value= "items.no_penjualan"
                         variant="outlined"
                         density="compact"
                         style="min-width: 200px; max-width:300px"
@@ -193,7 +193,7 @@ export default {
                     </v-text-field>
                     <v-text-field
                         label="Tgl Penjualan"
-                        v-model="items.tgl_penjualan"
+                        :model-value="items.tgl_penjualan"
                         variant="outlined"
                         density="compact"
                         style="min-width: 200px; max-width:300px"
@@ -204,7 +204,7 @@ export default {
                     <v-col>
                     <v-text-field
                         label="Pelanggan"
-                        v-model="items.kode_pelanggan"
+                        :model-value="items.kode_pelanggan"
                         variant="outlined"
                         density="compact"
                         style="min-width: 200px; max-width:300px"
@@ -213,7 +213,7 @@ export default {
                     </v-text-field>
                     <v-text-field
                         label="Kode Group"
-                        v-model="items.kode_group"
+                        :model-value="items.kode_group"
                         variant="outlined"
                         density="compact"
                         style="min-width: 200px; max-width:300px"
@@ -224,7 +224,7 @@ export default {
                     <v-col>
                         <v-text-field
                         label="Tipe Dokumen"
-                        v-model="items.tipe_dokumen"
+                        :model-value="items.tipe_dokumen"
                         variant="outlined"
                         density="compact"
                         style="min-width: 200px; max-width:300px"
@@ -233,7 +233,7 @@ export default {
                     </v-text-field>
                     <v-text-field
                         label="No Dokumen"
-                        v-model="items.no_dokumen"
+                        :model-value="items.no_dokumen"
                         variant="outlined"
                         density="compact"
                         style="min-width: 200px; max-width:300px"
@@ -242,7 +242,7 @@ export default {
                     </v-text-field>
                     <v-text-field
                         label="Tgl Dokumen"
-                        v-model="items.tgl_dokumen"
+                        :model-value="items.tgl_dokumen"
                         variant="outlined"
                         density="compact"
                         style="min-width: 200px; max-width:300px"
@@ -298,7 +298,7 @@ export default {
                             </template>
                             <v-card class="py-5 px-5 rounded-xl mx-auto vh-75" width="350">
                                 <v-div>
-                                    <v-btn icon="mdi-close" variant="plain" @click="dialog4 = false"></v-btn>
+                                    <v-btn icon="mdi-close" variant="plain" size="small" @click="dialog4 = false"></v-btn>
                                     <v-card-title class="text-center text-blue-darken-4 mb-3 mt-n12 text-button font-weight-bold">PELANGGAN</v-card-title>
                                     <v-text-field
                                         v-model="searched"

@@ -71,7 +71,7 @@ th {
 
 /*BORDER*/
 .rounded-xlarger {
-  border-radius: 15%;
+  border-radius: 10%;
 }
 /*LINK STYLE*/
 
@@ -87,11 +87,6 @@ a {
   height: 15px;
 }
 /*BACKGROUND*/
-
-  .bg-img {
-    position: absolute;
-    max-width: 60vw;
-  }
   
   .circle-1 {
     height: 200px;
@@ -133,7 +128,6 @@ a {
     border-radius: 50%;
     margin-right: -70%;
     margin-left: auto;
-    margin-bottom: ;
     margin-top: 60%;
   }
 @media (max-width: 400px) {
@@ -149,6 +143,8 @@ a {
   .text-hidden {
     visibility: hidden;
   }
+
+  
 }
 @media (min-width: 400px) {
 
@@ -177,10 +173,15 @@ a {
     margin-left: 25%;
   }
   .card-login {
-    width: 400px;
+    width: 450px;
   }
   .text-hidden {
     visibility: hidden;
+  }
+  .bg-img {
+    position: absolute;
+    margin-top: 10%;
+    width: 65vw;
   }
 }
 
@@ -210,5 +211,10 @@ a {
   }
   .text-hidden {
     visibility: visible;
+  }
+  .bg-img {
+    position: absolute;
+    margin-top: 10px;
+    width: 40vw;
   }
 }
