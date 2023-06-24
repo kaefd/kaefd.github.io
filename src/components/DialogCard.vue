@@ -101,20 +101,35 @@ export default {
             <v-divider></v-divider>
             <v-container class="w-75">
               <!-- SELECT FIELD -->
-              <div v-if="this.noselect == false">
+              <div v-if="!noselect">
                 <!-- LABEL FIELD -->
                 <v-label>
                   {{ headers[0].title }}
                 </v-label>
                 <!-- FIELD SELECT (UNTUK TAMBAH DATA) -->
-                <v-select
-                  v-if="this.item == null"
-                  :items="category.slice(this.alpha, category.length)"
-                  density="compact"
-                  variant="outlined"
-                  v-model="data[keyform[0]]"
-                  required
-                ></v-select>
+                <v-text-field
+                    id="tipe"
+                    v-if="this.item == null"
+                    v-model="data[keyform[0]]"
+                    variant="outlined"
+                    density="compact"
+                    class="mb-5"
+                    hide-details
+                    readonly
+                >                                
+                </v-text-field>
+                <v-menu activator="#tipe" class="elevation-0">
+                    <v-list>
+                      <v-list-item
+                        v-for="(item, index) in category.slice(this.alpha, category.length)"
+                        :key="index"
+                        :value="index"
+                        density="compact"
+                      >
+                        <v-list-item-title @click="data[keyform[0]] = item" class="text-caption">{{ item }}</v-list-item-title>
+                      </v-list-item>
+                    </v-list>
+                  </v-menu>
                 <!-- FIELD SELECT (UNTUK EDIT DATA) -->
                 <v-select
                 v-if="this.item != null"
@@ -126,7 +141,7 @@ export default {
                 ></v-select>
               </div>
               <!-- FIELD NON-SELECTABLE -->
-              <div v-if="this.noselect == true">
+              <div v-if="noselect">
                 <!-- TAMBAH DATA -->
                 <v-text-field
                 v-if="this.item == null"

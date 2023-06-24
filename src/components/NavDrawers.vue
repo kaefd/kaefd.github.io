@@ -156,7 +156,7 @@ import api from '../api';
         .then(response => {
           return this.pemasukan = response.data
         })
-        .catch((error) => {
+        .catch(() => {
           return this.$router.push('login');
         })
       },
@@ -170,7 +170,7 @@ import api from '../api';
         .then(response => {
           return this.pemasukandetail = response.data
         })
-        .catch((error) => {
+        .catch(() => {
           return this.$router.push('login');
         })
       },
@@ -184,7 +184,7 @@ import api from '../api';
         .then(response => {
           this.produksi = response.data
         })
-        .catch((error) => {
+        .catch(() => {
           return this.$router.push('login');
         })
       },
@@ -198,7 +198,7 @@ import api from '../api';
         .then(response => {
           this.produksidetail = response.data
         })
-        .catch((error) => {
+        .catch(() => {
           return this.$router.push('login');
         })
       },
@@ -212,7 +212,7 @@ import api from '../api';
         .then(response => {
           this.pengeluaran = response.data
         })
-        .catch((error) => {
+        .catch(() => {
           return this.$router.push('login');
         })
       },
@@ -226,7 +226,7 @@ import api from '../api';
         .then(response => {
           this.pengeluarandetail = response.data
         })
-        .catch((error) => {
+        .catch(() => {
           return this.$router.push('login');
         })
       },
@@ -240,7 +240,7 @@ import api from '../api';
         .then(response => {
           this.kirim = response.data
         })
-        .catch((error) => {
+        .catch(() => {
           return this.$router.push('login');
         })
       },
@@ -254,7 +254,7 @@ import api from '../api';
         .then(response => {
           this.kirimdetail = response.data
         })
-        .catch((error) => {
+        .catch(() => {
           return this.$router.push('login');
         })
       },

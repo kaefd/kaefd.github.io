@@ -7,6 +7,7 @@ import api from '../api';
 import { jsPDF } from "jspdf";
 import 'jspdf-autotable'
 import { ref, onMounted } from 'vue';
+import { id } from 'date-fns/locale';
 
 </script>
 
@@ -436,11 +437,13 @@ export default {
         <v-container class="mb-n10">
           <v-span class="text-caption text-weight-bold">Periode</v-span>
           <v-divider></v-divider>
-          <v-text-field v-model="filtered.periode[0]" class="mt-4" label="Tgl Awal" type="date" density="compact" variant="outlined"></v-text-field>
-          <v-text-field v-model="filtered.periode[1]" label="Tgl Akhir" type="date" density="compact" variant="outlined"></v-text-field>
+          <v-label class="text-small mt-4">Tgl Awal</v-label>
+          <VueDatePicker class="text-small" :clearable="false" v-model="filtered.periode[0]" :format-locale="id" locale="id" cancelText="batal" selectText="pilih" format="PP" />
+          <v-label class="text-small mt-1">Tgl Akhir</v-label>
+          <VueDatePicker class="text-small mb-4" :clearable="false" v-model="filtered.periode[1]" :format-locale="id" locale="id" cancelText="batal" selectText="pilih" format="PP" />
         </v-container>
         <!-- TIPE DOKUMEN -->
-        <v-container>
+        <v-container class="mt-4">
           <v-span class="text-caption text-weight-bold">Tipe Dokumen</v-span>
           <v-divider></v-divider>
             <v-checkbox
@@ -596,12 +599,9 @@ export default {
   text-align: center;
 }
 
-.dp-custom-input {
-  background-color: #e8eaf6;
-  border-radius: 7px;
-  border: none;
-  height: 40px;
-}
+// .dp__active_date{
+//   background: #000 !important;
+// }
 .text-small {
   font-size: 8pt;
 }

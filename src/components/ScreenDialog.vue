@@ -874,7 +874,5 @@ export default {
 input#input-335.v-field__input {
     width: 200px !important;
 }
-.dp__pointer {
-    background: #fafafa !important;
-}
+
 </style>
