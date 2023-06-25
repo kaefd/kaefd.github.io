@@ -1,9 +1,9 @@
-<script setup>
-</script>
-
 <script>
-
+import pillsButton from './button/pillsButton.vue'
 export default {
+    components : {
+      pillsButton,
+    },
     props:
     [
       'keyform', 'tambah', 'disabled', 'ishidden', 'editbtn', 'hapus', 'headers', 'items', 'category','btncolor', 'iTitle', 'icon','iVariant', 'alpha', 'screen', 'item', 'submitForm', 'form', 'noselect', 'intable'
@@ -47,7 +47,7 @@ export default {
     <!-- button dialog -->
       <template v-slot:activator="{ props }">
         <!-- TAMBAH -->
-        <v-btn
+        <!-- <v-btn
         v-if="!intable"
         v-bind="props"
         class="text-body-2 bg-blue-custom text-white rounded-xl elevation-0 text-caption"
@@ -56,7 +56,8 @@ export default {
         width="150"
         >
           Tambah Data
-        </v-btn>
+        </v-btn> -->
+        <pillsButton v-if="!intable" icon="mdi-plus" btn_title="Tambah Data" v-bind="props" />
         <v-responsive v-if="intable" width="100">
           <!-- EDIT -->
           <v-btn
