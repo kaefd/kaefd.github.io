@@ -1,6 +1,6 @@
 <script setup>
 import { RouterLink } from 'vue-router'
-import api from '../api';
+import api from '../service/api';
 
 </script>
 

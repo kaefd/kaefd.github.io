@@ -1,21 +1,23 @@
 <script setup>
+// service
+import api from '../service/api';
+import functions from '../service/functions';
+// components
 import { VDataTable } from 'vuetify/labs/VDataTable'
 import ScreenDialog2 from '../components/ScreenDialog2.vue';
-import '@vuepic/vue-datepicker/dist/main.css'
-import api from '../api';
-import { jsPDF } from "jspdf";
-import 'jspdf-autotable'
 import { ref, onMounted } from 'vue';
 import AppBar from '../components/AppBar.vue';
 import filterDrawer from '../components/drawer/filterDrawer.vue';
 import circleButton from '../components/button/circleButton.vue';
 import textField from '../components/form/textField.vue';
 import menuList from '../components/menu/menuList.vue';
+// plugins
+import '@vuepic/vue-datepicker/dist/main.css'
+import { id } from 'date-fns/locale';
 
 </script>
 
 <script>
-
   export default {
     components: {
       ScreenDialog2,
@@ -74,8 +76,8 @@ import menuList from '../components/menu/menuList.vue';
       }
     },
     created() {
-        this.periode = [this.tglawal(), this.today()]
-        this.filtered.periode = [this.tglawal(), this.today()]
+        this.periode = [this.tglawal(), functions.day()]
+        this.filtered.periode = [this.tglawal(), functions.day()]
     },
     methods: {
       getProduksihead() {
@@ -212,7 +214,7 @@ import menuList from '../components/menu/menuList.vue';
                 return this.detailbahan[i].nama_barang
               }
               else if(params == 'jumlah') {
-                return this.detailbahan[i].jumlah
+                return functions.numb(this.detailbahan[i].jumlah)
               }
               else if(params == 'kodebhn') {
                 return this.detailbahan[i].kode_barang
@@ -223,7 +225,7 @@ import menuList from '../components/menu/menuList.vue';
                 return this.detailbarang[j].nama_barang
               }
               else if(params == 'jumlahbrg') {
-                return this.detailbarang[j].jumlah
+                return functions.numb(this.detailbarang[j].jumlah)
               }
               else if(params == 'satuan') {
                 return this.detailbarang[j].satuan
@@ -267,28 +269,10 @@ import menuList from '../components/menu/menuList.vue';
         return this.filter = v
       },
       print(key){
-      if (key == 'xlsx') {
-        return this.ExportToExcel('xlsx')
-      } else if(key == 'pdf') {
-        return this.generatePDF()
-      }
-      },
-      generatePDF() {
-      const doc = new jsPDF({
-        orientation: "portrait",
-        unit: "in",
-        format: "letter"
-      });
-      var heading = this.pageTitle
-      var columns = this.headers
-      // text is placed using x, y coordinates
-      doc.setFontSize(16).text(heading, 0.5, 1.0);
-      doc.autoTable({
-        columns,
-        body: this.printdata(),
-        margin: { left: 0.5, top: 1.25 }
-      })
-      .save(`${this.pageTitle}.pdf`);
+        let title = this.pageTitle
+        let header = this.headers
+        let item = this.printdata()
+        functions.print(key, title, header, item)
       },
       printdata(){
         let a = []
@@ -305,22 +289,8 @@ import menuList from '../components/menu/menuList.vue';
         }
         return a
       },
-      ExportToExcel(type, fn, dl) {
-       var elt = document.getElementById('tbl_exporttable_to_xls');
-       // eslint-disable-next-line no-undef
-       var wb = XLSX.utils.table_to_book(elt, { sheet: "sheet1" });
-       return dl ?
-         // eslint-disable-next-line no-undef
-         XLSX.write(wb, { bookType: type, bookSST: true, type: 'base64' }):
-         // eslint-disable-next-line no-undef
-         XLSX.writeFile(wb, fn || (this.pageTitle+'.' + (type || 'xlsx')));
-      },
       page(){
           return this.$emit('page', this.pageTitle)
-      },
-      today() {
-        let currentDate = new Date().toJSON().slice(0, 10);
-        return currentDate
       },
       tglawal() {
         let d = new Date();
@@ -335,17 +305,9 @@ import menuList from '../components/menu/menuList.vue';
         //tl_awal
         return d.toJSON().slice(0, 10)
       },
-      formatDate(value){
-        let options = {
-          day: '2-digit',
-          year: 'numeric',
-          month: 'long'
-        }
-         return new Date(value).toLocaleDateString('id', options)
-      },
       reset() {
-        this.periode = [this.tglawal(), this.today()]
-        this.filtered.periode = [this.tglawal(), this.today()]
+        this.periode = [this.tglawal(), functions.day()]
+        this.filtered.periode = [this.tglawal(), functions.day()]
         this.selected()
       
       },
@@ -436,7 +398,7 @@ import menuList from '../components/menu/menuList.vue';
             </template>
             <!-- eslint-disable-next-line vue/valid-v-slot -->
               <template v-slot:item.tgl_produksi="{item}">
-                {{ formatDate(item.raw.tgl_produksi) }}
+                {{ functions.formatDate(item.raw.tgl_produksi) }}
               </template>
             <!-- eslint-disable-next-line vue/valid-v-slot -->
             <template v-slot:item.jumlah="{ item }">

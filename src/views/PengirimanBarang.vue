@@ -1,17 +1,21 @@
 <script setup>
+// service
+import api from '../service/api';
+import functions from '../service/functions';
+// component
 import { VDataTable } from 'vuetify/labs/VDataTable'
 import PengirimanDetail from './PengirimanDetail.vue';
 import SuratJalan from './SuratJalan.vue';
 import '@vuepic/vue-datepicker/dist/main.css'
-import { jsPDF } from "jspdf";
-import 'jspdf-autotable'
 import { ref, onMounted } from 'vue';
-import api from '../api';
 import AppBar from '../components/AppBar.vue';
 import filterDrawer from '../components/drawer/filterDrawer.vue';
 import circleButton from '../components/button/circleButton.vue';
 import textField from '../components/form/textField.vue';
 import menuList from '../components/menu/menuList.vue';
+// plugins
+import { id } from 'date-fns/locale';
+
 </script>
 
 <script>
@@ -106,14 +110,10 @@ import menuList from '../components/menu/menuList.vue';
     },
     created() {
       this.nokirim
-      this.periode = [this.tglawal(), this.today()]
-      this.filtered.periode = [this.tglawal(), this.today()]
+      this.periode = [this.tglawal(), functions.day()]
+      this.filtered.periode = [this.tglawal(), functions.day()]
     },
     methods: {
-      today() {
-        let currentDate = new Date().toJSON().slice(0, 10);
-        return currentDate
-      },
       tglawal() {
         let d = new Date();
         let m = d.getMonth();
@@ -126,14 +126,6 @@ import menuList from '../components/menu/menuList.vue';
     
         //tl_awal
         return d.toJSON().slice(0, 10)
-      },
-      formatDate(value){
-        let options = {
-          day: '2-digit',
-          year: 'numeric',
-          month: 'long'
-        }
-         return new Date(value).toLocaleDateString('id', options)
       },
       page(){
         return this.$emit('page', this.pageTitle)
@@ -149,7 +141,7 @@ import menuList from '../components/menu/menuList.vue';
         .then(response => {
           this.pengirimanHead = response.data
         })
-        .catch((error) => {
+        .catch(() => {
           return this.$router.push('login');
         })
       },
@@ -164,7 +156,7 @@ import menuList from '../components/menu/menuList.vue';
         .then(response => {
           this.kirim_detail = response.data
         })
-        .catch((error) => {
+        .catch(() => {
           return this.$router.push('login');
         })
       },
@@ -179,7 +171,7 @@ import menuList from '../components/menu/menuList.vue';
         .then(response => {
           this.penjualanHead = response.data
         })
-        .catch((error) => {
+        .catch(() => {
           return this.$router.push('login');
         })
       },
@@ -189,7 +181,7 @@ import menuList from '../components/menu/menuList.vue';
         .then(response => {
         this.alamatBongkar = response.data
         })
-        .catch((error) => {
+        .catch(() => {
         return this.$router.push('login');
         })
         },
@@ -199,7 +191,7 @@ import menuList from '../components/menu/menuList.vue';
         .then(response => {
           this.pelanggan = response.data
         })
-        .catch((error) => {
+        .catch(() => {
           return this.$router.push('login');
         })
       },
@@ -266,36 +258,15 @@ import menuList from '../components/menu/menuList.vue';
         }
         return a
       },
-      generatePDF() {
-      const doc = new jsPDF({
-        orientation: "portrait",
-        unit: "in",
-        format: "letter"
-      });
-      var heading = this.pageTitle
-      var columns = this.headers
-      // text is placed using x, y coordinates
-      doc.setFontSize(16).text(heading, 0.5, 1.0);
-      doc.autoTable({
-        columns,
-        body: this.printdata(),
-        margin: { left: 0.5, top: 1.25 }
-      })
-      .save(`${this.pageTitle}.pdf`);
-      },
-      ExportToExcel(type, fn, dl) {
-       var elt = document.getElementById('tbl_exporttable_to_xls');
-       // eslint-disable-next-line no-undef
-       var wb = XLSX.utils.table_to_book(elt, { sheet: "sheet1" });
-       return dl ?
-         // eslint-disable-next-line no-undef
-         XLSX.write(wb, { bookType: type, bookSST: true, type: 'base64' }):
-         // eslint-disable-next-line no-undef
-         XLSX.writeFile(wb, fn || (this.pageTitle+'.' + (type || 'xlsx')));
+      print(key){
+        let title = this.pageTitle
+        let header = this.headers
+        let item = this.printdata()
+        functions.print(key, title, header, item)
       },
       reset() {
-        this.periode = [this.tglawal(), this.today()]
-        this.filtered.periode = [this.tglawal(), this.today()]
+        this.periode = [this.tglawal(), functions.day()]
+        this.filtered.periode = [this.tglawal(), functions.day()]
         this.selected()
         
       },
@@ -304,13 +275,6 @@ import menuList from '../components/menu/menuList.vue';
         this.periode[1] = this.filtered.periode[1]
         this.selected()
 
-      },
-      print(key){
-        if (key == 'xlsx') {
-          return this.ExportToExcel('xlsx')
-        } else if(key == 'pdf') {
-          return this.generatePDF()
-        }
       },
       inputhead(head, detail) {
         let h = {
@@ -456,7 +420,7 @@ import menuList from '../components/menu/menuList.vue';
             >
             <!-- eslint-disable-next-line vue/valid-v-slot -->
               <template v-slot:item.tgl_pengiriman="{item}">
-                {{ formatDate(item.raw.tgl_pengiriman) }}
+                {{ functions.formatDate(item.raw.tgl_pengiriman) }}
               </template>
             <!-- eslint-disable-next-line vue/valid-v-slot -->
             <template v-slot:item.kode_pelanggan="{ item }">

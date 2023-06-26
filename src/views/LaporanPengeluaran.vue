@@ -1,10 +1,11 @@
 <script setup>
+// service
+import api from '../service/api';
+import functions from '../service/functions';
+// components
 import { VDataTable } from 'vuetify/labs/VDataTable'
 import '@vuepic/vue-datepicker/dist/main.css'
-import api from '../api';
 import { ref, onMounted } from 'vue';
-import { jsPDF } from "jspdf";
-import 'jspdf-autotable'
 import AppBar from '../components/AppBar.vue';
 import PengeluaranDetail from './PengeluaranDetail.vue';
 import filterDrawer from '../components/drawer/filterDrawer.vue';
@@ -81,14 +82,10 @@ import checkBox from '../components/form/checkBox.vue';
       }
     },
     created() {
-      this.periode = [this.tglawal(), this.today()]
-       this.filtered.periode = [this.tglawal(), this.today()]
+      this.periode = [this.tglawal(), functions.day()]
+       this.filtered.periode = [this.tglawal(), functions.day()]
     },
     methods: {
-      today() {
-        let currentDate = new Date().toJSON().slice(0, 10);
-        return currentDate
-      },
       tglawal() {
         let d = new Date();
         let m = d.getMonth();
@@ -101,14 +98,6 @@ import checkBox from '../components/form/checkBox.vue';
     
         //tl_awal
         return d.toJSON().slice(0, 10)
-      },
-      formatDate(value){
-        let options = {
-          day: '2-digit',
-          year: 'numeric',
-          month: 'long'
-        }
-         return new Date(value).toLocaleDateString('id', options)
       },
       getPenjualan() {
         const apiUrl = '/penjualan_head?'
@@ -164,10 +153,6 @@ import checkBox from '../components/form/checkBox.vue';
             return this.items.filter(item => this.selectdokumen.includes(item.tipe_dokumen));
           }
       },
-      numb(value) {
-        let val = (value / 1).toFixed(0).replace('.', ',')
-        return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-      },
       updt() {
         this.getPenjualan()
         this.getPenjualanDetail()
@@ -200,7 +185,7 @@ import checkBox from '../components/form/checkBox.vue';
           }
         }
         if(col == 'total') {
-            return this.numb(value)
+            return functions.numb(value)
         }
         if(col == 'kategori' || col == 'kodebrg' || col == 'namabrg' || col == 'hscode' || col == 'satuan' || col == 'jumlah') {
           for (let i = 0; i < this.pjldetail.length; i++) {
@@ -224,7 +209,7 @@ import checkBox from '../components/form/checkBox.vue';
                   return this.pjldetail[i].satuan
                 }
                 else if(col == 'jumlah') {
-                  return this.numb(this.pjldetail[i].jumlah)
+                  return functions.numb(this.pjldetail[i].jumlah)
                 }
               }
             }
@@ -235,38 +220,10 @@ import checkBox from '../components/form/checkBox.vue';
         return this.filter = v
       },
       print(key){
-        if (key == 'xlsx') {
-          return this.ExportToExcel('xlsx')
-        } else if(key == 'pdf') {
-          return this.generatePDF()
-        }
-      },
-      generatePDF() {
-      const doc = new jsPDF({
-        orientation: "potrait",
-        unit: "in",
-        format: "a4"
-      });
-      let heading = this.pageTitle
-      let columns = this.headers
-      // text is placed using x, y coordinates
-      doc.setFontSize(14).text(heading, 0.5, 0.5).setFont('Arial', 20);
-      doc.autoTable({
-        columns,
-        body: this.printdata(),
-        margin: { left: 0.1, top: 0.75, right: 0.1 },
-      })
-      .save(`${this.pageTitle}.pdf`);
-      },
-      ExportToExcel(type, fn, dl) {
-       var elt = document.getElementById('tbl_exporttable_to_xls');
-       // eslint-disable-next-line no-undef
-       var wb = XLSX.utils.table_to_book(elt, { sheet: "sheet1" });
-       return dl ?
-         // eslint-disable-next-line no-undef
-         XLSX.write(wb, { bookType: type, bookSST: true, type: 'base64' }):
-         // eslint-disable-next-line no-undef
-         XLSX.writeFile(wb, fn || (this.pageTitle+'.' + (type || 'xlsx')));
+        let title = this.pageTitle
+        let header = this.headers
+        let item = this.printdata()
+        functions.print(key, title, header, item)
       },
       printdata(){
         let a = []
@@ -290,8 +247,8 @@ import checkBox from '../components/form/checkBox.vue';
       },
       reset() {
         this.filtered.selectdokumen = []
-        this.periode = [this.tglawal(), this.today()]
-        this.filtered.periode = [this.tglawal(), this.today()]
+        this.periode = [this.tglawal(), functions.day()]
+        this.filtered.periode = [this.tglawal(), functions.day()]
         this.selectdokumen = []
         this.getPenjualan()
       },

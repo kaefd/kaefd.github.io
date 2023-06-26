@@ -1,5 +1,5 @@
 <script setup>
-import api from '../api';
+import api from '../service/api';
 import 'animate.css';
 // import axios from 'axios'
 // import { mapActions } from 'vuex'

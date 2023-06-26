@@ -1,5 +1,5 @@
 <script>
-import api from '../api';
+import api from '../service/api';
 export default {
     props: ['items', 'namaPelanggan', 'namaTujuan', 'pengiriman', 'alamatPelanggan','nokirim', 'detail_kirim', 'nopjl'],
     data () {

@@ -1,15 +1,12 @@
 <script setup>
 import TableVue from '../components/TableVue.vue';
 import '@vuepic/vue-datepicker/dist/main.css'
-import api from '../api';
+import api from '../service/api';
 import { ref, onMounted } from 'vue';
 import { jsPDF } from "jspdf";
 import 'jspdf-autotable';
 import AppBar from '../components/AppBar.vue';
 import filterDrawer from '../components/drawer/filterDrawer.vue';
-import circleButton from '../components/button/circleButton.vue';
-import textField from '../components/form/textField.vue';
-import menuList from '../components/menu/menuList.vue';
 import checkBox from '../components/form/checkBox.vue';
 </script>
 
@@ -19,9 +16,6 @@ import checkBox from '../components/form/checkBox.vue';
     components: {
       AppBar,
       filterDrawer,
-      circleButton,
-      textField,
-      menuList,
       checkBox,
     },
     props:['actIcon', 'cetak'],

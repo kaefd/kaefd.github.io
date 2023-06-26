@@ -2,7 +2,7 @@
 import { reactive } from 'vue'
 import { useVuelidate } from '@vuelidate/core'
 import {  required } from '@vuelidate/validators'
-import api from '../api';
+import api from '../service/api';
 
 export default {
     name: 'DialogCard2',

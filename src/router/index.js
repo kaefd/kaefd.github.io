@@ -1,5 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import middleware from '../middleware'
+import middleware from '../service/middleware'
 import DataBarang from '../views/DataBarang.vue'
 import LoginView from '../views/LoginView.vue'
 import DataPelanggan from '../views/DataPelanggan.vue'
@@ -8,12 +8,11 @@ import DataUser from '../views/DataUser.vue'
 import PemasukanBarang from '../views/PemasukanBarang.vue'
 import ProduksiBarang from '../views/ProduksiBarang.vue'
 import PengeluaranBarang from '../views/PengeluaranBarang.vue'
-import Pengiriman from '../views/Pengiriman.vue'
+import PengirimanBarang from '../views/PengirimanBarang.vue'
 import LaporanStok from '../views/LaporanStok.vue'
 import LaporanPemasukan from '../views/LaporanPemasukan.vue'
 import LaporanPengeluaran from '../views/LaporanPengeluaran.vue'
 import LogView from '../views/LaporanLog.vue'
-
 const router = createRouter({
   history: createWebHashHistory(),
   routes: [
@@ -89,11 +88,11 @@ const router = createRouter({
     },
     {
       path: '/pengiriman',
-      name: 'pengiriman',
+      name: 'PengirimanBarang',
       meta: {
         middleware: [middleware]
       },
-      component: Pengiriman,
+      component: PengirimanBarang,
     },
     {
       path: '/laporan-stok',

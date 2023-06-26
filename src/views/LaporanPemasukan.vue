@@ -1,11 +1,12 @@
 <script setup>
+// service
+import api from '../service/api';
+import functions from '../service/functions';
+// components
 import '@vuepic/vue-datepicker/dist/main.css'
 import { VDataTable } from 'vuetify/labs/VDataTable'
 import PemasukanDetail from './PemasukanDetail.vue';
-import api from '../api';
 import { ref, onMounted } from 'vue';
-import { jsPDF } from "jspdf";
-import 'jspdf-autotable'
 import AppBar from '../components/AppBar.vue';
 import filterDrawer from '../components/drawer/filterDrawer.vue';
 import circleButton from '../components/button/circleButton.vue';
@@ -81,16 +82,12 @@ import checkBox from '../components/form/checkBox.vue';
       }
     },
     created() {
-      this.periode = [this.tglawal(), this.today()]
-      this.filtered.periode = [this.tglawal(), this.today()]
+      this.periode = [this.tglawal(), functions.day()]
+      this.filtered.periode = [this.tglawal(), functions.day()]
     },
     methods: {
       page(){
         return this.$emit('page', this.pageTitle)
-      },
-      today() {
-        let currentDate = new Date().toJSON().slice(0, 10);
-        return currentDate
       },
       tglawal() {
         let d = new Date();
@@ -104,14 +101,6 @@ import checkBox from '../components/form/checkBox.vue';
     
         //tl_awal
         return d.toJSON().slice(0, 10)
-      },
-      formatDate(value){
-        let options = {
-          day: '2-digit',
-          year: 'numeric',
-          month: 'long'
-        }
-         return new Date(value).toLocaleDateString('id', options)
       },
       getPembelian() {
         const apiUrl = '/pembelian_head?'
@@ -161,10 +150,6 @@ import checkBox from '../components/form/checkBox.vue';
           return this.$router.push('login');
         })
       },
-      numb(value) {
-        let val = (value / 1).toFixed(0).replace('.', ',')
-        return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-      },
       pilihtipe() {
         if (this.selectdokumen.length === 0) {
             return this.items;
@@ -197,14 +182,14 @@ import checkBox from '../components/form/checkBox.vue';
         }
 
         if(col == 'total') {
-            return this.numb(value)
+            return functions.numb(value)
         }
         if(col === 'kategori' || col == 'namabrg' || col == 'hscode' || col == 'satuan' || col == 'diterima') {
           for (let i = 0; i < this.pembeliandetl.length; i++) {
             for (let j = 0; j < this.barang.length; j++) {
               if(value == this.pembeliandetl[i].no_pembelian) {
                 if(col == 'diterima') {
-                  return this.numb(this.pembeliandetl[i].jumlah_diterima)
+                  return functions.numb(this.pembeliandetl[i].jumlah_diterima)
                 }
                 if(this.pembeliandetl[i].kode_barang == this.barang[j].kode_barang){
                   if (col == 'kategori') {
@@ -245,43 +230,15 @@ import checkBox from '../components/form/checkBox.vue';
         return this.filter = v
       },
       print(key){
-        if (key == 'xlsx') {
-          return this.ExportToExcel('xlsx')
-        } else if(key == 'pdf') {
-          return this.generatePDF()
-        }
-      },
-      generatePDF() {
-      const doc = new jsPDF({
-        orientation: "potrait",
-        unit: "in",
-        format: "a4"
-      });
-      let heading = this.pageTitle
-      let columns = this.headers
-      // text is placed using x, y coordinates
-      doc.setFontSize(14).text(heading, 0.5, 0.5).setFont('Arial', 20);
-      doc.autoTable({
-        columns,
-        body: this.printdata(),
-        margin: { left: 0.1, top: 0.75, right: 0.1 },
-      })
-      .save(`${this.pageTitle}.pdf`);
-      },
-      ExportToExcel(type, fn, dl) {
-       var elt = document.getElementById('tbl_exporttable_to_xls');
-       // eslint-disable-next-line no-undef
-       var wb = XLSX.utils.table_to_book(elt, { sheet: "sheet1" });
-       return dl ?
-         // eslint-disable-next-line no-undef
-         XLSX.write(wb, { bookType: type, bookSST: true, type: 'base64' }):
-         // eslint-disable-next-line no-undef
-         XLSX.writeFile(wb, fn || (this.pageTitle+'.' + (type || 'xlsx')));
+        let title = this.pageTitle
+        let header = this.headers
+        let item = this.printdata()
+        functions.print(key, title, header, item)
       },
       reset() {
         this.filtered.selectdokumen = []
-        this.periode = [this.tglawal(), this.today()]
-        this.filtered.periode = [this.tglawal(), this.today()]
+        this.periode = [this.tglawal(), functions.day()]
+        this.filtered.periode = [this.tglawal(), functions.day()]
         this.selectdokumen = []
         this.getPembelian()
       },

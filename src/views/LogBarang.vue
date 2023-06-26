@@ -1,6 +1,6 @@
 <script setup>
 import { VDataTable } from 'vuetify/labs/VDataTable'
-import api from '../api';
+import api from '../service/api';
 </script>
 <script>
 export default {
@@ -80,7 +80,7 @@ export default {
             .then(response => {
             this.logbrg = response.data
             })
-            .catch((error) => {
+            .catch(() => {
             return this.$router.push('login');
             })
         },

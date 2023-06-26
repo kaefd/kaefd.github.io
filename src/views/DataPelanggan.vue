@@ -1,14 +1,14 @@
 <script setup>
+// SERVICE
+import functions from '../service/functions';
+// COMPONENTS
 import { defineComponent } from 'vue';
 import TableVue from '../components/TableVue.vue';
 import DialogCard from '../components/DialogCard.vue';
-import { jsPDF } from "jspdf";
-import 'jspdf-autotable'
-import api from '../api';
+import api from '../service/api';
 import AppBar from '../components/AppBar.vue';
 import menuList from '../components/menu/menuList.vue';
-import textField from '../components/form/textField.vue';
-
+import textField from '../components/form/textField.vue'
 </script>
 
 <script>
@@ -77,52 +77,10 @@ import textField from '../components/form/textField.vue';
         return this.$emit('page', this.pageTitle)
       },
       print(key){
-        if (key == 'xlsx') {
-          return this.ExportToExcel('xlsx')
-        } else if(key == 'pdf') {
-          return this.generatePDF()
-        }
-      },
-      generatePDF() {
-      const doc = new jsPDF({
-        orientation: "portrait",
-        unit: "in",
-        format: "letter"
-      });
-      var heading = this.pageTitle
-      var columns = this.headers
-      // text is placed using x, y coordinates
-      doc.setFontSize(16).text(heading, 0.5, 1.0);
-      doc.autoTable({
-        columns,
-        body: this.items,
-        margin: { left: 0.5, top: 1.25 }
-      })
-      .save(`${this.pageTitle}.pdf`);
-    },
-      ExportToExcel(type, fn, dl) {
-       var elt = document.getElementById('tbl_exporttable_to_xls');
-       // eslint-disable-next-line no-undef
-       var wb = XLSX.utils.table_to_book(elt, { sheet: "sheet1" });
-       return dl ?
-         // eslint-disable-next-line no-undef
-         XLSX.write(wb, { bookType: type, bookSST: true, type: 'base64' }):
-         // eslint-disable-next-line no-undef
-         XLSX.writeFile(wb, fn || (this.pageTitle+'.' + (type)));
-      },
-      successAlert(m) {
-        this.$swal.fire(
-          'Berhasil !',
-          m,
-          'success'
-        )
-      },
-      failedAlert(m) {
-        this.$swal.fire(
-          'Gagal !',
-          m,
-          'error'
-        )
+        let title = this.pageTitle
+        let header = this.headers
+        let item = this.items
+        functions.print(key, title, header, item)
       },
       // TAMBAH DATA
       submitForm(value) {

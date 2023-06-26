@@ -1,6 +1,6 @@
 <script setup>
 import TableVue from '../components/TableVue.vue';
-import api from '../api';
+import api from '../service/api';
 import { jsPDF } from "jspdf";
 import 'jspdf-autotable'
 import AppBar from '../components/AppBar.vue';

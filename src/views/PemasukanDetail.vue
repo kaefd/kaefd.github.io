@@ -1,7 +1,7 @@
 <script>
 import { VDataTable } from 'vuetify/labs/VDataTable'
 import DialogCard2 from '../components/DialogCard2.vue';
-import api from '../api';
+import api from '../service/api';
 
 export default {
     components: {

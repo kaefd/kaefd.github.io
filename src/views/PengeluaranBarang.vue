@@ -1,10 +1,10 @@
 <script setup>
+  // service
+  import api from '../service/api';
+  import functions from '../service/functions';
+  // Component
   import { VDataTable } from 'vuetify/labs/VDataTable'
   import PengeluaranDetail from './PengeluaranDetail.vue'
-  import '@vuepic/vue-datepicker/dist/main.css'
-  import api from '../api'
-  import { jsPDF } from "jspdf"
-  import 'jspdf-autotable'
   import { ref, onMounted } from 'vue'
   import AppBar from '../components/AppBar.vue'
   import filterDrawer from '../components/drawer/filterDrawer.vue'
@@ -12,6 +12,9 @@
   import textField from '../components/form/textField.vue'
   import menuList from '../components/menu/menuList.vue'
   import checkBox from '../components/form/checkBox.vue'
+  // plugins
+  import '@vuepic/vue-datepicker/dist/main.css'
+  import { id } from 'date-fns/locale';
 </script>
 
 <script>
@@ -103,8 +106,8 @@
       }
     },
     created() {
-      this.periode = [this.tglawal(), this.today()]
-      this.filtered.periode = [this.tglawal(), this.today()] 
+      this.periode = [this.tglawal(), functions.day()]
+      this.filtered.periode = [this.tglawal(), functions.day()] 
     },
     computed: {
       pilihtipe() {
@@ -120,10 +123,6 @@
       }
     },
     methods: {
-      today() {
-        let currentDate = new Date().toJSON().slice(0, 10);
-        return currentDate
-      },
       tglawal() {
         let d = new Date();
         let m = d.getMonth();
@@ -136,14 +135,6 @@
     
         //tl_awal
         return d.toJSON().slice(0, 10)
-      },
-      formatDate(value){
-        let options = {
-          day: '2-digit',
-          year: 'numeric',
-          month: 'long'
-        }
-         return new Date(value).toLocaleDateString('id', options)
       },
       close(v) {
         return this.filter = v
@@ -296,10 +287,6 @@
         this.getPenjualanDetail(),
         this.getPelanggan()
       },
-      numb(value) {
-            let val = (value / 1).toFixed(0).replace('.', ',')
-            return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-        },
       statuspenjualan() {
         for (let i = 1; i < this.status.length; i++) {
          if(this.checkStatus == this.status[i].title)
@@ -324,54 +311,26 @@
             no_dokumen: this.penjualan_head[i].no_dokumen,
             kode_pelanggan: this.penjualan_head[i].kode_pelanggan,
             kode_group: this.penjualan_head[i].kode_group,
-            total_penjualan: this.numb(this.penjualan_head[i].total_penjualan),
+            total_penjualan: functions.numb(this.penjualan_head[i].total_penjualan),
           })
         }
         return a
       },
       print(key){
-        if (key == 'xlsx') {
-          return this.ExportToExcel('xlsx')
-        } else if(key == 'pdf') {
-          return this.generatePDF()
-        }
-      },
-      generatePDF() {
-      const doc = new jsPDF({
-        orientation: "portrait",
-        unit: "in",
-        format: "letter"
-      });
-      var heading = this.pageTitle
-      var columns = this.headers
-      // text is placed using x, y coordinates
-      doc.setFontSize(16).text(heading, 0.5, 1.0);
-      doc.autoTable({
-        columns,
-        body: this.printdata(),
-        margin: { left: 0.5, top: 1.25 }
-      })
-      .save(`${this.pageTitle}.pdf`);
-    },
-      ExportToExcel(type, fn, dl) {
-         var elt = document.getElementById('tbl_exporttable_to_xls');
-         // eslint-disable-next-line no-undef
-         var wb = XLSX.utils.table_to_book(elt, { sheet: "sheet1" });
-         return dl ?
-           // eslint-disable-next-line no-undef
-           XLSX.write(wb, { bookType: type, bookSST: true, type: 'base64' }):
-           // eslint-disable-next-line no-undef
-           XLSX.writeFile(wb, fn || (this.pageTitle+'.' + (type || 'xlsx')));
+        let title = this.pageTitle
+        let header = this.headers
+        let item = this.printdata()
+        functions.print(key, title, header, item)
       },
       page(){
         return this.$emit('page', this.pageTitle)
       },
       reset() {
-        this.periode = [this.tglawal(), this.today()]
-        this.filtered.periode = [this.tglawal(), this.today()]
+        this.periode = [this.tglawal(), functions.day()]
+        this.filtered.periode = [this.tglawal(), functions.day()]
         this.filtered.selectdokumen = []
         this.filtered.status = []
-        this.today()
+        functions.day()
         this.selectdokumen = []
         this.checkStatus = []
         this.selected()
@@ -390,8 +349,6 @@
           }
 
       }
-
-
     },
       mounted() {
         this.page()
@@ -511,7 +468,7 @@
             >
             <!-- eslint-disable-next-line vue/valid-v-slot -->
               <template v-slot:item.tgl_penjualan="{item}">
-                {{ formatDate(item.raw.tgl_penjualan) }}
+                {{ functions.formatDate(item.raw.tgl_penjualan) }}
               </template>
             <!-- CUSTOM PAGINATION STYLE -->
             <!-- <template v-slot:bottom> -->
@@ -531,7 +488,7 @@
             <!-- dialog actions -->
             <!-- eslint-disable-next-line vue/valid-v-slot -->
             <template v-slot:item.total_penjualan="{ item }">
-              <td>{{ numb(item.raw.total_penjualan) }}</td>
+              <td>{{ functions.numb(item.raw.total_penjualan) }}</td>
             </template>
              <!-- eslint-disable-next-line vue/valid-v-slot -->
             <template v-slot:item.actions="{item}">

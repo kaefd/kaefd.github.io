@@ -1,18 +1,19 @@
 <script setup>
+// service
+import api from '../service/api';
+import functions from '../service/functions';
+// component
 import TableVue from '../components/TableVue.vue';
 import DialogCard from '../components/DialogCard.vue';
 import circleButton from '../components/button/circleButton.vue';
 import AppBar from '../components/AppBar.vue';
-import { defineComponent } from 'vue';
-import { jsPDF } from "jspdf";
-import 'jspdf-autotable'
-import api from '../api';
 import menuList from '../components/menu/menuList.vue';
 import textField from '../components/form/textField.vue';
 import checkBox from '../components/form/checkBox.vue';
 import filterDrawer from '../components/drawer/filterDrawer.vue';
+// plugin
+import { defineComponent } from 'vue';
 </script>
-
 
 <script>
 export default defineComponent ({
@@ -26,7 +27,7 @@ export default defineComponent ({
     checkBox,
     filterDrawer,
   },
-    name: 'itemsView',
+    name: 'DataBarang',
     props:['actIcon', 'cetak'],
     data () {
       return {
@@ -63,23 +64,22 @@ export default defineComponent ({
           'hs_code',
           'satuan',
           'status',
-      ],
-      tambah: {
-          kategori_barang: '',
-          kode_barang: '',
-          nama_barang: '',
-          hs_code: '',
-          satuan: '',
-          status: true,
-        },
-      filtered: {
-        kategori_barang: []
-      }
+        ],
+        tambah: {
+            kategori_barang: '',
+            kode_barang: '',
+            nama_barang: '',
+            hs_code: '',
+            satuan: '',
+            status: true,
+          },
+        filtered: {
+          kategori_barang: []
+        }
       }
     },
     created() {
       this.windowWidth
-        
     },
     methods: {
     getData(){
@@ -102,52 +102,10 @@ export default defineComponent ({
         }
     },
     print(key){
-      if (key == 'xlsx') {
-        return this.ExportToExcel('xlsx')
-      } else if(key == 'pdf') {
-        return this.generatePDF()
-      }
-    },
-    generatePDF() {
-      const doc = new jsPDF({
-        orientation: "portrait",
-        unit: "in",
-        format: "letter"
-      });
-      let heading = this.pageTitle
-      let columns = this.headers
-      // text is placed using x, y coordinates
-      doc.setFontSize(16).text(heading, 0.5, 1.0);
-      doc.autoTable({
-        columns,
-        body: this.items,
-        margin: { left: 0.5, top: 1.25 }
-      })
-      .save(`${this.pageTitle}.pdf`);
-    },
-    ExportToExcel(type, fn, dl) {
-       var elt = document.getElementById('tbl_exporttable_to_xls');
-       // eslint-disable-next-line no-undef
-       var wb = XLSX.utils.table_to_book(elt, { sheet: "sheet1" });
-       return dl ?
-         // eslint-disable-next-line no-undef
-         XLSX.write(wb, { bookType: type, bookSST: true, type: 'base64' }):
-         // eslint-disable-next-line no-undef
-         XLSX.writeFile(wb, fn || (this.pageTitle+'.' + (type)));
-    },
-    successAlert(m) {
-      this.$swal.fire(
-        'Berhasil !',
-        m,
-        'success'
-      )
-    },
-    failedAlert(m) {
-      this.$swal.fire(
-        'Gagal !',
-        m,
-        'error'
-      )
+      let title = this.pageTitle
+      let header = this.headers
+      let item = this.items
+      functions.print(key, title, header, item)
     },
     // TAMBAH DATA
     submitForm(value) {
@@ -160,7 +118,7 @@ export default defineComponent ({
           .catch((error) => {
             console.log(error);
           })
-      },
+    },
       // EDIT DATA
     editForm(value) {
       const myJSON = JSON.stringify(value);
@@ -208,13 +166,12 @@ export default defineComponent ({
           } else if (this.selectCategory == []) {
             this.selectCategory = []
           }
-
-      },
-      reset() {
-        this.filtered.kategori_barang = []
-        this.selectCategory = []
-        
-      },
+    },
+    reset() {
+      this.filtered.kategori_barang = []
+      this.selectCategory = []
+      
+    },
 
     },
     mounted() {

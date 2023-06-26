@@ -1,4 +1,4 @@
-import router from './router'
+import router from '../router'
 import axios from 'axios'
 
 const instance = axios.create({
@@ -20,6 +20,9 @@ export default {
   },
   getData (url, data) {
     return instance.get(url, data)
+  },
+  getBarang (data) {
+    return instance.get('/barang?status=true', data)
   },
   postData (url, data) {
     return instance.post(url, data)

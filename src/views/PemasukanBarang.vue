@@ -1,18 +1,21 @@
 <script setup>
+// service
+import api from '../service/api';
+import functions from '../service/functions';
+// components
 import { VDataTable } from 'vuetify/labs/VDataTable'
 import PemasukanDetail from './PemasukanDetail.vue';
 import AppBar from '../components/AppBar.vue';
-import '@vuepic/vue-datepicker/dist/main.css'
-import api from '../api';
-import { jsPDF } from "jspdf";
-import 'jspdf-autotable'
-import { ref, onMounted } from 'vue';
-import { id } from 'date-fns/locale';
 import filterDrawer from '../components/drawer/filterDrawer.vue';
 import circleButton from '../components/button/circleButton.vue';
 import textField from '../components/form/textField.vue';
 import menuList from '../components/menu/menuList.vue';
 import checkBox from '../components/form/checkBox.vue';
+// PLUGINS
+import { ref, onMounted } from 'vue';
+import { id } from 'date-fns/locale';
+import '@vuepic/vue-datepicker/dist/main.css'
+
 </script>
 
 <script>
@@ -85,7 +88,7 @@ export default {
         datainput: {
           no_pembelian: '',
           tgl_pembelian: '',
-          tgl_input: this.today(),
+          tgl_input: functions.day(),
           kode_supplier: '',
           tipe_dokumen: '',
           no_dokumen: '',
@@ -101,8 +104,8 @@ export default {
       }
     },
     created() {
-       this.periode = [this.tglawal(), this.today()]
-       this.filtered.periode = [this.tglawal(), this.today()]
+       this.periode = [this.tglawal(), functions.day()]
+       this.filtered.periode = [this.tglawal(), functions.day()]
     },
     computed: {
       datatable() {
@@ -119,8 +122,8 @@ export default {
                 tgl_dokumen: this.formatDate(this.items[i].tgl_dokumen),
                 kode_supplier: this.supplier[k].nama,
                 mata_uang: this.items[i].mata_uang,
-                total_nilai: this.numb(this.items[i].total_nilai),
-                rp: this.numb(this.items[i].total_nilai * this.items[i].kurs),
+                total_nilai: functions.numb(this.items[i].total_nilai),
+                rp: functions.numb(this.items[i].total_nilai * this.items[i].kurs),
                 no_invoice: this.items[i].no_invoice,
                 no_bl: this.items[i].no_bl,
                 kurs: this.items[i].kurs,
@@ -137,10 +140,6 @@ export default {
       }
     },
     methods: {
-      today() {
-        let currentDate = new Date().toJSON().slice(0, 10);
-        return currentDate
-      },
       tglawal() {
         let d = new Date();
         let m = d.getMonth();
@@ -305,39 +304,10 @@ export default {
       return this.filter = v
       },
       print(key){
-        if (key == 'xlsx') {
-          return this.ExportToExcel('xlsx')
-        } else if(key == 'pdf') {
-          return this.generatePDF()
-        }
-      },
-      generatePDF() {
-      const doc = new jsPDF({
-        orientation: "portrait",
-        unit: "in",
-        format: "letter"
-      });
-      var heading = this.pageTitle
-      var columns = this.headers
-      // text is placed using x, y coordinates
-      doc.setFontSize(16).text(heading, 0.5, 1.0);
-      doc.autoTable({
-        columns,
-        body: this.printdata(),
-        margin: { left: 0.5, top: 1.25 }
-      })
-      .save(`${this.pageTitle}.pdf`);
-      },
-      // FUNCTION EXPORT TO EXCEL
-      ExportToExcel(type, fn, dl) {
-       var elt = document.getElementById('tbl_exporttable_to_xls');
-       // eslint-disable-next-line no-undef
-       var wb = XLSX.utils.table_to_book(elt, { sheet: "sheet1" });
-       return dl ?
-         // eslint-disable-next-line no-undef
-         XLSX.write(wb, { bookType: type, bookSST: true, type: 'base64' }):
-         // eslint-disable-next-line no-undef
-         XLSX.writeFile(wb, fn || (this.pageTitle+'.' + (type || 'xlsx')));
+        let title = this.pageTitle
+        let header = this.headers
+        let item = this.printdata()
+        functions.print(key, title, header, item)
       },
       dataTable(value, params) {
         if(params == 'nama') {
@@ -357,12 +327,12 @@ export default {
           return p
         }
         else if(params == 'total') {
-          return this.numb(value)
+          return functions.numb(value)
         }
         else if(params == 'rp') {
           let kurs = value.kurs
           let nilai = value.total_nilai
-          return this.numb(kurs * nilai)
+          return functions.numb(kurs * nilai)
         }
       },
       printdata(){
@@ -382,18 +352,14 @@ export default {
         }
         return a
       },
-      numb(value) {
-            let val = (value / 1).toFixed(0).replace('.', ',')
-            return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-      },
       totalnilai(data){
           let kurs = data.kurs
           let nilai = data.total_nilai
           return kurs * nilai
       },
       reset() {
-        this.periode = [this.tglawal(), this.today()]
-        this.filtered.periode = [this.tglawal(), this.today()]
+        this.periode = [this.tglawal(), functions.day()]
+        this.filtered.periode = [this.tglawal(), functions.day()]
         this.filtered.selectdokumen = []
         this.selectdokumen = []
         this.selected()
@@ -483,6 +449,7 @@ export default {
         <!-- EDIT DATA -->
         <v-sheet height="90%">
           <v-data-table
+            id="tbl_exporttable_to_xls"
             items-per-page="10"
             :headers="headers"
             :items="pilihtipe()"
