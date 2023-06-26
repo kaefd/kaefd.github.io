@@ -4,13 +4,23 @@ import api from '../api';
 import { jsPDF } from "jspdf";
 import 'jspdf-autotable'
 import AppBar from '../components/AppBar.vue';
-
+import filterDrawer from '../components/drawer/filterDrawer.vue';
+import checkBox from '../components/form/checkBox.vue';
+import menuList from '../components/menu/menuList.vue';
+import textField from '../components/form/textField.vue';
+import circleButton from '../components/button/circleButton.vue';
 </script>
 
 <script>
   export default {
     components: {
-    TableVue, AppBar
+      TableVue,
+      AppBar,
+      filterDrawer,
+      checkBox,
+      circleButton,
+      menuList,
+      textField,
     },
     props:['page','actIcon', 'cetak'],
     data () {
@@ -132,12 +142,15 @@ import AppBar from '../components/AppBar.vue';
           return this.$router.push('login');
         })
       },
-      print(i){
-          if (i == 0) {
-            return this.ExportToExcel('xlsx')
-          } else if(i == 1) {
-            return this.generatePDF()
-          }
+      close(v) {
+        return this.filter = v
+      },
+      print(key){
+        if (key == 'xlsx') {
+          return this.ExportToExcel('xlsx')
+        } else if(key == 'pdf') {
+          return this.generatePDF()
+        }
       },
       generatePDF() {
       const doc = new jsPDF({
@@ -200,101 +213,53 @@ import AppBar from '../components/AppBar.vue';
 </script>
 
 <template>
-  <v-navigation-drawer
-        class="border-0 me-4 elevation-0"
-        v-model="filter"
-        location="left"
-        width="320"
-      >
-      <v-sheet class="rounded-xl py-5">
-        <div class="d-flex align-center">
-          <v-span class="text-button ms-4">Filter</v-span>
-          <v-btn size="small" icon="mdi-close" @click="filter = false" variant="text" class="me-3 ms-auto">
-          </v-btn>
-        </div>
-        <!-- KATEGORI BARANG -->
-        <v-container class="py-3 px-4">
-          <v-span class="text-caption text-weight-bold">Kategori Barang</v-span>
-          <v-divider></v-divider>
-            <v-checkbox
-              v-for="label, i in category" :key="i"
-              v-model="filtered.kategori_barang"
-              :label="label"
-              :value="label"
-              color="orange-lighten-1"
-              class="mb-n6"
-              hide-details
-            ></v-checkbox>
-        </v-container>
-        <!-- GROUP BARANG -->
-        <v-container>
-          <v-span class="text-caption text-weight-bold">Kode Group</v-span>
-          <v-divider></v-divider>
-          <v-combobox
-            :items="kodegroup()"
-            v-model="filtered.group_barang"
-            multiple
-            variant="underlined"
-            density="compact"
-            class="overflow-auto h-50"
-            hide-details
-            single-line
-            hide-selected
-            chips
-            closable-chips
-          ></v-combobox>
-          <v-div class="d-flex justify-end mt-3">
-              <v-btn class="elevation-0 text-small mt-5 me-2 bg-grey-lighten-2" height="42" @click="reset()">Reset</v-btn>
-              <v-btn class="elevation-0 text-small mt-5 text-white" color="orange-lighten-1" height="42" @click="filterdata()">Filter</v-btn>
-          </v-div>
-        </v-container>
-      </v-sheet>
-  </v-navigation-drawer>
-    <AppBar v-if="pageTitle != null" :pageTitle="pageTitle"/>
+  <filterDrawer v-model="filter" @close="close" @reset="reset" @filterdata="filterdata">
+    <template #default>
+      <!-- KATEGORI BARANG -->
+      <v-span class="text-caption text-weight-bold">Kategori Barang</v-span>
+      <v-divider class="mb-6"></v-divider>
+      <checkBox
+        v-for="label, i in category"
+        :key="i"
+        v-model="filtered.kategori_barang"
+        :label="label"
+        :value="label"
+      />      
+      <!-- TIPE DOKUMEN -->
+      <v-span class="text-caption text-weight-bold">Kode Group</v-span>
+      <v-divider></v-divider>
+      <v-combobox
+        :items="kodegroup()"
+        v-model="filtered.group_barang"
+        multiple
+        variant="underlined"
+        density="compact"
+        class="overflow-auto h-50"
+        hide-details
+        single-line
+        hide-selected
+        chips
+        closable-chips
+      ></v-combobox>
+    </template>
+  </filterDrawer>
+  <AppBar v-if="pageTitle != null" :pageTitle="pageTitle"/>
     <v-container class="pt-9 h-100">
         <v-row no-gutters class="mb-2 mt-n4">
           <v-responsive>
             <!-- BUTTON FILTER -->
-            <v-btn @click="filter = !filter " class="rounded-circle text-caption elevation-0 bg-grey-lighten-4 text-indigo me-2" icon="mdi-tune-vertical" size="small">
-            </v-btn>
+            <circleButton icon="mdi-tune-vertical" @click="filter = !filter" />
           </v-responsive>
           <v-responsive class="me-0 ms-auto" max-width="450">
           <div class="d-flex">
             <!-- SEARCH -->
-            <v-text-field
-              v-model="search"
-              density="compact"
-              variant="text"
-              class="text-indigo-darken-4 rounded-xl border text-body-2 font-small"
-              prepend-inner-icon="mdi-magnify"
-              placeholder="Search"
-              single-line
-              hide-details
-          >
-          </v-text-field>
-          <!-- EXPORT BUTTON -->
-          <v-btn
-            id="cetak"
-            color="indigo"
-            icon="mdi-dots-vertical"
-            class="rounded-xl mx-2 elevation-0 bg-grey-lighten-4 text-indigo"
-            size="small"
-          ></v-btn>
-          <v-menu activator="#cetak" transition="slide-y-transition">
-            <v-list>
-              <v-list-item
-                v-for="(c, index) in cetak"
-                :key="index"
-                :value="index"
-                @click="print(index)"
-                density="compact"
-                class="text-caption"
-                :prepend-icon="c.icon"
-              >
-              {{ c.title }}
-              </v-list-item>
-            </v-list>
-          </v-menu>
+            <textField  v-model="search" placeholder="Search" icon="mdi-magnify" class="me-2"/>
+            <!-- EXPORT DATA -->
+            <menuList
+              icon="mdi-dots-vertical"
+              :items="cetak"
+              @result="print"
+            />
           </div>
         </v-responsive>
         </v-row>

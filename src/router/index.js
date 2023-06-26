@@ -6,13 +6,13 @@ import DataPelanggan from '../views/DataPelanggan.vue'
 import DataSupplier from '../views/DataSupplier.vue'
 import DataUser from '../views/DataUser.vue'
 import PemasukanBarang from '../views/PemasukanBarang.vue'
-import Produksi from '../views/Produksi.vue'
-import Pengeluaran from '../views/Pengeluaran.vue'
+import ProduksiBarang from '../views/ProduksiBarang.vue'
+import PengeluaranBarang from '../views/PengeluaranBarang.vue'
 import Pengiriman from '../views/Pengiriman.vue'
-import StockReport from '../views/StockReport.vue'
-import InReport from '../views/InReport.vue'
-import OutReport from '../views/OutReport.vue'
-import LogView from '../views/LogView.vue'
+import LaporanStok from '../views/LaporanStok.vue'
+import LaporanPemasukan from '../views/LaporanPemasukan.vue'
+import LaporanPengeluaran from '../views/LaporanPengeluaran.vue'
+import LogView from '../views/LaporanLog.vue'
 
 const router = createRouter({
   history: createWebHashHistory(),
@@ -73,19 +73,19 @@ const router = createRouter({
     },
     {
       path: '/produksi',
-      name: 'Produksi',
+      name: 'ProduksiBarang',
       meta: {
         middleware: [middleware]
       },
-      component: Produksi,
+      component: ProduksiBarang,
     },
     {
       path: '/pengeluaran',
-      name: 'Pengeluaran',
+      name: 'PengeluaranBarang',
       meta: {
         middleware: [middleware]
       },
-      component: Pengeluaran,
+      component: PengeluaranBarang,
     },
     {
       path: '/pengiriman',
@@ -96,31 +96,31 @@ const router = createRouter({
       component: Pengiriman,
     },
     {
-      path: '/stock-report',
-      name: 'stockreport',
+      path: '/laporan-stok',
+      name: 'LaporanStok',
       meta: {
         middleware: [middleware]
       },
-      component: StockReport,
+      component: LaporanStok,
     },
     {
-      path: '/in-report',
-      name: 'inreport',
+      path: '/laporan-pemasukan',
+      name: 'LaporanPemasukan',
       meta: {
         middleware: [middleware]
       },
-      component: InReport,
+      component: LaporanPemasukan,
     },
     {
-      path: '/out-report',
-      name: 'outreport',
+      path: '/laporan-pengeluaran',
+      name: 'LaporanPengeluaran',
       meta: {
         middleware: [middleware]
       },
-      component: OutReport,
+      component: LaporanPengeluaran,
     },
     {
-      path: '/log-report',
+      path: '/laporan-log',
       name: 'log',
       meta: {
         middleware: [middleware]

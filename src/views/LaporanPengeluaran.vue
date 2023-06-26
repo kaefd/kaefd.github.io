@@ -7,13 +7,24 @@ import { jsPDF } from "jspdf";
 import 'jspdf-autotable'
 import AppBar from '../components/AppBar.vue';
 import PengeluaranDetail from './PengeluaranDetail.vue';
+import filterDrawer from '../components/drawer/filterDrawer.vue';
+import circleButton from '../components/button/circleButton.vue';
+import textField from '../components/form/textField.vue';
+import menuList from '../components/menu/menuList.vue';
+import checkBox from '../components/form/checkBox.vue';
 </script>
 
 <script>
 
   export default {
     components: {
-      AppBar, PengeluaranDetail
+      AppBar,
+      PengeluaranDetail,
+      filterDrawer,
+      circleButton,
+      textField,
+      menuList,
+      checkBox,
     },
     props:['actIcon', 'cetak'],
     data () {
@@ -220,10 +231,13 @@ import PengeluaranDetail from './PengeluaranDetail.vue';
           }
         }
       },
-      print(i){
-        if (i == 0) {
+      close(v) {
+        return this.filter = v
+      },
+      print(key){
+        if (key == 'xlsx') {
           return this.ExportToExcel('xlsx')
-        } else if(i == 1) {
+        } else if(key == 'pdf') {
           return this.generatePDF()
         }
       },
@@ -312,91 +326,44 @@ import PengeluaranDetail from './PengeluaranDetail.vue';
 </script>
 
 <template>
-  <v-navigation-drawer
-    class="border-0 me-4 elevation-0"
-    v-model="filter"
-    location="left"
-    width="320"
-  >
-  <v-sheet class="rounded-xl py-5 bg-white">
-    <div class="d-flex align-center">
-      <v-span class="text-button ms-4">Filter</v-span>
-      <v-btn size="small" icon="mdi-close" @click="filter = false" variant="text" class="me-3 ms-auto">
-      </v-btn>
-    </div>
-    <!-- PERIODE -->
-    <v-container class="mb-n10">
+  <filterDrawer v-model="filter" @close="close" @reset="reset" @filterdata="filterdata">
+    <template #default>
+      <!-- PERIODE -->
       <v-span class="text-caption text-weight-bold">Periode</v-span>
       <v-divider></v-divider>
-      <v-text-field  v-model="filtered.periode[0]" class="mt-4" label="Tgl Awal" type="date" density="compact" variant="outlined"></v-text-field>
-      <v-text-field  v-model="filtered.periode[1]" label="Tgl Akhir" type="date" density="compact" variant="outlined"></v-text-field>
-    </v-container>
-    <!-- TIPE DOKUMEN -->
-    <v-container>
+      <v-label class="text-small mt-4">Tgl Awal</v-label>
+      <VueDatePicker class="text-small" :clearable="false" v-model="filtered.periode[0]" :format-locale="id" locale="id" cancelText="batal" selectText="pilih" format="PP" />
+      <v-label class="text-small mt-1">Tgl Akhir</v-label>
+      <VueDatePicker class="text-small mb-4" :clearable="false" v-model="filtered.periode[1]" :format-locale="id" locale="id" cancelText="batal" selectText="pilih" format="PP" />
+      <!-- TIPE DOKUMEN -->
       <v-span class="text-caption text-weight-bold">Tipe Dokumen</v-span>
-      <v-divider></v-divider>
-        <v-checkbox
+      <v-divider class="mb-6"></v-divider>
+        <checkBox
           v-for="label, i in tipedokumen" :key="i"
           v-model="filtered.selectdokumen"
           :label="label"
           :value="label"
-          color="orange-lighten-1"
-          class="mb-n6"
-          hide-details
-        ></v-checkbox>
-        <v-div class="d-flex justify-end mt-12">
-          <v-btn class="elevation-0 text-small mt-5 me-2 bg-grey-lighten-2" height="42" @click="reset()">Reset</v-btn>
-          <v-btn class="elevation-0 text-small mt-5 text-white" color="orange-lighten-1" height="42" @click="filterdata()">Filter</v-btn>
-        </v-div>
-    </v-container>
-  </v-sheet>
-  </v-navigation-drawer>
+        />
+    </template>
+  </filterDrawer>
   <AppBar v-if="pageTitle != null" :pageTitle="pageTitle"/>
   <v-container class="pt-9 h-100">
     <v-row no-gutters class="mb-2 mt-n4">
       <v-responsive>
         <!-- BUTTON FILTER -->
-        <v-btn @click="filter = !filter " class="rounded-circle text-caption elevation-0 bg-grey-lighten-4 text-indigo me-2" icon="mdi-tune-vertical" size="small">
-        </v-btn>
+        <circleButton icon="mdi-tune-vertical" @click="filter = !filter" />
       </v-responsive>
       <v-responsive class="me-0 ms-auto" max-width="450">
         <div class="d-flex">
           <!-- SEARCH -->
-          <v-text-field
-            v-model="search"
-            density="compact"
-            variant="text"
-            class="text-indigo-darken-4 rounded-xl border text-body-2 font-small"
-            prepend-inner-icon="mdi-magnify"
-            placeholder="Search"
-            single-line
-            hide-details
-        >
-        </v-text-field>
-          <!-- EXPORT BUTTON -->
-          <v-btn
-            id="cetak"
-            color="indigo"
+          <textField  v-model="search" placeholder="Search" icon="mdi-magnify" class="me-2"/>
+            <!-- EXPORT DATA -->
+          <menuList
             icon="mdi-dots-vertical"
-            class="rounded-xl mx-2 elevation-0 bg-grey-lighten-4 text-indigo"
-            size="small"
-          ></v-btn>
-          <v-menu activator="#cetak" transition="slide-y-transition">
-            <v-list>
-              <v-list-item
-                v-for="(c, index) in cetak"
-                :key="index"
-                :value="index"
-                @click="print(index)"
-                density="compact"
-                class="text-caption"
-                :prepend-icon="c.icon"
-              >
-              {{ c.title }}
-              </v-list-item>
-            </v-list>
-          </v-menu>
-          </div>
+            :items="cetak"
+            @result="print"
+          />
+        </div>
       </v-responsive>
       </v-row>
       <!-- EDIT DATA -->

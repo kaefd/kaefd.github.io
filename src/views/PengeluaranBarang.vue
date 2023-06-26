@@ -1,18 +1,17 @@
 <script setup>
-import { VDataTable } from 'vuetify/labs/VDataTable'
-import PengeluaranDetail from './PengeluaranDetail.vue';
-import '@vuepic/vue-datepicker/dist/main.css'
-import api from '../api';
-import { jsPDF } from "jspdf";
-import 'jspdf-autotable'
-import { ref, onMounted } from 'vue';
-import AppBar from '../components/AppBar.vue';
-import filterDrawer from '../components/drawer/filterDrawer.vue';
-import circleButton from '../components/button/circleButton.vue';
-import textField from '../components/form/textField.vue';
-import menuList from '../components/menu/menuList.vue';
-import checkBox from '../components/form/checkBox.vue';
-
+  import { VDataTable } from 'vuetify/labs/VDataTable'
+  import PengeluaranDetail from './PengeluaranDetail.vue'
+  import '@vuepic/vue-datepicker/dist/main.css'
+  import api from '../api'
+  import { jsPDF } from "jspdf"
+  import 'jspdf-autotable'
+  import { ref, onMounted } from 'vue'
+  import AppBar from '../components/AppBar.vue'
+  import filterDrawer from '../components/drawer/filterDrawer.vue'
+  import circleButton from '../components/button/circleButton.vue'
+  import textField from '../components/form/textField.vue'
+  import menuList from '../components/menu/menuList.vue'
+  import checkBox from '../components/form/checkBox.vue'
 </script>
 
 <script>
