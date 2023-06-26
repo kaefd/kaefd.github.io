@@ -7,8 +7,8 @@ import DataSupplier from '../views/DataSupplier.vue'
 import DataUser from '../views/DataUser.vue'
 import PemasukanBarang from '../views/PemasukanBarang.vue'
 import Produksi from '../views/Produksi.vue'
-import OutItem from '../views/OutItem.vue'
-import SendView from '../views/SendView.vue'
+import Pengeluaran from '../views/Pengeluaran.vue'
+import Pengiriman from '../views/Pengiriman.vue'
 import StockReport from '../views/StockReport.vue'
 import InReport from '../views/InReport.vue'
 import OutReport from '../views/OutReport.vue'
@@ -80,20 +80,20 @@ const router = createRouter({
       component: Produksi,
     },
     {
-      path: '/out',
-      name: 'outitems',
+      path: '/pengeluaran',
+      name: 'Pengeluaran',
       meta: {
         middleware: [middleware]
       },
-      component: OutItem,
+      component: Pengeluaran,
     },
     {
-      path: '/send',
-      name: 'send',
+      path: '/pengiriman',
+      name: 'pengiriman',
       meta: {
         middleware: [middleware]
       },
-      component: SendView,
+      component: Pengiriman,
     },
     {
       path: '/stock-report',

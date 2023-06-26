@@ -12,6 +12,7 @@ import filterDrawer from '../components/drawer/filterDrawer.vue';
 import circleButton from '../components/button/circleButton.vue';
 import textField from '../components/form/textField.vue';
 import menuList from '../components/menu/menuList.vue';
+import checkBox from '../components/form/checkBox.vue';
 </script>
 
 <script>
@@ -24,6 +25,7 @@ export default {
       circleButton,
       textField,
       menuList,
+      checkBox,
     },
     props:['actIcon', 'cetak'],
     data () {
@@ -443,16 +445,13 @@ export default {
       <VueDatePicker class="text-small mb-4" :clearable="false" v-model="filtered.periode[1]" :format-locale="id" locale="id" cancelText="batal" selectText="pilih" format="PP" />
       <!-- TIPE DOKUMEN -->
       <v-span class="text-caption text-weight-bold">Tipe Dokumen</v-span>
-      <v-divider></v-divider>
-        <v-checkbox
+      <v-divider class="mb-6"></v-divider>
+        <checkBox
           v-for="label, i in tipedokumen" :key="i"
           v-model="filtered.selectdokumen"
           :label="label"
           :value="label"
-          color="orange-lighten-1"
-          class="mb-n6"
-          hide-details
-        ></v-checkbox>
+        />
     </template>
   </filterDrawer>
   <AppBar v-if="pageTitle != null" :pageTitle="pageTitle"/>

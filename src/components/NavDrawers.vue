@@ -372,12 +372,12 @@ import api from '../api';
         </v-tooltip>
       </v-list-item>
     </RouterLink>
-    <RouterLink to="/out">
+    <RouterLink to="/pengeluaran">
       <v-list-item class="rounded-lg text-caption mb-sm-5 mb-0" :active="pageTitle == 'PENGELUARAN BARANG' ? true : false" value="outItems" @click="pageTitle='PENGELUARAN BARANG', draw('keluar')">
         <v-icon>mdi-inbox-arrow-up</v-icon>
       </v-list-item>
     </RouterLink>
-    <RouterLink to="/send">
+    <RouterLink to="/pengiriman">
       <v-list-item class="rounded-lg text-caption mb-sm-5 mb-0" :active="pageTitle == 'PENGIRIMAN BARANG' ? true : false" value="sendItems" @click="pageTitle='PENGIRIMAN BARANG', draw('kirim')">
         <v-icon>mdi-send-variant</v-icon>
       </v-list-item>
@@ -479,16 +479,16 @@ import api from '../api';
     </v-div>
     <!-- LAPORAN -->
     <v-div v-if="pageTitle == 'LAPORAN' || laporan()">
-      <RouterLink to="/stock-report">
+      <RouterLink to="/laporan-stok">
       <v-list-item title="Laporan Stok Barang" class="rounded-left-lg  ps-6" :active="pageTitle == 'LAPORAN STOK BARANG' ? true : false" value="stok"/>
       </RouterLink>
-      <RouterLink to="/in-report">
+      <RouterLink to="/laporan-pemasukan">
         <v-list-item title="Laporan Pemasukan" class="rounded-left-lg ps-6" :active="pageTitle == 'LAPORAN PEMASUKAN BARANG' ? true : false" value="in"/>
       </RouterLink>
-      <RouterLink to="/out-report">
+      <RouterLink to="/laporan-pengeluaran">
         <v-list-item title="Laporan Pengeluaran" class="rounded-left-lg ps-6" :active="pageTitle == 'LAPORAN PENGELUARAN BARANG' ? true : false" value="out" />
       </RouterLink>
-      <RouterLink to="/log-report">
+      <RouterLink to="/laporan-log">
         <v-list-item title="Log User" class="rounded-left-lg ps-6" :active="pageTitle == 'LAPORAN LOG USER' ? true : false" value="users" />
       </RouterLink>
     </v-div>

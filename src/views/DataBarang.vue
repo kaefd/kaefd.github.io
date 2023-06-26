@@ -231,7 +231,7 @@ export default defineComponent ({
   <filterDrawer v-model="filter" @close="close" @reset="reset" @filterdata="filterdata">
     <template #default>
       <v-span class="text-caption text-weight-bold">Kategori Barang</v-span>
-      <v-divider></v-divider>
+      <v-divider class="mb-6"></v-divider>
       <checkBox
         v-for="label, i in category"
         :key="i"
