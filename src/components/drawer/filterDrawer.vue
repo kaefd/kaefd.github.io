@@ -29,20 +29,18 @@ export default {
 <template>
 <v-navigation-drawer
         class="border-0 me-4 elevation-0"
-        permanent
+        v-model="filter"
         location="left"
         width="320"
       >
       <v-sheet class="py-5 bg-transparent">
         <div class="d-flex align-center">
           <v-span class="text-button ms-4">Filter</v-span>
-          <closeButton icon="mdi-close" @click="filter()" class="me-3 ms-auto" />
+          <closeButton @click="filter()" class="me-3 ms-auto" />
         </div>
         <!-- KATEGORI BARANG -->
         <v-container class="py-3 px-4">
-            <slot name="title" />
-            <v-divider></v-divider>
-            <slot name="content" />
+            <slot name="default" />
             <v-div class="d-flex justify-end mt-12">
               <squareButton color="grey-lighten-2" btn_title="Reset" @click="reset()" class="mt-5 me-2" />
               <squareButton color="orange-lighten-1" btn_title="Filter" @click="filterdata()" class="mt-5 me-2" />

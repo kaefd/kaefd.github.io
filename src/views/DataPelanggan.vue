@@ -6,6 +6,8 @@ import { jsPDF } from "jspdf";
 import 'jspdf-autotable'
 import api from '../api';
 import AppBar from '../components/AppBar.vue';
+import menuList from '../components/menu/menuList.vue';
+import textField from '../components/form/textField.vue';
 
 </script>
 
@@ -14,7 +16,11 @@ import AppBar from '../components/AppBar.vue';
     name: 'CustomerView',
     props:['actIcon', 'cetak'],
     components: {
-    TableVue, DialogCard, AppBar
+      TableVue,
+      DialogCard,
+      AppBar,
+      menuList,
+      textField,
     },
     data () {
       return {
@@ -70,12 +76,12 @@ import AppBar from '../components/AppBar.vue';
       page(){
         return this.$emit('page', this.pageTitle)
       },
-      print(i){
-          if (i == 0) {
-            return this.ExportToExcel('xlsx')
-          } else if(i == 1) {
-            return this.generatePDF()
-          }
+      print(key){
+        if (key == 'xlsx') {
+          return this.ExportToExcel('xlsx')
+        } else if(key == 'pdf') {
+          return this.generatePDF()
+        }
       },
       generatePDF() {
       const doc = new jsPDF({
@@ -183,40 +189,13 @@ import AppBar from '../components/AppBar.vue';
     <v-responsive class="me-sm-0 ms-sm-auto ms-0 me-auto" max-width="450">
       <div class="d-flex align-center justify-sm-end justify-start">
         <!-- SEARCH -->
-        <v-text-field
-          v-model="search"
-          density="compact"
-          variant="text"
-          class="text-indigo-darken-4 rounded-xl ms-2 border text-body-2 font-small"
-          prepend-inner-icon="mdi-magnify"
-          placeholder="Search"
-          single-line
-          hide-details
-          >
-          </v-text-field>
-        <!-- EKSPORT DATA -->
-        <v-btn
-            id="cetak"
-            color="indigo"
-            icon="mdi-dots-vertical"
-            class="rounded-xl mx-2 elevation-0 bg-grey-lighten-4 text-indigo"
-            size="small"
-        ></v-btn>
-          <v-menu activator="#cetak" transition="slide-y-transition">
-            <v-list>
-              <v-list-item
-                v-for="(c, index) in cetak"
-                :key="index"
-                :value="index"
-                @click="print(index)"
-                density="compact"
-                class="text-caption"
-                :prepend-icon="c.icon"
-              >
-              {{ c.title }}
-              </v-list-item>
-            </v-list>
-          </v-menu>
+        <textField  v-model="search" placeholder="Search" icon="mdi-magnify" class="me-2"/>
+        <!-- EXPORT DATA -->
+        <menuList
+          icon="mdi-dots-vertical"
+          :items="cetak"
+          @result="print"
+        />
       </div>
     </v-responsive>
     </v-row>

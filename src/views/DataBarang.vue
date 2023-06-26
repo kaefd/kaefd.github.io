@@ -101,12 +101,12 @@ export default defineComponent ({
           return this.items.filter(item => this.selectCategory.includes(item.kategori_barang));
         }
     },
-    print(i){
-          if (i == 0) {
-            return this.ExportToExcel('xlsx')
-          } else if(i == 1) {
-            return this.generatePDF()
-          }
+    print(key){
+      if (key == 'xlsx') {
+        return this.ExportToExcel('xlsx')
+      } else if(key == 'pdf') {
+        return this.generatePDF()
+      }
     },
     generatePDF() {
       const doc = new jsPDF({
@@ -229,10 +229,9 @@ export default defineComponent ({
 <template>
   
   <filterDrawer v-model="filter" @close="close" @reset="reset" @filterdata="filterdata">
-    <template #title>
+    <template #default>
       <v-span class="text-caption text-weight-bold">Kategori Barang</v-span>
-    </template>
-    <template #content>
+      <v-divider></v-divider>
       <checkBox
         v-for="label, i in category"
         :key="i"
@@ -257,12 +256,12 @@ export default defineComponent ({
         <div class="d-flex align-center justify-sm-end justify-start">
           <!-- SEARCH -->
           <textField  v-model="search" placeholder="Search" icon="mdi-magnify" class="me-2"/>
-            <!-- EXPORT DATA -->
-            <menuList
-              icon="mdi-dots-vertical"
-              :items="cetak"
-              @result="print"
-            />
+          <!-- EXPORT DATA -->
+          <menuList
+            icon="mdi-dots-vertical"
+            :items="cetak"
+            @result="print"
+          />
           </div>
       </v-responsive>
       </v-row>

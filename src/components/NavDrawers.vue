@@ -356,12 +356,12 @@ import api from '../api';
           Data Master
         </v-tooltip>
     </v-list-item>
-    <RouterLink to="/in">
+    <RouterLink to="/pemasukan">
       <v-list-item class="rounded-lg text-caption mb-sm-5 mb-0" :active="pageTitle == 'PEMASUKAN BARANG' ? true : false" value="inItems" @click="pageTitle='PEMASUKAN BARANG', draw('masuk')">
       <v-icon>mdi-inbox-arrow-down</v-icon>
       </v-list-item>
     </RouterLink>
-    <RouterLink to="/production">
+    <RouterLink to="/produksi">
       <v-list-item class="rounded-lg text-caption mb-sm-5 mb-0" :active="pageTitle == 'PRODUKSI BARANG' ? true : false" value="productItems" @click="pageTitle='PRODUKSI BARANG', draw('produksi')">
         <v-icon>mdi-chart-donut</v-icon>
         <v-tooltip
@@ -408,16 +408,16 @@ import api from '../api';
     <v-divider class="mb-3"></v-divider>
     <!-- MASTER -->
     <v-div  v-if="pageTitle == 'MASTER' || page()"> 
-      <RouterLink to="/items">
+      <RouterLink to="/data-barang">
       <v-list-item title="Data Barang" class="rounded-left-lg  ps-6" :active="pageTitle == 'DATA BARANG' ? true : false" value="items"/>
       </RouterLink>
-      <RouterLink to="/customers">
+      <RouterLink to="/data-pelanggan">
         <v-list-item title="Data Pelanggan" class="rounded-left-lg ps-6" :active="pageTitle == 'DATA PELANGGAN' ? true : false" value="customers"/>
       </RouterLink>
-      <RouterLink to="/suppliers">
+      <RouterLink to="/data-supplier">
         <v-list-item title="Data Suppliers" class="rounded-left-lg ps-6" :active="pageTitle == 'DATA SUPPLIER' ? true : false" value="suppliers" />
       </RouterLink>
-      <RouterLink to="/users">
+      <RouterLink to="/data-user">
         <v-list-item title="Data Users" class="rounded-left-lg ps-6" :active="pageTitle == 'DATA USERS' ? true : false" value="users" />
       </RouterLink>
     </v-div>

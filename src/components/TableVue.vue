@@ -116,7 +116,7 @@ export default {
         <!-- <div class="d-flex justify-center">
           <DialogCard :ishidden="ishidden" :keyform="keyform" :intable="true" :disabled="disabled" :noselect="noselect" :form="item.raw" @edit="edit" @del="del" :item="item" :screen="screen" :headers="headers" :items="items" :category="category" :btncolor="btncolor" :icon="icon" :iTitle="iTitle" :iVariant="iVariant"  :alpha="alpha" />
         </div> -->
-        <v-btn size="small" variant="text" color="grey-darken-2">
+        <v-btn size="small" variant="text" icon color="grey-darken-2">
           <v-icon>mdi-dots-vertical</v-icon>
           <v-menu activator="parent" transition="slide-y-transition">
             <v-list density="compact" class="px-3">

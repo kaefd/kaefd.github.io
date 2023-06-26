@@ -4,13 +4,18 @@ import api from '../api';
 import { jsPDF } from "jspdf";
 import 'jspdf-autotable'
 import AppBar from '../components/AppBar.vue';
+import menuList from '../components/menu/menuList.vue';
+import textField from '../components/form/textField.vue';
 
 </script>
 <script>
   export default {
     props:['actIcon', 'cetak'],
     components: {
-    TableVue, AppBar
+    TableVue,
+    AppBar,
+    menuList,
+    textField,
 },
     data () {
       return {
@@ -68,12 +73,12 @@ import AppBar from '../components/AppBar.vue';
         }
         return s
       },
-      print(i){
-          if (i == 0) {
-            return this.ExportToExcel('xlsx')
-          } else if(i == 1) {
-            return this.generatePDF()
-          }
+      print(key){
+        if (key == 'xlsx') {
+          return this.ExportToExcel('xlsx')
+        } else if(key == 'pdf') {
+          return this.generatePDF()
+        }
       },
       generatePDF() {
       const doc = new jsPDF({
@@ -130,47 +135,15 @@ import AppBar from '../components/AppBar.vue';
     <v-responsive class="me-0 ms-auto" max-width="450">
       <div class="d-flex">
         <!-- SEARCH -->
-        <v-text-field
-          v-model="search"
-          density="compact"
-          variant="text"
-          class="text-indigo-darken-4 rounded-xl border text-body-2 font-small"
-          prepend-inner-icon="mdi-magnify"
-          placeholder="Search"
-          single-line
-          hide-details
-        >
-        </v-text-field>
-      <!-- EXPORT BUTTON -->
-      <v-btn
-        id="cetak"
-        color="indigo"
-        icon="mdi-dots-vertical"
-        class="rounded-xl mx-2 elevation-0 bg-grey-lighten-4 text-indigo"
-        size="small"
-      ></v-btn>
-      <v-menu activator="#cetak" transition="slide-y-transition">
-        <v-list>
-          <v-list-item
-            v-for="(c, index) in cetak"
-            :key="index"
-            :value="index"
-            @click="print(index)"
-            density="compact"
-            class="text-caption"
-            :prepend-icon="c.icon"
-          >
-          {{ c.title }}
-          </v-list-item>
-        </v-list>
-      </v-menu>
+        <textField  v-model="search" placeholder="Search" icon="mdi-magnify" class="me-2"/>
+        <!-- EXPORT DATA -->
+        <menuList
+          icon="mdi-dots-vertical"
+          :items="cetak"
+          @result="print"
+        />
     </div>
     </v-responsive>
-    <!-- <v-responsive cols="6" xs="4">
-        <div class="d-flex float-right">
-            
-        </div>
-    </v-responsive> -->
     </v-row>
     <!-- VIEW -->
     <TableVue :keyform="keyform" :ishidden="true" :disabled="true" :noselect="true" id="tbl_exporttable_to_xls" :screen="400" :headers="headers" :items="items" :search="search" :category="suppCode()" :iTitle="actIcon[3].text" :btncolor="actIcon[3].color" :icon="actIcon[3].icon" :iVariant="actIcon[3].variant" :alpha="alpha"/>

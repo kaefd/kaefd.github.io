@@ -18,8 +18,8 @@ export default {
           { text: 'Detail Data', icon: 'mdi-dots-vertical', color: 'grey-darken-1', variant: 'text', width: '30px', height: '30px' },
         ],
         cetak: [
-          {title: 'export ke xlsx', icon: 'mdi-download'},
-          {title: 'export ke pdf', icon: 'mdi-file-pdf-box'},
+          {title: 'export ke xlsx', icon: 'mdi-download', key: 'xlsx'},
+          {title: 'export ke pdf', icon: 'mdi-file-pdf-box', key: 'pdf'},
         ],
 
         pageTitle: '',

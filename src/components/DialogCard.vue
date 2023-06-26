@@ -1,8 +1,10 @@
 <script>
+import closeButton from './button/closeButton.vue'
 import pillsButton from './button/pillsButton.vue'
 export default {
     components : {
       pillsButton,
+      closeButton,
     },
     props:
     [
@@ -15,6 +17,11 @@ export default {
         categoryName: '',
         edit: this.form,
         data: this.tambah,
+        list: [
+          {title: 'Lihat Detail', key: 'lihat'},
+          {title: 'Edit Data', icon: 'mdi-pencil', key: 'edit'},
+          {title: 'Hapus Data', icon: 'mdi-delete', key: 'hapus'},
+        ],
         valid: true,
       }
     },
@@ -47,16 +54,6 @@ export default {
     <!-- button dialog -->
       <template v-slot:activator="{ props }">
         <!-- TAMBAH -->
-        <!-- <v-btn
-        v-if="!intable"
-        v-bind="props"
-        class="text-body-2 bg-blue-custom text-white rounded-xl elevation-0 text-caption"
-        prepend-icon="mdi-plus"
-        height="42"
-        width="150"
-        >
-          Tambah Data
-        </v-btn> -->
         <pillsButton v-if="!intable" icon="mdi-plus" btn_title="Tambah Data" v-bind="props" />
         <v-responsive v-if="intable" width="100">
           <!-- EDIT -->
@@ -94,7 +91,8 @@ export default {
       <!-- CONTENT DIALOG EDIT/TAMBAH -->
       <v-card class="rounded-xl">
         <form ref="form" @submit.prevent="submit">
-            <v-toolbar class="bg-white text-center">
+          <v-toolbar class="bg-white text-center">
+              <closeButton class="absolute" @click="dialog = false"/>
               <v-toolbar-title>
                 {{ iTitle }}
               </v-toolbar-title>
@@ -132,14 +130,29 @@ export default {
                     </v-list>
                   </v-menu>
                 <!-- FIELD SELECT (UNTUK EDIT DATA) -->
-                <v-select
-                v-if="this.item != null"
-                :items="category.slice(this.alpha, category.length)"
-                density="compact"
-                variant="outlined"
-                v-model="edit[keyform[0]]"
-                :value="Object.values(item.raw)[0]"
-                ></v-select>
+                <v-text-field
+                  v-if="this.item != null"
+                  id="tipe"
+                  v-model="edit[keyform[0]]"
+                  :value="Object.values(item.raw)[0]"
+                  variant="outlined"
+                  density="compact"
+                  class="mb-5"
+                  hide-details
+                >                                
+                </v-text-field>
+                <v-menu activator="#tipe" class="elevation-0">
+                    <v-list>
+                      <v-list-item
+                        v-for="(item, index) in category.slice(this.alpha, category.length)"
+                        :key="index"
+                        :value="index"
+                        density="compact"
+                      >
+                        <v-list-item-title @click="edit[keyform[0]] = item" class="text-caption">{{ item }}</v-list-item-title>
+                      </v-list-item>
+                    </v-list>
+                  </v-menu>
               </div>
               <!-- FIELD NON-SELECTABLE -->
               <div v-if="noselect">

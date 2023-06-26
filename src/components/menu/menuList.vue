@@ -10,8 +10,8 @@ export default {
         }
     },
     methods : {
-        clicked(index) {
-            this.$emit('result', index)
+        clicked(key) {
+            this.$emit('result', key)
         }
     }
 }
@@ -26,8 +26,8 @@ export default {
       <v-list-item
         v-for="(c, index) in items"
         :key="index"
-        :value="index"
-        @click="clicked(index)"
+        :value="c.key"
+        @click="clicked(c.key)"
         density="compact"
         class="text-caption"
         :prepend-icon="c.icon"

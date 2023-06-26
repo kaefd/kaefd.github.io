@@ -1,12 +1,12 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import middleware from '../middleware'
-import ItemsView from '../views/ItemsView.vue'
+import DataBarang from '../views/DataBarang.vue'
 import LoginView from '../views/LoginView.vue'
-import CustomerView from '../views/CustomerView.vue'
-import SupplierView from '../views/SupplierView.vue'
-import UserView from '../views/UserView.vue'
-import InItems from '../views/InItems.vue'
-import ProductView from '../views/ProductView.vue'
+import DataPelanggan from '../views/DataPelanggan.vue'
+import DataSupplier from '../views/DataSupplier.vue'
+import DataUser from '../views/DataUser.vue'
+import PemasukanBarang from '../views/PemasukanBarang.vue'
+import Produksi from '../views/Produksi.vue'
 import OutItem from '../views/OutItem.vue'
 import SendView from '../views/SendView.vue'
 import StockReport from '../views/StockReport.vue'
@@ -23,7 +23,7 @@ const router = createRouter({
         middleware: [middleware]
       },
       redirect: {
-        name: "itemsView"
+        name: "DataBarang"
         }
     },
     {
@@ -32,52 +32,52 @@ const router = createRouter({
       component: LoginView,
     },
     {
-      path: '/items',
-      name: 'itemsView',
+      path: '/data-barang',
+      name: 'DataBarang',
       meta: {
         middleware: [middleware]
       },
-      component: ItemsView,
+      component: DataBarang,
     },
     {
-      path: '/customers',
-      name: 'customers',
+      path: '/data-pelanggan',
+      name: 'DataPelanggan',
       meta: {
         middleware: [middleware]
       },
-      component: CustomerView,
+      component: DataPelanggan,
     },
     {
-      path: '/suppliers',
-      name: 'suppliers',
+      path: '/data-supplier',
+      name: 'DataSupplier',
       meta: {
         middleware: [middleware]
       },
-      component: SupplierView,
+      component: DataSupplier,
     },
     {
-      path: '/users',
-      name: 'users',
+      path: '/data-user',
+      name: 'DataUser',
       meta: {
         middleware: [middleware]
       },
-      component: UserView,
+      component: DataUser,
     },
     {
-      path: '/in',
-      name: 'initems',
+      path: '/pemasukan',
+      name: 'PemasukanBarang',
       meta: {
         middleware: [middleware]
       },
-      component: InItems,
+      component: PemasukanBarang,
     },
     {
-      path: '/production',
-      name: 'productions',
+      path: '/produksi',
+      name: 'Produksi',
       meta: {
         middleware: [middleware]
       },
-      component: ProductView,
+      component: Produksi,
     },
     {
       path: '/out',
