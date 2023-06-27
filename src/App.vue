@@ -1,7 +1,7 @@
 <script setup>
 import { RouterView } from 'vue-router'
-import NavDrawers from './components/NavDrawers.vue';
-
+import NavDrawers from './components/drawer/NavDrawers.vue';
+import api from './service/api';
 </script>
 
 <script>
@@ -11,6 +11,7 @@ export default {
   },
     data () {
       return {
+        databarang: '',
         actIcon: [
           { text: 'Tambah Data', icon: 'mdi-plus', color: '#3B7AA9', variant: 'tonal' },
           { text: 'Edit Data', icon: 'mdi-square-edit-outline', color: '#3B7AA9', variant: 'text', width: '30px', height: '30px' },
@@ -33,10 +34,20 @@ export default {
       page(value) {
         this.pageTitle = value
       },
+      getBarang(){
+        api.getBarang()
+        .then(response => {
+          this.databarang = response.data
+        })
+        .catch(() => {
+          return this.$router.push('login');
+        })
+      },
      
     },
     mounted() {
       this.page()
+      this.getBarang()
       // this.getPembelian()
       // this.getProduksihead()
       // this.getPenjualanHead()
@@ -49,7 +60,7 @@ export default {
       <v-layout>
         <NavDrawers v-if="pageTitle != null" :pageTitle="pageTitle" :item="items" :pemasukan="pemasukan" :produksi="produksi" :pengeluaran="pengeluaran" :kirim="kirim"/>
         <v-main class="vh-100 vw-100">
-            <RouterView :actIcon="actIcon" :cetak="cetak" @page="page" @pages="page" />
+            <RouterView :actIcon="actIcon" :cetak="cetak" @page="page" @pages="page" :databarang="databarang" />
         </v-main>
       </v-layout>
   </template>

@@ -1,7 +1,7 @@
 <script setup>
 import { defineComponent } from 'vue';
 import api from '../service/api';
-import AppBar from '../components/AppBar.vue';
+import AppBar from '../components/appbar/AppBar.vue';
 
 </script>
 <script>

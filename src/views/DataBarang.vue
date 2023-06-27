@@ -2,11 +2,13 @@
 // service
 import api from '../service/api';
 import functions from '../service/functions';
+import barang from '../service/page/barang';
+
 // component
 import TableVue from '../components/TableVue.vue';
-import DialogCard from '../components/DialogCard.vue';
+import DialogCard from '../components/dialog/DialogCard.vue';
 import circleButton from '../components/button/circleButton.vue';
-import AppBar from '../components/AppBar.vue';
+import AppBar from '../components/appbar/AppBar.vue';
 import menuList from '../components/menu/menuList.vue';
 import textField from '../components/form/textField.vue';
 import checkBox from '../components/form/checkBox.vue';
@@ -35,36 +37,9 @@ export default defineComponent ({
         filter: false,
         pageTitle: 'DATA BARANG',
         selectCategory: [],
-        btnTitle: 'Tambah Data',
         alpha: 1,
-        pilihcetak: '',
         statusselect: false,
-        show : false,
-        category: [
-          'Bahan Baku',
-          'Bahan Penolong',
-          'Barang Setengah Jadi',
-          'Barang Jadi',
-          'Barang Sisa (Scrap)',
-          'Mesin & Peralatan',
-        ],
-        headers: [
-          { title: 'Kategori Barang', key: 'kategori_barang'},
-          { title: 'Kode Barang', key: 'kode_barang' },
-          { title: 'Nama Barang', key: 'nama_barang' },
-          { title: 'HS Kode', key: 'hs_code' },
-          { title: 'Satuan', key: 'satuan' },
-          { key: 'actions', align:'center', sortable: false},
-        ],
         items: '',
-        keyform:[
-          'kategori_barang',
-          'kode_barang',
-          'nama_barang',
-          'hs_code',
-          'satuan',
-          'status',
-        ],
         tambah: {
             kategori_barang: '',
             kode_barang: '',
@@ -80,10 +55,11 @@ export default defineComponent ({
     },
     created() {
       this.windowWidth
+      barang.get(this.items)
     },
     methods: {
     getData(){
-        api.getData('/barang?status=true')
+        api.getBarang()
         .then(response => {
           this.items = response.data
         })
@@ -94,24 +70,24 @@ export default defineComponent ({
     close(v) {
       return this.filter = v
     },
-    selected(){        
-        if (this.selectCategory.length === 0) {
-          return this.items;
-        } else {
-          return this.items.filter(item => this.selectCategory.includes(item.kategori_barang));
-        }
-    },
     print(key){
       let title = this.pageTitle
-      let header = this.headers
+      let header = barang.data().headers
       let item = this.items
       functions.print(key, title, header, item)
     },
     // TAMBAH DATA
     submitForm(value) {
-        api.postData( '/barang', {
-          barang : value
-        })
+        // api.postData( '/barang', {
+        //   barang : value
+        // })
+        // .then(() => {
+        //     return this.$router.push('items');
+        //   })
+        //   .catch((error) => {
+        //     console.log(error);
+        //   })
+        api.postData(value)
         .then(() => {
             return this.$router.push('items');
           })
@@ -121,10 +97,17 @@ export default defineComponent ({
     },
       // EDIT DATA
     editForm(value) {
-      const myJSON = JSON.stringify(value);
-        api.putData('/barang', {
-          barang : myJSON
-        })
+      // const myJSON = JSON.stringify(value);
+      //   api.putData('/barang', {
+      //     barang : myJSON
+      //   })
+      //   .then(() => {
+      //     return this.$router.push('items');
+      //   })
+      //     .catch((error) => {
+      //       console.log(error);
+      //   })
+        api.putBarang(value)
         .then(() => {
           return this.$router.push('items');
         })
@@ -160,12 +143,12 @@ export default defineComponent ({
         return this.$emit('page', this.pageTitle)
     },
     filterdata() {
-        this.selectCategory = this.filtered.kategori_barang
-        if(!this.selectCategory) {
+      this.selectCategory = this.filtered.kategori_barang
+      if(!this.selectCategory) {
+        this.selectCategory = []
+        } else if (this.selectCategory == []) {
           this.selectCategory = []
-          } else if (this.selectCategory == []) {
-            this.selectCategory = []
-          }
+        }
     },
     reset() {
       this.filtered.kategori_barang = []
@@ -190,7 +173,7 @@ export default defineComponent ({
       <v-span class="text-caption text-weight-bold">Kategori Barang</v-span>
       <v-divider class="mb-6"></v-divider>
       <checkBox
-        v-for="label, i in category"
+        v-for="label, i in barang.data().category"
         :key="i"
         v-model="filtered.kategori_barang"
         :label="label"
@@ -206,7 +189,7 @@ export default defineComponent ({
           <!-- BUTTON FILTER -->
           <circleButton icon="mdi-tune-vertical" @click="filter = !filter" />
           <!-- ADD BUTTON -->
-          <DialogCard :keyform="keyform" :tambah="tambah" :ishidden="true" :noselect="statusselect" @form="submitForm" :screen="400" :iTitle="actIcon[0].text" :btncolor="actIcon[0].color" :icon="actIcon[0].icon" :iVariant="actIcon[0].variant" :headers="headers" :items="items" :category="category" :alpha="alpha" :submitForm="submitForm"/>
+          <DialogCard :keyform="barang.data().keyform" :tambah="tambah" :ishidden="true" :noselect="statusselect" @form="submitForm" :screen="400" :iTitle="actIcon[0].text" :btncolor="actIcon[0].color" :icon="actIcon[0].icon" :iVariant="actIcon[0].variant" :headers="barang.data().headers" :items="items" :category="barang.data().category" :alpha="alpha" :submitForm="submitForm"/>
         </div>
       </v-responsive>
       <v-responsive class="me-sm-0 ms-sm-auto ms-0 me-auto" max-width="450">
@@ -223,7 +206,7 @@ export default defineComponent ({
       </v-responsive>
       </v-row>
         <!-- TABLE -->
-        <TableVue :windowWidth="windowWidth" :keyform="keyform" :noselect="statusselect" @edit="editForm" @del="del" id="tbl_exporttable_to_xls" :screen="400"  :headers="headers" :items="selected()" :search="search" :category="category" :selectCategory="selectCategory" :iTitle="actIcon[1].text" :btncolor="actIcon[1].color" :icon="actIcon[1].icon" :iVariant="actIcon[1].variant" :alpha="alpha" :form="form"/>
+        <TableVue :windowWidth="windowWidth" :keyform="barang.data().keyform" :noselect="statusselect" @edit="editForm" @del="del" id="tbl_exporttable_to_xls" :screen="400"  :headers="barang.data().headers" :items="barang.selected(selectCategory, items)" :search="search" :category="barang.data().category" :selectCategory="selectCategory" :iTitle="actIcon[1].text" :btncolor="actIcon[1].color" :icon="actIcon[1].icon" :iVariant="actIcon[1].variant" :alpha="alpha" :form="form"/>
   </v-container>
   </template>
   <style>

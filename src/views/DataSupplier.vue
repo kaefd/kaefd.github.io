@@ -2,9 +2,10 @@
 // service
 import api from '../service/api';
 import functions from '../service/functions';
+import supplier from '../service/page/supplier'
 // COMPONENTS
 import TableVue from '../components/TableVue.vue';
-import AppBar from '../components/AppBar.vue';
+import AppBar from '../components/appbar/AppBar.vue';
 import menuList from '../components/menu/menuList.vue';
 import textField from '../components/form/textField.vue';
 </script>
@@ -23,23 +24,7 @@ import textField from '../components/form/textField.vue';
         pageTitle:'DATA SUPPLIER',
         search: '',
         alpha: 0,
-        headers: [
-          { title: 'Kode Supplier', align: 'start', key: 'kode_supplier', dis: true},
-          { title: 'Nama', align: 'start', key: 'nama', dis: true },
-          { title: 'Alamat', align: 'start', key: 'alamat', dis: true },
-          { title: 'Kota', align: 'start', key: 'kota', dis: true },
-          { title: 'Negara', align: 'start', key: 'negara', dis: true },
-          { title: '', align: 'start', key: 'actions', sortable: false },
-        ],
         items: [],
-        keyform: [
-          'kode_supplier',
-          'nama',
-          'alamat',
-          'kota',
-          'negara',
-          'status'
-        ],
         tambah: {
           kode_supplier: '',
           nama: '',
@@ -51,7 +36,7 @@ import textField from '../components/form/textField.vue';
       }
     },
     created() {
-        api.getData('/supplier?status=true')
+        api.getSupplier()
         .then(response => {
           this.items = response.data
         })
@@ -69,13 +54,6 @@ import textField from '../components/form/textField.vue';
         let header = this.headers
         let item = this.items
         functions.print(key, title, header, item)
-      },
-      suppCode(){
-        let s = []
-        for (let i = 0; i < this.items.length; i++) {
-          s.push(this.items[i].suppCode)
-        }
-        return s
       },
     },
     mounted(){
@@ -101,7 +79,7 @@ import textField from '../components/form/textField.vue';
     </v-responsive>
     </v-row>
     <!-- VIEW -->
-    <TableVue :keyform="keyform" :ishidden="true" :disabled="true" :noselect="true" id="tbl_exporttable_to_xls" :screen="400" :headers="headers" :items="items" :search="search" :category="suppCode()" :iTitle="actIcon[3].text" :btncolor="actIcon[3].color" :icon="actIcon[3].icon" :iVariant="actIcon[3].variant" :alpha="alpha"/>
+    <TableVue :keyform="supplier.data().keyform" :ishidden="true" :disabled="true" :noselect="true" id="tbl_exporttable_to_xls" :screen="400" :headers="supplier.data().headers" :items="items" :search="search" :category="suppCode()" :iTitle="actIcon[3].text" :btncolor="actIcon[3].color" :icon="actIcon[3].icon" :iVariant="actIcon[3].variant" :alpha="alpha"/>
 </v-container>
   </template>
 <style>

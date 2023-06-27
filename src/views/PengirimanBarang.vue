@@ -8,7 +8,7 @@ import PengirimanDetail from './PengirimanDetail.vue';
 import SuratJalan from './SuratJalan.vue';
 import '@vuepic/vue-datepicker/dist/main.css'
 import { ref, onMounted } from 'vue';
-import AppBar from '../components/AppBar.vue';
+import AppBar from '../components/appbar/AppBar.vue';
 import filterDrawer from '../components/drawer/filterDrawer.vue';
 import circleButton from '../components/button/circleButton.vue';
 import textField from '../components/form/textField.vue';

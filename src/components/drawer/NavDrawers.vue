@@ -1,7 +1,7 @@
 <script setup>
 import { RouterLink } from 'vue-router'
-import api from '../service/api';
-
+import api from '../../service/api';
+import functions from '../../service/functions';
 </script>
 
 <script>
@@ -258,10 +258,6 @@ import api from '../service/api';
           return this.$router.push('login');
         })
       },
-      numb(value) {
-        let val = (value / 1).toFixed(0).replace('.', ',')
-        return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-      },
       laporan(){
         if(
           this.pageTitle == 'LAPORAN STOK BARANG' ||
@@ -336,7 +332,7 @@ import api from '../service/api';
     
     <v-avatar v-if="windowWidth > 600" class="mx-2">
       <img
-        src="../assets/img/logo.png"
+        src="../../assets/img/logo.png"
         width="50"
       />
     </v-avatar>
@@ -430,7 +426,7 @@ import api from '../service/api';
             <v-icon color="green">mdi-circle-medium</v-icon>
             {{ p.nama }}
             </v-span>
-            <v-span class="ms-5 text-small w-100">jumlah : {{ numb(p.jumlah) }} {{ p.satuan }}</v-span>
+            <v-span class="ms-5 text-small w-100">jumlah : {{ functions.numb(p.jumlah) }} {{ p.satuan }}</v-span>
             <v-span class="ms-5 text-small w-100">{{ p.periode }}</v-span>
         </v-div>
       </div>
@@ -444,7 +440,7 @@ import api from '../service/api';
           <v-icon color="green">mdi-circle-medium</v-icon>
           {{ p.nama }}
         </v-span>
-        <v-span class="ms-5 text-small w-100">jumlah : {{ numb(p.jumlah) }} {{ p.satuan }}</v-span>
+        <v-span class="ms-5 text-small w-100">jumlah : {{ functions.numb(p.jumlah) }} {{ p.satuan }}</v-span>
         <v-span class="ms-5 text-small w-100">{{ p.periode }}</v-span>
       </v-div>
       </v-div>
@@ -458,7 +454,7 @@ import api from '../service/api';
             <v-icon color="green">mdi-circle-medium</v-icon>
             {{ p.nama }}
           </v-span>
-          <v-span class="ms-5 text-small w-100">jumlah : {{ numb(p.jumlah) }} {{ p.satuan }}</v-span>
+          <v-span class="ms-5 text-small w-100">jumlah : {{ functions.numb(p.jumlah) }} {{ p.satuan }}</v-span>
           <v-span class="ms-5 text-small w-100">{{ p.periode }}</v-span>
         </v-div>
       </div>
@@ -472,7 +468,7 @@ import api from '../service/api';
             <v-icon color="green">mdi-circle-medium</v-icon>
             {{ p.nama }}
           </v-span>
-          <v-span class="ms-5 text-small w-100">jumlah : {{ numb(p.jumlah) }} {{ p.satuan }}</v-span>
+          <v-span class="ms-5 text-small w-100">jumlah : {{ functions.numb(p.jumlah) }} {{ p.satuan }}</v-span>
           <v-span class="ms-5 text-small w-100">{{ p.periode }}</v-span>
         </v-div>
         </div>

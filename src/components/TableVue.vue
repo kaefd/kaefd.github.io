@@ -1,12 +1,13 @@
 <script setup>
 import { VDataTable } from 'vuetify/labs/VDataTable'
 import LogBarang from '../views/LogBarang.vue';
-import DialogCard from './DialogCard.vue';
+import DialogCard from './dialog/DialogCard.vue';
 </script>
 <script>
 export default {
     components: { VDataTable, DialogCard, LogBarang },
-    props: ['loading', 'stokbarang', 'barang', 'groupbarang', 'laporanstok', 'disabled', 'keyform', 'headers', 'items', 'search', 'category', 'btncolor', 'iTitle', 'icon', 'iVariant', 'alpha', 'screen', 'form', 'noselect', 'ishidden'],
+    // props: ['loading', 'stokbarang', 'barang', 'groupbarang', 'laporanstok', 'disabled', 'keyform', 'headers', 'items', 'search', 'category', '', 'iTitle', 'icon', 'iVariant', 'alpha', 'screen', 'form', 'noselect', 'ishidden'],
+    props: ['stokbarang', 'barang', 'groupbarang', 'laporanstok', 'disabled', 'keyform', 'headers', 'items', 'search', 'category', 'iTitle', 'icon', 'iVariant', 'alpha', 'screen', 'form', 'noselect', 'ishidden'],
     
     data () {
       return {
@@ -114,17 +115,17 @@ export default {
       <!-- eslint-disable-next-line vue/valid-v-slot -->
       <template v-if="!laporanstok" v-slot:item.actions="{ item, index }">
         <!-- <div class="d-flex justify-center">
-          <DialogCard :ishidden="ishidden" :keyform="keyform" :intable="true" :disabled="disabled" :noselect="noselect" :form="item.raw" @edit="edit" @del="del" :item="item" :screen="screen" :headers="headers" :items="items" :category="category" :btncolor="btncolor" :icon="icon" :iTitle="iTitle" :iVariant="iVariant"  :alpha="alpha" />
+          <DialogCard :ishidden="ishidden" :keyform="keyform" :intable="true" :disabled="disabled" :noselect="noselect" :form="item.raw" @edit="edit" @del="del" :item="item" :screen="screen" :headers="headers" :items="items" :category="category" :icon="icon" :iTitle="iTitle" :iVariant="iVariant"  :alpha="alpha" />
         </div> -->
         <v-btn size="small" variant="text" icon color="grey-darken-2">
           <v-icon>mdi-dots-vertical</v-icon>
           <v-menu activator="parent" transition="slide-y-transition">
             <v-list density="compact" class="px-3">
               <v-list-item class="pa-0">
-                <DialogCard editbtn="true" :ishidden="ishidden" :keyform="keyform" :intable="true" :disabled="disabled" :noselect="noselect" :form="item.raw" @edit="edit" :item="item" :screen="screen" :headers="headers" :items="items" :category="category" :btncolor="btncolor" :icon="icon" :iTitle="iTitle" :iVariant="iVariant"  :alpha="alpha" />
+                <DialogCard editbtn="true" :ishidden="ishidden" :keyform="keyform" :intable="true" :disabled="disabled" :noselect="noselect" :form="item.raw" @edit="edit" :item="item" :screen="screen" :headers="headers" :items="items" :category="category" :iTitle="iTitle"  :alpha="alpha" />
               </v-list-item>
               <v-list-item v-if="!ishidden" class="pa-0" @click="confirmdialog[index] =  true">
-                <DialogCard hapus="true" :ishidden="ishidden" :keyform="keyform" :intable="true" :disabled="disabled" :noselect="noselect" :form="item.raw" @edit="edit" :item="item" :screen="screen" :headers="headers" :items="items" :category="category" :btncolor="btncolor" :icon="icon" :iTitle="iTitle" :iVariant="iVariant"  :alpha="alpha" />
+                <DialogCard hapus="true" :ishidden="ishidden" :keyform="keyform" :intable="true" :disabled="disabled" :noselect="noselect" :form="item.raw" @edit="edit" :item="item" :screen="screen" :headers="headers" :items="items" :category="category" :iTitle="iTitle"  :alpha="alpha" />
               </v-list-item>
             </v-list>
           </v-menu>

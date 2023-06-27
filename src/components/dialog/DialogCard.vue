@@ -1,6 +1,6 @@
 <script>
-import closeButton from './button/closeButton.vue'
-import pillsButton from './button/pillsButton.vue'
+import closeButton from '../button/closeButton.vue'
+import pillsButton from '../button/pillsButton.vue'
 export default {
     components : {
       pillsButton,
@@ -8,7 +8,7 @@ export default {
     },
     props:
     [
-      'keyform', 'tambah', 'disabled', 'ishidden', 'editbtn', 'hapus', 'headers', 'items', 'category','btncolor', 'iTitle', 'icon','iVariant', 'alpha', 'screen', 'item', 'submitForm', 'form', 'noselect', 'intable'
+      'keyform', 'tambah', 'disabled', 'ishidden', 'editbtn', 'hapus', 'headers', 'category', 'iTitle', 'alpha', 'screen', 'item', 'form', 'noselect', 'intable'
     ],
     data () {
       
@@ -101,14 +101,11 @@ export default {
             <v-container class="w-75">
               <!-- SELECT FIELD -->
               <div v-if="!noselect">
-                <!-- LABEL FIELD -->
-                <v-label>
-                  {{ headers[0].title }}
-                </v-label>
                 <!-- FIELD SELECT (UNTUK TAMBAH DATA) -->
                 <v-text-field
                     id="tipe"
                     v-if="this.item == null"
+                    :label="headers[0].title"
                     v-model="data[keyform[0]]"
                     variant="outlined"
                     density="compact"
@@ -133,6 +130,7 @@ export default {
                 <v-text-field
                   v-if="this.item != null"
                   id="tipe"
+                  :label="headers[0].title"
                   v-model="edit[keyform[0]]"
                   :value="Object.values(item.raw)[0]"
                   variant="outlined"

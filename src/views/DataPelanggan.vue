@@ -1,12 +1,13 @@
 <script setup>
 // SERVICE
 import functions from '../service/functions';
+import pelanggan from '../service/page/pelanggan';
 // COMPONENTS
 import { defineComponent } from 'vue';
 import TableVue from '../components/TableVue.vue';
-import DialogCard from '../components/DialogCard.vue';
+import DialogCard from '../components/dialog/DialogCard.vue';
 import api from '../service/api';
-import AppBar from '../components/AppBar.vue';
+import AppBar from '../components/appbar/AppBar.vue';
 import menuList from '../components/menu/menuList.vue';
 import textField from '../components/form/textField.vue'
 </script>
@@ -24,36 +25,12 @@ import textField from '../components/form/textField.vue'
     },
     data () {
       return {
-        drawer: null,
         pageTitle: 'DATA PELANGGAN',
         statusselect: true,
-        confirmdialog: false,
         search: '',
         alpha: 1,
-        pilihcetak: '',
-        category: [
-          'Bahan Baku',
-          'Bahan Penolong',
-          'Barang Setengah Jadi',
-          'Barang Jadi',
-          'Barang Sisa (Scrap)',
-          'Mesin & Peralatan',
-        ],
-        headers: [
-          { title: 'Kode Pelanggan', key: 'kode_pelanggan', dis: true},
-          { title: 'Nama', key: 'nama' },
-          { title: 'Alamat', key: 'alamat' },
-          { title: 'NPWP', key: 'npwp' },
-          { title: '', key: 'actions', sortable: false},
-        ],
         items:'',
-        keyform: [
-          'kode_pelanggan',
-          'nama',
-          'alamat',
-          'npwp',
-          'status'
-        ],
+        
         tambah: {
           kode_pelanggan: '',
           nama: '',
@@ -64,7 +41,7 @@ import textField from '../components/form/textField.vue'
       }
     },
     created() {
-        api.getData('/pelanggan?status=true')
+        api.getPelanggan()
         .then(response => {
           this.items = response.data
         })
@@ -83,17 +60,22 @@ import textField from '../components/form/textField.vue'
         functions.print(key, title, header, item)
       },
       // TAMBAH DATA
-      submitForm(value) {
-      const myJSON = JSON.stringify(value);
-        api.postData( '/pelanggan', {
-          pelanggan : myJSON
-        })
-        .then((response) => {
-            this.successAlert(response.data)
-            window.location.href = '/pelanggan'
+      submitForm() {
+      // const myJSON = JSON.stringify(value);
+      //   api.postPelanggan()
+      //   .then((response) => {
+      //       this.successAlert(response.data)
+      //       window.location.href = '/pelanggan'
+      //     })
+      //     .catch((error) => {
+      //       this.failedAlert(error.response.data)
+      //     })
+      api.postPelanggan()
+        .then(() => {
+            return this.$route.push('pelanggan')
           })
           .catch((error) => {
-            this.failedAlert(error.response.data)
+            console.log(error.response.data)
           })
       },
       // EDIT DATA
@@ -141,7 +123,7 @@ import textField from '../components/form/textField.vue'
       <v-responsive class="d-flex align-center mb-sm-0 mb-1" min-width="200">
       <div class="d-flex align-center w-100">
       <!-- TAMBAH DATA -->
-      <DialogCard :keyform="keyform" :tambah="tambah" :ishidden="true" :noselect="statusselect"  @form="submitForm" :screen="400" :iTitle="actIcon[0].text" :btncolor="actIcon[0].color" :icon="actIcon[0].icon" :iVariant="actIcon[0].variant" :headers="headers" :items="items" :category="category"  :alpha="alpha"/>
+      <DialogCard :keyform="pelanggan.data().keyform" :tambah="tambah" :ishidden="true" :noselect="statusselect"  @form="submitForm" :screen="400" :iTitle="actIcon[0].text" :btncolor="actIcon[0].color" :icon="actIcon[0].icon" :iVariant="actIcon[0].variant" :headers="pelanggan.data().headers" :items="items" :category="category"  :alpha="alpha"/>
     </div>
     </v-responsive>
     <v-responsive class="me-sm-0 ms-sm-auto ms-0 me-auto" max-width="450">
@@ -158,7 +140,7 @@ import textField from '../components/form/textField.vue'
     </v-responsive>
     </v-row>
     <!-- edit -->
-    <TableVue :keyform="keyform" :noselect="statusselect" @edit="editForm" @del="del" id="tbl_exporttable_to_xls" :screen="400"  :headers="headers" :items="items" :search="search" :category="category" :iTitle="actIcon[1].text" :btncolor="actIcon[1].color" :icon="actIcon[1].icon" :iVariant="actIcon[1].variant" :alpha="alpha" :form="form"/>
+    <TableVue :keyform="pelanggan.data().keyform" :noselect="statusselect" @edit="editForm" @del="del" id="tbl_exporttable_to_xls" :screen="400"  :headers="pelanggan.data().headers" :items="items" :search="search" :category="category" :iTitle="actIcon[1].text" :btncolor="actIcon[1].color" :icon="actIcon[1].icon" :iVariant="actIcon[1].variant" :alpha="alpha" :form="form"/>
   </v-container>
   </template>
 

@@ -1,5 +1,5 @@
 <script setup>
-import api from '../service/api';
+import api from '../../service/api';
 </script>
 
 <script>
@@ -18,7 +18,6 @@ export default {
       logout() {
         api.logout()
       }
-
     },
   }
 </script>

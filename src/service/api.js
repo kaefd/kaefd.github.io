@@ -24,11 +24,35 @@ export default {
   getBarang (data) {
     return instance.get('/barang?status=true', data)
   },
+  getPelanggan(data) {
+    return instance.get('pelanggan?status=true', data)
+  },
+  getSupplier(data) {
+    return instance.get('supplier?status=true', data)
+  },
   postData (url, data) {
     return instance.post(url, data)
   },
+  postBarang(value) {
+    return instance.post('/barang', {
+      barang : value
+    })
+  },
+  postPelanggan(value) {
+    const myJSON = JSON.stringify(value)
+    
+    return instance.post('/pelanggan', {
+      pelanggan : myJSON
+    })
+  },
   putData (url, data) {
     return instance.patch(url, data)
+  },
+  putBarang(value) {
+    const jsonBarang = JSON.stringify(value);
+    return instance.patch('/barang', {
+      barang: jsonBarang
+    })
   },
   deleteData (url, payload) {
     return instance.delete(url, {data: payload})

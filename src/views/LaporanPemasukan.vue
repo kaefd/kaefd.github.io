@@ -7,7 +7,7 @@ import '@vuepic/vue-datepicker/dist/main.css'
 import { VDataTable } from 'vuetify/labs/VDataTable'
 import PemasukanDetail from './PemasukanDetail.vue';
 import { ref, onMounted } from 'vue';
-import AppBar from '../components/AppBar.vue';
+import AppBar from '../components/appbar/AppBar.vue';
 import filterDrawer from '../components/drawer/filterDrawer.vue';
 import circleButton from '../components/button/circleButton.vue';
 import textField from '../components/form/textField.vue';

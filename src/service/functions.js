@@ -16,6 +16,19 @@ export default {
         }
      return new Date(value).toLocaleDateString('id', options)
     },
+    tglawal() {
+      let d = new Date();
+      let m = d.getMonth();
+      d.setMonth(d.getMonth() - 1);
+      
+      // If still in same month, set date to last day of 
+      // previous month
+      if (d.getMonth() == m) d.setDate(0);
+      d.setHours(0, 0, 0, 0);
+  
+      //tl_awal
+      return d.toJSON().slice(0, 10)
+    },
     // NUMBER
     numb(value) {
         let val = (value / 1).toFixed(0).replace('.', ',')
@@ -56,5 +69,14 @@ export default {
           return this.generatePDF(title, header, item)
         }
     },
-    
+    // FILTER
+    // DRAWER
+    datafilter(select, filtered) {
+      select = filtered
+      if(!select) {
+        return select = []
+        } else if (select == []) {
+          return select = []
+        }
+   },
 }

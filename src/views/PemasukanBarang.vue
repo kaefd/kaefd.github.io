@@ -2,10 +2,11 @@
 // service
 import api from '../service/api';
 import functions from '../service/functions';
+import pemasukan from '../service/page/pemasukan';
 // components
 import { VDataTable } from 'vuetify/labs/VDataTable'
 import PemasukanDetail from './PemasukanDetail.vue';
-import AppBar from '../components/AppBar.vue';
+import AppBar from '../components/appbar/AppBar.vue';
 import filterDrawer from '../components/drawer/filterDrawer.vue';
 import circleButton from '../components/button/circleButton.vue';
 import textField from '../components/form/textField.vue';
@@ -33,11 +34,9 @@ export default {
     props:['actIcon', 'cetak'],
     data () {
       return {
-        drawer: null,
         search: '',
         periode: [],
         filter: false,
-        dialog2: false,
         confirmdialog: false,
         pageTitle: 'PEMASUKAN BARANG',
         btn: 'Tambah Barang',
@@ -50,23 +49,6 @@ export default {
         pembelian_head: '',
         pdetail: '',
         // pilihtipe: 'BC40',
-        tipedokumen: [
-          'BC23',
-          'BC40',
-          'PPKEK-LDP',
-          'PPKEK-TLDDP',
-        ],
-        headers: [
-          { title: 'Nomor Pemasukan', key: 'no_pembelian'},
-          { title: 'Tanggal Masuk', key: 'tgl_pembelian' },
-          { title: 'Tipe Dokumen', key: 'tipe_dokumen' },
-          { title: 'No Dokumen', key: 'no_dokumen' },
-          { title: 'Supplier', key: 'kode_supplier' },
-          { title: 'Mata Uang', key: 'mata_uang' },
-          { title: 'Total Nilai', key: 'total_nilai' },
-          { title: 'Total Nilai(Rp)', key: 'rp' },
-          { key: 'actions'},
-        ],
         items: '',
         supplier: '',
         pembeliandetl: '',
@@ -74,93 +56,16 @@ export default {
           selectdokumen: [],
           periode: []
         },
-        headDetails:[
-          {title: 'Kode Barang', key: 'kode_barang' },
-          {title: 'Nama Barang', key: 'nama_barang' },
-          {title: 'HS Code', key: 'hs_code' },
-          {title: 'Jumlah', key: 'jumlah' },
-          {title: 'Jumlah Diterima', key: 'jumlah_diterima' },
-          {title: 'Satuan', key: 'satuan' },
-          {title: 'Total Nilai', key: 'nilai' },
-          {key: 'actions'},
-        ],
         details: [],
-        datainput: {
-          no_pembelian: '',
-          tgl_pembelian: '',
-          tgl_input: functions.day(),
-          kode_supplier: '',
-          tipe_dokumen: '',
-          no_dokumen: '',
-          tgl_dokumen: '',
-          no_invoice: '',
-          no_bl: '',
-          mata_uang: '',
-          kurs: '',
-          user_input: '',
-          user_batal: '',
-          status: ''
-        },
       }
     },
     created() {
-       this.periode = [this.tglawal(), functions.day()]
-       this.filtered.periode = [this.tglawal(), functions.day()]
+       this.periode = [functions.tglawal(), functions.day()]
+       this.filtered.periode = [functions.tglawal(), functions.day()]
     },
     computed: {
-      datatable() {
-        let a = []
-        
-        for (let i = 0; i < this.items.length; i++) {
-          for (let k = 0; k < this.supplier.length; k++) {
-            if(this.items[i].kode_supplier == this.supplier[k].kode_supplier) {
-              a.push({
-                no_pembelian: this.items[i].no_pembelian,
-                tgl_pembelian: this.items[i].tgl_pembelian,
-                tipe_dokumen: this.items[i].tipe_dokumen,
-                no_dokumen: this.items[i].no_dokumen,
-                tgl_dokumen: this.formatDate(this.items[i].tgl_dokumen),
-                kode_supplier: this.supplier[k].nama,
-                mata_uang: this.items[i].mata_uang,
-                total_nilai: functions.numb(this.items[i].total_nilai),
-                rp: functions.numb(this.items[i].total_nilai * this.items[i].kurs),
-                no_invoice: this.items[i].no_invoice,
-                no_bl: this.items[i].no_bl,
-                kurs: this.items[i].kurs,
-                user_input: this.items[i].user_input,
-                user_batal: this.items[i].user_batal,
-                tgl_input: this.items[i].tgl_input,
-                tgl_batal: this.items[i].tgl_batal,
-                status: this.items[i].status,
-              })
-            }
-          }
-        }
-        return a
-      }
     },
     methods: {
-      tglawal() {
-        let d = new Date();
-        let m = d.getMonth();
-        d.setMonth(d.getMonth() - 1);
-        
-        // If still in same month, set date to last day of 
-        // previous month
-        if (d.getMonth() == m) d.setDate(0);
-        d.setHours(0, 0, 0, 0);
-    
-        //tl_awal
-        return d.toJSON().slice(0, 10)
-      },
-      formatDate(value){
-        let options = {
-          day: '2-digit',
-          year: 'numeric',
-          month: 'long'
-        }
-         return new Date(value).toLocaleDateString('id', options)
-      },
       page(){
         return this.$emit('page', this.pageTitle)
       },
@@ -255,16 +160,6 @@ export default {
       selected(){ 
         return this.getPembelian(), this.getPembelianDetail()
       },
-      // SELECT TIPE DOKUMEN
-      pilihtipe() {
-        if (this.selectdokumen.length === 0) {
-            return this.datatable;
-          } else {
-            return this.datatable.filter(item => this.selectdokumen.includes(item.tipe_dokumen));
-          }
-      },
-      // API GET DATA SUPPLIER
-      // ambil semua data supplier
       getSupplier() {
         const apiUrl = '/supplier'
         api.getData(apiUrl)
@@ -290,76 +185,18 @@ export default {
           return this.$router.push('login');
         })
       },
-      // GET DATA PEMBELIAN-DETAIL
-      pembelian(value) {
-        let p = []
-        for (let j = 0; j < this.pembeliandetl.length; j++) {
-          if ( this.pembeliandetl[j].no_pembelian == value ) {
-              p.push(this.pembeliandetl[j])
-          }
-        }
-        return p
-      },
       close(v) {
       return this.filter = v
       },
       print(key){
         let title = this.pageTitle
-        let header = this.headers
-        let item = this.printdata()
+        let header = pemasukan.data().headers
+        let item = pemasukan.printdata(this.items, this.supplier, this.pembeliandetl)
         functions.print(key, title, header, item)
       },
-      dataTable(value, params) {
-        if(params == 'nama') {
-          for (let i = 0; i < this.supplier.length; i++) {
-            if(this.supplier[i].kode_supplier == value) {
-              return this.supplier[i].nama
-            }
-          }
-        }
-        else if(params == 'pembelian') {
-          let p = []
-          for (let j = 0; j < this.pembeliandetl.length; j++) {
-            if ( this.pembeliandetl[j].no_pembelian == value ) {
-                p.push(this.pembeliandetl[j])
-            }
-          }
-          return p
-        }
-        else if(params == 'total') {
-          return functions.numb(value)
-        }
-        else if(params == 'rp') {
-          let kurs = value.kurs
-          let nilai = value.total_nilai
-          return functions.numb(kurs * nilai)
-        }
-      },
-      printdata(){
-        let a = []
-        for (let i = 0; i < this.items.length; i++) {
-          a.push({
-            no_pembelian: this.items[i].no_pembelian,
-            tgl_pembelian: this.items[i].tgl_pembelian,
-            tipe_dokumen: this.items[i].tipe_dokumen,
-            no_dokumen: this.items[i].no_dokumen,
-            kode_supplier: this.dataTable(this.items[i].kode_supplier, 'nama'),
-            kode_group: this.items[i].kode_group,
-            kurs: this.items[i].kurs,
-            total_nilai: this.dataTable(this.items[i].total_nilai, 'total'),
-            rp: this.dataTable(this.items[i], 'rp'),
-          })
-        }
-        return a
-      },
-      totalnilai(data){
-          let kurs = data.kurs
-          let nilai = data.total_nilai
-          return kurs * nilai
-      },
       reset() {
-        this.periode = [this.tglawal(), functions.day()]
-        this.filtered.periode = [this.tglawal(), functions.day()]
+        this.periode = [functions.tglawal(), functions.day()]
+        this.filtered.periode = [functions.tglawal(), functions.day()]
         this.filtered.selectdokumen = []
         this.selectdokumen = []
         this.selected()
@@ -383,7 +220,6 @@ export default {
       this.getPembelian()
       this.getSupplier()
       this.getPembelianDetail()
-      this.pembelian()
       this.pembeliandetl
     }
   }
@@ -413,7 +249,7 @@ export default {
       <v-span class="text-caption text-weight-bold">Tipe Dokumen</v-span>
       <v-divider class="mb-6"></v-divider>
         <checkBox
-          v-for="label, i in tipedokumen" :key="i"
+          v-for="label, i in pemasukan.data().tipedokumen" :key="i"
           v-model="filtered.selectdokumen"
           :label="label"
           :value="label"
@@ -428,7 +264,7 @@ export default {
             <!-- BUTTON FILTER -->
             <circleButton icon="mdi-tune-vertical" @click="filter = !filter" />
             <!-- ADD DATA -->
-            <PemasukanDetail batalbtn="Pemasukan" :datainput="datainput" @inputhead="inputhead" :pemasukan="true" :supplier="supplier" :edit="false" :itemDetail="itemDetail" :datatext="datatext" :btn="btn" :headDetails="headDetails" :details="details" :headers="headers" :items="pilihtipe()" :pembeliandetl="pembeliandetl" :search="search" :category="tipedokumen" :selectCategory="selectCategory" :iTitle="actIcon[0].text" :btncolor="actIcon[0].color" :icon="actIcon[0].icon" :iVariant="actIcon[0].variant" :alpha="alpha" :actIcon="actIcon" :pageTitle="pageTitle"/>
+            <PemasukanDetail batalbtn="Pemasukan" :datainput="pemasukan.data().datainput" @inputhead="inputhead" :pemasukan="true" :supplier="supplier" :edit="false" :itemDetail="itemDetail" :datatext="datatext" :btn="btn" :headDetails="pemasukan.data().headDetails" :details="details" :headers="pemasukan.data().headers" :items="pemasukan.pilihtipe(selectdokumen, items, supplier)" :pembeliandetl="pembeliandetl" :search="search" :category="pemasukan.data().tipedokumen" :selectCategory="selectCategory" :iTitle="actIcon[0].text" :btncolor="actIcon[0].color" :icon="actIcon[0].icon" :iVariant="actIcon[0].variant" :alpha="alpha" :actIcon="actIcon" :pageTitle="pageTitle"/>
           </div>
           <!-- <v-chip class="mt-1 me-1" color="orange" size="small">{{ periode[0] }} - {{ periode[1] }}</v-chip>
           <v-chip v-if="selectdokumen" class="mt-1" color="orange" size="small">{{ selectdokumen }}</v-chip> -->
@@ -451,8 +287,8 @@ export default {
           <v-data-table
             id="tbl_exporttable_to_xls"
             items-per-page="10"
-            :headers="headers"
-            :items="pilihtipe()"
+            :headers="pemasukan.data().headers"
+            :items="pemasukan.pilihtipe(selectdokumen, items, supplier)"
             :search="search"
             :hover="true"
             :fixed-header="true"
@@ -462,25 +298,25 @@ export default {
               >
               <!-- eslint-disable-next-line vue/valid-v-slot -->
               <template v-slot:item.tgl_pembelian="{item}">
-                {{ formatDate(item.raw.tgl_pembelian) }}
+                {{ functions.formatDate(item.raw.tgl_pembelian) }}
               </template>
               <!-- eslint-disable-next-line vue/valid-v-slot -->
               <template v-slot:item.actions="{item}">
                 <PemasukanDetail
                 batalbtn="Pemasukan"
                 @confirm="confirm"
-                :namaSupplier="dataTable(item.raw.kode_supplier, 'nama')"
-                :pembelian="dataTable(item.raw.no_pembelian, 'pembelian')"
+                :namaSupplier="pemasukan.dataTable(item.raw.kode_supplier, 'nama', supplier, pembeliandetl)"
+                :pembelian="pemasukan.dataTable(item.raw.no_pembelian, 'pembelian', supplier, pembeliandetl)"
                 :edit="true"
                 :itemDetail="itemDetail"
                 :datatext="datatext"
                 :btn="btn"
-                :headDetails="headDetails"
+                :headDetails="pemasukan.data().headDetails"
                 :details="[details]"
-                :headers="headers"
+                :headers="pemasukan.data().headers"
                 :items="item.raw"
                 :search="search"
-                :category="tipedokumen"
+                :category="pemasukan.data().tipedokumen"
                 :selectCategory="selectCategory"
                 :iTitle="actIcon[3].text"
                 :btncolor="actIcon[3].color"

@@ -3,7 +3,7 @@ import TableVue from '../components/TableVue.vue';
 import api from '../service/api';
 import { jsPDF } from "jspdf";
 import 'jspdf-autotable'
-import AppBar from '../components/AppBar.vue';
+import AppBar from '../components/appbar/AppBar.vue';
 import filterDrawer from '../components/drawer/filterDrawer.vue';
 import checkBox from '../components/form/checkBox.vue';
 import menuList from '../components/menu/menuList.vue';
