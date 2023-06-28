@@ -27,14 +27,13 @@ export default {
         class="text-small mb-5"
         :clearable="false"
         :placeholder="placeholder"
-        style="min-width: 200px; max-width:300px; size:20px;"
+        style="min-width: 200px; max-width:300px"
         :format-locale="id"
         required
         locale="id"
         cancelText="batal"
         selectText="pilih"
         format="PP"
-        hide-details
     />
 </template>
 <style>

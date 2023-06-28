@@ -299,7 +299,7 @@ export default {
               >
               <!-- eslint-disable-next-line vue/valid-v-slot -->
               <template v-slot:item.tgl_pembelian="{item}">
-                {{ functions.formatDate(item.raw.tgl_pembelian) }}
+                {{ item.raw.tgl_pembelian }}
               </template>
               <!-- eslint-disable-next-line vue/valid-v-slot -->
               <template v-slot:item.actions="{item}">
