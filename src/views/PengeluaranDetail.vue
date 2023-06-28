@@ -2,10 +2,11 @@
 import { VDataTable } from 'vuetify/labs/VDataTable'
 import DialogCard2 from '../components/DialogCard2.vue';
 import api from '../service/api';
+import datePickerVue from '../components/datepicker/datePicker.vue';
 
 export default {
     components: {
-    DialogCard2, VDataTable
+    DialogCard2, VDataTable, datePickerVue
     },
     props:['pembelianbaru', 'namaPelanggan', 'laporan', 'groupbarang', 'batalbtn', 'penjualan', 'pemasukan', 'alamatBongkar', 'namaTujuan', 'datainput', 'pageTitle', 'pengeluaran', 'dokumenpjl', 'namaSupplier', 'pengirimanDetail', 'pembelian', 'pelanggan', 'supplier', 'pembeliandetl', 'edit', 'kirim', 'headers', 'items', 'actIcon', 'icon', 'btncolor', 'search', 'iVariant', 'headDetails', 'details','disable', 'btn', 'datatext', 'itemDetail', 'category'],
     data () {
@@ -267,16 +268,9 @@ export default {
                                 hide-details
                             >
                             </v-text-field>
-                            <v-text-field
-                                label="Tgl Keluar"
-                                type="date"
+                            <datePickerVue
+                                placeholder="Tgl Keluar"
                                 v-model="inputdata.tgl_penjualan"
-                                variant="outlined"
-                                density="compact"
-                                style="min-width: 200px; max-width:300px"
-                                class="mb-6"
-                                hide-details
-                                :rules="required"
                             />
                         </v-col>
                         <v-col>
@@ -410,16 +404,9 @@ export default {
                                 class="mb-5"
                             >
                             </v-text-field>
-                            <v-text-field
-                                label="Tgl Dokumen"
-                                type="date"
+                            <datePickerVue
+                                placeholder="Tgl Dokumen"
                                 v-model="inputdata.tgl_dokumen"
-                                style="min-width: 200px; max-width:300px"
-                                class="mb-5"
-                                variant="outlined"
-                                density="compact"
-                                hide-details
-                                :rules="required"
                             />
                         </v-col>
                     </v-row>

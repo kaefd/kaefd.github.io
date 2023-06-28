@@ -3,13 +3,16 @@ import { VDataTable } from 'vuetify/labs/VDataTable'
 import DialogCard2 from '../components/DialogCard2.vue';
 import api from '../service/api';
 import functions from '../service/functions';
+import { id } from 'date-fns/locale';
+import datePickerVue from '../components/datepicker/datePicker.vue';
+
 </script>
 
 <script>
 
 export default {
     components: {
-    DialogCard2, VDataTable
+    DialogCard2, VDataTable, datePickerVue
     },
     props:['pembelianbaru', 'laporan', 'namaPelanggan', 'total', 'groupbarang', 'batalbtn', 'penjualan', 'pemasukan', 'alamatBongkar', 'totalpenjualan', 'namaTujuan', 'datainput', 'pageTitle', 'pengeluaran', 'dokumenpjl', 'namaSupplier', 'pengirimanDetail', 'pembelian', 'pelanggan', 'supplier', 'pembeliandetl', 'edit', 'kirim', 'headers', 'items', 'actIcon', 'icon', 'btncolor', 'search', 'iVariant', 'headDetails', 'details','disable', 'btn', 'datatext', 'itemDetail', 'category'],
     data () {
@@ -296,17 +299,9 @@ export default {
                                     disabled
                                 >
                                 </v-text-field>
-                                <v-text-field
-                                    type="date"
-                                    variant="outlined"
-                                    density="compact"
-                                    label="Tgl Pemasukan"
+                                <datePickerVue
+                                    placeholder="Tgl Pemasukan"
                                     v-model="inputdata.tgl_pembelian"
-                                    :rules="required"
-                                    hide-details
-                                    style="min-width: 200px; max-width:300px"
-                                    color="grey"
-                                    class="mb-5"
                                 />
                                 <!-- SUPPLIER -->
                                 <v-dialog v-if="!edit" v-model="dialog4">
@@ -392,17 +387,20 @@ export default {
                                     style="min-width: 200px; max-width:300px"
                                 >
                                 </v-text-field>
-                                <v-text-field
-                                    type="date"
-                                    variant="outlined"
-                                    density="compact"
-                                    label="Tgl Dokumen"
+                                <VueDatePicker
+                                    class="text-small mb-5"
+                                    height="20"
+                                    :clearable="false"
+                                    placeholder="Tgl Dokumen"
                                     v-model="inputdata.tgl_dokumen"
-                                    :rules="required"
-                                    hide-details
                                     style="min-width: 200px; max-width:300px"
+                                    :format-locale="id"
+                                    :rules="required"
+                                    locale="id"
+                                    cancelText="batal"
+                                    selectText="pilih"
+                                    format="PP"
                                     color="grey"
-                                    class="mb-5"
                                 />
                             </v-col>
                             <v-col>

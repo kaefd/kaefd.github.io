@@ -2,10 +2,11 @@
 import { VDataTable } from 'vuetify/labs/VDataTable'
 import DialogCard2 from '../components/DialogCard2.vue';
 import api from '../service/api';
+import datePickerVue from '../components/datepicker/datePicker.vue';
 
 export default {
     components: {
-    DialogCard2, VDataTable
+    DialogCard2, VDataTable, datePickerVue
     },
     props:['pembelianbaru', 'namaPelanggan', 'detail_kirim','detailkirim', 'nokirim', 'nopjl', 'pjl_detail', 'groupbarang', 'batalbtn', 'pengiriman', 'pemasukan', 'totalpenjualan', 'namaTujuan', 'datainput', 'pageTitle', 'pengeluaran', 'no', 'tipe', 'namaSupplier', 'pengirimanDetail', 'pembelian', 'pelanggan', 'supplier', 'pembeliandetl', 'edit', 'kirim', 'headers', 'items', 'actIcon', 'icon', 'btncolor', 'search', 'iVariant', 'headDetails', 'details','disable', 'btn', 'datatext', 'itemDetail', 'category'],
     data () {
@@ -93,7 +94,7 @@ export default {
             .then(response => {
             this.detailpengiriman = response.data
             })
-            .catch((error) => {
+            .catch(() => {
                 return this.$router.push('login');
             })
         },
@@ -103,7 +104,7 @@ export default {
             .then(response => {
             this.alamatBongkar = response.data
             })
-            .catch((error) => {
+            .catch(() => {
                 return this.$router.push('login');
             })
         },
@@ -113,7 +114,7 @@ export default {
             .then(response => {
             this.belumkirim = response.data
             })
-            .catch((error) => {
+            .catch(() => {
                 return this.$router.push('login');
             })
         },
@@ -123,7 +124,7 @@ export default {
             .then(response => {
             this.belumkirim_detail = response.data
             })
-            .catch((error) => {
+            .catch(() => {
                 return this.$router.push('login');
             })
         },
@@ -312,15 +313,10 @@ export default {
                         hide-details
                     >
                     </v-text-field>
-                    <v-text-field
-                        label="Tgl Pengiriman"
-                        type="date"
+                    <datePickerVue
+                        placeholder="Tgl Pengiriman"
                         v-model="inputdata.tgl_pengiriman"
-                        variant="outlined"
-                        density="compact"
-                        style="min-width: 200px; max-width:300px"
-                    >
-                    </v-text-field>
+                    />
                     </v-col>
                     <v-col>
                         <!-- PELANGGAN -->
