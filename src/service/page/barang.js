@@ -1,5 +1,5 @@
 // service
-// import api from "../api"
+import api from "../api"
 export default {
   data() {
     return {
@@ -35,9 +35,7 @@ export default {
     get(v) {
       return v
     },
-    items() {
-      return this.item
-    },
+    
     // SEARCH
     selected(select, target){
       if (select.length === 0) {
@@ -46,5 +44,14 @@ export default {
         return target.filter(item => select.includes(item.kategori_barang))
       }
     },
+    async mounted() {
+      try {
+        const nama_barang = await api.getBarang()
+        return nama_barang
+      }
+      catch (error) {
+        alert(error)
+      }
+    }
 
 }

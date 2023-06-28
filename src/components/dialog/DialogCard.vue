@@ -182,7 +182,6 @@ export default {
                     v-model="data[keyform[i+1]]"
                     required
                     ></v-text-field> 
-
                     <v-text-field
                     v-if="this.item != null"
                     :label="h.title"

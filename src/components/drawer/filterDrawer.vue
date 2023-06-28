@@ -10,10 +10,11 @@ export default {
     props:['icon'],
     data () {
         return {
+          filter: null,
         }
     },
     methods: {
-        filter() {
+        filtered() {
             this.$emit('close', false)
         },
         reset() {
@@ -29,14 +30,13 @@ export default {
 <template>
 <v-navigation-drawer
         class="border-0 me-4 elevation-0"
-        v-model="filter"
         location="left"
         width="320"
       >
       <v-sheet class="py-5 bg-transparent">
         <div class="d-flex align-center">
           <v-span class="text-button ms-4">Filter</v-span>
-          <closeButton @click="filter()" class="me-3 ms-auto" />
+          <closeButton @click="filtered()" class="me-3 ms-auto" />
         </div>
         <!-- KATEGORI BARANG -->
         <v-container class="py-3 px-4">

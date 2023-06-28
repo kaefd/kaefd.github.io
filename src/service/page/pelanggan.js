@@ -17,9 +17,14 @@ export default {
           'npwp',
           'status'
         ],
-  
       }
     },
-      
+    namaPelanggan(pelanggan, kode) {
+      for (let i = 0; i < pelanggan.length; i++) {
+        if ( pelanggan[i].kode_pelanggan == kode ) {
+            return pelanggan[i].nama
+        }
+      }
+    },
   }
   

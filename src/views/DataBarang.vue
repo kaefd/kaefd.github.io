@@ -66,6 +66,7 @@ export default defineComponent ({
         .catch(() => {
           return this.$router.push('login');
         })
+        
     },
     close(v) {
       return this.filter = v
@@ -158,7 +159,7 @@ export default defineComponent ({
 
     },
     mounted() {
-        this.getData()
+        // this.getData()
         this.page()
         this.cetak
       }

@@ -2,6 +2,8 @@
   // service
   import api from '../service/api';
   import functions from '../service/functions';
+  import pengeluaran from '../service/page/pengeluaran';
+  import pelanggan from '../service/page/pelanggan';
   // Component
   import { VDataTable } from 'vuetify/labs/VDataTable'
   import PengeluaranDetail from './PengeluaranDetail.vue'
@@ -35,11 +37,10 @@
     data () {
       return {
         filter: false,
-        drawer: null,
         search: '',
         periode: '',
         checkStatus: [],
-        pelanggan: '',
+        datapelanggan: '',
         dialog2: false,
         confirmdialog: false,
         pageTitle: 'PENGELUARAN BARANG',
@@ -54,93 +55,22 @@
           periode: [],
           status: []
         },
-        tipedokumen: [
-          'BC25',
-          'BC41',
-        ],
-        status: [
-          {title: 'menunggu', key: 'open'},
-          {title: 'selesai', key: 'close'},
-        ],
-        headers: [
-          { title: 'Nomor Pengeluaran', key: 'no_penjualan'},
-          { title: 'Tanggal Keluar', key: 'tgl_penjualan' },
-          { title: 'Tipe Dokumen', key: 'tipe_dokumen' },
-          { title: 'No Dokumen', key: 'no_dokumen' },
-          { title: 'Pelanggan', key: 'kode_pelanggan' },
-          { title: 'Kode Group', key: 'kode_group' },
-          { title: 'Total Penjualan', key: 'total_penjualan' },
-          { title: '', key: 'actions', sortable: false},
-        ],
         penjualan_head: '',
         penjualan_detail: '',
         head: '',
         detail: '',
-        headDetails:[
-          {title: 'Kode Barang', key: 'kode_barang' },
-          {title: 'Nama Barang', key: 'nama_barang' },
-          {title: 'HS Code', key: 'hs_code' },
-          {title: 'Jumlah', key: 'jumlah' },
-          {title: 'Jumlah Terkirim', key: 'jumlah_terkirim' },
-          {title: 'Satuan', key: 'satuan' },
-          {title: 'Harga Jual', key: 'harga_jual' },
-          {title: 'Total Harga', key: 'total_terjual' },
-          {title: '', key: 'actions', sortable: false },
-        ],
         groupbarang: '',
-        datainput: {
-          no_penjualan: '',
-          tgl_penjualan: '',
-          tipe_dokumen: '',
-          no_dokumen: '',
-          tgl_dokumen: '',
-          kode_pelanggan: '',
-          kode_group: '',
-          total_penjualan: '',
-          tgl_input: '',
-          user_input: '',
-          tgl_batal: '',
-          user_batal: '',
-          status: ''
-        }
       }
     },
     created() {
-      this.periode = [this.tglawal(), functions.day()]
-      this.filtered.periode = [this.tglawal(), functions.day()] 
-    },
-    computed: {
-      pilihtipe() {
-        if (this.selectdokumen.length === 0) {
-            return this.penjualan_head;
-          } else {
-            return this.penjualan_head.filter(item => this.selectdokumen.includes(item.tipe_dokumen));
-          }
-      },
-      tglinput() {
-        let currentDate = new Date().toJSON().slice(0, 10);
-        return currentDate
-      }
+      this.periode = [functions.tglawal(), functions.day()]
+      this.filtered.periode = [functions.tglawal(), functions.day()] 
     },
     methods: {
-      tglawal() {
-        let d = new Date();
-        let m = d.getMonth();
-        d.setMonth(d.getMonth() - 1);
-        
-        // If still in same month, set date to last day of 
-        // previous month
-        if (d.getMonth() == m) d.setDate(0);
-        d.setHours(0, 0, 0, 0);
-    
-        //tl_awal
-        return d.toJSON().slice(0, 10)
-      },
       close(v) {
         return this.filter = v
       },
       getPenjualanHead() {
-        
         const apiUrl = '/penjualan_head?'
         const params = {
         tgl_awal: this.periode[0],
@@ -156,7 +86,6 @@
         })
       },
       getPenjualanDetail() {
-        
         const apiUrl = '/penjualan_detail?'
         const params = {
         tgl_awal: this.periode[0],
@@ -184,7 +113,7 @@
         const apiUrl = '/pelanggan'
         api.getData(apiUrl)
         .then(response => {
-          this.pelanggan = response.data
+          this.datapelanggan = response.data
         })
         .catch(() => {
           return this.$router.push('login');
@@ -201,8 +130,8 @@
           kode_pelanggan: value.kode_pelanggan,
           kode_group: value.kode_group,
           total_penjualan: detail[0].total_terjual,
-          tgl_input: this.tglinput,
-          user_input: 'admin',
+          tgl_input: functions.day(),
+          user_input: '',
           tgl_batal: value.tgl_batal,
           user_batal: value.user_batal,
           status: 'open'
@@ -264,42 +193,10 @@
         this.head = head
         this.detail = detail
       },
-      namaPelanggan(value) {
-        for (let i = 0; i < this.pelanggan.length; i++) {
-          if ( this.pelanggan[i].kode_pelanggan == value ) {
-              return this.pelanggan[i].nama
-          }
-          
-        }
-
-      },
-      penjualan(value) {
-        let p = []
-        for (let j = 0; j < this.penjualan_detail.length; j++) {
-          if ( this.penjualan_detail[j].no_penjualan == value ) {
-              p.push(this.penjualan_detail[j])
-          }
-        }
-        return p
-      },
       selected(){        
         this.getPenjualanHead(),
         this.getPenjualanDetail(),
         this.getPelanggan()
-      },
-      statuspenjualan() {
-        for (let i = 1; i < this.status.length; i++) {
-         if(this.checkStatus == this.status[i].title)
-            this.checkStatus = this.status[i].key
-        }
-      },
-      checkstatus() {
-        var data = this.pilihtipe
-        if (this.checkStatus.length === 0) {
-            return data;
-          } else {
-            return data.filter(item => this.checkStatus.includes(item.status));
-          }
       },
       printdata() {
         let a = []
@@ -318,7 +215,7 @@
       },
       print(key){
         let title = this.pageTitle
-        let header = this.headers
+        let header = pengeluaran.data().headers
         let item = this.printdata()
         functions.print(key, title, header, item)
       },
@@ -326,8 +223,8 @@
         return this.$emit('page', this.pageTitle)
       },
       reset() {
-        this.periode = [this.tglawal(), functions.day()]
-        this.filtered.periode = [this.tglawal(), functions.day()]
+        this.periode = [functions.tglawal(), functions.day()]
+        this.filtered.periode = [functions.tglawal(), functions.day()]
         this.filtered.selectdokumen = []
         this.filtered.status = []
         functions.day()
@@ -356,9 +253,7 @@
         this.getPenjualanHead()
         this.getPenjualanDetail()
         this.getPelanggan()
-        this.penjualan()
         this.getGroupBarang()
-        this.pilihtipe
     }
   }
 
@@ -387,7 +282,7 @@
       <v-span class="text-caption text-weight-bold">Tipe Dokumen</v-span>
       <v-divider class="mb-6"></v-divider>
         <checkBox
-          v-for="label, i in tipedokumen" :key="i"
+          v-for="label, i in pengeluaran.data().tipedokumen" :key="i"
           v-model="filtered.selectdokumen"
           :label="label"
           :value="label"
@@ -396,11 +291,11 @@
       <v-span class="text-caption text-weight-bold">Status</v-span>
       <v-divider class="mb-6"></v-divider>
       <checkBox
-        v-for="label, i in status" :key="i"
+        v-for="label, i in pengeluaran.data().status" :key="i"
         v-model="filtered.status"
         :label="label.title"
         :value="label.key"
-        />
+      />
     </template>
   </filterDrawer>
   <AppBar v-if="pageTitle != null" :pageTitle="pageTitle"/>
@@ -413,17 +308,16 @@
           <!-- TAMBAH DATA -->
           <PengeluaranDetail
             batalbtn="Pengeluaran"
-            :datainput="datainput"
+            :datainput="pengeluaran.data().datainput"
             :pengeluaran="true"
             :groupbarang="groupbarang"
             :supplier="pelanggan"
             :datatext="datatext"
             :pageTitle="pageTitle"
             :btn="btn"
-            :headDetails="headDetails"
-            :details="details"
-            :headers="headers"
-            :items="checkstatus()"
+            :headDetails="pengeluaran.data().headDetails"
+            :headers="pengeluaran.data().headers"
+            :items="pengeluaran.checkstatus(selectdokumen, penjualan_head, checkStatus)"
             :search="search"
             :category="category"
             :selectCategory="selectCategory"
@@ -457,8 +351,8 @@
         <v-data-table
             id="tbl_exporttable_to_xls" 
             items-per-page="10"
-            :headers="headers"
-            :items="checkstatus()"
+            :headers="pengeluaran.data().headers"
+            :items="pengeluaran.checkstatus(selectdokumen, penjualan_head, checkStatus)"
             :search="search"
             :hover="true"
             :fixed-header="true"
@@ -492,7 +386,7 @@
             </template>
              <!-- eslint-disable-next-line vue/valid-v-slot -->
             <template v-slot:item.actions="{item}">
-              <PengeluaranDetail @confirm="confirm" batalbtn="Pengeluaran" :namaPelanggan="namaPelanggan(item.raw.kode_pelanggan)" :penjualan="penjualan(item.raw.no_penjualan)" :edit="true" :pengeluaran="true" :pageTitle="pageTitle" :headDetails="headDetails" :items="item.raw" :details="details" :headers="headers" :search="search" :category="category" :selectCategory="selectCategory" :iTitle="actIcon[3].text" :btncolor="actIcon[3].color" :icon="actIcon[3].icon" :iVariant="actIcon[3].variant" :alpha="alpha" :actIcon="actIcon" :disable="true"/>
+              <PengeluaranDetail @confirm="confirm" batalbtn="Pengeluaran" :namaPelanggan="pelanggan.namaPelanggan(pelanggan, item.raw.kode_pelanggan)" :penjualan="pengeluaran.penjualan(penjualan_detail, item.raw.no_penjualan)" :edit="true" :pengeluaran="true" :pageTitle="pageTitle" :headDetails="pengeluaran.data().headDetails" :items="item.raw" :headers="pengeluaran.data().headers" :search="search" :category="category" :selectCategory="selectCategory" :iTitle="actIcon[3].text" :btncolor="actIcon[3].color" :icon="actIcon[3].icon" :iVariant="actIcon[3].variant" :alpha="alpha" :actIcon="actIcon" :disable="true"/>
             </template>
           </v-data-table>
         </v-sheet>
