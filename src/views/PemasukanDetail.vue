@@ -1,7 +1,11 @@
-<script>
+<script setup>
 import { VDataTable } from 'vuetify/labs/VDataTable'
 import DialogCard2 from '../components/DialogCard2.vue';
 import api from '../service/api';
+import functions from '../service/functions';
+</script>
+
+<script>
 
 export default {
     components: {
@@ -74,10 +78,6 @@ export default {
         },
     },
     methods:{
-        numb(value) {
-            let val = (value / 1).toFixed(0).replace('.', ',')
-            return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-        },
         itemmasuk(value) {
             this.pembelian_input = value
         },
@@ -86,7 +86,7 @@ export default {
         },
         totalharga(v){
                 if (this.dataitem.no_penjualan == v ) {
-                    return this.numb(this.dataitem.total_penjualan)
+                    return functions.numb(this.dataitem.total_penjualan)
                 }
         },
         deleteditem(del) {
@@ -270,7 +270,7 @@ export default {
                     </v-text-field>
                     <v-text-field
                         label="Kurs"
-                        :model-value="numb(items.kurs)"
+                        :model-value="functions.numb(items.kurs)"
                         variant="outlined"
                         density="compact"
                         style="min-width: 200px; max-width:300px"
@@ -469,21 +469,21 @@ export default {
                     <!-- CUSTOM PAGINATION STYLE -->
                     <template v-slot:bottom>
                         <v-span v-if="laporan && edit" class="float-end me-5 text-caption font-weight-bold">Jumlah : {{ total }}</v-span>
-                        <v-span v-if="!laporan && edit" class="float-end me-5 text-caption font-weight-bold">Jumlah : {{ numb(pembelian[0].nilai) }}</v-span>
+                        <v-span v-if="!laporan && edit" class="float-end me-5 text-caption font-weight-bold">Jumlah : {{ functions.numb(pembelian[0].nilai) }}</v-span>
                     </template>
                     <!-- dialog actions -->
                     <!-- CUSTOM KOLOM -->
                     <!-- eslint-disable-next-line vue/valid-v-slot -->
                     <template v-slot:item.jumlah="{item}">
-                        {{numb(item.raw.jumlah)}}
+                        {{functions.numb(item.raw.jumlah)}}
                     </template>
                     <!-- eslint-disable-next-line vue/valid-v-slot -->
                     <template v-slot:item.jumlah_diterima="{item}">
-                        {{numb(item.raw.jumlah_diterima)}}
+                        {{functions.numb(item.raw.jumlah_diterima)}}
                     </template>
                     <!-- eslint-disable-next-line vue/valid-v-slot -->
                     <template v-slot:item.nilai="{item}">
-                        {{numb(item.raw.nilai)}}
+                        {{functions.numb(item.raw.nilai)}}
                     </template>
                     <!-- eslint-disable-next-line vue/valid-v-slot -->
                     <template v-slot:item.tipe_dokumen>
@@ -516,7 +516,7 @@ export default {
                                 <v-text-field
                                     variant="outlined"
                                     density="compact"
-                                    :value="numb(item.raw.jumlah)"
+                                    :value="functions.numb(item.raw.jumlah)"
                                     active="true"
                                     readonly
                                     hide-details
@@ -525,7 +525,7 @@ export default {
                                 </v-text-field>
                                 <v-label>Jumlah diterima</v-label>
                                 <v-text-field
-                                    :value="numb(item.raw.jumlah)"
+                                    :value="functions.numb(item.raw.jumlah)"
                                     variant="outlined"
                                     density="compact"
                                     readonly
@@ -534,7 +534,7 @@ export default {
                                 />
                                 <v-label>Total Nilai</v-label>
                                 <v-text-field
-                                    :value="numb(item.raw.nilai)"
+                                    :value="functions.numb(item.raw.nilai)"
                                     variant="outlined"
                                     density="compact"
                                     readonly

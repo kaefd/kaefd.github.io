@@ -159,7 +159,7 @@ export default defineComponent ({
 
     },
     mounted() {
-        // this.getData()
+        this.getData()
         this.page()
         this.cetak
       }

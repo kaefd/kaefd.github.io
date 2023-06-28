@@ -21,14 +21,8 @@ export default {
   getData (url, data) {
     return instance.get(url, data)
   },
-  async getBarang (data) {
-    try {
-      const response = await instance.get('/barang?status=true', data)
-      return response.data
-    }
-    catch (error) {
-      throw new Error('Gagal')
-    }
+  getBarang (data) {
+    return instance.get('/barang?status=true', data)
   },
   getPelanggan(data) {
     return instance.get('pelanggan?status=true', data)
