@@ -12,10 +12,10 @@ import circleButton from '../components/button/circleButton.vue';
 import textField from '../components/form/textField.vue';
 import menuList from '../components/menu/menuList.vue';
 import checkBox from '../components/form/checkBox.vue';
-import datePickerVue from '../components/datepicker/datePicker.vue';
-
 // PLUGINS
 import { ref, onMounted } from 'vue';
+import { id } from 'date-fns/locale';
+import '@vuepic/vue-datepicker/dist/main.css'
 
 </script>
 
@@ -30,7 +30,6 @@ export default {
       textField,
       menuList,
       checkBox,
-      datePickerVue,
     },
     props:['actIcon', 'cetak'],
     data () {
@@ -243,9 +242,9 @@ export default {
       <v-span class="text-caption text-weight-bold">Periode</v-span>
       <v-divider></v-divider>
       <v-label class="text-small mt-4">Tgl Awal</v-label>
-      <datePickerVue v-model="filtered.periode[0]" />
+      <VueDatePicker class="text-small" :clearable="false" v-model="filtered.periode[0]" :format-locale="id" locale="id" cancelText="batal" selectText="pilih" format="PP" />
       <v-label class="text-small mt-1">Tgl Akhir</v-label>
-      <datePickerVue v-model="filtered.periode[1]" />
+      <VueDatePicker class="text-small mb-4" :clearable="false" v-model="filtered.periode[1]" :format-locale="id" locale="id" cancelText="batal" selectText="pilih" format="PP" />
       <!-- TIPE DOKUMEN -->
       <v-span class="text-caption text-weight-bold">Tipe Dokumen</v-span>
       <v-divider class="mb-6"></v-divider>
@@ -299,7 +298,7 @@ export default {
               >
               <!-- eslint-disable-next-line vue/valid-v-slot -->
               <template v-slot:item.tgl_pembelian="{item}">
-                {{ item.raw.tgl_pembelian }}
+                {{ functions.formatDate(item.raw.tgl_pembelian) }}
               </template>
               <!-- eslint-disable-next-line vue/valid-v-slot -->
               <template v-slot:item.actions="{item}">

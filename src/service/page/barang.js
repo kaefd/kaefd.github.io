@@ -32,12 +32,7 @@ export default {
   },
     // API DATA BARANG
     // GET
-    get(v) {
-      return v
-    },
-    items() {
-      return this.item
-    },
+
     // SEARCH
     selected(select, target){
       if (select.length === 0) {
@@ -46,5 +41,18 @@ export default {
         return target.filter(item => select.includes(item.kategori_barang))
       }
     },
-
-}
+    barang (data) {
+      // Lakukan pemrosesan data yang diperlukan
+      const processedData = data.map((item) => ({
+        kategori_barang: item.kategori_barang,
+        kode_barang: item.kode_barang,
+        nama_barang: item.nama_barang,
+        hs_code: item.hs_code,
+        satuan: item.satuan,
+        // Tambahkan properti lain sesuai kebutuhan
+      }));
+    
+      return processedData;
+    }
+    
+  }

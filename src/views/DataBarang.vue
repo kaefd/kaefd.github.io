@@ -3,7 +3,6 @@
 import api from '../service/api';
 import functions from '../service/functions';
 import barang from '../service/page/barang';
-
 // component
 import TableVue from '../components/TableVue.vue';
 import DialogCard from '../components/dialog/DialogCard.vue';
@@ -40,6 +39,7 @@ export default defineComponent ({
         alpha: 1,
         statusselect: false,
         items: '',
+        nama: '',
         tambah: {
             kategori_barang: '',
             kode_barang: '',
@@ -55,18 +55,18 @@ export default defineComponent ({
     },
     created() {
       this.windowWidth
-      barang.get(this.items)
     },
     methods: {
-    getData(){
-        api.getBarang()
-        .then(response => {
-          this.items = response.data
-        })
-        .catch(() => {
-          return this.$router.push('login');
-        })
-        
+    async fetchData() {
+      try {
+        const api = await import('../service/api');
+        const barang = await import('../service/page/barang');
+
+        const item = await api.default.getBarang();
+        this.items = barang.default.barang(item);
+      } catch (error) {
+        console.log(error);
+      }
     },
     close(v) {
       return this.filter = v
@@ -159,7 +159,7 @@ export default defineComponent ({
 
     },
     mounted() {
-        this.getData()
+        this.fetchData()
         this.page()
         this.cetak
       }

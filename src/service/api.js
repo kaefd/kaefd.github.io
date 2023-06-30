@@ -15,28 +15,49 @@ const instance = axios.create({
 })
 
 export default {
+  
   postLogin(data) {
     return instance.post('/login', data)
   },
   getData (url, data) {
     return instance.get(url, data)
   },
-  getBarang (data) {
-    return instance.get('/barang?status=true', data)
+  putData (url, data) {
+    return instance.patch(url, data)
   },
-  getPelanggan(data) {
-    return instance.get('pelanggan?status=true', data)
+
+  deleteData (url, payload) {
+    return instance.delete(url, {data: payload})
   },
-  getSupplier(data) {
-    return instance.get('supplier?status=true', data)
-  },
-  postData (url, data) {
-    return instance.post(url, data)
+
+
+  /** DATA BARANG **/
+  // getBarang () {
+  //   return instance.get('/barang?status=true')
+  // },
+  async getBarang (){
+    try {
+      const response = await instance.get('/barang?status=true')
+      return response.data;
+    } catch (error) {
+      throw new Error('Gagal mengambil data pengguna');
+    }
   },
   postBarang(value) {
     return instance.post('/barang', {
       barang : value
     })
+  },
+  putBarang(value) {
+    const jsonBarang = JSON.stringify(value);
+    return instance.patch('/barang', {
+      barang: jsonBarang
+    })
+  },
+
+  /** DATA PELANGGAN **/
+  getPelanggan(data) {
+    return instance.get('pelanggan?status=true', data)
   },
   postPelanggan(value) {
     const myJSON = JSON.stringify(value)
@@ -45,18 +66,16 @@ export default {
       pelanggan : myJSON
     })
   },
-  putData (url, data) {
-    return instance.patch(url, data)
+
+  /** DATA SUPPLIER **/
+  getSupplier(data) {
+    return instance.get('supplier?status=true', data)
   },
-  putBarang(value) {
-    const jsonBarang = JSON.stringify(value);
-    return instance.patch('/barang', {
-      barang: jsonBarang
-    })
+  postData (url, data) {
+    return instance.post(url, data)
   },
-  deleteData (url, payload) {
-    return instance.delete(url, {data: payload})
-  },
+
+  /** LOGOUT **/
   logout() {
     localStorage.removeItem('token')
     localStorage.clear();
