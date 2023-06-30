@@ -114,7 +114,7 @@ export default {
       </dialogConfirm>
       </template>
        <!-- eslint-disable-next-line vue/valid-v-slot -->
-       <template v-if="pemasukan" v-slot:item.actions="{item}">
+       <template v-if="pemasukan === true" v-slot:item.actions="{item}">
             <PemasukanDetail
             batalbtn="Pemasukan"
             @confirm="confirm"
