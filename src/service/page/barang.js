@@ -1,5 +1,6 @@
 // service
 // import api from "../api"
+import functions from "../functions"
 export default {
   data() {
     return {
@@ -40,6 +41,37 @@ export default {
       } else {
         return target.filter(item => select.includes(item.kategori_barang))
       }
+    },
+    slotitem(kode, target, param) {
+      for (let i = 0; i < target.length; i++) {
+        if(kode == target[i].kode_barang) {
+          // kategori barang
+          if(param == 'k') {
+            return target[i].kategori_barang
+          }
+          else if( param == 'nm') {
+            return target[i].nama_barang
+          }
+          else if( param == 'hc') {
+            return target[i].hs_code
+          }
+          else if( param =='s') {
+            return target[i].satuan
+          }
+        }
+        
+      }
+    },
+    sumStok(kode, target) {
+      let sum = []
+      for (let i = 0; i < target.length; i++) {
+        if(target[i].kode_barang == kode) {
+          sum.push(target[i].stok_akhir)
+        }
+      }
+      return functions.numb(sum.reduce((total, current) => {
+        return total + current
+      }, 0))
     },
     barang (data) {
       // Lakukan pemrosesan data yang diperlukan

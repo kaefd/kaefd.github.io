@@ -4,7 +4,7 @@ import api from '../service/api';
 import functions from '../service/functions';
 import pemasukan from '../service/page/pemasukan';
 // components
-import { VDataTable } from 'vuetify/labs/VDataTable'
+import TableVue from '../components/TableVue.vue';
 import PemasukanDetail from './PemasukanDetail.vue';
 import AppBar from '../components/appbar/AppBar.vue';
 import filterDrawer from '../components/drawer/filterDrawer.vue';
@@ -12,6 +12,8 @@ import circleButton from '../components/button/circleButton.vue';
 import textField from '../components/form/textField.vue';
 import menuList from '../components/menu/menuList.vue';
 import checkBox from '../components/form/checkBox.vue';
+import dialogConfirm from '../components/dialog/dialogConfirm.vue';
+import squareButton from '../components/button/squareButton.vue';
 // PLUGINS
 import { ref, onMounted } from 'vue';
 import { id } from 'date-fns/locale';
@@ -23,10 +25,12 @@ import '@vuepic/vue-datepicker/dist/main.css'
 export default {
     components: {
       PemasukanDetail,
-      VDataTable,
+      dialogConfirm,
+      TableVue,
       AppBar,
       filterDrawer,
       circleButton,
+      squareButton,
       textField,
       menuList,
       checkBox,
@@ -223,8 +227,6 @@ export default {
       this.pembeliandetl
     }
   }
-
-
     const date = ref()
 
     // For demo purposes assign range from the current date
@@ -258,7 +260,7 @@ export default {
   </filterDrawer>
   <AppBar v-if="pageTitle != null" :pageTitle="pageTitle"/>
   <v-container class="pt-9 h-100">
-    <v-row no-gutters class="rounded-t-xl align-center mt-n4 mb-2">
+    <v-row no-gutters class="mt-n4">
       <v-responsive class="d-flex align-center mb-sm-0 mb-1 me-sm-2 me-0" width="200" max-width="350">
           <div class="d-flex align-center w-100">
             <!-- BUTTON FILTER -->
@@ -281,82 +283,25 @@ export default {
           />
         </div>
       </v-responsive>
-      </v-row>
-        <!-- EDIT DATA -->
-        <v-sheet height="90%">
-          <v-data-table
-            id="tbl_exporttable_to_xls"
-            items-per-page="10"
-            :headers="pemasukan.data().headers"
-            :items="pemasukan.pilihtipe(selectdokumen, items, supplier)"
-            :search="search"
-            :hover="true"
-            :fixed-header="true"
-            density="compact"
-            class="text-caption py-3 h-100"
-            height="100%"
-              >
-              <!-- eslint-disable-next-line vue/valid-v-slot -->
-              <template v-slot:item.tgl_pembelian="{item}">
-                {{ functions.formatDate(item.raw.tgl_pembelian) }}
-              </template>
-              <!-- eslint-disable-next-line vue/valid-v-slot -->
-              <template v-slot:item.actions="{item}">
-                <PemasukanDetail
-                batalbtn="Pemasukan"
-                @confirm="confirm"
-                :namaSupplier="pemasukan.dataTable(item.raw.kode_supplier, 'nama', supplier, pembeliandetl)"
-                :pembelian="pemasukan.dataTable(item.raw.no_pembelian, 'pembelian', supplier, pembeliandetl)"
-                :edit="true"
-                :itemDetail="itemDetail"
-                :datatext="datatext"
-                :btn="btn"
-                :headDetails="pemasukan.data().headDetails"
-                :details="[details]"
-                :headers="pemasukan.data().headers"
-                :items="item.raw"
-                :search="search"
-                :category="pemasukan.data().tipedokumen"
-                :selectCategory="selectCategory"
-                :iTitle="actIcon[3].text"
-                :btncolor="actIcon[3].color"
-                :icon="actIcon[3].icon"
-                :iVariant="actIcon[3].variant"
-                :actIcon="actIcon"
-                :pageTitle="pageTitle"/>
-              </template>
-            </v-data-table>
-        </v-sheet>
-        <v-dialog v-model="confirmdialog" transition="dialog-bottom-transition" width="400">
-            <v-card class="rounded-xl">
-                <v-card-title class="text-center my-7">Apakah Anda Yakin ?</v-card-title>
-                <v-row no-gutters>
-                    <v-col>
-                        <v-btn
-                        color="orange-darken-1"
-                        variant="tonal"
-                        height="57"
-                        class="w-100 rounded-0"
-                        @click="confirmdialog = false"
-                        >
-                        Tidak
-                        </v-btn>                  
-                    </v-col>
-                    <v-col>
-                        <v-btn
-                        type="submit"
-                        color="blue-darken-1"
-                        variant="tonal"
-                        height="57"
-                        class="w-100 rounded-0"
-                        @click="del(), confirmdialog = false"
-                        >
-                        Ya
-                        </v-btn>
-                    </v-col>
-                </v-row>
-            </v-card>
-        </v-dialog>
+    </v-row>
+        <TableVue
+          id="tbl_exporttable_to_xls"
+          :items="pemasukan.pilihtipe(selectdokumen, items, supplier)"
+          :search="search"
+          :headers="pemasukan.data().headers"
+          :pemasukan="true"
+          :supplier="supplier"
+          :pembeliandetl="pembeliandetl"
+          @confirm="confirm"
+        />
+        <dialogConfirm v-model="confirmdialog" :object="pageTitle">
+        <template #yesButton>
+            <squareButton type="submit" variant="outlined" color="orange-lighten-1" @click="del(), confirmdialog = false" btn_title="Ya"/>
+        </template>
+        <template #cancelButton>
+          <squareButton type="submit" variant="outlined" color="grey" @click="confirmdialog = false" btn_title="Batal" />
+        </template>
+      </dialogConfirm>
   </v-container>
 </template>
 

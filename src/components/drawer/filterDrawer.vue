@@ -1,11 +1,11 @@
 <script>
 import squareButton from '../button/squareButton.vue';
-import closeButton from '../button/closeButton.vue';
+import textButton from '../button/textButton.vue';
 
 export default {
     components: {
         squareButton,
-        closeButton
+        textButton
   },
     props:['icon'],
     data () {
@@ -36,7 +36,7 @@ export default {
       <v-sheet class="py-5 bg-transparent">
         <div class="d-flex align-center">
           <v-span class="text-button ms-4">Filter</v-span>
-          <closeButton @click="filtered()" class="me-3 ms-auto" />
+          <textButton @click="filtered()" class="me-3 ms-auto" icon="mdi-close"/>
         </div>
         <!-- KATEGORI BARANG -->
         <v-container class="py-3 px-4">

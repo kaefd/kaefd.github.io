@@ -1,24 +1,44 @@
 <script setup>
 import { VDataTable } from 'vuetify/labs/VDataTable'
 import LogBarang from '../views/LogBarang.vue';
-import DialogCard from './dialog/DialogCard.vue';
+import dialogMaster from './dialog/dialogMaster.vue';
+import barang from '../service/page/barang';
+import dialogConfirm from './dialog/dialogConfirm.vue';
+import squareButton from './button/squareButton.vue';
+import menuList from './menu/menuList.vue';
+import textButton from './button/textButton.vue';
+import PemasukanDetail from '../views/PemasukanDetail.vue';
+import pemasukan from '../service/page/pemasukan';
 </script>
 <script>
 export default {
-    components: { VDataTable, DialogCard, LogBarang },
+    components: {
+      PemasukanDetail,
+      VDataTable,
+      dialogMaster,
+      LogBarang,
+      dialogConfirm,
+      squareButton,
+      textButton,
+      menuList,
+    },
     // props: ['loading', 'stokbarang', 'barang', 'groupbarang', 'laporanstok', 'disabled', 'keyform', 'headers', 'items', 'search', 'category', '', 'iTitle', 'icon', 'iVariant', 'alpha', 'screen', 'form', 'noselect', 'ishidden'],
-    props: ['stokbarang', 'barang', 'groupbarang', 'laporanstok', 'disabled', 'keyform', 'headers', 'items', 'search', 'category', 'iTitle', 'icon', 'iVariant', 'alpha', 'screen', 'form', 'noselect', 'ishidden'],
+    props: ['stokbarang', 'groupbarang', 'laporanstok', 'pemasukan', 'supplier', 'pembeliandetl', 'disabled', 'keyform', 'headers', 'items', 'search', 'category', 'iTitle', 'icon', 'iVariant', 'alpha', 'screen', 'form', 'noselect', 'ishidden', 'pageTitle'],
     
     data () {
       return {
-        dialog: false,
+        dialog: [],
         totaldata: this.items.length,
-        confirmdialog: []
+        confirmdialog: [],
+        list: [
+          {title: 'Edit Data', key: 'edit', icon: 'mdi-pencil'},
+          {title: 'Hapus Data', key: 'hapus', icon: 'mdi-delete'},
+        ],
       }
     },
     methods:{
-      dialogTable(a){
-        return console.log(a);
+      result(value, i) {
+        return value == 'edit' ? this.dialog[i] = true : this.confirmdialog[i] = true
       },
       edit(value) {
         return this.$emit('edit', value)
@@ -27,53 +47,8 @@ export default {
         this.confirmdialog[i] =  false
         return this.$emit('del', v)
       },
-      numb(value) {
-            let val = (value / 1).toFixed(0).replace('.', ',')
-            return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-      },
-      slotitem(kode, param) {
-          for (let i = 0; i < this.barang.length; i++) {
-            if(kode == this.barang[i].kode_barang) {
-              // kategori barang
-              if(param == 'k') {
-                return this.barang[i].kategori_barang
-              }
-              else if( param == 'nm') {
-                return this.barang[i].nama_barang
-              }
-              else if( param == 'hc') {
-                return this.barang[i].hs_code
-              }
-              else if( param =='s') {
-                return this.barang[i].satuan
-              }
-            }
-            
-          }
-      },
-      sumStok(kode) {
-        let sum = []
-        for (let i = 0; i < this.stokbarang.length; i++) {
-          if(this.stokbarang[i].kode_barang == kode) {
-            sum.push(this.stokbarang[i].stok_akhir)
-          }
-        }
-        return this.numb(sum.reduce((total, current) => {
-          return total + current
-        }, 0))
-      }
-    },
-    computed: {
-      row() {
-        let rows = []
-        for (let i = 0; i < this.headers.length; i++) {
-          let row = this.headers[i].value;
-          rows.push(row)
-        }
-        return rows
-      },
-      datadef(value) {
-        return this.$emit('def', value)
+      confirm(head, detail) {
+        this.$emit('confirm', head, detail)
       }
     },
     mounted() {
@@ -98,76 +73,65 @@ export default {
     <!-- ACTION DELETE & EDIT -->
       <!-- eslint-disable-next-line vue/valid-v-slot -->
       <template v-if="laporanstok" v-slot:item.kategori_barang="{ item }">
-          {{ slotitem(item.raw.kode_barang, 'k') }}
+          {{ barang.slotitem(item.raw.kode_barang, items, 'k') }}
       </template>
       <!-- eslint-disable-next-line vue/valid-v-slot -->
       <template v-if="laporanstok" v-slot:item.nama_barang="{ item }">
-          {{ slotitem(item.raw.kode_barang, 'nm') }}
+          {{ barang.slotitem(item.raw.kode_barang, items, 'nm') }}
       </template>
       <!-- eslint-disable-next-line vue/valid-v-slot -->
       <template v-if="laporanstok" v-slot:item.hs_code="{ item }">
-          {{ slotitem(item.raw.kode_barang, 'hc') }}
+          {{ barang.slotitem(item.raw.kode_barang, items, 'hc') }}
       </template>
       <!-- eslint-disable-next-line vue/valid-v-slot -->
       <template v-if="laporanstok" v-slot:item.satuan="{ item }">
-          {{ slotitem(item.raw.kode_barang, 's') }}
-      </template>
-      <!-- eslint-disable-next-line vue/valid-v-slot -->
-      <template v-if="!laporanstok" v-slot:item.actions="{ item, index }">
-        <!-- <div class="d-flex justify-center">
-          <DialogCard :ishidden="ishidden" :keyform="keyform" :intable="true" :disabled="disabled" :noselect="noselect" :form="item.raw" @edit="edit" @del="del" :item="item" :screen="screen" :headers="headers" :items="items" :category="category" :icon="icon" :iTitle="iTitle" :iVariant="iVariant"  :alpha="alpha" />
-        </div> -->
-        <v-btn size="small" variant="text" icon color="grey-darken-2">
-          <v-icon>mdi-dots-vertical</v-icon>
-          <v-menu activator="parent" transition="slide-y-transition">
-            <v-list density="compact" class="px-3">
-              <v-list-item class="pa-0">
-                <DialogCard editbtn="true" :ishidden="ishidden" :keyform="keyform" :intable="true" :disabled="disabled" :noselect="noselect" :form="item.raw" @edit="edit" :item="item" :screen="screen" :headers="headers" :items="items" :category="category" :iTitle="iTitle"  :alpha="alpha" />
-              </v-list-item>
-              <v-list-item v-if="!ishidden" class="pa-0" @click="confirmdialog[index] =  true">
-                <DialogCard hapus="true" :ishidden="ishidden" :keyform="keyform" :intable="true" :disabled="disabled" :noselect="noselect" :form="item.raw" @edit="edit" :item="item" :screen="screen" :headers="headers" :items="items" :category="category" :iTitle="iTitle"  :alpha="alpha" />
-              </v-list-item>
-            </v-list>
-          </v-menu>
-      </v-btn>
-      <v-dialog v-model="confirmdialog[index]" transition="dialog-bottom-transition" width="350">
-      <v-card class="rounded-xl">
-          <v-card-title class="text-center my-7">Apakah Anda Yakin ?</v-card-title>
-          <v-row no-gutters>
-            <v-col>
-                <v-btn
-                color="orange-darken-1"
-                variant="tonal"
-                height="57"
-                class="w-100 rounded-0"
-                @click="confirmdialog[index] = false"
-                >
-                Tidak
-                </v-btn>                  
-            </v-col>
-            <v-col>
-                <v-btn
-                type="submit"
-                color="blue-darken-1"
-                variant="tonal"
-                height="57"
-                class="w-100 rounded-0"
-                @click="del(item.raw, index)"
-                >
-                Ya
-                </v-btn>
-            </v-col>
-            </v-row>
-      </v-card>
-    </v-dialog>
+          {{ barang.slotitem(item.raw.kode_barang, items, 's') }}
       </template>
       <!-- eslint-disable-next-line vue/valid-v-slot -->
       <template v-if="laporanstok" v-slot:item.stok_akhir="{item}">
-          {{ sumStok(item.raw.kode_barang) }}
+          {{ barang.sumStok(item.raw.kode_barang, stokbarang) }}
       </template>
       <!-- eslint-disable-next-line vue/valid-v-slot -->
       <template v-if="laporanstok" v-slot:item.actions="{item}">
-        <LogBarang :headers="headers" :barang="barang" :groupbarang="groupbarang" :stokbarang="stokbarang" :item="item.raw" :kode_group="item.raw.kode_group" :kode_barang="item.raw.kode_barang"/>
+        <LogBarang :headers="headers" :barang="items" :groupbarang="groupbarang" :stokbarang="stokbarang" :item="item.raw" :kode_group="item.raw.kode_group" :kode_barang="item.raw.kode_barang"/>
+      </template>
+      <!-- eslint-disable-next-line vue/valid-v-slot -->
+      <template v-if="!laporanstok" v-slot:item.actions="{ item, index }">
+      <menuList :items="list" icon="mdi-dots-vertical" :submenu="true" @result="result" :index="index" />
+        <dialogMaster v-model="dialog[index]" editbtn="true" :ishidden="true" :keyform="keyform" :intable="true" :disabled="disabled" :noselect="noselect" :form="item.raw" @edit="edit" :item="item" :screen="screen" :headers="headers" :items="items" :category="category" :iTitle="iTitle"  :alpha="alpha">
+          <template #close>
+            <textButton class="absolute" @click="dialog[index] = false" icon="mdi-close"/>
+          </template>
+        </dialogMaster>
+        <!-- DIALOG CONFIRM -->
+      <dialogConfirm v-model="confirmdialog[index]" :object="pageTitle">
+        <template #yesButton>
+            <squareButton type="submit" variant="outlined" color="orange-lighten-1" @click="del(item.raw, index)" btn_title="Ya"/>
+        </template>
+        <template #cancelButton>
+          <squareButton type="submit" variant="outlined" color="grey" @click="confirmdialog[index] = false" btn_title="Batal" />
+        </template>
+      </dialogConfirm>
+      </template>
+       <!-- eslint-disable-next-line vue/valid-v-slot -->
+       <template v-if="pemasukan" v-slot:item.actions="{item}">
+            <PemasukanDetail
+            batalbtn="Pemasukan"
+            @confirm="confirm"
+            :namaSupplier="pemasukan.dataTable(item.raw.kode_supplier, 'nama', supplier, pembeliandetl)"
+            :pembelian="pemasukan.dataTable(item.raw.no_pembelian, 'pembelian', supplier, pembeliandetl)"
+            :edit="true"
+            :itemDetail="itemDetail"
+            :datatext="datatext"
+            :btn="btn"
+            :headDetails="pemasukan.data().headDetails"
+            :details="[details]"
+            :headers="pemasukan.data().headers"
+            :items="item.raw"
+            :search="search"
+            :category="pemasukan.data().tipedokumen"
+            :selectCategory="selectCategory"
+            :pageTitle="pageTitle"/>
       </template>
     </v-data-table>
     </v-sheet>

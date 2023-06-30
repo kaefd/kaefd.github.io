@@ -1,17 +1,19 @@
 <script>
 import circleButton from '../button/circleButton.vue'
+import textButton from '../button/textButton.vue'
 export default {
     components: {
         circleButton,
+        textButton,
   },
-    props:['icon', 'items'],
+    props:['icon', 'items', 'variant', 'submenu', 'index'],
     data () {
         return {
         }
     },
     methods : {
         clicked(key) {
-            this.$emit('result', key)
+            this.$emit('result', key, this.index)
         }
     }
 }
@@ -20,7 +22,8 @@ export default {
 <template>
 <v-menu transition="slide-y-transition">
     <template v-slot:activator="{ props }">
-       <circleButton v-bind="props" :icon="icon" />
+       <circleButton v-if="!submenu" v-bind="props" :icon="icon" :variant="variant" />
+       <textButton v-if="submenu" v-bind="props" :icon="icon" />
     </template>
     <v-list>
       <v-list-item

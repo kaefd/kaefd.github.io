@@ -1,10 +1,9 @@
 <script>
-import closeButton from '../button/closeButton.vue'
+// import textButton from '../button/textButton.vue'
 import pillsButton from '../button/pillsButton.vue'
 export default {
     components : {
       pillsButton,
-      closeButton,
     },
     props:
     [
@@ -13,8 +12,6 @@ export default {
     data () {
       
       return {
-        dialog: false,
-        categoryName: '',
         edit: this.form,
         data: this.tambah,
         list: [
@@ -38,15 +35,13 @@ export default {
      },
      del(value) {
           this.$emit('del', value)
-      }
-
+      },
     }
 
 }
 </script>
 <template>
     <v-dialog
-      v-model="dialog"
       :scrim="false"
       transition="dialog-bottom-transition"
       :width="screen"
@@ -68,7 +63,7 @@ export default {
           </v-btn>
           <!-- LIHAT -->
           <v-btn
-          v-if="editbtn && ishidden"
+          v-if="view"
           v-bind="props"
           class="text-caption"
           variant="text"
@@ -92,7 +87,8 @@ export default {
       <v-card class="rounded-xl">
         <form ref="form" @submit.prevent="submit">
           <v-toolbar class="bg-white text-center">
-              <closeButton class="absolute" @click="dialog = false"/>
+            <slot name="close"></slot>
+              <!-- <textButton class="absolute" @click="dialog = false" icon="mdi-close"/> -->
               <v-toolbar-title>
                 {{ iTitle }}
               </v-toolbar-title>

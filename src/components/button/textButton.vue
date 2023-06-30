@@ -13,8 +13,9 @@ export default {
 <template>
 <v-btn
     variant="text"
+    color="grey-darken-2"
     size="small"
     icon>
-    <v-icon>mdi-close</v-icon>
+    <v-icon>{{ icon }}</v-icon>
 </v-btn>        
 </template>

@@ -14,7 +14,7 @@ export default {
     components: {
     DialogCard2, VDataTable, datePickerVue
     },
-    props:['pembelianbaru', 'laporan', 'namaPelanggan', 'total', 'groupbarang', 'batalbtn', 'penjualan', 'pemasukan', 'alamatBongkar', 'totalpenjualan', 'namaTujuan', 'datainput', 'pageTitle', 'pengeluaran', 'dokumenpjl', 'namaSupplier', 'pengirimanDetail', 'pembelian', 'pelanggan', 'supplier', 'pembeliandetl', 'edit', 'kirim', 'headers', 'items', 'actIcon', 'icon', 'btncolor', 'search', 'iVariant', 'headDetails', 'details','disable', 'btn', 'datatext', 'itemDetail', 'category'],
+    props:['pembelianbaru', 'laporan', 'namaPelanggan', 'total', 'groupbarang', 'batalbtn', 'penjualan', 'pemasukan', 'alamatBongkar', 'totalpenjualan', 'namaTujuan', 'datainput', 'pageTitle', 'pengeluaran', 'dokumenpjl', 'namaSupplier', 'pengirimanDetail', 'pembelian', 'pelanggan', 'supplier', 'pembeliandetl', 'edit', 'kirim', 'headers', 'items',  'search', 'iVariant', 'headDetails', 'details','disable', 'btn', 'datatext', 'itemDetail', 'category'],
     data () {
       return {
         dialog: false,
@@ -159,7 +159,7 @@ export default {
                 v-bind="props"
                 icon
                 >
-                <v-icon>{{ icon }}</v-icon>
+                <v-icon>mdi-dots-vertical</v-icon>
                 </v-btn>
             </template>
                 <v-list>
@@ -456,13 +456,13 @@ export default {
                     </v-div>
                     <!-- TABEL EDIT/VIEW -->
                     <v-data-table
-                    :headers="headDetails"
-                    :items="edit ? pembelian : pembelian_input"
-                    :hover="true"
-                    :fixed-header="true"
-                    density="compact"
-                    class="text-caption my-7 px-5"
-                    :height="edit ? 200 : 150"
+                        :headers="headDetails"
+                        :items="edit ? pembelian : pembelian_input"
+                        :hover="true"
+                        :fixed-header="true"
+                        density="compact"
+                        class="text-caption my-7 px-5"
+                        :height="edit ? 200 : 150"
                     >
                     <!-- CUSTOM PAGINATION STYLE -->
                     <template v-slot:bottom>

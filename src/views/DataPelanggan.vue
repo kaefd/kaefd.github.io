@@ -5,7 +5,7 @@ import pelanggan from '../service/page/pelanggan';
 // COMPONENTS
 import { defineComponent } from 'vue';
 import TableVue from '../components/TableVue.vue';
-import DialogCard from '../components/dialog/DialogCard.vue';
+import DialogCard from '../components/dialog/dialogMaster.vue';
 import api from '../service/api';
 import AppBar from '../components/appbar/AppBar.vue';
 import menuList from '../components/menu/menuList.vue';
@@ -140,7 +140,7 @@ import textField from '../components/form/textField.vue'
     </v-responsive>
     </v-row>
     <!-- edit -->
-    <TableVue :keyform="pelanggan.data().keyform" :noselect="statusselect" @edit="editForm" @del="del" id="tbl_exporttable_to_xls" :screen="400"  :headers="pelanggan.data().headers" :items="items" :search="search" :category="category" :iTitle="actIcon[1].text" :btncolor="actIcon[1].color" :icon="actIcon[1].icon" :iVariant="actIcon[1].variant" :alpha="alpha" :form="form"/>
+    <TableVue :keyform="pelanggan.data().keyform" :noselect="statusselect" @edit="editForm" @del="del" id="tbl_exporttable_to_xls" :screen="400"  :headers="pelanggan.data().headers" :items="items" :search="search" :category="category" :iTitle="actIcon[1].text" :btncolor="actIcon[1].color" :icon="actIcon[1].icon" :iVariant="actIcon[1].variant" :alpha="alpha" :form="form" :pageTitle="pageTitle"/>
   </v-container>
   </template>
 

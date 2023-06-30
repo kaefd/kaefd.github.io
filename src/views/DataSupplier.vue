@@ -79,7 +79,7 @@ import textField from '../components/form/textField.vue';
     </v-responsive>
     </v-row>
     <!-- VIEW -->
-    <TableVue :keyform="supplier.data().keyform" :ishidden="true" :disabled="true" :noselect="true" id="tbl_exporttable_to_xls" :screen="400" :headers="supplier.data().headers" :items="items" :search="search" :iTitle="actIcon[3].text" :btncolor="actIcon[3].color" :icon="actIcon[3].icon" :iVariant="actIcon[3].variant" :alpha="alpha"/>
+    <TableVue :keyform="supplier.data().keyform" :ishidden="true" :disabled="true" :noselect="true" id="tbl_exporttable_to_xls" :screen="400" :headers="supplier.data().headers" :items="items" :search="search" :iTitle="actIcon[3].text" :btncolor="actIcon[3].color" :icon="actIcon[3].icon" :iVariant="actIcon[3].variant" :alpha="alpha" :pageTitle="pageTitle"/>
 </v-container>
   </template>
 <style>
