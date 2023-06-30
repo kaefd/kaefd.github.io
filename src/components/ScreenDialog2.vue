@@ -1,6 +1,6 @@
 <script setup>
 import { VDataTable } from 'vuetify/labs/VDataTable'
-import DialogCard2 from './DialogCard2.vue';
+import DialogCard2 from './dialog/dialogScroll.vue';
 // import api from '../api';
 
 </script>

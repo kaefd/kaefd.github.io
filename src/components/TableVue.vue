@@ -23,7 +23,7 @@ export default {
       menuList,
     },
     // props: ['loading', 'stokbarang', 'barang', 'groupbarang', 'laporanstok', 'disabled', 'keyform', 'headers', 'items', 'search', 'category', '', 'iTitle', 'icon', 'iVariant', 'alpha', 'screen', 'form', 'noselect', 'ishidden'],
-    props: ['stokbarang', 'groupbarang', 'laporanstok', 'pemasukan', 'supplier', 'pembeliandetl', 'disabled', 'keyform', 'headers', 'items', 'search', 'category', 'iTitle', 'icon', 'iVariant', 'alpha', 'screen', 'form', 'noselect', 'ishidden', 'pageTitle'],
+    props: ['stokbarang', 'groupbarang', 'laporanstok', 'masuk', 'supplier', 'pembeliandetl', 'disabled', 'keyform', 'headers', 'items', 'search', 'category', 'iTitle', 'icon', 'iVariant', 'alpha', 'screen', 'form', 'noselect', 'ishidden', 'pageTitle'],
     
     data () {
       return {
@@ -96,7 +96,7 @@ export default {
         <LogBarang :headers="headers" :barang="items" :groupbarang="groupbarang" :stokbarang="stokbarang" :item="item.raw" :kode_group="item.raw.kode_group" :kode_barang="item.raw.kode_barang"/>
       </template>
       <!-- eslint-disable-next-line vue/valid-v-slot -->
-      <template v-if="!laporanstok" v-slot:item.actions="{ item, index }">
+      <template v-if="!laporanstok && !masuk" v-slot:item.actions="{ item, index }">
       <menuList :items="list" icon="mdi-dots-vertical" :submenu="true" @result="result" :index="index" />
         <dialogMaster v-model="dialog[index]" editbtn="true" :ishidden="true" :keyform="keyform" :intable="true" :disabled="disabled" :noselect="noselect" :form="item.raw" @edit="edit" :item="item" :screen="screen" :headers="headers" :items="items" :category="category" :iTitle="iTitle"  :alpha="alpha">
           <template #close>
@@ -114,7 +114,7 @@ export default {
       </dialogConfirm>
       </template>
        <!-- eslint-disable-next-line vue/valid-v-slot -->
-       <template v-if="pemasukan === true" v-slot:item.actions="{item}">
+       <template v-if="masuk" v-slot:item.actions="{item}">
             <PemasukanDetail
             batalbtn="Pemasukan"
             @confirm="confirm"

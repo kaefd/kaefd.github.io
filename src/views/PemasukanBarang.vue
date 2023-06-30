@@ -289,7 +289,7 @@ export default {
           :items="pemasukan.pilihtipe(selectdokumen, items, supplier)"
           :search="search"
           :headers="pemasukan.data().headers"
-          :pemasukan="true"
+          :masuk="true"
           :supplier="supplier"
           :pembeliandetl="pembeliandetl"
           @confirm="confirm"

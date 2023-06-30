@@ -1,6 +1,6 @@
 <script>
 import { VDataTable } from 'vuetify/labs/VDataTable'
-import DialogCard2 from '../components/DialogCard2.vue';
+import DialogCard2 from '../components/dialog/dialogScroll.vue';
 import api from '../service/api';
 import datePickerVue from '../components/datepicker/datePicker.vue';
 

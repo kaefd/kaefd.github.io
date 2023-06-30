@@ -1,18 +1,18 @@
 <script setup>
 import { VDataTable } from 'vuetify/labs/VDataTable'
-import DialogCard2 from '../components/DialogCard2.vue';
+import dialogScroll from '../components/dialog/dialogScroll.vue';
 import api from '../service/api';
 import functions from '../service/functions';
 import { id } from 'date-fns/locale';
 import datePickerVue from '../components/datepicker/datePicker.vue';
-
 </script>
 
 <script>
-
 export default {
     components: {
-    DialogCard2, VDataTable, datePickerVue
+        dialogScroll,
+        VDataTable,
+        datePickerVue
     },
     props:['pembelianbaru', 'laporan', 'namaPelanggan', 'total', 'groupbarang', 'batalbtn', 'penjualan', 'pemasukan', 'alamatBongkar', 'totalpenjualan', 'namaTujuan', 'datainput', 'pageTitle', 'pengeluaran', 'dokumenpjl', 'namaSupplier', 'pengirimanDetail', 'pembelian', 'pelanggan', 'supplier', 'pembeliandetl', 'edit', 'kirim', 'headers', 'items',  'search', 'iVariant', 'headDetails', 'details','disable', 'btn', 'datatext', 'itemDetail', 'category'],
     data () {
@@ -64,9 +64,9 @@ export default {
         }
     },
     computed: {
-        filtersupplier() {
+        filtersupplier(nama) {
             return this.supplier.filter(item => {
-                    return item.nama.toLowerCase().includes(this.searched.toLowerCase())
+                    return item.refs(nama).toLowerCase().includes(this.searched.toLowerCase())
                 })
             },
         filteralamat() {
@@ -452,7 +452,7 @@ export default {
                     </v-row>
                     <!-- BUTTON TAMBAH BARANG -->
                     <v-div v-if="!edit" :pembelianbaru="pembelianbaru" :pembeliandetl="pembeliandetl" class="text-sm-left text-center">
-                        <DialogCard2 @reset="reset"  :barang="barang" :itemDetail="itemDetail" @pemasukanitem="itemmasuk" :pemasukan="true" :btn="btn" width="400" />
+                        <dialogScroll @reset="reset"  :barang="barang" :itemDetail="itemDetail" @pemasukanitem="itemmasuk" :pemasukan="true" :btn="btn" width="400" />
                     </v-div>
                     <!-- TABEL EDIT/VIEW -->
                     <v-data-table

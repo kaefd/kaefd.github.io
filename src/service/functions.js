@@ -70,6 +70,11 @@ export default {
         }
     },
     // FILTER
+    filterObject(target, keyname, search) {
+      return target.filter(item => {
+              return item.$refs(keyname).toLowerCase().includes(search.toLowerCase())
+          })
+      },
     // DRAWER
     datafilter(select, filtered) {
       select = filtered
