@@ -196,7 +196,7 @@ export default defineComponent ({
       <v-responsive class="me-sm-0 ms-sm-auto ms-0 me-auto" max-width="450">
         <div class="d-flex align-center justify-sm-end justify-start">
           <!-- SEARCH -->
-          <textField  v-model="search" placeholder="Search" icon="mdi-magnify" class="me-2"/>
+          <textField  v-model="search" placeholder="Search" class="me-2"/>
           <!-- EXPORT DATA -->
           <menuList
             icon="mdi-dots-vertical"

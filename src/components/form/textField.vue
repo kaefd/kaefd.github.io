@@ -15,7 +15,7 @@ export default {
   density="compact"
   variant="text"
   class="text-indigo-darken-4 rounded-xl border text-body-2 font-small"
-  :prepend-inner-icon="icon"
+  prepend-inner-icon="mdi-magnify"
   :placeholder="placeholder"
   single-line
   hide-details

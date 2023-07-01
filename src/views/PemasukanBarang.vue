@@ -130,7 +130,7 @@ export default {
       detail = [{
             no_pembelian: this.pdetail.no_pembelian,
             kode_barang: this.pdetail.kode_barang,
-            nama_barang: this.pdetail.nama_barang,
+            nama_barang: this.pdetail.nama,
             hs_code: this.pdetail.hs_code,
             jumlah: this.pdetail.jumlah,
             jumlah_diterima: this.pdetail.jumlah_diterima,
@@ -293,6 +293,7 @@ export default {
           :supplier="supplier"
           :pembeliandetl="pembeliandetl"
           @confirm="confirm"
+          :pageTitle="pageTitle"
         />
         <dialogConfirm v-model="confirmdialog" :object="pageTitle">
         <template #yesButton>
@@ -301,7 +302,7 @@ export default {
         <template #cancelButton>
           <squareButton type="submit" variant="outlined" color="grey" @click="confirmdialog = false" btn_title="Batal" />
         </template>
-      </dialogConfirm>
+        </dialogConfirm>
   </v-container>
 </template>
 

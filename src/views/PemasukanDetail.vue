@@ -3,8 +3,14 @@ import { VDataTable } from 'vuetify/labs/VDataTable'
 import dialogScroll from '../components/dialog/dialogScroll.vue';
 import api from '../service/api';
 import functions from '../service/functions';
-import { id } from 'date-fns/locale';
-import datePickerVue from '../components/datepicker/datePicker.vue';
+import datePicker from '../components/datepicker/datePicker.vue';
+import textButton from '../components/button/textButton.vue';
+import textFieldForm from '../components/form/textFieldForm.vue';
+import dialogSearch from '../components/dialog/dialogSearch.vue';
+import menuForm from '../components/menu/menuForm.vue';
+import menuList from '../components/menu/menuList.vue';
+import pillsButton from '../components/button/pillsButton.vue';
+import dialogForm from '../components/dialog/dialogForm.vue';
 </script>
 
 <script>
@@ -12,12 +18,20 @@ export default {
     components: {
         dialogScroll,
         VDataTable,
-        datePickerVue
+        datePicker,
+        textButton,
+        textFieldForm,
+        dialogSearch,
+        menuForm,
+        menuList,
+        pillsButton,
+        dialogForm,
     },
     props:['pembelianbaru', 'laporan', 'namaPelanggan', 'total', 'groupbarang', 'batalbtn', 'penjualan', 'pemasukan', 'alamatBongkar', 'totalpenjualan', 'namaTujuan', 'datainput', 'pageTitle', 'pengeluaran', 'dokumenpjl', 'namaSupplier', 'pengirimanDetail', 'pembelian', 'pelanggan', 'supplier', 'pembeliandetl', 'edit', 'kirim', 'headers', 'items',  'search', 'iVariant', 'headDetails', 'details','disable', 'btn', 'datatext', 'itemDetail', 'category'],
     data () {
       return {
         dialog: false,
+        dialog1: false,
         dialog2: false,
         dialog3: false,
         dialog4: false,
@@ -26,7 +40,17 @@ export default {
         valid: false,
         detaildial: [],
         arr: [],
-        tipe_dokumen: ['BC23', 'BC40', 'PPKEK-LDP', 'PPKEK-TDDP'],
+        tipe_dokumen: [
+            {title: 'BC23', key: 'BC23'},
+            {title: 'BC40', key: 'BC40'},
+            {title: 'PPKEK dari LDP', key: 'PPKEK-LDP'},
+            {title: 'PPKEK dari TDDP', key: 'PPKEK-TDDP'}
+        ],
+        list: [
+            {title: 'Lihat Data', key: 'lihat'},
+            {title: 'Batal Pemasukan', key: 'batal'},
+        ],
+        item: '',
         searched: '',
         barang: '',
         namasupplier: '',
@@ -63,34 +87,27 @@ export default {
             this.kurs = k.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
         }
     },
-    computed: {
-        filtersupplier(nama) {
-            return this.supplier.filter(item => {
-                    return item.refs(nama).toLowerCase().includes(this.searched.toLowerCase())
-                })
-            },
-        filteralamat() {
-            return this.alamatBongkar.filter(item => {
-                    return item.nama.toLowerCase().includes(this.searched.toLowerCase())
-                })
-            },
-        filterkodegroup() {
-            return this.groupbarang.filter(item => {
-                    return item.kode_group.toLowerCase().includes(this.searched.toLowerCase())
-            })
-        },
-    },
     methods:{
-        itemmasuk(value) {
-            this.pembelian_input = value
+        itemmasuk(v){
+            this.pembelian_input = v
+        },
+        menuAksi(v) {
+            v == 'lihat' ? this.dialog = true : this.confirm()
         },
         confirm() {
             this.$emit('confirm', this.dataitem, this.pembelian)
         },
-        totalharga(v){
-                if (this.dataitem.no_penjualan == v ) {
-                    return functions.numb(this.dataitem.total_penjualan)
-                }
+        pilihObjek(s){
+            this.inputdata.kode_supplier = s.kode_supplier
+            this.namasupplier = s.nama
+            this.dialog4 = false 
+        },
+        pilihStok(s) {
+            this.item = s
+            this.dialog2 = true
+        },
+        pilihtipedokumen(v){
+            return this.inputdata.tipe_dokumen = v
         },
         deleteditem(del) {
                 for (let i = 0; i < this.pembelian_input.length; i++) {
@@ -107,7 +124,6 @@ export default {
                 this.$emit('inputhead', this.inputdata, this.pembelian_input)
             }
         },
-        
     },
     
     mounted() {
@@ -138,318 +154,82 @@ export default {
         >
         <template v-slot:activator="{ props }">
             <!-- TAMBAH -->
-            <v-btn
-            v-if="!edit"
-            v-bind="props"
-            class="text-body-2 bg-blue-custom text-white rounded-xl elevation-0 text-caption"
-            prepend-icon="mdi-plus"
-            height="42"
-            >
-            Tambah Baru
-            </v-btn>
-            <v-menu>
-            <template v-slot:activator="{ props }">
-                <!-- LIHAT DATA -->
-                <v-btn
-                id="menu-actions"
+            <pillsButton v-if="!edit" v-bind="props" icon="mdi-plus" btn_title="Tambah Baru"/>
+            <menuList
                 v-if="edit"
-                size="small"
-                variant="text"
-                color="grey-darken-2"
-                v-bind="props"
-                icon
-                >
-                <v-icon>mdi-dots-vertical</v-icon>
-                </v-btn>
-            </template>
-                <v-list>
-                  <v-list-item class="text-caption" density="compact" v-bind="props" >Lihat Data</v-list-item>
-                  <v-list-item v-if="!laporan" class="text-caption" density="compact" @click="confirm()" >Batal Pemasukan</v-list-item>
-                </v-list>
-            </v-menu>
+                :submenu="true"
+                icon="mdi-dots-vertical"
+                :items="list"
+                @result="menuAksi"
+            />
           </template>
           <!-- dialog content -->
             <v-card>
                 <v-toolbar class="bg-blue-custom text-white" height="50">
-                    <v-btn
-                        icon
-                        dark
-                        @click="pembelian_input = [], inputdata = [],  dialog = false"
-                        size="small"
-                    >
-                    <v-icon>mdi-close</v-icon>
-                </v-btn>
+                <textButton icon="mdi-close" @click="pembelian_input = [], inputdata = [],  dialog = false" :color="white"/>
                 <v-toolbar-title class="text-button mt-1">{{ 'DETAIL '+ pageTitle }}</v-toolbar-title>
                 <v-spacer></v-spacer>
                 </v-toolbar>
                 <v-container class="mt-5">
                 <!-- EDIT -->
                 <v-row v-if="edit">
-                    <v-col>
-                    <v-text-field
-                        label="No Pemasukan"
-                        :model-value="items.no_pembelian"
-                        variant="outlined"
-                        density="compact"
-                        style="min-width: 200px; max-width:300px"
-                        readonly
-                    >
-                    </v-text-field>
-                    <v-text-field
-                        label="Tgl Pemasukan"
-                        :model-value="items.tgl_pembelian"
-                        variant="outlined"
-                        density="compact"
-                        style="min-width: 200px; max-width:300px"
-                        readonly
-                    >
-                    </v-text-field>
-                    <v-text-field
-                        label="Nama Supplier"
-                        :model-value="items.kode_supplier"
-                        variant="outlined"
-                        density="compact"
-                        style="min-width: 200px; max-width:300px"
-                        readonly
-                    >
-                    </v-text-field>
-                    </v-col>
-                    <v-col>
-                        <v-text-field
-                        label="Tipe Dokumen"
-                        :model-value="items.tipe_dokumen"
-                        variant="outlined"
-                        density="compact"
-                        style="min-width: 200px; max-width:300px"
-                        readonly
-                    >
-                    </v-text-field>
-                    <v-text-field
-                        label="No Dokumen"
-                        :model-value="items.no_dokumen"
-                        variant="outlined"
-                        density="compact"
-                        style="min-width: 200px; max-width:300px"
-                        readonly
-                    >
-                    </v-text-field>
-                    <v-text-field
-                        label="Tgl Dokumen"
-                        :model-value="items.tgl_dokumen"
-                        variant="outlined"
-                        density="compact"
-                        style="min-width: 200px; max-width:300px"
-                        readonly
-                    >
-                    </v-text-field>
-                    </v-col>
-                    <v-col>
-                    <v-text-field
-                        label="No Invoice"
-                        :model-value="items.no_invoice"
-                        variant="outlined"
-                        density="compact"
-                        style="min-width: 200px; max-width:300px"
-                        readonly
-                    >
-                    </v-text-field>
-                    <v-text-field
-                        label="No BL"
-                        :model-value="items.no_bl"
-                        variant="outlined"
-                        density="compact"
-                        style="min-width: 200px; max-width:300px"
-                        readonly
-                    >
-                    </v-text-field>
-                    <v-text-field
-                        label="Mata Uang"
-                        :model-value="items.mata_uang"
-                        variant="outlined"
-                        density="compact"
-                        style="min-width: 200px; max-width:300px"
-                        readonly
-                    >
-                    </v-text-field>
-                    <v-text-field
-                        label="Kurs"
-                        :model-value="functions.numb(items.kurs)"
-                        variant="outlined"
-                        density="compact"
-                        style="min-width: 200px; max-width:300px"
-                        readonly
-                    >
-                    </v-text-field>
-                    </v-col>
+                <v-col>
+                    <textFieldForm label="No Pemasukan" :model-value="items.no_pembelian" readonly/>
+                    <textFieldForm label="Tgl Pemasukan" :model-value="items.tgl_pembelian" readonly/>
+                    <textFieldForm label="Nama Supplier" :model-value="items.kode_supplier" readonly/>
+                </v-col>
+                <v-col>
+                    <textFieldForm label="Tipe Dokumen" :model-value="items.tipe_dokumen" readonly/>
+                    <textFieldForm label="No Dokumen" :model-value="items.no_dokumen" readonly/>
+                    <textFieldForm label="Tgl Dokumen" :model-value="items.tgl_dokumen" readonly/>
+                </v-col>
+                <v-col>
+                    <textFieldForm label="No Invoice" :model-value="items.no_invoice" readonly/>
+                    <textFieldForm label="No BL" :model-value="items.no_bl" readonly/>
+                    <textFieldForm label="Mata Uang" :model-value="items.mata_uang" readonly/>
+                    <textFieldForm label="Kurs" :model-value="functions.numb(items.kurs)" readonly/>
+                </v-col>
                 </v-row>
-                    <v-form  @submit.prevent ref="form">
+                <v-form  @submit.prevent ref="form">
                     <!-- TAMBAH PEMASUKAN -->
                     <v-row v-if="!edit && pemasukan">
-                            <!-- PEMASUKAN ITEM -->
-                            <v-col>
-                                <v-text-field
-                                    label="No Pemasukan"
-                                    v-model= "inputdata.no_pembelian"
-                                    variant="outlined"
-                                    density="compact"
-                                    class="bg-grey-lighten-4 mb-5 border-0"
-                                    style="min-width: 200px; max-width:300px"
-                                    hide-details
-                                    readonly
-                                    disabled
-                                >
-                                </v-text-field>
-                                <datePickerVue
-                                    placeholder="Tgl Pemasukan"
-                                    v-model="inputdata.tgl_pembelian"
-                                />
-                                <!-- SUPPLIER -->
-                                <v-dialog v-if="!edit" v-model="dialog4">
-                                    <template v-slot:activator="{props}">
-                                        <v-text-field
-                                            v-bind="props"
-                                            label="Supplier"
-                                            v-model="namasupplier"
-                                            variant="outlined"
-                                            density="compact"
-                                            style="min-width: 200px; max-width:300px"
-                                            class="mb-5"
-                                            hide-details
-                                            :rules="required"
-                                        >
-                                    </v-text-field>
-
-                                    </template>
-                                    
-                                    <v-card class="py-5 px-5 rounded-xl mx-auto w-100" max-width="400">
-                                        <v-btn icon="mdi-close" size="small" variant="plain" @click="dialog4 = false"></v-btn>
-                                        <v-card-title class="text-center text-blue-darken-4 mb-3 mt-n10 text-button font-weight-bold">SUPPLIER</v-card-title>
-                                        <v-text-field
-                                            v-model="searched"
-                                            append-inner-icon="mdi-magnify"
-                                            label="Search"
-                                            single-line
-                                            hide-details
-                                            density="compact"
-                                            variant="outlined"
-                                            class="mb-4"
-                                        ></v-text-field>
-                                        <v-list>
-                                            <v-for v-for="s, i in filtersupplier" :key="i">
-                                                <v-list-item
-                                                style="cursor: pointer;"
-                                                class="text-caption"
-                                                density="compact"
-                                                @click="inputdata.kode_supplier = s.kode_supplier, namasupplier=s.nama, dialog4 = false "
-                                                >
-                                                    {{ s.nama }}
-                                                </v-list-item>
-                                            </v-for>
-                                        </v-list>
-                                    </v-card>
-                                </v-dialog>
-                            </v-col>
-                            <!-- DOKUMEN -->
-                            <v-col>
-                                <v-text-field
-                                    id="tipe"
-                                    label="Tipe Dokumen"
-                                    v-model="inputdata.tipe_dokumen"
-                                    :rules="required"
-                                    variant="outlined"
-                                    density="compact"
-                                    class="mb-5"
-                                    hide-details
-                                    readonly
-                                    style="min-width: 200px; max-width:300px"
-                                >                                
-                                </v-text-field>
-                                <v-menu activator="#tipe" class="elevation-0">
-                                    <v-list>
-                                      <v-list-item
-                                        v-for="(item, index) in tipe_dokumen"
-                                        :key="index"
-                                        :value="index"
-                                        density="compact"
-                                      >
-                                        <v-list-item-title @click="inputdata.tipe_dokumen = item" class="text-caption">{{ item }}</v-list-item-title>
-                                      </v-list-item>
-                                    </v-list>
-                                  </v-menu>
-                                <v-text-field
-                                    label="No Dokumen"
-                                    v-model="inputdata.no_dokumen"
-                                    variant="outlined"
-                                    density="compact"
-                                    class="mb-5"
-                                    hide-details
-                                    :rules="required"
-                                    style="min-width: 200px; max-width:300px"
-                                >
-                                </v-text-field>
-                                <VueDatePicker
-                                    class="text-small mb-5"
-                                    height="20"
-                                    :clearable="false"
-                                    placeholder="Tgl Dokumen"
-                                    v-model="inputdata.tgl_dokumen"
-                                    style="min-width: 200px; max-width:300px"
-                                    :format-locale="id"
-                                    :rules="required"
-                                    locale="id"
-                                    cancelText="batal"
-                                    selectText="pilih"
-                                    format="PP"
-                                    color="grey"
-                                />
-                            </v-col>
-                            <v-col>
-                                <v-text-field
-                                    label="No Invoice"
-                                    v-model="inputdata.no_invoice"
-                                    variant="outlined"
-                                    density="compact"
-                                    class="mb-5"
-                                    hide-details
-                                    :rules="required"
-                                    style="min-width: 200px; max-width:300px"
-                                >
-                                </v-text-field>
-                                <v-text-field
-                                    label="No BL"
-                                    v-model="inputdata.no_bl"
-                                    variant="outlined"
-                                    density="compact"
-                                    class="mb-5"
-                                    hide-details
-                                    :rules="required"
-                                    style="min-width: 200px; max-width:300px"
-                                >
-                                </v-text-field>
-                                <v-text-field
-                                    label="Mata Uang"
-                                    v-model="inputdata.mata_uang"
-                                    variant="outlined"
-                                    density="compact"
-                                    class="mb-5"
-                                    hide-details
-                                    :rules="required"
-                                    style="min-width: 200px; max-width:300px"
-                                >
-                                </v-text-field>
-                                <v-text-field
-                                    label="Kurs"
-                                    v-model="inputdata.kurs"
-                                    variant="outlined"
-                                    density="compact"
-                                    class="mb-5"
-                                    hide-details
-                                    :rules="required"
-                                    style="min-width: 200px; max-width:300px"
-                                >
-                                </v-text-field>
-                            </v-col>
+                        <v-col>
+                            <textFieldForm label="No Pemasukan" v-model="inputdata.no_pembelian" readonly disabled/>
+                            <datePicker placeholder="Tgl Pemasukan" v-model="inputdata.tgl_pembelian" />
+                            <dialogSearch v-if="!edit" v-model="dialog4" label="Supplier" :objectFilter="supplier" @pilihObjek="pilihObjek" cardTitle="SUPPLIER">
+                                <template #close>
+                                    <textButton icon="mdi-close" @click="dialog4 = false" />
+                                </template>
+                            </dialogSearch>
+                        </v-col>
+                        <!-- DOKUMEN -->
+                        <v-col>
+                            <textFieldForm id="tipe" label="Tipe Dokumen" :model-value="inputdata.tipe_dokumen" readonly/>
+                            <menuForm
+                              activator="#tipe"
+                              icon="mdi-dots-vertical"
+                              :items="tipe_dokumen"
+                              @result="pilihtipedokumen" />
+                            <textFieldForm label="No Dokumen" v-model="inputdata.no_dokumen"/>
+                            <datePicker placeholder="Tgl Dokumen" v-model="inputdata.tgl_dokumen" />
+                        </v-col>
+                        <v-col>
+                            <textFieldForm label="No Invoice" v-model="inputdata.no_invoice" />
+                            <textFieldForm label="No BL" v-model="inputdata.no_bl" />
+                            <textFieldForm label="Mata Uang" v-model="inputdata.mata_uang" />
+                            <textFieldForm label="Kurs" v-model="inputdata.kurs" />
+                        </v-col>
                     </v-row>
+                    <!-- BUTTON TAMBAH BARANG -->
+                    <!-- <v-div v-if="!edit" :pembelianbaru="pembelianbaru" :pembeliandetl="pembeliandetl" class="text-sm-left text-center">
+                        <dialogScroll @reset="reset"  :barang="barang" :itemDetail="itemDetail" @pemasukanitem="itemmasuk" :masuk="true" :btn="btn" width="400" /> -->
+                        <!-- <dialogSearch :button="true" btn_title="Tambah Barang" v-model="dialog1" :objectFilter="barang" cardTitle="STOK BARANG" @pilihObjek="pilihStok">
+                            <template #close>
+                                <textButton icon="mdi-close" @click="dialog1 = false" />
+                            </template>
+                        </dialogSearch>
+                        <dialogForm v-model="dialog2" :item="item" @pemasukanItem="pemasukanItem" /> -->
+                    <!-- </v-div> -->
                     <!-- BUTTON TAMBAH BARANG -->
                     <v-div v-if="!edit" :pembelianbaru="pembelianbaru" :pembeliandetl="pembeliandetl" class="text-sm-left text-center">
                         <dialogScroll @reset="reset"  :barang="barang" :itemDetail="itemDetail" @pemasukanitem="itemmasuk" :pemasukan="true" :btn="btn" width="400" />

@@ -11,6 +11,8 @@ import filterDrawer from '../components/drawer/filterDrawer.vue';
 import circleButton from '../components/button/circleButton.vue';
 import textField from '../components/form/textField.vue';
 import menuList from '../components/menu/menuList.vue';
+import dialogConfirm from '../components/dialog/dialogConfirm.vue';
+import squareButton from '../components/button/squareButton.vue';
 // plugins
 import '@vuepic/vue-datepicker/dist/main.css'
 import { id } from 'date-fns/locale';
@@ -26,6 +28,8 @@ import { id } from 'date-fns/locale';
       circleButton,
       textField,
       menuList,
+      dialogConfirm,
+      squareButton
     },
     props:['actIcon', 'cetak'],
     data () {
@@ -76,8 +80,8 @@ import { id } from 'date-fns/locale';
       }
     },
     created() {
-        this.periode = [this.tglawal(), functions.day()]
-        this.filtered.periode = [this.tglawal(), functions.day()]
+        this.periode = [functions.tglawal(), functions.day()]
+        this.filtered.periode = [functions.tglawal(), functions.day()]
     },
     methods: {
       getProduksihead() {
@@ -90,7 +94,7 @@ import { id } from 'date-fns/locale';
         .then(response => {
           this.items = response.data
         })
-        .catch((error) => {
+        .catch(() => {
           return this.$router.push('login');
         })
       },
@@ -104,7 +108,7 @@ import { id } from 'date-fns/locale';
         .then(response => {
           this.detailbahan = response.data
         })
-        .catch((error) => {
+        .catch(() => {
           return this.$router.push('login');
         })
       },
@@ -118,7 +122,7 @@ import { id } from 'date-fns/locale';
         .then(response => {
           this.detailbarang = response.data
         })
-        .catch((error) => {
+        .catch(() => {
           return this.$router.push('login');
         })
       },
@@ -128,7 +132,7 @@ import { id } from 'date-fns/locale';
         .then(response => {
           this.groupbarang = response.data
         })
-        .catch((error) => {
+        .catch(() => {
           return this.$router.push('login');
         })
       },
@@ -279,7 +283,7 @@ import { id } from 'date-fns/locale';
         for (let i = 0; i < this.items.length; i++) {
           a.push({
             no_produksi: this.items[i].no_produksi,
-            tgl_produksi: this.items[i].tgl_produksi,
+            tgl_produksi: functions.formatDate(this.items[i].tgl_produksi),
             kode_group: this.items[i].kode_group,
             bahan_baku: this.dataTable(this.items[i].no_produksi, 'baku'),
             jumlah: this.dataTable(this.items[i].no_produksi, 'jumlah'),
@@ -291,19 +295,6 @@ import { id } from 'date-fns/locale';
       },
       page(){
           return this.$emit('page', this.pageTitle)
-      },
-      tglawal() {
-        let d = new Date();
-        let m = d.getMonth();
-        d.setMonth(d.getMonth() - 1);
-        
-        // If still in same month, set date to last day of 
-        // previous month
-        if (d.getMonth() == m) d.setDate(0);
-        d.setHours(0, 0, 0, 0);
-    
-        //tl_awal
-        return d.toJSON().slice(0, 10)
       },
       reset() {
         this.periode = [this.tglawal(), functions.day()]
@@ -351,11 +342,6 @@ import { id } from 'date-fns/locale';
     <v-container class="pt-9 h-100">
       <v-row no-gutters class="align-start mt-n4 mb-2">
         <v-responsive class="d-flex align-start mb-sm-0 mb-1 me-sm-2 me-0" width="200" max-width="350">
-        <!-- PERIODE -->
-        <!-- <div class="w-100">
-          <v-label v-label class="text-body-2 text-blue-darken-4">Periode</v-label>
-          <VueDatePicker v-model="periode" range :clearable="false" :enable-time-picker="false" hide-offset-dates max-range="30" :max-date="new Date()"  @update:model-value="selected()" input-class-name="dp-custom-input"/>
-        </div> -->
         <div class="d-flex align-center w-100">
           <!-- BUTTON FILTER -->
           <circleButton icon="mdi-tune-vertical" @click="filter = !filter" />
@@ -383,7 +369,7 @@ import { id } from 'date-fns/locale';
             id="tbl_exporttable_to_xls"
             items-per-page="10"
             :headers="headers"
-            :items="items"
+            :items="printdata()"
             :search="search"
             :hover="true"
             :fixed-header="true"
@@ -391,27 +377,6 @@ import { id } from 'date-fns/locale';
             class="text-caption py-3 h-100"
             height="100%"
             >
-            <!-- dialog actions -->
-            <!-- eslint-disable-next-line vue/valid-v-slot -->
-            <template v-slot:item.bahan_baku="{ item }">
-              <td>{{ dataTable(item.raw.no_produksi, 'baku') }}</td>
-            </template>
-            <!-- eslint-disable-next-line vue/valid-v-slot -->
-              <template v-slot:item.tgl_produksi="{item}">
-                {{ functions.formatDate(item.raw.tgl_produksi) }}
-              </template>
-            <!-- eslint-disable-next-line vue/valid-v-slot -->
-            <template v-slot:item.jumlah="{ item }">
-              <td>{{ dataTable(item.raw.no_produksi, 'jumlah') }}</td>
-            </template>
-            <!-- eslint-disable-next-line vue/valid-v-slot -->
-            <template v-slot:item.barang_jadi="{ item }">
-              <td>{{ dataTable(item.raw.no_produksi, 'brgjadi') }}</td>
-            </template>
-            <!-- eslint-disable-next-line vue/valid-v-slot -->
-            <template v-slot:item.jml_barang_jadi="{ item }">
-              <td>{{ dataTable(item.raw.no_produksi, 'jumlahbrg') }}</td>
-            </template>
             <!-- eslint-disable-next-line vue/valid-v-slot -->
             <template v-slot:item.actions="{ item }">
                 <ScreenDialog2
@@ -448,39 +413,17 @@ import { id } from 'date-fns/locale';
                 :actIcon="actIcon"
                 :disable="true"
                 />
-              </template>
+            </template>
           </v-data-table>
           </v-sheet>
-          <v-dialog v-model="confirmdialog" transition="dialog-bottom-transition" width="400">
-            <v-card class="rounded-xl">
-                <v-card-title class="text-center my-7">Apakah Anda Yakin ?</v-card-title>
-                <v-row no-gutters>
-                    <v-col>
-                        <v-btn
-                        color="orange-darken-1"
-                        variant="tonal"
-                        height="57"
-                        class="w-100 rounded-0"
-                        @click="confirmdialog = false"
-                        >
-                        Tidak
-                        </v-btn>                  
-                    </v-col>
-                    <v-col>
-                        <v-btn
-                        type="submit"
-                        color="blue-darken-1"
-                        variant="tonal"
-                        height="57"
-                        class="w-100 rounded-0"
-                        @click="del(), confirmdialog = false"
-                        >
-                        Ya
-                        </v-btn>
-                    </v-col>
-                </v-row>
-            </v-card>
-        </v-dialog>
+        <dialogConfirm v-model="confirmdialog" :object="pageTitle">
+          <template #yesButton>
+              <squareButton type="submit" variant="outlined" color="orange-lighten-1" @click="del(), confirmdialog = false" btn_title="Ya"/>
+          </template>
+          <template #cancelButton>
+            <squareButton type="submit" variant="outlined" color="grey" @click="confirmdialog = false" btn_title="Batal" />
+          </template>
+        </dialogConfirm>
         <!-- <TableVue :headers="headers" :items="selected()" :search="search" :category="category" :selectCategory="selectCategory" :iTitle="this.actIcon[1].text" :btncolor="this.actIcon[1].color" :icon="this.actIcon[1].icon" :iVariant="this.actIcon[1].variant" :alpha="alpha" /> -->
   </v-container>
 

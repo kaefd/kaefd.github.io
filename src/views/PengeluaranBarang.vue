@@ -14,6 +14,8 @@
   import textField from '../components/form/textField.vue'
   import menuList from '../components/menu/menuList.vue'
   import checkBox from '../components/form/checkBox.vue'
+  import dialogConfirm from '../components/dialog/dialogConfirm.vue';
+  import squareButton from '../components/button/squareButton.vue';
   // plugins
   import '@vuepic/vue-datepicker/dist/main.css'
   import { id } from 'date-fns/locale';
@@ -24,6 +26,8 @@
 
   export default {
     components: {
+      squareButton,
+      dialogConfirm,
       PengeluaranDetail,
       VDataTable,
       AppBar,
@@ -203,7 +207,7 @@
         for (let i = 0; i < this.penjualan_head.length; i++) {
           a.push({
             no_penjualan: this.penjualan_head[i].no_penjualan,
-            tgl_penjualan: this.penjualan_head[i].tgl_penjualan,
+            tgl_penjualan: functions.formatDate(this.penjualan_head[i].tgl_penjualan),
             tipe_dokumen: this.penjualan_head[i].tipe_dokumen,
             no_dokumen: this.penjualan_head[i].no_dokumen,
             kode_pelanggan: this.penjualan_head[i].kode_pelanggan,
@@ -352,7 +356,7 @@
             id="tbl_exporttable_to_xls" 
             items-per-page="10"
             :headers="pengeluaran.data().headers"
-            :items="pengeluaran.checkstatus(selectdokumen, penjualan_head, checkStatus)"
+            :items="pengeluaran.checkstatus(selectdokumen, printdata(), checkStatus)"
             :search="search"
             :hover="true"
             :fixed-header="true"
@@ -361,9 +365,9 @@
             height="100%"
             >
             <!-- eslint-disable-next-line vue/valid-v-slot -->
-              <template v-slot:item.tgl_penjualan="{item}">
+              <!-- <template v-slot:item.tgl_penjualan="{item}">
                 {{ functions.formatDate(item.raw.tgl_penjualan) }}
-              </template>
+              </template> -->
             <!-- CUSTOM PAGINATION STYLE -->
             <!-- <template v-slot:bottom> -->
                 <!-- <v-row no-gutters class="justify-end align-center my-1">
@@ -381,45 +385,20 @@
               <!-- </template> -->
             <!-- dialog actions -->
             <!-- eslint-disable-next-line vue/valid-v-slot -->
-            <template v-slot:item.total_penjualan="{ item }">
-              <td>{{ functions.numb(item.raw.total_penjualan) }}</td>
-            </template>
              <!-- eslint-disable-next-line vue/valid-v-slot -->
             <template v-slot:item.actions="{item}">
               <PengeluaranDetail @confirm="confirm" batalbtn="Pengeluaran" :namaPelanggan="pelanggan.namaPelanggan(pelanggan, item.raw.kode_pelanggan)" :penjualan="pengeluaran.penjualan(penjualan_detail, item.raw.no_penjualan)" :edit="true" :pengeluaran="true" :pageTitle="pageTitle" :headDetails="pengeluaran.data().headDetails" :items="item.raw" :headers="pengeluaran.data().headers" :search="search" :category="category" :selectCategory="selectCategory" :iTitle="actIcon[3].text" :btncolor="actIcon[3].color" :icon="actIcon[3].icon" :iVariant="actIcon[3].variant" :alpha="alpha" :actIcon="actIcon" :disable="true"/>
             </template>
           </v-data-table>
         </v-sheet>
-        <v-dialog v-model="confirmdialog" transition="dialog-bottom-transition" width="400">
-           <v-card class="rounded-xl">
-               <v-card-title class="text-center my-7">Apakah Anda Yakin ?</v-card-title>
-               <v-row no-gutters>
-                   <v-col>
-                       <v-btn
-                       color="orange-darken-1"
-                       variant="tonal"
-                       height="57"
-                       class="w-100 rounded-0"
-                       @click=" confirmdialog = false"
-                       >
-                       Tidak
-                       </v-btn>                  
-                   </v-col>
-                   <v-col>
-                       <v-btn
-                       type="submit"
-                       color="blue-darken-1"
-                       variant="tonal"
-                       height="57"
-                       class="w-100 rounded-0"
-                       @click="del(), confirmdialog = false"
-                       >
-                       Ya
-                       </v-btn>
-                   </v-col>
-                   </v-row>
-           </v-card>
-        </v-dialog>
+        <dialogConfirm v-model="confirmdialog" :object="pageTitle">
+        <template #yesButton>
+            <squareButton type="submit" variant="outlined" color="orange-lighten-1" @click="del(), confirmdialog = false" btn_title="Ya"/>
+        </template>
+        <template #cancelButton>
+          <squareButton type="submit" variant="outlined" color="grey" @click="confirmdialog = false" btn_title="Batal" />
+        </template>
+        </dialogConfirm>
   </v-container>
 
 </template>

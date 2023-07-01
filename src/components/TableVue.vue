@@ -118,6 +118,7 @@ export default {
             <PemasukanDetail
             batalbtn="Pemasukan"
             @confirm="confirm"
+            :supplier="supplier"
             :namaSupplier="pemasukan.dataTable(item.raw.kode_supplier, 'nama', supplier, pembeliandetl)"
             :pembelian="pemasukan.dataTable(item.raw.no_pembelian, 'pembelian', supplier, pembeliandetl)"
             :edit="true"

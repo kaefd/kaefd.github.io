@@ -70,9 +70,9 @@ export default {
         }
     },
     // FILTER
-    filterObject(target, keyname, search) {
+    filterObject(target, search) {
       return target.filter(item => {
-              return item.$refs(keyname).toLowerCase().includes(search.toLowerCase())
+              return item.nama.toLowerCase().includes(search.toLowerCase())
           })
       },
     // DRAWER

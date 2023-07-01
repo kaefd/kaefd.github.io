@@ -13,6 +13,8 @@ import filterDrawer from '../components/drawer/filterDrawer.vue';
 import circleButton from '../components/button/circleButton.vue';
 import textField from '../components/form/textField.vue';
 import menuList from '../components/menu/menuList.vue';
+import dialogConfirm from '../components/dialog/dialogConfirm.vue';
+import squareButton from '../components/button/squareButton.vue';
 // plugins
 import { id } from 'date-fns/locale';
 
@@ -23,6 +25,8 @@ import { id } from 'date-fns/locale';
   export default {
     components: {
       SuratJalan,
+      squareButton,
+      dialogConfirm,
       PengirimanDetail,
       VDataTable,
       AppBar,
@@ -479,36 +483,14 @@ import { id } from 'date-fns/locale';
             </template>
             </v-data-table>
         </v-sheet>
-        <v-dialog v-model="confirmdialog" transition="dialog-bottom-transition" width="400">
-            <v-card class="rounded-xl">
-                <v-card-title class="text-center my-7">Apakah Anda Yakin ?</v-card-title>
-                <v-row no-gutters>
-                    <v-col>
-                        <v-btn
-                        color="orange-darken-1"
-                        variant="tonal"
-                        height="57"
-                        class="w-100 rounded-0"
-                        @click="confirmdialog = false"
-                        >
-                        Tidak
-                        </v-btn>                  
-                    </v-col>
-                    <v-col>
-                        <v-btn
-                        type="submit"
-                        color="blue-darken-1"
-                        variant="tonal"
-                        height="57"
-                        class="w-100 rounded-0"
-                        @click="del(), confirmdialog = false"
-                        >
-                        Ya
-                        </v-btn>
-                    </v-col>
-                </v-row>
-            </v-card>
-        </v-dialog>
+        <dialogConfirm v-model="confirmdialog" :object="pageTitle">
+          <template #yesButton>
+              <squareButton type="submit" variant="outlined" color="orange-lighten-1" @click="del(), confirmdialog = false" btn_title="Ya"/>
+          </template>
+          <template #cancelButton>
+            <squareButton type="submit" variant="outlined" color="grey" @click="confirmdialog = false" btn_title="Batal" />
+          </template>
+        </dialogConfirm>
   </v-container>
 
 </template>
