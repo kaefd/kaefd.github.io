@@ -1,25 +1,27 @@
 <script>
-import api from '../service/api';
 export default {
     props: ['items', 'namaPelanggan', 'namaTujuan', 'pengiriman', 'alamatPelanggan','nokirim', 'detail_kirim', 'nopjl'],
     data () {
         return {
             jalan: false,
-            kirim: [this.pengiriman],
+            kirim: this.pengiriman,
             detailpengiriman: ''
         }
     },
     methods: {
-        getDetail() {
-            const apiUrl = '/penjualan_head/' + this.nopjl
-            api.getData(apiUrl)
-            .then(response => {
-            this.detailpengiriman = response.data
-            })
-            .catch((error) => {
-            console.log(error);
-            })
-        },
+        async fetchData() {
+            try {
+                const api = await import('../service/api');
+                // const pengiriman = await import('../service/page/pengiriman');
+                let a = []
+                for (let i = 0; i < this.nopjl.length; i++) {
+                    a.push(await api.default.getPenjualanHead(this.nopjl[i].no_penjualan))
+                }
+                this.detailpengiriman = a
+                } catch (error) {
+                    console.log(error);
+                }
+            },
         uppercase(v) {
             return v.toUpperCase()
         },
@@ -28,8 +30,8 @@ export default {
         },
         sum() {
             let arr = []
-            for (let i = 0; i < this.kirim.length; i++) {
-                arr.push(this.kirim[i].jumlah)
+            for (let i = 0; i < this.pengiriman.length; i++) {
+                arr.push(this.pengiriman[i].jumlah)
             }
             return arr.reduce((total, current) => {
                 return total + current;
@@ -38,7 +40,7 @@ export default {
     },
 
     mounted() {
-        this.getDetail()
+        this.fetchData()
     }
 }
 </script>
@@ -86,7 +88,7 @@ export default {
                     </v-div>
                     <v-spacer></v-spacer>
                     <!-- TUJUAN -->
-                    <v-div class="d-flex">
+                    <v-div class="d-flex text-body-2">
                         <!-- NO SURAT JALAN -->
                         <v-div class="d-flex flex-column">
                             <v-span class="me-2 text-start">No Surat Jalan</v-span>
@@ -102,7 +104,7 @@ export default {
                     </v-div>
                 </v-div>
                 <!-- TABEL BARANG -->
-                <v-table density="compact" class="text-body-1 my-5 pb-5">
+                <v-table density="compact" class="text-body-2">
                     <thead>
                     <tr>
                         <th class="text-left bg-white">No</th>
@@ -123,7 +125,7 @@ export default {
                         <td class="text-left" contenteditable>{{ item.qty }}</td>
                         <td class="text-left" contenteditable></td>
                         <td class="text-left">{{ item.jumlah }}</td>
-                        <td class="text-left">{{ detailpengiriman[i].no_dokumen }}/{{ detailpengiriman[i].tipe_dokumen.slice(2) }}</td>
+                        <td class="text-left">{{ detailpengiriman[i][0].no_dokumen }}/{{ detailpengiriman[i][0].tipe_dokumen.slice(2) }}</td>
                     </tr>
                     <tr>
                         <td></td>
@@ -134,7 +136,7 @@ export default {
                     </tr>
                     </tbody>
                 </v-table>
-                <v-div class="d-flex flex-column align-start text-body-1">
+                <v-div class="d-flex flex-column align-start text-body-2">
                     <v-text class="d-flex flex-column align-start">
                         Keterangan
                         <v-span class="ms-3">1. Surat Jalan ini merupakan bukti penerimaan barang</v-span>

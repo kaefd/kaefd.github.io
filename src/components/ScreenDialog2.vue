@@ -211,7 +211,6 @@ export default {
                                 />
                             <v-text-field
                                 v-if="edit"
-                                type="date"
                                 density="compact"
                                 readonly
                                 variant="outlined"
@@ -298,10 +297,6 @@ export default {
                         <template v-slot:bottom>
                         </template>
                         <!-- eslint-disable-next-line vue/valid-v-slot -->
-                        <template v-slot:item.jumlah = "{ item }">
-                            <td>{{ numb(item.raw.jumlah) }}</td>
-                        </template>
-                        <!-- eslint-disable-next-line vue/valid-v-slot -->
                         <template v-slot:item.actions="{ item, index }">
                             <v-dialog @update="dialogchild" v-model="dialogbhn[index]">
                                 <template v-slot:activator="{ props }">
@@ -354,10 +349,6 @@ export default {
                             class="text-body-2 py-3 px-5 text-caption"
                             height="40vh">
                             <template v-slot:bottom>
-                            </template>
-                            <!-- eslint-disable-next-line vue/valid-v-slot -->
-                            <template v-slot:item.jumlah = "{ item }">
-                                <td>{{ numb(item.raw.jumlah) }}</td>
                             </template>
                             <!-- eslint-disable-next-line vue/valid-v-slot -->
                             <template v-slot:item.actions="{ item, index }">

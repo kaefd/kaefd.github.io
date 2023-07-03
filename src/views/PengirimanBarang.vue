@@ -463,7 +463,7 @@ import { id } from 'date-fns/locale';
                         :items="item.raw"
                         :nokirim="item.raw.no_pengiriman"
                         :detail_kirim="kirim_detail"
-                        :nopjl="Penjualandetl(item.raw.no_pengiriman).no_penjualan"
+                        :nopjl="Penjualandetl(item.raw.no_pengiriman)"
                       />
                     </v-list>
                   </v-menu>

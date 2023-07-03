@@ -401,7 +401,7 @@ import { id } from 'date-fns/locale';
                 :item="item.raw"
                 :details="details"
                 :headers="headers"
-                :items="items"
+                :items="printdata()"
                 :search="search"
                 :category="category"
                 :selectCategory="selectCategory"
