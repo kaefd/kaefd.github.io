@@ -83,5 +83,5 @@ export default {
         } else if (select == []) {
           return select = []
         }
-   },
-}
+   }
+  }

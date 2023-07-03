@@ -75,6 +75,37 @@ export default {
     return instance.post(url, data)
   },
 
+  /**  PENGIRIMAN **/
+  async getPengirimanHead (param1, param2){
+    try {
+      const apiUrl = '/pengiriman_head?'
+      const params = {
+        tgl_awal: param1,
+        tgl_akhir: param2,
+      }
+      const response = await instance.get(apiUrl, {params})
+      return response.data;
+    } catch (error) {
+      throw new Error('Gagal mengambil data pengguna');
+    }
+  },
+  async getPengirimanDetail (no){
+    try {
+      const response = await instance.get('/pengiriman_detail/'+no)
+      return response.data;
+    } catch (error) {
+      throw new Error('Gagal mengambil data pengguna');
+    }
+  },
+  /** PENJUALAN */
+  async getPenjualanHead (no){
+    try {
+      const response = await instance.get('/penjualan_head/'+no)
+      return response.data;
+    } catch (error) {
+      throw new Error('Gagal mengambil data pengguna');
+    }
+  },
   /** LOGOUT **/
   logout() {
     localStorage.removeItem('token')

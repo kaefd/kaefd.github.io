@@ -37,6 +37,7 @@ export default {
         nama_pelanggan : '',
         pembelian_input: [],
         detailpengiriman: '',
+        pjlhead: '',
         kode_pelanggan: this.namaPelanggan,
         inputdata: this.datainput,
         kurs: '',
@@ -78,6 +79,19 @@ export default {
         },
     },
     methods:{
+        async fetchData() {
+            try {
+                const api = await import('../service/api');
+                // const pengiriman = await import('../service/page/pengiriman');
+                let a = []
+                for (let i = 0; i < this.nopjl.length; i++) {
+                    a.push(await api.default.getPenjualanHead(this.nopjl[i].no_penjualan))
+                }
+                this.pjlhead = a
+                } catch (error) {
+                    console.log(error);
+                }
+            },
         getBarang() {
             api.getData('/barang?status=true')
             .then(response => {
@@ -161,6 +175,7 @@ export default {
         },
     },
     mounted() {
+        this.fetchData()
         this.detail
         this.edit
         this.getBarang()
@@ -233,7 +248,7 @@ export default {
                 <v-toolbar-title class="text-button mt-1">{{ 'DETAIL '+ pageTitle }}</v-toolbar-title>
                 <v-spacer></v-spacer>
                 </v-toolbar>
-                <v-container class="mt-5">
+                <v-container class="pt-5 h-100">
                 <!-- EDIT -->
                 <v-row v-if="edit">
                     <v-col>
@@ -443,14 +458,15 @@ export default {
                     <DialogCard2 @reset="reset" :nokirim="inputdata.no_pengiriman" :blmkirim="true" :belumkirim="belumkirim" :belumkirim_detail="belumkirim_detail" :barang="barang" :itemDetail="itemDetail" @pemasukanitem="itemmasuk" :pengiriman="true" :penjualan="penjualan" :btn="btn" width="400" />
                 </v-div>
                 <!-- TABEL EDIT/VIEW -->
+                <v-sheet height="45vh">
                 <v-data-table
                 :headers="headDetails"
-                :items="edit ? [pengiriman] : pembelian_input"
+                :items="edit ? pengiriman : pembelian_input"
                 :hover="true"
                 :fixed-header="true"
                 density="compact"
-                class="text-caption mt-5 mb-5 px-5"
-                height="200"
+                class="text-caption my-1 h-100"
+                height="40vh"
                 >
                 <!-- CUSTOM PAGINATION STYLE -->
                 <template v-slot:bottom>
@@ -463,7 +479,7 @@ export default {
                         {{ item.raw.tipe_dokumen }}
                     </v-if>
                     <v-if v-if="edit">
-                        {{ detailpengiriman[index].tipe_dokumen }}
+                        {{ pjlhead[index][0].tipe_dokumen }}
                     </v-if>
                 </template>
                 <!-- eslint-disable-next-line vue/valid-v-slot -->
@@ -472,7 +488,7 @@ export default {
                         {{ item.raw.no_dokumen }}
                     </v-if>
                     <v-if v-if="edit">
-                        {{ detailpengiriman[index].no_dokumen }}
+                        {{ pjlhead[index][0].no_dokumen }}
                     </v-if>
                 </template>
                 <!-- eslint-disable-next-line vue/valid-v-slot -->
@@ -513,6 +529,7 @@ export default {
                 </v-data-table>
                 <v-btn v-if="!edit" @click="validate" :hidden="disable" class="float-end text-body-2 text-white elevation-0 rounded-xl" height="42" width="150" color="#ff6e40">Simpan</v-btn>
                 <v-btn v-if="!edit" @click="pembelian_input = [], inputdata = [], dialog=false" class="float-end rounded-xl text-body-2 me-2" height="42" width="150" variant="outlined" color="grey-darken-2">Batal</v-btn>
+            </v-sheet>
             </v-form>
                 </v-container>
             </v-card>

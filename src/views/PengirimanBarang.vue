@@ -114,23 +114,10 @@ import { id } from 'date-fns/locale';
     },
     created() {
       this.nokirim
-      this.periode = [this.tglawal(), functions.day()]
-      this.filtered.periode = [this.tglawal(), functions.day()]
+      this.periode = [functions.tglawal(), functions.day()]
+      this.filtered.periode = [functions.tglawal(), functions.day()]
     },
     methods: {
-      tglawal() {
-        let d = new Date();
-        let m = d.getMonth();
-        d.setMonth(d.getMonth() - 1);
-        
-        // If still in same month, set date to last day of 
-        // previous month
-        if (d.getMonth() == m) d.setDate(0);
-        d.setHours(0, 0, 0, 0);
-    
-        //tl_awal
-        return d.toJSON().slice(0, 10)
-      },
       page(){
         return this.$emit('page', this.pageTitle)
       },
@@ -219,12 +206,13 @@ import { id } from 'date-fns/locale';
         }
       },
       Penjualandetl(value) {
+        let a = []
         for (let i = 0; i < this.kirim_detail.length; i++) {
           if ( this.kirim_detail[i].no_pengiriman == value ) {
-              return this.kirim_detail[i]
+              a.push(this.kirim_detail[i])
           }
-          
         }
+        return a
       },
       pjl_detail(value) {
         for (let i = 0; i < this.pengirimanHead.length; i++) {
@@ -452,7 +440,7 @@ import { id } from 'date-fns/locale';
                           :pengiriman="Penjualandetl(item.raw.no_pengiriman)"
                           :nokirim="item.raw.no_pengiriman"
                           :detail_kirim="kirim_detail"
-                          :nopjl="Penjualandetl(item.raw.no_pengiriman).no_penjualan"
+                          :nopjl="Penjualandetl(item.raw.no_pengiriman)"
                           :pjl_detail="pjl_detail(item.raw.no_pengiriman)"
                           :pageTitle="pageTitle"
                           :headDetails="headDetails"
