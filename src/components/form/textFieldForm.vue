@@ -15,7 +15,8 @@ export default {
     :label="label"
     variant="outlined"
     density="compact"
-    style="min-width: 200px; max-width:300px"
+    style="width: 220px; max-width:220px"
+    class="mx-1"
 >
 </v-text-field>    
 </template>

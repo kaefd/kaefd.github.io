@@ -8,14 +8,14 @@ import ScreenDialog2 from '../components/ScreenDialog2.vue';
 import { ref, onMounted } from 'vue';
 import AppBar from '../components/appbar/AppBar.vue';
 import filterDrawer from '../components/drawer/filterDrawer.vue';
-import circleButton from '../components/button/circleButton.vue';
 import textField from '../components/form/textField.vue';
 import menuList from '../components/menu/menuList.vue';
 import dialogConfirm from '../components/dialog/dialogConfirm.vue';
-import squareButton from '../components/button/squareButton.vue';
+import squareButton from '../components/button/buttonVue.vue';
 // plugins
 import '@vuepic/vue-datepicker/dist/main.css'
 import { id } from 'date-fns/locale';
+import BtnFilter from '../components/button/btnFilter.vue';
 
 </script>
 
@@ -25,11 +25,11 @@ import { id } from 'date-fns/locale';
       ScreenDialog2,
       VDataTable,
       AppBar,
-      circleButton,
       textField,
       menuList,
       dialogConfirm,
-      squareButton
+      squareButton,
+      BtnFilter
     },
     props:['actIcon', 'cetak'],
     data () {
@@ -344,7 +344,7 @@ import { id } from 'date-fns/locale';
         <v-responsive class="d-flex align-start mb-sm-0 mb-1 me-sm-2 me-0" width="200" max-width="350">
         <div class="d-flex align-center w-100">
           <!-- BUTTON FILTER -->
-          <circleButton icon="mdi-tune-vertical" @click="filter = !filter" />
+          <btn-filter @click="filter = !filter" />
           <!-- TAMBAH DATA -->
           <ScreenDialog2 :headers="headItem" :items="items" :groupbarang="groupbarang" :getbarang="getbarang" @input_kodegroup="input_kodegroup"  @inputhead="inputhead" :produksi="true" :select_kode="select_kode" :iTitle="actIcon[0].text" :btncolor="actIcon[0].color" :icon="actIcon[0].icon" :iVariant="actIcon[0].variant" :alpha="alpha" :actIcon="actIcon"/>
         </div>

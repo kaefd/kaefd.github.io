@@ -5,11 +5,12 @@ import pelanggan from '../service/page/pelanggan';
 // COMPONENTS
 import { defineComponent } from 'vue';
 import TableVue from '../components/TableVue.vue';
-import DialogCard from '../components/dialog/dialogMaster.vue';
+import dialogMaster from '../components/dialog/dialogMaster.vue';
 import api from '../service/api';
 import AppBar from '../components/appbar/AppBar.vue';
 import menuList from '../components/menu/menuList.vue';
 import textField from '../components/form/textField.vue'
+import btnCancel from '../components/button/btnCancel.vue';
 </script>
 
 <script>
@@ -18,10 +19,11 @@ import textField from '../components/form/textField.vue'
     props:['actIcon', 'cetak'],
     components: {
       TableVue,
-      DialogCard,
+      dialogMaster,
       AppBar,
       menuList,
       textField,
+      btnCancel,
     },
     data () {
       return {
@@ -30,7 +32,7 @@ import textField from '../components/form/textField.vue'
         search: '',
         alpha: 1,
         items:'',
-        
+        dialog: false,
         tambah: {
           kode_pelanggan: '',
           nama: '',
@@ -123,7 +125,25 @@ import textField from '../components/form/textField.vue'
       <v-responsive class="d-flex align-center mb-sm-0 mb-1" min-width="200">
       <div class="d-flex align-center w-100">
       <!-- TAMBAH DATA -->
-      <DialogCard :keyform="pelanggan.data().keyform" :tambah="tambah" :ishidden="true" :noselect="statusselect"  @form="submitForm" :screen="400" :iTitle="actIcon[0].text" :btncolor="actIcon[0].color" :icon="actIcon[0].icon" :iVariant="actIcon[0].variant" :headers="pelanggan.data().headers" :items="items" :category="category"  :alpha="alpha"/>
+      <dialogMaster
+      v-model="dialog"
+      :keyform="pelanggan.data().keyform"
+      :tambah="tambah"
+      :ishidden="true"
+      :noselect="statusselect"
+      @form="submitForm"
+      :toolbar_title="actIcon[0].text"
+      :btncolor="actIcon[0].color"
+      :icon="actIcon[0].icon"
+      :iVariant="actIcon[0].variant"
+      :headers="pelanggan.data().headers"
+      :items="items"
+      :category="category"
+      :alpha="alpha">
+        <template #cancel>
+          <btnCancel @click=" dialog = false" btn_title="Batal" />  
+        </template>
+      </dialogMaster>
     </div>
     </v-responsive>
     <v-responsive class="me-sm-0 ms-sm-auto ms-0 me-auto" max-width="450">
@@ -140,7 +160,7 @@ import textField from '../components/form/textField.vue'
     </v-responsive>
     </v-row>
     <!-- edit -->
-    <TableVue :keyform="pelanggan.data().keyform" :noselect="statusselect" @edit="editForm" @del="del" id="tbl_exporttable_to_xls" :screen="400"  :headers="pelanggan.data().headers" :items="items" :search="search" :category="category" :iTitle="actIcon[1].text" :btncolor="actIcon[1].color" :icon="actIcon[1].icon" :iVariant="actIcon[1].variant" :alpha="alpha" :form="form" :pageTitle="pageTitle"/>
+    <TableVue :keyform="pelanggan.data().keyform" :noselect="statusselect" @edit="editForm" @del="del" id="tbl_exporttable_to_xls" :screen="400"  :headers="pelanggan.data().headers" :items="items" :search="search" :category="category" toolbar_title="Edit Data" :btncolor="actIcon[1].color" :icon="actIcon[1].icon" :iVariant="actIcon[1].variant" :alpha="alpha" :form="form" :pageTitle="pageTitle"/>
   </v-container>
   </template>
 

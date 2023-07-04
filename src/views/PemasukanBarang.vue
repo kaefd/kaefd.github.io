@@ -8,13 +8,12 @@ import TableVue from '../components/TableVue.vue';
 import PemasukanDetail from './PemasukanDetail.vue';
 import AppBar from '../components/appbar/AppBar.vue';
 import filterDrawer from '../components/drawer/filterDrawer.vue';
-import circleButton from '../components/button/circleButton.vue';
+import btnFilter from '../components/button/btnFilter.vue';
 import textField from '../components/form/textField.vue';
 import menuList from '../components/menu/menuList.vue';
 import checkBox from '../components/form/checkBox.vue';
 import dialogConfirm from '../components/dialog/dialogConfirm.vue';
-import squareButton from '../components/button/squareButton.vue';
-// PLUGINS
+import squareButton from '../components/button/buttonVue.vue';
 import { ref, onMounted } from 'vue';
 import { id } from 'date-fns/locale';
 import '@vuepic/vue-datepicker/dist/main.css'
@@ -29,7 +28,6 @@ export default {
       TableVue,
       AppBar,
       filterDrawer,
-      circleButton,
       squareButton,
       textField,
       menuList,
@@ -264,7 +262,7 @@ export default {
       <v-responsive class="d-flex align-center mb-sm-0 mb-1 me-sm-2 me-0" width="200" max-width="350">
           <div class="d-flex align-center w-100">
             <!-- BUTTON FILTER -->
-            <circleButton icon="mdi-tune-vertical" @click="filter = !filter" />
+            <btn-filter @click="filter = !filter" />
             <!-- ADD DATA -->
             <PemasukanDetail batalbtn="Pemasukan" :datainput="pemasukan.data().datainput" @inputhead="inputhead" :pemasukan="true" :supplier="supplier" :edit="false" :itemDetail="itemDetail" :datatext="datatext" :btn="btn" :headDetails="pemasukan.data().headDetails" :details="details" :headers="pemasukan.data().headers" :items="pemasukan.pilihtipe(selectdokumen, items, supplier)" :pembeliandetl="pembeliandetl" :search="search" :category="pemasukan.data().tipedokumen" :selectCategory="selectCategory" :iTitle="actIcon[0].text" :btncolor="actIcon[0].color" :icon="actIcon[0].icon" :iVariant="actIcon[0].variant" :alpha="alpha" :actIcon="actIcon" :pageTitle="pageTitle"/>
           </div>

@@ -2,7 +2,7 @@
 export default {
     components: {
   },
-    props:['btn_title', 'color'],
+    props:['btn_title'],
     data () {
         return {
         }
@@ -12,9 +12,11 @@ export default {
 
 <template>
     <v-btn
-        class="elevation-0 text-small px-6"
-        :color="color"
-        height="42">
+        class="elevation-0 text-caption px-5"
+        color="grey-lighten-4"
+        height="42"
+        min-width="100"
+        >
         {{ btn_title }}
     </v-btn>
 </template>

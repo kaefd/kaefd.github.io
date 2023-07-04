@@ -5,13 +5,14 @@ import functions from '../service/functions';
 import barang from '../service/page/barang';
 // component
 import TableVue from '../components/TableVue.vue';
-import DialogCard from '../components/dialog/dialogMaster.vue';
-import circleButton from '../components/button/circleButton.vue';
+import dialogMaster from '../components/dialog/dialogMaster.vue';
+import btnFilter from '../components/button/btnFilter.vue';
 import AppBar from '../components/appbar/AppBar.vue';
 import menuList from '../components/menu/menuList.vue';
 import textField from '../components/form/textField.vue';
 import checkBox from '../components/form/checkBox.vue';
 import filterDrawer from '../components/drawer/filterDrawer.vue';
+import btnCancel from '../components/button/btnCancel.vue';
 // plugin
 import { defineComponent } from 'vue';
 </script>
@@ -21,17 +22,19 @@ export default defineComponent ({
   components: {
     AppBar,
     TableVue,
-    DialogCard,
-    circleButton,
+    dialogMaster,
+    btnFilter,
     menuList,
     textField,
     checkBox,
     filterDrawer,
+    btnCancel
   },
     name: 'DataBarang',
     props:['actIcon', 'cetak'],
     data () {
       return {
+        dialog: false,
         search: '',
         filter: false,
         pageTitle: 'DATA BARANG',
@@ -188,9 +191,27 @@ export default defineComponent ({
       <v-responsive class="d-flex align-center mb-sm-0 mb-1" min-width="200">
         <div class="d-flex align-center w-100">
           <!-- BUTTON FILTER -->
-          <circleButton icon="mdi-tune-vertical" @click="filter = !filter" />
+          <btnFilter @click="filter = !filter" />
           <!-- ADD BUTTON -->
-          <DialogCard :keyform="barang.data().keyform" :tambah="tambah" :ishidden="true" :noselect="statusselect" @form="submitForm" :screen="400" :iTitle="actIcon[0].text" :btncolor="actIcon[0].color" :icon="actIcon[0].icon" :iVariant="actIcon[0].variant" :headers="barang.data().headers" :items="items" :category="barang.data().category" :alpha="alpha" :submitForm="submitForm"/>
+          <dialogMaster
+            v-model="dialog"
+            toolbar_title="Tambah Data"
+            :keyform="barang.data().keyform"
+            :tambah="tambah"
+            :ishidden="true"
+            :noselect="statusselect"
+            @form="submitForm"
+            :screen="400"
+            :headers="barang.data().headers"
+            :items="items"
+            :category="barang.data().category"
+            :alpha="alpha"
+            :submitForm="submitForm"
+          >
+            <template #cancel>
+              <btnCancel @click=" dialog = false" btn_title="Batal" />  
+            </template>
+          </dialogMaster>
         </div>
       </v-responsive>
       <v-responsive class="me-sm-0 ms-sm-auto ms-0 me-auto" max-width="450">
@@ -199,7 +220,6 @@ export default defineComponent ({
           <textField  v-model="search" placeholder="Search" class="me-2"/>
           <!-- EXPORT DATA -->
           <menuList
-            icon="mdi-dots-vertical"
             :items="cetak"
             @result="print"
           />
@@ -207,7 +227,28 @@ export default defineComponent ({
       </v-responsive>
     </v-row>
         <!-- TABLE -->
-        <TableVue :windowWidth="windowWidth" :keyform="barang.data().keyform" :noselect="statusselect"  @edit="editForm" @del="del" id="tbl_exporttable_to_xls" :screen="400"  :headers="barang.data().headers" :items="barang.selected(selectCategory, items)" :search="search" :category="barang.data().category" :selectCategory="selectCategory" :iTitle="actIcon[1].text" :btncolor="actIcon[1].color" :icon="actIcon[1].icon" :iVariant="actIcon[1].variant" :alpha="alpha" :form="form" :pageTitle="pageTitle"/>
+        <TableVue
+        :windowWidth="windowWidth"
+        :keyform="barang.data().keyform"
+        :noselect="statusselect"
+        @edit="editForm"
+        @del="del"
+        id="tbl_exporttable_to_xls"
+        :screen="400"
+        :headers="barang.data().headers"
+        :items="barang.selected(selectCategory,
+        items)"
+        :search="search"
+        :category="barang.data().category"
+        :selectCategory="selectCategory"
+        toolbar_title="Edit Data"
+        :btncolor="actIcon[1].color"
+        :icon="actIcon[1].icon"
+        :iVariant="actIcon[1].variant"
+        :alpha="alpha"
+        :form="form"
+        :pageTitle="pageTitle"
+        />
   </v-container>
   </template>
   <style>

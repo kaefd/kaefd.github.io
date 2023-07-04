@@ -10,15 +10,15 @@
   import { ref, onMounted } from 'vue'
   import AppBar from '../components/appbar/AppBar.vue'
   import filterDrawer from '../components/drawer/filterDrawer.vue'
-  import circleButton from '../components/button/circleButton.vue'
   import textField from '../components/form/textField.vue'
   import menuList from '../components/menu/menuList.vue'
   import checkBox from '../components/form/checkBox.vue'
   import dialogConfirm from '../components/dialog/dialogConfirm.vue';
-  import squareButton from '../components/button/squareButton.vue';
+  import squareButton from '../components/button/buttonVue.vue';
   // plugins
   import '@vuepic/vue-datepicker/dist/main.css'
   import { id } from 'date-fns/locale';
+import BtnFilter from '../components/button/btnFilter.vue';
 </script>
 
 <script>
@@ -32,10 +32,10 @@
       VDataTable,
       AppBar,
       filterDrawer,
-      circleButton,
       textField,
       menuList,
       checkBox,
+        BtnFilter,
     },
     props:['cetak','actIcon'],
     data () {
@@ -308,7 +308,7 @@
       <v-responsive class="d-flex align-center mb-sm-0 mb-1 me-sm-2 me-0" width="200" max-width="350">
         <div class="d-flex align-center w-100">
           <!-- BUTTON FILTER -->
-          <circleButton icon="mdi-tune-vertical" @click="filter = !filter" />
+          <btn-filter @click="filter = !filter" />
           <!-- TAMBAH DATA -->
           <PengeluaranDetail
             batalbtn="Pengeluaran"

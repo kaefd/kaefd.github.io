@@ -68,13 +68,45 @@ export default {
   },
 
   /** DATA SUPPLIER **/
-  getSupplier(data) {
-    return instance.get('supplier?status=true', data)
+  async getSupplier (){
+    try {
+      const response = await instance.get('/supplier')
+      return response.data;
+    } catch (error) {
+      throw new Error('Gagal mengambil data pengguna');
+    }
   },
   postData (url, data) {
     return instance.post(url, data)
   },
 
+  /**  PEMASUKAN **/
+  async getPemasukanHead(param1, param2){
+    try {
+      const apiUrl = '/pembelian_head?'
+      const params = {
+        tgl_awal: param1,
+        tgl_akhir: param2
+      }
+      const response = await instance.get(apiUrl, {params})
+      return response.data
+    } catch (error) {
+      throw new Error('Gagal!')
+    }
+  },
+  async getPemasukanDetail(param1, param2){
+    try {
+      const apiUrl = '/pembelian_detail?'
+      const params = {
+        tgl_awal: param1,
+        tgl_akhir: param2
+      }
+      const response = await instance.get(apiUrl, {params})
+      return response.data
+    } catch (error) {
+      throw new Error('Gagal!')
+    }
+  },
   /**  PENGIRIMAN **/
   async getPengirimanHead (param1, param2){
     try {

@@ -10,13 +10,13 @@ import '@vuepic/vue-datepicker/dist/main.css'
 import { ref, onMounted } from 'vue';
 import AppBar from '../components/appbar/AppBar.vue';
 import filterDrawer from '../components/drawer/filterDrawer.vue';
-import circleButton from '../components/button/circleButton.vue';
 import textField from '../components/form/textField.vue';
 import menuList from '../components/menu/menuList.vue';
 import dialogConfirm from '../components/dialog/dialogConfirm.vue';
-import squareButton from '../components/button/squareButton.vue';
+import squareButton from '../components/button/buttonVue.vue';
 // plugins
 import { id } from 'date-fns/locale';
+import BtnFilter from '../components/button/btnFilter.vue';
 
 </script>
 
@@ -31,9 +31,9 @@ import { id } from 'date-fns/locale';
       VDataTable,
       AppBar,
       filterDrawer,
-      circleButton,
       textField,
       menuList,
+        BtnFilter,
     },
     props:['actIcon', 'cetak'],
     data () {
@@ -377,7 +377,7 @@ import { id } from 'date-fns/locale';
       <v-responsive class="d-flex align-center mb-sm-0 mb-1" min-width="200">
         <div class="d-flex align-center w-100">
           <!-- BUTTON FILTER -->
-          <circleButton icon="mdi-tune-vertical" @click="filter = !filter" />
+          <btn-filter @click="filter = !filter" />
           <!-- TAMBAH DATA -->
           <PengirimanDetail @inputhead="inputhead" :kirim="true" :edit="false" :supplier="pelanggan" :datainput="datainput" :pageTitle="pageTitle" :btn="btn" :headDetails="headDetails" :details="items" :headers="headers" :items="items" :search="search" :category="category" :selectCategory="selectCategory" :iTitle="actIcon[0].text" :btncolor="actIcon[0].color" :icon="actIcon[0].icon" :iVariant="actIcon[0].variant" :alpha="alpha" :actIcon="actIcon" :datatext="datatext"/>
         </div>

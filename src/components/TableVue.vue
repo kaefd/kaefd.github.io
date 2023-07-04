@@ -4,11 +4,11 @@ import LogBarang from '../views/LogBarang.vue';
 import dialogMaster from './dialog/dialogMaster.vue';
 import barang from '../service/page/barang';
 import dialogConfirm from './dialog/dialogConfirm.vue';
-import squareButton from './button/squareButton.vue';
+import squareButton from './button/buttonVue.vue';
 import menuList from './menu/menuList.vue';
-import textButton from './button/textButton.vue';
 import PemasukanDetail from '../views/PemasukanDetail.vue';
 import pemasukan from '../service/page/pemasukan';
+import btnCancel from './button/btnCancel.vue';
 </script>
 <script>
 export default {
@@ -18,12 +18,11 @@ export default {
       dialogMaster,
       LogBarang,
       dialogConfirm,
-      squareButton,
-      textButton,
+      btnCancel,
       menuList,
     },
-    // props: ['loading', 'stokbarang', 'barang', 'groupbarang', 'laporanstok', 'disabled', 'keyform', 'headers', 'items', 'search', 'category', '', 'iTitle', 'icon', 'iVariant', 'alpha', 'screen', 'form', 'noselect', 'ishidden'],
-    props: ['stokbarang', 'groupbarang', 'laporanstok', 'masuk', 'supplier', 'pembeliandetl', 'disabled', 'keyform', 'headers', 'items', 'search', 'category', 'iTitle', 'icon', 'iVariant', 'alpha', 'screen', 'form', 'noselect', 'ishidden', 'pageTitle'],
+    // props: ['loading', 'stokbarang', 'barang', 'groupbarang', 'laporanstok', 'disabled', 'keyform', 'headers', 'items', 'search', 'category', '', 'toolbar_title', 'icon', 'iVariant', 'alpha', 'screen', 'form', 'noselect', 'ishidden'],
+    props: ['stokbarang', 'groupbarang', 'laporanstok', 'masuk', 'supplier', 'pembeliandetl', 'view', 'disabled', 'keyform', 'headers', 'items', 'search', 'category', 'toolbar_title', 'alpha', 'screen', 'form', 'noselect', 'ishidden', 'pageTitle'],
     
     data () {
       return {
@@ -34,11 +33,14 @@ export default {
           {title: 'Edit Data', key: 'edit', icon: 'mdi-pencil'},
           {title: 'Hapus Data', key: 'hapus', icon: 'mdi-delete'},
         ],
+        list2: [
+          {title: 'Lihat Data', key: 'lihat'},
+        ],
       }
     },
     methods:{
       result(value, i) {
-        return value == 'edit' ? this.dialog[i] = true : this.confirmdialog[i] = true
+        return value != 'hapus' ? this.dialog[i] = true : this.confirmdialog[i] = true
       },
       edit(value) {
         return this.$emit('edit', value)
@@ -97,10 +99,11 @@ export default {
       </template>
       <!-- eslint-disable-next-line vue/valid-v-slot -->
       <template v-if="!laporanstok && !masuk" v-slot:item.actions="{ item, index }">
-      <menuList :items="list" icon="mdi-dots-vertical" :submenu="true" @result="result" :index="index" />
-        <dialogMaster v-model="dialog[index]" editbtn="true" :ishidden="true" :keyform="keyform" :intable="true" :disabled="disabled" :noselect="noselect" :form="item.raw" @edit="edit" :item="item" :screen="screen" :headers="headers" :items="items" :category="category" :iTitle="iTitle"  :alpha="alpha">
-          <template #close>
-            <textButton class="absolute" @click="dialog[index] = false" icon="mdi-close"/>
+      <menuList v-if="!view" :items="list" icon="mdi-dots-vertical" :submenu="true" @result="result" :index="index" />
+      <menuList v-if="view" :items="list2" icon="mdi-dots-vertical" :submenu="true" @result="result" :index="index" />
+        <dialogMaster v-model="dialog[index]" :view="view" editbtn="true" :ishidden="true" :keyform="keyform" :intable="true" :disabled="disabled" :noselect="noselect" :form="item.raw" @edit="edit" :item="item" :screen="screen" :headers="headers" :items="items" :category="category" :toolbar_title="toolbar_title"  :alpha="alpha">
+          <template #cancel>
+            <btnCancel @click=" dialog[index] = false" btn_title="Batal" />  
           </template>
         </dialogMaster>
         <!-- DIALOG CONFIRM -->

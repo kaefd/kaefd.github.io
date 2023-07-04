@@ -14,7 +14,7 @@ export default {
 <v-text-field
   density="compact"
   variant="text"
-  class="text-indigo-darken-4 rounded-xl border text-body-2 font-small"
+  class="text-indigo-darken-4 rounded-lg border text-body-2 font-small"
   prepend-inner-icon="mdi-magnify"
   :placeholder="placeholder"
   single-line

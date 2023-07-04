@@ -24,7 +24,7 @@ import textField from '../components/form/textField.vue';
         pageTitle:'DATA SUPPLIER',
         search: '',
         alpha: 0,
-        items: [],
+        items: '',
         tambah: {
           kode_supplier: '',
           nama: '',
@@ -35,17 +35,15 @@ import textField from '../components/form/textField.vue';
         }
       }
     },
-    created() {
-        api.getSupplier()
-        .then(response => {
-          this.items = response.data
-        })
-        .catch(() => {
-          return this.$router.push('login');
-        })
-    },
-
     methods:{
+      async fetchData() {
+        try {
+          const item = await api.getSupplier()
+          this.items = item;
+        } catch (error) {
+          console.log(error);
+        }
+      },
       page(){
         return this.$emit('page', this.pageTitle)
       },
@@ -54,10 +52,11 @@ import textField from '../components/form/textField.vue';
         let header = this.headers
         let item = this.items
         functions.print(key, title, header, item)
-      },
+      }
     },
     mounted(){
       this.page()
+      this.fetchData()
     }
   }  
 </script>
@@ -79,7 +78,7 @@ import textField from '../components/form/textField.vue';
     </v-responsive>
     </v-row>
     <!-- VIEW -->
-    <TableVue :keyform="supplier.data().keyform" :ishidden="true" :disabled="true" :noselect="true" id="tbl_exporttable_to_xls" :screen="400" :headers="supplier.data().headers" :items="items" :search="search" :iTitle="actIcon[3].text" :btncolor="actIcon[3].color" :icon="actIcon[3].icon" :iVariant="actIcon[3].variant" :alpha="alpha" :pageTitle="pageTitle"/>
+    <TableVue :keyform="supplier.data().keyform" :ishidden="true" :disabled="true" :noselect="true" id="tbl_exporttable_to_xls" :screen="400" :headers="supplier.data().headers" :items="items" :view="true" :search="search" toolbar_title="Detail Data" :btncolor="actIcon[3].color" :icon="actIcon[3].icon" :iVariant="actIcon[3].variant" :alpha="alpha" :pageTitle="pageTitle"/>
 </v-container>
   </template>
 <style>

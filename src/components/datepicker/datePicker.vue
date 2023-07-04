@@ -24,10 +24,10 @@ export default {
 
 <template>
     <VueDatePicker
-        class="text-small mb-5"
+        class="text-small mb-5 mx-1"
         :clearable="false"
         :placeholder="placeholder"
-        style="min-width: 200px; max-width:300px"
+        style="width: 220px; max-width:220px"
         :format-locale="id"
         required
         locale="id"

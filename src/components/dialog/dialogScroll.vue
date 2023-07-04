@@ -3,8 +3,16 @@ import { reactive } from 'vue'
 import { useVuelidate } from '@vuelidate/core'
 import {  required } from '@vuelidate/validators'
 import api from '../../service/api';
+import btnInfo from '../button/btnInfo.vue';
+import BtnCancel from '../button/btnCancel.vue';
+import BtnOrange from '../button/btnOrange.vue';
 
 export default {
+    components: {
+        btnInfo,
+        BtnCancel,
+        BtnOrange,
+    },
     name: 'DialogCard2',
     props: ['hiddenbtn', 'btn', 'itemDetail', 'pemasukan', 'nokirim', 'belumkirim', 'kodegroup', 'kodebarang', 'belumkirim_detail', 'blmkirim', 'penjualan', 'pengeluaran', 'pengiriman', 'produksi', 'barang', 'tambah', 'inputbahan', 'pembeliandetl' , 'getbarang'],
     data() {
@@ -242,18 +250,8 @@ export default {
     <v-dialog v-model="dialog">
         <!-- BUTTON TAMBAH -->
         <template v-slot:activator="{ props }">
-            <v-btn
-            v-bind="props"
-            @update="dialog"
-            variant="tonal"
-            class="text-body-2 bg-blue-custom text-white rounded-xl elevation-0 text-caption"
-            prepend-icon="mdi-plus"
-            height="40"
-            :disabled="getbarang == '' || inputbahan == '' ? true : false"
-            >
-            Tambah Barang
-        </v-btn>
-    </template>
+            <btn-info v-bind="props" :disabled="getbarang == '' || inputbahan == '' ? true : false" btn_title="Tambah Barang" icon="mdi-plus" class="mt-5" />
+        </template>
     <v-card class="py-5 px-6 rounded-xl">
         <v-btn icon="mdi-close" variant="plain" size="small" @click="dialog = false"></v-btn>
             <v-card-title v-if="blmkirim" class="text-center text-blue-darken-4 text-button font-weight-bold mb-3 mt-n10">PENGELUARAN BELUM TERKIRIM</v-card-title>
@@ -306,8 +304,8 @@ export default {
                     <v-dialog @update="dialogchild" width="400" v-model="dialogchild[b]">
                         <v-card class="px-7 py-5 w-100 mx-auto rounded-xl">
                             <v-span class="text-button text-center font-weight-bold">{{ item.nama_barang }}</v-span>
-                            <v-span class="text-button mt-n3 mb-3 text-center">{{ item.kode_barang }}</v-span>
-                            <v-span class="text-caption mt-n5 mb-3 text-center">{{ item.hs_code }}</v-span>
+                            <v-span class="text-body-2 text-center">{{ item.kode_barang }}</v-span>
+                            <v-span class="text-caption mb-3 text-center">{{ item.hs_code }}</v-span>
                             <form @submit.prevent="submit" ref="form">
                                 <v-text-field
                                     v-if="!pemasukan"
@@ -368,9 +366,9 @@ export default {
                                     class="mb-3"
                                     readonly
                                 />
-                                <v-div class="d-inline w-100">
-                                    <v-btn @click="dialogchild[b] = false" variant="tonal" class="rounded-xl text-caption elevation-0">Batal</v-btn>
-                                    <v-btn type="submit" @click="pemasukanItem(item, b)" class="rounded-xl text-caption elevation-0 bg-blue-darken-4 w-75 float-end">Simpan</v-btn>
+                                <v-div class="d-inline float-end">
+                                    <btn-cancel @click="dialogchild[b] = false" btn_title="batal" />
+                                    <btn-orange type="submit" @click="pemasukanItem(item, b)" btn_title="Simpan" class="ms-2" />
                                 </v-div>
                             </form>
                         </v-card>          

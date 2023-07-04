@@ -10,7 +10,8 @@ import dialogSearch from '../components/dialog/dialogSearch.vue';
 import menuForm from '../components/menu/menuForm.vue';
 import menuList from '../components/menu/menuList.vue';
 import pillsButton from '../components/button/pillsButton.vue';
-import dialogForm from '../components/dialog/dialogForm.vue';
+import BtnCancel from '../components/button/btnCancel.vue';
+import BtnOrange from '../components/button/btnOrange.vue';
 </script>
 
 <script>
@@ -25,7 +26,8 @@ export default {
         menuForm,
         menuList,
         pillsButton,
-        dialogForm,
+        BtnCancel,
+        BtnOrange,
     },
     props:['pembelianbaru', 'laporan', 'namaPelanggan', 'total', 'groupbarang', 'batalbtn', 'penjualan', 'pemasukan', 'alamatBongkar', 'totalpenjualan', 'namaTujuan', 'datainput', 'pageTitle', 'pengeluaran', 'dokumenpjl', 'namaSupplier', 'pengirimanDetail', 'pembelian', 'pelanggan', 'supplier', 'pembeliandetl', 'edit', 'kirim', 'headers', 'items',  'search', 'iVariant', 'headDetails', 'details','disable', 'btn', 'datatext', 'itemDetail', 'category'],
     data () {
@@ -170,70 +172,57 @@ export default {
                 <v-toolbar-title class="text-button mt-1">{{ 'DETAIL '+ pageTitle }}</v-toolbar-title>
                 <v-spacer></v-spacer>
                 </v-toolbar>
-                <v-container class="mt-5">
+                <v-container class="h-100">
                 <!-- EDIT -->
-                <v-row v-if="edit">
-                <v-col>
+                <v-row justify="center" justify-md="space-between" align="start" class="pt-7" v-if="edit">
                     <textFieldForm label="No Pemasukan" :model-value="items.no_pembelian" readonly/>
                     <textFieldForm label="Tgl Pemasukan" :model-value="items.tgl_pembelian" readonly/>
                     <textFieldForm label="Nama Supplier" :model-value="items.kode_supplier" readonly/>
-                </v-col>
-                <v-col>
                     <textFieldForm label="Tipe Dokumen" :model-value="items.tipe_dokumen" readonly/>
                     <textFieldForm label="No Dokumen" :model-value="items.no_dokumen" readonly/>
                     <textFieldForm label="Tgl Dokumen" :model-value="items.tgl_dokumen" readonly/>
-                </v-col>
-                <v-col>
                     <textFieldForm label="No Invoice" :model-value="items.no_invoice" readonly/>
                     <textFieldForm label="No BL" :model-value="items.no_bl" readonly/>
                     <textFieldForm label="Mata Uang" :model-value="items.mata_uang" readonly/>
                     <textFieldForm label="Kurs" :model-value="functions.numb(items.kurs)" readonly/>
-                </v-col>
                 </v-row>
-                <v-form  @submit.prevent ref="form">
-                    <!-- TAMBAH PEMASUKAN -->
-                    <v-row v-if="!edit && pemasukan">
-                        <v-col>
-                            <textFieldForm label="No Pemasukan" v-model="inputdata.no_pembelian" readonly disabled/>
-                            <datePicker placeholder="Tgl Pemasukan" v-model="inputdata.tgl_pembelian" />
-                            <dialogSearch v-if="!edit" v-model="dialog4" label="Supplier" :objectFilter="supplier" @pilihObjek="pilihObjek" cardTitle="SUPPLIER">
-                                <template #close>
-                                    <textButton icon="mdi-close" @click="dialog4 = false" />
-                                </template>
-                            </dialogSearch>
-                        </v-col>
+                <!-- TAMBAH PEMASUKAN -->
+                <v-form class="pt-7" v-if="!edit && pemasukan"  @submit.prevent ref="form">
+                    <v-row justify="center" justify-md="space-between">
+                        <textFieldForm label="No Pemasukan" v-model="inputdata.no_pembelian" readonly disabled/>
+                        <datePicker placeholder="Tgl Pemasukan" v-model="inputdata.tgl_pembelian" />
+                        <dialogSearch v-if="!edit" v-model="dialog4" label="Supplier" :objectFilter="supplier" @pilihObjek="pilihObjek" cardTitle="SUPPLIER" />
                         <!-- DOKUMEN -->
-                        <v-col>
-                            <textFieldForm id="tipe" label="Tipe Dokumen" :model-value="inputdata.tipe_dokumen" readonly/>
-                            <menuForm
-                              activator="#tipe"
-                              icon="mdi-dots-vertical"
-                              :items="tipe_dokumen"
-                              @result="pilihtipedokumen" />
-                            <textFieldForm label="No Dokumen" v-model="inputdata.no_dokumen"/>
-                            <datePicker placeholder="Tgl Dokumen" v-model="inputdata.tgl_dokumen" />
-                        </v-col>
-                        <v-col>
-                            <textFieldForm label="No Invoice" v-model="inputdata.no_invoice" />
-                            <textFieldForm label="No BL" v-model="inputdata.no_bl" />
-                            <textFieldForm label="Mata Uang" v-model="inputdata.mata_uang" />
-                            <textFieldForm label="Kurs" v-model="inputdata.kurs" />
-                        </v-col>
+                        <textFieldForm id="tipe" label="Tipe Dokumen" :model-value="inputdata.tipe_dokumen" readonly/>
+                        <menuForm
+                          activator="#tipe"
+                          icon="mdi-dots-vertical"
+                          :items="tipe_dokumen"
+                          @result="pilihtipedokumen" />
+                        <textFieldForm label="No Dokumen" v-model="inputdata.no_dokumen" required/>
+                        <datePicker placeholder="Tgl Dokumen" v-model="inputdata.tgl_dokumen" />
+                        <textFieldForm label="No Invoice" v-model="inputdata.no_invoice" />
+                        <textFieldForm label="No BL" v-model="inputdata.no_bl" />
+                        <textFieldForm label="Mata Uang" v-model="inputdata.mata_uang" />
+                        <textFieldForm label="Kurs" v-model="inputdata.kurs" />
                     </v-row>
-                    <!-- BUTTON TAMBAH BARANG -->
-                    <!-- <v-div v-if="!edit" :pembelianbaru="pembelianbaru" :pembeliandetl="pembeliandetl" class="text-sm-left text-center">
-                        <dialogScroll @reset="reset"  :barang="barang" :itemDetail="itemDetail" @pemasukanitem="itemmasuk" :masuk="true" :btn="btn" width="400" /> -->
-                        <!-- <dialogSearch :button="true" btn_title="Tambah Barang" v-model="dialog1" :objectFilter="barang" cardTitle="STOK BARANG" @pilihObjek="pilihStok">
-                            <template #close>
-                                <textButton icon="mdi-close" @click="dialog1 = false" />
-                            </template>
-                        </dialogSearch>
-                        <dialogForm v-model="dialog2" :item="item" @pemasukanItem="pemasukanItem" /> -->
-                    <!-- </v-div> -->
-                    <!-- BUTTON TAMBAH BARANG -->
-                    <v-div v-if="!edit" :pembelianbaru="pembelianbaru" :pembeliandetl="pembeliandetl" class="text-sm-left text-center">
-                        <dialogScroll @reset="reset"  :barang="barang" :itemDetail="itemDetail" @pemasukanitem="itemmasuk" :pemasukan="true" :btn="btn" width="400" />
-                    </v-div>
+                </v-form>
+                <!-- BUTTON TAMBAH BARANG -->
+                <!-- <v-div v-if="!edit" :pembelianbaru="pembelianbaru" :pembeliandetl="pembeliandetl" class="text-sm-left text-center">
+                    <dialogScroll @reset="reset"  :barang="barang" :itemDetail="itemDetail" @pemasukanitem="itemmasuk" :masuk="true" :btn="btn" width="400" /> -->
+                    <!-- <dialogSearch :button="true" btn_title="Tambah Barang" v-model="dialog1" :objectFilter="barang" cardTitle="STOK BARANG" @pilihObjek="pilihStok">
+                        <template #close>
+                            <textButton icon="mdi-close" @click="dialog1 = false" />
+                        </template>
+                    </dialogSearch>
+                    <dialogForm v-model="dialog2" :item="item" @pemasukanItem="pemasukanItem" /> -->
+                <!-- </v-div> -->
+                <!-- BUTTON TAMBAH BARANG -->
+                <v-div v-if="!edit" :pembelianbaru="pembelianbaru" :pembeliandetl="pembeliandetl" class="text-sm-left text-center">
+                    <dialogScroll @reset="reset"  :barang="barang" :itemDetail="itemDetail" @pemasukanitem="itemmasuk" :pemasukan="true" :btn="btn" width="400" />
+                </v-div>
+                <v-row style="height: 70%;">
+                    
                     <!-- TABEL EDIT/VIEW -->
                     <v-data-table
                         :headers="headDetails"
@@ -242,7 +231,7 @@ export default {
                         :fixed-header="true"
                         density="compact"
                         class="text-caption my-7 px-5"
-                        :height="edit ? 200 : 150"
+                        height="75%"
                     >
                     <!-- CUSTOM PAGINATION STYLE -->
                     <template v-slot:bottom>
@@ -327,9 +316,13 @@ export default {
                         </v-dialog>
                     </template>
                     </v-data-table>
-                <v-btn v-if="!edit" @click="validate" :hidden="disable" class="float-end text-body-2 text-white elevation-0 rounded-xl" height="42" width="150" color="#ff6e40">Simpan</v-btn>
-                <v-btn v-if="!edit" @click="dialog=false" class="float-end rounded-xl text-body-2 me-2" height="42" width="150" variant="outlined" color="grey-darken-2">Batal</v-btn>
-            </v-form>
+                    <v-div class="d-flex ms-auto me-0 mb-0 mt-auto">
+                        <!-- <v-btn v-if="!edit" @click="validate" :hidden="disable" class="text-body-2 text-white elevation-0 rounded-xl me-2" height="42" width="150" color="#ff6e40">Simpan</v-btn> -->
+                        <btn-cancel btn_title="Batal" class="me-2" v-if="!edit" @click="dialog=false"/>
+                        <btn-orange btn_title="Simpan" v-if="!edit" @click="validate" :hidden="disable"/>
+                        <!-- <v-btn v-if="!edit" @click="dialog=false" class="rounded-xl text-body-2" height="42" width="150" variant="outlined" color="grey-darken-2">Batal</v-btn> -->
+                    </v-div>
+                </v-row>
                 </v-container>
             </v-card>
     </v-dialog>

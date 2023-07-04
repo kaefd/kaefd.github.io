@@ -8,7 +8,7 @@ import filterDrawer from '../components/drawer/filterDrawer.vue';
 import checkBox from '../components/form/checkBox.vue';
 import menuList from '../components/menu/menuList.vue';
 import textField from '../components/form/textField.vue';
-import circleButton from '../components/button/circleButton.vue';
+import circleButton from '../components/button/btnOption.vue';
 </script>
 
 <script>

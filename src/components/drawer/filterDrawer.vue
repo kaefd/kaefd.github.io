@@ -1,11 +1,13 @@
 <script>
-import squareButton from '../button/squareButton.vue';
+import BtnCancel from '../button/btnCancel.vue';
+import BtnOrange from '../button/btnOrange.vue';
 import textButton from '../button/textButton.vue';
 
 export default {
     components: {
-        squareButton,
-        textButton
+        textButton,
+        BtnOrange,
+        BtnCancel
   },
     props:['icon'],
     data () {
@@ -42,8 +44,8 @@ export default {
         <v-container class="py-3 px-4">
             <slot name="default" />
             <v-div class="d-flex justify-end mt-10">
-              <squareButton color="grey-lighten-2" btn_title="Reset" @click="reset()" class="mt-5 me-2" />
-              <squareButton color="orange-lighten-1" btn_title="Filter" @click="filterdata()" class="mt-5 me-2" />
+              <btn-cancel btn_title="Reset" @click="reset()" class="mt-5 me-2" />
+              <btn-orange btn_title="Filter" @click="filterdata()" class="mt-5 me-2" />
             </v-div>
         </v-container>
       </v-sheet>

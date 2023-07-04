@@ -1,5 +1,8 @@
 <script setup>
 import { VDataTable } from 'vuetify/labs/VDataTable'
+import btnCancel from './button/btnCancel.vue';
+import btnInfoVue from './button/btnInfo.vue';
+import btnOrange from './button/btnOrange.vue';
 import DialogCard2 from './dialog/dialogScroll.vue';
 // import api from '../api';
 
@@ -9,7 +12,10 @@ import DialogCard2 from './dialog/dialogScroll.vue';
 export default {
     components: {
     VDataTable,
-    DialogCard2
+    DialogCard2,
+    btnInfoVue,
+    btnCancel,
+    btnOrange,
 },
     props:['headers', 'headItem', 'edit', 'getbarang', 'produksi', 'detailbahan', 'groupbarang', 'detailbarang', 'select_kode', 'produksi_bahan', 'produksi_barang', 'item', 'items', 'category', 'icon', 'actIcon', 'btncolor', 'alpha', 'iVariant', 'screen', 'details','disable'],
     data () {
@@ -127,15 +133,7 @@ export default {
         <!-- BUTTON DIALOG -->
           <template v-slot:activator="{ props }">
             
-            <v-btn
-            v-if="!edit"
-            v-bind="props"
-            class="text-body-2 bg-blue-custom text-white rounded-xl elevation-0 text-caption"
-            prepend-icon="mdi-plus"
-            height="42"
-            >
-            Tambah Baru
-            </v-btn>
+            <btn-info-vue v-if="!edit" btn_title="Tambah Baru" v-bind="props" icon="mdi-plus" />
             
             <v-menu>
             <template v-slot:activator="{ props }">
@@ -385,9 +383,9 @@ export default {
                     </v-col>
                 </v-row>
                     <!-- edit data -->
-                <v-row class="float-end">
-                    <v-btn v-if="!edit" class="mt-3 rounded-xl elevation-0 text-caption" height="42" width="150" variant="tonal" @click="inputbarang = inputbahan = '', dialog = false">Batal</v-btn>
-                    <v-btn v-if="!edit" class="ms-3 mt-3 rounded-xl elevation-0 bg-blue-custom text-white text-caption" height="42" width="150" @click="validate">Simpan</v-btn>
+                <v-row class="float-end mt-7">
+                    <btnCancel v-if="!edit" @click="inputbarang = inputbahan = '', dialog = false" btn_title="Batal" />
+                    <btnOrange v-if="!edit" @click="validate" btn_title="Simpan" class="ms-2" />
                 </v-row>
                 </v-container>
             </v-card>

@@ -3,10 +3,19 @@ import { VDataTable } from 'vuetify/labs/VDataTable'
 import DialogCard2 from '../components/dialog/dialogScroll.vue';
 import api from '../service/api';
 import datePickerVue from '../components/datepicker/datePicker.vue';
-
+import btnInfoVue from '../components/button/btnInfo.vue';
+import BtnOrange from '../components/button/btnOrange.vue';
+import BtnCancel from '../components/button/btnCancel.vue';
+import TextFieldForm from '../components/form/textFieldForm.vue';
 export default {
     components: {
-    DialogCard2, VDataTable, datePickerVue
+    DialogCard2,
+    VDataTable,
+    datePickerVue,
+    btnInfoVue,
+        BtnOrange,
+        BtnCancel,
+        TextFieldForm,
     },
     props:['pembelianbaru', 'namaPelanggan', 'detail_kirim','detailkirim', 'nokirim', 'nopjl', 'pjl_detail', 'groupbarang', 'batalbtn', 'pengiriman', 'pemasukan', 'totalpenjualan', 'namaTujuan', 'datainput', 'pageTitle', 'pengeluaran', 'no', 'tipe', 'namaSupplier', 'pengirimanDetail', 'pembelian', 'pelanggan', 'supplier', 'pembeliandetl', 'edit', 'kirim', 'headers', 'items', 'actIcon', 'icon', 'btncolor', 'search', 'iVariant', 'headDetails', 'details','disable', 'btn', 'datatext', 'itemDetail', 'category'],
     data () {
@@ -23,7 +32,7 @@ export default {
         valid: false,
         detaildial: [],
         arr: [],
-        tipe_dokumen: ['BC23', 'BC40'],
+        tipe_dokumen: ['BC25', 'BC41'],
         searched: '',
         nama:'',
         tujuan:'',
@@ -207,15 +216,7 @@ export default {
         >
         <template v-slot:activator="{ props }">
             <!-- TAMBAH -->
-            <v-btn
-            v-if="!edit"
-            v-bind="props"
-            class="bg-blue-custom text-white rounded-xl elevation-0 text-small"
-            prepend-icon="mdi-plus"
-            height="42"
-            >
-            Tambah Baru
-            </v-btn>
+            <btn-info-vue v-if="!edit" v-bind="props" btn_title="Tambah Baru" icon="mdi-plus" />
 
            <!-- LIHAT DATA -->
             <v-list-item
@@ -250,122 +251,81 @@ export default {
                 </v-toolbar>
                 <v-container class="pt-5 h-100">
                 <!-- EDIT -->
-                <v-row v-if="edit">
-                    <v-col>
-                    <v-text-field
+                <v-row v-if="edit" justify-sm="start" justify="center">
+                    <text-field-form
                         label="No Pengiriman"
                         v-model= "dataitem.no_pengiriman"
-                        variant="outlined"
-                        density="compact"
-                        style="min-width: 200px; max-width:300px"
                         readonly
                     >
-                    </v-text-field>
-                    <v-text-field
+                    </text-field-form>
+                    <text-field-form
                         label="Tgl Pengiriman"
                         v-model="dataitem.tgl_pengiriman"
-                        variant="outlined"
-                        density="compact"
-                        style="min-width: 200px; max-width:300px"
                         readonly
                     >
-                    </v-text-field>
-                    </v-col>
-                    <v-col>
-                    <v-text-field
+                    </text-field-form>
+                    <text-field-form
                         label="Pelanggan"
                         v-model="kode_pelanggan"
-                        variant="outlined"
-                        density="compact"
-                        style="min-width: 200px; max-width:300px"
                         readonly
                     >
-                    </v-text-field>
-                    <v-text-field
+                    </text-field-form>
+                    <text-field-form
                         label="Tujuan Bongkar"
                         :model-value="namaTujuan"
-                        variant="outlined"
-                        density="compact"
-                        style="min-width: 200px; max-width:300px"
                         readonly
                     >
-                    </v-text-field>
-                    </v-col>
-                    <v-col>
+                    </text-field-form>
                     <!-- SUPIR -->
-                    <v-text-field
+                    <text-field-form
                         label="Supir"
                         :model-value="dataitem.supir"
-                        variant="outlined"
-                        density="compact"
-                        style="min-width: 200px; max-width:300px"
                         readonly
                     >
-                    </v-text-field>
+                    </text-field-form>
                     <!-- NO POLISI -->
-                    <v-text-field
+                    <text-field-form
                         label="No Polisi"
                         :model-value="dataitem.no_polisi"
-                        variant="outlined"
-                        density="compact"
-                        style="min-width: 200px; max-width:300px"
                         readonly
                     >
-                    </v-text-field>
-                    </v-col>
+                    </text-field-form>
                 </v-row>
                 <v-form  @submit.prevent ref="form">
                 <!-- TAMBAH PENGIRIMAN -->
-                <v-row v-if="!edit" class="mb-12">
-                    <v-col>
-                    <v-text-field
+                <v-row v-if="!edit" justify-sm="start" justify="center">
+                    <text-field-form
                         label="No Pengiriman"
                         v-model= "inputdata.no_pengiriman"
-                        variant="outlined"
-                        density="compact"
-                        style="min-width: 200px; max-width:300px"
-                        class="mb-5"
-                        hide-details
                     >
-                    </v-text-field>
+                    </text-field-form>
                     <datePickerVue
                         placeholder="Tgl Pengiriman"
                         v-model="inputdata.tgl_pengiriman"
                     />
-                    </v-col>
-                    <v-col>
                         <!-- PELANGGAN -->
                         <v-dialog v-model="dialog4">
                             <template v-slot:activator="{props}">
-                                <v-text-field
+                                <text-field-form
                                     v-bind="props"
                                     label="Pelanggan"
                                     v-model="inputdata.nama"
-                                    variant="outlined"
-                                    density="compact"
-                                    style="min-width: 200px; max-width:300px"
-                                    class="mb-5"
-                                    hide-details
                                     :rules="required"
                                     readonly
                                 >
-                            </v-text-field>
+                            </text-field-form>
                             </template>
                             <v-card class="py-5 px-5 rounded-xl mx-auto vh-75 w-100" max-width="400">
                                 <v-div>
                                     <v-btn icon="mdi-close" size="small" variant="plain" @click="dialog4 = false"></v-btn>
                                     <v-card-title class="text-center text-blue-darken-4 mb-3 mt-n12 text-button font-weight-bold">PELANGGAN</v-card-title>
-                                    <v-text-field
+                                    <text-field-form
                                         v-model="searched"
                                         append-inner-icon="mdi-magnify"
                                         label="Search"
                                         single-line
-                                        hide-details
                                         :rules="required"
-                                        density="compact"
-                                        variant="outlined"
-                                        class="mb-4"
-                                    ></v-text-field>
+                                    ></text-field-form>
                                     <v-list>
                                         <v-for v-for="s, i in filtersupplier" :key="i">
                                             <v-list-item
@@ -384,34 +344,25 @@ export default {
                         <!-- ALAMAT BONGKAR -->
                         <v-dialog v-model="dialogbongkar">
                             <template v-slot:activator="{props}">
-                                <v-text-field
+                                <text-field-form
                                     v-bind="props"
                                     label="Tujuan Bongkar"
                                     v-model="inputdata.tujuan"
-                                    variant="outlined"
-                                    density="compact"
-                                    style="min-width: 200px; max-width:300px"
-                                    class="mb-5"
-                                    hide-details
                                     :rules="required"
                                     readonly
                                 >
-                            </v-text-field>
+                            </text-field-form>
                             </template>
                             <v-card class="py-5 px-5 rounded-xl mx-auto w-100" max-width="400">
                                     <v-btn icon="mdi-close" variant="plain" @click="dialogbongkar = false"></v-btn>
                                     <v-card-title class="text-center text-blue-darken-4 mb-3 mt-n12 text-button font-weight-bold">ALAMAT BONGKAR</v-card-title>
-                                    <v-text-field
+                                    <text-field-form
                                         v-model="searched"
                                         append-inner-icon="mdi-magnify"
                                         label="Search"
                                         single-line
-                                        hide-details
                                         :rules="required"
-                                        density="compact"
-                                        variant="outlined"
-                                        class="mb-4"
-                                    ></v-text-field>
+                                    ></text-field-form>
                                     <v-list class="overflow-auto">
                                         <v-for v-for="s, i in filteralamat" :key="i">
                                             <v-list-item
@@ -431,27 +382,18 @@ export default {
                                     </v-list>
                             </v-card>
                         </v-dialog>
-                </v-col>
-                <v-col>
                     <!-- SUPIR -->
-                    <v-text-field
+                    <text-field-form
                         label="Supir"
                         v-model="inputdata.supir"
-                        variant="outlined"
-                        density="compact"
-                        style="min-width: 200px; max-width:300px"
                     >
-                    </v-text-field>
+                    </text-field-form>
                     <!-- NO POLISI -->
-                    <v-text-field
+                    <text-field-form
                         label="No Polisi"
                         v-model="inputdata.no_polisi"
-                        variant="outlined"
-                        density="compact"
-                        style="min-width: 200px; max-width:300px"
                     >
-                    </v-text-field>
-                </v-col>     
+                    </text-field-form>
                 </v-row>
                 <!-- BUTTON TAMBAH BARANG -->
                 <v-div v-if="!edit" class="text-sm-left text-center">
@@ -510,7 +452,7 @@ export default {
                             <v-card-title class="text-center text-button font-weight-bold mt-n5">{{ item.raw.nama_barang }}</v-card-title>
                             <v-card-subtitle class="text-caption text-center mb-2 mt-n3">{{ item.raw.hs_code }}</v-card-subtitle>
                             <v-label>Jumlah</v-label>
-                            <v-text-field
+                            <text-field-form
                                 variant="outlined"
                                 density="compact"
                                 :value="numb(item.raw.jumlah)"
@@ -518,7 +460,7 @@ export default {
                                 hide-details
                                 class="mb-1"
                             >
-                            </v-text-field>
+                            </text-field-form>
                             <v-div v-if="!edit" class="d-flex w-100">
                                 <v-btn @click="deleteditem(item.raw), detaildial[index] = false" :hidden="disable" variant="tonal" class="text-caption rounded-xl elevation-0 w-25">Hapus</v-btn>
                                 <v-btn :hidden="disable" color="blue-darken-4" class="text-caption rounded-xl elevation-0 bg-blue-darken-4 w-75">Simpan</v-btn>
@@ -527,8 +469,10 @@ export default {
                     </v-dialog>
                 </template>
                 </v-data-table>
-                <v-btn v-if="!edit" @click="validate" :hidden="disable" class="float-end text-body-2 text-white elevation-0 rounded-xl" height="42" width="150" color="#ff6e40">Simpan</v-btn>
-                <v-btn v-if="!edit" @click="pembelian_input = [], inputdata = [], dialog=false" class="float-end rounded-xl text-body-2 me-2" height="42" width="150" variant="outlined" color="grey-darken-2">Batal</v-btn>
+                <v-div class="d-flex float-end">
+                    <btn-orange v-if="!edit" @click="validate" btn_title="Simpan" class="me-2" />
+                    <btn-cancel v-if="!edit" @click="pembelian_input = [], inputdata = [], dialog=false" btn_title="Batal" />
+                </v-div>
             </v-sheet>
             </v-form>
                 </v-container>

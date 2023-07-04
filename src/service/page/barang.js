@@ -16,7 +16,7 @@ export default {
       headers: [
         { title: 'Kategori Barang', key: 'kategori_barang'},
         { title: 'Kode Barang', key: 'kode_barang' },
-        { title: 'Nama Barang', key: 'nama' },
+        { title: 'Nama Barang', key: 'nama_barang' },
         { title: 'HS Kode', key: 'hs_code' },
         { title: 'Satuan', key: 'satuan' },
         { key: 'actions', align:'center', sortable: false},
@@ -78,7 +78,7 @@ export default {
       const processedData = data.map((item) => ({
         kategori_barang: item.kategori_barang,
         kode_barang: item.kode_barang,
-        nama: item.nama_barang,
+        nama_barang: item.nama_barang,
         hs_code: item.hs_code,
         satuan: item.satuan,
         // Tambahkan properti lain sesuai kebutuhan
