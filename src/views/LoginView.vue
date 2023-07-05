@@ -94,13 +94,13 @@ export default {
             <v-span class="text-montserrat font-large mx-auto">USER LOGIN</v-span>
           </v-toolbar>
           <v-container class="mx-auto w-75 h-100 mb-n12">
-            <v-text-field variant="underlined" class="text-blue-custom text-field"  v-model="username" name="username" hide-details>
+            <v-text-field variant="underlined" class="text-blue-custom text-field" v-model="username" name="username" hide-details>
               <img src="../assets/img/USER.png" class="me-3 mb-2 icon-small"/>
             </v-text-field>
-            <v-text-field variant="underlined" class="text-blue-custom text-field"  v-model="password" name="password" hide-details>
+            <v-text-field variant="underlined" class="text-blue-custom text-field" v-model="password" name="password" hide-details>
               <img src="../assets/img/PASS.png" class="me-3 mb-2 icon-small" />
             </v-text-field>
-            <v-btn class="text-montserrat text-white color-orangetheme elevation-0 btn-login d-block mx-auto">Login</v-btn>
+            <v-btn type="submit" class="text-montserrat text-white color-orangetheme elevation-0 btn-login d-block mx-auto">Login</v-btn>
           </v-container>
         </v-form>
       </v-container>
