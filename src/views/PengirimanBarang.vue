@@ -6,7 +6,6 @@ import functions from '../service/functions';
 import { VDataTable } from 'vuetify/labs/VDataTable'
 import PengirimanDetail from './PengirimanDetail.vue';
 import SuratJalan from './SuratJalan.vue';
-import '@vuepic/vue-datepicker/dist/main.css'
 import { ref, onMounted } from 'vue';
 import AppBar from '../components/appbar/AppBar.vue';
 import filterDrawer from '../components/drawer/filterDrawer.vue';
@@ -15,9 +14,8 @@ import menuList from '../components/menu/menuList.vue';
 import dialogConfirm from '../components/dialog/dialogConfirm.vue';
 import squareButton from '../components/button/buttonVue.vue';
 // plugins
-import { id } from 'date-fns/locale';
 import BtnFilter from '../components/button/btnFilter.vue';
-
+import DatePicker from '../components/datepicker/datePicker.vue';
 </script>
 
 <script>
@@ -34,6 +32,7 @@ import BtnFilter from '../components/button/btnFilter.vue';
       textField,
       menuList,
         BtnFilter,
+        DatePicker
     },
     props:['actIcon', 'cetak'],
     data () {
@@ -366,9 +365,9 @@ import BtnFilter from '../components/button/btnFilter.vue';
       <v-span class="text-caption text-weight-bold">Periode</v-span>
       <v-divider></v-divider>
       <v-label class="text-small mt-4">Tgl Awal</v-label>
-      <VueDatePicker class="text-small" :clearable="false" v-model="filtered.periode[0]" :format-locale="id" locale="id" cancelText="batal" selectText="pilih" format="PP" />
+      <DatePicker v-model="filtered.periode[0]" />
       <v-label class="text-small mt-1">Tgl Akhir</v-label>
-      <VueDatePicker class="text-small mb-4" :clearable="false" v-model="filtered.periode[1]" :format-locale="id" locale="id" cancelText="batal" selectText="pilih" format="PP" />
+      <DatePicker v-model="filtered.periode[1]" />
     </template>
   </filterDrawer>
   <AppBar v-if="pageTitle != null" :pageTitle="pageTitle"/>

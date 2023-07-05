@@ -34,6 +34,7 @@ export default {
         cancelText="batal"
         selectText="pilih"
         format="PP"
+        :enable-time-picker="false"
     />
 </template>
 <style>
