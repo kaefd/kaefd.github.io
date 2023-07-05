@@ -63,85 +63,72 @@ export default {
     </v-card>
   </v-row>
 -->
-<v-container fluid class="d-flex justify-space-between vh-100 w-100 overflow-hidden">
-  <img src="../assets/img/just_logo.png" class="animate__animated animate__zoomIn animate__delay-2s bg-img"/>
-  <v-div class="animate__animated animate__bounceInDown animate__delay-2s absolute text-hidden px-5 py-7 bg-trans">
-    <v-span class="text-body-2 font-weight-bold text-blue-custom">WELCOME TO</v-span> <br />
-    <v-span class="text-h2 font-weight-bold text-blue-custom">IT INVENTORI</v-span>
-  </v-div>
-  <v-row position="absolute" class="ms-n15p">
-    <v-div class="animate__animated animate__zoomIn animate__delay-2s circle-1"></v-div>
+<v-responsive class="bg-bluetheme h-100 w-100">
+  <v-row no-gutters class="h-100">
+    <v-col class="h-100 d-flex flex-column mt-5">
+      <v-div class="w-100 h-100 d-flex show">
+        <v-container class="h-100 logo-size">
+          <v-img src="just_logo.png" cover></v-img>
+        </v-container>
+        <v-container class="h-100">
+          <v-div class="text-montserrat font-heading text-bluetheme d-flex flex-column">
+            <v-span class="word-space-heading">Building</v-span>
+            <v-span class="word-space-heading">Better</v-span>
+            <v-span class="word-space-heading">Future</v-span>
+          </v-div>
+        </v-container>
+      </v-div>
+      <v-row no-gutters class="w-100 h-50 absolute bg-people mobile">
+        <v-div class="my-auto mx-auto d-flex flex-column align-center">
+          <v-avatar color="white" class="logo-small">
+            <img src="../assets/img/just_logo.png" class="w-100" />
+          </v-avatar>
+          <v-span class="mt-5 text-grey-lighten-1 text-button">
+            Building Better Future
+          </v-span>
+        </v-div>
+      </v-row>
+      <v-container fluid class="h-100 vw-100 mobile mx-auto">
+        <v-form @submit.prevent="handleLogin" :validation-schema="schema">
+          <v-toolbar class="bg-transparent text-bluetheme toolbar-p mx-auto">
+            <v-span class="text-montserrat font-large mx-auto">USER LOGIN</v-span>
+          </v-toolbar>
+          <v-container class="mx-auto w-75 h-100 mb-n12">
+            <v-text-field variant="underlined" class="text-blue-custom text-field"  v-model="username" name="username" hide-details>
+              <img src="../assets/img/USER.png" class="me-3 mb-2 icon-small"/>
+            </v-text-field>
+            <v-text-field variant="underlined" class="text-blue-custom text-field"  v-model="password" name="password" hide-details>
+              <img src="../assets/img/PASS.png" class="me-3 mb-2 icon-small" />
+            </v-text-field>
+            <v-btn class="text-montserrat text-white color-orangetheme elevation-0 btn-login d-block mx-auto">Login</v-btn>
+          </v-container>
+        </v-form>
+      </v-container>
+    </v-col>
+    <v-col class="show absolute h-100">
+      <v-row no-gutters class="w-50 me-0 ms-auto h-100" align="center">
+        <v-card class="size-card mx-auto rounded-xl">
+          <v-form @submit.prevent="handleLogin" :validation-schema="schema">
+            <v-toolbar class="bg-transparent text-bluetheme toolbar-p mx-auto">
+              <v-span class="text-montserrat font-large mx-auto">USER LOGIN</v-span>
+            </v-toolbar>
+            <v-container class="mx-auto w-85">
+              <v-text-field variant="underlined" class="text-blue-custom text-field" v-model="username" name="username" hide-details>
+                <img src="../assets/img/USER.png" class="me-3 mb-2 icon-small"/>
+              </v-text-field>
+              <v-text-field variant="underlined" class="text-blue-custom text-field" v-model="password" name="password" hide-details>
+                <img src="../assets/img/PASS.png" class="me-3 mb-2 icon-small" />
+              </v-text-field>
+              <v-btn type="submit" class="text-montserrat text-white color-orangetheme elevation-0 btn-login d-block mx-auto">Login</v-btn>
+            </v-container>
+          </v-form>
+          <div v-if="message" class="error-message text-body-2 text-white pt-3">{{ message }}</div>
+        </v-card>
+      </v-row>
+    </v-col>
   </v-row>
-  <v-div class="d-flex flex-column justify-space-between align-end">
-    <v-div class="d-flex flex-column justify-space-between">
-      <v-div class="animate__animated animate__zoomIn animate__delay-2s circle-3"></v-div>
-      <v-div class="animate__animated animate__zoomIn animate__delay-2s circle-4"></v-div>
-    </v-div>
-    <v-div class="animate__animated animate__zoomIn animate__delay-2s circle-2"></v-div>
-  </v-div>
-  <v-div class="absolute w-100 ms-n4 h-75 my-auto">
-    <v-container class="me-md-12 mx-auto w-card ">
-      <v-form @submit.prevent="handleLogin" :validation-schema="schema">
-      <v-card class="animate__animated animate__fadeInUpBig animate__delay-4s rounded-xlarger pa-11 card-login elevation-5 d-flex flex-column justify-space-around">
-          <h4 class="text-center text-h6 font-weight-bold text-blue-custom">USER LOGIN</h4>
-          <v-div>
-          <v-span class="text-h7 font-weight-medium text-blue-custom">Username</v-span>
-          <v-text-field
-            v-model="username"
-            @click="user = !user, pass = false"
-            class="rounded-lg text-body-2 mb-2"
-            :variant="user ? 'plain' : 'underlined'"
-            :class="user ? 'bg-blue-lighten-3' : ''"
-            density="compact"
-            hide-details
-          >
-            <img v-if="user" src="../assets/img/USER1.png" class="ms-3 mb-2 me-5" style="width:15px; height:20px" />
-            <img v-if="!user" src="../assets/img/USER.png" class="ms-3 mb-2 me-5" style="width:15px; height:20px" />
-          </v-text-field>
-        </v-div>
-        <v-div>
-          <v-span class="text-h7 font-weight-medium text-blue-custom">Password</v-span>
-          <v-text-field
-            v-model="password"
-            class="rounded-lg text-body-2 mb-2"
-            @click="pass = !pass, user = false"
-            :variant="pass ? 'plain' : 'underlined'"
-            :class="pass ? 'bg-blue-lighten-3' : ''"
-            density="compact"
-            hide-details
-          >
-            <img v-if="pass" src="../assets/img/PASS1.png" class="ms-3 mb-2  me-5" style="width:15px; height:20px" />
-            <img v-if="!pass" src="../assets/img/PASS.png" class="ms-3 mb-2  me-5" style="width:15px; height:20px" />
-          </v-text-field>
-        </v-div>
-        <v-btn
-        class="block w-100 mx-auto elevation-0 bg-blue-custom text-white rounded-xl"
-        height="50"
-        hide-details
-        type="submit"
-        >
-          login
-        </v-btn>
-        <div v-if="message" class="error-message text-body-2 text-red pt-3">{{ message }}</div>
-      </v-card>
-    </v-form>
-    </v-container>
-  </v-div>
-</v-container>
+</v-responsive>
 </template>
 
 <style>
-.bg-indigo-custom {
-    background-color: rgb(121, 159, 180);
-}
-.bg-trans {
-    background-color: rgba(255, 255, 255, 0.411) !important;
-}
-.vh-100 {
-  height: 98vh;
-}
-.bg-auri {
-  background-image: url('./assets/');
-}
-
 </style>
