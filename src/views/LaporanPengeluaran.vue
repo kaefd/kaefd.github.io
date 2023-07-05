@@ -9,10 +9,10 @@ import { ref, onMounted } from 'vue';
 import AppBar from '../components/appbar/AppBar.vue';
 import PengeluaranDetail from './PengeluaranDetail.vue';
 import filterDrawer from '../components/drawer/filterDrawer.vue';
-import circleButton from '../components/button/btnOption.vue';
 import textField from '../components/form/textField.vue';
 import menuList from '../components/menu/menuList.vue';
 import checkBox from '../components/form/checkBox.vue';
+import BtnFilter from '../components/button/btnFilter.vue';
 </script>
 
 <script>
@@ -22,10 +22,10 @@ import checkBox from '../components/form/checkBox.vue';
       AppBar,
       PengeluaranDetail,
       filterDrawer,
-      circleButton,
       textField,
       menuList,
       checkBox,
+        BtnFilter,
     },
     props:['actIcon', 'cetak'],
     data () {
@@ -308,7 +308,7 @@ import checkBox from '../components/form/checkBox.vue';
     <v-row no-gutters class="mb-2 mt-n4">
       <v-responsive>
         <!-- BUTTON FILTER -->
-        <circleButton icon="mdi-tune-vertical" @click="filter = !filter" />
+        <btn-filter icon="mdi-tune-vertical" @click="filter = !filter" />
       </v-responsive>
       <v-responsive class="me-0 ms-auto" max-width="450">
         <div class="d-flex">
@@ -337,6 +337,10 @@ import checkBox from '../components/form/checkBox.vue';
           class="text-caption py-3 h-100"
           height="100%"
           >
+          <!-- eslint-disable-next-line vue/valid-v-slot -->
+          <template v-slot:item.tgl_penjualan="{item}">
+              {{ functions.formatDate(item.raw.tgl_penjualan) }}
+          </template>
           <!-- eslint-disable-next-line vue/valid-v-slot -->
           <template v-slot:item.nama="{item}">
               {{ dataTable(item.raw.kode_pelanggan, 'nama') }}

@@ -176,7 +176,7 @@ export default {
                 <!-- EDIT -->
                 <v-row justify="center" justify-md="space-between" align="start" class="pt-7" v-if="edit">
                     <textFieldForm label="No Pemasukan" :model-value="items.no_pembelian" readonly/>
-                    <textFieldForm label="Tgl Pemasukan" :model-value="items.tgl_pembelian" readonly/>
+                    <textFieldForm label="Tgl Pemasukan" :model-value="functions.formatDate(items.tgl_pembelian)" readonly/>
                     <textFieldForm label="Nama Supplier" :model-value="items.kode_supplier" readonly/>
                     <textFieldForm label="Tipe Dokumen" :model-value="items.tipe_dokumen" readonly/>
                     <textFieldForm label="No Dokumen" :model-value="items.no_dokumen" readonly/>

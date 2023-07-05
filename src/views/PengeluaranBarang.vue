@@ -207,7 +207,7 @@ import BtnFilter from '../components/button/btnFilter.vue';
         for (let i = 0; i < this.penjualan_head.length; i++) {
           a.push({
             no_penjualan: this.penjualan_head[i].no_penjualan,
-            tgl_penjualan: functions.formatDate(this.penjualan_head[i].tgl_penjualan),
+            tgl_penjualan: this.penjualan_head[i].tgl_penjualan,
             tipe_dokumen: this.penjualan_head[i].tipe_dokumen,
             no_dokumen: this.penjualan_head[i].no_dokumen,
             kode_pelanggan: this.penjualan_head[i].kode_pelanggan,
@@ -385,6 +385,7 @@ import BtnFilter from '../components/button/btnFilter.vue';
               <!-- </template> -->
             <!-- dialog actions -->
             <!-- eslint-disable-next-line vue/valid-v-slot -->
+            <template v-slot:item.tgl_penjualan="{ item }">{{ functions.formatDate(item.raw.tgl_penjualan) }}</template>
              <!-- eslint-disable-next-line vue/valid-v-slot -->
             <template v-slot:item.actions="{item}">
               <PengeluaranDetail @confirm="confirm" batalbtn="Pengeluaran" :namaPelanggan="pelanggan.namaPelanggan(pelanggan, item.raw.kode_pelanggan)" :penjualan="pengeluaran.penjualan(penjualan_detail, item.raw.no_penjualan)" :edit="true" :pengeluaran="true" :pageTitle="pageTitle" :headDetails="pengeluaran.data().headDetails" :items="item.raw" :headers="pengeluaran.data().headers" :search="search" :category="category" :selectCategory="selectCategory" :iTitle="actIcon[3].text" :btncolor="actIcon[3].color" :icon="actIcon[3].icon" :iVariant="actIcon[3].variant" :alpha="alpha" :actIcon="actIcon" :disable="true"/>

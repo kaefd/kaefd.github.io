@@ -3,11 +3,11 @@ import TableVue from '../components/TableVue.vue';
 import '@vuepic/vue-datepicker/dist/main.css'
 import api from '../service/api';
 import { ref, onMounted } from 'vue';
-import { jsPDF } from "jspdf";
-import 'jspdf-autotable';
 import AppBar from '../components/appbar/AppBar.vue';
 import filterDrawer from '../components/drawer/filterDrawer.vue';
 import checkBox from '../components/form/checkBox.vue';
+import BtnFilter from '../components/button/btnFilter.vue';
+import TextField from '../components/form/textField.vue';
 </script>
 
 <script>
@@ -17,6 +17,8 @@ import checkBox from '../components/form/checkBox.vue';
       AppBar,
       filterDrawer,
       checkBox,
+        BtnFilter,
+        TextField,
     },
     props:['actIcon', 'cetak'],
     data () {
@@ -113,40 +115,6 @@ import checkBox from '../components/form/checkBox.vue';
       close(v) {
         return this.filter = v
       },
-      print(key){
-        if (key == 'xlsx') {
-          return this.ExportToExcel('xlsx')
-        } else if(key == 'pdf') {
-          return this.generatePDF()
-        }
-      },
-      generatePDF() {
-      const doc = new jsPDF({
-        orientation: "potrait",
-        unit: "in",
-        format: "a4"
-      });
-      let heading = this.pageTitle
-      let columns = this.headers
-      // text is placed using x, y coordinates
-      doc.setFontSize(14).text(heading, 0.5, 0.5).setFont('Arial', 20);
-      doc.autoTable({
-        columns,
-        body: this.items,
-        margin: { left: 0.1, top: 0.75, right: 0.1 },
-      })
-      .save(`${this.pageTitle}.pdf`);
-      },
-      ExportToExcel(type, fn, dl) {
-       var elt = document.getElementById('tbl_exporttable_to_xls');
-       // eslint-disable-next-line no-undef
-       var wb = XLSX.utils.table_to_book(elt, { sheet: "sheet1" });
-       return dl ?
-         // eslint-disable-next-line no-undef
-         XLSX.write(wb, { bookType: type, bookSST: true, type: 'base64' }):
-         // eslint-disable-next-line no-undef
-         XLSX.writeFile(wb, fn || (this.pageTitle+'.' + (type || 'xlsx')));
-      },
       page(){
         return this.$emit('page', this.pageTitle)
       },
@@ -216,47 +184,17 @@ import checkBox from '../components/form/checkBox.vue';
     <v-row no-gutters class="mb-2 mt-n4">
       <v-responsive>
         <!-- BUTTON FILTER -->
-        <v-btn @click="filter = !filter " class="rounded-circle text-caption elevation-0 bg-grey-lighten-4 text-indigo me-2" icon="mdi-tune-vertical" size="small">
-          </v-btn>
+        <btn-filter @click="filter = !filter " />
       </v-responsive>
       <v-responsive class="me-0 ms-auto" max-width="450">
         <div class="d-flex">
           <!-- SEARCH -->
-          <v-text-field
+          <text-field
             v-model="search"
-            density="compact"
-            variant="text"
-            class="text-indigo-darken-4 rounded-xl border text-body-2 font-small"
-            prepend-inner-icon="mdi-magnify"
             placeholder="Search"
-            single-line
-            hide-details
-        >
-        </v-text-field>
-          <!-- EXPORT BUTTON -->
-          <v-btn
-            id="cetak"
-            color="indigo"
-            icon="mdi-dots-vertical"
-            class="rounded-xl mx-2 elevation-0 bg-grey-lighten-4 text-indigo"
-            size="small"
-          ></v-btn>
-          <v-menu activator="#cetak" transition="slide-y-transition">
-            <v-list>
-              <v-list-item
-                v-for="(c, index) in cetak"
-                :key="index"
-                :value="index"
-                @click="print(index)"
-                density="compact"
-                class="text-caption"
-                :prepend-icon="c.icon"
-              >
-              {{ c.title }}
-              </v-list-item>
-            </v-list>
-          </v-menu>
-          </div>
+          >
+          </text-field>
+        </div>
       </v-responsive>
       </v-row>
       <!-- EDIT DATA -->

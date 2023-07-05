@@ -1,4 +1,5 @@
 <script setup>
+import functions from '../service/functions';
 import { VDataTable } from 'vuetify/labs/VDataTable'
 import LogBarang from '../views/LogBarang.vue';
 import dialogMaster from './dialog/dialogMaster.vue';
@@ -116,6 +117,8 @@ export default {
         </template>
       </dialogConfirm>
       </template>
+       <!-- eslint-disable-next-line vue/valid-v-slot -->
+       <template v-if="masuk" v-slot:item.tgl_pembelian="{item}">{{ functions.formatDate(item.raw.tgl_pembelian) }}</template>
        <!-- eslint-disable-next-line vue/valid-v-slot -->
        <template v-if="masuk" v-slot:item.actions="{item}">
             <PemasukanDetail

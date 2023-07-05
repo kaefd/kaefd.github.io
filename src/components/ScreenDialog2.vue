@@ -1,5 +1,6 @@
 <script setup>
 import { VDataTable } from 'vuetify/labs/VDataTable'
+import functions from '../service/functions';
 import btnCancel from './button/btnCancel.vue';
 import btnInfoVue from './button/btnInfo.vue';
 import btnOrange from './button/btnOrange.vue';
@@ -213,7 +214,7 @@ export default {
                                 readonly
                                 variant="outlined"
                                 :rules="required"
-                                :value="item.tgl_produksi"
+                                :value="functions.formatDate(item.tgl_produksi)"
                             />
                         </v-col>
                         <v-col class="w-100">

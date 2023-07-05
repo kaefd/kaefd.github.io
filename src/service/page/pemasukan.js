@@ -56,7 +56,7 @@ export default {
             if(item[i].kode_supplier == supplier[k].kode_supplier) {
               a.push({
                 no_pembelian: item[i].no_pembelian,
-                tgl_pembelian: functions.formatDate(item[i].tgl_pembelian),
+                tgl_pembelian: item[i].tgl_pembelian,
                 tipe_dokumen: item[i].tipe_dokumen,
                 no_dokumen: item[i].no_dokumen,
                 tgl_dokumen: functions.formatDate(item[i].tgl_dokumen),

@@ -283,7 +283,7 @@ import BtnFilter from '../components/button/btnFilter.vue';
         for (let i = 0; i < this.items.length; i++) {
           a.push({
             no_produksi: this.items[i].no_produksi,
-            tgl_produksi: functions.formatDate(this.items[i].tgl_produksi),
+            tgl_produksi: this.items[i].tgl_produksi,
             kode_group: this.items[i].kode_group,
             bahan_baku: this.dataTable(this.items[i].no_produksi, 'baku'),
             jumlah: this.dataTable(this.items[i].no_produksi, 'jumlah'),
@@ -377,6 +377,8 @@ import BtnFilter from '../components/button/btnFilter.vue';
             class="text-caption py-3 h-100"
             height="100%"
             >
+            <!-- eslint-disable-next-line vue/valid-v-slot -->
+            <template v-slot:item.tgl_produksi="{ item }">{{ functions.formatDate(item.raw.tgl_produksi) }}</template>
             <!-- eslint-disable-next-line vue/valid-v-slot -->
             <template v-slot:item.actions="{ item }">
                 <ScreenDialog2
