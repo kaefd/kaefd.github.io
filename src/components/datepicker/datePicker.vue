@@ -24,7 +24,7 @@ export default {
 
 <template>
     <VueDatePicker
-        class="text-small mb-5 mx-1"
+        class="text-small mx-1"
         :clearable="false"
         :placeholder="placeholder"
         style="width: 220px; max-width:220px"
