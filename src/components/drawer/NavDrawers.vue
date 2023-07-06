@@ -298,7 +298,7 @@ import api from '../../service/api';
     </v-container>
     <v-divider></v-divider>
     <v-row class="px-3">
-    <v-list active-color="white">
+    <v-list class="w-100" active-color="white">
     <v-list-item
       id="master"
       class="text-caption mt-5 text-grey-lighten-1"
