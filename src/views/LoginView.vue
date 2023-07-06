@@ -66,17 +66,19 @@ export default {
 <v-responsive class="bg-bluetheme h-100 w-100">
   <v-row class="h-100">
     <v-col class="h-100 d-flex flex-column">
-      <v-div class="w-100 mt-5 d-flex show align-end">
+      <v-div class="w-100 h-100">
+      <v-div class="h-75 d-flex show align-end ms-5">
         <v-container class="logo-size">
           <v-img src="just_logo.png" cover></v-img>
         </v-container>
-        <v-container class="ms-n5">
+        <v-container class="ms-n7">
           <v-div class="text-montserrat font-heading text-bluetheme d-flex flex-column">
-            <v-span class="word-space-heading text-h2 font-weight-bold">BUILDING</v-span>
+            <v-span class="word-space-heading">BUILDING</v-span>
             <v-span class="word-space-heading">Better Future</v-span>
-            <v-divider thickness="2" length="150" class="border-opacity-75 ms-1"></v-divider>
           </v-div>
+          <v-divider thickness="2" class="border-opacity-75 ms-1" length="150"></v-divider>
         </v-container>
+      </v-div>
       </v-div>
       <v-row no-gutters class="w-100 h-50 absolute bg-people mobile">
         <v-div class="my-auto mx-auto d-flex flex-column align-center">
