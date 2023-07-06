@@ -1,5 +1,6 @@
 <script setup>
 import { RouterView } from 'vue-router'
+import AppBar from './components/appbar/AppBar.vue';
 import NavDrawers from './components/drawer/NavDrawers.vue';
 import api from './service/api';
 </script>
@@ -8,14 +9,16 @@ import api from './service/api';
 export default {
   components: {
     NavDrawers,
+    AppBar,
   },
     data () {
       return {
+        drawer: false,
         databarang: '',
         actIcon: [
           { text: 'Tambah Data', icon: 'mdi-plus', color: '#3B7AA9', variant: 'tonal' },
           { text: 'Edit Data', icon: 'mdi-square-edit-outline', color: '#3B7AA9', variant: 'text', width: '30px', height: '30px' },
-          { text: 'Hapus Data', icon: 'mdi-delete', color: 'red-darken-1', variant: 'text', width: '30px', height: '30px' },
+          { text: 'Hapus Data', icon: 'mdi-delete', color: 'rgb(123, 172, 192)-darken-1', variant: 'text', width: '30px', height: '30px' },
           { text: 'Detail Data', icon: 'mdi-dots-vertical', color: 'grey-darken-1', variant: 'text', width: '30px', height: '30px' },
         ],
         cetak: [
@@ -58,15 +61,92 @@ export default {
 
   <template>
       <v-layout>
-        <NavDrawers v-if="pageTitle != null" :pageTitle="pageTitle" :item="items" :pemasukan="pemasukan" :produksi="produksi" :pengeluaran="pengeluaran" :kirim="kirim"/>
+        <NavDrawers v-model="drawer" v-if="pageTitle != null" :pageTitle="pageTitle" :item="items" :pemasukan="pemasukan" :produksi="produksi" :pengeluaran="pengeluaran" :kirim="kirim"/>
+        <AppBar v-if="pageTitle != null" :pageTitle="pageTitle">
+          <template #app-btn>
+              <!-- APP BAR ICON -->
+              <v-div class="mt-2 ms-2 me-5">
+                  <input type="checkbox" id="menu_checkbox" @click="drawer = !drawer">
+                  <label for="menu_checkbox">
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  </label>
+              </v-div>
+          </template>
+        </AppBar>
         <v-main class="vh-100 vw-100">
             <RouterView :actIcon="actIcon" :cetak="cetak" @page="page" @pages="page" :databarang="databarang" />
         </v-main>
       </v-layout>
   </template>
 
-<style>
+<style scoped>
+#menu_checkbox {
+  display: none;
+}
 
+label {
+  display: block;
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+}
+
+label:before {
+  content: "";
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  transition: 1.2s cubic-bezier(0, 0.96, 1, 0.02) background-color;
+}
+
+label div {
+  position: relative;
+  top: 0;
+  height: 3px;
+  background-color: rgb(123, 172, 192);
+  margin-bottom: 4px;
+  transition: 0.3s ease transform, 0.3s ease top, 0.3s ease width,
+    0.3s ease right;
+  border-radius: 2px;
+}
+
+label div:first-child {
+  transform-origin: 0;
+}
+
+label div:last-child {
+  margin-bottom: 0;
+  transform-origin: 31.7px;
+}
+
+label div:nth-child(2) {
+  right: 0;
+  width: 25px;
+}
+
+#menu_checkbox:checked + label div:first-child {
+  left: 9px;
+  top: -3px;
+  transform: rotateZ(45deg);
+  background: rgb(123, 172, 192);
+}
+
+#menu_checkbox:checked + label div:last-child {
+  top: 6px;
+  transform: rotateZ(45deg);
+}
+
+#menu_checkbox:checked + label div:nth-child(2) {
+  width: 26px;
+  top: -1px;
+  left: 4px;
+  transform: rotateZ(-45deg);
+  background: rgb(123, 172, 192);
+}
 
 
 </style>

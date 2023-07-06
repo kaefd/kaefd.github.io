@@ -1,7 +1,6 @@
 <script setup>
 import { defineComponent } from 'vue';
 import api from '../service/api';
-import AppBar from '../components/appbar/AppBar.vue';
 
 </script>
 <script>
@@ -9,7 +8,6 @@ import AppBar from '../components/appbar/AppBar.vue';
     props:['actIcon', 'cetak'],
     name:'UserView',
     components: {
-      AppBar
     },
     data () {
       return {
@@ -173,7 +171,6 @@ import AppBar from '../components/appbar/AppBar.vue';
 </script>
 <template>
 <v-container>
-  <AppBar v-if="pageTitle != null" :pageTitle="pageTitle"/>
   <v-row class="d-flex w-100">
   <v-col>
     <v-card class="elevation-0 pa-3 vh-75 rounded-lg bg-transparent" min-width="250">

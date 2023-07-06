@@ -126,11 +126,21 @@ a {
 }
 
 /*BACKGROUND*/
+  .bg-darkbluetheme {
+    background: #0C223D !important;
+  }
   .bg-bluetheme {
     background-image: url('./img/bg-01.jpg');
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
+  }
+  .bg-people {
+    background-color: #0C223D;
+    background-image: url('./img/people1.png');
+    background-blend-mode: soft-light;
+    background-repeat: no-repeat;
+    background-position: bottom;
   }
 
 .covered {

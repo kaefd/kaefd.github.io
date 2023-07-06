@@ -7,7 +7,6 @@ import barang from '../service/page/barang';
 import TableVue from '../components/TableVue.vue';
 import dialogMaster from '../components/dialog/dialogMaster.vue';
 import btnFilter from '../components/button/btnFilter.vue';
-import AppBar from '../components/appbar/AppBar.vue';
 import menuList from '../components/menu/menuList.vue';
 import textField from '../components/form/textField.vue';
 import checkBox from '../components/form/checkBox.vue';
@@ -20,7 +19,6 @@ import { defineComponent } from 'vue';
 <script>
 export default defineComponent ({
   components: {
-    AppBar,
     TableVue,
     dialogMaster,
     btnFilter,
@@ -185,13 +183,10 @@ export default defineComponent ({
       />
     </template>
   </filterDrawer>
-  <AppBar v-if="pageTitle != null" :pageTitle="pageTitle"/>
   <v-container class="pt-9 h-100">
     <v-row no-gutters class="mb-2 mt-n4">
       <v-responsive class="d-flex align-center mb-sm-0 mb-1" min-width="200">
         <div class="d-flex align-center w-100">
-          <!-- BUTTON FILTER -->
-          <btnFilter @click="filter = !filter" />
           <!-- ADD BUTTON -->
           <dialogMaster
             v-model="dialog"
@@ -223,6 +218,8 @@ export default defineComponent ({
             :items="cetak"
             @result="print"
           />
+          <!-- BUTTON FILTER -->
+          <btnFilter @click="filter = !filter" />
           </div>
       </v-responsive>
     </v-row>

@@ -3,7 +3,6 @@ import TableVue from '../components/TableVue.vue';
 import '@vuepic/vue-datepicker/dist/main.css'
 import api from '../service/api';
 import { ref, onMounted } from 'vue';
-import AppBar from '../components/appbar/AppBar.vue';
 import filterDrawer from '../components/drawer/filterDrawer.vue';
 import checkBox from '../components/form/checkBox.vue';
 import BtnFilter from '../components/button/btnFilter.vue';
@@ -14,7 +13,6 @@ import TextField from '../components/form/textField.vue';
 
   export default {
     components: {
-      AppBar,
       filterDrawer,
       checkBox,
         BtnFilter,
@@ -179,7 +177,6 @@ import TextField from '../components/form/textField.vue';
     </template>
   </filterDrawer>
 
-  <AppBar v-if="pageTitle != null" :pageTitle="pageTitle"/>
   <v-container class="pt-9 h-100">
     <v-row no-gutters class="mb-2 mt-n4">
       <v-responsive>

@@ -6,7 +6,6 @@ import functions from '../service/functions';
 import { VDataTable } from 'vuetify/labs/VDataTable'
 import ScreenDialog2 from '../components/ScreenDialog2.vue';
 import { ref, onMounted } from 'vue';
-import AppBar from '../components/appbar/AppBar.vue';
 import filterDrawer from '../components/drawer/filterDrawer.vue';
 import textField from '../components/form/textField.vue';
 import menuList from '../components/menu/menuList.vue';
@@ -23,7 +22,6 @@ import datePickerVue from '../components/datepicker/datePicker.vue';
     components: {
       ScreenDialog2,
       VDataTable,
-      AppBar,
       textField,
       menuList,
       dialogConfirm,
@@ -338,7 +336,6 @@ import datePickerVue from '../components/datepicker/datePicker.vue';
       <datePickerVue v-model="filtered.periode[1]" />
     </template>
   </filterDrawer>
-    <AppBar v-if="pageTitle != null" :pageTitle="pageTitle"/>
     <v-container class="pt-9 h-100">
       <v-row no-gutters class="align-start mt-n4 mb-2">
         <v-responsive class="d-flex align-start mb-sm-0 mb-1 me-sm-2 me-0" width="200" max-width="350">

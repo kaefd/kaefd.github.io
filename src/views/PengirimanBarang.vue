@@ -7,7 +7,6 @@ import { VDataTable } from 'vuetify/labs/VDataTable'
 import PengirimanDetail from './PengirimanDetail.vue';
 import SuratJalan from './SuratJalan.vue';
 import { ref, onMounted } from 'vue';
-import AppBar from '../components/appbar/AppBar.vue';
 import filterDrawer from '../components/drawer/filterDrawer.vue';
 import textField from '../components/form/textField.vue';
 import menuList from '../components/menu/menuList.vue';
@@ -27,7 +26,6 @@ import DatePicker from '../components/datepicker/datePicker.vue';
       dialogConfirm,
       PengirimanDetail,
       VDataTable,
-      AppBar,
       filterDrawer,
       textField,
       menuList,
@@ -370,7 +368,6 @@ import DatePicker from '../components/datepicker/datePicker.vue';
       <DatePicker v-model="filtered.periode[1]" />
     </template>
   </filterDrawer>
-  <AppBar v-if="pageTitle != null" :pageTitle="pageTitle"/>
   <v-container class="pt-9 h-100">
     <v-row no-gutters class="rounded-t-xl align-start mt-n4 mb-2">
       <v-responsive class="d-flex align-center mb-sm-0 mb-1" min-width="200">

@@ -25,8 +25,7 @@ export default {
 <template>
     <v-app-bar class="elevation-0 border-bottom bg-grey-lighten-5 py-1" height="45">
       <v-container class="d-flex align-center">
-        <!-- APP BAR ICON -->
-        <!-- <v-app-bar-nav-icon size="small" class="me-3"></v-app-bar-nav-icon> -->
+        <slot name="app-btn"></slot>
         <!-- TITLE -->
         <v-title class="text-button">{{ pageTitle }}</v-title> 
         <v-spacer></v-spacer>

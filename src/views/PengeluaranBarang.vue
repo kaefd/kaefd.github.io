@@ -8,7 +8,6 @@
   import { VDataTable } from 'vuetify/labs/VDataTable'
   import PengeluaranDetail from './PengeluaranDetail.vue'
   import { ref, onMounted } from 'vue'
-  import AppBar from '../components/appbar/AppBar.vue'
   import filterDrawer from '../components/drawer/filterDrawer.vue'
   import textField from '../components/form/textField.vue'
   import menuList from '../components/menu/menuList.vue'
@@ -30,7 +29,6 @@ import BtnFilter from '../components/button/btnFilter.vue';
       dialogConfirm,
       PengeluaranDetail,
       VDataTable,
-      AppBar,
       filterDrawer,
       textField,
       menuList,
@@ -303,7 +301,6 @@ import BtnFilter from '../components/button/btnFilter.vue';
       />
     </template>
   </filterDrawer>
-  <AppBar v-if="pageTitle != null" :pageTitle="pageTitle"/>
   <v-container class="pt-9 h-100">
     <v-row no-gutters class="rounded-t-xl align-start mt-n4 mb-2">
       <v-responsive class="d-flex align-center mb-sm-0 mb-1 me-sm-2 me-0" width="200" max-width="350">

@@ -3,7 +3,6 @@ import TableVue from '../components/TableVue.vue';
 import api from '../service/api';
 import { jsPDF } from "jspdf";
 import 'jspdf-autotable'
-import AppBar from '../components/appbar/AppBar.vue';
 import filterDrawer from '../components/drawer/filterDrawer.vue';
 import checkBox from '../components/form/checkBox.vue';
 import menuList from '../components/menu/menuList.vue';
@@ -15,7 +14,6 @@ import BtnFilter from '../components/button/btnFilter.vue';
   export default {
     components: {
       TableVue,
-      AppBar,
       filterDrawer,
       checkBox,
       menuList,
@@ -243,7 +241,6 @@ import BtnFilter from '../components/button/btnFilter.vue';
       ></v-combobox>
     </template>
   </filterDrawer>
-  <AppBar v-if="pageTitle != null" :pageTitle="pageTitle"/>
     <v-container class="pt-9 h-100">
         <v-row no-gutters class="mb-2 mt-n4">
           <v-responsive>

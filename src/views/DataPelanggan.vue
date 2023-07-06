@@ -7,7 +7,6 @@ import { defineComponent } from 'vue';
 import TableVue from '../components/TableVue.vue';
 import dialogMaster from '../components/dialog/dialogMaster.vue';
 import api from '../service/api';
-import AppBar from '../components/appbar/AppBar.vue';
 import menuList from '../components/menu/menuList.vue';
 import textField from '../components/form/textField.vue'
 import btnCancel from '../components/button/btnCancel.vue';
@@ -20,7 +19,6 @@ import btnCancel from '../components/button/btnCancel.vue';
     components: {
       TableVue,
       dialogMaster,
-      AppBar,
       menuList,
       textField,
       btnCancel,
@@ -119,7 +117,6 @@ import btnCancel from '../components/button/btnCancel.vue';
 
 </script>
 <template>
-  <AppBar v-if="pageTitle != null" :pageTitle="pageTitle"/>
   <v-container class="pt-9 h-100">
     <v-row no-gutters class="mt-n4 mb-2">
       <v-responsive class="d-flex align-center mb-sm-0 mb-1" min-width="200">

@@ -14,9 +14,8 @@ export default {
     <v-btn
         class="me-2"
         size="small"
-        height="40"
-        width="40"
         variant="text"
+        icon
     >
         <v-icon size="20" color="blue-custom">mdi-tune-vertical</v-icon>
     </v-btn>

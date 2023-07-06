@@ -6,7 +6,6 @@ import functions from '../service/functions';
 import { VDataTable } from 'vuetify/labs/VDataTable'
 import '@vuepic/vue-datepicker/dist/main.css'
 import { ref, onMounted } from 'vue';
-import AppBar from '../components/appbar/AppBar.vue';
 import PengeluaranDetail from './PengeluaranDetail.vue';
 import filterDrawer from '../components/drawer/filterDrawer.vue';
 import textField from '../components/form/textField.vue';
@@ -20,7 +19,6 @@ import DatePicker from '../components/datepicker/datePicker.vue';
 
   export default {
     components: {
-      AppBar,
       PengeluaranDetail,
       filterDrawer,
       textField,
@@ -305,7 +303,6 @@ import DatePicker from '../components/datepicker/datePicker.vue';
         />
     </template>
   </filterDrawer>
-  <AppBar v-if="pageTitle != null" :pageTitle="pageTitle"/>
   <v-container class="pt-9 h-100">
     <v-row no-gutters class="mb-2 mt-n4">
       <v-responsive>

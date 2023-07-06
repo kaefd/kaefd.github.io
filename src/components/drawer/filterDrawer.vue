@@ -32,10 +32,10 @@ export default {
 <template>
 <v-navigation-drawer
         class="border-0 me-4 elevation-0"
-        location="left"
+        location="right"
         width="320"
       >
-      <v-sheet class="py-5 bg-transparent">
+      <v-sheet class="py-5 bg-grey-lighten-5">
         <div class="d-flex align-center">
           <v-span class="text-button ms-4">Filter</v-span>
           <textButton @click="filtered()" class="me-3 ms-auto" icon="mdi-close"/>

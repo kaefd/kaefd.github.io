@@ -5,7 +5,6 @@ import functions from '../service/functions';
 import supplier from '../service/page/supplier'
 // COMPONENTS
 import TableVue from '../components/TableVue.vue';
-import AppBar from '../components/appbar/AppBar.vue';
 import menuList from '../components/menu/menuList.vue';
 import textField from '../components/form/textField.vue';
 </script>
@@ -14,7 +13,6 @@ import textField from '../components/form/textField.vue';
     props:['actIcon', 'cetak'],
     components: {
     TableVue,
-    AppBar,
     menuList,
     textField,
 },
@@ -61,7 +59,6 @@ import textField from '../components/form/textField.vue';
   }  
 </script>
 <template>
-<AppBar v-if="pageTitle != null" :pageTitle="pageTitle"/>
 <v-container class="h-100 pt-9">
   <v-row no-gutters class="mt-n4 mb-2">
     <v-responsive class="me-0 ms-auto" max-width="450">

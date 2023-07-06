@@ -7,7 +7,6 @@ import '@vuepic/vue-datepicker/dist/main.css'
 import { VDataTable } from 'vuetify/labs/VDataTable'
 import PemasukanDetail from './PemasukanDetail.vue';
 import { ref, onMounted } from 'vue';
-import AppBar from '../components/appbar/AppBar.vue';
 import filterDrawer from '../components/drawer/filterDrawer.vue';
 import textField from '../components/form/textField.vue';
 import menuList from '../components/menu/menuList.vue';
@@ -21,7 +20,6 @@ import DatePicker from '../components/datepicker/datePicker.vue';
     components: {
       VDataTable,
       PemasukanDetail,
-      AppBar,
       filterDrawer,
       textField,
       menuList,
@@ -290,7 +288,6 @@ import DatePicker from '../components/datepicker/datePicker.vue';
         />
     </template>
   </filterDrawer>
-  <AppBar v-if="pageTitle != null" :pageTitle="pageTitle"/>
   <v-container class="pt-9 h-100">
     <v-row no-gutters class="mb-2 mt-n4">
       <v-responsive>

@@ -136,15 +136,13 @@ import functions from '../../service/functions';
       }
     },
     methods: {
-      page() {
+      page(){
         if(
-          this.pageTitle == 'DATA BARANG' ||
-          this.pageTitle == 'DATA PELANGGAN' ||
-          this.pageTitle == 'DATA SUPPLIER' ||
-          this.pageTitle == 'DATA USER'
-        ){
-          return true
-        }
+            this.pageTitle == 'DATA BARANG' ||
+            this.pageTitle == 'DATA PELANGGAN' ||
+            this.pageTitle == 'DATA SUPPLIER' ||
+            this.pageTitle == 'DATA USER'
+          ){ return true }else return false
       },
       getPembelian() {
         const apiUrl = '/pembelian_head?'
@@ -271,43 +269,8 @@ import functions from '../../service/functions';
       onResize() {
       this.windowWidth = window.innerWidth
       },
-      draw(value) {
-        this.drawerMaster = true
-        for (let i = 0; i < this.pages.length; i++) {
-          if(value == this.pages[i].key) {
-            this.navtitle = this.pages[i].key
-          }
-        }
-        if (value == 'masuk') {
-          this.getPembelian()
-        } else if(value == 'produksi') {
-          this.getProduksihead()
-        } else if(value == 'keluar') {
-          this.getPenjualanHead()
-        } else if (value == 'kirim') {
-          this.getPengirimanHead()
-        }
-        this.navtitle = null
-        
-      },
-      subnav() {
-        if(this.page()) {
-          this.navtitle = 'master'
-          this.draw('master')
-          return this.page()
-        }
-        if(this.pageTitle == 'PEMASUKAN BARANG') {
-          this.draw('masuk')
-          return this.pageTitle
-        }
-        if(this.pageTitle == 'PRODUKSI BARANG') {
-          this.draw('produksi')
-          return this.pageTitle
-        }
-      }
     },
     mounted() {
-      this.page()
       this.$nextTick(() => {
       window.addEventListener('resize', this.onResize);
       this.getPembelian()
@@ -323,173 +286,87 @@ import functions from '../../service/functions';
 
 <template>
     <v-navigation-drawer
-    class="py-sm-5 py-0 bg-blue-custom"
-    v-model="drawer"
-    permanent
-    rail
-    :location="windowWidth < 600 ? 'bottom' : 'left'"
+    class="border-0 elevation-0 bg-people"
     >
-    
-    <v-avatar v-if="windowWidth > 600" class="mx-2">
+    <v-container class="d-flex align-end justify-center">
+      <v-avatar class="me-3">
       <img
         src="../../assets/img/logo.png"
         width="50"
       />
-    </v-avatar>
-    <v-row class="justify-center">
-    <v-list class="d-flex flex-sm-column" active-color="white">
+      </v-avatar>
+      <v-span class="text-button font-weight-bold text-white">IT Inventori</v-span>
+    </v-container>
+    <v-divider></v-divider>
+    <v-row class="px-3">
+    <v-list class="d-flex flex-sm-column w-100" active-color="white">
     <v-list-item
-      class="rounded-lg text-caption mb-sm-5 mb-0 mt-sm-4 mt-0"
+      id="master"
+      class="text-caption mt-5 text-grey-lighten-1"
       value="master"
       @click="pageTitle = 'MASTER', draw('master')"
       :active="page()"
+      prepend-icon="mdi-database"
       >
-      <v-icon>mdi-database</v-icon>
-      <v-tooltip
-          activator="parent"
-          :location="windowWidth > 700 ? 'start' : 'top'"
-        >
-          Data Master
-        </v-tooltip>
+      Data Master
     </v-list-item>
+    <v-menu activator="#master" location="end" width="200" height="100%">
+      <v-list class="text-caption bg-darkbluetheme" density="compact" elevation="3" rounded="0">
+        <router-link to="/data-barang">
+          <v-list-item href="#" class="text-grey-lighten-1">Data Barang</v-list-item>
+        </router-link>
+        <router-link to="/data-pelanggan">
+          <v-list-item href="#" class="text-grey-lighten-1">Data Pelanggan</v-list-item>
+        </router-link>
+        <router-link to="/data-supplier">
+          <v-list-item href="#" class="text-grey-lighten-1">Data Supplier</v-list-item>
+        </router-link>
+        <router-link to="/data-user">
+          <v-list-item href="#" class="text-grey-lighten-1">Data User</v-list-item>
+        </router-link>
+      </v-list>
+    </v-menu>
     <RouterLink to="/pemasukan">
-      <v-list-item class="rounded-lg text-caption mb-sm-5 mb-0" :active="pageTitle == 'PEMASUKAN BARANG' ? true : false" value="inItems" @click="pageTitle='PEMASUKAN BARANG', draw('masuk')">
-      <v-icon>mdi-inbox-arrow-down</v-icon>
+      <v-list-item prepend-icon="mdi-inbox-arrow-down" class="text-caption text-grey-lighten-1" :active="pageTitle == 'PEMASUKAN BARANG' ? true : false" @click="pageTitle='PEMASUKAN BARANG'">
+      Pemasukan Barang
       </v-list-item>
     </RouterLink>
     <RouterLink to="/produksi">
-      <v-list-item class="rounded-lg text-caption mb-sm-5 mb-0" :active="pageTitle == 'PRODUKSI BARANG' ? true : false" value="productItems" @click="pageTitle='PRODUKSI BARANG', draw('produksi')">
-        <v-icon>mdi-chart-donut</v-icon>
-        <v-tooltip
-          activator="parent"
-          :location="windowWidth > 700 ? 'start' : 'top'"
-        >
-          Produksi Barang
-        </v-tooltip>
+      <v-list-item prepend-icon="mdi-chart-donut" class="text-caption text-grey-lighten-1" :active="pageTitle == 'PRODUKSI BARANG' ? true : false" @click="pageTitle='PRODUKSI BARANG'">
+        Produksi Barang
       </v-list-item>
     </RouterLink>
     <RouterLink to="/pengeluaran">
-      <v-list-item class="rounded-lg text-caption mb-sm-5 mb-0" :active="pageTitle == 'PENGELUARAN BARANG' ? true : false" value="outItems" @click="pageTitle='PENGELUARAN BARANG', draw('keluar')">
-        <v-icon>mdi-inbox-arrow-up</v-icon>
+      <v-list-item prepend-icon="mdi-inbox-arrow-up" class="text-caption text-grey-lighten-1" :active="pageTitle == 'PENGELUARAN BARANG' ? true : false" @click="pageTitle='PENGELUARAN BARANG'">
+        Pengeluaran Barang
       </v-list-item>
     </RouterLink>
     <RouterLink to="/pengiriman">
-      <v-list-item class="rounded-lg text-caption mb-sm-5 mb-0" :active="pageTitle == 'PENGIRIMAN BARANG' ? true : false" value="sendItems" @click="pageTitle='PENGIRIMAN BARANG', draw('kirim')">
-        <v-icon>mdi-send-variant</v-icon>
+      <v-list-item prepend-icon="mdi-send-variant" class="text-caption text-grey-lighten-1" :active="pageTitle == 'PENGIRIMAN BARANG' ? true : false" @click="pageTitle='PENGIRIMAN BARANG'">
+        Pengiriman Barang
       </v-list-item>
     </RouterLink>
-    <v-list-item class="rounded-lg text-caption mb-sm-5 mb-0" :active="laporan()" value="laporan" @click="pageTitle = 'LAPORAN', draw('laporan')">
-      <v-icon>mdi-folder-outline</v-icon>
-      <v-tooltip
-        activator="parent"
-        :location="windowWidth > 700 ? 'start' : 'top'"
-      >
-        Laporan
-      </v-tooltip>
+    <v-list-item id="laporan" prepend-icon="mdi-folder-outline" class="text-caption text-grey-lighten-1" :active="laporan()" value="laporan" @click="pageTitle = 'LAPORAN'">
+      Laporan
     </v-list-item>
+    <v-menu activator="#laporan" location="end" width="200" height="100%">
+      <v-list class="text-caption bg-darkbluetheme" density="compact" elevation="3" rounded="0">
+        <router-link to="/laporan-stok">
+          <v-list-item href="#" class="text-grey-lighten-1">Laporan Stok Barang</v-list-item>
+        </router-link>
+        <router-link to="/laporan-pemasukan">
+          <v-list-item href="#" class="text-grey-lighten-1">Laporan Pemasukan</v-list-item>
+        </router-link>
+        <router-link to="/laporan-pengeluaran">
+          <v-list-item href="#" class="text-grey-lighten-1">Laporan Pengeluaran</v-list-item>
+        </router-link>
+        <router-link to="/laporan-log">
+          <v-list-item href="#" class="text-grey-lighten-1">Laporan Log User</v-list-item>
+        </router-link>
+      </v-list>
+    </v-menu>
   </v-list>
     </v-row>
-    </v-navigation-drawer>
-    <v-navigation-drawer
-      v-model="drawerMaster"
-      :permanent="windowWidth > 900 ? true : false"
-      class="border-0 elevation-2"
-    >
-    <v-list nav density="comfortable" class="ms-n2 my-sm-4 my-0" active-color="#3B7AA9">
-    <v-div class="d-flex align-center">
-      <v-span v-if="!page() && !laporan()" class="text-button ms-5">{{ pageTitle }}</v-span>
-      <v-span v-if="page()" class="text-button ms-5">MASTER</v-span>
-      <v-span v-if="laporan()" class="text-button ms-5">LAPORAN</v-span>
-    </v-div>
-    <v-divider class="mb-3"></v-divider>
-    <!-- MASTER -->
-    <v-div  v-if="pageTitle == 'MASTER' || page()"> 
-      <RouterLink to="/data-barang">
-      <v-list-item title="Data Barang" class="rounded-left-lg  ps-6" :active="pageTitle == 'DATA BARANG' ? true : false" value="items"/>
-      </RouterLink>
-      <RouterLink to="/data-pelanggan">
-        <v-list-item title="Data Pelanggan" class="rounded-left-lg ps-6" :active="pageTitle == 'DATA PELANGGAN' ? true : false" value="customers"/>
-      </RouterLink>
-      <RouterLink to="/data-supplier">
-        <v-list-item title="Data Suppliers" class="rounded-left-lg ps-6" :active="pageTitle == 'DATA SUPPLIER' ? true : false" value="suppliers" />
-      </RouterLink>
-      <RouterLink to="/data-user">
-        <v-list-item title="Data Users" class="rounded-left-lg ps-6" :active="pageTitle == 'DATA USERS' ? true : false" value="users" />
-      </RouterLink>
-    </v-div>
-    <!-- PEMASUKAN BARANG -->
-    <v-div v-if="pageTitle == 'PEMASUKAN BARANG'" class="d-flex flex-column">
-      <v-span class="text-body-2 ms-6 mt-5">Aktivitas Terakhir</v-span>
-      <div class="pb-5">
-        <v-div v-for="p, i in pemasukan_brg" :key="i" class="d-flex flex-column ms-5 pt-5">
-          <v-span class="text-caption">
-            <v-icon color="green">mdi-circle-medium</v-icon>
-            {{ p.nama }}
-            </v-span>
-            <v-span class="ms-5 text-small w-100">jumlah : {{ functions.numb(p.jumlah) }} {{ p.satuan }}</v-span>
-            <v-span class="ms-5 text-small w-100">{{ p.periode }}</v-span>
-        </v-div>
-      </div>
-    </v-div>
-    <!-- PRODUKSI -->
-    <v-div v-if="pageTitle == 'PRODUKSI BARANG'" class="d-flex flex-column">
-      <v-span class="text-body-2 ms-6 mt-5">Aktivitas Terakhir</v-span>
-      <v-div>
-      <v-div v-for="p, i in produksi_h" :key="i" class="d-flex flex-column ms-5 pt-5">
-        <v-span class="text-caption">
-          <v-icon color="green">mdi-circle-medium</v-icon>
-          {{ p.nama }}
-        </v-span>
-        <v-span class="ms-5 text-small w-100">jumlah : {{ functions.numb(p.jumlah) }} {{ p.satuan }}</v-span>
-        <v-span class="ms-5 text-small w-100">{{ p.periode }}</v-span>
-      </v-div>
-      </v-div>
-    </v-div>
-    <!-- PENGELUARAN -->
-    <div v-if="pageTitle == 'PENGELUARAN BARANG'" class="d-flex flex-column">
-      <v-span class="text-body-2 ms-6 mt-5">Aktivitas Terakhir</v-span>
-      <div>
-        <v-div v-for="p, i in pengeluaran_h" :key="i" class="d-flex flex-column ms-5 pt-5">
-          <v-span class="text-caption">
-            <v-icon color="green">mdi-circle-medium</v-icon>
-            {{ p.nama }}
-          </v-span>
-          <v-span class="ms-5 text-small w-100">jumlah : {{ functions.numb(p.jumlah) }} {{ p.satuan }}</v-span>
-          <v-span class="ms-5 text-small w-100">{{ p.periode }}</v-span>
-        </v-div>
-      </div>
-    </div>
-    <!-- PENGIRIMAN -->
-    <v-div v-if="pageTitle == 'PENGIRIMAN BARANG'" class="d-flex flex-column">
-      <v-span class="text-body-2 ms-6 mt-5">Aktivitas Terakhir</v-span>
-      <div class="pb-5">
-        <v-div v-for="p, i in kirim_h" :key="i" class="d-flex flex-column ms-5 pt-5">
-          <v-span class="text-caption">
-            <v-icon color="green">mdi-circle-medium</v-icon>
-            {{ p.nama }}
-          </v-span>
-          <v-span class="ms-5 text-small w-100">jumlah : {{ functions.numb(p.jumlah) }} {{ p.satuan }}</v-span>
-          <v-span class="ms-5 text-small w-100">{{ p.periode }}</v-span>
-        </v-div>
-        </div>
-    </v-div>
-    <!-- LAPORAN -->
-    <v-div v-if="pageTitle == 'LAPORAN' || laporan()">
-      <RouterLink to="/laporan-stok">
-      <v-list-item title="Laporan Stok Barang" class="rounded-left-lg  ps-6" :active="pageTitle == 'LAPORAN STOK BARANG' ? true : false" value="stok"/>
-      </RouterLink>
-      <RouterLink to="/laporan-pemasukan">
-        <v-list-item title="Laporan Pemasukan" class="rounded-left-lg ps-6" :active="pageTitle == 'LAPORAN PEMASUKAN BARANG' ? true : false" value="in"/>
-      </RouterLink>
-      <RouterLink to="/laporan-pengeluaran">
-        <v-list-item title="Laporan Pengeluaran" class="rounded-left-lg ps-6" :active="pageTitle == 'LAPORAN PENGELUARAN BARANG' ? true : false" value="out" />
-      </RouterLink>
-      <RouterLink to="/laporan-log">
-        <v-list-item title="Log User" class="rounded-left-lg ps-6" :active="pageTitle == 'LAPORAN LOG USER' ? true : false" value="users" />
-      </RouterLink>
-    </v-div>
-
-    </v-list>
     </v-navigation-drawer>
 </template>
 
