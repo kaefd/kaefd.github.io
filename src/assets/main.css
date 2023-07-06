@@ -69,6 +69,9 @@ th {
 .absolute {
   position: absolute;
 }
+.relative {
+  position: relative;
+}
 .m-center{
   display: flex;
   align-self: center;
@@ -85,7 +88,7 @@ th {
 }
 /* CARD */
 .size-card {
-  width: 29vw;
+  width: 27vw;
   height: 33vw;
 }
 .icon-small {
@@ -100,7 +103,7 @@ th {
   color: #0C223D;
 }
 .font-heading {
-  font-size: 4.5vw;
+  font-size: 3vw;
 }
 .font-large {
   font-size: 2vw;
@@ -154,7 +157,6 @@ a {
     background-blend-mode: soft-light;
     background-repeat: no-repeat;
     background-position: center;
-    background-size: cover;
   }
   .show {
     visibility: hidden;
@@ -224,7 +226,7 @@ a {
     /* max-width: 400px; */
   }
   .word-space-heading {
-    margin-top: -25px;
+    margin-top: -15px;
   }
   .toolbar-p {
     padding-top: 10%;

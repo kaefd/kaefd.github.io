@@ -64,17 +64,17 @@ export default {
   </v-row>
 -->
 <v-responsive class="bg-bluetheme h-100 w-100">
-  <v-row no-gutters class="h-100">
-    <v-col class="h-100 d-flex flex-column mt-5">
-      <v-div class="w-100 h-100 d-flex show">
-        <v-container class="h-100 logo-size">
+  <v-row class="h-100">
+    <v-col class="h-100 d-flex flex-column">
+      <v-div class="w-100 mt-5 d-flex show align-end">
+        <v-container class="logo-size">
           <v-img src="just_logo.png" cover></v-img>
         </v-container>
-        <v-container class="h-100">
+        <v-container class="ms-n5">
           <v-div class="text-montserrat font-heading text-bluetheme d-flex flex-column">
-            <v-span class="word-space-heading">Building</v-span>
-            <v-span class="word-space-heading">Better</v-span>
-            <v-span class="word-space-heading">Future</v-span>
+            <v-span class="word-space-heading text-h2 font-weight-bold">BUILDING</v-span>
+            <v-span class="word-space-heading">Better Future</v-span>
+            <v-divider thickness="2" length="150" class="border-opacity-75 ms-1"></v-divider>
           </v-div>
         </v-container>
       </v-div>
@@ -88,25 +88,23 @@ export default {
           </v-span>
         </v-div>
       </v-row>
-      <v-container fluid class="h-100 vw-100 mobile mx-auto">
-        <v-form @submit.prevent="handleLogin" :validation-schema="schema">
-          <v-toolbar class="bg-transparent text-bluetheme toolbar-p mx-auto">
-            <v-span class="text-montserrat font-large mx-auto">USER LOGIN</v-span>
-          </v-toolbar>
-          <v-container class="mx-auto w-75 h-100 mb-n12">
-            <v-text-field variant="underlined" class="text-blue-custom text-field" v-model="username" name="username" hide-details>
+      <v-container fluid class="h-50 vw-100 mobile mx-auto">
+        <v-container class="mx-auto w-75 h-100">
+          <v-form @submit.prevent="handleLogin" :validation-schema="schema" class="text-center">
+          <v-span class="text-montserrat font-large mx-auto">USER LOGIN</v-span>
+            <v-text-field variant="underlined" class="text-blue-custom text-field mt-7" v-model="username" name="username" hide-details>
               <img src="../assets/img/USER.png" class="me-3 mb-2 icon-small"/>
             </v-text-field>
             <v-text-field variant="underlined" class="text-blue-custom text-field" v-model="password" name="password" hide-details>
               <img src="../assets/img/PASS.png" class="me-3 mb-2 icon-small" />
             </v-text-field>
             <v-btn type="submit" class="text-montserrat text-white color-orangetheme elevation-0 btn-login d-block mx-auto">Login</v-btn>
+          </v-form>
           </v-container>
-        </v-form>
       </v-container>
     </v-col>
-    <v-col class="show absolute h-100">
-      <v-row no-gutters class="w-50 me-0 ms-auto h-100" align="center">
+    <v-col class="show absolute h-100 me-0">
+      <v-row no-gutters class="w-50 me-md-0 ms-md-auto mx-auto h-100 " align="center">
         <v-card class="size-card mx-auto rounded-xl">
           <v-form @submit.prevent="handleLogin" :validation-schema="schema">
             <v-toolbar class="bg-transparent text-bluetheme toolbar-p mx-auto">
