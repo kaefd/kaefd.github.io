@@ -1,7 +1,6 @@
 <script setup>
 import { RouterLink } from 'vue-router'
 import api from '../../service/api';
-import functions from '../../service/functions';
 </script>
 
 <script>
@@ -9,7 +8,7 @@ import functions from '../../service/functions';
     props: ['act', 'pageTitle'],
     data () {
       return {
-        windowWidth: window.innerWidth,
+        // windowWidth: window.innerWidth,
         master: ['master'],
         pages: [
           {key: 'master', value: 'Master'},
@@ -266,13 +265,13 @@ import functions from '../../service/functions';
           return true
         }
       },
-      onResize() {
-      this.windowWidth = window.innerWidth
-      },
+      // onResize() {
+      // this.windowWidth = window.innerWidth
+      // },
     },
     mounted() {
       this.$nextTick(() => {
-      window.addEventListener('resize', this.onResize);
+      // window.addEventListener('resize', this.onResize);
       this.getPembelian()
       this.getPembelianDetail()
       this.getProduksiDetail()
@@ -299,7 +298,7 @@ import functions from '../../service/functions';
     </v-container>
     <v-divider></v-divider>
     <v-row class="px-3">
-    <v-list class="d-flex flex-sm-column w-100" active-color="white">
+    <v-list active-color="white">
     <v-list-item
       id="master"
       class="text-caption mt-5 text-grey-lighten-1"
