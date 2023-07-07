@@ -29,21 +29,21 @@ export default {
         <!-- TITLE -->
         <v-title class="text-button ">{{ pageTitle }}</v-title> 
         <v-spacer></v-spacer>
-        <v-sheet class="bg-transparent" id="account">
+        <v-sheet class="d-flex align-center bg-transparent">
           <v-avatar>
             <v-icon color="grey-darken-1" size="large">mdi-account-circle</v-icon>
           </v-avatar>
-          <span class="text-caption">Admin</span>
-          <v-icon size="20">mdi-chevron-down</v-icon>
-        </v-sheet>
-        <v-menu activator="#account">
+          <v-span class="text-caption d-flex">
+            Admin
+            <v-icon size="20">mdi-chevron-down</v-icon>
+          </v-span>
+          <v-menu activator="parent">
             <v-card width="300"  class="rounded-xl pa-2 bg-grey-lighten-3 border">
               <div class="d-flex flex-column align-center bg-white rounded-xl">
                 <v-avatar size="100">
                   <v-icon size="80">mdi-account-circle</v-icon>
                 </v-avatar>
                 <v-span>Admin</v-span>
-
                 <v-btn class="d-flex justify-start align-left rounded-b-xl elevation-0 mt-5" block size="60">
                   <v-icon color="grey-darken-3 me-2 mt-n1 ms-6" size="19">mdi-key</v-icon>
                   <v-span class="text-body-2">Ganti Password</v-span>
@@ -56,6 +56,7 @@ export default {
               <v-divider></v-divider>
             </v-card>
         </v-menu>
+        </v-sheet>
         <!-- <v-menu>
           <template v-slot:activator="{ props: menu }">
             <v-tooltip location="top">

@@ -88,12 +88,12 @@ th {
 }
 /* CARD */
 .size-card {
-  width: 27vw;
-  height: 33vw;
+  width: 55vh;
+  height: 70vh;
 }
 .icon-small {
-  width: 1.5vw;
-  height: 2vw;
+  width: 15px;
+  height: 20px;
 }
 /* FONT */
 .text-montserrat {
@@ -107,6 +107,9 @@ th {
 }
 .font-large {
   font-size: 2vw;
+}
+.font-25 {
+  font-size: 25px;
 }
 .word-space-heading {
   margin-top: -12px;
@@ -232,7 +235,7 @@ a {
 }
 @media only screen and (min-width: 768px) {
   .logo-size {
-    min-width: 270px;
+    min-width: 500px;
     /* max-width: 400px; */
   }
   .word-space-heading {
