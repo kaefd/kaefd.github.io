@@ -107,17 +107,17 @@ export default {
         <v-card class="size-card me-16 ms-auto rounded-xl">
           <v-form @submit.prevent="handleLogin" :validation-schema="schema">
             <v-container class="mx-auto w-85">
-              <v-div class="d-flex flex-column my-7 text-blue-custom">
-                <v-span class="font-25 text-center">USER LOGIN</v-span>
+              <v-div class="d-flex flex-column my-7 text-bluetheme">
+                <v-span class="text-montserrat font-25 text-center">USER LOGIN</v-span>
               </v-div>
-              <v-text-field variant="underlined" class="text-blue-custom text-field" density="compact" v-model="username" name="username" hide-details>
+              <v-text-field variant="underlined" class="text-blue-custom text-field" density="compact" v-model="username" name="username">
                 <img src="../assets/img/USER.png" class="ms-1 me-3 icon-small"/>
               </v-text-field>
-              <v-text-field :type="ispassword == true ? 'text' : 'password'"  variant="underlined" class="text-blue-custom text-field" density="compact" v-model="password" name="password" hide-details>
+              <v-text-field :type="ispassword == true ? 'text' : 'password'"  variant="underlined" class="text-blue-custom text-field" density="compact" v-model="password" name="password">
                 <img src="../assets/img/PASS.png" class="ms-1 me-3 icon-small" />
               </v-text-field>
               <v-checkbox label="show password" density="compact" class="mt-2" color="orange" v-model="ispassword"></v-checkbox>
-              <v-btn block type="submit" class="text-white color-orangetheme elevation-0 btn-login">Login</v-btn>
+              <v-btn block type="submit" class="text-white color-orangetheme elevation-0">Login</v-btn>
             </v-container>
           </v-form>
           <div v-if="message" class="error-message text-body-2 text-white pt-3">{{ message }}</div>
