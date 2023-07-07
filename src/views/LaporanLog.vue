@@ -180,10 +180,6 @@ import TextField from '../components/form/textField.vue';
   <v-container class="pt-9 h-100">
     <v-row no-gutters class="mb-2 mt-n4">
       <v-responsive>
-        <!-- BUTTON FILTER -->
-        <btn-filter @click="filter = !filter " />
-      </v-responsive>
-      <v-responsive class="me-0 ms-auto" max-width="450">
         <div class="d-flex">
           <!-- SEARCH -->
           <text-field
@@ -191,6 +187,8 @@ import TextField from '../components/form/textField.vue';
             placeholder="Search"
           >
           </text-field>
+        <!-- BUTTON FILTER -->
+        <btn-filter @click="filter = !filter " />
         </div>
       </v-responsive>
       </v-row>

@@ -243,10 +243,6 @@ import BtnFilter from '../components/button/btnFilter.vue';
   </filterDrawer>
     <v-container class="pt-9 h-100">
         <v-row no-gutters class="mb-2 mt-n4">
-          <v-responsive>
-            <!-- BUTTON FILTER -->
-            <btn-filter icon="mdi-tune-vertical" @click="filter = !filter" />
-          </v-responsive>
           <v-responsive class="me-0 ms-auto" max-width="450">
           <div class="d-flex">
             <!-- SEARCH -->
@@ -257,6 +253,8 @@ import BtnFilter from '../components/button/btnFilter.vue';
               :items="cetak"
               @result="print"
             />
+            <!-- BUTTON FILTER -->
+            <btn-filter icon="mdi-tune-vertical" @click="filter = !filter" />
           </div>
         </v-responsive>
         </v-row>

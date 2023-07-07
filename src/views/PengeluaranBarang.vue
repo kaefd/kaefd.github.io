@@ -305,8 +305,6 @@ import BtnFilter from '../components/button/btnFilter.vue';
     <v-row no-gutters class="rounded-t-xl align-start mt-n4 mb-2">
       <v-responsive class="d-flex align-center mb-sm-0 mb-1 me-sm-2 me-0" width="200" max-width="350">
         <div class="d-flex align-center w-100">
-          <!-- BUTTON FILTER -->
-          <btn-filter @click="filter = !filter" />
           <!-- TAMBAH DATA -->
           <PengeluaranDetail
             batalbtn="Pengeluaran"
@@ -345,6 +343,8 @@ import BtnFilter from '../components/button/btnFilter.vue';
             :items="cetak"
             @result="print"
           />
+          <!-- BUTTON FILTER -->
+          <btn-filter @click="filter = !filter" />
         </div>
       </v-responsive>
       </v-row>

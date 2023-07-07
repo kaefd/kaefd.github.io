@@ -287,14 +287,14 @@ import api from '../../service/api';
     <v-navigation-drawer
     class="border-0 elevation-0 bg-people"
     >
-    <v-container class="d-flex align-end justify-center">
-      <v-avatar class="me-3">
+    <v-container fluid class="d-flex align-end justify-center">
+      <v-avatar>
       <img
         src="../../assets/img/logo.png"
         width="50"
       />
       </v-avatar>
-      <v-span class="text-button font-weight-bold text-white">IT Inventori</v-span>
+      <v-span class="text-button font-weight-bold text-white ms-3">IT Inventori</v-span>
     </v-container>
     <v-divider></v-divider>
     <v-row class="px-3">
@@ -309,7 +309,7 @@ import api from '../../service/api';
       >
       Data Master
     </v-list-item>
-    <v-menu activator="#master" location="end" width="200" height="100%">
+    <v-menu activator="#master" location="end" width="200">
       <v-list class="text-caption bg-darkbluetheme" density="compact" elevation="3" rounded="0">
         <router-link to="/data-barang">
           <v-list-item href="#" class="text-grey-lighten-1">Data Barang</v-list-item>
@@ -348,7 +348,7 @@ import api from '../../service/api';
     <v-list-item id="laporan" prepend-icon="mdi-folder-outline" class="text-caption text-grey-lighten-1" :active="laporan()" value="laporan" @click="pageTitle = 'LAPORAN'">
       Laporan
     </v-list-item>
-    <v-menu activator="#laporan" location="end" width="200" height="100%">
+    <v-menu activator="#laporan" location="end" width="200">
       <v-list class="text-caption bg-darkbluetheme" density="compact" elevation="3" rounded="0">
         <router-link to="/laporan-stok">
           <v-list-item href="#" class="text-grey-lighten-1">Laporan Stok Barang</v-list-item>

@@ -12,7 +12,7 @@ export default {
     props:['icon'],
     data () {
         return {
-          filter: null,
+          filter: false,
         }
     },
     methods: {
@@ -21,9 +21,11 @@ export default {
         },
         reset() {
             this.$emit('reset')
+            return this.filtered()
         },
         filterdata() {
             this.$emit('filterdata')
+            return this.filtered()
         }
     }
 }
@@ -31,23 +33,23 @@ export default {
 
 <template>
 <v-navigation-drawer
-        class="border-0 me-4 elevation-0"
-        location="right"
+        class="border-0 elevation-0 mt-5"
         width="320"
+        location="right"
+        temporary
       >
-      <v-sheet class="py-5 bg-grey-lighten-5">
+      <v-sheet class="py-5">
         <div class="d-flex align-center">
           <v-span class="text-button ms-4">Filter</v-span>
-          <textButton @click="filtered()" class="me-3 ms-auto" icon="mdi-close"/>
         </div>
         <!-- KATEGORI BARANG -->
         <v-container class="py-3 px-4">
             <slot name="default" />
-            <v-div class="d-flex justify-end mt-10">
+            <v-div class="d-flex mt-10">
               <btn-cancel btn_title="Reset" @click="reset()" class="mt-5 me-2" />
               <btn-orange btn_title="Filter" @click="filterdata()" class="mt-5 me-2" />
             </v-div>
         </v-container>
       </v-sheet>
-  </v-navigation-drawer>      
+</v-navigation-drawer>      
 </template>

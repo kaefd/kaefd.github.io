@@ -257,8 +257,6 @@ export default {
     <v-row no-gutters class="mt-n4">
       <v-responsive class="d-flex align-center mb-sm-0 mb-1 me-sm-2 me-0" width="200" max-width="350">
           <div class="d-flex align-center w-100">
-            <!-- BUTTON FILTER -->
-            <btn-filter @click="filter = !filter" />
             <!-- ADD DATA -->
             <PemasukanDetail batalbtn="Pemasukan" :datainput="pemasukan.data().datainput" @inputhead="inputhead" :pemasukan="true" :supplier="supplier" :edit="false" :itemDetail="itemDetail" :datatext="datatext" :btn="btn" :headDetails="pemasukan.data().headDetails" :details="details" :headers="pemasukan.data().headers" :items="pemasukan.pilihtipe(selectdokumen, items, supplier)" :pembeliandetl="pembeliandetl" :search="search" :category="pemasukan.data().tipedokumen" :selectCategory="selectCategory" :iTitle="actIcon[0].text" :btncolor="actIcon[0].color" :icon="actIcon[0].icon" :iVariant="actIcon[0].variant" :alpha="alpha" :actIcon="actIcon" :pageTitle="pageTitle"/>
           </div>
@@ -275,6 +273,8 @@ export default {
             :items="cetak"
             @result="print"
           />
+          <!-- BUTTON FILTER -->
+          <btn-filter @click="filter = !filter" />
         </div>
       </v-responsive>
     </v-row>

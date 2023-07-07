@@ -20,7 +20,7 @@ export default {
 </script>
 
 <template>
-<v-menu transition="slide-y-transition">
+<v-menu>
     <template v-slot:activator="{ props }">
        <btnOption v-if="!submenu" v-bind="props" />
        <textButton v-if="submenu" v-bind="props" :icon="icon" />

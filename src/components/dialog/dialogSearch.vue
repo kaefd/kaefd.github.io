@@ -13,6 +13,7 @@ export default {
     props:['label', 'dataValue', 'objectFilter', 'button', 'btn_title', 'cardTitle'],
     data () {
         return {
+            dialog: false,
             searchModel: '',
             search: '',
             pilih: '',
@@ -21,6 +22,7 @@ export default {
     
     methods: {
         result(s) {
+            this.dialog =  false
             this.$emit('pilihObjek', s)
         }
     },
@@ -28,12 +30,12 @@ export default {
 </script>
 
 <template>
-<v-dialog>
+<v-dialog v-model="dialog">
     <template v-slot:activator="{props}">
-        <textFieldForm v-if="!button" :label="label" v-bind="props" v-model="pilih" readonly :rules="required" />
-        <btnInfo v-if="button" v-bind="props" icon="mdi-plus" :btn_title="btn_title"/>
+        <textFieldForm  v-bind="props" v-if="!button" :label="label" v-model="pilih" readonly />
+        <btnInfo v-bind="props" v-if="button" icon="mdi-plus" :btn_title="btn_title"/>
     </template>
-    <v-card class="py-5 px-7 rounded-xl mx-auto w-100" max-width="400">
+    <v-card class="py-5 px-6 rounded-xl">
         <v-card-title class="text-center text-blue-darken-4 mb-3 text-button font-weight-bold">{{ cardTitle }}</v-card-title>
         <textField
             v-model="search"

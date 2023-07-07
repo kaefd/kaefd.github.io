@@ -340,8 +340,6 @@ import datePickerVue from '../components/datepicker/datePicker.vue';
       <v-row no-gutters class="align-start mt-n4 mb-2">
         <v-responsive class="d-flex align-start mb-sm-0 mb-1 me-sm-2 me-0" width="200" max-width="350">
         <div class="d-flex align-center w-100">
-          <!-- BUTTON FILTER -->
-          <btn-filter @click="filter = !filter" />
           <!-- TAMBAH DATA -->
           <ScreenDialog2 :headers="headItem" :items="items" :groupbarang="groupbarang" :getbarang="getbarang" @input_kodegroup="input_kodegroup"  @inputhead="inputhead" :produksi="true" :select_kode="select_kode" :iTitle="actIcon[0].text" :btncolor="actIcon[0].color" :icon="actIcon[0].icon" :iVariant="actIcon[0].variant" :alpha="alpha" :actIcon="actIcon"/>
         </div>
@@ -357,6 +355,8 @@ import datePickerVue from '../components/datepicker/datePicker.vue';
               :items="cetak"
               @result="print"
             />
+            <!-- BUTTON FILTER -->
+            <btn-filter @click="filter = !filter" />
           </div>
       </v-responsive>
       </v-row>

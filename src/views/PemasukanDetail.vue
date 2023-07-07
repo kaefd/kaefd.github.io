@@ -184,14 +184,14 @@ export default {
                     <textFieldForm label="No Invoice" :model-value="items.no_invoice" readonly/>
                     <textFieldForm label="No BL" :model-value="items.no_bl" readonly/>
                     <textFieldForm label="Mata Uang" :model-value="items.mata_uang" readonly/>
-                    <textFieldForm label="Kurs" :model-value="functions.numb(items.kurs)" readonly/>
+                    <textFieldForm label="Kurs" :model-value="functions.numb(items.kurs)" readonly required/>
                 </v-row>
                 <!-- TAMBAH PEMASUKAN -->
                 <v-form class="pt-7" v-if="!edit && pemasukan"  @submit.prevent ref="form">
                     <v-row justify="center" justify-md="space-between">
                         <textFieldForm label="No Pemasukan" v-model="inputdata.no_pembelian" readonly disabled/>
                         <datePicker placeholder="Tgl Pemasukan" v-model="inputdata.tgl_pembelian" />
-                        <dialogSearch v-if="!edit" v-model="dialog4" label="Supplier" :objectFilter="supplier" @pilihObjek="pilihObjek" cardTitle="SUPPLIER" />
+                        <dialogSearch v-if="!edit" label="Supplier" :objectFilter="supplier" @pilihObjek="pilihObjek" cardTitle="SUPPLIER" max-width="400"/>
                         <!-- DOKUMEN -->
                         <textFieldForm id="tipe" label="Tipe Dokumen" :model-value="inputdata.tipe_dokumen" readonly/>
                         <menuForm
@@ -219,7 +219,7 @@ export default {
                 <!-- </v-div> -->
                 <!-- BUTTON TAMBAH BARANG -->
                 <v-div v-if="!edit" :pembelianbaru="pembelianbaru" :pembeliandetl="pembeliandetl" class="text-sm-left text-center">
-                    <dialogScroll @reset="reset"  :barang="barang" :itemDetail="itemDetail" @pemasukanitem="itemmasuk" :pemasukan="true" :btn="btn" width="400" />
+                    <dialogScroll @reset="reset"  :barang="barang" :itemDetail="itemDetail" @pemasukanitem="itemmasuk" :pemasukan="true" :btn="btn" max-width="400" />
                 </v-div>
                 <v-row style="height: 70%;">
                     

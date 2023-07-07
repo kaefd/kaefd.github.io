@@ -253,9 +253,8 @@ export default {
             <btn-info v-bind="props" :disabled="getbarang == '' || inputbahan == '' ? true : false" btn_title="Tambah Barang" icon="mdi-plus" class="mt-5" />
         </template>
     <v-card class="py-5 px-6 rounded-xl">
-        <v-btn icon="mdi-close" variant="plain" size="small" @click="dialog = false"></v-btn>
-            <v-card-title v-if="blmkirim" class="text-center text-blue-darken-4 text-button font-weight-bold mb-3 mt-n10">PENGELUARAN BELUM TERKIRIM</v-card-title>
-            <v-card-title v-if="!blmkirim" class="text-center text-blue-darken-4 text-button font-weight-bold mb-3 mt-n10">STOK BARANG</v-card-title>
+            <v-card-title v-if="blmkirim" class="text-center text-blue-darken-4 text-button font-weight-bold mb-3">PENGELUARAN BELUM TERKIRIM</v-card-title>
+            <v-card-title v-if="!blmkirim" class="text-center text-blue-darken-4 text-button font-weight-bold mb-3">STOK BARANG</v-card-title>
             <v-text-field
                 id="input"
                 v-model="search"

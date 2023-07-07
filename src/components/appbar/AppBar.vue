@@ -23,19 +23,19 @@ export default {
 </script>
 
 <template>
-    <v-app-bar class="elevation-0 border-bottom bg-grey-lighten-5 py-1" height="45">
-      <v-container class="d-flex align-center">
+    <v-app-bar class="elevation-0 bg-grey-lighten-5 py-1 border-b-sm" height="55">
+      <v-container class="d-flex align-center mt-3">
         <slot name="app-btn"></slot>
         <!-- TITLE -->
-        <v-title class="text-button">{{ pageTitle }}</v-title> 
+        <v-title class="text-button ">{{ pageTitle }}</v-title> 
         <v-spacer></v-spacer>
-        <div id="account">
+        <v-sheet class="bg-transparent" id="account">
           <v-avatar>
             <v-icon color="grey-darken-1" size="large">mdi-account-circle</v-icon>
           </v-avatar>
           <span class="text-caption">Admin</span>
           <v-icon size="20">mdi-chevron-down</v-icon>
-        </div>
+        </v-sheet>
         <v-menu activator="#account">
             <v-card width="300"  class="rounded-xl pa-2 bg-grey-lighten-3 border">
               <div class="d-flex flex-column align-center bg-white rounded-xl">

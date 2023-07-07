@@ -372,8 +372,6 @@ import DatePicker from '../components/datepicker/datePicker.vue';
     <v-row no-gutters class="rounded-t-xl align-start mt-n4 mb-2">
       <v-responsive class="d-flex align-center mb-sm-0 mb-1" min-width="200">
         <div class="d-flex align-center w-100">
-          <!-- BUTTON FILTER -->
-          <btn-filter @click="filter = !filter" />
           <!-- TAMBAH DATA -->
           <PengirimanDetail @inputhead="inputhead" :kirim="true" :edit="false" :supplier="pelanggan" :datainput="datainput" :pageTitle="pageTitle" :btn="btn" :headDetails="headDetails" :details="items" :headers="headers" :items="items" :search="search" :category="category" :selectCategory="selectCategory" :iTitle="actIcon[0].text" :btncolor="actIcon[0].color" :icon="actIcon[0].icon" :iVariant="actIcon[0].variant" :alpha="alpha" :actIcon="actIcon" :datatext="datatext"/>
         </div>
@@ -389,6 +387,8 @@ import DatePicker from '../components/datepicker/datePicker.vue';
             :items="cetak"
             @result="print"
           />
+          <!-- BUTTON FILTER -->
+          <btn-filter @click="filter = !filter" />
         </div>
       </v-responsive>
       </v-row>

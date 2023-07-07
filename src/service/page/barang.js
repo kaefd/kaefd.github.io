@@ -19,7 +19,7 @@ export default {
         { title: 'Nama Barang', key: 'nama_barang' },
         { title: 'HS Kode', key: 'hs_code' },
         { title: 'Satuan', key: 'satuan' },
-        { key: 'actions', align:'center', sortable: false},
+        { key: 'actions', align:'start', sortable: false},
       ],
       keyform:[
         'kategori_barang',

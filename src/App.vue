@@ -65,14 +65,14 @@ export default {
         <AppBar v-if="pageTitle != null" :pageTitle="pageTitle">
           <template #app-btn>
               <!-- APP BAR ICON -->
-              <v-div class="mt-2 ms-2 me-5">
-                  <input type="checkbox" id="menu_checkbox" @click="drawer = !drawer">
+                <v-div class="me-5">
+                  <input type="checkbox" id="menu_checkbox" @click="drawer = !drawer" :checked="drawer">
                   <label for="menu_checkbox">
-                  <div></div>
-                  <div></div>
-                  <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
                   </label>
-              </v-div>
+                </v-div>
           </template>
         </AppBar>
         <v-main class="vh-100 vw-100">
@@ -88,8 +88,8 @@ export default {
 
 label {
   display: block;
-  width: 25px;
-  height: 25px;
+  width: 20px;
+  height: 20px;
   cursor: pointer;
 }
 
@@ -125,19 +125,21 @@ label div:last-child {
 
 label div:nth-child(2) {
   right: 0;
-  width: 25px;
+  width: 20px;
 }
 
 #menu_checkbox:checked + label div:first-child {
-  left: 9px;
+  left: 8px;
   top: -3px;
   transform: rotateZ(45deg);
   background: rgb(123, 172, 192);
 }
 
 #menu_checkbox:checked + label div:last-child {
-  top: 6px;
+  top: 10.5px;
+  left: 3.3px;
   transform: rotateZ(45deg);
+  background: rgb(123, 172, 192);
 }
 
 #menu_checkbox:checked + label div:nth-child(2) {
