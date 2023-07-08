@@ -65,6 +65,7 @@ export default {
         kurs: '',
         pemasukan_detail: '',
         pembelian_detail : [this.pembelian],
+        validated: '',
         required: [
         value => {
           if (value)  return true
@@ -123,8 +124,9 @@ export default {
             if (valid){
                 // inputata = head
                 // pembelian_input = detail
+                this.validated = true
                 this.$emit('inputhead', this.inputdata, this.pembelian_input)
-            }
+            } else this.validated = false
         },
     },
     
@@ -189,22 +191,22 @@ export default {
                 <!-- TAMBAH PEMASUKAN -->
                 <v-form class="pt-7" v-if="!edit && pemasukan"  @submit.prevent ref="form">
                     <v-row justify="center" justify-md="space-between">
-                        <textFieldForm label="No Pemasukan" v-model="inputdata.no_pembelian" readonly disabled/>
-                        <datePicker placeholder="Tgl Pemasukan" v-model="inputdata.tgl_pembelian" />
-                        <dialogSearch v-if="!edit" label="Supplier" :objectFilter="supplier" @pilihObjek="pilihObjek" cardTitle="SUPPLIER" max-width="400"/>
+                        <textFieldForm label="No Pemasukan" v-model="inputdata.no_pembelian" :disabled="true" />
+                        <datePicker placeholder="Tgl Pemasukan" v-model="inputdata.tgl_pembelian" :class="validated === false ? 'false' : ''" :validated="validated"/>
+                        <dialogSearch v-if="!edit" label="Supplier" :objectFilter="supplier" @pilihObjek="pilihObjek" cardTitle="SUPPLIER" max-width="400" :rules="required"/>
                         <!-- DOKUMEN -->
-                        <textFieldForm id="tipe" label="Tipe Dokumen" :model-value="inputdata.tipe_dokumen" readonly/>
+                        <textFieldForm id="tipe" label="Tipe Dokumen" :model-value="inputdata.tipe_dokumen" readonly :rules="required" />
                         <menuForm
                           activator="#tipe"
                           icon="mdi-dots-vertical"
                           :items="tipe_dokumen"
                           @result="pilihtipedokumen" />
-                        <textFieldForm label="No Dokumen" v-model="inputdata.no_dokumen" required/>
-                        <datePicker placeholder="Tgl Dokumen" v-model="inputdata.tgl_dokumen" />
-                        <textFieldForm label="No Invoice" v-model="inputdata.no_invoice" />
-                        <textFieldForm label="No BL" v-model="inputdata.no_bl" />
-                        <textFieldForm label="Mata Uang" v-model="inputdata.mata_uang" />
-                        <textFieldForm label="Kurs" v-model="inputdata.kurs" />
+                        <textFieldForm label="No Dokumen" v-model="inputdata.no_dokumen" required :rules="required" />
+                        <datePicker placeholder="Tgl Dokumen" v-model="inputdata.tgl_dokumen" :class="validated === false ? 'false' : ''" :validated="validated" />
+                        <textFieldForm label="No Invoice" v-model="inputdata.no_invoice" :rules="required" />
+                        <textFieldForm label="No BL" v-model="inputdata.no_bl" :rules="required" />
+                        <textFieldForm label="Mata Uang" v-model="inputdata.mata_uang" :rules="required" />
+                        <textFieldForm type="number" label="Kurs" v-model="inputdata.kurs" :rules="required" />
                     </v-row>
                 </v-form>
                 <!-- BUTTON TAMBAH BARANG -->
@@ -221,8 +223,7 @@ export default {
                 <v-div v-if="!edit" :pembelianbaru="pembelianbaru" :pembeliandetl="pembeliandetl" class="text-sm-left text-center">
                     <dialogScroll @reset="reset"  :barang="barang" :itemDetail="itemDetail" @pemasukanitem="itemmasuk" :pemasukan="true" :btn="btn" max-width="400" />
                 </v-div>
-                <v-row style="height: 70%;">
-                    
+                <v-row style="height: 60%;">
                     <!-- TABEL EDIT/VIEW -->
                     <v-data-table
                         :headers="headDetails"
@@ -230,10 +231,8 @@ export default {
                         :hover="true"
                         :fixed-header="true"
                         density="compact"
-                        class="text-caption my-7 px-5"
-                        height="75%"
+                        class="text-caption py-7 px-5 h-80"
                     >
-                    <!-- CUSTOM PAGINATION STYLE -->
                     <template v-slot:bottom>
                         <v-span v-if="laporan && edit" class="float-end me-5 text-caption font-weight-bold">Jumlah : {{ total }}</v-span>
                         <v-span v-if="!laporan && edit" class="float-end me-5 text-caption font-weight-bold">Jumlah : {{ functions.numb(pembelian[0].nilai) }}</v-span>
@@ -283,34 +282,34 @@ export default {
                                 <v-text-field
                                     variant="outlined"
                                     density="compact"
-                                    :value="functions.numb(item.raw.jumlah)"
+                                    v-model="pembelian_input[index].jumlah"
                                     active="true"
-                                    readonly
+                                    :readonly="edit ? true : false"
                                     hide-details
                                     class="mb-1"
                                 >
                                 </v-text-field>
                                 <v-label>Jumlah diterima</v-label>
                                 <v-text-field
-                                    :value="functions.numb(item.raw.jumlah)"
+                                    v-model="pembelian_input[index].jumlah_diterima"
                                     variant="outlined"
                                     density="compact"
-                                    readonly
+                                    :readonly="edit ? true : false"
                                     hide-details
                                     class="mb-1"
                                 />
                                 <v-label>Total Nilai</v-label>
                                 <v-text-field
-                                    :value="functions.numb(item.raw.nilai)"
+                                    v-model="pembelian_input[index].nilai"
                                     variant="outlined"
                                     density="compact"
-                                    readonly
+                                    :readonly="edit ? true : false"
                                     hide-details
                                     class="mb-1"
                                 />
                                 <v-div v-if="!edit" class="d-flex w-100">
                                     <v-btn @click="deleteditem(item.raw), detaildial[index] = false" :hidden="disable" variant="tonal" class="text-caption rounded-xl elevation-0 w-25">Hapus</v-btn>
-                                    <v-btn :hidden="disable" color="blue-darken-4" class="text-caption rounded-xl elevation-0 bg-blue-darken-4 w-75">Simpan</v-btn>
+                                    <v-btn :hidden="disable" color="blue-darken-4" class="text-caption rounded-xl elevation-0 bg-blue-darken-4 w-75" @click="detaildial[index] = false">Simpan</v-btn>
                                 </v-div>
                             </v-responsive>
                         </v-dialog>
@@ -319,7 +318,7 @@ export default {
                     <v-div class="d-flex ms-auto me-0 mb-0 mt-auto">
                         <!-- <v-btn v-if="!edit" @click="validate" :hidden="disable" class="text-body-2 text-white elevation-0 rounded-xl me-2" height="42" width="150" color="#ff6e40">Simpan</v-btn> -->
                         <btn-cancel btn_title="Batal" class="me-2" v-if="!edit" @click="dialog=false"/>
-                        <btn-orange btn_title="Simpan" v-if="!edit" @click="validate" :hidden="disable"/>
+                        <btn-orange type="submit" btn_title="Simpan" v-if="!edit" @click="validated" :hidden="disable"/>
                         <!-- <v-btn v-if="!edit" @click="dialog=false" class="rounded-xl text-body-2" height="42" width="150" variant="outlined" color="grey-darken-2">Batal</v-btn> -->
                     </v-div>
                 </v-row>

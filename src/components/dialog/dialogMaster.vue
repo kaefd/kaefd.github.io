@@ -1,6 +1,7 @@
 <script>
 // import textButton from '../button/textButton.vue'
 import btnInfo from '../button/btnInfo.vue'
+import BtnOrange from '../button/btnOrange.vue'
 import textFieldForm from '../form/textFieldForm.vue'
 import toolbarHeader from '../form/toolbarHeader.vue'
 export default {
@@ -8,6 +9,7 @@ export default {
       btnInfo,
       toolbarHeader,
       textFieldForm,
+        BtnOrange,
     },
     props:
     [
@@ -92,6 +94,7 @@ export default {
                     :label="headers[0].title"
                     v-model="data[keyform[0]]"
                     readonly
+                    :hide-details="true"
                 >                                
                 </text-field-form>
                 <!-- FIELD SELECT (UNTUK EDIT DATA) -->
@@ -101,6 +104,7 @@ export default {
                   :label="headers[0].title"
                   v-model="edit[keyform[0]]"
                   :value="Object.values(item.raw)[0]"
+                  :hide-details="true"
                   readonly
                 >                                
                 </text-field-form>
@@ -125,6 +129,7 @@ export default {
                 :label="headers[0].title"
                 v-model="data[keyform[0]]"
                 required
+                :hide-details="true"
                 ></text-field-form>
                 <!-- EDIT DATA -->
                 <text-field-form
@@ -132,6 +137,7 @@ export default {
                 :label="headers[0].title"
                 v-model="edit[keyform[0]]"
                 :readonly="headers[0].dis"
+                :hide-details="true"
                 ></text-field-form> 
               </div>
                 <v-for v-for="h, i in headers.slice(1, headers.length-1)" :key="i">
@@ -140,19 +146,21 @@ export default {
                     :label="h.title"
                     v-model="data[keyform[i+1]]"
                     required
+                    :hide-details="true"
                   ></text-field-form> 
                   <text-field-form
                     v-if="this.item != null"
                     :label="h.title"
                     v-model="edit[keyform[i+1]]"
                     :readonly="headers[i+1].dis"
+                    :hide-details="true"
                   ></text-field-form> 
                 </v-for>
             </v-container>
             <v-divider></v-divider>
             <v-div v-if="!view" class="d-flex align-center float-end ma-5">
                 <slot name="cancel"></slot>
-                <btnInfo btn_title="Simpan" class="ms-2"/>
+                <btn-orange btn_title="Simpan" class="ms-2"/>
             </v-div>
         </form>
       </v-card>

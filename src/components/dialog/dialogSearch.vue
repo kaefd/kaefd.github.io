@@ -10,7 +10,7 @@ export default {
     components: {
         btnInfo,
   },
-    props:['label', 'dataValue', 'objectFilter', 'button', 'btn_title', 'cardTitle'],
+    props:['label', 'dataValue', 'objectFilter', 'button', 'btn_title', 'cardTitle', 'rules'],
     data () {
         return {
             dialog: false,
@@ -32,7 +32,7 @@ export default {
 <template>
 <v-dialog v-model="dialog">
     <template v-slot:activator="{props}">
-        <textFieldForm  v-bind="props" v-if="!button" :label="label" v-model="pilih" readonly />
+        <textFieldForm  v-bind="props" v-if="!button" :label="label" v-model="pilih" readonly :rules="rules" />
         <btnInfo v-bind="props" v-if="button" icon="mdi-plus" :btn_title="btn_title"/>
     </template>
     <v-card class="py-5 px-6 rounded-xl">

@@ -300,14 +300,15 @@ export default {
                         </v-div>
                         <v-divider></v-divider>
                     </v-list-item>
-                    <v-dialog @update="dialogchild" width="400" v-model="dialogchild[b]">
-                        <v-card class="px-7 py-5 w-100 mx-auto rounded-xl">
+                    <v-dialog @update="dialogchild" max-width="370" v-model="dialogchild[b]">
+                        <v-card class="py-5 w-100 mx-auto rounded-xl">
                             <v-span class="text-button text-center font-weight-bold">{{ item.nama_barang }}</v-span>
-                            <v-span class="text-body-2 text-center">{{ item.kode_barang }}</v-span>
-                            <v-span class="text-caption mb-3 text-center">{{ item.hs_code }}</v-span>
-                            <form @submit.prevent="submit" ref="form">
+                            <v-span class="text-caption text-center">{{ item.kode_barang }} - {{ item.hs_code }}</v-span>
+                            <v-divider class="mt-3 mb-5"></v-divider>
+                            <form @submit.prevent="submit" ref="form" class="mx-auto w-75">
                                 <v-text-field
                                     v-if="!pemasukan"
+                                    type="number"
                                     v-model="penjualan_detail.jumlah"
                                     label="Jumlah"
                                     variant="outlined"
@@ -318,17 +319,19 @@ export default {
                                 />
                                 <v-text-field
                                     v-if="pemasukan"
-                                    v-model="state.jumlah"
+                                    type="number"
                                     label="Jumlah"
                                     variant="outlined"
                                     density="compact"
                                     hide-details
                                     class="mb-3"
                                     :disabled="hiddenbtn"
-                                />
+                                    v-model="state.jumlah"
+                                ></v-text-field>
                                 <v-text-field
                                     v-if="pemasukan"
                                     v-model="state.jumlah_diterima"
+                                    type="number"
                                     label="Jumlah Diterima"
                                     variant="outlined"
                                     density="compact"
@@ -339,6 +342,7 @@ export default {
                                 <v-text-field
                                     v-if="pemasukan"
                                     v-model="state.nilai"
+                                    type="number"
                                     label="Nilai Total"
                                     variant="outlined"
                                     density="compact"
@@ -348,6 +352,7 @@ export default {
                                 <v-text-field
                                     v-if="!tambah && pengeluaran"
                                     v-model="penjualan_detail.harga_jual"
+                                    type="number"
                                     label="Harga"
                                     variant="outlined"
                                     density="compact"
@@ -358,18 +363,19 @@ export default {
                                 <v-text-field
                                     v-if="!tambah && pengeluaran"
                                     :model-value="terjual"
+                                    type="number"
                                     label="Total Harga"
                                     variant="outlined"
                                     density="compact"
                                     hide-details
-                                    class="mb-3"
                                     readonly
                                 />
-                                <v-div class="d-inline float-end">
-                                    <btn-cancel @click="dialogchild[b] = false" btn_title="batal" />
-                                    <btn-orange type="submit" @click="pemasukanItem(item, b)" btn_title="Simpan" class="ms-2" />
-                                </v-div>
                             </form>
+                            <v-divider class="mt-3"></v-divider>
+                            <v-div class="d-inline me-5 ms-auto mt-5">
+                                <btn-cancel @click="dialogchild[b] = false" btn_title="batal" />
+                                <btn-orange type="submit" @click="pemasukanItem(item, b)" btn_title="Simpan" class="ms-2" />
+                            </v-div>
                         </v-card>          
                     </v-dialog>
                 </template>

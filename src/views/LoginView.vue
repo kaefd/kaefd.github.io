@@ -66,7 +66,7 @@ export default {
 -->
 <v-responsive class="bg-bluetheme h-100 w-100">
   <v-row class="h-100">
-    <v-col class="h-100 d-flex flex-column">
+    <v-col class="d-flex flex-column">
       <v-div class="w-100 h-100">
       <v-div class="h-75 d-flex show align-end ms-16">
         <v-container class="logo-size">

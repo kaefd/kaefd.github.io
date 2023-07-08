@@ -1,3 +1,9 @@
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none !important;
+  margin: 0;
+}
+
 /*SIZING STYLE*/
 .vh-100 {
   height: 100vh !important;
@@ -15,7 +21,10 @@
   width: auto !important;
 }
 .w-85 {
-  width: 85%;
+  width: 85% !important;
+}
+.h-80 {
+  height: 80% !important;
 }
  
   .w-20 {
