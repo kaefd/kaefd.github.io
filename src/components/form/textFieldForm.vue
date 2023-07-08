@@ -2,7 +2,7 @@
 export default {
     components: {
   },
-    props:['label', 'rules', 'disabled', 'hideDetails', 'type'],
+    props:['label', 'rules', 'disabled', 'hideDetails', 'type', 'value'],
     data () {
         return {
         }
@@ -22,6 +22,7 @@ export default {
             :rules="rules"
             :disabled="disabled"
             :hide-details="hideDetails"
+            :value="value"
         >
         </v-text-field>
     </v-sheet>

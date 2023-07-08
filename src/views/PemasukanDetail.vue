@@ -274,44 +274,46 @@ export default {
                                     <v-icon>mdi-dots-vertical</v-icon>
                                 </v-btn>
                             </template>
-                            <v-responsive class="bg-white mx-auto px-7 pb-7 pt-5 rounded-xl" width="400">
-                                <v-btn @click="detaildial[index] = false" icon="mdi-close" variant="text" size="small"></v-btn>
-                                <v-card-title class="text-center text-button font-weight-bold mt-n5">{{ item.raw.nama_barang }}</v-card-title>
+                            <v-card class="bg-white mx-auto py-5 rounded-xl" width="370">
+                                <v-card-title class="text-center text-button font-weight-bold">{{ item.raw.nama_barang }}</v-card-title>
                                 <v-card-subtitle class="text-caption text-center mb-2 mt-n3">{{ item.raw.hs_code }}</v-card-subtitle>
-                                <v-label>Jumlah</v-label>
-                                <v-text-field
-                                    variant="outlined"
-                                    density="compact"
-                                    v-model="pembelian_input[index].jumlah"
-                                    active="true"
-                                    :readonly="edit ? true : false"
-                                    hide-details
-                                    class="mb-1"
-                                >
-                                </v-text-field>
-                                <v-label>Jumlah diterima</v-label>
-                                <v-text-field
-                                    v-model="pembelian_input[index].jumlah_diterima"
-                                    variant="outlined"
-                                    density="compact"
-                                    :readonly="edit ? true : false"
-                                    hide-details
-                                    class="mb-1"
-                                />
-                                <v-label>Total Nilai</v-label>
-                                <v-text-field
-                                    v-model="pembelian_input[index].nilai"
-                                    variant="outlined"
-                                    density="compact"
-                                    :readonly="edit ? true : false"
-                                    hide-details
-                                    class="mb-1"
-                                />
-                                <v-div v-if="!edit" class="d-flex w-100">
-                                    <v-btn @click="deleteditem(item.raw), detaildial[index] = false" :hidden="disable" variant="tonal" class="text-caption rounded-xl elevation-0 w-25">Hapus</v-btn>
-                                    <v-btn :hidden="disable" color="blue-darken-4" class="text-caption rounded-xl elevation-0 bg-blue-darken-4 w-75" @click="detaildial[index] = false">Simpan</v-btn>
+                                <v-divider></v-divider>
+                                <v-div class="mx-auto mt-5 w-75">
+                                    <v-text-field
+                                        label="Jumlah"
+                                        variant="outlined"
+                                        density="compact"
+                                        v-model="pembelian_input[index].jumlah"
+                                        active="true"
+                                        :readonly="edit ? true : false"
+                                        hide-details="true"
+                                        class="mb-3"
+                                    >
+                                    </v-text-field>
+                                    <v-text-field
+                                        label="Jumlah diterima"
+                                        variant="outlined"
+                                        density="compact"
+                                        v-model="pembelian_input[index].jumlah_diterima"
+                                        :readonly="edit ? true : false"
+                                        hide-details="true"
+                                        class="mb-3"
+                                    />
+                                    <v-text-field
+                                        label="Total nilai"
+                                        v-model="pembelian_input[index].nilai"
+                                        variant="outlined"
+                                        density="compact"
+                                        :readonly="edit ? true : false"
+                                        hide-details
+                                    />
                                 </v-div>
-                            </v-responsive>
+                                <v-divider class="my-5"></v-divider>
+                                <v-div v-if="!edit" class="d-flex me-5 ms-auto">
+                                    <btn-cancel btn_title="Hapus" @click="deleteditem(item.raw), detaildial[index] = false" :hidden="disable" class="me-2">Hapus</btn-cancel>
+                                    <btn-orange btn_title="Simpan" :hidden="disable" @click="detaildial[index] = false">Simpan</btn-orange>
+                                </v-div>
+                            </v-card>
                         </v-dialog>
                     </template>
                     </v-data-table>
