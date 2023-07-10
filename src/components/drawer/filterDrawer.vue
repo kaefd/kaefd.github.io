@@ -1,11 +1,9 @@
 <script>
 import BtnCancel from '../button/btnCancel.vue';
 import BtnOrange from '../button/btnOrange.vue';
-import textButton from '../button/textButton.vue';
 
 export default {
     components: {
-        textButton,
         BtnOrange,
         BtnCancel
   },

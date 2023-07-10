@@ -11,19 +11,17 @@ export default {
 </script>
 
 <template>
-    <v-sheet class="d-flex flex-column">
-        <v-label>{{ label }}</v-label>
         <v-text-field
             :type="type"
+            :label="label"
             variant="outlined"
             density="compact"
             style="width: 220px; max-width:220px"
-            class="mx-1 mb-1"
+            class="mx-1"
+            :class="hideDetails ? 'mb-5' : 'mb-2'"
             :rules="rules"
-            :disabled="disabled"
             :hide-details="hideDetails"
-            :value="value"
+            :disabled="disabled"
         >
         </v-text-field>
-    </v-sheet>
 </template>

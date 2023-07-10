@@ -329,11 +329,9 @@ import datePickerVue from '../components/datepicker/datePicker.vue';
   <filterDrawer v-model="filter" @close="close" @reset="reset" @filterdata="filterdata">
     <template #default>
       <v-span class="text-caption text-weight-bold">Periode</v-span>
-      <v-divider></v-divider>
-      <v-label class="text-small mt-4">Tgl Awal</v-label>
-      <datePickerVue v-model="filtered.periode[0]" />
-      <v-label class="text-small mt-1">Tgl Akhir</v-label>
-      <datePickerVue v-model="filtered.periode[1]" />
+      <v-divider class="mb-6"></v-divider>
+      <datePickerVue label="Tgl Awal" v-model="filtered.periode[0]" />
+      <datePickerVue label="Tgl Akhir" v-model="filtered.periode[1]" />
     </template>
   </filterDrawer>
     <v-container class="pt-9 h-100">

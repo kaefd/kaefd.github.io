@@ -6,15 +6,41 @@ import api from '../../service/api';
 import btnInfo from '../button/btnInfo.vue';
 import BtnCancel from '../button/btnCancel.vue';
 import BtnOrange from '../button/btnOrange.vue';
+import TextFieldForm from '../form/textFieldForm.vue';
+import TextField from '../form/textField.vue';
+import functions from '../../service/functions';
+// import { useCurrencyInput } from 'vue-currency-input'
 
 export default {
     components: {
         btnInfo,
         BtnCancel,
         BtnOrange,
+        TextFieldForm,
+        TextField,
     },
     name: 'DialogCard2',
-    props: ['hiddenbtn', 'btn', 'itemDetail', 'pemasukan', 'nokirim', 'belumkirim', 'kodegroup', 'kodebarang', 'belumkirim_detail', 'blmkirim', 'penjualan', 'pengeluaran', 'pengiriman', 'produksi', 'barang', 'tambah', 'inputbahan', 'pembeliandetl' , 'getbarang'],
+    props: [
+    'hiddenbtn',
+    'btn',
+    'itemDetail',
+    'pemasukan',
+    'nokirim',
+    'belumkirim',
+    'kodegroup',
+    'kodebarang',
+    'belumkirim_detail',
+    'blmkirim',
+    'penjualan',
+    'pengeluaran',
+    'pengiriman',
+    'produksi',
+    'barang',
+    'tambah',
+    'inputbahan',
+    'pembeliandetl'
+    ,
+    'getbarang'],
     data() {
         return {
             search: '',
@@ -75,7 +101,7 @@ export default {
     },
     computed: {
         terjual() {
-            return this.numb(this.penjualan_detail.jumlah * this.penjualan_detail.harga_jual)
+            return functions.numb(this.penjualan_detail.jumlah * this.penjualan_detail.harga_jual)
         },
         filteredItems() {
             if(!this.tambah && !this.blmkirim) {
@@ -255,17 +281,12 @@ export default {
     <v-card class="py-5 px-6 rounded-xl">
             <v-card-title v-if="blmkirim" class="text-center text-blue-darken-4 text-button font-weight-bold mb-3">PENGELUARAN BELUM TERKIRIM</v-card-title>
             <v-card-title v-if="!blmkirim" class="text-center text-blue-darken-4 text-button font-weight-bold mb-3">STOK BARANG</v-card-title>
-            <v-text-field
+            <text-field
                 id="input"
                 v-model="search"
-                append-inner-icon="mdi-magnify"
                 label="Search"
-                single-line
-                hide-details
-                density="compact"
-                variant="outlined"
                 class="mb-4"
-            ></v-text-field>
+            ></text-field>
             <v-list class="me-2">
             <v-infinite-scroll :items="filteredItems" :onLoad="load">
                 <template v-for="(item, b) in filteredItems" :key="item">
@@ -305,69 +326,52 @@ export default {
                             <v-span class="text-button text-center font-weight-bold">{{ item.nama_barang }}</v-span>
                             <v-span class="text-caption text-center">{{ item.kode_barang }} - {{ item.hs_code }}</v-span>
                             <v-divider class="mt-3 mb-5"></v-divider>
-                            <form @submit.prevent="submit" ref="form" class="mx-auto w-75">
-                                <v-text-field
+                            <form @submit.prevent="submit" ref="form" class="mx-auto">
+                                <text-field-form
                                     v-if="!pemasukan"
-                                    type="number"
+                                    type="numb"
                                     v-model="penjualan_detail.jumlah"
                                     label="Jumlah"
-                                    variant="outlined"
-                                    density="compact"
-                                    hide-details
-                                    class="mb-3"
+                                    :hide-details="true"
                                     :disabled="hiddenbtn"
                                 />
-                                <v-text-field
+                                <text-field-form
                                     v-if="pemasukan"
-                                    type="number"
+                                    type="numb"
                                     label="Jumlah"
-                                    variant="outlined"
-                                    density="compact"
-                                    hide-details
-                                    class="mb-3"
+                                    :hide-details="true"
                                     :disabled="hiddenbtn"
                                     v-model="state.jumlah"
-                                ></v-text-field>
-                                <v-text-field
+                                ></text-field-form>
+                                <text-field-form
                                     v-if="pemasukan"
                                     v-model="state.jumlah_diterima"
-                                    type="number"
+                                    type="numb"
                                     label="Jumlah Diterima"
-                                    variant="outlined"
-                                    density="compact"
-                                    hide-details
-                                    class="mb-3"
+                                    :hide-details="true"
                                     :disabled="hiddenbtn"
                                 />
-                                <v-text-field
+                                <text-field-form
                                     v-if="pemasukan"
                                     v-model="state.nilai"
-                                    type="number"
+                                    type="numb"
                                     label="Nilai Total"
-                                    variant="outlined"
-                                    density="compact"
-                                    hide-details
-                                    class="mb-3"
+                                    :hide-details="true"
                                 />
-                                <v-text-field
+                                <text-field-form
                                     v-if="!tambah && pengeluaran"
                                     v-model="penjualan_detail.harga_jual"
-                                    type="number"
+                                    type="numb"
                                     label="Harga"
-                                    variant="outlined"
-                                    density="compact"
-                                    hide-details
-                                    class="mb-3"
+                                    :hide-details="true"
                                     :disabled="hiddenbtn"
                                 />
-                                <v-text-field
+                                <text-field-form
                                     v-if="!tambah && pengeluaran"
-                                    :model-value="terjual"
-                                    type="number"
+                                    v-model="terjual"
+                                    type="numb"
                                     label="Total Harga"
-                                    variant="outlined"
-                                    density="compact"
-                                    hide-details
+                                    :hide-details="true"
                                     readonly
                                 />
                             </form>

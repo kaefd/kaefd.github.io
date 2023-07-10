@@ -311,7 +311,7 @@ import BtnFilter from '../components/button/btnFilter.vue';
             :datainput="pengeluaran.data().datainput"
             :pengeluaran="true"
             :groupbarang="groupbarang"
-            :supplier="pelanggan"
+            :pelanggan="datapelanggan"
             :datatext="datatext"
             :pageTitle="pageTitle"
             :btn="btn"

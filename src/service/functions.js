@@ -14,7 +14,10 @@ export default {
           year: 'numeric',
           month: 'long'
         }
-     return new Date(value).toLocaleDateString('id', options)
+        let date = new Date(value).toLocaleDateString('id', options)
+        if(value != '') {
+          return date
+        } else return ''
     },
     tglawal() {
       let d = new Date();
@@ -34,6 +37,10 @@ export default {
         let val = (value / 1).toFixed(2).replace(',', ',')
         return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
     },
+    numb2(value) {
+      let val = (value / 1).toFixed(2).replace(',', ',')
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+  },
     // PRINT || EXPORT DATA
     generatePDF(title, header, item) {
         const doc = new jsPDF({

@@ -32,6 +32,7 @@ export default defineComponent ({
     props:['actIcon', 'cetak'],
     data () {
       return {
+        item: '',
         dialog: false,
         search: '',
         filter: false,
@@ -53,9 +54,6 @@ export default defineComponent ({
           kategori_barang: []
         }
       }
-    },
-    created() {
-      this.windowWidth
     },
     methods: {
     async fetchData() {
@@ -225,7 +223,6 @@ export default defineComponent ({
     </v-row>
         <!-- TABLE -->
         <TableVue
-        :windowWidth="windowWidth"
         :keyform="barang.data().keyform"
         :noselect="statusselect"
         @edit="editForm"

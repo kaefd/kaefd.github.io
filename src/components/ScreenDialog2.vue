@@ -8,6 +8,8 @@ import DatePicker from './datepicker/datePicker.vue';
 import DialogCard2 from './dialog/dialogScroll.vue';
 import TextField from './form/textField.vue';
 import TextFieldForm from './form/textFieldForm.vue';
+import DialogVue from './dialog/dialogVue.vue';
+import TextButton from './button/textButton.vue';
 // import api from '../api';
 
 </script>
@@ -23,6 +25,8 @@ export default {
         DatePicker,
         TextFieldForm,
         TextField,
+        DialogVue,
+        TextButton,
 },
     props:['headers', 'headItem', 'edit', 'getbarang', 'produksi', 'detailbahan', 'groupbarang', 'detailbarang', 'select_kode', 'produksi_bahan', 'produksi_barang', 'item', 'items', 'category', 'icon', 'actIcon', 'btncolor', 'alpha', 'iVariant', 'screen', 'details','disable'],
     data () {
@@ -166,6 +170,7 @@ export default {
           <!-- dialog content -->
             <v-card>
                 <v-toolbar class="bg-blue-custom text-white" height="50">
+                <text-button icon="mdi-close" color="white" @click="dialog = false, inputproduksi = inputbahan = inputbarang = []" />
                 <v-toolbar-title class="text-button">DETAIL PRODUKSI</v-toolbar-title>
                 <v-spacer></v-spacer>
                 </v-toolbar>
@@ -174,30 +179,33 @@ export default {
                     <v-row class="row border-sm rounded-lg">
                         <v-col class="w-100 text-grey">
                             <!-- NOMOR PRODUKSI -->
-                            <v-lable class="text-caption">No Produksi</v-lable>
                             <text-field-form
                                 v-if="edit"
                                 :value="item.no_produksi"
+                                label="No Produksi"
+                                class="mt-sm-4 mt-1"
                                 />
                             <text-field-form
                                 v-if="!edit"
+                                label="No Produksi"
                                 :disabled="true"
                                 v-model="inputproduksi.no_produksi"
+                                class="mt-sm-4 mt-1"
                             />
                         </v-col>
                         <v-col class="w-100">
                             <!-- TANGGAL PRODUKSI -->
-                            <date-picker
+                                <date-picker
                                 v-if="!edit"
-                                placeholder="Tgl Produksi"
+                                label="Tgl Produksi"
                                 v-model="inputproduksi.tgl_produksi"
                                 :rules="required"
-                                class="mt-1"
+                                class="mt-sm-4 mt-1"
                             />
                             <text-field-form
                                 v-if="edit"
                                 label="Tgl Produksi"
-                                class="mt-1"
+                                class="mt-sm-4 mt-1"
                                 :readonly="true"
                                 :rules="required"
                                 :value="functions.formatDate(item.tgl_produksi)"
@@ -205,22 +213,24 @@ export default {
                         </v-col>
                         <v-col class="w-100">
                             <!-- KODE GROUP -->
-                            <v-label class="text-body-2">Kode Group</v-label>
                                 <text-field-form
                                     v-if="edit" 
+                                    label="Kode Group"
                                     :value="item.kode_group"
-                                    :readonly="true"
+                                    readonly
                                     :rules="required"
-                                >
-                            </text-field-form>
+                                    class="mt-sm-4 mt-1"
+                                />
                             <v-dialog v-model="dialog5" >
                                 <template v-slot:activator="{ props }">
                                     <text-field-form
                                     v-if="!edit"
+                                    label="Kode Group"
                                     v-bind="props"
                                     v-model="inputproduksi.kode_group"
-                                    :readonly="true"
+                                    readonly
                                     :rules="required"
+                                    class="mt-sm-4 mt-1"
                                     >
                                 </text-field-form>
                             </template>
@@ -231,7 +241,7 @@ export default {
                                         v-model="searched"
                                         label="Search"
                                         class="mb-4"
-                                    ></text-field>
+                                    />
                                     <v-list>
                                         <v-for v-for="kode, i in filterkodegroup" :key="i">
                                             <v-list-item
@@ -255,63 +265,53 @@ export default {
                     <v-col class="border-sm rounded-lg me-lg-3 me-0 mb-lg-0 mb-3">
                         <!-- ITEM DIALOG ADALAH KODE BARANG YANG SESUAI DENGAN KODE GROUP YANG DIPILIH -->
                         <DialogCard2 v-if="!edit" :produksi="true" :btn="btn[0]" width="400" :barang="detailbahan" :tambah="true" :getbarang="select_kode" :kodebarang="inputproduksi.kode_barang" :kodegroup="inputproduksi.kode_group" @pemasukanitem="bahanmasuk"/>
-                        <v-row v-if="edit" no-gutters class="bg-orange-lighten-3 rounded text-button justify-center py-1">detail bahan</v-row>
+                        <v-row v-if="edit" no-gutters class="justify-center py-1">detail bahan</v-row>
                         <VDataTable
-                        :headers="edit ? headItem : headers"
-                        :items=" edit ? detailbahan : inputbahan"
-                        :hover="true"
-                        :fixed-header="true"
-                        density="compact"
-                        class="text-body-2 py-3 px-5 text-caption"
-                        height="40vh"
+                            :headers="edit ? headItem : headers"
+                            :items=" edit ? detailbahan : inputbahan"
+                            :hover="true"
+                            :fixed-header="true"
+                            density="compact"
+                            class="text-body-2 py-3 px-5 text-caption"
+                            height="40vh"
                         >
                         <template v-slot:bottom>
                         </template>
                         <!-- eslint-disable-next-line vue/valid-v-slot -->
                         <template v-slot:item.actions="{ item, index }">
-                            <v-dialog @update="dialogchild" v-model="dialogbhn[index]">
-                                <template v-slot:activator="{ props }">
-                                    <v-btn
-                                        variant="text"
-                                        size="small"
-                                        color="grey-darken-2"
-                                        icon
-                                        v-bind="props"
-                                        >
-                                        <v-icon>mdi-dots-vertical</v-icon>
-                                    </v-btn>
+                            <DialogVue  @update="dialogchild" v-model="dialogbhn[index]">
+                                <template #titlecard>
+                                    <v-card-title class="text-center text-button font-weight-bold">{{ item.raw.nama_barang }}</v-card-title>
+                                    <v-card-subtitle class="text-caption text-center mb-2 mt-n3">{{ item.raw.kode_barang }}</v-card-subtitle>
                                 </template>
-                                <v-card class="px-7 py-5 mx-auto rounded-xl w-100" max-width="400">
-                                <v-span class="text-button text-center font-weight-bold">{{ item.raw.nama_barang }}</v-span>
-                                <v-span class="text-button mt-n2 mb-3 text-center">{{ item.raw.kode_barang }}</v-span>
-                                    <v-text-field
+                                <template #content>
+                                <v-div class="mx-auto mt-5">
+                                    <text-field-form
                                         v-if="edit"
                                         v-model="item.raw.jumlah"
                                         label="Jumlah"
-                                        variant="outlined"
-                                        density="compact"
                                         readonly
                                     />
-                                    <v-text-field
+                                    <text-field-form
                                         v-if="!edit"
                                         v-model="item.raw.jumlah"
                                         label="Jumlah"
-                                        variant="outlined"
-                                        density="compact"
                                     />
-                                    <v-div v-if="!edit" class="d-inline w-100">
-                                        <v-btn @click="deleteditem(item.raw, 'bahan'), dialogbhn[index] = false" variant="tonal" class="text-caption rounded-xl elevation-0 w-auto me-3">Hapus</v-btn>
-                                        <v-btn type="submit" @click="dialogbhn[index] = false" class="text-caption rounded-xl elevation-0 bg-blue-darken-4 w-75">Simpan</v-btn>
+                                </v-div>
+                                <v-divider class="mt-3 mb-5"></v-divider>
+                                    <v-div v-if="!edit" class="d-flex me-5 ms-auto">
+                                        <btn-cancel btn_title="Hapus" @click="deleteditem(item.raw, 'bahan'), dialogbhn[index] = false" class="me-2"></btn-cancel>
+                                        <btn-orange btn_title="Simpan" type="submit" @click="dialogbhn[index] = false"></btn-orange>
                                     </v-div>
-                                </v-card> 
-                            </v-dialog>
+                                </template>
+                            </DialogVue>
                         </template>
                         </VDataTable>
                     </v-col>
                     <!-- TABEL TAMBAH BARANG -->
                     <v-col class="border-sm rounded-lg">
                         <DialogCard2 :produksi="true" v-if="!edit" :kodegroup="inputproduksi.kode_group" :btn="btn[1]" width="400" :barang="detailbarang" :getbarang="getbarang" :inputbahan="inputbahan" :tambah="true" :kodebarang="inputproduksi.kode_barang" @pemasukanitem="barangmasuk" />
-                        <v-row v-if="edit" no-gutters class="bg-orange-lighten-3 rounded text-button justify-center py-1">detail barang</v-row>
+                        <v-row v-if="edit" no-gutters class="justify-center py-1">detail barang</v-row>
                         <VDataTable
                             :headers="edit ? headItem : headers"
                             :items="edit ? detailbarang : inputbarang "
@@ -324,41 +324,39 @@ export default {
                             </template>
                             <!-- eslint-disable-next-line vue/valid-v-slot -->
                             <template v-slot:item.actions="{ item, index }">
-                                <v-dialog @update="dialogbrg" v-model="dialogbrg[index]">
-                                    <template v-slot:activator="{ props }">
-                                        <v-btn
-                                            variant="text"
-                                            color="grey-darken-2"
-                                            icon
-                                            v-bind="props"
-                                            size="small"
-                                            >
-                                            <v-icon>mdi-dots-vertical</v-icon>
-                                        </v-btn>
+                                <DialogVue @update="dialogbrg" v-model="dialogbrg[index]">
+                                    <template #titlecard>
+                                        <v-card-title class="text-center text-button font-weight-bold">{{ item.raw.nama_barang }}</v-card-title>
+                                        <v-card-subtitle class="text-caption text-center mb-2 mt-n3">{{ item.raw.kode_barang }}</v-card-subtitle>
                                     </template>
-                                    <v-card class="px-7 py-5 mx-auto rounded-xl w-100" max-width="400">
-                                    <v-span class="text-button text-center font-weight-bold">{{ item.raw.nama_barang }}</v-span>
-                                    <v-span class="text-button mt-n2 mb-3 text-center">{{ item.raw.kode_barang }}</v-span>
-                                        <v-text-field
+                                    <template #content>
+                                    <v-div class="mx-auto mt-5">
+                                        <text-field-form
+                                            v-if="edit"
                                             v-model="item.raw.jumlah"
                                             label="Jumlah"
-                                            variant="outlined"
-                                            density="compact"
                                             readonly
                                         />
-                                        <v-div v-if="!edit" class="d-inline w-100">
-                                            <v-btn @click="deleteditem(item.raw, 'barang'), dialogbrg = false" variant="tonal" class="text-caption rounded-xl elevation-0 w-auto me-3">Hapus</v-btn>
-                                            <v-btn type="submit" @click="dialogbrg = false" class="text-caption rounded-xl elevation-0 bg-blue-darken-4 w-75">Simpan</v-btn>
+                                        <text-field-form
+                                            v-if="!edit"
+                                            v-model="item.raw.jumlah"
+                                            label="Jumlah"
+                                        />
+                                    </v-div>
+                                    <v-divider class="mt-3 mb-5"></v-divider>
+                                        <v-div v-if="!edit" class="d-flex me-5 ms-auto">
+                                            <btn-cancel btn_title="Hapus" @click="deleteditem(item.raw, 'bahan'), dialogbrg[index] = false, inputproduksi = []" class="me-2"></btn-cancel>
+                                            <btn-orange btn_title="Simpan" type="submit" @click="dialogbrg[index] = false"></btn-orange>
                                         </v-div>
-                                    </v-card> 
-                                </v-dialog>
+                                    </template>
+                                </DialogVue>
                             </template> 
                         </VDataTable>
                     </v-col>
                 </v-row>
                     <!-- edit data -->
                 <v-row class="float-end mt-7">
-                    <btnCancel v-if="!edit" @click="inputbarang = inputbahan = '', dialog = false" btn_title="Batal" />
+                    <btnCancel v-if="!edit" @click="dialog = false, inputproduksi = inputbahan = inputbarang = []" btn_title="Batal" />
                     <btnOrange v-if="!edit" @click="validate" btn_title="Simpan" class="ms-2" />
                 </v-row>
                 </v-container>

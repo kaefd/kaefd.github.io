@@ -12,6 +12,7 @@ import menuList from '../components/menu/menuList.vue';
 import pillsButton from '../components/button/pillsButton.vue';
 import BtnCancel from '../components/button/btnCancel.vue';
 import BtnOrange from '../components/button/btnOrange.vue';
+import dialogVue from '../components/dialog/dialogVue.vue';
 </script>
 
 <script>
@@ -28,6 +29,7 @@ export default {
         pillsButton,
         BtnCancel,
         BtnOrange,
+        dialogVue
     },
     props:['pembelianbaru', 'laporan', 'namaPelanggan', 'total', 'groupbarang', 'batalbtn', 'penjualan', 'pemasukan', 'alamatBongkar', 'totalpenjualan', 'namaTujuan', 'datainput', 'pageTitle', 'pengeluaran', 'dokumenpjl', 'namaSupplier', 'pengirimanDetail', 'pembelian', 'pelanggan', 'supplier', 'pembeliandetl', 'edit', 'kirim', 'headers', 'items',  'search', 'iVariant', 'headDetails', 'details','disable', 'btn', 'datatext', 'itemDetail', 'category'],
     data () {
@@ -65,7 +67,7 @@ export default {
         kurs: '',
         pemasukan_detail: '',
         pembelian_detail : [this.pembelian],
-        validated: '',
+        validated: Boolean,
         required: [
         value => {
           if (value)  return true
@@ -192,17 +194,17 @@ export default {
                 <v-form class="pt-7" v-if="!edit && pemasukan"  @submit.prevent ref="form">
                     <v-row justify="center" justify-md="space-between">
                         <textFieldForm label="No Pemasukan" v-model="inputdata.no_pembelian" :disabled="true" />
-                        <datePicker placeholder="Tgl Pemasukan" v-model="inputdata.tgl_pembelian" :class="validated === false ? 'false' : ''" :validated="validated"/>
+                        <datePicker label="Tgl Pemasukan" v-model="inputdata.tgl_pembelian" :rules="required" />
                         <dialogSearch v-if="!edit" label="Supplier" :objectFilter="supplier" @pilihObjek="pilihObjek" cardTitle="SUPPLIER" max-width="400" :rules="required"/>
                         <!-- DOKUMEN -->
-                        <textFieldForm id="tipe" label="Tipe Dokumen" :model-value="inputdata.tipe_dokumen" readonly :rules="required" />
+                        <textFieldForm id="tipe" label="Tipe Dokumen" v-model="inputdata.tipe_dokumen" readonly :rules="required" />
                         <menuForm
                           activator="#tipe"
                           icon="mdi-dots-vertical"
                           :items="tipe_dokumen"
                           @result="pilihtipedokumen" />
                         <textFieldForm label="No Dokumen" v-model="inputdata.no_dokumen" required :rules="required" />
-                        <datePicker placeholder="Tgl Dokumen" v-model="inputdata.tgl_dokumen" :class="validated === false ? 'false' : ''" :validated="validated" />
+                        <datePicker label="Tgl Dokumen" v-model="inputdata.tgl_dokumen" :rules="required" />
                         <textFieldForm label="No Invoice" v-model="inputdata.no_invoice" :rules="required" />
                         <textFieldForm label="No BL" v-model="inputdata.no_bl" :rules="required" />
                         <textFieldForm label="Mata Uang" v-model="inputdata.mata_uang" :rules="required" />
@@ -261,67 +263,74 @@ export default {
                     </template>
                     <!-- eslint-disable-next-line vue/valid-v-slot -->
                     <template v-slot:item.actions="{ item, index }">
-                        <v-dialog v-model="detaildial[index]">
-                        <!-- button dialog -->
-                            <template v-slot:activator="{ props }">
-                                <v-btn
-                                v-bind="props"
-                                size="small"
-                                variant="text"
-                                color="grey-darken-2"
-                                icon
-                                >
-                                    <v-icon>mdi-dots-vertical</v-icon>
-                                </v-btn>
-                            </template>
-                            <v-card class="bg-white mx-auto py-5 rounded-xl" width="370">
+                        <dialogVue v-model="detaildial[index]">
+                            <template #titlecard>
                                 <v-card-title class="text-center text-button font-weight-bold">{{ item.raw.nama_barang }}</v-card-title>
                                 <v-card-subtitle class="text-caption text-center mb-2 mt-n3">{{ item.raw.hs_code }}</v-card-subtitle>
-                                <v-divider></v-divider>
-                                <v-div class="mx-auto mt-5 w-75">
-                                    <v-text-field
+                            </template>
+                            <template #content>
+                                <v-div class="mx-auto mt-5">
+                                    <text-field-form
+                                        v-if="edit"
                                         label="Jumlah"
-                                        variant="outlined"
-                                        density="compact"
+                                        v-model="item.raw.jumlah"
+                                        active="true"
+                                        :readonly="edit ? true : false"
+                                        :hide-details="true"
+                                        class="mb-3"
+                                    />
+                                    <text-field-form
+                                        v-if="!edit"
+                                        label="Jumlah"
                                         v-model="pembelian_input[index].jumlah"
                                         active="true"
                                         :readonly="edit ? true : false"
-                                        hide-details="true"
+                                        :hide-details="true"
                                         class="mb-3"
-                                    >
-                                    </v-text-field>
-                                    <v-text-field
+                                    />
+                                    <text-field-form
+                                        v-if="!edit"
                                         label="Jumlah diterima"
-                                        variant="outlined"
-                                        density="compact"
                                         v-model="pembelian_input[index].jumlah_diterima"
                                         :readonly="edit ? true : false"
-                                        hide-details="true"
+                                        :hide-details="true"
                                         class="mb-3"
                                     />
-                                    <v-text-field
+                                    <text-field-form
+                                        v-if="edit"
+                                        label="Jumlah diterima"
+                                        v-model="item.raw.jumlah_diterima"
+                                        :readonly="edit ? true : false"
+                                        :hide-details="true"
+                                        class="mb-3"
+                                    />
+                                    <text-field-form
+                                        v-if="!edit"
                                         label="Total nilai"
                                         v-model="pembelian_input[index].nilai"
-                                        variant="outlined"
-                                        density="compact"
                                         :readonly="edit ? true : false"
-                                        hide-details
+                                        :hide-details="true"
+                                    />
+                                    <text-field-form
+                                        v-if="edit"
+                                        label="Total nilai"
+                                        v-model="item.raw.nilai"
+                                        :readonly="edit ? true : false"
+                                        :hide-details="true"
                                     />
                                 </v-div>
-                                <v-divider class="my-5"></v-divider>
+                                <v-divider class="mt-3 mb-5"></v-divider>
                                 <v-div v-if="!edit" class="d-flex me-5 ms-auto">
                                     <btn-cancel btn_title="Hapus" @click="deleteditem(item.raw), detaildial[index] = false" :hidden="disable" class="me-2">Hapus</btn-cancel>
                                     <btn-orange btn_title="Simpan" :hidden="disable" @click="detaildial[index] = false">Simpan</btn-orange>
                                 </v-div>
-                            </v-card>
-                        </v-dialog>
+                            </template>
+                        </dialogVue>
                     </template>
                     </v-data-table>
                     <v-div class="d-flex ms-auto me-0 mb-0 mt-auto">
-                        <!-- <v-btn v-if="!edit" @click="validate" :hidden="disable" class="text-body-2 text-white elevation-0 rounded-xl me-2" height="42" width="150" color="#ff6e40">Simpan</v-btn> -->
-                        <btn-cancel btn_title="Batal" class="me-2" v-if="!edit" @click="dialog=false"/>
-                        <btn-orange type="submit" btn_title="Simpan" v-if="!edit" @click="validated" :hidden="disable"/>
-                        <!-- <v-btn v-if="!edit" @click="dialog=false" class="rounded-xl text-body-2" height="42" width="150" variant="outlined" color="grey-darken-2">Batal</v-btn> -->
+                        <btn-cancel btn_title="Batal" class="me-2" v-if="!edit" @click="pembelian_input = [], inputdata = [],  dialog = false" />
+                        <btn-orange type="submit" btn_title="Simpan" v-if="!edit" @click="validate" :hidden="disable"/>
                     </v-div>
                 </v-row>
                 </v-container>

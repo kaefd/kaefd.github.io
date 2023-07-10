@@ -1,13 +1,16 @@
 <script setup>
 import '@vuepic/vue-datepicker/dist/main.css'
 import { id } from 'date-fns/locale';
+import textFieldForm from '../form/textFieldForm.vue';
+import functions from '../../service/functions';
 </script>
 <script>
 
 export default {
     components: {
+        textFieldForm
   },
-    props:['placeholder', 'validated'],
+    props:['label', 'validated', 'rules'],
     data () {
         return {
             data: ''
@@ -24,10 +27,9 @@ export default {
 </script>
 
 <template>
-    <v-sheet class="d-flex flex-column">
-        <v-label>{{ placeholder }}</v-label>
         <VueDatePicker
             class="text-small mx-1 mb-1"
+            teleport-center
             :clearable="false"
             style="width: 220px; max-width:220px;"
             :format-locale="id"
@@ -37,9 +39,12 @@ export default {
             selectText="pilih"
             format="PP"
             :enable-time-picker="false"
-        />
-        <v-span v-if="validated === false" class="text-red-darken-4 text-caption ms-5">harus diisi !</v-span>
-    </v-sheet>
+            v-model="data"
+        >
+            <template #trigger>
+                <textFieldForm readonly :label="label" :model-value="functions.formatDate(data)" :rules="rules"/>
+            </template>
+        </VueDatePicker>
 </template>
 <style>
 .dp__input_wrap .dp__input  {

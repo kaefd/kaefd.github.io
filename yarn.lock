@@ -4016,6 +4016,11 @@ vite-plugin-vuetify@^1.0.0-alpha.12, vite-plugin-vuetify@^1.0.2:
   optionalDependencies:
     fsevents "~2.3.2"
 
+vue-currency-input@^3.0.5:
+  version "3.0.5"
+  resolved "https://registry.npmjs.org/vue-currency-input/-/vue-currency-input-3.0.5.tgz"
+  integrity sha512-HG1hKvAvUDt/mklm+2nEEOuvMNxXVd+O2v2PPOia0iNAs4a7B0fWEsHSoca60Ah9EA4nR0Do5UQUkR5Wqhcb/g==
+
 vue-demi@^0.13.11:
   version "0.13.11"
   resolved "https://registry.npmjs.org/vue-demi/-/vue-demi-0.13.11.tgz"
@@ -4050,7 +4055,7 @@ vue-sweetalert@^0.1.18:
     sweetalert2 "^6.6.6"
     vue "^2.2.1"
 
-"vue@^2.0.0 || >=3.0.0", vue@^3.0.0, "vue@^3.0.0-0 || ^2.6.0", vue@^3.2.0, vue@^3.2.25, vue@^3.2.47, vue@>=3.2.0, vue@3.2.47:
+"vue@^2.0.0 || >=3.0.0", "vue@^2.7 || ^3.0.0", vue@^3.0.0, "vue@^3.0.0-0 || ^2.6.0", vue@^3.2.0, vue@^3.2.25, vue@^3.2.47, vue@>=3.2.0, vue@3.2.47:
   version "3.2.47"
   resolved "https://registry.npmjs.org/vue/-/vue-3.2.47.tgz"
   integrity sha512-60188y/9Dc9WVrAZeUVSDxRQOZ+z+y5nO2ts9jWXSTkMvayiWxCWOWtBQoYjLeccfXkiiPZWAHcV+WTPhkqJHQ==

@@ -7,7 +7,8 @@ import BtnInfo from '../components/button/btnInfo.vue';
 import textFieldForm from '../components/form/textFieldForm.vue';
 import BtnCancel from '../components/button/btnCancel.vue';
 import BtnOrange from '../components/button/btnOrange.vue';
-
+import dialogSearch from '../components/dialog/dialogSearch.vue';
+import TextField from '../components/form/textField.vue';
 export default {
     components: {
         dialogScroll,
@@ -16,7 +17,10 @@ export default {
         BtnInfo,
         textFieldForm,
         BtnCancel,
-        BtnOrange
+        BtnOrange,
+        dialogSearch,
+        TextField
+        
     },
     props:['pembelianbaru', 'namaPelanggan', 'laporan', 'groupbarang', 'batalbtn', 'penjualan', 'pemasukan', 'alamatBongkar', 'namaTujuan', 'datainput', 'pageTitle', 'pengeluaran', 'dokumenpjl', 'namaSupplier', 'pengirimanDetail', 'pembelian', 'pelanggan', 'supplier', 'pembeliandetl', 'edit', 'kirim', 'headers', 'items', 'actIcon', 'icon', 'btncolor', 'search', 'iVariant', 'headDetails', 'details','disable', 'btn', 'datatext', 'itemDetail', 'category'],
     data () {
@@ -107,6 +111,11 @@ export default {
                     }
                 }
         },
+        pilihObjek(s){
+            this.inputdata.kode_pelanggan = s.kode_pelanggan
+            this.namasupplier = s.nama
+            this.dialog4 = false 
+        },
         async validate () {
             const { valid } = await this.$refs.form.validate()
             if (valid){
@@ -183,13 +192,13 @@ export default {
                 <v-container class="mt-5">
                 <!-- EDIT -->
                 <v-row v-if="edit" justify-sm="start" justify="center">
-                    <text-field-form label="No Penjualan" readonly />
-                    <text-field-form label="Tgl Penjualan" :model-value="items.tgl_penjualan" />
-                    <text-field-form label="Pelanggan" :model-value="items.kode_pelanggan" />
-                    <text-field-form label="Kode Group" :model-value="items.kode_group" />
-                    <text-field-form label="Tipe Dokumen" :model-value="items.tipe_dokumen" />
-                    <text-field-form label="No Dokumen" :model-value="items.no_dokumen" />
-                    <text-field-form label="Tgl Dokumen" :model-value="items.tgl_dokumen" />
+                    <text-field-form label="No Penjualan" :model-value="items.no_penjualan" readonly />
+                    <text-field-form label="Tgl Penjualan" :model-value="items.tgl_penjualan" readonly/>
+                    <text-field-form label="Pelanggan" :model-value="items.kode_pelanggan" readonly />
+                    <text-field-form label="Kode Group" :model-value="items.kode_group" readonly />
+                    <text-field-form label="Tipe Dokumen" :model-value="items.tipe_dokumen" readonly />
+                    <text-field-form label="No Dokumen" :model-value="items.no_dokumen" readonly />
+                    <text-field-form label="Tgl Dokumen" :model-value="items.tgl_dokumen" readonly />
                 </v-row>
                     <v-form  @submit.prevent ref="form">
                     <!-- TAMBAH PENGELUARAN -->
@@ -201,45 +210,12 @@ export default {
                                 disabled
                             />
                             <datePickerVue
-                                placeholder="Tgl Keluar"
+                                label="Tgl Keluar"
                                 v-model="inputdata.tgl_penjualan"
+                                :rules="required"
                             />
-                        <!-- PELANGGAN -->
-                        <v-dialog v-model="dialog4">
-                            <template v-slot:activator="{props}">
-                                <text-field-form
-                                    v-bind="props"
-                                    label="Pelanggan"
-                                    v-model="nama"
-                                    :rules="required"
-                                />
-                            </template>
-                            <v-card class="py-5 px-5 rounded-xl mx-auto w-100 vh-90" max-width="400">
-                                <v-div>
-                                    <v-btn icon="mdi-close" variant="plain" size="small" @click="dialog4 = false"></v-btn>
-                                    <v-card-title class="text-center text-blue-darken-4 mb-3 mt-n12 text-button font-weight-bold">PELANGGAN</v-card-title>
-                                    <text-field-form
-                                        v-model="searched"
-                                        append-inner-icon="mdi-magnify"
-                                        label="Search"
-                                        single-line
-                                        :rules="required"
-                                    />
-                                    <v-list>
-                                        <v-for v-for="s, i in filtersupplier" :key="i">
-                                            <v-list-item
-                                            density="compact"
-                                            style="cursor: pointer;"
-                                            class="text-caption"
-                                            @click="inputdata.kode_pelanggan = s.kode_pelanggan, nama = s.nama, dialog4 = false "
-                                            >
-                                                {{ s.nama }}
-                                            </v-list-item>
-                                        </v-for>
-                                    </v-list>
-                                </v-div>
-                            </v-card>
-                            </v-dialog>
+                            <!-- PELANGGAN -->
+                            <dialogSearch v-if="!edit" label="Pelanggan" :objectFilter="pelanggan" @pilihObjek="pilihObjek" cardTitle="PELANGGAN" max-width="400" :rules="required"/>
                             <!-- KODE GROUP -->
                             <v-dialog v-model="dialogkodeg" >
                                 <template v-slot:activator="{ props }">
@@ -252,15 +228,12 @@ export default {
                                     />
                                 
                             </template>
-                                <v-card class="py-5 px-5 rounded-xl mx-auto w-100" max-width="400">
-                                    <v-btn icon="mdi-close" size="small" variant="plain" @click="dialogkodeg = false"></v-btn>
-                                    <v-card-title class="text-center text-blue-darken-4 mb-3 text-button font-weight-bold mt-n12">KODE GROUP</v-card-title>
-                                    <text-field-form
+                                <v-card class="py-5 px-7 rounded-xl mx-auto" width="400">
+                                    <v-card-title class="text-center text-blue-darken-4 mb-3 text-button font-weight-bold">KODE GROUP</v-card-title>
+                                    <text-field
                                         v-model="searched"
-                                        append-inner-icon="mdi-magnify"
                                         label="Search"
-                                        single-line
-                                        :rules="required"
+                                        class="mb-4"
                                     />
                                     <v-list>
                                         <v-for v-for="kode, i in filterkodegroup" :key="i">
@@ -270,10 +243,8 @@ export default {
                                             density="compact"
                                             @click="inputdata.kode_group = kode.kode_group, dialogkodeg = false "
                                             >
-                                                <v-span class="font-weight-bold">{{ kode.kode_group }}</v-span> <br>
-                                                <v-span class="text-small">stok akhir: {{ numb(kode.stok_akhir) }}</v-span>
+                                                {{ kode.kode_group }}
                                             </v-list-item>
-                                            <v-divider></v-divider>
                                         </v-for>
                                     </v-list>
                                 </v-card>
@@ -283,10 +254,6 @@ export default {
                                 label="Tipe Dokumen"
                                 v-model="inputdata.tipe_dokumen"
                                 :rules="required"
-                                variant="outlined"
-                                density="compact"
-                                class="mb-5"
-                                hide-details
                                 readonly
                                 />                                
                                 <v-menu activator="#tipe" class="elevation-0">
@@ -305,13 +272,12 @@ export default {
                                 label="No Dokumen"
                                 v-model="inputdata.no_dokumen"
                                 :rules="required"
-                                hide-details
-                                class="mb-5"
                             />
                             
                             <datePickerVue
-                                placeholder="Tgl Dokumen"
+                                label="Tgl Dokumen"
                                 v-model="inputdata.tgl_dokumen"
+                                :rules="required"
                             />
                     </v-row>
                     <!-- BUTTON TAMBAH BARANG -->
