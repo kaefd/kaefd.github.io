@@ -13,24 +13,26 @@ import pillsButton from '../components/button/pillsButton.vue';
 import BtnCancel from '../components/button/btnCancel.vue';
 import BtnOrange from '../components/button/btnOrange.vue';
 import dialogVue from '../components/dialog/dialogVue.vue';
+import CurrencyInput from '../components/form/currencyInput.vue';
 </script>
 
 <script>
 export default {
     components: {
-        dialogScroll,
-        VDataTable,
-        datePicker,
-        textButton,
-        textFieldForm,
-        dialogSearch,
-        menuForm,
-        menuList,
-        pillsButton,
-        BtnCancel,
-        BtnOrange,
-        dialogVue
-    },
+    dialogScroll,
+    VDataTable,
+    datePicker,
+    textButton,
+    textFieldForm,
+    dialogSearch,
+    menuForm,
+    menuList,
+    pillsButton,
+    BtnCancel,
+    BtnOrange,
+    dialogVue,
+    CurrencyInput
+},
     props:['pembelianbaru', 'laporan', 'namaPelanggan', 'total', 'groupbarang', 'batalbtn', 'penjualan', 'pemasukan', 'alamatBongkar', 'totalpenjualan', 'namaTujuan', 'datainput', 'pageTitle', 'pengeluaran', 'dokumenpjl', 'namaSupplier', 'pengirimanDetail', 'pembelian', 'pelanggan', 'supplier', 'pembeliandetl', 'edit', 'kirim', 'headers', 'items',  'search', 'iVariant', 'headDetails', 'details','disable', 'btn', 'datatext', 'itemDetail', 'category'],
     data () {
       return {
@@ -273,13 +275,13 @@ export default {
                                     <text-field-form
                                         v-if="edit"
                                         label="Jumlah"
-                                        v-model="item.raw.jumlah"
+                                        :model-value="functions.numb(item.raw.jumlah)"
                                         active="true"
                                         :readonly="edit ? true : false"
                                         :hide-details="true"
                                         class="mb-3"
                                     />
-                                    <text-field-form
+                                    <CurrencyInput
                                         v-if="!edit"
                                         label="Jumlah"
                                         v-model="pembelian_input[index].jumlah"
@@ -287,35 +289,38 @@ export default {
                                         :readonly="edit ? true : false"
                                         :hide-details="true"
                                         class="mb-3"
+                                        :options="{ currency: 'EUR', currencyDisplay: 'hidden' }"
                                     />
-                                    <text-field-form
+                                    <CurrencyInput
                                         v-if="!edit"
                                         label="Jumlah diterima"
                                         v-model="pembelian_input[index].jumlah_diterima"
-                                        :readonly="edit ? true : false"
+                                        :readonly="false"
                                         :hide-details="true"
                                         class="mb-3"
+                                        :options="{ currency: 'EUR', currencyDisplay: 'hidden' }"
                                     />
                                     <text-field-form
                                         v-if="edit"
                                         label="Jumlah diterima"
-                                        v-model="item.raw.jumlah_diterima"
-                                        :readonly="edit ? true : false"
+                                        :model-value="functions.numb(item.raw.jumlah_diterima)"
+                                        :readonly="true"
                                         :hide-details="true"
                                         class="mb-3"
                                     />
-                                    <text-field-form
+                                    <CurrencyInput
                                         v-if="!edit"
                                         label="Total nilai"
                                         v-model="pembelian_input[index].nilai"
-                                        :readonly="edit ? true : false"
+                                        :readonly="false"
                                         :hide-details="true"
+                                        :options="{ currency: 'EUR', currencyDisplay: 'hidden' }"
                                     />
                                     <text-field-form
                                         v-if="edit"
                                         label="Total nilai"
-                                        v-model="item.raw.nilai"
-                                        :readonly="edit ? true : false"
+                                        :model-value="functions.numb(item.raw.nilai)"
+                                        :readonly="true"
                                         :hide-details="true"
                                     />
                                 </v-div>

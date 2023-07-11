@@ -6,9 +6,8 @@ import api from '../../service/api';
 import btnInfo from '../button/btnInfo.vue';
 import BtnCancel from '../button/btnCancel.vue';
 import BtnOrange from '../button/btnOrange.vue';
-import TextFieldForm from '../form/textFieldForm.vue';
 import TextField from '../form/textField.vue';
-import functions from '../../service/functions';
+import CurrencyInput from '../form/currencyInput.vue';
 // import { useCurrencyInput } from 'vue-currency-input'
 
 export default {
@@ -16,8 +15,8 @@ export default {
         btnInfo,
         BtnCancel,
         BtnOrange,
-        TextFieldForm,
         TextField,
+        CurrencyInput,
     },
     name: 'DialogCard2',
     props: [
@@ -38,8 +37,7 @@ export default {
     'barang',
     'tambah',
     'inputbahan',
-    'pembeliandetl'
-    ,
+    'pembeliandetl',
     'getbarang'],
     data() {
         return {
@@ -101,7 +99,7 @@ export default {
     },
     computed: {
         terjual() {
-            return functions.numb(this.penjualan_detail.jumlah * this.penjualan_detail.harga_jual)
+            return this.penjualan_detail.jumlah * this.penjualan_detail.harga_jual
         },
         filteredItems() {
             if(!this.tambah && !this.blmkirim) {
@@ -310,7 +308,7 @@ export default {
                             <v-span class="font-weight-medium">{{ pjl_detail(item.no_penjualan, 'tipe') }}-{{ pjl_detail(item.no_penjualan, 'no') }}</v-span> <br>
                             <v-span class="text-small">
                                 <!-- penjualandetail belumkirim(pjl, nama, kodegroup) -->
-                                {{  item.nama_barang }} ({{ pjl_detail(item.no_penjualan, 'kode') }}) <br>
+                                {{ item.nama_barang }} ({{ pjl_detail(item.no_penjualan, 'kode') }}) <br>
                                 <!-- penjualandetail(jumlah-terkirim) -->
                                 Jumlah belum terkirim: {{ numb(item.jumlah - item.jumlah_terkirim) }}  <br>
                                 Stok barang: {{ stok(pjl_detail(item.no_penjualan, 'kode'), item.kode_barang) }}
@@ -327,52 +325,52 @@ export default {
                             <v-span class="text-caption text-center">{{ item.kode_barang }} - {{ item.hs_code }}</v-span>
                             <v-divider class="mt-3 mb-5"></v-divider>
                             <form @submit.prevent="submit" ref="form" class="mx-auto">
-                                <text-field-form
+                                <currency-input
                                     v-if="!pemasukan"
-                                    type="number"
                                     v-model="penjualan_detail.jumlah"
                                     label="Jumlah"
                                     :hide-details="true"
                                     :disabled="hiddenbtn"
+                                    :options="{ currency: 'EUR', currencyDisplay: 'hidden' }"
                                 />
-                                <text-field-form
+                                <currency-input
                                     v-if="pemasukan"
-                                    type="number"
+                                    v-model="state.jumlah"
                                     label="Jumlah"
                                     :hide-details="true"
                                     :disabled="hiddenbtn"
-                                    v-model="state.jumlah"
-                                ></text-field-form>
-                                <text-field-form
+                                    :options="{ currency: 'EUR', currencyDisplay: 'hidden' }"
+                                />
+                                <currency-input
                                     v-if="pemasukan"
                                     v-model="state.jumlah_diterima"
-                                    type="number"
                                     label="Jumlah Diterima"
                                     :hide-details="true"
                                     :disabled="hiddenbtn"
+                                    :options="{ currency: 'EUR', currencyDisplay: 'hidden' }"
                                 />
-                                <text-field-form
+                                <currency-input
                                     v-if="pemasukan"
                                     v-model="state.nilai"
-                                    type="number"
                                     label="Nilai Total"
                                     :hide-details="true"
+                                    :options="{ currency: 'EUR', currencyDisplay: 'hidden' }"
                                 />
-                                <text-field-form
+                                <currency-input
                                     v-if="!tambah && pengeluaran"
                                     v-model="penjualan_detail.harga_jual"
-                                    type="number"
                                     label="Harga"
                                     :hide-details="true"
                                     :disabled="hiddenbtn"
+                                    :options="{ currency: 'EUR', currencyDisplay: 'hidden' }"
                                 />
-                                <text-field-form
+                                <currency-input
                                     v-if="!tambah && pengeluaran"
                                     v-model="terjual"
-                                    type="number"
                                     label="Total Harga"
                                     :hide-details="true"
                                     readonly
+                                    :options="{ currency: 'EUR', currencyDisplay: 'hidden' }"
                                 />
                             </form>
                             <v-divider class="mt-3"></v-divider>

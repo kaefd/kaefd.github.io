@@ -41,16 +41,19 @@ export default {
             v-model="search"
             label="Search"
         ></textField>
-        <v-list class="my-4">
-            <v-list-item
-                v-for="s, i in functions.filterObject(objectFilter, search)" :key="i"
-                class="text-caption"
-                density="compact"
-                @click="result(s), pilih=s.nama"
-                >
-                    {{ s.nama }}
-            </v-list-item>
-        </v-list>
+        <v-div class="vh-100">
+            <v-list class="my-4">
+                <v-list-item
+                    v-for="s, i in functions.filterObject(objectFilter, search)" :key="i"
+                    class="text-caption"
+                    density="compact"
+                    @click="result(s), pilih=s.nama"
+                    >
+                        {{ s.nama }}
+                </v-list-item>
+            </v-list>
+        </v-div>
+        
     </v-card>
 </v-dialog>  
 </template>

@@ -264,7 +264,7 @@ export default {
                     <v-col class="border-sm rounded-lg me-lg-3 me-0 mb-lg-0 mb-3">
                         <!-- ITEM DIALOG ADALAH KODE BARANG YANG SESUAI DENGAN KODE GROUP YANG DIPILIH -->
                         <DialogCard2 v-if="!edit" :produksi="true" :btn="btn[0]" width="400" :barang="detailbahan" :tambah="true" :getbarang="select_kode" :kodebarang="inputproduksi.kode_barang" :kodegroup="inputproduksi.kode_group" @pemasukanitem="bahanmasuk"/>
-                        <v-row v-if="edit" no-gutters class="justify-center py-1">detail bahan</v-row>
+                        <v-row v-if="edit" no-gutters class="justify-center py-1 text-button">detail bahan</v-row>
                         <VDataTable
                             :headers="edit ? headItem : headers"
                             :items=" edit ? detailbahan : inputbahan"
@@ -277,7 +277,7 @@ export default {
                         <template v-slot:bottom>
                         </template>
                         <!-- eslint-disable-next-line vue/valid-v-slot -->
-                        <template v-slot:item.jumlah="{ item }">
+                        <template v-if="!edit" v-slot:item.jumlah="{ item }">
                             {{ functions.numb(item.raw.jumlah) }}
                         </template>
                         <!-- eslint-disable-next-line vue/valid-v-slot -->
@@ -314,7 +314,7 @@ export default {
                     <!-- TABEL TAMBAH BARANG -->
                     <v-col class="border-sm rounded-lg">
                         <DialogCard2 :produksi="true" v-if="!edit" :kodegroup="inputproduksi.kode_group" :btn="btn[1]" width="400" :barang="detailbarang" :getbarang="getbarang" :inputbahan="inputbahan" :tambah="true" :kodebarang="inputproduksi.kode_barang" @pemasukanitem="barangmasuk" />
-                        <v-row v-if="edit" no-gutters class="justify-center py-1">detail barang</v-row>
+                        <v-row v-if="edit" no-gutters class="justify-center py-1 text-button">detail barang</v-row>
                         <VDataTable
                             :headers="edit ? headItem : headers"
                             :items="edit ? detailbarang : inputbarang "
@@ -326,7 +326,7 @@ export default {
                             <template v-slot:bottom>
                             </template>
                             <!-- eslint-disable-next-line vue/valid-v-slot -->
-                            <template v-slot:item.jumlah="{ item }">
+                            <template v-if="!edit" v-slot:item.jumlah="{ item }">
                                 {{ functions.numb(item.raw.jumlah) }}
                             </template>
                             <!-- eslint-disable-next-line vue/valid-v-slot -->

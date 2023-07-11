@@ -7,6 +7,7 @@ import btnInfoVue from '../components/button/btnInfo.vue';
 import BtnOrange from '../components/button/btnOrange.vue';
 import BtnCancel from '../components/button/btnCancel.vue';
 import TextFieldForm from '../components/form/textFieldForm.vue';
+import TextField from '../components/form/textField.vue';
 export default {
     components: {
     DialogCard2,
@@ -16,6 +17,7 @@ export default {
         BtnOrange,
         BtnCancel,
         TextFieldForm,
+        TextField,
     },
     props:['pembelianbaru', 'namaPelanggan', 'detail_kirim','detailkirim', 'nokirim', 'nopjl', 'pjl_detail', 'groupbarang', 'batalbtn', 'pengiriman', 'pemasukan', 'totalpenjualan', 'namaTujuan', 'datainput', 'pageTitle', 'pengeluaran', 'no', 'tipe', 'namaSupplier', 'pengirimanDetail', 'pembelian', 'pelanggan', 'supplier', 'pembeliandetl', 'edit', 'kirim', 'headers', 'items', 'actIcon', 'icon', 'btncolor', 'search', 'iVariant', 'headDetails', 'details','disable', 'btn', 'datatext', 'itemDetail', 'category'],
     data () {
@@ -249,9 +251,9 @@ export default {
                 <v-toolbar-title class="text-button mt-1">{{ 'DETAIL '+ pageTitle }}</v-toolbar-title>
                 <v-spacer></v-spacer>
                 </v-toolbar>
-                <v-container class="pt-5 h-100">
+                <v-container class="h-100">
                 <!-- EDIT -->
-                <v-row v-if="edit" justify-sm="start" justify="center">
+                <v-row v-if="edit" justify-sm="start" justify="center" class="pt-7">
                     <text-field-form
                         label="No Pengiriman"
                         v-model= "dataitem.no_pengiriman"
@@ -293,18 +295,18 @@ export default {
                 </v-row>
                 <v-form  @submit.prevent ref="form">
                 <!-- TAMBAH PENGIRIMAN -->
-                <v-row v-if="!edit" justify-sm="start" justify="center">
+                <v-row v-if="!edit" justify-sm="start" justify="center" class="pt-7">
                     <text-field-form
                         label="No Pengiriman"
                         v-model= "inputdata.no_pengiriman"
                     >
                     </text-field-form>
                     <datePickerVue
-                        placeholder="Tgl Pengiriman"
+                        label="Tgl Pengiriman"
                         v-model="inputdata.tgl_pengiriman"
                     />
                         <!-- PELANGGAN -->
-                        <v-dialog v-model="dialog4">
+                        <v-dialog v-model="dialog4" class="w-50">
                             <template v-slot:activator="{props}">
                                 <text-field-form
                                     v-bind="props"
@@ -315,34 +317,30 @@ export default {
                                 >
                             </text-field-form>
                             </template>
-                            <v-card class="py-5 px-5 rounded-xl mx-auto vh-75 w-100" max-width="400">
-                                <v-div>
-                                    <v-btn icon="mdi-close" size="small" variant="plain" @click="dialog4 = false"></v-btn>
-                                    <v-card-title class="text-center text-blue-darken-4 mb-3 mt-n12 text-button font-weight-bold">PELANGGAN</v-card-title>
-                                    <text-field-form
-                                        v-model="searched"
-                                        append-inner-icon="mdi-magnify"
-                                        label="Search"
-                                        single-line
-                                        :rules="required"
-                                    ></text-field-form>
-                                    <v-list>
-                                        <v-for v-for="s, i in filtersupplier" :key="i">
-                                            <v-list-item
-                                            density="compact"
-                                            style="cursor: pointer;"
-                                            class="text-caption"
-                                            @click="inputdata.kode_pelanggan = s.kode_pelanggan, inputdata.nama = s.nama, dialog4 = false "
-                                            >
-                                                {{ s.nama }}
-                                            </v-list-item>
-                                        </v-for>
-                                    </v-list>
-                                </v-div>
+                            <v-card class="py-5 px-7 rounded-xl mx-auto vh-100" width="400">
+                            <v-div>
+                                <v-card-title class="text-center text-blue-darken-4 mb-3 text-button font-weight-bold">PELANGGAN</v-card-title>
+                                <text-field
+                                    v-model="searched"
+                                    label="Search"
+                                ></text-field>
+                            </v-div>
+                            <v-list>
+                                <v-for v-for="s, i in filtersupplier" :key="i">
+                                    <v-list-item
+                                    density="compact"
+                                    style="cursor: pointer;"
+                                    class="text-caption"
+                                    @click="inputdata.kode_pelanggan = s.kode_pelanggan, inputdata.nama = s.nama, dialog4 = false "
+                                    >
+                                        {{ s.nama }}
+                                    </v-list-item>
+                                </v-for>
+                            </v-list>
                             </v-card>
                         </v-dialog>
                         <!-- ALAMAT BONGKAR -->
-                        <v-dialog v-model="dialogbongkar">
+                        <v-dialog v-model="dialogbongkar" class="w-50">
                             <template v-slot:activator="{props}">
                                 <text-field-form
                                     v-bind="props"
@@ -353,17 +351,14 @@ export default {
                                 >
                             </text-field-form>
                             </template>
-                            <v-card class="py-5 px-5 rounded-xl mx-auto w-100" max-width="400">
-                                    <v-btn icon="mdi-close" variant="plain" @click="dialogbongkar = false"></v-btn>
-                                    <v-card-title class="text-center text-blue-darken-4 mb-3 mt-n12 text-button font-weight-bold">ALAMAT BONGKAR</v-card-title>
-                                    <text-field-form
+                            <v-card class="py-5 px-7 rounded-xl mx-auto vh-100" width="400">
+                                    <v-card-title class="text-center text-blue-darken-4 mb-3 text-button font-weight-bold">ALAMAT BONGKAR</v-card-title>
+                                    <text-field
                                         v-model="searched"
-                                        append-inner-icon="mdi-magnify"
                                         label="Search"
-                                        single-line
-                                        :rules="required"
-                                    ></text-field-form>
-                                    <v-list class="overflow-auto">
+                                    ></text-field>
+                                    <v-div>
+                                    <v-list>
                                         <v-for v-for="s, i in filteralamat" :key="i">
                                             <v-list-item
                                             density="compact"
@@ -380,6 +375,7 @@ export default {
                                             </v-list-item>
                                         </v-for>
                                     </v-list>
+                                </v-div>
                             </v-card>
                         </v-dialog>
                     <!-- SUPIR -->

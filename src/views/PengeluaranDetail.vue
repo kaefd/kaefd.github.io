@@ -9,6 +9,8 @@ import BtnCancel from '../components/button/btnCancel.vue';
 import BtnOrange from '../components/button/btnOrange.vue';
 import dialogSearch from '../components/dialog/dialogSearch.vue';
 import TextField from '../components/form/textField.vue';
+import DialogVue from '../components/dialog/dialogVue.vue';
+import CurrencyInput from '../components/form/currencyInput.vue';
 export default {
     components: {
         dialogScroll,
@@ -19,7 +21,9 @@ export default {
         BtnCancel,
         BtnOrange,
         dialogSearch,
-        TextField
+        TextField,
+        DialogVue,
+        CurrencyInput
         
     },
     props:['pembelianbaru', 'namaPelanggan', 'laporan', 'groupbarang', 'batalbtn', 'penjualan', 'pemasukan', 'alamatBongkar', 'namaTujuan', 'datainput', 'pageTitle', 'pengeluaran', 'dokumenpjl', 'namaSupplier', 'pengirimanDetail', 'pembelian', 'pelanggan', 'supplier', 'pembeliandetl', 'edit', 'kirim', 'headers', 'items', 'actIcon', 'icon', 'btncolor', 'search', 'iVariant', 'headDetails', 'details','disable', 'btn', 'datatext', 'itemDetail', 'category'],
@@ -189,9 +193,9 @@ export default {
                 <v-toolbar-title class="text-button mt-1">{{ 'DETAIL '+ pageTitle }}</v-toolbar-title>
                 <v-spacer></v-spacer>
                 </v-toolbar>
-                <v-container class="mt-5">
+                <v-container class="h-100">
                 <!-- EDIT -->
-                <v-row v-if="edit" justify-sm="start" justify="center">
+                <v-row v-if="edit" class="pt-7" justify-sm="start" justify="center">
                     <text-field-form label="No Penjualan" :model-value="items.no_penjualan" readonly />
                     <text-field-form label="Tgl Penjualan" :model-value="items.tgl_penjualan" readonly/>
                     <text-field-form label="Pelanggan" :model-value="items.kode_pelanggan" readonly />
@@ -202,7 +206,7 @@ export default {
                 </v-row>
                     <v-form  @submit.prevent ref="form">
                     <!-- TAMBAH PENGELUARAN -->
-                    <v-row v-if="!edit && pengeluaran" justify-sm="start" justify="center">
+                    <v-row v-if="!edit && pengeluaran" class="pt-7" justify-sm="start" justify="center">
                             <text-field-form
                                 label="No Pengeluaran"
                                 v-model= "inputdata.no_penjualan"
@@ -217,7 +221,7 @@ export default {
                             <!-- PELANGGAN -->
                             <dialogSearch v-if="!edit" label="Pelanggan" :objectFilter="pelanggan" @pilihObjek="pilihObjek" cardTitle="PELANGGAN" max-width="400" :rules="required"/>
                             <!-- KODE GROUP -->
-                            <v-dialog v-model="dialogkodeg" >
+                            <v-dialog v-model="dialogkodeg" class="w-50">
                                 <template v-slot:activator="{ props }">
                                     <text-field-form
                                     label="Kode Group"
@@ -226,8 +230,7 @@ export default {
                                     readonly
                                     :rules="required"
                                     />
-                                
-                            </template>
+                                </template>
                                 <v-card class="py-5 px-7 rounded-xl mx-auto" width="400">
                                     <v-card-title class="text-center text-blue-darken-4 mb-3 text-button font-weight-bold">KODE GROUP</v-card-title>
                                     <text-field
@@ -248,7 +251,7 @@ export default {
                                         </v-for>
                                     </v-list>
                                 </v-card>
-                        </v-dialog>
+                            </v-dialog>
                             <text-field-form
                                 id="tipe"
                                 label="Tipe Dokumen"
@@ -273,7 +276,6 @@ export default {
                                 v-model="inputdata.no_dokumen"
                                 :rules="required"
                             />
-                            
                             <datePickerVue
                                 label="Tgl Dokumen"
                                 v-model="inputdata.tgl_dokumen"
@@ -330,57 +332,62 @@ export default {
                     </template>
                     <!-- eslint-disable-next-line vue/valid-v-slot -->
                     <template v-slot:item.actions="{ item, index }">
-                        <v-dialog v-model="detaildial[index]">
-                        <!-- button dialog -->
-                            <template v-slot:activator="{ props }">
-                                <v-btn
-                                v-bind="props"
-                                class="text-body-2  rounded-lg"
-                                :icon="actIcon[3].icon"
-                                variant="plain"
-                                height="30"
-                                width="30">
-                                </v-btn>
-                            </template>
-                            <v-responsive class="bg-white mx-auto px-7 pb-7 pt-5 rounded-xl" width="400">
-                                <v-btn @click="detaildial[index] = false" icon="mdi-close" variant="text" size="small"></v-btn>
-                                <v-card-title class="text-center text-button font-weight-bold mt-n5">{{ item.raw.nama_barang }}</v-card-title>
+                        <dialog-vue v-model="detaildial[index]">
+                            <template #titlecard>
+                                <v-card-title class="text-center text-button font-weight-bold">{{ item.raw.nama_barang }}</v-card-title>
                                 <v-card-subtitle class="text-caption text-center mb-2 mt-n3">{{ item.raw.hs_code }}</v-card-subtitle>
-                                <v-label>Jumlah</v-label>
+                            </template>
+                            <template #content>
+                                <v-div class="mx-auto mt-5">
                                 <text-field-form
-                                    variant="outlined"
-                                    density="compact"
-                                    :value="numb(item.raw.jumlah)"
+                                    v-if="edit"
+                                    label="Jumlah"
+                                    :model-value="numb(item.raw.jumlah)"
                                     active="true"
                                     readonly
                                     hide-details
-                                    class="mb-1"
+                                    class="mb-3"
                                 />
-                                
-                                <v-label>Harga</v-label>
+                                <currency-input
+                                    v-if="!edit"
+                                    label="Jumlah"
+                                    v-model="pembelian_input[index].jumlah"
+                                    active="true"
+                                    hide-details
+                                    class="mb-3"
+                                    :options="{ currency: 'EUR', currencyDisplay: 'hidden' }"
+                                />
                                 <text-field-form
-                                    variant="outlined"
-                                    density="compact"
-                                    :value="numb(item.raw.harga_jual)"
+                                    v-if="edit"
+                                    label="Harga"
+                                    :model-value="numb(item.raw.harga_jual)"
                                     readonly
                                     hide-details
-                                    class="mb-4"
+                                    class="mb-3"
                                 />
-                                <v-label>Total Harga</v-label>
+                                <currency-input
+                                    v-if="!edit"
+                                    label="Harga"
+                                    v-model="pembelian_input[index].harga_jual"
+                                    hide-details
+                                    class="mb-3"
+                                    :options="{ currency: 'EUR', currencyDisplay: 'hidden' }"
+                                />
                                 <text-field-form
-                                    variant="outlined"
-                                    density="compact"
-                                    :value="numb(item.raw.harga_jual * item.raw.jumlah)"
+                                    label="Total Harga"
+                                    :model-value="edit ? numb(item.raw.harga_jual * item.raw.jumlah) : numb(pembelian_input[index].harga_jual * pembelian_input[index].jumlah)"
                                     readonly
                                     hide-details
-                                    class="mb-4"
+                                    class="mb-3"
                                 />
-                                <v-div v-if="!edit" class="d-flex w-100">
-                                    <v-btn @click="deleteditem(item.raw), detaildial[index] = false" :hidden="disable" variant="tonal" class="text-caption rounded-xl elevation-0 w-25">Hapus</v-btn>
-                                    <v-btn :hidden="disable" color="blue-darken-4" class="text-caption rounded-xl elevation-0 bg-blue-darken-4 w-75">Simpan</v-btn>
                                 </v-div>
-                            </v-responsive>
-                        </v-dialog>
+                                <v-divider class="mb-5"></v-divider>
+                                <v-div v-if="!edit" class="d-flex me-5 ms-auto">
+                                    <btn-cancel btn_title="Hapus" @click="deleteditem(item.raw), detaildial[index] = false" :hidden="disable" class="me-2">Hapus</btn-cancel>
+                                    <btn-orange btn_title="Simpan" :hidden="disable" @click="detaildial[index] = false">Simpan</btn-orange>
+                                </v-div>
+                            </template>
+                        </dialog-vue>
                     </template>
                     </v-data-table>
                     <v-div class="float-end">
