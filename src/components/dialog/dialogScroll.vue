@@ -329,7 +329,7 @@ export default {
                             <form @submit.prevent="submit" ref="form" class="mx-auto">
                                 <text-field-form
                                     v-if="!pemasukan"
-                                    type="numb"
+                                    type="number"
                                     v-model="penjualan_detail.jumlah"
                                     label="Jumlah"
                                     :hide-details="true"
@@ -337,7 +337,7 @@ export default {
                                 />
                                 <text-field-form
                                     v-if="pemasukan"
-                                    type="numb"
+                                    type="number"
                                     label="Jumlah"
                                     :hide-details="true"
                                     :disabled="hiddenbtn"
@@ -346,7 +346,7 @@ export default {
                                 <text-field-form
                                     v-if="pemasukan"
                                     v-model="state.jumlah_diterima"
-                                    type="numb"
+                                    type="number"
                                     label="Jumlah Diterima"
                                     :hide-details="true"
                                     :disabled="hiddenbtn"
@@ -354,14 +354,14 @@ export default {
                                 <text-field-form
                                     v-if="pemasukan"
                                     v-model="state.nilai"
-                                    type="numb"
+                                    type="number"
                                     label="Nilai Total"
                                     :hide-details="true"
                                 />
                                 <text-field-form
                                     v-if="!tambah && pengeluaran"
                                     v-model="penjualan_detail.harga_jual"
-                                    type="numb"
+                                    type="number"
                                     label="Harga"
                                     :hide-details="true"
                                     :disabled="hiddenbtn"
@@ -369,7 +369,7 @@ export default {
                                 <text-field-form
                                     v-if="!tambah && pengeluaran"
                                     v-model="terjual"
-                                    type="numb"
+                                    type="number"
                                     label="Total Harga"
                                     :hide-details="true"
                                     readonly

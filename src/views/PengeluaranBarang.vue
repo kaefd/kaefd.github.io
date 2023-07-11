@@ -277,10 +277,10 @@ import BtnFilter from '../components/button/btnFilter.vue';
       <!-- PERIODE -->
       <v-span class="text-caption text-weight-bold">Periode</v-span>
       <v-divider></v-divider>
-      <v-label class="text-small mt-4">Tgl Awal</v-label>
-      <DatePicker v-model="filtered.periode[0]" />
+      <v-label>Tgl Awal</v-label>
+      <DatePicker v-model="filtered.periode[0]" :filter="true"/>
       <v-label class="text-small mt-1">Tgl Akhir</v-label>
-      <DatePicker v-model="filtered.periode[1]" />
+      <DatePicker v-model="filtered.periode[1]" :filter="true" />
       <!-- TIPE DOKUMEN -->
       <v-span class="text-caption text-weight-bold">Tipe Dokumen</v-span>
       <v-divider class="mb-6"></v-divider>

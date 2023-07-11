@@ -10,18 +10,21 @@ export default {
     components: {
         textFieldForm
   },
-    props:['label', 'validated', 'rules'],
+    props:['label', 'validated', 'rules', 'filter'],
     data () {
         return {
             data: ''
         }
     },
-    computed: {
-        
+    created() {
+        if(this.default) {
+            return this.data = this.default
+        }
     },
     methods: {
     },
     mounted () {
+        this.def
     }
 }
 </script>
@@ -41,7 +44,7 @@ export default {
             :enable-time-picker="false"
             v-model="data"
         >
-            <template #trigger>
+            <template v-if="!filter" #trigger>
                 <textFieldForm readonly :label="label" :model-value="functions.formatDate(data)" :rules="rules"/>
             </template>
         </VueDatePicker>

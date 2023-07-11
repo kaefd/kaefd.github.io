@@ -232,7 +232,7 @@ import BtnFilter from '../components/button/btnFilter.vue';
         multiple
         variant="underlined"
         density="compact"
-        class="overflow-auto h-50"
+        class="overflow-auto"
         hide-details
         single-line
         hide-selected

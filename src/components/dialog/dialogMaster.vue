@@ -89,17 +89,29 @@ export default {
               <div v-if="!noselect">
                 <!-- FIELD SELECT (UNTUK TAMBAH DATA) -->
                 <text-field-form
-                    id="tipe"
                     v-if="this.item == null"
+                    id="tambah"
                     :label="headers[0].title"
                     v-model="data[keyform[0]]"
                     readonly
                     :hide-details="true"
                 >                                
                 </text-field-form>
+                <v-menu activator="#tambah" class="elevation-0">
+                    <v-list>
+                      <v-list-item
+                        v-for="(item, index) in category.slice(this.alpha, category.length)"
+                        :key="index"
+                        :value="index"
+                        density="compact"
+                      >
+                        <v-list-item-title  @click="data[keyform[0]] = item" class="text-caption">{{ item }}</v-list-item-title>
+                      </v-list-item>
+                    </v-list>
+                </v-menu>
                 <!-- FIELD SELECT (UNTUK EDIT DATA) -->
                 <text-field-form
-                  v-if="this.item != null"
+                  v-if="item != null"
                   id="tipe"
                   :label="headers[0].title"
                   v-model="edit[keyform[0]]"

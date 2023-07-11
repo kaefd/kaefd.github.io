@@ -324,14 +324,15 @@ import datePickerVue from '../components/datepicker/datePicker.vue';
       date.value = [startDate, startDate];
     })
 </script>
-
 <template>
   <filterDrawer v-model="filter" @close="close" @reset="reset" @filterdata="filterdata">
     <template #default>
       <v-span class="text-caption text-weight-bold">Periode</v-span>
-      <v-divider class="mb-6"></v-divider>
-      <datePickerVue label="Tgl Awal" v-model="filtered.periode[0]" />
-      <datePickerVue label="Tgl Akhir" v-model="filtered.periode[1]" />
+      <v-divider></v-divider>
+      <v-label class="text-small mt-4">Tgl Awal</v-label>
+      <datePickerVue v-model="filtered.periode[0]" :filter="true"/>
+      <v-label class="text-small mt-1">Tgl Akhir</v-label>
+      <datePickerVue v-model="filtered.periode[1]" :filter="true" />
     </template>
   </filterDrawer>
     <v-container class="pt-9 h-100">

@@ -153,9 +153,7 @@ export default defineComponent ({
     reset() {
       this.filtered.kategori_barang = []
       this.selectCategory = []
-      
     },
-
     },
     mounted() {
         this.fetchData()

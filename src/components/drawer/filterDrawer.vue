@@ -19,7 +19,6 @@ export default {
         },
         reset() {
             this.$emit('reset')
-            return this.filtered()
         },
         filterdata() {
             this.$emit('filterdata')
@@ -36,18 +35,18 @@ export default {
         location="right"
         temporary
       >
-      <v-sheet class="py-5">
+      <v-sheet class="py-5 h-80">
         <div class="d-flex align-center">
           <v-span class="text-button ms-4">Filter</v-span>
         </div>
         <!-- KATEGORI BARANG -->
-        <v-container class="py-3 px-4">
+        <v-container class="py-3 px-4 h-100">
             <slot name="default" />
-            <v-div class="d-flex mt-10">
-              <btn-cancel btn_title="Reset" @click="reset()" class="mt-5 me-2" />
-              <btn-orange btn_title="Filter" @click="filterdata()" class="mt-5 me-2" />
-            </v-div>
         </v-container>
       </v-sheet>
+      <v-div class="d-flex ms-5">
+        <btn-cancel btn_title="Reset" @click="reset()" class="mt-5 me-2" />
+        <btn-orange btn_title="Filter" @click="filterdata()" class="mt-5 me-2" />
+      </v-div>
 </v-navigation-drawer>      
 </template>

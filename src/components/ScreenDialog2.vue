@@ -234,9 +234,8 @@ export default {
                                     >
                                 </text-field-form>
                             </template>
-                                <v-card class="py-5 px-5 rounded-xl mx-auto w-100" max-width="400">
-                                    <v-btn icon="mdi-close" variant="plain" @click="dialog5 = false"></v-btn>
-                                    <v-card-title class="text-center text-blue-darken-4 mb-3 text-button font-weight-bold mt-n12">KODE GROUP</v-card-title>
+                                <v-card class="py-5 px-7 rounded-xl mx-auto w-100" max-width="400">
+                                    <v-card-title class="text-center text-blue-darken-4 mb-3 text-button font-weight-bold">KODE GROUP</v-card-title>
                                     <text-field
                                         v-model="searched"
                                         label="Search"
@@ -276,6 +275,10 @@ export default {
                             height="40vh"
                         >
                         <template v-slot:bottom>
+                        </template>
+                        <!-- eslint-disable-next-line vue/valid-v-slot -->
+                        <template v-slot:item.jumlah="{ item }">
+                            {{ functions.numb(item.raw.jumlah) }}
                         </template>
                         <!-- eslint-disable-next-line vue/valid-v-slot -->
                         <template v-slot:item.actions="{ item, index }">
@@ -321,6 +324,10 @@ export default {
                             class="text-body-2 py-3 px-5 text-caption"
                             height="40vh">
                             <template v-slot:bottom>
+                            </template>
+                            <!-- eslint-disable-next-line vue/valid-v-slot -->
+                            <template v-slot:item.jumlah="{ item }">
+                                {{ functions.numb(item.raw.jumlah) }}
                             </template>
                             <!-- eslint-disable-next-line vue/valid-v-slot -->
                             <template v-slot:item.actions="{ item, index }">

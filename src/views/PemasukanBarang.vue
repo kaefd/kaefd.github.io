@@ -194,6 +194,7 @@ export default {
         functions.print(key, title, header, item)
       },
       reset() {
+        this.def = true
         this.periode = [functions.tglawal(), functions.day()]
         this.filtered.periode = [functions.tglawal(), functions.day()]
         this.filtered.selectdokumen = []
@@ -214,6 +215,7 @@ export default {
       }
     },
     mounted() {
+      this.periode
       this.selected()
       this.page()
       this.getPembelian()
@@ -237,9 +239,11 @@ export default {
   <filterDrawer v-model="filter" @close="close" @reset="reset" @filterdata="filterdata">
     <template #default>
       <v-span class="text-caption text-weight-bold">Periode</v-span>
-      <v-divider class="mb-6"></v-divider>
-      <DatePicker label="Tgl Awal" v-model="filtered.periode[0]" />
-      <DatePicker label="Tgl Akhir" v-model="filtered.periode[1]" />
+      <v-divider></v-divider>
+      <v-label class="text-small mt-4">Tgl Awal</v-label>
+      <DatePicker v-model="filtered.periode[0]" :filter="true"/>
+      <v-label class="text-small mt-1">Tgl Akhir</v-label>
+      <DatePicker v-model="filtered.periode[1]" :filter="true" />
       <!-- TIPE DOKUMEN -->
       <v-span class="text-caption text-weight-bold">Tipe Dokumen</v-span>
       <v-divider class="mb-6"></v-divider>
