@@ -326,8 +326,8 @@ export default {
                                 </v-div>
                                 <v-divider class="mt-3 mb-5"></v-divider>
                                 <v-div v-if="!edit" class="d-flex me-5 ms-auto">
-                                    <btn-cancel btn_title="Hapus" @click="deleteditem(item.raw), detaildial[index] = false" :hidden="disable" class="me-2">Hapus</btn-cancel>
-                                    <btn-orange btn_title="Simpan" :hidden="disable" @click="detaildial[index] = false">Simpan</btn-orange>
+                                    <btn-cancel btn_title="Hapus" @click="deleteditem(item.raw), detaildial[index] = false" class="me-2">Hapus</btn-cancel>
+                                    <btn-orange btn_title="Simpan" @click="detaildial[index] = false">Simpan</btn-orange>
                                 </v-div>
                             </template>
                         </dialogVue>
@@ -335,7 +335,7 @@ export default {
                     </v-data-table>
                     <v-div class="d-flex ms-auto me-0 mb-0 mt-auto">
                         <btn-cancel btn_title="Batal" class="me-2" v-if="!edit" @click="pembelian_input = [], inputdata = [],  dialog = false" />
-                        <btn-orange type="submit" btn_title="Simpan" v-if="!edit" @click="validate" :hidden="disable"/>
+                        <btn-orange type="submit" btn_title="Simpan" v-if="!edit" @click="validate"/>
                     </v-div>
                 </v-row>
                 </v-container>

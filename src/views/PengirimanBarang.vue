@@ -15,6 +15,7 @@ import squareButton from '../components/button/buttonVue.vue';
 // plugins
 import BtnFilter from '../components/button/btnFilter.vue';
 import DatePicker from '../components/datepicker/datePicker.vue';
+import TextButton from '../components/button/textButton.vue';
 </script>
 
 <script>
@@ -30,7 +31,8 @@ import DatePicker from '../components/datepicker/datePicker.vue';
       textField,
       menuList,
         BtnFilter,
-        DatePicker
+        DatePicker,
+        TextButton
     },
     props:['actIcon', 'cetak'],
     data () {
@@ -420,9 +422,12 @@ import DatePicker from '../components/datepicker/datePicker.vue';
             </template>
              <!-- eslint-disable-next-line vue/valid-v-slot -->
               <template v-slot:item.actions="{ item }">
-                <v-btn size="small" variant="text" color="grey-darken-2">
-                  <v-icon>mdi-dots-vertical</v-icon>
-                  <v-menu activator="parent" transition="slide-y-transition">
+                  <v-menu transition="slide-y-transition">
+                    <!-- activator -->
+                    <template v-slot:activator="{ props }">
+                      <text-button v-bind="props" icon="mdi-dots-vertical" />
+                    </template>
+                    <!-- list item -->
                     <v-list density="compact" class="px-3">
                       <v-list-item class="pa-0">
                         <PengirimanDetail
@@ -463,7 +468,6 @@ import DatePicker from '../components/datepicker/datePicker.vue';
                       />
                     </v-list>
                   </v-menu>
-              </v-btn>
             </template>
             </v-data-table>
         </v-sheet>

@@ -1,11 +1,15 @@
 <script setup>
+import BtnInfo from '../button/btnInfo.vue';
+import TextButton from '../button/textButton.vue';
 </script>
 <script>
 
 export default {
     components: {
-  },
-    props:['label', 'validated', 'rules'],
+        TextButton,
+        BtnInfo
+     },
+    props:['label', 'validated', 'rules', 'master'],
     data () {
         return {
             data: ''
@@ -25,15 +29,8 @@ export default {
         <v-dialog>
     <!-- button dialog -->
         <template v-slot:activator="{ props }">
-            <v-btn
-            v-bind="props"
-            size="small"
-            variant="text"
-            color="grey-darken-2"
-            icon
-            >
-                <v-icon>mdi-dots-vertical</v-icon>
-            </v-btn>
+            <text-button v-if="!master" v-bind="props" icon="mdi-dots-vertical" />
+            <btn-info v-if="master" v-bind="props" icon="mdi-plus" btn_title="Tambah Data" />
         </template>
         <v-card class="bg-white mx-auto py-5 rounded-xl" width="370">
             <slot name="titlecard"></slot>

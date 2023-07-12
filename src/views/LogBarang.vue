@@ -1,11 +1,13 @@
 <script setup>
 import { VDataTable } from 'vuetify/labs/VDataTable'
 import api from '../service/api';
+import TextButton from '../components/button/textButton.vue';
 </script>
 <script>
 export default {
     components: {
-        VDataTable
+        VDataTable,
+        TextButton,
     },
     props: ['kode_group', 'barang', 'kode_barang', 'stokbarang', 'groupbarang'],
     data () {
@@ -110,27 +112,12 @@ export default {
     >
         <!-- BUTTON DIALOG -->
         <template v-slot:activator="{ props }">
-          <v-btn
-          v-bind="props"
-          class="text-body-2  rounded-lg"
-          icon
-          variant="text"
-          color="grey-darken-2"
-          size="small">
-          <v-icon size="20">mdi-dots-vertical</v-icon>
-          </v-btn>
+          <text-button v-bind="props" icon="mdi-dots-vertical" />
         </template>
         <!-- dialog content -->
         <v-card class="bg-grey-lighten-5 w-100">
             <v-toolbar class="bg-blue-custom text-white" height="50">
-                <v-btn
-                    icon
-                    dark
-                    @click="dialog = false"
-                    size="small"
-                >
-                <v-icon>mdi-close</v-icon>
-                </v-btn>
+                <text-button @click="dialog = false" icon="mdi-close" color="white"/>
                 <v-toolbar-title class="text-button">DETAIL STOK BARANG</v-toolbar-title>
                 <v-spacer></v-spacer>
             </v-toolbar>
@@ -156,15 +143,11 @@ export default {
                 </template>
                  <!-- eslint-disable-next-line vue/valid-v-slot -->
                  <template v-slot:item.actions="{item, index}">
-                    <v-btn
+                    <text-button
                         @click="dialogbrg = true, log(kodegroup(item.raw.kode_barang)[index], item.raw.kode_barang)"
-                        class="text-body-2  rounded-lg"
-                        icon
-                        variant="text"
-                        color="grey-darken-2"
-                        size="small">
-                        <v-icon size="20">mdi-dots-vertical</v-icon>
-                    </v-btn>
+                        icon="mdi-dots-vertical"
+                    >
+                    </text-button>
                     <v-dialog
                         v-model="dialogbrg"
                         :scrim="false"
@@ -172,14 +155,7 @@ export default {
                         fullscreen
                         >
                         <v-toolbar class="bg-blue-custom text-white" height="50">
-                            <v-btn
-                                icon
-                                dark
-                                @click="dialogbrg = false"
-                                size="small"
-                            >
-                            <v-icon>mdi-close</v-icon>
-                            </v-btn>
+                            <text-button @click="dialogbrg = false" icon="mdi-close" color="white" />
                             <v-toolbar-title class="text-button">DETAIL LOG BARANG</v-toolbar-title>
                             <v-spacer></v-spacer>
                         </v-toolbar>

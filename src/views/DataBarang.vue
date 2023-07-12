@@ -12,6 +12,7 @@ import textField from '../components/form/textField.vue';
 import checkBox from '../components/form/checkBox.vue';
 import filterDrawer from '../components/drawer/filterDrawer.vue';
 import btnCancel from '../components/button/btnCancel.vue';
+import DialogVue from '../components/dialog/dialogVue.vue';
 // plugin
 import { defineComponent } from 'vue';
 </script>
@@ -26,7 +27,8 @@ export default defineComponent ({
     textField,
     checkBox,
     filterDrawer,
-    btnCancel
+    btnCancel,
+    DialogVue,
   },
     name: 'DataBarang',
     props:['actIcon', 'cetak'],
@@ -62,7 +64,7 @@ export default defineComponent ({
         const barang = await import('../service/page/barang');
 
         const item = await api.default.getBarang();
-        this.items = barang.default.barang(item);
+        this.items = barang.barang(item);
       } catch (error) {
         console.log(error);
       }
@@ -72,7 +74,7 @@ export default defineComponent ({
     },
     print(key){
       let title = this.pageTitle
-      let header = barang.data().headers
+      let header = barang.headers
       let item = this.items
       functions.print(key, title, header, item)
     },
@@ -171,7 +173,7 @@ export default defineComponent ({
       <v-span class="text-caption text-weight-bold">Kategori Barang</v-span>
       <v-divider class="mb-6"></v-divider>
       <checkBox
-        v-for="label, i in barang.data().category"
+        v-for="label, i in barang.category"
         :key="i"
         v-model="filtered.kategori_barang"
         :label="label"
@@ -187,15 +189,15 @@ export default defineComponent ({
           <dialogMaster
             v-model="dialog"
             toolbar_title="Tambah Data"
-            :keyform="barang.data().keyform"
+            :keyform="barang.keyform"
             :tambah="tambah"
             :ishidden="true"
             :noselect="statusselect"
             @form="submitForm"
             :screen="400"
-            :headers="barang.data().headers"
+            :headers="barang.headers"
             :items="items"
-            :category="barang.data().category"
+            :category="barang.category"
             :alpha="alpha"
             :submitForm="submitForm"
           >
@@ -203,6 +205,35 @@ export default defineComponent ({
               <btnCancel @click=" dialog = false" btn_title="Batal" />  
             </template>
           </dialogMaster>
+          <dialog-vue :master="true">
+            <template #titlecard>
+              <v-card-title class="text-center text-button font-weight-bold">Tambah Data</v-card-title>
+            </template>
+            <template #content>
+              <v-div class="mx-auto mt-5">
+                <text-field-form
+                    id="tambah"
+                    label="Kategori Barang"
+                    v-model="tambah.kategori_barang"
+                    readonly
+                    class="mb-3"
+                    :rules="required"
+                />
+                <v-menu activator="#tambah" class="elevation-0">
+                    <v-list>
+                      <v-list-item
+                        v-for="(item, index) in barang.category"
+                        :key="index"
+                        :value="index"
+                        density="compact"
+                      >
+                        <v-list-item-title  @click="tambah.kategori_barang = item" class="text-caption">{{ item }}</v-list-item-title>
+                      </v-list-item>
+                    </v-list>
+                </v-menu>
+              </v-div>
+            </template>
+          </dialog-vue>
         </div>
       </v-responsive>
       <v-responsive class="me-sm-0 ms-sm-auto ms-0 me-auto" max-width="450">
@@ -221,17 +252,17 @@ export default defineComponent ({
     </v-row>
         <!-- TABLE -->
         <TableVue
-        :keyform="barang.data().keyform"
+        :keyform="barang.keyform"
         :noselect="statusselect"
         @edit="editForm"
         @del="del"
         id="tbl_exporttable_to_xls"
         :screen="400"
-        :headers="barang.data().headers"
+        :headers="barang.headers"
         :items="barang.selected(selectCategory,
         items)"
         :search="search"
-        :category="barang.data().category"
+        :category="barang.category"
         :selectCategory="selectCategory"
         toolbar_title="Edit Data"
         :btncolor="actIcon[1].color"

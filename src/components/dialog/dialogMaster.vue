@@ -172,7 +172,7 @@ export default {
             <v-divider></v-divider>
             <v-div v-if="!view" class="d-flex align-center float-end ma-5">
                 <slot name="cancel"></slot>
-                <btn-orange btn_title="Simpan" class="ms-2"/>
+                <btn-orange type="submit" btn_title="Simpan" class="ms-2"/>
             </v-div>
         </form>
       </v-card>
