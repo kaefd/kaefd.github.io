@@ -44,8 +44,9 @@ export default {
     }
   },
   postBarang(value) {
+    const jsonBarang = JSON.stringify(value);
     return instance.post('/barang', {
-      barang : value
+      barang : jsonBarang
     })
   },
   putBarang(value) {

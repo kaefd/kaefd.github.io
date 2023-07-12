@@ -37,20 +37,9 @@ export default {
       page(value) {
         this.pageTitle = value
       },
-      getBarang(){
-        api.getBarang()
-        .then(response => {
-          this.databarang = response.data
-        })
-        .catch(() => {
-          return this.$router.push('login');
-        })
-      },
-     
     },
     mounted() {
       this.page()
-      this.getBarang()
       // this.getPembelian()
       // this.getProduksihead()
       // this.getPenjualanHead()
@@ -76,7 +65,7 @@ export default {
           </template>
         </AppBar>
         <v-main class="vh-100 vw-100">
-            <RouterView :actIcon="actIcon" :cetak="cetak" @page="page" @pages="page" :databarang="databarang" />
+            <RouterView :actIcon="actIcon" :cetak="cetak" @page="page" @pages="page"/>
         </v-main>
       </v-layout>
   </template>

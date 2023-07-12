@@ -5,7 +5,6 @@ import functions from '../service/functions';
 import barang from '../service/page/barang';
 // component
 import TableVue from '../components/TableVue.vue';
-import dialogMaster from '../components/dialog/dialogMaster.vue';
 import btnFilter from '../components/button/btnFilter.vue';
 import menuList from '../components/menu/menuList.vue';
 import textField from '../components/form/textField.vue';
@@ -13,15 +12,17 @@ import checkBox from '../components/form/checkBox.vue';
 import filterDrawer from '../components/drawer/filterDrawer.vue';
 import btnCancel from '../components/button/btnCancel.vue';
 import DialogVue from '../components/dialog/dialogVue.vue';
+import textFieldForm from '../components/form/textFieldForm.vue';
+import alertVue from '../components/dialog/alertVue.vue';
 // plugin
 import { defineComponent } from 'vue';
+import BtnOrange from '../components/button/btnOrange.vue';
 </script>
 
 <script>
 export default defineComponent ({
   components: {
     TableVue,
-    dialogMaster,
     btnFilter,
     menuList,
     textField,
@@ -29,42 +30,44 @@ export default defineComponent ({
     filterDrawer,
     btnCancel,
     DialogVue,
+    textFieldForm,
+    BtnOrange,
+    alertVue,
   },
     name: 'DataBarang',
     props:['actIcon', 'cetak'],
     data () {
       return {
-        item: '',
         dialog: false,
+        valert: false,
+        status: null,
+        message: '',
         search: '',
         filter: false,
         pageTitle: 'DATA BARANG',
         selectCategory: [],
-        alpha: 1,
         statusselect: false,
         items: '',
-        nama: '',
-        tambah: {
-            kategori_barang: '',
-            kode_barang: '',
-            nama_barang: '',
-            hs_code: '',
-            satuan: '',
-            status: true,
-          },
+        input: {
+          status: true
+        },
         filtered: {
           kategori_barang: []
-        }
+        },
+        required: [
+          value => {
+            if (value)  return true
+
+            return 'harus diisi !'
+          },
+        ]
       }
     },
     methods: {
     async fetchData() {
       try {
-        const api = await import('../service/api');
-        const barang = await import('../service/page/barang');
-
-        const item = await api.default.getBarang();
-        this.items = barang.barang(item);
+        const item = await api.getBarang()
+        this.items = await barang.barang(item)
       } catch (error) {
         console.log(error);
       }
@@ -79,42 +82,37 @@ export default defineComponent ({
       functions.print(key, title, header, item)
     },
     // TAMBAH DATA
-    submitForm(value) {
-        // api.postData( '/barang', {
-        //   barang : value
-        // })
-        // .then(() => {
-        //     return this.$router.push('items');
-        //   })
-        //   .catch((error) => {
-        //     console.log(error);
-        //   })
-        api.postData(value)
+    submit(value) {
+        api.postBarang(value)
         .then(() => {
-            return this.$router.push('items');
+            this.status = true
+            this.valert = true
+            setTimeout(() => {
+              this.valert = false
+              this.$router.go();
+            }, 2500);
           })
           .catch((error) => {
-            console.log(error);
+            this.status = false
+            this.message =  error.response.data
+            this.valert = true
           })
     },
       // EDIT DATA
     editForm(value) {
-      // const myJSON = JSON.stringify(value);
-      //   api.putData('/barang', {
-      //     barang : myJSON
-      //   })
-      //   .then(() => {
-      //     return this.$router.push('items');
-      //   })
-      //     .catch((error) => {
-      //       console.log(error);
-      //   })
         api.putBarang(value)
         .then(() => {
-          return this.$router.push('items');
-        })
-          .catch((error) => {
-            console.log(error);
+          this.status = true
+          this.valert = true
+          setTimeout(() => {
+            this.valert = false
+            this.$router.go();
+          }, 2500);
+          })
+        .catch((error) => {
+          this.status = false
+          this.message = error.response.data
+          this.valert = true
         })
     },
     // HAPUS DATA
@@ -128,18 +126,23 @@ export default defineComponent ({
               status: false,
       }
       const jsonBarang = JSON.stringify(barang);
-      console.log({
-        barang : jsonBarang
-      });
-        // api.deleteData('/barang', {
-        //   barang : myJSON
-        // })
-        // .then(() => {
-        //   return this.$router.push('items');
-        //   })
-        // .catch(function (error) {
-        //   console.log(error);
-        // })
+      console.log(jsonBarang);
+        api.deleteData('/barang', {
+          barang : jsonBarang
+        })
+        .then(() => {
+          this.status = true
+          this.valert = true
+          setTimeout(() => {
+            this.valert = false
+            this.$router.go();
+          }, 2500);
+        })
+        .catch(function (error) {
+          this.status = false
+          this.message = error.response.data
+          this.valert = true
+        })
     },
     page(){
         return this.$emit('page', this.pageTitle)
@@ -156,12 +159,19 @@ export default defineComponent ({
       this.filtered.kategori_barang = []
       this.selectCategory = []
     },
+    async validate () {
+      const { valid } = await this.$refs.form.validate()
+      if (valid){
+          this.dialog = false
+          return this.submit(this.input)
+      } else this.validated = false
+    },
     },
     mounted() {
-        this.fetchData()
-        this.page()
-        this.cetak
-      }
+      this.fetchData()
+      this.page()
+      this.cetak
+    }
       
   })
 
@@ -186,37 +196,18 @@ export default defineComponent ({
       <v-responsive class="d-flex align-center mb-sm-0 mb-1" min-width="200">
         <div class="d-flex align-center w-100">
           <!-- ADD BUTTON -->
-          <dialogMaster
-            v-model="dialog"
-            toolbar_title="Tambah Data"
-            :keyform="barang.keyform"
-            :tambah="tambah"
-            :ishidden="true"
-            :noselect="statusselect"
-            @form="submitForm"
-            :screen="400"
-            :headers="barang.headers"
-            :items="items"
-            :category="barang.category"
-            :alpha="alpha"
-            :submitForm="submitForm"
-          >
-            <template #cancel>
-              <btnCancel @click=" dialog = false" btn_title="Batal" />  
-            </template>
-          </dialogMaster>
-          <dialog-vue :master="true">
+          <dialog-vue v-model="dialog" :master="true">
             <template #titlecard>
               <v-card-title class="text-center text-button font-weight-bold">Tambah Data</v-card-title>
             </template>
             <template #content>
-              <v-div class="mx-auto mt-5">
+              <v-form ref="form" class="mx-auto mt-5">
                 <text-field-form
                     id="tambah"
                     label="Kategori Barang"
-                    v-model="tambah.kategori_barang"
+                    v-model="input.kategori_barang"
                     readonly
-                    class="mb-3"
+                    class="mb-2"
                     :rules="required"
                 />
                 <v-menu activator="#tambah" class="elevation-0">
@@ -227,10 +218,39 @@ export default defineComponent ({
                         :value="index"
                         density="compact"
                       >
-                        <v-list-item-title  @click="tambah.kategori_barang = item" class="text-caption">{{ item }}</v-list-item-title>
+                        <v-list-item-title  @click="input.kategori_barang = item" class="text-caption">{{ item }}</v-list-item-title>
                       </v-list-item>
                     </v-list>
                 </v-menu>
+                <text-field-form
+                  label="Kode Barang"
+                  v-model="input.kode_barang"
+                  required
+                  :rules="required"
+                ></text-field-form> 
+                <text-field-form
+                  label="Nama Barang"
+                  v-model="input.nama_barang"
+                  required
+                  :rules="required"
+                ></text-field-form> 
+                <text-field-form
+                  label="HS Code"
+                  v-model="input.hs_code"
+                  required
+                  :rules="required"
+                ></text-field-form>
+                <text-field-form
+                  label="Satuan"
+                  v-model="input.satuan"
+                  required
+                  :rules="required"
+                ></text-field-form>
+              </v-form>
+              <v-divider class="mt-3 mb-5"></v-divider>
+              <v-div class="d-flex me-5 ms-auto">
+                  <btn-cancel btn_title="Batal" @click="input = {},  dialog = false" class="me-2" />
+                  <btn-orange btn_title="Simpan" @click="validate" />
               </v-div>
             </template>
           </dialog-vue>
@@ -273,6 +293,8 @@ export default defineComponent ({
         :pageTitle="pageTitle"
         />
   </v-container>
+
+  <alertVue v-model="valert" :sukses="status" :message="message"/>
   </template>
   <style>
   

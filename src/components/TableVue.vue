@@ -5,11 +5,11 @@ import LogBarang from '../views/LogBarang.vue';
 import dialogMaster from './dialog/dialogMaster.vue';
 import barang from '../service/page/barang';
 import dialogConfirm from './dialog/dialogConfirm.vue';
-import squareButton from './button/buttonVue.vue';
 import menuList from './menu/menuList.vue';
 import PemasukanDetail from '../views/PemasukanDetail.vue';
 import pemasukan from '../service/page/pemasukan';
 import btnCancel from './button/btnCancel.vue';
+import BtnOrange from './button/btnOrange.vue';
 </script>
 <script>
 export default {
@@ -21,6 +21,7 @@ export default {
       dialogConfirm,
       btnCancel,
       menuList,
+        BtnOrange,
     },
     // props: ['loading', 'stokbarang', 'barang', 'groupbarang', 'laporanstok', 'disabled', 'keyform', 'headers', 'items', 'search', 'category', '', 'toolbar_title', 'icon', 'iVariant', 'alpha', 'screen', 'form', 'noselect', 'ishidden'],
     props: ['stokbarang', 'groupbarang', 'laporanstok', 'masuk', 'supplier', 'pembeliandetl', 'view', 'disabled', 'keyform', 'headers', 'items', 'search', 'category', 'toolbar_title', 'alpha', 'screen', 'form', 'noselect', 'ishidden', 'pageTitle'],
@@ -110,10 +111,10 @@ export default {
         <!-- DIALOG CONFIRM -->
       <dialogConfirm v-model="confirmdialog[index]" :object="pageTitle">
         <template #yesButton>
-            <squareButton type="submit" variant="outlined" color="orange-lighten-1" @click="del(item.raw, index)" btn_title="Ya"/>
+            <btn-orange class="ms-2" type="submit" @click="del(item.raw, index)" btn_title="Ya"/>
         </template>
         <template #cancelButton>
-          <squareButton type="submit" variant="outlined" color="grey" @click="confirmdialog[index] = false" btn_title="Batal" />
+          <btn-cancel @click="confirmdialog[index] = false" btn_title="Batal" />
         </template>
       </dialogConfirm>
       </template>
