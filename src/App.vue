@@ -2,7 +2,6 @@
 import { RouterView } from 'vue-router'
 import AppBar from './components/appbar/AppBar.vue';
 import NavDrawers from './components/drawer/NavDrawers.vue';
-import api from './service/api';
 </script>
 
 <script>

@@ -11,17 +11,16 @@ import textField from '../components/form/textField.vue';
 import checkBox from '../components/form/checkBox.vue';
 import filterDrawer from '../components/drawer/filterDrawer.vue';
 import btnCancel from '../components/button/btnCancel.vue';
-import DialogVue from '../components/dialog/dialogVue.vue';
-import textFieldForm from '../components/form/textFieldForm.vue';
 import alertVue from '../components/dialog/alertVue.vue';
 // plugin
 import { defineComponent } from 'vue';
-import BtnOrange from '../components/button/btnOrange.vue';
+import dialogMaster from '../components/dialog/dialogMaster.vue';
 </script>
 
 <script>
 export default defineComponent ({
   components: {
+    dialogMaster,
     TableVue,
     btnFilter,
     menuList,
@@ -29,9 +28,6 @@ export default defineComponent ({
     checkBox,
     filterDrawer,
     btnCancel,
-    DialogVue,
-    textFieldForm,
-    BtnOrange,
     alertVue,
   },
     name: 'DataBarang',
@@ -48,7 +44,12 @@ export default defineComponent ({
         selectCategory: [],
         statusselect: false,
         items: '',
-        input: {
+        tambah: {
+          kategori_barang: '',
+          kode_barang: '',
+          nama_barang: '',
+          hs_code:'',
+          satuan: '',
           status: true
         },
         filtered: {
@@ -159,11 +160,11 @@ export default defineComponent ({
       this.filtered.kategori_barang = []
       this.selectCategory = []
     },
-    async validate () {
+    async validate (value) {
       const { valid } = await this.$refs.form.validate()
       if (valid){
           this.dialog = false
-          return this.submit(this.input)
+          return this.submit(value)
       } else this.validated = false
     },
     },
@@ -196,64 +197,24 @@ export default defineComponent ({
       <v-responsive class="d-flex align-center mb-sm-0 mb-1" min-width="200">
         <div class="d-flex align-center w-100">
           <!-- ADD BUTTON -->
-          <dialog-vue v-model="dialog" :master="true">
-            <template #titlecard>
-              <v-card-title class="text-center text-button font-weight-bold">Tambah Data</v-card-title>
+          <dialogMaster
+            v-model="dialog"
+            toolbar_title="Tambah Data"
+            :keyform="barang.keyform"
+            :tambah="tambah"
+            :ishidden="true"
+            :noselect="statusselect"
+            @form="submit"
+            :screen="400"
+            :headers="barang.headers"
+            :items="items"
+            :category="barang.category"
+            :submitForm="submitForm"
+          >
+            <template #cancel>
+              <btnCancel @click=" dialog = false" btn_title="Batal" />  
             </template>
-            <template #content>
-              <v-form ref="form" class="mx-auto mt-5">
-                <text-field-form
-                    id="tambah"
-                    label="Kategori Barang"
-                    v-model="input.kategori_barang"
-                    readonly
-                    class="mb-2"
-                    :rules="required"
-                />
-                <v-menu activator="#tambah" class="elevation-0">
-                    <v-list>
-                      <v-list-item
-                        v-for="(item, index) in barang.category"
-                        :key="index"
-                        :value="index"
-                        density="compact"
-                      >
-                        <v-list-item-title  @click="input.kategori_barang = item" class="text-caption">{{ item }}</v-list-item-title>
-                      </v-list-item>
-                    </v-list>
-                </v-menu>
-                <text-field-form
-                  label="Kode Barang"
-                  v-model="input.kode_barang"
-                  required
-                  :rules="required"
-                ></text-field-form> 
-                <text-field-form
-                  label="Nama Barang"
-                  v-model="input.nama_barang"
-                  required
-                  :rules="required"
-                ></text-field-form> 
-                <text-field-form
-                  label="HS Code"
-                  v-model="input.hs_code"
-                  required
-                  :rules="required"
-                ></text-field-form>
-                <text-field-form
-                  label="Satuan"
-                  v-model="input.satuan"
-                  required
-                  :rules="required"
-                ></text-field-form>
-              </v-form>
-              <v-divider class="mt-3 mb-5"></v-divider>
-              <v-div class="d-flex me-5 ms-auto">
-                  <btn-cancel btn_title="Batal" @click="input = {},  dialog = false" class="me-2" />
-                  <btn-orange btn_title="Simpan" @click="validate" />
-              </v-div>
-            </template>
-          </dialog-vue>
+          </dialogMaster>
         </div>
       </v-responsive>
       <v-responsive class="me-sm-0 ms-sm-auto ms-0 me-auto" max-width="450">
