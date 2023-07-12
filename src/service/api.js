@@ -62,8 +62,13 @@ export default {
   },
   postPelanggan(value) {
     const myJSON = JSON.stringify(value)
-    
     return instance.post('/pelanggan', {
+      pelanggan : myJSON
+    })
+  },
+  putPelanggan(value) {
+    const myJSON = JSON.stringify(value)
+    return instance.patch('/pelanggan', {
       pelanggan : myJSON
     })
   },

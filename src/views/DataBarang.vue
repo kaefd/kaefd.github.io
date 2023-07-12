@@ -55,13 +55,6 @@ export default defineComponent ({
         filtered: {
           kategori_barang: []
         },
-        required: [
-          value => {
-            if (value)  return true
-
-            return 'harus diisi !'
-          },
-        ]
       }
     },
     methods: {
@@ -70,7 +63,7 @@ export default defineComponent ({
         const item = await api.getBarang()
         this.items = await barang.barang(item)
       } catch (error) {
-        console.log(error);
+        return this.$router.push('login')
       }
     },
     close(v) {
@@ -160,13 +153,6 @@ export default defineComponent ({
       this.filtered.kategori_barang = []
       this.selectCategory = []
     },
-    async validate (value) {
-      const { valid } = await this.$refs.form.validate()
-      if (valid){
-          this.dialog = false
-          return this.submit(value)
-      } else this.validated = false
-    },
     },
     mounted() {
       this.fetchData()
@@ -238,7 +224,6 @@ export default defineComponent ({
         @edit="editForm"
         @del="del"
         id="tbl_exporttable_to_xls"
-        :screen="400"
         :headers="barang.headers"
         :items="barang.selected(selectCategory,
         items)"
@@ -246,10 +231,6 @@ export default defineComponent ({
         :category="barang.category"
         :selectCategory="selectCategory"
         toolbar_title="Edit Data"
-        :btncolor="actIcon[1].color"
-        :icon="actIcon[1].icon"
-        :iVariant="actIcon[1].variant"
-        :alpha="alpha"
         :form="form"
         :pageTitle="pageTitle"
         />

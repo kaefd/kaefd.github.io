@@ -10,6 +10,7 @@ import api from '../service/api';
 import menuList from '../components/menu/menuList.vue';
 import textField from '../components/form/textField.vue'
 import btnCancel from '../components/button/btnCancel.vue';
+import AlertVue from '../components/dialog/alertVue.vue';
 </script>
 
 <script>
@@ -22,11 +23,15 @@ import btnCancel from '../components/button/btnCancel.vue';
       menuList,
       textField,
       btnCancel,
+      AlertVue
     },
     data () {
       return {
         pageTitle: 'DATA PELANGGAN',
         statusselect: true,
+        status: '',
+        message: '',
+        valert: false,
         search: '',
         alpha: 1,
         items:'',
@@ -72,25 +77,35 @@ import btnCancel from '../components/button/btnCancel.vue';
       //     })
       api.postPelanggan()
         .then(() => {
-            return this.$route.push('pelanggan')
-          })
-          .catch((error) => {
-            console.log(error.response.data)
-          })
+          this.status = true
+          this.valert = true
+          setTimeout(() => {
+            this.valert = false
+            this.$router.go();
+          }, 2500);
+        })
+        .catch((error) => {
+          this.status = false
+          this.message =  error.response.data
+          this.valert = true
+        })
       },
       // EDIT DATA
       editForm(value) {
-      console.log(value);
-      const myJSON = JSON.stringify(value);
-        api.putData('/pelanggan', {
-          pelanggan : myJSON
+        api.putPelanggan(value)
+        .then(() => {
+          this.status = true
+          this.valert = true
+          setTimeout(() => {
+            this.valert = false
+            this.$router.go();
+          }, 2500);
         })
-        .then(function (response) {
-          this.successAlert(response.data)
-          })
-          .catch(function (error) {
-            this.failedAlert(error.response.data);
-          })
+        .catch(function (error) {
+          this.status = false
+          this.message =  error.response.data
+          this.valert = true
+        })
       },
       // HAPUS DATA
       del(value) {
@@ -105,9 +120,9 @@ import btnCancel from '../components/button/btnCancel.vue';
         console.log({
           pelanggan : myJSON
         });
-        // api.deleteData('/pelanggan', {
-        //   pelanggan : myJSON
-        // })
+        api.deleteData('/pelanggan', {
+          pelanggan : myJSON
+        })
       }
     },
     mounted(){
@@ -159,6 +174,7 @@ import btnCancel from '../components/button/btnCancel.vue';
     <!-- edit -->
     <TableVue :keyform="pelanggan.data().keyform" :noselect="statusselect" @edit="editForm" @del="del" id="tbl_exporttable_to_xls" :screen="400"  :headers="pelanggan.data().headers" :items="items" :search="search" :category="category" toolbar_title="Edit Data" :btncolor="actIcon[1].color" :icon="actIcon[1].icon" :iVariant="actIcon[1].variant" :alpha="alpha" :form="form" :pageTitle="pageTitle"/>
   </v-container>
+  <AlertVue v-model="valert" :sukses="status" :message="message"/>
   </template>
 
 <style>
