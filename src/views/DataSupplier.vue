@@ -35,19 +35,14 @@ import textField from '../components/form/textField.vue';
     },
     methods:{
       async fetchData() {
-        try {
-          const item = await api.getSupplier()
-          this.items = item;
-        } catch (error) {
-          console.log(error);
-        }
+        this.items = await api.getSupplier()
       },
       page(){
         return this.$emit('page', this.pageTitle)
       },
       print(key){
         let title = this.pageTitle
-        let header = this.headers
+        let header = supplier.headers
         let item = this.items
         functions.print(key, title, header, item)
       }
@@ -75,7 +70,7 @@ import textField from '../components/form/textField.vue';
     </v-responsive>
     </v-row>
     <!-- VIEW -->
-    <TableVue :keyform="supplier.data().keyform" :ishidden="true" :disabled="true" :noselect="true" id="tbl_exporttable_to_xls" :screen="400" :headers="supplier.data().headers" :items="items" :view="true" :search="search" toolbar_title="Detail Data" :btncolor="actIcon[3].color" :icon="actIcon[3].icon" :iVariant="actIcon[3].variant" :alpha="alpha" :pageTitle="pageTitle"/>
+    <TableVue :keyform="supplier.keyform" :ishidden="true" :disabled="true" :noselect="true" id="tbl_exporttable_to_xls" :screen="400" :headers="supplier.headers" :items="items" :view="true" :search="search" toolbar_title="Detail Data" :btncolor="actIcon[3].color" :icon="actIcon[3].icon" :iVariant="actIcon[3].variant" :alpha="alpha" :pageTitle="pageTitle"/>
 </v-container>
   </template>
 <style>

@@ -103,11 +103,11 @@ export default {
       <template v-if="!laporanstok && !masuk" v-slot:item.actions="{ item, index }">
           <menuList v-if="!view" :items="list" icon="mdi-dots-vertical" :submenu="true" @result="result" :index="index" />
           <menuList v-if="view" :items="list2" icon="mdi-dots-vertical" :submenu="true" @result="result" :index="index" />
-        <dialogMaster v-model="dialog[index]" :view="view" editbtn="true" :ishidden="true" :keyform="keyform" :intable="true" :disabled="disabled" :noselect="noselect" :form="item.raw" @edit="edit" :item="item" :screen="screen" :headers="headers" :items="items" :category="category" :toolbar_title="toolbar_title"  :alpha="alpha">
-          <template #cancel>
-            <btnCancel @click=" dialog[index] = false" btn_title="Batal" />  
-          </template>
-        </dialogMaster>
+          <dialogMaster v-model="dialog[index]" :view="view" editbtn="true" :ishidden="true" :keyform="keyform" :intable="true" :disabled="disabled" :noselect="noselect" :form="item.raw" @edit="edit" :item="item" :screen="screen" :headers="headers" :items="items" :category="category" :toolbar_title="toolbar_title"  :alpha="alpha">
+            <template #cancel>
+              <btnCancel @click=" dialog[index] = false" btn_title="Batal" />  
+            </template>
+          </dialogMaster>
         <!-- DIALOG CONFIRM -->
       <dialogConfirm v-model="confirmdialog[index]" :object="pageTitle">
         <template #yesButton>

@@ -1,4 +1,5 @@
 <script>
+import BtnCancel from '../button/btnCancel.vue'
 // import textButton from '../button/textButton.vue'
 import btnInfo from '../button/btnInfo.vue'
 import BtnOrange from '../button/btnOrange.vue'
@@ -10,6 +11,7 @@ export default {
       toolbarHeader,
       textFieldForm,
         BtnOrange,
+        BtnCancel,
     },
     props:
     [
@@ -18,6 +20,7 @@ export default {
     data () {
       
       return {
+        dialog: false,
         edit: this.form,
         data: this.tambah,
         list: [
@@ -67,6 +70,7 @@ export default {
 </script>
 <template>
     <v-dialog
+      v-model="dialog"
       :scrim="false"
       transition="dialog-bottom-transition"
       width="370"
@@ -188,6 +192,7 @@ export default {
             </v-container>
             <v-divider></v-divider>
             <v-div v-if="!view" class="d-flex align-center float-end ma-5">
+                <btn-cancel v-if="!edit" @click="data = '', dialog = false" btn_title="Batal" />
                 <slot name="cancel"></slot>
                 <btn-orange type="submit" @click="validate" btn_title="Simpan" class="ms-2"/>
             </v-div>

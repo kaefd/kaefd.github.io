@@ -68,20 +68,10 @@ export default {
       page(){
         return this.$emit('page', this.pageTitle)
       },
-      // GET DATA PEMBELIAN-HEAD
-      getPembelian() {
-        const apiUrl = '/pembelian_head?'
-        const params = {
-          tgl_awal: this.periode[0],
-          tgl_akhir: this.periode[1],
-        }
-        api.getData(apiUrl, { params })
-        .then(response => {
-          this.items = response.data
-        })
-        .catch(() => {
-          return this.$router.push({ path: '/login' })
-        })
+      async fetchData() {
+        this.items = await api.getPemasukanHead(this.periode)
+        this.supplier = await api.getSupplier()
+        this.pembeliandetl = await api.getPemasukanDetail(this.periode)
       },
       // TAMBAH DATA
       inputhead(value, valuedetail) {
@@ -157,33 +147,9 @@ export default {
       },
       // inisialisasi
       selected(){ 
-        return this.getPembelian(), this.getPembelianDetail()
-      },
-      getSupplier() {
-        const apiUrl = '/supplier'
-        api.getData(apiUrl)
-        .then(response => {
-          this.supplier = response.data
-        })
-        .catch(() => {
-          return this.$router.push('login');
-        })
+        this.fetchData()
       },
       // GET DATA PEMBELIAN-DETAIL
-      getPembelianDetail() {
-        const apiUrl = '/pembelian_detail?'
-        const params = {
-          tgl_awal: this.periode[0],
-          tgl_akhir: this.periode[1],
-        }
-        api.getData(apiUrl, { params })
-        .then(response => {
-          return this.pembeliandetl = response.data
-        })
-        .catch(() => {
-          return this.$router.push('login');
-        })
-      },
       close(v) {
       return this.filter = v
       },
@@ -215,13 +181,10 @@ export default {
       }
     },
     mounted() {
+      this.fetchData()
       this.periode
       this.selected()
       this.page()
-      this.getPembelian()
-      this.getSupplier()
-      this.getPembelianDetail()
-      this.pembeliandetl
     }
   }
     const date = ref()

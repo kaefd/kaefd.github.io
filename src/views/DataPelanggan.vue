@@ -9,20 +9,18 @@ import dialogMaster from '../components/dialog/dialogMaster.vue';
 import api from '../service/api';
 import menuList from '../components/menu/menuList.vue';
 import textField from '../components/form/textField.vue'
-import btnCancel from '../components/button/btnCancel.vue';
 import AlertVue from '../components/dialog/alertVue.vue';
 </script>
 
 <script>
   export default defineComponent ({
     name: 'CustomerView',
-    props:['actIcon', 'cetak'],
+    props:['cetak'],
     components: {
       TableVue,
       dialogMaster,
       menuList,
       textField,
-      btnCancel,
       AlertVue
     },
     data () {
@@ -45,37 +43,23 @@ import AlertVue from '../components/dialog/alertVue.vue';
         }
       }
     },
-    created() {
-        api.getPelanggan()
-        .then(response => {
-          this.items = response.data
-        })
-        .catch(() => {
-          return this.$router.push('login');
-        })
-    },
     methods: {
+      async fetchData() {
+        const item = await api.getPelanggan()
+        this.items = item
+      },
       page(){
         return this.$emit('page', this.pageTitle)
       },
       print(key){
         let title = this.pageTitle
-        let header = this.headers
+        let header = pelanggan.headers
         let item = this.items
         functions.print(key, title, header, item)
       },
       // TAMBAH DATA
-      submitForm() {
-      // const myJSON = JSON.stringify(value);
-      //   api.postPelanggan()
-      //   .then((response) => {
-      //       this.successAlert(response.data)
-      //       window.location.href = '/pelanggan'
-      //     })
-      //     .catch((error) => {
-      //       this.failedAlert(error.response.data)
-      //     })
-      api.postPelanggan()
+      submitForm(value) {
+        api.postPelanggan(value)
         .then(() => {
           this.status = true
           this.valert = true
@@ -109,27 +93,27 @@ import AlertVue from '../components/dialog/alertVue.vue';
       },
       // HAPUS DATA
       del(value) {
-      this.pelanggan = {
-        kode_pelanggan : value.kode_pelanggan,
-        nama : value.kode_pelanggan,
-        alamat: value.alamat,
-        npwp: value.npwp,
-        status: false,
-      }
-      const myJSON = JSON.stringify(this.pelanggan);
-        console.log({
-          pelanggan : myJSON
-        });
-        api.deleteData('/pelanggan', {
-          pelanggan : myJSON
+        api.deletePelanggan(value)
+        .then(() => {
+          this.status = true
+          this.valert = true
+          setTimeout(() => {
+            this.valert = false
+            this.$router.go();
+          }, 2500);
+        })
+        .catch(function (error) {
+          this.status = false
+          this.message = error.response.data
+          this.valert = true
         })
       }
     },
     mounted(){
+      this.fetchData()
       this.page()
     }
   })
-
 </script>
 <template>
   <v-container class="pt-9 h-100">
@@ -138,24 +122,16 @@ import AlertVue from '../components/dialog/alertVue.vue';
       <div class="d-flex align-center w-100">
       <!-- TAMBAH DATA -->
       <dialogMaster
-      v-model="dialog"
-      :keyform="pelanggan.data().keyform"
-      :tambah="tambah"
-      :ishidden="true"
-      :noselect="statusselect"
-      @form="submitForm"
-      :toolbar_title="actIcon[0].text"
-      :btncolor="actIcon[0].color"
-      :icon="actIcon[0].icon"
-      :iVariant="actIcon[0].variant"
-      :headers="pelanggan.data().headers"
-      :items="items"
-      :category="category"
-      :alpha="alpha">
-        <template #cancel>
-          <btnCancel @click=" dialog = false" btn_title="Batal" />  
-        </template>
-      </dialogMaster>
+        :keyform="pelanggan.keyform"
+        :tambah="tambah"
+        :ishidden="true"
+        :noselect="statusselect"
+        @form="submitForm"
+        :headers="pelanggan.headers"
+        :items="items"
+        :category="category"
+        toolbar_title="Tambah Data"
+      />
     </div>
     </v-responsive>
     <v-responsive class="me-sm-0 ms-sm-auto ms-0 me-auto" max-width="450">
@@ -172,7 +148,21 @@ import AlertVue from '../components/dialog/alertVue.vue';
     </v-responsive>
     </v-row>
     <!-- edit -->
-    <TableVue :keyform="pelanggan.data().keyform" :noselect="statusselect" @edit="editForm" @del="del" id="tbl_exporttable_to_xls" :screen="400"  :headers="pelanggan.data().headers" :items="items" :search="search" :category="category" toolbar_title="Edit Data" :btncolor="actIcon[1].color" :icon="actIcon[1].icon" :iVariant="actIcon[1].variant" :alpha="alpha" :form="form" :pageTitle="pageTitle"/>
+    <TableVue
+      id="tbl_exporttable_to_xls"
+      :keyform="pelanggan.keyform"
+      :noselect="statusselect"
+      @edit="editForm"
+      @del="del"
+      :headers="pelanggan.headers"
+      :items="items"
+      :search="search"
+      :category="category"
+      toolbar_title="Edit Data"
+      :alpha="alpha"
+      :form="form"
+      :pageTitle="pageTitle"
+    />
   </v-container>
   <AlertVue v-model="valert" :sukses="status" :message="message"/>
   </template>

@@ -29,18 +29,13 @@ export default {
   deleteData (url, payload) {
     return instance.delete(url, {data: payload})
   },
-
-
-  /** DATA BARANG **/
-  // getBarang () {
-  //   return instance.get('/barang?status=true')
-  // },
+  /*********** DATA BARANG ***********/
   async getBarang (){
     try {
       const response = await instance.get('/barang?status=true')
       return response.data;
     } catch (error) {
-      throw new Error('Gagal mengambil data pengguna');
+      return this.$router.push('login')
     }
   },
   postBarang(value) {
@@ -55,10 +50,28 @@ export default {
       barang: jsonBarang
     })
   },
-
-  /** DATA PELANGGAN **/
-  getPelanggan(data) {
-    return instance.get('pelanggan?status=true', data)
+  deleteBarang(v) {
+    let data = {
+      kategori_barang : v.kategori_barang,
+      kode_barang : v.kode_barang,
+      nama_barang: v.nama_barang,
+      hs_code: v.hs_code,
+      satuan: v.satuan,
+      status: false,
+    }
+    const jsonBarang = JSON.stringify(data);
+    return instance.delete('/barang', {
+      barang: jsonBarang
+    })
+  },
+  /*********** DATA PELANGGAN ***********/
+  async getPelanggan() {
+    try {
+      const response = await instance.get('/pelanggan?status=true')
+      return response.data;
+    } catch (error) {
+      return this.$router.push('login')
+    }
   },
   postPelanggan(value) {
     const myJSON = JSON.stringify(value)
@@ -72,45 +85,53 @@ export default {
       pelanggan : myJSON
     })
   },
-
-  /** DATA SUPPLIER **/
+  deletePelanggan(value) {
+    let data = {
+      kode_pelanggan : value.kode_pelanggan,
+      nama : value.kode_pelanggan,
+      alamat: value.alamat,
+      npwp: value.npwp,
+      status: false,
+    }
+    const json = JSON.stringify(data);
+    return instance.delete('/barang', {
+      barang: json
+    })
+  },
+  /*********** DATA SUPPLIER ***********/
   async getSupplier (){
     try {
       const response = await instance.get('/supplier')
       return response.data;
     } catch (error) {
-      throw new Error('Gagal mengambil data pengguna');
+      return this.$router.push('login')
     }
   },
-  postData (url, data) {
-    return instance.post(url, data)
-  },
-
-  /**  PEMASUKAN **/
-  async getPemasukanHead(param1, param2){
+  /***********  PEMASUKAN ***********/
+  async getPemasukanHead(param){
     try {
       const apiUrl = '/pembelian_head?'
       const params = {
-        tgl_awal: param1,
-        tgl_akhir: param2
+        tgl_awal: param[0],
+        tgl_akhir: param[1]
       }
       const response = await instance.get(apiUrl, {params})
       return response.data
     } catch (error) {
-      throw new Error('Gagal!')
+      return this.$router.push('login')
     }
   },
-  async getPemasukanDetail(param1, param2){
+  async getPemasukanDetail(param){
     try {
       const apiUrl = '/pembelian_detail?'
       const params = {
-        tgl_awal: param1,
-        tgl_akhir: param2
+        tgl_awal: param[0],
+        tgl_akhir: param[1]
       }
       const response = await instance.get(apiUrl, {params})
       return response.data
     } catch (error) {
-      throw new Error('Gagal!')
+      return this.$router.push('login')
     }
   },
   /**  PENGIRIMAN **/
