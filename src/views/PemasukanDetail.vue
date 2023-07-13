@@ -77,7 +77,6 @@ export default {
           return 'harus diisi !'
         },
       ],
-
       }
     },
     

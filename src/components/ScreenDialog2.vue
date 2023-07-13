@@ -10,6 +10,7 @@ import TextField from './form/textField.vue';
 import TextFieldForm from './form/textFieldForm.vue';
 import DialogVue from './dialog/dialogVue.vue';
 import TextButton from './button/textButton.vue';
+import CurrencyInput from './form/currencyInput.vue';
 // import api from '../api';
 
 </script>
@@ -27,6 +28,7 @@ export default {
         TextField,
         DialogVue,
         TextButton,
+        CurrencyInput,
 },
     props:['headers', 'headItem', 'edit', 'getbarang', 'produksi', 'detailbahan', 'groupbarang', 'detailbarang', 'select_kode', 'produksi_bahan', 'produksi_barang', 'item', 'items', 'category', 'icon', 'actIcon', 'btncolor', 'alpha', 'iVariant', 'screen', 'details','disable'],
     data () {
@@ -295,10 +297,11 @@ export default {
                                         label="Jumlah"
                                         readonly
                                     />
-                                    <text-field-form
+                                    <currency-input
                                         v-if="!edit"
                                         v-model="item.raw.jumlah"
                                         label="Jumlah"
+                                        :options="{ currency: 'EUR', currencyDisplay: 'hidden' }"
                                     />
                                 </v-div>
                                 <v-divider class="mt-3 mb-5"></v-divider>
@@ -344,10 +347,11 @@ export default {
                                             label="Jumlah"
                                             readonly
                                         />
-                                        <text-field-form
+                                        <currency-input
                                             v-if="!edit"
                                             v-model="item.raw.jumlah"
                                             label="Jumlah"
+                                            :options="{ currency: 'EUR', currencyDisplay: 'hidden' }"
                                         />
                                     </v-div>
                                     <v-divider class="mt-3 mb-5"></v-divider>

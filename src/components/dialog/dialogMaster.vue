@@ -26,22 +26,41 @@ export default {
           {title: 'Hapus Data', icon: 'mdi-delete', key: 'hapus'},
         ],
         valid: true,
+        required: [
+          value => {
+            if (value)  return true
+
+            return 'harus diisi !'
+          },
+        ],
       }
     },
     computed: {
     },
     methods: {
-      submit() {
+      submit(value) {
         if(this.item == null) {
-          this.$emit('form', this.data)
+          this.$emit('form', value)
         } else {
-            this.$emit('edit', this.edit)
+          this.$emit('edit', value)
         }
         this.dialog = false
-     },
-     del(value) {
+      },
+      del(value) {
           this.$emit('del', value)
       },
+      async validate () {
+        const { valid } = await this.$refs.form.validate()
+        let data = ''
+        if (valid){
+          if(this.item == null) {
+            data = this.data
+          } else {
+            data = this.edit
+          }
+            return this.submit(data)
+        }
+       },
     }
 
 }
@@ -82,8 +101,8 @@ export default {
       </template>
       <!-- CONTENT DIALOG EDIT/TAMBAH -->
       <v-card class="rounded-xl">
-        <form ref="form" @submit.prevent="submit">
-            <toolbar-header :toolbar_title="toolbar_title" />
+        <v-form  @submit.prevent ref="form">
+          <toolbar-header :toolbar_title="toolbar_title" />
             <v-container class="mt-5 d-flex flex-column align-center">
               <!-- SELECT FIELD -->
               <div v-if="!noselect">
@@ -94,7 +113,7 @@ export default {
                     :label="headers[0].title"
                     v-model="data[keyform[0]]"
                     readonly
-                    :hide-details="true"
+                    :rules="required"
                 >                                
                 </text-field-form>
                 <v-menu activator="#tambah" class="elevation-0">
@@ -116,8 +135,8 @@ export default {
                   :label="headers[0].title"
                   v-model="edit[keyform[0]]"
                   :value="Object.values(item.raw)[0]"
-                  :hide-details="true"
                   readonly
+                  :rules="required"
                 >                                
                 </text-field-form>
                 <v-menu activator="#tipe" class="elevation-0">
@@ -140,8 +159,7 @@ export default {
                 v-if="this.item == null"
                 :label="headers[0].title"
                 v-model="data[keyform[0]]"
-                required
-                :hide-details="true"
+                :rules="required"
                 ></text-field-form>
                 <!-- EDIT DATA -->
                 <text-field-form
@@ -149,7 +167,7 @@ export default {
                 :label="headers[0].title"
                 v-model="edit[keyform[0]]"
                 :readonly="headers[0].dis"
-                :hide-details="true"
+                :rules="required"
                 ></text-field-form> 
               </div>
                 <v-for v-for="h, i in headers.slice(1, headers.length-1)" :key="i">
@@ -157,24 +175,23 @@ export default {
                     v-if="this.item == null"
                     :label="h.title"
                     v-model="data[keyform[i+1]]"
-                    required
-                    :hide-details="true"
+                    :rules="required"
                   ></text-field-form> 
                   <text-field-form
                     v-if="this.item != null"
                     :label="h.title"
                     v-model="edit[keyform[i+1]]"
                     :readonly="headers[i+1].dis"
-                    :hide-details="true"
+                    :rules="required"
                   ></text-field-form> 
                 </v-for>
             </v-container>
             <v-divider></v-divider>
             <v-div v-if="!view" class="d-flex align-center float-end ma-5">
                 <slot name="cancel"></slot>
-                <btn-orange type="submit" btn_title="Simpan" class="ms-2"/>
+                <btn-orange type="submit" @click="validate" btn_title="Simpan" class="ms-2"/>
             </v-div>
-        </form>
+        </v-form>
       </v-card>
     </v-dialog>
 

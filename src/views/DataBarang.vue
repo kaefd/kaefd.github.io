@@ -198,7 +198,7 @@ export default defineComponent ({
             :submitForm="submitForm"
           >
             <template #cancel>
-              <btnCancel @click=" dialog = false" btn_title="Batal" />  
+              <btnCancel @click="dialog = false" btn_title="Batal" />  
             </template>
           </dialogMaster>
         </div>
