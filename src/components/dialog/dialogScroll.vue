@@ -274,7 +274,7 @@ export default {
     <v-dialog v-model="dialog">
         <!-- BUTTON TAMBAH -->
         <template v-slot:activator="{ props }">
-            <btn-info v-bind="props" :disabled="getbarang == '' || inputbahan == '' ? true : false" btn_title="Tambah Barang" icon="mdi-plus" class="mt-5" />
+            <btn-info v-bind="props" :disabled="getbarang == '' || inputbahan == '' ? true : false" btn_title="Tambah Barang" icon="mdi-plus" />
         </template>
     <v-card class="py-5 px-6 rounded-xl">
             <v-card-title v-if="blmkirim" class="text-center text-blue-darken-4 text-button font-weight-bold mb-3">PENGELUARAN BELUM TERKIRIM</v-card-title>
@@ -324,7 +324,7 @@ export default {
                             <v-span class="text-button text-center font-weight-bold">{{ item.nama_barang }}</v-span>
                             <v-span class="text-caption text-center">{{ item.kode_barang }} - {{ item.hs_code }}</v-span>
                             <v-divider class="mt-3 mb-5"></v-divider>
-                            <form @submit.prevent="submit" ref="form" class="mx-auto">
+                            <form @submit.prevent="submit" ref="form" class="mx-auto w-75 pt-2">
                                 <currency-input
                                     v-if="!pemasukan"
                                     v-model="penjualan_detail.jumlah"

@@ -31,10 +31,9 @@ export default {
 
 <template>
         <VueDatePicker
-            class="text-small mx-1 mb-1"
+            class="text-small"
             teleport-center
             :clearable="false"
-            style="width: 220px; max-width:220px;"
             :format-locale="id"
             required
             locale="id"
@@ -45,7 +44,7 @@ export default {
             v-model="data"
         >
             <template v-if="!filter" #trigger>
-                <textFieldForm readonly :label="label" :model-value="functions.formatDate(data)" :rules="rules"/>
+                <textFieldForm readonly :label="label" :model-value="functions.formatDate(data)" :rules="rules" hideDetails/>
             </template>
         </VueDatePicker>
 </template>

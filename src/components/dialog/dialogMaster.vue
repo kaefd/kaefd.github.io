@@ -107,9 +107,9 @@ export default {
       <v-card class="rounded-xl">
         <v-form  @submit.prevent ref="form">
           <toolbar-header :toolbar_title="toolbar_title" />
-            <v-container class="mt-5 d-flex flex-column align-center">
+            <v-container class="mt-5 w-75">
               <!-- SELECT FIELD -->
-              <div v-if="!noselect">
+              <v-div v-if="!noselect">
                 <!-- FIELD SELECT (UNTUK TAMBAH DATA) -->
                 <text-field-form
                     v-if="this.item == null"
@@ -155,9 +155,9 @@ export default {
                       </v-list-item>
                     </v-list>
                 </v-menu>
-              </div>
+              </v-div>
               <!-- FIELD NON-SELECTABLE -->
-              <div v-if="noselect">
+              <v-div v-if="noselect">
                 <!-- TAMBAH DATA -->
                 <text-field-form
                 v-if="this.item == null"
@@ -173,7 +173,7 @@ export default {
                 :readonly="headers[0].dis"
                 :rules="required"
                 ></text-field-form> 
-              </div>
+              </v-div>
                 <v-for v-for="h, i in headers.slice(1, headers.length-1)" :key="i">
                   <text-field-form
                     v-if="this.item == null"

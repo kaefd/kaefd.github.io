@@ -75,6 +75,7 @@ export default {
 }
 
 label {
+  margin-bottom: 2px;
   display: block;
   width: 20px;
   height: 20px;
@@ -94,7 +95,7 @@ label:before {
 label div {
   position: relative;
   top: 0;
-  height: 3px;
+  height: 4px;
   background-color: rgb(123, 172, 192);
   margin-bottom: 4px;
   transition: 0.3s ease transform, 0.3s ease top, 0.3s ease width,
@@ -117,23 +118,23 @@ label div:nth-child(2) {
 }
 
 #menu_checkbox:checked + label div:first-child {
-  left: 8px;
-  top: -3px;
+  left: 0.5px;
+  top: -1.3px;
   transform: rotateZ(45deg);
   background: rgb(123, 172, 192);
 }
 
 #menu_checkbox:checked + label div:last-child {
-  top: 10.5px;
-  left: 3.3px;
+  top: 9.7px;
+  left: -4px;
   transform: rotateZ(45deg);
   background: rgb(123, 172, 192);
 }
 
 #menu_checkbox:checked + label div:nth-child(2) {
   width: 26px;
-  top: -1px;
-  left: 4px;
+  top: -0.1px;
+  left: -3px;
   transform: rotateZ(-45deg);
   background: rgb(123, 172, 192);
 }

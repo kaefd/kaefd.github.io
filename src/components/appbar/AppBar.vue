@@ -24,10 +24,10 @@ export default {
 
 <template>
     <v-app-bar class="elevation-0 bg-grey-lighten-5 py-1 border-b-sm" height="55">
-      <v-container class="d-flex align-center mt-3">
+      <v-container class="d-flex align-center">
         <slot name="app-btn"></slot>
         <!-- TITLE -->
-        <v-title class="text-button ">{{ pageTitle }}</v-title> 
+        <v-title class="text-h7 font-weight-medium text-blue-custom">{{ pageTitle }}</v-title> 
         <v-spacer></v-spacer>
         <v-sheet class="d-flex align-center bg-transparent">
           <v-avatar>

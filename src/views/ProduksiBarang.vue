@@ -10,10 +10,11 @@ import filterDrawer from '../components/drawer/filterDrawer.vue';
 import textField from '../components/form/textField.vue';
 import menuList from '../components/menu/menuList.vue';
 import dialogConfirm from '../components/dialog/dialogConfirm.vue';
-import squareButton from '../components/button/buttonVue.vue';
 // plugins
 import BtnFilter from '../components/button/btnFilter.vue';
 import datePickerVue from '../components/datepicker/datePicker.vue';
+import BtnCancel from '../components/button/btnCancel.vue';
+import BtnOrange from '../components/button/btnOrange.vue';
 
 </script>
 
@@ -25,9 +26,10 @@ import datePickerVue from '../components/datepicker/datePicker.vue';
       textField,
       menuList,
       dialogConfirm,
-      squareButton,
       BtnFilter,
-      datePickerVue
+      datePickerVue,
+        BtnCancel,
+        BtnOrange
     },
     props:['actIcon', 'cetak'],
     data () {
@@ -416,13 +418,12 @@ import datePickerVue from '../components/datepicker/datePicker.vue';
           </v-sheet>
         <dialogConfirm v-model="confirmdialog" :object="pageTitle">
           <template #yesButton>
-              <squareButton type="submit" variant="outlined" color="orange-lighten-1" @click="del(), confirmdialog = false" btn_title="Ya"/>
+              <btn-orange @click="del(), confirmdialog = false" btn_title="Ya"/>
           </template>
           <template #cancelButton>
-            <squareButton type="submit" variant="outlined" color="grey" @click="confirmdialog = false" btn_title="Batal" />
+            <btn-cancel class="me-2" @click="confirmdialog = false" btn_title="Batal" />
           </template>
         </dialogConfirm>
-        <!-- <TableVue :headers="headers" :items="selected()" :search="search" :category="category" :selectCategory="selectCategory" :iTitle="this.actIcon[1].text" :btncolor="this.actIcon[1].color" :icon="this.actIcon[1].icon" :iVariant="this.actIcon[1].variant" :alpha="alpha" /> -->
   </v-container>
 
 </template>

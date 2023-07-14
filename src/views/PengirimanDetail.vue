@@ -258,163 +258,120 @@ export default {
                 <v-toolbar-title class="text-button mt-1">{{ 'DETAIL '+ pageTitle }}</v-toolbar-title>
                 <v-spacer></v-spacer>
                 </v-toolbar>
-                <v-container class="h-100">
+                <v-container class="h-100 d-flex flex-column">
                 <!-- EDIT -->
-                <v-row v-if="edit" justify-sm="start" justify="center" class="pt-7">
-                    <text-field-form
-                        label="No Pengiriman"
-                        v-model= "dataitem.no_pengiriman"
-                        readonly
-                    >
-                    </text-field-form>
-                    <text-field-form
-                        label="Tgl Pengiriman"
-                        v-model="dataitem.tgl_pengiriman"
-                        readonly
-                    >
-                    </text-field-form>
-                    <text-field-form
-                        label="Pelanggan"
-                        v-model="kode_pelanggan"
-                        readonly
-                    >
-                    </text-field-form>
-                    <text-field-form
-                        label="Tujuan Bongkar"
-                        :model-value="namaTujuan"
-                        readonly
-                    >
-                    </text-field-form>
-                    <!-- SUPIR -->
-                    <text-field-form
-                        label="Supir"
-                        :model-value="dataitem.supir"
-                        readonly
-                    >
-                    </text-field-form>
-                    <!-- NO POLISI -->
-                    <text-field-form
-                        label="No Polisi"
-                        :model-value="dataitem.no_polisi"
-                        readonly
-                    >
-                    </text-field-form>
+                <v-row no-gutters v-if="edit" justify="center" justify-md="space-between" align="start" class="pt-7" min-width="400">
+                    <v-responsive class="pt-2 mx-md-0 mx-3" width="250">
+                        <text-field-form label="No Pengiriman" v-model= "dataitem.no_pengiriman" readonly />
+                        <text-field-form label="Tgl Pengiriman" v-model="dataitem.tgl_pengiriman" readonly />
+                    </v-responsive>
+                    <v-responsive class="pt-2 mx-3" width="250">
+                        <text-field-form label="Pelanggan" v-model="kode_pelanggan" readonly />
+                        <text-field-form label="Tujuan Bongkar" :model-value="namaTujuan" readonly />
+                    </v-responsive>
+                    <v-responsive class="pt-2 mx-md-0 mx-3" width="250">
+                        <text-field-form label="Supir" :model-value="dataitem.supir" readonly />
+                        <text-field-form label="No Polisi" :model-value="dataitem.no_polisi" readonly />
+                    </v-responsive>
                 </v-row>
-                <v-form  @submit.prevent ref="form">
                 <!-- TAMBAH PENGIRIMAN -->
-                <v-row v-if="!edit" justify-sm="start" justify="center" class="pt-7">
-                    <text-field-form
-                        label="No Pengiriman"
-                        v-model= "inputdata.no_pengiriman"
-                        :rules="required"
-                    >
-                    </text-field-form>
-                    <datePickerVue
-                        label="Tgl Pengiriman"
-                        v-model="inputdata.tgl_pengiriman"
-                        :rules="required"
-                    />
-                        <!-- PELANGGAN -->
-                        <v-dialog v-model="dialog4" class="w-50">
-                            <template v-slot:activator="{props}">
-                                <text-field-form
-                                    v-bind="props"
-                                    label="Pelanggan"
-                                    v-model="inputdata.nama"
-                                    :rules="required"
-                                    readonly
-                                >
-                                </text-field-form>
-                            </template>
-                            <v-card class="py-5 px-7 rounded-xl mx-auto vh-100" width="400">
-                            <v-div>
-                                <v-card-title class="text-center text-blue-darken-4 mb-3 text-button font-weight-bold">PELANGGAN</v-card-title>
-                                <text-field
-                                    v-model="searched"
-                                    label="Search"
-                                ></text-field>
-                            </v-div>
-                            <v-list>
-                                <v-for v-for="s, i in filtersupplier" :key="i">
-                                    <v-list-item
-                                    density="compact"
-                                    style="cursor: pointer;"
-                                    class="text-caption"
-                                    @click="inputdata.kode_pelanggan = s.kode_pelanggan, inputdata.nama = s.nama, dialog4 = false "
+                <v-form  @submit.prevent ref="form" class="pt-7">
+                    <v-row v-if="!edit" no-gutters justify="center" justify-md="space-between">
+                        <v-responsive class="pt-2 mx-md-0 mx-3" width="250">
+                            <text-field-form label="No Pengiriman" v-model= "inputdata.no_pengiriman" :rules="required" />
+                            <datePickerVue label="Tgl Pengiriman" v-model="inputdata.tgl_pengiriman" :rules="required" />
+                        </v-responsive>
+                        <v-responsive class="pt-2 mx-3" width="250">
+                            <v-dialog v-model="dialog4" class="w-50">
+                                <template v-slot:activator="{props}">
+                                    <text-field-form
+                                        v-bind="props"
+                                        label="Pelanggan"
+                                        v-model="inputdata.nama"
+                                        :rules="required"
+                                        readonly
                                     >
-                                        {{ s.nama }}
-                                    </v-list-item>
-                                </v-for>
-                            </v-list>
-                            </v-card>
-                        </v-dialog>
-                        <!-- ALAMAT BONGKAR -->
-                        <v-dialog v-model="dialogbongkar" class="w-50">
-                            <template v-slot:activator="{props}">
-                                <text-field-form
-                                    v-bind="props"
-                                    label="Tujuan Bongkar"
-                                    v-model="inputdata.tujuan"
-                                    :rules="required"
-                                    readonly
-                                >
-                                </text-field-form>
-                            </template>
-                            <v-card class="py-5 px-6 rounded-xl" width="400">
-                                    <v-card-title class="text-center text-blue-darken-4 mb-3 text-button font-weight-bold">ALAMAT BONGKAR</v-card-title>
+                                    </text-field-form>
+                                </template>
+                                <v-card class="py-5 px-7 rounded-xl mx-auto vh-100" width="400">
+                                <v-div>
+                                    <v-card-title class="text-center text-blue-darken-4 mb-3 text-button font-weight-bold">PELANGGAN</v-card-title>
                                     <text-field
                                         v-model="searched"
                                         label="Search"
                                     ></text-field>
-                                    <v-list class="my-4">
-                                    <v-div class="vh-100">
+                                </v-div>
+                                <v-list>
+                                    <v-for v-for="s, i in filtersupplier" :key="i">
                                         <v-list-item
-                                        v-for="s, i in filteralamat" :key="i"
                                         density="compact"
                                         style="cursor: pointer;"
                                         class="text-caption"
-                                        @click="inputdata.kode_alamat_bongkar = s.kode_pelanggan, inputdata.tujuan = s.nama, dialogbongkar = false "
+                                        @click="inputdata.kode_pelanggan = s.kode_pelanggan, inputdata.nama = s.nama, dialog4 = false "
                                         >
-                                            <v-span class="font-weight-medium">{{ s.nama }}</v-span> <br>
-                                            <v-span class="text-small">
-                                                {{ s.alamat }} -
-                                                {{ s.kabupaten }}
-                                            </v-span>
-                                            <v-divider></v-divider>
+                                            {{ s.nama }}
                                         </v-list-item>
-                                    </v-div>
-                                    </v-list>
-                            </v-card>
-                        </v-dialog>
-                    <!-- SUPIR -->
-                    <text-field-form
-                        label="Supir"
-                        v-model="inputdata.supir"
-                        :rules="required"
-                    >
-                    </text-field-form>
-                    <!-- NO POLISI -->
-                    <text-field-form
-                        label="No Polisi"
-                        v-model="inputdata.no_polisi"
-                        :rules="required"
-                    >
-                    </text-field-form>
-                </v-row>
+                                    </v-for>
+                                </v-list>
+                                </v-card>
+                            </v-dialog>
+                            <v-dialog v-model="dialogbongkar" class="w-50">
+                                <template v-slot:activator="{props}">
+                                    <text-field-form
+                                        v-bind="props"
+                                        label="Tujuan Bongkar"
+                                        v-model="inputdata.tujuan"
+                                        :rules="required"
+                                        readonly
+                                    >
+                                    </text-field-form>
+                                </template>
+                                <v-card class="py-5 px-6 rounded-xl" width="400">
+                                        <v-card-title class="text-center text-blue-darken-4 mb-3 text-button font-weight-bold">ALAMAT BONGKAR</v-card-title>
+                                        <text-field
+                                            v-model="searched"
+                                            label="Search"
+                                        ></text-field>
+                                        <v-list class="my-4">
+                                        <v-div class="vh-100">
+                                            <v-list-item
+                                            v-for="s, i in filteralamat" :key="i"
+                                            density="compact"
+                                            style="cursor: pointer;"
+                                            class="text-caption"
+                                            @click="inputdata.kode_alamat_bongkar = s.kode_pelanggan, inputdata.tujuan = s.nama, dialogbongkar = false "
+                                            >
+                                                <v-span class="font-weight-medium">{{ s.nama }}</v-span> <br>
+                                                <v-span class="text-small">
+                                                    {{ s.alamat }} -
+                                                    {{ s.kabupaten }}
+                                                </v-span>
+                                                <v-divider></v-divider>
+                                            </v-list-item>
+                                        </v-div>
+                                        </v-list>
+                                </v-card>
+                            </v-dialog>
+                        </v-responsive>
+                        <v-responsive class="pt-2 mx-md-0 mx-3" width="250">
+                            <text-field-form label="Supir" v-model="inputdata.supir" :rules="required" />
+                            <text-field-form label="No Polisi" v-model="inputdata.no_polisi" :rules="required" />
+                        </v-responsive>
+                    </v-row>
                 </v-form>
                 <!-- BUTTON TAMBAH BARANG -->
                 <v-div v-if="!edit" class="text-sm-left text-center">
                     <dialogScroll @reset="reset" :nokirim="inputdata.no_pengiriman" :blmkirim="true" :belumkirim="belumkirim" :belumkirim_detail="belumkirim_detail" :barang="barang" :itemDetail="itemDetail" @pemasukanitem="itemmasuk" :pengiriman="true" :penjualan="penjualan" :btn="btn" width="400" />
                 </v-div>
                 <!-- TABEL EDIT/VIEW -->
-                <v-row style="height: 60%;">
                 <v-data-table
-                :headers="headDetails"
-                :items="edit ? pengiriman : pembelian_input"
-                :hover="true"
-                :fixed-header="true"
-                density="compact"
-                class="text-caption py-7 px-5 h-80"
+                    :headers="headDetails"
+                    :items="edit ? pengiriman : pembelian_input"
+                    :hover="true"
+                    :fixed-header="true"
+                    density="compact"
+                    class="text-caption py-7"
+                    height="300"
                 >
                 <!-- CUSTOM PAGINATION STYLE -->
                 <template v-slot:bottom>
@@ -451,7 +408,7 @@ export default {
                             <v-card-subtitle class="text-caption text-center mb-2 mt-n3">{{ item.raw.hs_code }}</v-card-subtitle>
                         </template>
                         <template #content>
-                            <v-div class="mx-auto mt-5">
+                            <v-sheet class="mx-auto mt-5 w-75">
                                 <text-field-form
                                     v-if="edit"
                                     label="Jumlah"
@@ -468,7 +425,7 @@ export default {
                                     class="mb-3"
                                     :options="{ currency: 'EUR', currencyDisplay: 'hidden'}"
                                 />
-                            </v-div>
+                            </v-sheet>
                             <v-divider class="mt-3 mb-5"></v-divider>
                             <v-div v-if="!edit" class="d-flex me-5 ms-auto">
                                 <btn-cancel btn_title="Hapus" @click="deleteditem(item.raw), detaildial[index] = false" class="me-2">Hapus</btn-cancel>
@@ -478,11 +435,10 @@ export default {
                     </dialog-vue>
                 </template>
                 </v-data-table>
-                <v-div v-if="!edit" class="d-flex ms-auto me-0 mb-0 mt-auto">
+                <v-div v-if="!edit" class="d-flex mb-0 mt-auto me-5 ms-auto">
                     <btn-orange @click="validate" btn_title="Simpan" class="me-2" />
                     <btn-cancel @click="pembelian_input = [], inputdata = [], dialog=false" btn_title="Batal" />
                 </v-div>
-                </v-row>
                 </v-container>
             </v-card>
     </v-dialog>
