@@ -30,12 +30,12 @@ export default {
     return instance.delete(url, {data: payload})
   },
   /*********** DATA BARANG ***********/
-  async getBarang (){
+  async getBarang(){
     try {
       const response = await instance.get('/barang?status=true')
       return response.data;
     } catch (error) {
-      return this.$router.push('login')
+      return router.push('login')
     }
   },
   postBarang(value) {
@@ -70,7 +70,7 @@ export default {
       const response = await instance.get('/pelanggan?status=true')
       return response.data;
     } catch (error) {
-      return this.$router.push('login')
+      return router.push('login')
     }
   },
   postPelanggan(value) {
@@ -104,7 +104,7 @@ export default {
       const response = await instance.get('/supplier')
       return response.data;
     } catch (error) {
-      return this.$router.push('login')
+      return router.push('login')
     }
   },
   /***********  PEMASUKAN ***********/
@@ -118,7 +118,7 @@ export default {
       const response = await instance.get(apiUrl, {params})
       return response.data
     } catch (error) {
-      return this.$router.push('login')
+      return router.push('login')
     }
   },
   async getPemasukanDetail(param){
@@ -131,7 +131,7 @@ export default {
       const response = await instance.get(apiUrl, {params})
       return response.data
     } catch (error) {
-      return this.$router.push('login')
+      return router.push('login')
     }
   },
   /**  PENGIRIMAN **/
@@ -170,6 +170,6 @@ export default {
     localStorage.removeItem('token')
     localStorage.clear();
     sessionStorage.clear();
-    router.push({ path: '/login' })
+    router.push('login')
   }
 }
