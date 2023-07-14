@@ -35,14 +35,15 @@ export default {
         <textFieldForm  v-bind="props" v-if="!button" :label="label" v-model="pilih" readonly :rules="rules" />
         <btnInfo v-bind="props" v-if="button" icon="mdi-plus" :btn_title="btn_title"/>
     </template>
-    <v-card class="py-5 px-6 rounded-xl">
+    <v-card class="py-5 px-7 rounded-xl">
         <v-card-title class="text-center text-blue-darken-4 mb-3 text-button font-weight-bold">{{ cardTitle }}</v-card-title>
         <textField
             v-model="search"
             label="Search"
+            class="mb-4"
         ></textField>
-        <v-div class="vh-100">
-            <v-list class="my-4">
+        <v-list>
+            <v-div>
                 <v-list-item
                     v-for="s, i in functions.filterObject(objectFilter, search)" :key="i"
                     class="text-caption"
@@ -51,9 +52,8 @@ export default {
                     >
                         {{ s.nama }}
                 </v-list-item>
-            </v-list>
-        </v-div>
-        
+            </v-div>
+        </v-list>
     </v-card>
 </v-dialog>  
 </template>

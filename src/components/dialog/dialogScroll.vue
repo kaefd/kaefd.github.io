@@ -276,7 +276,7 @@ export default {
         <template v-slot:activator="{ props }">
             <btn-info v-bind="props" :disabled="getbarang == '' || inputbahan == '' ? true : false" btn_title="Tambah Barang" icon="mdi-plus" />
         </template>
-    <v-card class="py-5 px-6 rounded-xl">
+    <v-card class="py-5 px-7 rounded-xl">
             <v-card-title v-if="blmkirim" class="text-center text-blue-darken-4 text-button font-weight-bold mb-3">PENGELUARAN BELUM TERKIRIM</v-card-title>
             <v-card-title v-if="!blmkirim" class="text-center text-blue-darken-4 text-button font-weight-bold mb-3">STOK BARANG</v-card-title>
             <text-field
