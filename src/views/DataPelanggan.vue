@@ -39,14 +39,13 @@ import AlertVue from '../components/dialog/alertVue.vue';
           nama: '',
           alamat: '',
           npwp: '',
-          status: true
+          status: 1
         }
       }
     },
     methods: {
       async fetchData() {
-        const item = await api.getPelanggan()
-        this.items = item
+        this.items = await api.getPelanggan()
       },
       page(){
         return this.$emit('page', this.pageTitle)

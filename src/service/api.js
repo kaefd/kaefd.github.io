@@ -2,7 +2,7 @@ import router from '../router'
 import axios from 'axios'
 
 const instance = axios.create({
-  baseURL: 'https://auristeel.com/api',
+  baseURL: 'https://auristeel.com/api-beta',
   headers: {
     'Permissions-Policy': 'interest-cohort=()',
     'csrf': localStorage.getItem('token'),
@@ -29,6 +29,24 @@ export default {
   deleteData (url, payload) {
     return instance.delete(url, {data: payload})
   },
+  /*********** GROUP BARANG ***********/
+  async getGroupBarang(){
+    try {
+      const response = await instance.get('/group_barang')
+      return response.data;
+    } catch (error) {
+      return router.push('login')
+    }
+  },
+  /*********** ALAMAT BONGKAR ***********/
+  async alamatBongkar(){
+    try {
+      const response = await instance.get('/alamat_bongkar')
+      return response.data;
+    } catch (error) {
+      return router.push('login')
+    }
+  },
   /*********** DATA BARANG ***********/
   async getBarang(){
     try {
@@ -51,18 +69,19 @@ export default {
     })
   },
   deleteBarang(v) {
-    let data = {
+    let input = {
       kategori_barang : v.kategori_barang,
       kode_barang : v.kode_barang,
       nama_barang: v.nama_barang,
       hs_code: v.hs_code,
       satuan: v.satuan,
-      status: false,
+      status: 0,
     }
-    const jsonBarang = JSON.stringify(data);
-    return instance.delete('/barang', {
-      barang: jsonBarang
-    })
+    const payload = JSON.stringify(input);
+    let data = {
+      barang: payload
+    }
+    return instance.delete('/barang', { data: data })
   },
   /*********** DATA PELANGGAN ***********/
   async getPelanggan() {
@@ -86,22 +105,23 @@ export default {
     })
   },
   deletePelanggan(value) {
-    let data = {
+    let input = {
       kode_pelanggan : value.kode_pelanggan,
       nama : value.kode_pelanggan,
       alamat: value.alamat,
       npwp: value.npwp,
-      status: false,
+      status: 0,
     }
-    const json = JSON.stringify(data);
-    return instance.delete('/barang', {
-      barang: json
-    })
+    const payload = JSON.stringify(input);
+    let data = {
+      pelanggan: payload
+    }
+    return instance.delete('/pelanggan', { data: data })
   },
   /*********** DATA SUPPLIER ***********/
   async getSupplier (){
     try {
-      const response = await instance.get('/supplier')
+      const response = await instance.get('/supplier?status=true')
       return response.data;
     } catch (error) {
       return router.push('login')
@@ -134,36 +154,147 @@ export default {
       return router.push('login')
     }
   },
+  postPemasukan(head, detail) {
+    const h = JSON.stringify(head);
+    const d = JSON.stringify(detail);
+    return instance.post('/pembelian_head?', {
+      pembelian_head : h,
+      pembelian_detail : d,
+    })
+  },
+  deletePemasukan(head, detail){
+    const h = {
+      no_pembelian: head.no_pembelian,
+      tgl_pembelian: head.tgl_pembelian,
+      kode_supplier: head.kode_supplier,
+      tipe_dokumen: head.tipe_dokumen,
+      no_dokumen: head.no_dokumen,
+      tgl_dokumen: head.tgl_dokumen,
+      no_invoice: head.no_invoice,
+      no_bl: head.no_bl,
+      mata_uang: head.mata_uang,
+      kurs: head.kurs,
+      status: 0
+    }
+    const d = [{
+      no_pembelian: detail.no_pembelian,
+      kode_barang: detail.kode_barang,
+      nama_barang: detail.nama,
+      hs_code: detail.hs_code,
+      jumlah: detail.jumlah,
+      jumlah_diterima: detail.jumlah_diterima,
+      satuan: detail.satuan,
+      nilai: detail.nilai,
+      no_urut:detail.no_urut,
+    }]
+    const pbl_head = JSON.stringify(h);
+    const pbl_detail = JSON.stringify(d);
+    let data = {
+      pembelian_head: pbl_head,
+      pembelian_detail: pbl_detail,
+    }
+    return instance.delete('/pembelian_head', { data: data })
+  },
   /**  PENGIRIMAN **/
-  async getPengirimanHead (param1, param2){
+  async getPengirimanHead (param){
     try {
       const apiUrl = '/pengiriman_head?'
       const params = {
-        tgl_awal: param1,
-        tgl_akhir: param2,
+        tgl_awal: param[0],
+        tgl_akhir: param[1]
       }
       const response = await instance.get(apiUrl, {params})
-      return response.data;
+      return response.data
     } catch (error) {
-      throw new Error('Gagal mengambil data pengguna');
+      return router.push('login')
     }
   },
-  async getPengirimanDetail (no){
+  async getPengirimanDetail (param){
     try {
-      const response = await instance.get('/pengiriman_detail/'+no)
-      return response.data;
+      const apiUrl = '/pengiriman_detail?'
+      const params = {
+        tgl_awal: param[0],
+        tgl_akhir: param[1]
+      }
+      const response = await instance.get(apiUrl, {params})
+      return response.data
     } catch (error) {
-      throw new Error('Gagal mengambil data pengguna');
+      return router.push('login')
     }
   },
   /** PENJUALAN */
-  async getPenjualanHead (no){
+  async getPenjualanHead (param){
     try {
-      const response = await instance.get('/penjualan_head/'+no)
-      return response.data;
+      const apiUrl = '/penjualan_head?'
+      const params = {
+        tgl_awal: param[0],
+        tgl_akhir: param[1]
+      }
+      const response = await instance.get(apiUrl, {params})
+      return response.data
     } catch (error) {
-      throw new Error('Gagal mengambil data pengguna');
+      return router.push('login')
     }
+  },
+  async getPenjualanDetail (param){
+    try {
+      const apiUrl = '/penjualan_detail?'
+      const params = {
+        tgl_awal: param[0],
+        tgl_akhir: param[1]
+      }
+      const response = await instance.get(apiUrl, {params})
+      return response.data
+    } catch (error) {
+      return router.push('login')
+    }
+  },
+  postPengeluaran(head, detail) {
+    let pjl_head = {
+      no_penjualan: head.no_penjualan,
+      tgl_penjualan: head.tgl_penjualan,
+      tipe_dokumen: head.tipe_dokumen,
+      no_dokumen: head.no_dokumen,
+      tgl_dokumen: head.tgl_dokumen,
+      kode_pelanggan: head.kode_pelanggan,
+      kode_group: head.kode_group,
+      total_penjualan: detail[0].total_terjual,
+      tgl_input: '',
+      user_input: '',
+      tgl_batal: '',
+      user_batal: '',
+      status: 'open'
+    }
+    const h = JSON.stringify(pjl_head);
+    const d = JSON.stringify(detail);
+    return instance.post('/penjualan_head?', {
+      penjualan_head : h,
+      penjualan_detail : d,
+    })
+  },
+  deletePengeluaran(head, detail){
+    let penjualan_head = {
+      no_penjualan: head.no_penjualan,
+      tgl_penjualan: head.tgl_penjualan,
+      tipe_dokumen: head.tipe_dokumen,
+      no_dokumen: head.no_dokumen,
+      tgl_dokumen: head.tgl_dokumen,
+      kode_pelanggan: head.kode_pelanggan,
+      kode_group: head.kode_group,
+      total_penjualan: head.total_penjualan,
+      tgl_input: head.tgl_input,
+      user_input: head.user_input,
+      tgl_batal: head.tgl_batal,
+      user_batal: '',
+      status: 0
+    }
+    const ph = JSON.stringify(penjualan_head);
+    const pd = JSON.stringify(detail);
+    let data = {
+      penjualan_head: ph,
+      penjualan_detail: pd,
+    }
+    return instance.delete('/penjualan_head', { data: data })
   },
   /** LOGOUT **/
   logout() {

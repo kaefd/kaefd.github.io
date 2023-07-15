@@ -97,49 +97,49 @@ export default {
         },
     },
     methods:{
-        async fetchData() {
-            try {
-                const api = await import('../service/api');
-                // const pengiriman = await import('../service/page/pengiriman');
-                let a = []
-                for (let i = 0; i < this.nopjl.length; i++) {
-                    a.push(await api.default.getPenjualanHead(this.nopjl[i].no_penjualan))
-                }
-                this.pjlhead = a
-                } catch (error) {
-                    console.log(error);
-                }
-            },
-        getBarang() {
-            api.getData('/barang?status=true')
-            .then(response => {
-            this.barang = response.data
-            })
-            .catch(() => {
-                return this.$router.push('login');
-            })
+        // async fetchData() {
+        //     try {
+        //         const api = await import('../service/api');
+        //         // const pengiriman = await import('../service/page/pengiriman');
+        //         let a = []
+        //         for (let i = 0; i < this.nopjl.length; i++) {
+        //             a.push(await api.getPenjualanHead(this.nopjl[i].no_penjualan))
+        //         }
+        //         this.pjlhead = a
+        //         } catch (error) {
+        //             console.log(error);
+        //         }
+        //     },
+        // getBarang() {
+        //     api.getData('/barang?status=true')
+        //     .then(response => {
+        //     this.barang = response.data
+        //     })
+        //     .catch(() => {
+        //         return this.$router.push('login');
+        //     })
             
-        },
-        getDetail() {
-            const apiUrl = '/penjualan_head/' + this.nopjl
-            api.getData(apiUrl)
-            .then(response => {
-            this.detailpengiriman = response.data
-            })
-            .catch(() => {
-                return this.$router.push('login');
-            })
-        },
-        tujuanBongkar(){
-            const apiUrl = '/alamat_bongkar'
-            api.getData(apiUrl)
-            .then(response => {
-            this.alamatBongkar = response.data
-            })
-            .catch(() => {
-                return this.$router.push('login');
-            })
-        },
+        // },
+        // getDetail() {
+        //     const apiUrl = '/penjualan_head/' + this.nopjl
+        //     api.getData(apiUrl)
+        //     .then(response => {
+        //     this.detailpengiriman = response.data
+        //     })
+        //     .catch(() => {
+        //         return this.$router.push('login');
+        //     })
+        // },
+        // tujuanBongkar(){
+        //     const apiUrl = '/alamat_bongkar'
+        //     api.getData(apiUrl)
+        //     .then(response => {
+        //     this.alamatBongkar = response.data
+        //     })
+        //     .catch(() => {
+        //         return this.$router.push('login');
+        //     })
+        // },
         belumterkirim(){
             const apiUrl = '/penjualan_head/belum_terkirim'
             api.getData(apiUrl)
@@ -193,18 +193,18 @@ export default {
         },
     },
     mounted() {
-        this.fetchData()
+        // this.fetchData()
         this.detail
         this.edit
-        this.getBarang()
-        this.getDetail()
-        this.tujuanBongkar()
+        // this.getBarang()
+        // this.getDetail()
+        // this.tujuanBongkar()
         this.belumterkirim()
         this.belumterkirim_detail()
         // this.items
         // this.pemasukan
         // this.pengeluaran
-        this.dataitem
+        // this.dataitem
         // this.pembelian
         // this.penjualan
         this.$nextTick(() => {
@@ -231,14 +231,14 @@ export default {
             <v-list-item
             v-if="edit"
             v-bind="props"
-            class="text-small"
+            class="text-caption"
             >
             Lihat Detail
             </v-list-item>
             
             <v-list-item
             v-if="edit"
-            class="text-small"
+            class="text-caption"
             @click="confirm()"
             >
             Batal Pengeluaran
@@ -266,8 +266,8 @@ export default {
                         <text-field-form label="Tgl Pengiriman" v-model="dataitem.tgl_pengiriman" readonly />
                     </v-responsive>
                     <v-responsive class="pt-2 mx-3" width="250">
-                        <text-field-form label="Pelanggan" v-model="kode_pelanggan" readonly />
-                        <text-field-form label="Tujuan Bongkar" :model-value="namaTujuan" readonly />
+                        <text-field-form label="Pelanggan" :model-value="dataitem.kode_pelanggan" readonly />
+                        <text-field-form label="Tujuan Bongkar" :model-value="dataitem.kode_alamat_bongkar" readonly />
                     </v-responsive>
                     <v-responsive class="pt-2 mx-md-0 mx-3" width="250">
                         <text-field-form label="Supir" :model-value="dataitem.supir" readonly />
@@ -366,7 +366,7 @@ export default {
                 <!-- TABEL EDIT/VIEW -->
                 <v-data-table
                     :headers="headDetails"
-                    :items="edit ? pengiriman : pembelian_input"
+                    :items="edit ? detail_kirim : pembelian_input"
                     :hover="true"
                     :fixed-header="true"
                     density="compact"
@@ -381,24 +381,6 @@ export default {
                 <!-- eslint-disable-next-line vue/valid-v-slot -->
                 <template v-slot:item.jumlah="{ item }">
                     {{ functions.numb(item.raw.jumlah) }}
-                </template>
-                <!-- eslint-disable-next-line vue/valid-v-slot -->
-                <template v-slot:item.tipe_dokumen="{item, index}">
-                    <v-if v-if="!edit">
-                        {{ item.raw.tipe_dokumen }}
-                    </v-if>
-                    <v-if v-if="edit">
-                        {{ pjlhead[index][0].tipe_dokumen }}
-                    </v-if>
-                </template>
-                <!-- eslint-disable-next-line vue/valid-v-slot -->
-                <template v-slot:item.no_dokumen="{item, index}">
-                    <v-if v-if="!edit">
-                        {{ item.raw.no_dokumen }}
-                    </v-if>
-                    <v-if v-if="edit">
-                        {{ pjlhead[index][0].no_dokumen }}
-                    </v-if>
                 </template>
                 <!-- eslint-disable-next-line vue/valid-v-slot -->
                 <template v-slot:item.actions="{ item, index }">

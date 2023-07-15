@@ -12,9 +12,10 @@ import textField from '../components/form/textField.vue';
 import menuList from '../components/menu/menuList.vue';
 import checkBox from '../components/form/checkBox.vue';
 import dialogConfirm from '../components/dialog/dialogConfirm.vue';
-import squareButton from '../components/button/buttonVue.vue';
 import { ref, onMounted } from 'vue';
 import DatePicker from '../components/datepicker/datePicker.vue';
+import BtnOrange from '../components/button/btnOrange.vue';
+import BtnCancel from '../components/button/btnCancel.vue';
 </script>
 
 <script>
@@ -24,11 +25,12 @@ export default {
     dialogConfirm,
     TableVue,
     filterDrawer,
-    squareButton,
     textField,
     menuList,
     checkBox,
-    DatePicker
+    DatePicker,
+        BtnOrange,
+        BtnCancel
 },
     props:['actIcon', 'cetak'],
     data () {
@@ -37,17 +39,17 @@ export default {
         periode: [],
         filter: false,
         confirmdialog: false,
+        status: null,
+        valert: false,
         pageTitle: 'PEMASUKAN BARANG',
         btn: 'Tambah Barang',
         selectdokumen: [],
         btnTitle: 'Tambah Data',
         cardTitle: 'Detail Barang',
-        fullscreen: 'fullscreen',
-        alpha: null,
+        barang: '',
         pemasukan_item: '',
         pembelian_head: '',
         pdetail: '',
-        // pilihtipe: 'BC40',
         items: '',
         supplier: '',
         pembeliandetl: '',
@@ -62,8 +64,6 @@ export default {
        this.periode = [functions.tglawal(), functions.day()]
        this.filtered.periode = [functions.tglawal(), functions.day()]
     },
-    computed: {
-    },
     methods: {
       page(){
         return this.$emit('page', this.pageTitle)
@@ -72,73 +72,39 @@ export default {
         this.items = await api.getPemasukanHead(this.periode)
         this.supplier = await api.getSupplier()
         this.pembeliandetl = await api.getPemasukanDetail(this.periode)
+        this.barang = await api.getBarang()
       },
       // TAMBAH DATA
       inputhead(value, valuedetail) {
-        // const apiUrl = '/pembelian_head?'
-        const value1 = JSON.stringify(value);
-        const value2 = JSON.stringify(valuedetail);
-        console.log({
-          pembelian_head: value1,
-          pembelian_detail: value2
-        });
-        // api.postData( apiUrl, {
-        //   pembelian_head : value1,
-        //   pembelian_detail : value2
-        // })
-        // .then(() => {
-        //     window.location.href = '/in' 
-        //   })
-        //   .catch(() => {
-        //     console.log();
-        //   })
+        api.postPemasukan(value, valuedetail)
+        .then(() => {
+          this.status = this.valert = true
+          setTimeout(() => {
+            this.valert = false
+            this.$router.go();
+          }, 2500);
+        })
+        .catch((error) => {
+          this.status = false
+          this.valert = true
+          this.message =  error.response.data
+        })
       },
       // HAPUS DATA
       del() {
-      let head = ''
-      let detail = ''
-      head = {
-          no_pembelian: this.pembelian_head.no_pembelian,
-          tgl_pembelian: this.pembelian_head.tgl_pembelian,
-          kode_supplier: this.pembelian_head.kode_supplier,
-          tipe_dokumen: this.pembelian_head.tipe_dokumen,
-          no_dokumen: this.pembelian_head.no_dokumen,
-          tgl_dokumen: this.pembelian_head.tgl_dokumen,
-          no_invoice: this.pembelian_head.no_invoice,
-          no_bl: this.pembelian_head.no_bl,
-          mata_uang: this.pembelian_head.mata_uang,
-          kurs: this.pembelian_head.kurs,
-          user_input: 'admin',
-          user_batal: 'admin',
-          status: 'false'
-      }
-      detail = [{
-            no_pembelian: this.pdetail.no_pembelian,
-            kode_barang: this.pdetail.kode_barang,
-            nama_barang: this.pdetail.nama,
-            hs_code: this.pdetail.hs_code,
-            jumlah: this.pdetail.jumlah,
-            jumlah_diterima: this.pdetail.jumlah_diterima,
-            satuan: this.pdetail.satuan,
-            nilai: this.pdetail.nilai,
-            no_urut:this.pdetail.no_urut,
-      }]
-      const ph = JSON.stringify(head);
-      const pd = JSON.stringify(detail);
-        console.log({
-          pembelian_head: ph,
-          pembelian_detail: pd,
-        });
-        // api.deleteData('/pembelian_head', {
-        //   pembelian_head : ph,
-        //   pembelian_detail : pd,
-        // })
-        // .then(() => {
-        //   window.location.href = '/in'
-        // })
-        // .catch(() => {
-        //   console.log();
-        // })
+        api.deletePemasukan(this.pembelian_head, this.pdetail)
+        .then(() => {
+          this.status = this.valert = true
+          setTimeout(() => {
+            this.valert = false
+            this.$router.go();
+          }, 2500);
+        })
+        .catch((error) => {
+          this.status = false
+          this.valert = true
+          this.message =  error.response.data
+        })
       },
       confirm(head, detail){
         this.confirmdialog = true
@@ -155,7 +121,7 @@ export default {
       },
       print(key){
         let title = this.pageTitle
-        let header = pemasukan.data().headers
+        let header = pemasukan.headers
         let item = pemasukan.printdata(this.items, this.supplier, this.pembeliandetl)
         functions.print(key, title, header, item)
       },
@@ -182,7 +148,6 @@ export default {
     },
     mounted() {
       this.fetchData()
-      this.periode
       this.selected()
       this.page()
     }
@@ -211,7 +176,7 @@ export default {
       <v-span class="text-caption text-weight-bold">Tipe Dokumen</v-span>
       <v-divider class="mb-6"></v-divider>
         <checkBox
-          v-for="label, i in pemasukan.data().tipedokumen" :key="i"
+          v-for="label, i in pemasukan.tipedokumen" :key="i"
           v-model="filtered.selectdokumen"
           :label="label"
           :value="label"
@@ -223,7 +188,7 @@ export default {
       <v-responsive class="d-flex align-center mb-sm-0 mb-1 me-sm-2 me-0" width="200" max-width="350">
           <div class="d-flex align-center w-100">
             <!-- ADD DATA -->
-            <PemasukanDetail batalbtn="Pemasukan" :datainput="pemasukan.data().datainput" @inputhead="inputhead" :pemasukan="true" :supplier="supplier" :edit="false" :itemDetail="itemDetail" :datatext="datatext" :btn="btn" :headDetails="pemasukan.data().headDetails" :details="details" :headers="pemasukan.data().headers" :items="pemasukan.pilihtipe(selectdokumen, items, supplier)" :pembeliandetl="pembeliandetl" :search="search" :category="pemasukan.data().tipedokumen" :selectCategory="selectCategory" :iTitle="actIcon[0].text" :btncolor="actIcon[0].color" :icon="actIcon[0].icon" :iVariant="actIcon[0].variant" :alpha="alpha" :actIcon="actIcon" :pageTitle="pageTitle"/>
+            <PemasukanDetail :barang="barang" batalbtn="Pemasukan" :datainput="pemasukan.datainput" @inputhead="inputhead" :pemasukan="true" :supplier="supplier" :edit="false" :itemDetail="itemDetail" :datatext="datatext" :btn="btn" :headDetails="pemasukan.headDetails" :details="details" :headers="pemasukan.headers" :items="pemasukan.pilihtipe(selectdokumen, items, supplier)" :pembeliandetl="pembeliandetl" :search="search" :category="pemasukan.tipedokumen" :selectCategory="selectCategory" :iTitle="actIcon[0].text" :btncolor="actIcon[0].color" :icon="actIcon[0].icon" :iVariant="actIcon[0].variant" :alpha="alpha" :actIcon="actIcon" :pageTitle="pageTitle"/>
           </div>
           <!-- <v-chip class="mt-1 me-1" color="orange" size="small">{{ periode[0] }} - {{ periode[1] }}</v-chip>
           <v-chip v-if="selectdokumen" class="mt-1" color="orange" size="small">{{ selectdokumen }}</v-chip> -->
@@ -247,7 +212,7 @@ export default {
           id="tbl_exporttable_to_xls"
           :items="pemasukan.pilihtipe(selectdokumen, items, supplier)"
           :search="search"
-          :headers="pemasukan.data().headers"
+          :headers="pemasukan.headers"
           :masuk="true"
           :supplier="supplier"
           :pembeliandetl="pembeliandetl"
@@ -257,32 +222,11 @@ export default {
         />
         <dialogConfirm v-model="confirmdialog" :object="pageTitle">
         <template #yesButton>
-            <squareButton type="submit" variant="outlined" color="orange-lighten-1" @click="del(), confirmdialog = false" btn_title="Ya"/>
+            <btn-orange @click="del(), confirmdialog = false" btn_title="Ya"/>
         </template>
         <template #cancelButton>
-          <squareButton type="submit" variant="outlined" color="grey" @click="confirmdialog = false" btn_title="Batal" />
+          <btn-cancel class="me-2" @click="confirmdialog = false" btn_title="Batal" />
         </template>
         </dialogConfirm>
   </v-container>
 </template>
-
-<style lang="scss">
-.v-data-table-header__content {
-  text-align: center;
-}
-
-// .dp__active_date{
-//   background: #000 !important;
-// }
-.text-small {
-  font-size: 8pt;
-}
-.label-sm  {
-  width: 100px !important;
-  height: 35px;
-  text-align: center;
-}
-.h-500 {
-  height: 525px !important;
-}
-</style>

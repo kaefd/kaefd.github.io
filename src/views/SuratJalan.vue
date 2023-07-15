@@ -1,6 +1,6 @@
 <script>
 export default {
-    props: ['items', 'namaPelanggan', 'namaTujuan', 'pengiriman', 'alamatPelanggan','nokirim', 'detail_kirim', 'nopjl'],
+    props: ['items', 'namaTujuan', 'pengiriman', 'alamatPelanggan','nokirim', 'detail_kirim', 'nopjl'],
     data () {
         return {
             jalan: false,
@@ -9,19 +9,19 @@ export default {
         }
     },
     methods: {
-        async fetchData() {
-            try {
-                const api = await import('../service/api');
-                // const pengiriman = await import('../service/page/pengiriman');
-                let a = []
-                for (let i = 0; i < this.nopjl.length; i++) {
-                    a.push(await api.default.getPenjualanHead(this.nopjl[i].no_penjualan))
-                }
-                this.detailpengiriman = a
-                } catch (error) {
-                    console.log(error);
-                }
-            },
+        // async fetchData() {
+        //     try {
+        //         const api = await import('../service/api');
+        //         // const pengiriman = await import('../service/page/pengiriman');
+        //         let a = []
+        //         for (let i = 0; i < this.nopjl.length; i++) {
+        //             a.push(await api.getPenjualanHead(this.nopjl[i].no_penjualan))
+        //         }
+        //         this.detailpengiriman = a
+        //         } catch (error) {
+        //             console.log(error);
+        //         }
+        //     },
         uppercase(v) {
             return v.toUpperCase()
         },
@@ -40,7 +40,7 @@ export default {
     },
 
     mounted() {
-        this.fetchData()
+        // this.fetchData()
     }
 }
 </script>
@@ -51,7 +51,7 @@ export default {
         fullscreen
         :scrim="false">
         <template v-slot:activator="{ props }">
-            <v-list-item class="text-small" v-bind="props">Cetak Surat Jalan</v-list-item>
+            <v-list-item class="text-caption" v-bind="props">Cetak Surat Jalan</v-list-item>
         </template>
         <v-toolbar class="bg-blue-custom">
             <v-btn
@@ -82,8 +82,8 @@ export default {
                     <v-div class="d-flex  text-body-2">
                         <v-span class="me-2">PENERIMA :</v-span>
                         <v-span class="text-start w-50">
-                            {{ uppercase(namaTujuan) }} <br/>
-                            {{ uppercase(alamatPelanggan) }}
+                            {{ uppercase(items.kode_alamat_bongkar) }} <br/>
+                            {{ uppercase(items.alamat) }}
                         </v-span>
                     </v-div>
                     <v-spacer></v-spacer>

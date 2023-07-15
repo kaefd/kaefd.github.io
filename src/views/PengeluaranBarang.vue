@@ -13,11 +13,12 @@
   import menuList from '../components/menu/menuList.vue'
   import checkBox from '../components/form/checkBox.vue'
   import dialogConfirm from '../components/dialog/dialogConfirm.vue';
-  import squareButton from '../components/button/buttonVue.vue';
 import DatePicker from '../components/datepicker/datePicker.vue';
 
   // plugins
 import BtnFilter from '../components/button/btnFilter.vue';
+import BtnCancel from '../components/button/btnCancel.vue';
+import BtnOrange from '../components/button/btnOrange.vue';
 </script>
 
 <script>
@@ -25,7 +26,6 @@ import BtnFilter from '../components/button/btnFilter.vue';
 
   export default {
     components: {
-      squareButton,
       dialogConfirm,
       PengeluaranDetail,
       VDataTable,
@@ -34,7 +34,9 @@ import BtnFilter from '../components/button/btnFilter.vue';
       menuList,
       checkBox,
         BtnFilter,
-        DatePicker
+        DatePicker,
+        BtnCancel,
+        BtnOrange
     },
     props:['cetak','actIcon'],
     data () {
@@ -46,6 +48,9 @@ import BtnFilter from '../components/button/btnFilter.vue';
         datapelanggan: '',
         dialog2: false,
         confirmdialog: false,
+        status: null,
+        valert: false,
+        message: '',
         pageTitle: 'PENGELUARAN BARANG',
         selectdokumen: [],
         btnTitle: 'Tambah Data',
@@ -63,6 +68,7 @@ import BtnFilter from '../components/button/btnFilter.vue';
         head: '',
         detail: '',
         groupbarang: '',
+        barang: ''
       }
     },
     created() {
@@ -70,156 +76,61 @@ import BtnFilter from '../components/button/btnFilter.vue';
       this.filtered.periode = [functions.tglawal(), functions.day()] 
     },
     methods: {
+      async fetchData() {
+        let item = await api.getPenjualanHead(this.periode)
+        this.datapelanggan = await api.getPelanggan()
+        this.penjualan_head = pengeluaran.items(item, this.datapelanggan)
+        this.penjualan_detail = await api.getPenjualanDetail(this.periode)
+        this.groupbarang = await api.getGroupBarang()
+        this.barang = await api.getBarang()
+      },
       close(v) {
         return this.filter = v
       },
-      getPenjualanHead() {
-        const apiUrl = '/penjualan_head?'
-        const params = {
-        tgl_awal: this.periode[0],
-        tgl_akhir: this.periode[1],  
-        
-        }
-        api.getData(apiUrl, {params})
-        .then(response => {
-          this.penjualan_head = response.data
-        })
-        .catch(() => {
-          return this.$router.push('login');
-        })
-      },
-      getPenjualanDetail() {
-        const apiUrl = '/penjualan_detail?'
-        const params = {
-        tgl_awal: this.periode[0],
-        tgl_akhir: this.periode[1],  
-        }
-        api.getData(apiUrl, {params})
-        .then(response => {
-          this.penjualan_detail = response.data
-        })
-        .catch(() => {
-          return this.$router.push('login');
-        })
-      },
-      getGroupBarang() {
-        const apiUrl = '/group_barang?'
-        api.getData(apiUrl)
-        .then(response => {
-          this.groupbarang = response.data
-        })
-        .catch(() => {
-          return this.$router.push('login');
-        })
-      },
-      getPelanggan() {
-        const apiUrl = '/pelanggan'
-        api.getData(apiUrl)
-        .then(response => {
-          this.datapelanggan = response.data
-        })
-        .catch(() => {
-          return this.$router.push('login');
-        })
-      },
       // POST PENJUALAN
       inputhead(value, detail) {
-        let head = {
-          no_penjualan: value.no_penjualan,
-          tgl_penjualan: value.tgl_penjualan,
-          tipe_dokumen: value.tipe_dokumen,
-          no_dokumen: value.no_dokumen,
-          tgl_dokumen: value.tgl_dokumen,
-          kode_pelanggan: value.kode_pelanggan,
-          kode_group: value.kode_group,
-          total_penjualan: detail[0].total_terjual,
-          tgl_input: functions.day(),
-          user_input: '',
-          tgl_batal: value.tgl_batal,
-          user_batal: value.user_batal,
-          status: 'open'
-        }
-        // const apiUrl = '/penjualan_head?'
-        const value1 = JSON.stringify(head);
-        const value2 = JSON.stringify(detail);
-        console.log({
-          penjualan_head : value1,
-          penjualan_detail : value2,
-        });
-        // api.postData( apiUrl, {
-        //   produksi_head : value1,
-        //   produksi_detail_bahan : value2,
-        //   produksi_detail_barang : value3
-        // })
-        // .then(() => {
-        //     window.location.href = '/production' 
-        //   })
-        //   .catch((error) => {
-        //     return this.$router.push('login');
-        //   })
+        api.postPengeluaran(value, detail)
+        .then(() => {
+          this.status = this.valert = true
+          setTimeout(() => {
+            this.valert = false
+            this.$router.go();
+          }, 2500);
+        })
+        .catch((error) => {
+          this.status = false
+          this.valert = true
+          this.message =  error.response.data
+        })
       },
+      // HAPUS PENJUALAN
       del() {
-        let penjualan_head = {
-          no_penjualan: this.head.no_penjualan,
-          tgl_penjualan: this.head.tgl_penjualan,
-          tipe_dokumen: this.head.tipe_dokumen,
-          no_dokumen: this.head.no_dokumen,
-          tgl_dokumen: this.head.tgl_dokumen,
-          kode_pelanggan: this.head.kode_pelanggan,
-          kode_group: this.head.kode_group,
-          total_penjualan: this.head.total_penjualan,
-          tgl_input: this.head.tgl_input,
-          user_input: this.head.user_input,
-          tgl_batal: this.head.tgl_batal,
-          user_batal: '',
-          status: false
-      }
-      const ph = JSON.stringify(penjualan_head);
-      const pd = JSON.stringify(this.detail);
-        console.log({
-          penjualan_head: ph,
-          penjualan_detail: pd,
-        });
-        // api.deleteData('/pembelian_head', {
-        //   pembelian_head : ph,
-        //   pembelian_detail : pd,
-        // })
-        // .then(() => {
-        //   window.location.href = '/in'
-        // })
-        // .catch((error) => {
-        //   return this.$router.push('login');
-        // })
+        api.deletePengeluaran(this.head, this.detail)
+        .then(() => {
+          this.status = this.valert = true
+          setTimeout(() => {
+            this.valert = false
+            this.$router.go();
+          }, 2500);
+        })
+        .catch((error) => {
+          this.status = false
+          this.valert = true
+          this.message =  error.response.data
+        })
       },
       confirm(head, detail){
         this.confirmdialog = true
         this.head = head
         this.detail = detail
       },
-      selected(){        
-        this.getPenjualanHead(),
-        this.getPenjualanDetail(),
-        this.getPelanggan()
-      },
-      printdata() {
-        let a = []
-        for (let i = 0; i < this.penjualan_head.length; i++) {
-          a.push({
-            no_penjualan: this.penjualan_head[i].no_penjualan,
-            tgl_penjualan: this.penjualan_head[i].tgl_penjualan,
-            tipe_dokumen: this.penjualan_head[i].tipe_dokumen,
-            no_dokumen: this.penjualan_head[i].no_dokumen,
-            kode_pelanggan: this.penjualan_head[i].kode_pelanggan,
-            kode_group: this.penjualan_head[i].kode_group,
-            total_penjualan: functions.numb(this.penjualan_head[i].total_penjualan),
-          })
-        }
-        return a
+      selected(){
+        this.fetchData()
       },
       print(key){
         let title = this.pageTitle
-        let header = pengeluaran.data().headers
-        let item = this.printdata()
+        let header = pengeluaran.headers
+        let item = this.penjualan_head
         functions.print(key, title, header, item)
       },
       page(){
@@ -253,10 +164,6 @@ import BtnFilter from '../components/button/btnFilter.vue';
       mounted() {
         this.page()
         this.selected()
-        this.getPenjualanHead()
-        this.getPenjualanDetail()
-        this.getPelanggan()
-        this.getGroupBarang()
     }
   }
 
@@ -285,7 +192,7 @@ import BtnFilter from '../components/button/btnFilter.vue';
       <v-span class="text-caption text-weight-bold">Tipe Dokumen</v-span>
       <v-divider class="mb-6"></v-divider>
         <checkBox
-          v-for="label, i in pengeluaran.data().tipedokumen" :key="i"
+          v-for="label, i in pengeluaran.tipedokumen" :key="i"
           v-model="filtered.selectdokumen"
           :label="label"
           :value="label"
@@ -294,7 +201,7 @@ import BtnFilter from '../components/button/btnFilter.vue';
       <v-span class="text-caption text-weight-bold">Status</v-span>
       <v-divider class="mb-6"></v-divider>
       <checkBox
-        v-for="label, i in pengeluaran.data().status" :key="i"
+        v-for="label, i in pengeluaran.status" :key="i"
         v-model="filtered.status"
         :label="label.title"
         :value="label.key"
@@ -308,16 +215,17 @@ import BtnFilter from '../components/button/btnFilter.vue';
           <!-- TAMBAH DATA -->
           <PengeluaranDetail
             batalbtn="Pengeluaran"
-            :datainput="pengeluaran.data().datainput"
+            :datainput="pengeluaran.datainput"
             :pengeluaran="true"
             :groupbarang="groupbarang"
             :pelanggan="datapelanggan"
             :datatext="datatext"
             :pageTitle="pageTitle"
             :btn="btn"
-            :headDetails="pengeluaran.data().headDetails"
-            :headers="pengeluaran.data().headers"
+            :headDetails="pengeluaran.headDetails"
+            :headers="pengeluaran.headers"
             :items="pengeluaran.checkstatus(selectdokumen, penjualan_head, checkStatus)"
+            :barang="barang"
             :search="search"
             :category="category"
             :selectCategory="selectCategory"
@@ -353,8 +261,8 @@ import BtnFilter from '../components/button/btnFilter.vue';
         <v-data-table
             id="tbl_exporttable_to_xls" 
             items-per-page="10"
-            :headers="pengeluaran.data().headers"
-            :items="pengeluaran.checkstatus(selectdokumen, printdata(), checkStatus)"
+            :headers="pengeluaran.headers"
+            :items="pengeluaran.checkstatus(selectdokumen, penjualan_head, checkStatus)"
             :search="search"
             :hover="true"
             :fixed-header="true"
@@ -386,16 +294,16 @@ import BtnFilter from '../components/button/btnFilter.vue';
             <template v-slot:item.tgl_penjualan="{ item }">{{ functions.formatDate(item.raw.tgl_penjualan) }}</template>
              <!-- eslint-disable-next-line vue/valid-v-slot -->
             <template v-slot:item.actions="{item}">
-              <PengeluaranDetail @confirm="confirm" batalbtn="Pengeluaran" :namaPelanggan="pelanggan.namaPelanggan(pelanggan, item.raw.kode_pelanggan)" :penjualan="pengeluaran.penjualan(penjualan_detail, item.raw.no_penjualan)" :edit="true" :pengeluaran="true" :pageTitle="pageTitle" :headDetails="pengeluaran.data().headDetails" :items="item.raw" :headers="pengeluaran.data().headers" :search="search" :category="category" :selectCategory="selectCategory" :iTitle="actIcon[3].text" :btncolor="actIcon[3].color" :icon="actIcon[3].icon" :iVariant="actIcon[3].variant" :alpha="alpha" :actIcon="actIcon" :disable="true"/>
+              <PengeluaranDetail @confirm="confirm" batalbtn="Pengeluaran" :namaPelanggan="pelanggan.namaPelanggan(pelanggan, item.raw.kode_pelanggan)" :penjualan="pengeluaran.penjualan(penjualan_detail, item.raw.no_penjualan)" :edit="true" :pengeluaran="true" :pageTitle="pageTitle" :headDetails="pengeluaran.headDetails" :items="item.raw" :headers="pengeluaran.headers" :search="search" :category="category" :selectCategory="selectCategory" :iTitle="actIcon[3].text" :btncolor="actIcon[3].color" :icon="actIcon[3].icon" :iVariant="actIcon[3].variant" :alpha="alpha" :actIcon="actIcon" :disable="true"/>
             </template>
           </v-data-table>
         </v-sheet>
         <dialogConfirm v-model="confirmdialog" :object="pageTitle">
         <template #yesButton>
-            <squareButton type="submit" variant="outlined" color="orange-lighten-1" @click="del(), confirmdialog = false" btn_title="Ya"/>
+          <btn-orange class="ms-2" @click="del(), confirmdialog = false" btn_title="Ya"/>
         </template>
         <template #cancelButton>
-          <squareButton type="submit" variant="outlined" color="grey" @click="confirmdialog = false" btn_title="Batal" />
+          <btn-cancel @click="confirmdialog = false" btn_title="Batal" />
         </template>
         </dialogConfirm>
   </v-container>

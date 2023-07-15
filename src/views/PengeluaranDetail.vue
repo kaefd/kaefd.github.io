@@ -1,7 +1,6 @@
 <script>
 import { VDataTable } from 'vuetify/labs/VDataTable'
 import dialogScroll from '../components/dialog/dialogScroll.vue';
-import api from '../service/api';
 import datePickerVue from '../components/datepicker/datePicker.vue';
 import BtnInfo from '../components/button/btnInfo.vue';
 import textFieldForm from '../components/form/textFieldForm.vue';
@@ -26,7 +25,7 @@ export default {
         CurrencyInput
         
     },
-    props:['pembelianbaru', 'namaPelanggan', 'laporan', 'groupbarang', 'batalbtn', 'penjualan', 'pemasukan', 'alamatBongkar', 'namaTujuan', 'datainput', 'pageTitle', 'pengeluaran', 'dokumenpjl', 'namaSupplier', 'pengirimanDetail', 'pembelian', 'pelanggan', 'supplier', 'pembeliandetl', 'edit', 'kirim', 'headers', 'items', 'actIcon', 'icon', 'btncolor', 'search', 'iVariant', 'headDetails', 'details','disable', 'btn', 'datatext', 'itemDetail', 'category'],
+    props:['pembelianbaru', 'namaPelanggan', 'laporan', 'groupbarang', 'barang', 'batalbtn', 'penjualan', 'pemasukan', 'alamatBongkar', 'namaTujuan', 'datainput', 'pageTitle', 'pengeluaran', 'dokumenpjl', 'namaSupplier', 'pengirimanDetail', 'pembelian', 'pelanggan', 'supplier', 'pembeliandetl', 'edit', 'kirim', 'headers', 'items', 'actIcon', 'icon', 'btncolor', 'search', 'iVariant', 'headDetails', 'details','disable', 'btn', 'datatext', 'itemDetail', 'category'],
     data () {
       return {
         dialog: false,
@@ -41,7 +40,6 @@ export default {
         tipe_dokumen: ['BC23', 'BC40'],
         searched: '',
         nama:'',
-        barang: '',
         namasupplier: '',
         dataitem: this.items,
         nama_supplier : '',
@@ -63,13 +61,6 @@ export default {
       }
     },
     created() {
-        api.getData('/barang?status=true')
-            .then(response => {
-            this.barang = response.data
-            })
-            .catch(() => {
-                return this.$router.push('login');
-            })
         if(this.edit) {
             let k = (this.dataitem.kurs / 1).toFixed(3).replace('.', ',')
             this.kurs = k.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
@@ -93,10 +84,6 @@ export default {
         },
     },
     methods:{
-        numb(value) {
-            let val = (value / 1).toFixed(0).replace('.', ',')
-            return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-        },
         itemmasuk(value) {
             this.pembelian_input = value
         },
@@ -131,19 +118,6 @@ export default {
         
     },
     mounted() {
-        this.edit
-        api.getData
-        // this.items
-        // this.pemasukan
-        // this.pengeluaran
-        this.dataitem
-        // this.pembelian
-        // this.penjualan
-        this.$nextTick(() => {
-            this.nama_supplier = this.namaSupplier,
-            this.nama_pelanggan=  this.namaPelanggan,
-            this.tujuan_bongkar= this.namaTujuan
-        });
     }
 }
 

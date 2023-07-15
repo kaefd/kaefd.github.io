@@ -29,7 +29,7 @@ export default defineComponent ({
     alertVue,
   },
     name: 'DataBarang',
-    props:['actIcon', 'cetak'],
+    props:['cetak'],
     data () {
       return {
         dialog: false,
@@ -48,7 +48,7 @@ export default defineComponent ({
           nama_barang: '',
           hs_code:'',
           satuan: '',
-          status: true
+          status: 1
         },
         filtered: {
           kategori_barang: []
@@ -72,8 +72,7 @@ export default defineComponent ({
       submit(value) {
           api.postBarang(value)
           .then(() => {
-              this.status = true
-              this.valert = true
+              this.status = this.valert = true
               setTimeout(() => {
                 this.valert = false
                 this.$router.go();
@@ -81,16 +80,15 @@ export default defineComponent ({
             })
             .catch((error) => {
               this.status = false
-              this.message =  error.response.data
               this.valert = true
+              this.message =  error.response.data
             })
       },
         // EDIT DATA
       editForm(value) {
           api.putBarang(value)
           .then(() => {
-            this.status = true
-            this.valert = true
+            this.status = this.valert = true
             setTimeout(() => {
               this.valert = false
               this.$router.go();
@@ -98,16 +96,15 @@ export default defineComponent ({
             })
           .catch((error) => {
             this.status = false
-            this.message = error.response.data
             this.valert = true
+            this.message = error.response.data
           })
       },
       // HAPUS DATA
       del(v) {
         api.deleteBarang(v)
         .then(() => {
-          this.status = true
-          this.valert = true
+          this.status = this.valert = true
           setTimeout(() => {
             this.valert = false
             this.$router.go();

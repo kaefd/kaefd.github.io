@@ -184,7 +184,7 @@ export default {
                     </v-responsive>
                     <v-responsive class="pt-2 mx-md-0 mx-3" width="250">
                         <text-field-form v-if="edit" label="Kode Group" :value="item.kode_group" readonly :rules="required" />
-                        <v-dialog v-model="dialog5" >
+                        <v-dialog v-model="dialog5" class="w-50" >
                             <template v-slot:activator="{ props }">
                                 <text-field-form v-if="!edit" label="Kode Group" v-bind="props" v-model="inputproduksi.kode_group" :rules="required" />
                             </template>

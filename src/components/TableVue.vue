@@ -60,7 +60,7 @@ export default {
 }
 </script>
 <template>
-    <v-sheet height="90%">
+    <v-sheet height="90%" class="bg-transparent">
       <!-- TABEL DATA -->
       <v-data-table
         items-per-page="10"
@@ -132,12 +132,12 @@ export default {
             :itemDetail="itemDetail"
             :datatext="datatext"
             :btn="btn"
-            :headDetails="pemasukan.data().headDetails"
+            :headDetails="pemasukan.headDetails"
             :details="[details]"
-            :headers="pemasukan.data().headers"
+            :headers="pemasukan.headers"
             :items="item.raw"
             :search="search"
-            :category="pemasukan.data().tipedokumen"
+            :category="pemasukan.tipedokumen"
             :selectCategory="selectCategory"
             :pageTitle="pageTitle"/>
       </template>

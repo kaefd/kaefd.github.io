@@ -2,6 +2,8 @@
 // service
 import api from '../service/api';
 import functions from '../service/functions';
+import barang from '../service/page/barang';
+import pengiriman from '../service/page/pengiriman';
 // component
 import { VDataTable } from 'vuetify/labs/VDataTable'
 import PengirimanDetail from './PengirimanDetail.vue';
@@ -52,23 +54,6 @@ import TextButton from '../components/button/textButton.vue';
         cardTitle: 'Detail Barang',
         fullscreen: 'fullscreen',
         alpha: null,
-        category: [
-          'Bahan Baku',
-          'Bahan Penolong',
-          'Barang Setengah Jadi',
-          'Barang Jadi',
-          'Barang Sisa (Scrap)',
-          'Mesin & Peralatan',
-        ],
-        headers: [
-          { title: 'No Pengiriman', key: 'no_pengiriman'},
-          { title: 'Tgl Pengiriman', key: 'tgl_pengiriman' },
-          { title: 'Pelanggan', key: 'kode_pelanggan' },
-          { title: 'Tujuan Bongkar', key: 'kode_alamat_bongkar' },
-          { title: 'Supir', key: 'supir' },
-          { title: 'Polisi', key: 'no_polisi' },
-          { title: '', key: 'actions', sortable: false},
-        ],
         filtered: {
           periode: []
         },
@@ -79,31 +64,6 @@ import TextButton from '../components/button/textButton.vue';
         kirim_detail: '',
         pelanggan: '',
         alamatBongkar: '',
-        headDetails:[
-          {title: 'No Penjualan', key: 'no_penjualan' },
-          {title: 'Tipe Dokumen', key: 'tipe_dokumen' },
-          {title: 'No Dokumen', key: 'no_dokumen' },
-          {title: 'Kode Group', key: 'kode_group' },
-          {title: 'Kode Barang', key: 'kode_barang' },
-          {title: 'Nama Barang', key: 'nama_barang' },
-          {title: 'HS Code', key: 'hs_code' },
-          {title: 'Jumlah', key: 'jumlah' },
-          {title: 'Satuan', key: 'satuan' },
-          {title: '', key: 'actions', sortable: false },
-        ],
-        datainput: {
-          no_pengiriman: '',
-          tgl_pengiriman: '',
-          kode_pelanggan: '',
-          kode_alamat_bongkar: '',
-          supir: '',
-          no_polisi: '',
-          user_input: '',
-          tgl_input: '',
-          tgl_batal:'',
-          user_batal: '',
-          status: ''
-        },
         nokirim: '0',
         detailkirim: '',
         no: '',
@@ -120,89 +80,16 @@ import TextButton from '../components/button/textButton.vue';
       page(){
         return this.$emit('page', this.pageTitle)
       },
-      // GET DATA PENGIRIMAN-HEAD
-      getPengirimanHead() {
-        const apiUrl = '/pengiriman_head?'
-        const params = {
-          tgl_awal: this.periode[0],
-          tgl_akhir: this.periode[1],
-        }
-        api.getData(apiUrl, { params })
-        .then(response => {
-          this.pengirimanHead = response.data
-        })
-        .catch(() => {
-          return this.$router.push('login');
-        })
-      },
-      // GET PENGIRIMAN DETAIL
-      getPengirimanDetail() {
-        const apiUrl = '/pengiriman_detail?'
-        const params = {
-          tgl_awal: this.periode[0],
-          tgl_akhir: this.periode[1],
-        }
-        api.getData(apiUrl, { params })
-        .then(response => {
-          this.kirim_detail = response.data
-        })
-        .catch(() => {
-          return this.$router.push('login');
-        })
-      },
-      // PENJUALAN HEAD
-      getPenjualanHead() {
-        const apiUrl = '/penjualan_head?'
-        const params = {
-          tgl_awal: this.periode[0],
-          tgl_akhir: this.periode[1],
-        }
-        api.getData(apiUrl, { params })
-        .then(response => {
-          this.penjualanHead = response.data
-        })
-        .catch(() => {
-          return this.$router.push('login');
-        })
-      },
-      tujuanBongkar(){
-        const apiUrl = '/alamat_bongkar'
-        api.getData(apiUrl)
-        .then(response => {
-        this.alamatBongkar = response.data
-        })
-        .catch(() => {
-        return this.$router.push('login');
-        })
-        },
-      getPelanggan() {
-        const apiUrl = '/pelanggan'
-        api.getData(apiUrl)
-        .then(response => {
-          this.pelanggan = response.data
-        })
-        .catch(() => {
-          return this.$router.push('login');
-        })
+      async fetchData() {
+        let item = await api.getPengirimanHead(this.periode)
+        this.alamatBongkar = await api.alamatBongkar()
+        this.pelanggan = await api.getPelanggan()
+        this.pengirimanHead = pengiriman.items(item, this.pelanggan, this.alamatBongkar)
+        this.penjualanHead = await api.getPenjualanHead(this.periode)
+        this.kirim_detail = await api.getPengirimanDetail(this.periode)
       },
       close(v) {
         return this.filter = v
-      },
-      namaPelanggan(value) {
-        for (let i = 0; i < this.pelanggan.length; i++) {
-          if ( this.pelanggan[i].kode_pelanggan == value ) {
-              return this.pelanggan[i].nama
-          }
-          
-        }
-      },
-      alamatPelanggan(value) {
-        for (let i = 0; i < this.pelanggan.length; i++) {
-          if ( this.pelanggan[i].kode_pelanggan == value ) {
-              return this.pelanggan[i].alamat
-          }
-          
-        }
       },
       Penjualandetl(value) {
         let a = []
@@ -224,48 +111,24 @@ import TextButton from '../components/button/textButton.vue';
           }
         }
       },
-      namaTujuan(value){
-        for (let i = 0; i < this.alamatBongkar.length; i++) {
-          if ( this.alamatBongkar[i].kode_pelanggan == value ) {
-              return this.alamatBongkar[i].nama
-          }
-          
-        }
-      },
       selected() {
-        this.getPengirimanHead(), this.getPengirimanDetail(), this.getPenjualanHead()
-      },
-      printdata() {
-        let a = []
-        for (let i = 0; i < this.pengirimanHead.length; i++) {
-          a.push({
-            no_pengiriman: this.pengirimanHead[i].no_pengiriman,
-            tgl_pengiriman: this.pengirimanHead[i].tgl_pengiriman,
-            kode_pelanggan: this.namaPelanggan(this.pengirimanHead[i].kode_pelanggan),
-            kode_alamat_bongkar: this.namaTujuan(this.pengirimanHead[i].kode_alamat_bongkar),
-            supir: this.pengirimanHead[i].supir,
-            no_polisi: this.pengirimanHead[i].no_polisi,
-          })
-        }
-        return a
+        this.fetchData()
       },
       print(key){
         let title = this.pageTitle
-        let header = this.headers
-        let item = this.printdata()
+        let header = pengiriman.headers
+        let item = this.pengirimanHead
         functions.print(key, title, header, item)
       },
       reset() {
         this.periode = [functions.tglawal(), functions.day()]
         this.filtered.periode = [functions.tglawal(), functions.day()]
         this.selected()
-        
       },
       filterdata() {
         this.periode[0] = this.filtered.periode[0]
         this.periode[1] = this.filtered.periode[1]
         this.selected()
-
       },
       inputhead(head, detail) {
         let h = {
@@ -340,11 +203,7 @@ import TextButton from '../components/button/textButton.vue';
     },
     mounted(){
       this.page()
-      this.getPengirimanHead()
-      this.getPengirimanDetail()
-      this.getPelanggan()
-      this.getPenjualanHead()
-      this.tujuanBongkar()
+      this.fetchData()
     }
     
   }
@@ -375,7 +234,7 @@ import TextButton from '../components/button/textButton.vue';
       <v-responsive class="d-flex align-center mb-sm-0 mb-1" min-width="200">
         <div class="d-flex align-center w-100">
           <!-- TAMBAH DATA -->
-          <PengirimanDetail @inputhead="inputhead" :kirim="true" :edit="false" :supplier="pelanggan" :datainput="datainput" :pageTitle="pageTitle" :btn="btn" :headDetails="headDetails" :details="items" :headers="headers" :items="items" :search="search" :category="category" :selectCategory="selectCategory" :iTitle="actIcon[0].text" :btncolor="actIcon[0].color" :icon="actIcon[0].icon" :iVariant="actIcon[0].variant" :alpha="alpha" :actIcon="actIcon" :datatext="datatext"/>
+          <PengirimanDetail @inputhead="inputhead" :kirim="true" :edit="false" :supplier="pelanggan" :datainput="pengiriman.datainput" :pageTitle="pageTitle" :btn="btn" :headDetails="pengiriman.headDetails" :details="items" :headers="pengiriman.headers" :items="items" :search="search" :category="barang.category" :selectCategory="selectCategory" :iTitle="actIcon[0].text" :btncolor="actIcon[0].color" :icon="actIcon[0].icon" :iVariant="actIcon[0].variant" :alpha="alpha" :actIcon="actIcon" :datatext="datatext"/>
         </div>
         <!-- <v-chip class="mt-1 me-1" color="orange" size="small">{{ periode[0] }} - {{ periode[1] }}</v-chip> -->
       </v-responsive>
@@ -399,7 +258,7 @@ import TextButton from '../components/button/textButton.vue';
         <v-data-table
             id="tbl_exporttable_to_xls" 
             items-per-page="10"
-            :headers="headers"
+            :headers="pengiriman.headers"
             :items="pengirimanHead"
             :search="search"
             :hover="true"
@@ -412,14 +271,6 @@ import TextButton from '../components/button/textButton.vue';
               <template v-slot:item.tgl_pengiriman="{item}">
                 {{ functions.formatDate(item.raw.tgl_pengiriman) }}
               </template>
-            <!-- eslint-disable-next-line vue/valid-v-slot -->
-            <template v-slot:item.kode_pelanggan="{ item }">
-              <td>{{ namaPelanggan(item.raw.kode_pelanggan) }}</td>
-            </template>
-            <!-- eslint-disable-next-line vue/valid-v-slot -->
-            <template v-slot:item.kode_alamat_bongkar="{ item }">
-              <td>{{ namaTujuan(item.raw.kode_alamat_bongkar) }}</td>
-            </template>
              <!-- eslint-disable-next-line vue/valid-v-slot -->
               <template v-slot:item.actions="{ item }">
                   <v-menu transition="slide-y-transition">
@@ -435,31 +286,19 @@ import TextButton from '../components/button/textButton.vue';
                           :kirim="true"
                           :edit="true"
                           @confirm="confirm"
-                          :namaPelanggan="namaPelanggan(item.raw.kode_pelanggan)"
-                          :alamatPelanggan="alamatPelanggan(item.raw.kode_pelanggan)"
-                          :namaTujuan="namaTujuan(item.raw.kode_alamat_bongkar)"
                           :pengiriman="Penjualandetl(item.raw.no_pengiriman)"
                           :nokirim="item.raw.no_pengiriman"
-                          :detail_kirim="kirim_detail"
+                          :detail_kirim="pengiriman.details(item.raw.no_pengiriman, kirim_detail, penjualanHead)"
                           :nopjl="Penjualandetl(item.raw.no_pengiriman)"
                           :pjl_detail="pjl_detail(item.raw.no_pengiriman)"
                           :pageTitle="pageTitle"
-                          :headDetails="headDetails"
-                          :headers="headers"
+                          :headDetails="pengiriman.headDetails"
+                          :headers="pengiriman.headers"
                           :items="item.raw"
-                          :iTitle="actIcon[3].text"
-                          :btncolor="actIcon[3].color"
-                          :icon="actIcon[3].icon"
-                          :iVariant="actIcon[3].variant"
-                          :alpha="alpha"
-                          :actIcon="actIcon"
                           :disable="true"
                           />
                       </v-list-item>
                       <SuratJalan
-                        :alamatPelanggan="alamatPelanggan(item.raw.kode_pelanggan)"
-                        :namaPelanggan="namaPelanggan(item.raw.kode_pelanggan)"
-                        :namaTujuan="namaTujuan(item.raw.kode_alamat_bongkar)"
                         :pengiriman="Penjualandetl(item.raw.no_pengiriman)"
                         :items="item.raw"
                         :nokirim="item.raw.no_pengiriman"
