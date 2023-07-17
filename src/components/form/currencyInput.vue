@@ -23,7 +23,6 @@ import textFieldForm from './textFieldForm.vue'
     <text-field-form
       :label="label"
       ref="inputRef"
-      type="text"
       :model-value="modelValue"
     />
   </template>

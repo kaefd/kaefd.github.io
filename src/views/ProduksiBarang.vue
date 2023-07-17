@@ -40,6 +40,9 @@ import BtnOrange from '../components/button/btnOrange.vue';
         periode: [],
         dialog2: false,
         confirmdialog: false,
+        valert: false,
+        status: '',
+        message: '',
         pageTitle: 'PRODUKSI BARANG',
         selectCategory: 'semua',
         btnTitle: 'Tambah Data',
@@ -84,89 +87,28 @@ import BtnOrange from '../components/button/btnOrange.vue';
         this.filtered.periode = [functions.tglawal(), functions.day()]
     },
     methods: {
-      getProduksihead() {
-        const apiUrl = '/produksi_head?'
-        const params = {
-          tgl_awal: this.periode[0],
-          tgl_akhir: this.periode[1],
-        }
-        api.getData(apiUrl, {params})
-        .then(response => {
-          this.items = response.data
-        })
-        .catch(() => {
-          return this.$router.push('login');
-        })
-      },
-      getProduksiBahan() {
-        const apiUrl = '/produksi_detail_bahan?'
-        const params = {
-          tgl_awal: this.periode[0],
-          tgl_akhir: this.periode[1],
-        }
-        api.getData(apiUrl, {params})
-        .then(response => {
-          this.detailbahan = response.data
-        })
-        .catch(() => {
-          return this.$router.push('login');
-        })
-      },
-      getProduksiBarang() {
-        const apiUrl = '/produksi_detail_barang?'
-        const params = {
-          tgl_awal: this.periode[0],
-          tgl_akhir: this.periode[1],
-        }
-        api.getData(apiUrl, {params})
-        .then(response => {
-          this.detailbarang = response.data
-        })
-        .catch(() => {
-          return this.$router.push('login');
-        })
-      },
-      getGroupBarang() {
-        const apiUrl = '/group_barang?'
-        api.getData(apiUrl)
-        .then(response => {
-          this.groupbarang = response.data
-        })
-        .catch(() => {
-          return this.$router.push('login');
-        })
-      },
-      getBarang() {
-        api.getData('/barang?status=true')
-        .then(response => {
-          this.getbarang = response.data
-        })
-        .catch(() => {
-          return this.$router.push('login');
-        })
+      async fetchData(){
+        this.items = await api.getProduksiHead(this.periode)
+        this.detailbahan = await api.getProDBahan(this.periode)
+        this.detailbarang = await api.getProDBarang(this.periode)
+        this.groupbarang = await api.getGroupBarang()
+        this.getbarang = await api.getBarang()
       },
       // TAMBAH DATA
       inputhead(value, detlbahan, detlbarang) {
-        // const apiUrl = '/produksi_head?'
-        const value1 = JSON.stringify(value);
-        const value2 = JSON.stringify(detlbahan);
-        const value3 = JSON.stringify(detlbarang);
-        console.log({
-          produksi_head : value1,
-          produksi_detail_bahan : value2,
-          produksi_detail_barang : value3
-        });
-        // api.postData( apiUrl, {
-        //   produksi_head : value1,
-        //   produksi_detail_bahan : value2,
-        //   produksi_detail_barang : value3
-        // })
-        // .then(() => {
-        //     window.location.href = '/production' 
-        //   })
-        //   .catch((error) => {
-        //     console.log(error);
-        //   })
+        api.postProduksi(value, detlbahan, detlbarang)
+        .then(() => {
+          this.status = this.valert = true
+          setTimeout(() => {
+            this.valert = false
+            this.$router.go();
+          }, 2500);
+        })
+        .catch((error) => {
+          this.status = false
+          this.valert = true
+          this.message =  error.response.data
+        })
       },
       // HAPUS DATA
       // PRODUKSI HEAD
@@ -208,7 +150,7 @@ import BtnOrange from '../components/button/btnOrange.vue';
         this.detailbhn = detailbhn
       },
       selected(){        
-        return this.getProduksihead(), this.getProduksiBahan(), this.getProduksiBarang()
+        return this.fetchData()
       },
       dataTable(value, params) {
         for (let i = 0; i < this.detailbahan.length; i++) {
@@ -309,11 +251,7 @@ import BtnOrange from '../components/button/btnOrange.vue';
       }
       },
       mounted() {
-          this.getProduksihead()
-          this.getProduksiBahan()
-          this.getProduksiBarang()
-          this.getGroupBarang()
-          this.getBarang()
+          this.fetchData()
           this.page()
       }
   }

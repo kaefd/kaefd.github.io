@@ -8,7 +8,6 @@ import BtnCancel from '../button/btnCancel.vue';
 import BtnOrange from '../button/btnOrange.vue';
 import TextField from '../form/textField.vue';
 import CurrencyInput from '../form/currencyInput.vue';
-// import { useCurrencyInput } from 'vue-currency-input'
 
 export default {
     components: {
@@ -38,7 +37,9 @@ export default {
     'tambah',
     'inputbahan',
     'pembeliandetl',
-    'getbarang'],
+    'getbarang',
+    'kurs',
+    ],
     data() {
         return {
             search: '',
@@ -50,6 +51,7 @@ export default {
             bahan: this.inputbahan,
             dialItem:'',
             pjl: '',
+            total: '',
             pemasukan_item : [],
             penjualan_detail: {
                 jumlah: '',
@@ -202,8 +204,17 @@ export default {
                 jumlah_diterima: this.state.jumlah_diterima,
                 satuan: this.state.satuan,
                 nilai: this.state.nilai,
-                no_urut: this.state.no_urut
+                no_urut: this.state.no_urut,
             })
+            let arr = []
+            for (let i = 0; i < this.pemasukan_item.length; i++) {
+                arr.push(this.pemasukan_item[i].nilai)
+            }
+            let nilai = arr.reduce((total, current) => {
+                return total + current;
+            })
+            this.total = nilai * this.kurs
+
         } else if(this.produksi) {
             for (let i = 0; i < this.groupbarang.length; i++) {
                 if(this.groupbarang[i].kode_group == this.kodegroup && this.groupbarang[i].kode_barang == this.kodebarang) {
@@ -250,7 +261,7 @@ export default {
                 nilai: nilai
             })
         }
-        this.$emit('pemasukanitem', this.pemasukan_item)
+        this.$emit('pemasukanitem', this.pemasukan_item, this.total)
         this.clear()
         this.penjualan_detail= {
             jumlah: '',

@@ -30,17 +30,19 @@ const datainput = {
   no_pembelian: '',
   tgl_pembelian: '',
   tgl_input: functions.day(),
+  tgl_batal: '1999-12-31T17:00:00.000Z',
   kode_supplier: '',
   tipe_dokumen: '',
   no_dokumen: '',
   tgl_dokumen: '',
   no_invoice: '',
   no_bl: '',
+  total_nilai: '',
   mata_uang: '',
   kurs: '',
-  user_input: '',
+  user_input: 'admin',
   user_batal: '',
-  status: ''
+  status: "true"
 }
 const datatable = (item, supplier) => {
   let a = []

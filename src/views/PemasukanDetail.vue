@@ -68,6 +68,8 @@ export default {
         pemasukan_detail: '',
         pembelian_detail : [this.pembelian],
         validated: Boolean,
+        forcehead: '',
+        forcedet: '',
         required: [
         value => {
           if (value)  return true
@@ -84,9 +86,13 @@ export default {
             this.kurs = k.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
         }
     },
+    computed: {
+        
+    },
     methods:{
-        itemmasuk(v){
+        itemmasuk(v, total){
             this.pembelian_input = v
+            this.inputdata.total_nilai = total
         },
         menuAksi(v) {
             v == 'lihat' ? this.dialog = true : this.confirm()
@@ -118,9 +124,9 @@ export default {
             if (valid){
                 // inputata = head
                 // pembelian_input = detail
-                this.validated = true
                 this.$emit('inputhead', this.inputdata, this.pembelian_input)
-            } else this.validated = false
+            }
+            this.dialog = false
         },
     },
     
@@ -182,7 +188,7 @@ export default {
                         <textFieldForm label="No Invoice" :model-value="items.no_invoice" readonly/>
                         <textFieldForm label="No BL" :model-value="items.no_bl" readonly/>
                         <textFieldForm label="Mata Uang" :model-value="items.mata_uang" readonly/>
-                        <textFieldForm label="Kurs" :model-value="functions.numb(items.kurs)" readonly required/>
+                        <textFieldForm type="number" label="Kurs" :model-value="functions.numb(items.kurs)" readonly required/>
                     </v-responsive>
                 </v-row>
                 <!-- TAMBAH PEMASUKAN -->
@@ -224,7 +230,7 @@ export default {
                 <!-- </v-div> -->
                 <!-- BUTTON TAMBAH BARANG -->
                 <v-div v-if="!edit" :pembelianbaru="pembelianbaru" :pembeliandetl="pembeliandetl" class="text-sm-left text-center">
-                    <dialogScroll @reset="reset"  :barang="barang" :itemDetail="itemDetail" @pemasukanitem="itemmasuk" :pemasukan="true" :btn="btn" max-width="400" />
+                    <dialogScroll @reset="reset" :kurs="inputdata.kurs" :barang="barang" :itemDetail="itemDetail" @pemasukanitem="itemmasuk" :pemasukan="true" :btn="btn" max-width="400" />
                 </v-div>
                 <!-- TABEL EDIT/VIEW -->
                 <v-data-table
@@ -234,7 +240,7 @@ export default {
                     :fixed-header="true"
                     density="compact"
                     class="text-caption py-7 px-5"
-                    height="300"
+                    height="150"
                 >
                 <template v-slot:bottom>
                     <v-span v-if="laporan && edit" class="float-end me-5 text-caption font-weight-bold">Jumlah : {{ total }}</v-span>

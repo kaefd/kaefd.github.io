@@ -50,7 +50,7 @@ export default {
   /*********** DATA BARANG ***********/
   async getBarang(){
     try {
-      const response = await instance.get('/barang?status=true')
+      const response = await instance.get('/barang?status=1')
       return response.data;
     } catch (error) {
       return router.push('login')
@@ -86,7 +86,7 @@ export default {
   /*********** DATA PELANGGAN ***********/
   async getPelanggan() {
     try {
-      const response = await instance.get('/pelanggan?status=true')
+      const response = await instance.get('/pelanggan?status=1')
       return response.data;
     } catch (error) {
       return router.push('login')
@@ -165,7 +165,11 @@ export default {
   deletePemasukan(head, detail){
     const h = {
       no_pembelian: head.no_pembelian,
+      user_input: head.user_input,
+      user_batal: 'admin',
       tgl_pembelian: head.tgl_pembelian,
+      tgl_input: head.tgl_input,
+      tgl_batal: '',
       kode_supplier: head.kode_supplier,
       tipe_dokumen: head.tipe_dokumen,
       no_dokumen: head.no_dokumen,
@@ -174,26 +178,65 @@ export default {
       no_bl: head.no_bl,
       mata_uang: head.mata_uang,
       kurs: head.kurs,
-      status: 0
+      status: "false"
     }
-    const d = [{
-      no_pembelian: detail.no_pembelian,
-      kode_barang: detail.kode_barang,
-      nama_barang: detail.nama,
-      hs_code: detail.hs_code,
-      jumlah: detail.jumlah,
-      jumlah_diterima: detail.jumlah_diterima,
-      satuan: detail.satuan,
-      nilai: detail.nilai,
-      no_urut:detail.no_urut,
-    }]
     const pbl_head = JSON.stringify(h);
-    const pbl_detail = JSON.stringify(d);
+    const pbl_detail = JSON.stringify(detail);
     let data = {
       pembelian_head: pbl_head,
       pembelian_detail: pbl_detail,
     }
     return instance.delete('/pembelian_head', { data: data })
+  },
+  /***********  PRODUKSI ***********/
+  async getProduksiHead(param) {
+    try {
+      const apiUrl = '/produksi_head?'
+      const params = {
+        tgl_awal: param[0],
+        tgl_akhir: param[1]
+      }
+      const response = await instance.get(apiUrl, {params})
+      return response.data
+    } catch (error) {
+      return router.push('login')
+    }
+  },
+  async getProDBahan(param) {
+    try {
+      const apiUrl = '/produksi_detail_bahan?'
+      const params = {
+        tgl_awal: param[0],
+        tgl_akhir: param[1]
+      }
+      const response = await instance.get(apiUrl, {params})
+      return response.data
+    } catch (error) {
+      return router.push('login')
+    }
+  },
+  async getProDBarang(param) {
+    try {
+      const apiUrl = '/produksi_detail_barang?'
+      const params = {
+        tgl_awal: param[0],
+        tgl_akhir: param[1]
+      }
+      const response = await instance.get(apiUrl, {params})
+      return response.data
+    } catch (error) {
+      return router.push('login')
+    }
+  },
+  postProduksi(head, detailbahan, detaibarang) {
+    const h = JSON.stringify(head);
+    const dbahan = JSON.stringify(detailbahan);
+    const dbarang = JSON.stringify(detaibarang);
+    return instance.post('/produksi_head', {
+      produksi_head : h,
+      produksi_detail_bahan : dbahan,
+      produksi_detail_barang : dbarang,
+    })
   },
   /**  PENGIRIMAN **/
   async getPengirimanHead (param){

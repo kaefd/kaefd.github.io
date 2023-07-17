@@ -47,10 +47,10 @@ export default {
             kode_group: '',
             tgl_produksi: '',
             tgl_input: '',
-            tgl_batal: '',
+            tgl_batal: '1999-12-31T17:00:00.000Z',
             user_input: 'admin',
             user_batal: '',
-            status: true
+            status: 'true'
         },
         btn: ['Tambah Bahan', 'Tambah Barang'],
         required: [
@@ -77,21 +77,6 @@ export default {
         
     },
     methods: {
-        // PEMASUKAN HEAD
-    //     getPembelian() {
-    //     const apiUrl = '/pembelian_head?'
-    //     const params = {
-    //       tgl_awal: this.periode[0],
-    //       tgl_akhir: this.periode[1],
-    //     }
-    //     api.getData(apiUrl, { params })
-    //     .then(response => {
-    //       this.masuk = response.data
-    //     })
-    //     .catch((error) => {
-    //       console.log(error);
-    //     })
-    //   },
         bahanmasuk(value) {
             this.inputbahan = value
         },
@@ -128,6 +113,7 @@ export default {
                 // 1st = head, 2nd = detailbahan, 3rd = detailbarang
                 return this.$emit('inputhead', this.inputproduksi, this.inputbahan, this.inputbarang)
             }
+            this.dialog = false
         },
     },
     mounted() {

@@ -16,6 +16,7 @@ import { ref, onMounted } from 'vue';
 import DatePicker from '../components/datepicker/datePicker.vue';
 import BtnOrange from '../components/button/btnOrange.vue';
 import BtnCancel from '../components/button/btnCancel.vue';
+import AlertVue from '../components/dialog/alertVue.vue';
 </script>
 
 <script>
@@ -30,8 +31,9 @@ export default {
     checkBox,
     DatePicker,
         BtnOrange,
-        BtnCancel
-},
+        BtnCancel,
+        AlertVue
+  },
     props:['actIcon', 'cetak'],
     data () {
       return {
@@ -41,6 +43,7 @@ export default {
         confirmdialog: false,
         status: null,
         valert: false,
+        message: '',
         pageTitle: 'PEMASUKAN BARANG',
         btn: 'Tambah Barang',
         selectdokumen: [],
@@ -228,5 +231,6 @@ export default {
           <btn-cancel class="me-2" @click="confirmdialog = false" btn_title="Batal" />
         </template>
         </dialogConfirm>
+        <alertVue v-model="valert" :sukses="status" :message="message"/>
   </v-container>
 </template>
