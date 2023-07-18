@@ -26,7 +26,7 @@ export default {
         DialogVue,
         CurrencyInput
     },
-    props:['pembelianbaru', 'namaPelanggan', 'detail_kirim','detailkirim', 'nokirim', 'nopjl', 'pjl_detail', 'groupbarang', 'batalbtn', 'pengiriman', 'pemasukan', 'totalpenjualan', 'namaTujuan', 'datainput', 'pageTitle', 'pengeluaran', 'no', 'tipe', 'namaSupplier', 'pengirimanDetail', 'pembelian', 'pelanggan', 'supplier', 'pembeliandetl', 'edit', 'kirim', 'headers', 'items', 'actIcon', 'icon', 'btncolor', 'search', 'iVariant', 'headDetails', 'details','disable', 'btn', 'datatext', 'itemDetail', 'category'],
+    props:['pembelianbaru', 'namaPelanggan', 'detail_kirim','detailkirim', 'nokirim', 'nopjl', 'pjl_detail', 'alamatBongkar', 'groupbarang', 'batalbtn', 'pengiriman', 'pemasukan', 'totalpenjualan', 'namaTujuan', 'datainput', 'pageTitle', 'pengeluaran', 'no', 'tipe', 'namaSupplier', 'pengirimanDetail', 'pembelian', 'pelanggan', 'supplier', 'pembeliandetl', 'edit', 'kirim', 'headers', 'items', 'actIcon', 'icon', 'btncolor', 'search', 'iVariant', 'headDetails', 'details','disable', 'btn', 'datatext', 'itemDetail', 'category'],
     data () {
       return {
         dialog: false,
@@ -50,7 +50,6 @@ export default {
         belumkirim_detail: '',
         namasupplier: '',
         dataitem: this.items,
-        alamatBongkar: '',
         nama_supplier : '',
         nama_pelanggan : '',
         pembelian_input: [],
@@ -97,49 +96,6 @@ export default {
         },
     },
     methods:{
-        // async fetchData() {
-        //     try {
-        //         const api = await import('../service/api');
-        //         // const pengiriman = await import('../service/page/pengiriman');
-        //         let a = []
-        //         for (let i = 0; i < this.nopjl.length; i++) {
-        //             a.push(await api.getPenjualanHead(this.nopjl[i].no_penjualan))
-        //         }
-        //         this.pjlhead = a
-        //         } catch (error) {
-        //             console.log(error);
-        //         }
-        //     },
-        // getBarang() {
-        //     api.getData('/barang?status=true')
-        //     .then(response => {
-        //     this.barang = response.data
-        //     })
-        //     .catch(() => {
-        //         return this.$router.push('login');
-        //     })
-            
-        // },
-        // getDetail() {
-        //     const apiUrl = '/penjualan_head/' + this.nopjl
-        //     api.getData(apiUrl)
-        //     .then(response => {
-        //     this.detailpengiriman = response.data
-        //     })
-        //     .catch(() => {
-        //         return this.$router.push('login');
-        //     })
-        // },
-        // tujuanBongkar(){
-        //     const apiUrl = '/alamat_bongkar'
-        //     api.getData(apiUrl)
-        //     .then(response => {
-        //     this.alamatBongkar = response.data
-        //     })
-        //     .catch(() => {
-        //         return this.$router.push('login');
-        //     })
-        // },
         belumterkirim(){
             const apiUrl = '/penjualan_head/belum_terkirim'
             api.getData(apiUrl)

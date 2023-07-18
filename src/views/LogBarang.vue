@@ -67,6 +67,9 @@ export default {
         }
     },
     methods: {
+        async fetchData() {
+            this.logbrg = await api.getLogBarang()
+        },
         kodegroup(v) {
             let a = []
             for (let i = 0; i < this.groupbarang.length; i++) {
@@ -75,16 +78,6 @@ export default {
                 }
             }
             return a
-        },
-        logbarang() {
-            const apiUrl = '/log_barang?'
-            api.getData(apiUrl)
-            .then(response => {
-            this.logbrg = response.data
-            })
-            .catch(() => {
-            return this.$router.push('login');
-            })
         },
         log(kodegroup, kodebrg) {
             let a = []
@@ -97,7 +90,7 @@ export default {
         }
     },
     mounted() {
-        this.logbarang()
+        this.fetchData()
     }
 
 }

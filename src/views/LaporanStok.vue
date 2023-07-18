@@ -108,6 +108,10 @@ import BtnFilter from '../components/button/btnFilter.vue';
       
     },
     methods: {
+      async fetchData() {
+        this.items = await api.getGroupBarang()
+        this.barang = await api.getBarang()
+      },
       data(){
         let data = this.filter_kodebarang
         if (this.group_barang.length === 0) {
@@ -121,24 +125,6 @@ import BtnFilter from '../components/button/btnFilter.vue';
       },
       pages(){
         return this.$emit('page', this.pageTitle)
-      },
-      getData() {
-        api.getData('/group_barang')
-        .then(response => {
-          this.items = response.data
-        })
-        .catch(() => {
-          return this.$router.push('login');
-        })
-      },
-      getDataBarang() {
-        api.getData('/barang?status=true')
-        .then(response => {
-          this.barang = response.data
-        })
-        .catch(() => {
-          return this.$router.push('login');
-        })
       },
       close(v) {
         return this.filter = v
@@ -203,8 +189,7 @@ import BtnFilter from '../components/button/btnFilter.vue';
       },
     },
     mounted() {
-      this.getData()
-      this.getDataBarang()
+      this.fetchData()
       this.pages()
     }
   }

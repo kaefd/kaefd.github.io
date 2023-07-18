@@ -37,11 +37,11 @@ const datainput = {
     kode_pelanggan: '',
     kode_group: '',
     total_penjualan: '',
-    tgl_input: '',
-    user_input: '',
+    tgl_input: functions.day(),
+    user_input: 'admin',
     tgl_batal: '',
     user_batal: '',
-    status: ''
+    status: 'status'
 }
 const items = (head, pelanggan) => {
   let data = []
@@ -52,6 +52,7 @@ const items = (head, pelanggan) => {
           no_penjualan: head[i].no_penjualan,
           tgl_penjualan: head[i].tgl_penjualan,
           tipe_dokumen: head[i].tipe_dokumen,
+          tgl_dokumen: head[i].tgl_dokumen,
           no_dokumen: head[i].no_dokumen,
           kode_pelanggan: pelanggan[j].nama,
           kode_group: head[i].kode_group,

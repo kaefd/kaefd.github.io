@@ -1,5 +1,6 @@
 import router from '../router'
 import axios from 'axios'
+import functions from './functions'
 
 const instance = axios.create({
   baseURL: 'https://auristeel.com/api-beta',
@@ -86,7 +87,7 @@ export default {
   /*********** DATA PELANGGAN ***********/
   async getPelanggan() {
     try {
-      const response = await instance.get('/pelanggan?status=1')
+      const response = await instance.get('/pelanggan?status=true')
       return response.data;
     } catch (error) {
       return router.push('login')
@@ -110,7 +111,7 @@ export default {
       nama : value.kode_pelanggan,
       alamat: value.alamat,
       npwp: value.npwp,
-      status: 0,
+      status: "false",
     }
     const payload = JSON.stringify(input);
     let data = {
@@ -238,7 +239,27 @@ export default {
       produksi_detail_barang : dbarang,
     })
   },
-  /**  PENGIRIMAN **/
+  deleteProduksi(head, detailbhn, detailbrg) {
+    let produksi_head = {
+      no_produksi: head.no_produksi,
+      tgl_produksi: head.tgl_produksi,
+      kode_group: head.kode_group,
+      tgl_input: head.tgl_input,
+      user_input: head.user_input,
+      tgl_batal: functions.day(),
+      user_batal: 'admin',
+      status: 'false'
+    }
+    const ph = JSON.stringify(produksi_head);
+    const dbahan = JSON.stringify(detailbhn);
+    const dbarang = JSON.stringify(detailbrg);
+    return instance.post('/produksi_head', {
+      produksi_head : ph,
+      produksi_detail_bahan : dbahan,
+      produksi_detail_barang : dbarang,
+    })
+  },
+  /***********  PENGIRIMAN ***********/
   async getPengirimanHead (param){
     try {
       const apiUrl = '/pengiriman_head?'
@@ -265,7 +286,28 @@ export default {
       return router.push('login')
     }
   },
-  /** PENJUALAN */
+  postPengiriman(head, detail) {
+    let h = {
+      no_pengiriman: head.no_pengiriman,
+      tgl_pengiriman: head.tgl_pengiriman,
+      kode_pelanggan: head.kode_pelanggan,
+      kode_alamat_bongkar: head.kode_alamat_bongkar,
+      supir: head.supir,
+      no_polisi: head.no_polisi,
+      user_input: 'admin',
+      tgl_input: functions.day(),
+      tgl_batal:'1999-12-31T17:00:00.000Z',
+      user_batal: '',
+      status: 'true'
+    }
+    const ph = JSON.stringify(h);
+    const d = JSON.stringify(detail);
+    return instance.post('/pengiriman_head?', {
+      pengiriman_head : ph,
+      pengiriman_detail : d,
+    })
+  },
+  /*********** PENGELUARAN ***********/
   async getPenjualanHead (param){
     try {
       const apiUrl = '/penjualan_head?'
@@ -302,9 +344,9 @@ export default {
       kode_pelanggan: head.kode_pelanggan,
       kode_group: head.kode_group,
       total_penjualan: detail[0].total_terjual,
-      tgl_input: '',
-      user_input: '',
-      tgl_batal: '',
+      tgl_input: functions.day(),
+      user_input: 'admin',
+      tgl_batal: '1999-12-31T17:00:00.000Z',
       user_batal: '',
       status: 'open'
     }
@@ -329,7 +371,7 @@ export default {
       user_input: head.user_input,
       tgl_batal: head.tgl_batal,
       user_batal: '',
-      status: 0
+      status: ''
     }
     const ph = JSON.stringify(penjualan_head);
     const pd = JSON.stringify(detail);
@@ -339,7 +381,16 @@ export default {
     }
     return instance.delete('/penjualan_head', { data: data })
   },
-  /** LOGOUT **/
+  /***********  PRODUKSI ***********/
+  async getLogBarang() {
+    try {
+      const response = await instance.get('/log_barang?')
+      return response.data;
+    } catch (error) {
+      return router.push('login')
+    }
+  },
+  /*********** LOGOUT ***********/
   logout() {
     localStorage.removeItem('token')
     localStorage.clear();

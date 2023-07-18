@@ -39,7 +39,7 @@ import AlertVue from '../components/dialog/alertVue.vue';
           nama: '',
           alamat: '',
           npwp: '',
-          status: 1
+          status: 'true'
         }
       }
     },
@@ -74,14 +74,21 @@ import AlertVue from '../components/dialog/alertVue.vue';
         })
       },
       // EDIT DATA
-      editForm(value) {
-        api.putPelanggan(value)
+      editForm() {
+        let data = {
+          "kode_pelanggan": "ASMT",
+          "nama": "Auristeel Metalindo Terboyo",
+          "alamat": "Semarang",
+          "npwp": "0.0.0.0",
+          "status": "true"
+        }
+        api.putPelanggan(data)
         .then(() => {
           this.status = true
           this.valert = true
           setTimeout(() => {
             this.valert = false
-            this.$router.go();
+            // this.$router.go();
           }, 2500);
         })
         .catch(function (error) {
@@ -131,6 +138,7 @@ import AlertVue from '../components/dialog/alertVue.vue';
         :category="category"
         toolbar_title="Tambah Data"
       />
+      <v-btn @click="editForm()">force edit</v-btn>
     </div>
     </v-responsive>
     <v-responsive class="me-sm-0 ms-sm-auto ms-0 me-auto" max-width="450">

@@ -161,15 +161,15 @@ export default {
                 <v-form  @submit.prevent ref="form">
                 <v-row no-gutters justify="center" justify-md="space-between" align="start" class="pt-7 pb-5" min-width="400">
                     <v-responsive class="pt-2 mx-md-0 mx-3" width="250">
-                        <text-field-form v-if="edit" :value="item.no_produksi" label="No Produksi" />
+                        <text-field-form v-if="edit" :model-value="item.no_produksi" label="No Produksi" readonly />
                         <text-field-form v-if="!edit" label="No Produksi" :disabled="true" v-model="inputproduksi.no_produksi" />
                     </v-responsive>
                     <v-responsive class="pt-2 mx-3" width="250">
                         <date-picker v-if="!edit" label="Tgl Produksi" v-model="inputproduksi.tgl_produksi" :rules="required" />
-                        <text-field-form v-if="edit" label="Tgl Produksi" :readonly="true" :rules="required" :value="functions.formatDate(item.tgl_produksi)" />
+                        <text-field-form v-if="edit" label="Tgl Produksi" readonly :model-value="functions.formatDate(item.tgl_produksi)" />
                     </v-responsive>
                     <v-responsive class="pt-2 mx-md-0 mx-3" width="250">
-                        <text-field-form v-if="edit" label="Kode Group" :value="item.kode_group" readonly :rules="required" />
+                        <text-field-form v-if="edit" label="Kode Group" :model-value="item.kode_group" readonly />
                         <v-dialog v-model="dialog5" class="w-50" >
                             <template v-slot:activator="{ props }">
                                 <text-field-form v-if="!edit" label="Kode Group" v-bind="props" v-model="inputproduksi.kode_group" :rules="required" />

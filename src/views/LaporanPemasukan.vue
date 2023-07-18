@@ -86,6 +86,12 @@ import DatePicker from '../components/datepicker/datePicker.vue';
       this.filtered.periode = [this.tglawal(), functions.day()]
     },
     methods: {
+      async fetchData() {
+        this.items = await api.getPemasukanHead(this.periode)
+        this.pembeliandetl = await api.getPemasukanDetail(this.periode)
+        this.supplier = await api.getSupplier()
+        this.barang = await api.getBarang()
+      },
       page(){
         return this.$emit('page', this.pageTitle)
       },
@@ -102,54 +108,6 @@ import DatePicker from '../components/datepicker/datePicker.vue';
         //tl_awal
         return d.toJSON().slice(0, 10)
       },
-      getPembelian() {
-        const apiUrl = '/pembelian_head?'
-        const params = {
-          tgl_awal: this.periode[0],
-          tgl_akhir: this.periode[1],
-        }
-        api.getData(apiUrl, { params })
-        .then(response => {
-          this.items = response.data
-        })
-        .catch(() => {
-          return this.$router.push('login');
-        })
-      },
-      // GET DATA PEMBELIAN-DETAIL
-      getPembelianDetail() {
-        const apiUrl = '/pembelian_detail?'
-        const params = {
-          tgl_awal: this.periode[0],
-          tgl_akhir: this.periode[1],
-        }
-        api.getData(apiUrl, { params })
-        .then(response => {
-          return this.pembeliandetl = response.data
-        })
-        .catch(() => {
-          return this.$router.push('login');
-        })
-      },
-      getSupplier() {
-        const apiUrl = '/supplier'
-        api.getData(apiUrl)
-        .then(response => {
-          this.supplier = response.data
-        })
-        .catch(() => {
-          return this.$router.push('login');
-        })
-      },
-      getData(){
-        api.getData('/barang?status=true')
-        .then(response => {
-          this.barang = response.data
-        })
-        .catch(() => {
-          return this.$router.push('login');
-        })
-      },
       pilihtipe() {
         if (this.selectdokumen.length === 0) {
             return this.items;
@@ -158,10 +116,7 @@ import DatePicker from '../components/datepicker/datePicker.vue';
           }
       },
       updt() {
-        this.getPembelian()
-        this.getPembelianDetail()
-        this.getSupplier()
-        this.getData()
+        this.fetchData()
       },
       dataTable(value, col) {
         if(col === 'nama') {
@@ -256,7 +211,7 @@ import DatePicker from '../components/datepicker/datePicker.vue';
     },
     mounted() {
       this.page()
-      this.updt()
+      this.fetchData()
     }
   }
   const date = ref();

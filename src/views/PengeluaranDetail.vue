@@ -1,3 +1,6 @@
+<script setup>
+import functions from '../service/functions';
+</script>
 <script>
 import { VDataTable } from 'vuetify/labs/VDataTable'
 import dialogScroll from '../components/dialog/dialogScroll.vue';
@@ -37,7 +40,7 @@ export default {
         valid: false,
         detaildial: [],
         arr: [],
-        tipe_dokumen: ['BC23', 'BC40'],
+        tipe_dokumen: ['BC25', 'BC41'],
         searched: '',
         nama:'',
         namasupplier: '',
@@ -181,7 +184,7 @@ export default {
                     <v-responsive class="pt-2 mx-md-0 mx-3" width="250">
                         <text-field-form label="Tipe Dokumen" :model-value="items.tipe_dokumen" readonly />
                         <text-field-form label="No Dokumen" :model-value="items.no_dokumen" readonly />
-                        <text-field-form label="Tgl Dokumen" :model-value="items.tgl_dokumen" readonly />
+                        <text-field-form label="Tgl Dokumen" :model-value="functions.formatDate(items.tgl_dokumen)" readonly />
                     </v-responsive>
                 </v-row>
                 <!-- TAMBAH PENGELUARAN -->
@@ -265,23 +268,23 @@ export default {
                 <!-- CUSTOM KOLOM -->
                 <!-- eslint-disable-next-line vue/valid-v-slot -->
                 <template v-slot:item.jumlah="{item}">
-                    {{numb(item.raw.jumlah)}}
+                    {{functions.numb(item.raw.jumlah)}}
                 </template>
                 <!-- eslint-disable-next-line vue/valid-v-slot -->
                 <template v-slot:item.jumlah_terkirim="{item}">
-                    {{numb(item.raw.jumlah_terkirim)}}
+                    {{functions.numb(item.raw.jumlah_terkirim)}}
                 </template>
                 <!-- eslint-disable-next-line vue/valid-v-slot -->
                 <template v-slot:item.harga_jual="{item}">
-                    {{numb(item.raw.harga_jual)}}
+                    {{functions.numb(item.raw.harga_jual)}}
                 </template>
                 <!-- eslint-disable-next-line vue/valid-v-slot -->
                 <template v-slot:item.total_terjual="{item, index}">
                     <v-if v-if="edit">
-                        {{ numb(item.raw.jumlah * item.raw.harga_jual) }}
+                        {{ functions.numb(item.raw.jumlah * item.raw.harga_jual) }}
                     </v-if>
                     <v-if v-if="!edit">
-                        {{ numb(pembelian_input[index].jumlah * pembelian_input[index].harga_jual) }}
+                        {{ functions.numb(pembelian_input[index].jumlah * pembelian_input[index].harga_jual) }}
                     </v-if>
                 </template>
                 <!-- eslint-disable-next-line vue/valid-v-slot -->
@@ -300,11 +303,11 @@ export default {
                             <v-card-subtitle class="text-caption text-center mb-2 mt-n3">{{ item.raw.hs_code }}</v-card-subtitle>
                         </template>
                         <template #content>
-                            <v-div class="mx-auto mt-5">
+                            <v-div class="mx-auto mt-5 w-75">
                             <text-field-form
                                 v-if="edit"
                                 label="Jumlah"
-                                :model-value="numb(item.raw.jumlah)"
+                                :model-value="functions.numb(item.raw.jumlah)"
                                 active="true"
                                 readonly
                                 hide-details
@@ -322,7 +325,7 @@ export default {
                             <text-field-form
                                 v-if="edit"
                                 label="Harga"
-                                :model-value="numb(item.raw.harga_jual)"
+                                :model-value="functions.numb(item.raw.harga_jual)"
                                 readonly
                                 hide-details
                                 class="mb-3"
@@ -337,7 +340,7 @@ export default {
                             />
                             <text-field-form
                                 label="Total Harga"
-                                :model-value="edit ? numb(item.raw.harga_jual * item.raw.jumlah) : numb(pembelian_input[index].harga_jual * pembelian_input[index].jumlah)"
+                                :model-value="edit ? functions.numb(item.raw.harga_jual * item.raw.jumlah) : numb(pembelian_input[index].harga_jual * pembelian_input[index].jumlah)"
                                 readonly
                                 hide-details
                                 class="mb-3"

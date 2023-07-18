@@ -38,7 +38,7 @@ import BtnOrange from '../components/button/btnOrange.vue';
         BtnCancel,
         BtnOrange
     },
-    props:['cetak','actIcon'],
+    props:['cetak'],
     data () {
       return {
         filter: false,
@@ -229,12 +229,7 @@ import BtnOrange from '../components/button/btnOrange.vue';
             :search="search"
             :category="category"
             :selectCategory="selectCategory"
-            :iTitle="actIcon[0].text"
-            :btncolor="actIcon[0].color"
-            :icon="actIcon[0].icon"
-            :iVariant="actIcon[0].variant"
             :alpha="alpha"
-            :actIcon="actIcon"
             @inputhead="inputhead"
           />
         </div>
@@ -294,7 +289,22 @@ import BtnOrange from '../components/button/btnOrange.vue';
             <template v-slot:item.tgl_penjualan="{ item }">{{ functions.formatDate(item.raw.tgl_penjualan) }}</template>
              <!-- eslint-disable-next-line vue/valid-v-slot -->
             <template v-slot:item.actions="{item}">
-              <PengeluaranDetail @confirm="confirm" batalbtn="Pengeluaran" :namaPelanggan="pelanggan.namaPelanggan(pelanggan, item.raw.kode_pelanggan)" :penjualan="pengeluaran.penjualan(penjualan_detail, item.raw.no_penjualan)" :edit="true" :pengeluaran="true" :pageTitle="pageTitle" :headDetails="pengeluaran.headDetails" :items="item.raw" :headers="pengeluaran.headers" :search="search" :category="category" :selectCategory="selectCategory" :iTitle="actIcon[3].text" :btncolor="actIcon[3].color" :icon="actIcon[3].icon" :iVariant="actIcon[3].variant" :alpha="alpha" :actIcon="actIcon" :disable="true"/>
+              <PengeluaranDetail
+              @confirm="confirm"
+              batalbtn="Pengeluaran"
+              :namaPelanggan="pelanggan.namaPelanggan(pelanggan, item.raw.kode_pelanggan)"
+              :penjualan="pengeluaran.penjualan(penjualan_detail,
+              item.raw.no_penjualan)"
+              :edit="true"
+              :pengeluaran="true"
+              :pageTitle="pageTitle"
+              :headDetails="pengeluaran.headDetails"
+              :items="item.raw"
+              :headers="pengeluaran.headers"
+              :search="search"
+              :category="category"
+              :selectCategory="selectCategory"
+              :disable="true"/>
             </template>
           </v-data-table>
         </v-sheet>

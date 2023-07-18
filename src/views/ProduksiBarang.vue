@@ -113,35 +113,19 @@ import BtnOrange from '../components/button/btnOrange.vue';
       // HAPUS DATA
       // PRODUKSI HEAD
       del() {
-        let produksi_head = {
-          no_produksi: this.head.no_produksi,
-          tgl_produksi: this.head.tgl_produksi,
-          kode_group: this.head.kode_group,
-          tgl_input: this.head.tgl_input,
-          user_input: this.head.user_input,
-          tgl_batal: this.head.tgl_batal,
-          user_batal: this.head.user_batal,
-          status: 'false'
-        }
-      const ph = JSON.stringify(produksi_head);
-      const dbahan = JSON.stringify(this.detailbhn);
-      const dbarang = JSON.stringify(this.detailbrg);
-      console.log({
-        produksi_head : ph,
-        produksi_detail_bahan : dbahan,
-        produksi_detail_barang : dbarang,
-      });
-        // api.deleteData('/produksi_head', {
-        //   produksi_head : ph,
-        //   produksi_detail_bahan : dbahan,
-        //   produksi_detail_barang : dbarang,
-        // })
-        // .then(() => {
-        //   window.location.href = '/in'
-        // })
-        // .catch((error) => {
-        //   console.log(error);
-        // })
+        api.deleteProduksi(this.head, this.detailbhn, this.detailbrg)
+        .then(() => {
+          this.status = this.valert = true
+          setTimeout(() => {
+            this.valert = false
+            // this.$router.go();
+          }, 2500);
+        })
+        .catch((error) => {
+          this.status = false
+          this.valert = true
+          this.message =  error.response.data
+        })
       },
       confirm(head, detailbrg, detailbhn){
         this.confirmdialog = true

@@ -44,6 +44,9 @@ import TextButton from '../components/button/textButton.vue';
         tgl:'',
         filter: false,
         confirmdialog: false,
+        valert: false,
+        status: '',
+        message: '',
         periode: [],
         checkStatus: 'menunggu',
         dialog2: false,
@@ -131,36 +134,19 @@ import TextButton from '../components/button/textButton.vue';
         this.selected()
       },
       inputhead(head, detail) {
-        let h = {
-          no_pengiriman: head.no_pengiriman,
-          tgl_pengiriman: head.tgl_pengiriman,
-          kode_pelanggan: head.kode_pelanggan,
-          kode_alamat_bongkar: head.kode_alamat_bongkar,
-          supir: head.supir,
-          no_polisi: head.no_polisi,
-          user_input: 'admin',
-          tgl_input: this.tgl,
-          tgl_batal:head.tgl_batal,
-          user_batal: head.user_batal,
-          status: true
-        }
-        // const apiUrl = '/pembelian_head?'
-        const value1 = JSON.stringify(h);
-        const value2 = JSON.stringify(detail);
-        console.log({
-          pengiriman_head: value1,
-          pengiriman_detail: value2
-        });
-        // api.postData( apiUrl, {
-        //   pengiriman_head : value1,
-        //   pengiriman_detail : value2
-        // })
-        // .then(() => {
-        //     window.location.href = '/in' 
-        //   })
-        //   .catch((error) => {
-        //     console.log(error);
-        //   })
+        api.postPengiriman(head, detail)
+        .then(() => {
+          this.status = this.valert = true
+          setTimeout(() => {
+            this.valert = false
+            // this.$router.go();
+          }, 2500);
+        })
+        .catch((error) => {
+          this.status = false
+          this.valert = true
+          this.message =  error.response.data
+        })
       },
       // HAPUS DATA
       del() {
@@ -234,7 +220,7 @@ import TextButton from '../components/button/textButton.vue';
       <v-responsive class="d-flex align-center mb-sm-0 mb-1" min-width="200">
         <div class="d-flex align-center w-100">
           <!-- TAMBAH DATA -->
-          <PengirimanDetail @inputhead="inputhead" :kirim="true" :edit="false" :supplier="pelanggan" :datainput="pengiriman.datainput" :pageTitle="pageTitle" :btn="btn" :headDetails="pengiriman.headDetails" :details="items" :headers="pengiriman.headers" :items="items" :search="search" :category="barang.category" :selectCategory="selectCategory" :iTitle="actIcon[0].text" :btncolor="actIcon[0].color" :icon="actIcon[0].icon" :iVariant="actIcon[0].variant" :alpha="alpha" :actIcon="actIcon" :datatext="datatext"/>
+          <PengirimanDetail @inputhead="inputhead" :alamatBongkar="alamatBongkar" :kirim="true" :edit="false" :supplier="pelanggan" :datainput="pengiriman.datainput" :pageTitle="pageTitle" :btn="btn" :headDetails="pengiriman.headDetails" :details="items" :headers="pengiriman.headers" :items="items" :search="search" :category="barang.category" :selectCategory="selectCategory" :iTitle="actIcon[0].text" :btncolor="actIcon[0].color" :icon="actIcon[0].icon" :iVariant="actIcon[0].variant" :alpha="alpha" :actIcon="actIcon" :datatext="datatext"/>
         </div>
         <!-- <v-chip class="mt-1 me-1" color="orange" size="small">{{ periode[0] }} - {{ periode[1] }}</v-chip> -->
       </v-responsive>

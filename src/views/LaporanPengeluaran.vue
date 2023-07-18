@@ -86,65 +86,22 @@ import DatePicker from '../components/datepicker/datePicker.vue';
        this.filtered.periode = [this.tglawal(), functions.day()]
     },
     methods: {
+      async fetchData() {
+        this.items = await api.getPenjualanHead(this.periode)
+        this.pjldetail = await api.getPenjualanDetail(this.periode)
+        this.pelanggan = await api.getPelanggan()
+        this.barang = await api.getBarang()
+      },
       tglawal() {
         let d = new Date();
         let m = d.getMonth();
         d.setMonth(d.getMonth() - 1);
-        
         // If still in same month, set date to last day of 
         // previous month
         if (d.getMonth() == m) d.setDate(0);
         d.setHours(0, 0, 0, 0);
-    
         //tl_awal
         return d.toJSON().slice(0, 10)
-      },
-      getPenjualan() {
-        const apiUrl = '/penjualan_head?'
-        const params = {
-          tgl_awal: this.periode[0],
-          tgl_akhir: this.periode[1],
-        }
-        api.getData(apiUrl, { params })
-        .then(response => {
-          this.items = response.data
-        })
-        .catch(() => {
-          return this.$router.push('login');
-        })
-      },
-      getPenjualanDetail() {
-        const apiUrl = '/penjualan_detail'
-        const params = {
-          tgl_awal: this.periode[0],
-          tgl_akhir: this.periode[1],
-        }
-        api.getData(apiUrl, { params })
-        .then(response => {
-          this.pjldetail = response.data
-        })
-        .catch(() => {
-          return this.$router.push('login');
-        })
-      },
-      getPelanggan() {
-        const apiUrl = '/pelanggan'
-        api.getData(apiUrl)
-        .then(response => {
-          this.pelanggan = response.data
-        })
-        .catch(() => {
-          return this.$router.push('login');
-        })
-      },
-      getData(){
-        api.getData('/barang?status=true')
-        .then(response => {
-          this.barang = response.data
-        })
-        .catch(() => {
-          return this.$router.push('login');
-        })
       },
       pilihtipe() {
         if (this.selectdokumen.length === 0) {
@@ -154,8 +111,7 @@ import DatePicker from '../components/datepicker/datePicker.vue';
           }
       },
       updt() {
-        this.getPenjualan()
-        this.getPenjualanDetail()
+        this.fetchData()
       },
       page(){
         return this.$emit('page', this.pageTitle)
@@ -267,8 +223,6 @@ import DatePicker from '../components/datepicker/datePicker.vue';
     mounted() {
       this.page()
       this.updt()
-      this.getData()
-      this.getPelanggan()
     }
   }
 
