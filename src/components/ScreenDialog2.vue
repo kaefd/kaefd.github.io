@@ -16,6 +16,7 @@ import CurrencyInput from './form/currencyInput.vue';
 </script>
 
 <script>
+import produksi from '../service/page/produksi';
 export default {
     components: {
     VDataTable,
@@ -23,14 +24,14 @@ export default {
     btnInfoVue,
     btnCancel,
     btnOrange,
-        DatePicker,
-        TextFieldForm,
-        TextField,
-        DialogVue,
-        TextButton,
-        CurrencyInput,
+    DatePicker,
+    TextFieldForm,
+    TextField,
+    DialogVue,
+    TextButton,
+    CurrencyInput,
 },
-    props:['headers', 'headItem', 'edit', 'getbarang', 'produksi', 'detailbahan', 'groupbarang', 'detailbarang', 'select_kode', 'produksi_bahan', 'produksi_barang', 'item', 'items', 'category', 'icon', 'actIcon', 'btncolor', 'alpha', 'iVariant', 'screen', 'details','disable'],
+    props:['headers', 'headItem', 'edit', 'getbarang', 'detailbahan', 'groupbarang', 'detailbarang', 'select_kode', 'item'],
     data () {
       return {
         dialog: false,
@@ -42,16 +43,7 @@ export default {
         inputbahan: '',
         inputbarang: '',
         masuk: '',
-        inputproduksi: {
-            no_produksi: '', 
-            kode_group: '',
-            tgl_produksi: '',
-            tgl_input: '',
-            tgl_batal: '1999-12-31T17:00:00.000Z',
-            user_input: 'admin',
-            user_batal: '',
-            status: 'true'
-        },
+        inputproduksi: produksi.input,
         btn: ['Tambah Bahan', 'Tambah Barang'],
         required: [
         value => {
@@ -62,19 +54,12 @@ export default {
       ],
       }
     },
-
-    created() {
-        let currentDate = new Date().toJSON().slice(0, 10);
-        return  this.inputproduksi.tgl_input = currentDate
-
-    },
     computed: {
         filterkodegroup() {
-            return this.groupbarang.filter((item) => {
-                    return item.kode_group.toLowerCase().includes(this.searched.toLowerCase())
-                })
-            },
-        
+        return this.groupbarang.filter((item) => {
+                return item.kode_group.toLowerCase().includes(this.searched.toLowerCase())
+            })
+        },
     },
     methods: {
         bahanmasuk(value) {
@@ -86,10 +71,6 @@ export default {
         input_kodegroup(value) {
             this.inputproduksi.kode_group = value
             this.$emit('input_kodegroup', this.inputproduksi.kode_group)
-        },
-        numb(value) {
-            let val = (value / 1).toFixed(0).replace('.', ',')
-            return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
         },
         deleteditem(del, p) {
             let jenis = []
@@ -105,7 +86,7 @@ export default {
             }
         },
         confirm() {
-            this.$emit('confirm', this.item, this.produksi_bahan, this.produksi_barang)
+            this.$emit('confirm', this.item, this.detailbahan, this.detailbarang)
         },
         async validate () {
             const { valid } = await this.$refs.form.validate()
@@ -161,15 +142,15 @@ export default {
                 <v-form  @submit.prevent ref="form">
                 <v-row no-gutters justify="center" justify-md="space-between" align="start" class="pt-7 pb-5" min-width="400">
                     <v-responsive class="pt-2 mx-md-0 mx-3" width="250">
-                        <text-field-form v-if="edit" :model-value="item.no_produksi" label="No Produksi" readonly />
+                        <text-field-form v-if="edit" :model-value="item.no_produksi" label="No Produksi" />
                         <text-field-form v-if="!edit" label="No Produksi" :disabled="true" v-model="inputproduksi.no_produksi" />
                     </v-responsive>
                     <v-responsive class="pt-2 mx-3" width="250">
                         <date-picker v-if="!edit" label="Tgl Produksi" v-model="inputproduksi.tgl_produksi" :rules="required" />
-                        <text-field-form v-if="edit" label="Tgl Produksi" readonly :model-value="functions.formatDate(item.tgl_produksi)" />
+                        <text-field-form v-if="edit" label="Tgl Produksi" :readonly="true" :rules="required" :model-value="functions.formatDate(item.tgl_produksi)" />
                     </v-responsive>
                     <v-responsive class="pt-2 mx-md-0 mx-3" width="250">
-                        <text-field-form v-if="edit" label="Kode Group" :model-value="item.kode_group" readonly />
+                        <text-field-form v-if="edit" label="Kode Group" :model-value="item.kode_group" readonly :rules="required" />
                         <v-dialog v-model="dialog5" class="w-50" >
                             <template v-slot:activator="{ props }">
                                 <text-field-form v-if="!edit" label="Kode Group" v-bind="props" v-model="inputproduksi.kode_group" :rules="required" />

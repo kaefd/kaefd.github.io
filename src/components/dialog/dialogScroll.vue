@@ -8,6 +8,7 @@ import BtnCancel from '../button/btnCancel.vue';
 import BtnOrange from '../button/btnOrange.vue';
 import TextField from '../form/textField.vue';
 import CurrencyInput from '../form/currencyInput.vue';
+import functions from '../../service/functions';
 
 export default {
     components: {
@@ -79,15 +80,15 @@ export default {
       })
 
       const rules = {
-            kode_barang: { required },
-            nama_barang: { required },
-            hs_code: { required },
-            jumlah: { required },
-            jumlah_diterima: { required },
-            satuan: { required },
-            nilai: { required },
-            no_urut: { required },
-            harga_jual: { required },
+        kode_barang: { required },
+        nama_barang: { required },
+        hs_code: { required },
+        jumlah: { required },
+        jumlah_diterima: { required },
+        satuan: { required },
+        nilai: { required },
+        no_urut: { required },
+        harga_jual: { required },
       }
       const v$ = useVuelidate(rules, state)
       function clear () {
@@ -118,40 +119,22 @@ export default {
                 })
             }
         },
-            masuk() {
-                return {
-                }
-            }
-        
     },
     methods: {
-    numb(value) {
-            let val = (value / 1).toFixed(0).replace('.', ',')
-            return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-    },
-    getgroupbarang() {
-        api.getData('/group_Barang')
-        .then(response => {
-        this.groupbarang = response.data
-        })
-        .catch(() => {
-        window.location.href = '/login'
-        })
-    },
     pjl_detail(v, param) {
         for (let i = 0; i < this.belumkirim.length; i++) {
-                if(this.belumkirim[i].no_penjualan == v) {
-                    if(param == 'tipe') {
-                        return this.belumkirim[i].tipe_dokumen
-                    }
-                    else if(param == 'no') {
-                        return this.belumkirim[i].no_dokumen
-                    }
-                    else if(param == 'kode'){
-                        return this.belumkirim[i].kode_group
-                    }
+            if(this.belumkirim[i].no_penjualan == v) {
+                if(param == 'tipe') {
+                    return this.belumkirim[i].tipe_dokumen
+                }
+                else if(param == 'no') {
+                    return this.belumkirim[i].no_dokumen
+                }
+                else if(param == 'kode'){
+                    return this.belumkirim[i].kode_group
                 }
             }
+        }
     },
     stok(kodegroup, kodebrg) {
         // if kode barang& kode group == v
@@ -159,7 +142,7 @@ export default {
         // kode barang = kode
         for (let i = 0; i < this.groupbarang.length; i++) {
             if(this.groupbarang[i].kode_group == kodegroup && this.groupbarang[i].kode_barang == kodebrg) {
-                return this.numb(this.groupbarang[i].stok_akhir)
+                return functions.numb(this.groupbarang[i].stok_akhir)
             }
         }        
     },
@@ -274,8 +257,8 @@ export default {
     },
 
     },
-    mounted() {
-        this.getgroupbarang()
+   async mounted() {
+        this.groupbarang = await api.getGroupBarang()
         this.bahan
     }
 } 
@@ -321,7 +304,7 @@ export default {
                                 <!-- penjualandetail belumkirim(pjl, nama, kodegroup) -->
                                 {{ item.nama_barang }} ({{ pjl_detail(item.no_penjualan, 'kode') }}) <br>
                                 <!-- penjualandetail(jumlah-terkirim) -->
-                                Jumlah belum terkirim: {{ numb(item.jumlah - item.jumlah_terkirim) }}  <br>
+                                Jumlah belum terkirim: {{ functions.numb(item.jumlah - item.jumlah_terkirim) }}  <br>
                                 Stok barang: {{ stok(pjl_detail(item.no_penjualan, 'kode'), item.kode_barang) }}
                             </v-span>
                         </v-div>

@@ -158,6 +158,10 @@ export default {
   postPemasukan(head, detail) {
     const h = JSON.stringify(head);
     const d = JSON.stringify(detail);
+    // console.log({
+    //   pembelian_head : h,
+    //   pembelian_detail : d,
+    // })
     return instance.post('/pembelian_head?', {
       pembelian_head : h,
       pembelian_detail : d,
@@ -229,6 +233,14 @@ export default {
       return router.push('login')
     }
   },
+  async getLogBarang() {
+    try {
+      const response = await instance.get('/log_barang?')
+      return response.data;
+    } catch (error) {
+      return router.push('login')
+    }
+  },
   postProduksi(head, detailbahan, detaibarang) {
     const h = JSON.stringify(head);
     const dbahan = JSON.stringify(detailbahan);
@@ -247,17 +259,18 @@ export default {
       tgl_input: head.tgl_input,
       user_input: head.user_input,
       tgl_batal: functions.day(),
-      user_batal: 'admin',
+      user_batal: "admin",
       status: 'false'
     }
     const ph = JSON.stringify(produksi_head);
     const dbahan = JSON.stringify(detailbhn);
     const dbarang = JSON.stringify(detailbrg);
-    return instance.post('/produksi_head', {
+    const data = {
       produksi_head : ph,
       produksi_detail_bahan : dbahan,
       produksi_detail_barang : dbarang,
-    })
+    }
+    return instance.delete('/produksi_head', { data: data })
   },
   /***********  PENGIRIMAN ***********/
   async getPengirimanHead (param){
@@ -307,6 +320,28 @@ export default {
       pengiriman_detail : d,
     })
   },
+  deletePengiriman (head, detail) {
+    let pengiriman_head = {
+      no_pengiriman: head.no_pengiriman,
+      tgl_pengiriman: head.tgl_pengiriman,
+      kode_pelanggan: head.kode_pelanggan,
+      kode_alamat_bongkar: head.kode_alamat_bongkar,
+      supir: head.supir,
+      no_polisi: head.no_polisi,
+      user_input: head.user_input,
+      tgl_input: head.tgl_input,
+      tgl_batal: functions.day(),
+      user_batal: 'admin',
+      status: 'false'
+    }
+    const ph = JSON.stringify(pengiriman_head);
+    const pd = JSON.stringify(detail);
+    let data = {
+      pengiriman_head: ph,
+      pengiriman_detail: pd,
+    }
+    return instance.delete('/pengiriman_head', { data: data })
+  },
   /*********** PENGELUARAN ***********/
   async getPenjualanHead (param){
     try {
@@ -330,6 +365,22 @@ export default {
       }
       const response = await instance.get(apiUrl, {params})
       return response.data
+    } catch (error) {
+      return router.push('login')
+    }
+  },
+  async getBelumTerkirim (){
+    try {
+      const response = await instance.get('/penjualan_head/belum_terkirim')
+      return response.data;
+    } catch (error) {
+      return router.push('login')
+    }
+  },
+  async getBelumTerkirimDetail (){
+    try {
+      const response = await instance.get('/penjualan_detail/belum_terkirim')
+      return response.data;
     } catch (error) {
       return router.push('login')
     }
@@ -369,9 +420,9 @@ export default {
       total_penjualan: head.total_penjualan,
       tgl_input: head.tgl_input,
       user_input: head.user_input,
-      tgl_batal: head.tgl_batal,
-      user_batal: '',
-      status: ''
+      tgl_batal: functions.day(),
+      user_batal: 'admin',
+      status: 'false'
     }
     const ph = JSON.stringify(penjualan_head);
     const pd = JSON.stringify(detail);
@@ -380,15 +431,6 @@ export default {
       penjualan_detail: pd,
     }
     return instance.delete('/penjualan_head', { data: data })
-  },
-  /***********  PRODUKSI ***********/
-  async getLogBarang() {
-    try {
-      const response = await instance.get('/log_barang?')
-      return response.data;
-    } catch (error) {
-      return router.push('login')
-    }
   },
   /*********** LOGOUT ***********/
   logout() {

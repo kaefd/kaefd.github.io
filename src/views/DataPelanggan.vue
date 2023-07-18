@@ -31,7 +31,6 @@ import AlertVue from '../components/dialog/alertVue.vue';
         message: '',
         valert: false,
         search: '',
-        alpha: 1,
         items:'',
         dialog: false,
         tambah: {
@@ -138,7 +137,6 @@ import AlertVue from '../components/dialog/alertVue.vue';
         :category="category"
         toolbar_title="Tambah Data"
       />
-      <v-btn @click="editForm()">force edit</v-btn>
     </div>
     </v-responsive>
     <v-responsive class="me-sm-0 ms-sm-auto ms-0 me-auto" max-width="450">
@@ -166,7 +164,6 @@ import AlertVue from '../components/dialog/alertVue.vue';
       :search="search"
       :category="category"
       toolbar_title="Edit Data"
-      :alpha="alpha"
       :form="form"
       :pageTitle="pageTitle"
     />

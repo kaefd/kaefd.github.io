@@ -36,12 +36,11 @@ import TextButton from '../components/button/textButton.vue';
         DatePicker,
         TextButton
     },
-    props:['actIcon', 'cetak'],
+    props:['cetak'],
     data () {
       return {
         drawer: null,
         search: '',
-        tgl:'',
         filter: false,
         confirmdialog: false,
         valert: false,
@@ -49,14 +48,9 @@ import TextButton from '../components/button/textButton.vue';
         message: '',
         periode: [],
         checkStatus: 'menunggu',
-        dialog2: false,
         pageTitle: 'PENGIRIMAN BARANG',
         selectCategory: '',
-        btnTitle: 'Tambah Data',
         btn: 'Tambah Barang',
-        cardTitle: 'Detail Barang',
-        fullscreen: 'fullscreen',
-        alpha: null,
         filtered: {
           periode: []
         },
@@ -67,15 +61,9 @@ import TextButton from '../components/button/textButton.vue';
         kirim_detail: '',
         pelanggan: '',
         alamatBongkar: '',
-        nokirim: '0',
-        detailkirim: '',
-        no: '',
-        tipe: ''
-
       }
     },
     created() {
-      this.nokirim
       this.periode = [functions.tglawal(), functions.day()]
       this.filtered.periode = [functions.tglawal(), functions.day()]
     },
@@ -150,58 +138,38 @@ import TextButton from '../components/button/textButton.vue';
       },
       // HAPUS DATA
       del() {
-      let pengiriman_head = {
-          no_pengiriman: this.head.no_pengiriman,
-          tgl_pengiriman: this.head.tgl_pengiriman,
-          kode_pelanggan: this.head.kode_pelanggan,
-          kode_alamat_bongkar: this.head.kode_alamat_bongkar,
-          supir: this.head.supir,
-          no_polisi: this.head.no_polisi,
-          user_input: this.head.user_input,
-          tgl_input: this.head.tgl_input,
-          tgl_batal:this.head.tgl_batal,
-          user_batal: this.head.user_batal,
-          status: false
-      }
-      const ph = JSON.stringify(pengiriman_head);
-      const pd = JSON.stringify(this.detail);
-        console.log({
-          pengiriman_head: ph,
-          pengiriman_detail: pd,
-        });
-        // api.deleteData('/pembelian_head', {
-        //   pembelian_head : ph,
-        //   pembelian_detail : pd,
-        // })
-        // .then(() => {
-        //   window.location.href = '/in'
-        // })
-        // .catch((error) => {
-        //   console.log(error);
-        // })
+        api.deletePengiriman(this.head, this.detail)
+        .then(() => {
+          this.status = this.valert = true
+          setTimeout(() => {
+            this.valert = false
+            // this.$router.go();
+          }, 2500);
+        })
+        .catch((error) => {
+          this.status = false
+          this.valert = true
+          this.message =  error.response.data
+        })
       },
       confirm(head, detail){
         this.confirmdialog = true
         this.head = head
         this.detail = detail
       },
-      
     },
     mounted(){
       this.page()
       this.fetchData()
     }
-    
   }
   const date = ref()
-
     // For demo purposes assign range from the current date
     onMounted(() => {
       const startDate = new Date();
       // const endDate = new Date(new Date().setDate(startDate.getDate() + 7));
       date.value = [startDate, startDate];
     })
-
 </script>
 
 <template>
@@ -220,7 +188,21 @@ import TextButton from '../components/button/textButton.vue';
       <v-responsive class="d-flex align-center mb-sm-0 mb-1" min-width="200">
         <div class="d-flex align-center w-100">
           <!-- TAMBAH DATA -->
-          <PengirimanDetail @inputhead="inputhead" :alamatBongkar="alamatBongkar" :kirim="true" :edit="false" :supplier="pelanggan" :datainput="pengiriman.datainput" :pageTitle="pageTitle" :btn="btn" :headDetails="pengiriman.headDetails" :details="items" :headers="pengiriman.headers" :items="items" :search="search" :category="barang.category" :selectCategory="selectCategory" :iTitle="actIcon[0].text" :btncolor="actIcon[0].color" :icon="actIcon[0].icon" :iVariant="actIcon[0].variant" :alpha="alpha" :actIcon="actIcon" :datatext="datatext"/>
+          <PengirimanDetail
+          @inputhead="inputhead"
+          :alamatBongkar="alamatBongkar"
+          :kirim="true"
+          :supplier="pelanggan"
+          :datainput="pengiriman.datainput"
+          :pageTitle="pageTitle"
+          :headDetails="pengiriman.headDetails"
+          :details="items"
+          :headers="pengiriman.headers"
+          :items="items"
+          :search="search"
+          :category="barang.category"
+          :selectCategory="selectCategory"
+          :datatext="datatext"/>
         </div>
         <!-- <v-chip class="mt-1 me-1" color="orange" size="small">{{ periode[0] }} - {{ periode[1] }}</v-chip> -->
       </v-responsive>

@@ -26,7 +26,6 @@ export default {
         TextField,
         DialogVue,
         CurrencyInput
-        
     },
     props:['pembelianbaru', 'namaPelanggan', 'laporan', 'groupbarang', 'barang', 'batalbtn', 'penjualan', 'pemasukan', 'alamatBongkar', 'namaTujuan', 'datainput', 'pageTitle', 'pengeluaran', 'dokumenpjl', 'namaSupplier', 'pengirimanDetail', 'pembelian', 'pelanggan', 'supplier', 'pembeliandetl', 'edit', 'kirim', 'headers', 'items', 'actIcon', 'icon', 'btncolor', 'search', 'iVariant', 'headDetails', 'details','disable', 'btn', 'datatext', 'itemDetail', 'category'],
     data () {
@@ -94,16 +93,16 @@ export default {
             this.$emit('confirm', this.dataitem, [this.penjualan])
         },
         totalharga(v){
-                if (this.dataitem.no_penjualan == v ) {
-                    return this.numb(this.dataitem.total_penjualan)
-                }
+            if (this.dataitem.no_penjualan == v ) {
+                return this.numb(this.dataitem.total_penjualan)
+            }
         },
         deleteditem(del) {
-                for (let i = 0; i < this.pembelian_input.length; i++) {
-                    if( del == this.pembelian_input[i] ) {
-                        this.pembelian_input.splice(i,1);
-                    }
+            for (let i = 0; i < this.pembelian_input.length; i++) {
+                if( del == this.pembelian_input[i] ) {
+                    this.pembelian_input.splice(i,1);
                 }
+            }
         },
         pilihObjek(s){
             this.inputdata.kode_pelanggan = s.kode_pelanggan
@@ -253,13 +252,13 @@ export default {
                 </v-div>
                 <!-- TABEL EDIT/VIEW -->
                 <v-data-table
-                :headers="headDetails"
-                :items="edit ? penjualan : pembelian_input"
-                :hover="true"
-                :fixed-header="true"
-                density="compact"
-                class="text-caption py-7 px-5"
-                height="300"
+                    :headers="headDetails"
+                    :items="edit ? penjualan : pembelian_input"
+                    :hover="true"
+                    :fixed-header="true"
+                    density="compact"
+                    class="text-caption py-7 px-5"
+                    height="300"
                 >
                 <!-- CUSTOM PAGINATION STYLE -->
                 <template v-slot:bottom>

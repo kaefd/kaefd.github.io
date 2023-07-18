@@ -10,14 +10,13 @@ import filterDrawer from '../components/drawer/filterDrawer.vue';
 import textField from '../components/form/textField.vue';
 import menuList from '../components/menu/menuList.vue';
 import dialogConfirm from '../components/dialog/dialogConfirm.vue';
-// plugins
 import BtnFilter from '../components/button/btnFilter.vue';
 import datePickerVue from '../components/datepicker/datePicker.vue';
 import BtnCancel from '../components/button/btnCancel.vue';
 import BtnOrange from '../components/button/btnOrange.vue';
-
+import produksi from '../service/page/produksi';
+import alertVue from '../components/dialog/alertVue.vue';
 </script>
-
 <script>
   export default {
     components: {
@@ -28,10 +27,11 @@ import BtnOrange from '../components/button/btnOrange.vue';
       dialogConfirm,
       BtnFilter,
       datePickerVue,
-        BtnCancel,
-        BtnOrange
+      BtnCancel,
+      BtnOrange,
+      alertVue,
     },
-    props:['actIcon', 'cetak'],
+    props:['cetak'],
     data () {
       return {
         filter: false,
@@ -41,24 +41,13 @@ import BtnOrange from '../components/button/btnOrange.vue';
         dialog2: false,
         confirmdialog: false,
         valert: false,
-        status: '',
+        status: null,
         message: '',
         pageTitle: 'PRODUKSI BARANG',
         selectCategory: 'semua',
         btnTitle: 'Tambah Data',
         cardTitle: 'Detail Barang',
         fullscreen: 'fullscreen',
-        alpha: null,
-        headers: [
-          { title: 'Nomor Produksi', key: 'no_produksi'},
-          { title: 'Tgl Produksi', key: 'tgl_produksi' },
-          { title: 'Kode Group', key: 'kode_group' },
-          { title: 'Bahan Baku', key: 'bahan_baku' },
-          { title: 'Jumlah Bahan Baku', key: 'jumlah' },
-          { title: 'Barang Jadi', key: 'barang_jadi' },
-          { title: 'Jumlah Barang Jadi', key: 'jml_barang_jadi' },
-          { title: '', key: 'actions', sortable: false},
-        ],
         filtered: {
           periode: []
         },
@@ -72,14 +61,6 @@ import BtnOrange from '../components/button/btnOrange.vue';
         getbarang:'',
         getbahan:'',
         select_kode: [],
-        headItem: [
-            { title: 'Kode Barang', key: 'kode_barang' },
-            { title: 'Nama Barang', key: 'nama_barang' },
-            { title: 'Jumlah', key: 'jumlah' },
-            { title: 'Satuan', key: 'satuan' },
-            { title: '', key: 'actions', sortable: false },
-        ],
-
       }
     },
     created() {
@@ -88,9 +69,10 @@ import BtnOrange from '../components/button/btnOrange.vue';
     },
     methods: {
       async fetchData(){
-        this.items = await api.getProduksiHead(this.periode)
+        let head = await api.getProduksiHead(this.periode)
         this.detailbahan = await api.getProDBahan(this.periode)
         this.detailbarang = await api.getProDBarang(this.periode)
+        this.items = produksi.items(head, this.detailbahan, this.detailbarang)
         this.groupbarang = await api.getGroupBarang()
         this.getbarang = await api.getBarang()
       },
@@ -101,7 +83,7 @@ import BtnOrange from '../components/button/btnOrange.vue';
           this.status = this.valert = true
           setTimeout(() => {
             this.valert = false
-            this.$router.go();
+            // this.$router.go();
           }, 2500);
         })
         .catch((error) => {
@@ -111,7 +93,6 @@ import BtnOrange from '../components/button/btnOrange.vue';
         })
       },
       // HAPUS DATA
-      // PRODUKSI HEAD
       del() {
         api.deleteProduksi(this.head, this.detailbhn, this.detailbrg)
         .then(() => {
@@ -136,37 +117,6 @@ import BtnOrange from '../components/button/btnOrange.vue';
       selected(){        
         return this.fetchData()
       },
-      dataTable(value, params) {
-        for (let i = 0; i < this.detailbahan.length; i++) {
-          for (let j = 0; j < this.detailbarang.length; j++) {
-            if (this.detailbahan[i].no_produksi == value) {
-              if(params == 'baku') {
-                return this.detailbahan[i].nama_barang
-              }
-              else if(params == 'jumlah') {
-                return functions.numb(this.detailbahan[i].jumlah)
-              }
-              else if(params == 'kodebhn') {
-                return this.detailbahan[i].kode_barang
-              }
-            }
-            else if(this.detailbarang[j].no_produksi == value) {
-              if(params == 'brgjadi') {
-                return this.detailbarang[j].nama_barang
-              }
-              else if(params == 'jumlahbrg') {
-                return functions.numb(this.detailbarang[j].jumlah)
-              }
-              else if(params == 'satuan') {
-                return this.detailbarang[j].satuan
-              }
-              else if(params == 'kodebrg') {
-                return this.detailbarang[j].kode_barang
-              }
-            }
-          }
-        }
-      },
       input_kodegroup(value) {
         let kode = ''
           for (let i = 0; i < this.groupbarang.length; i++) {
@@ -178,46 +128,18 @@ import BtnOrange from '../components/button/btnOrange.vue';
 
           for (let j = 0; j < this.getbarang.length; j++) {
               if( kode == this.getbarang[j].kode_barang) {
-                return this.select_kode =[ this.getbarang[j]]
+                return this.select_kode =[this.getbarang[j]]
               }
           }
-      },
-      detail(val, i){
-        let detail = ''
-        if( i == 'bahan' ){
-          detail = this.detailbahan
-        } else if( i == 'barang') {
-          detail = this.detailbarang
-        }
-        for (let i = 0; i < detail.length; i++) {
-          if( val == detail[i].no_produksi ) {
-            return detail[i]
-          }
-        }
       },
       close(v) {
         return this.filter = v
       },
       print(key){
         let title = this.pageTitle
-        let header = this.headers
+        let header = produksi.headers
         let item = this.printdata()
         functions.print(key, title, header, item)
-      },
-      printdata(){
-        let a = []
-        for (let i = 0; i < this.items.length; i++) {
-          a.push({
-            no_produksi: this.items[i].no_produksi,
-            tgl_produksi: this.items[i].tgl_produksi,
-            kode_group: this.items[i].kode_group,
-            bahan_baku: this.dataTable(this.items[i].no_produksi, 'baku'),
-            jumlah: this.dataTable(this.items[i].no_produksi, 'jumlah'),
-            barang_jadi: this.dataTable(this.items[i].no_produksi, 'brgjadi'),
-            jml_barang_jadi: this.dataTable(this.items[i].no_produksi, 'jumlahbrg'),
-          })
-        }
-        return a
       },
       page(){
           return this.$emit('page', this.pageTitle)
@@ -241,10 +163,8 @@ import BtnOrange from '../components/button/btnOrange.vue';
   }
   const date = ref();
 
-    // For demo purposes assign range from the current date
     onMounted(() => {
       const startDate = new Date();
-      // const endDate = new Date(new Date().setDate(startDate.getDate() + 7));
       date.value = [startDate, startDate];
     })
 </script>
@@ -264,7 +184,14 @@ import BtnOrange from '../components/button/btnOrange.vue';
         <v-responsive class="d-flex align-start mb-sm-0 mb-1 me-sm-2 me-0" width="200" max-width="350">
         <div class="d-flex align-center w-100">
           <!-- TAMBAH DATA -->
-          <ScreenDialog2 :headers="headItem" :items="items" :groupbarang="groupbarang" :getbarang="getbarang" @input_kodegroup="input_kodegroup"  @inputhead="inputhead" :produksi="true" :select_kode="select_kode" :iTitle="actIcon[0].text" :btncolor="actIcon[0].color" :icon="actIcon[0].icon" :iVariant="actIcon[0].variant" :alpha="alpha" :actIcon="actIcon"/>
+          <ScreenDialog2
+          :headers="produksi.headItem"
+          :items="items"
+          :groupbarang="groupbarang"
+          :getbarang="getbarang"
+          @input_kodegroup="input_kodegroup"
+          @inputhead="inputhead"
+          :select_kode="select_kode"/>
         </div>
         <!-- <v-chip class="mt-1 me-1" color="orange" size="small">{{ periode[0] }} - {{ periode[1] }}</v-chip> -->
       </v-responsive>
@@ -288,52 +215,27 @@ import BtnOrange from '../components/button/btnOrange.vue';
         <v-data-table
             id="tbl_exporttable_to_xls"
             items-per-page="10"
-            :headers="headers"
-            :items="printdata()"
+            :headers="produksi.headers"
+            :items="items"
             :search="search"
             :hover="true"
             :fixed-header="true"
             density="compact"
             class="text-caption py-3 h-100"
-            height="100%"
-            >
+            height="100%">
             <!-- eslint-disable-next-line vue/valid-v-slot -->
             <template v-slot:item.tgl_produksi="{ item }">{{ functions.formatDate(item.raw.tgl_produksi) }}</template>
             <!-- eslint-disable-next-line vue/valid-v-slot -->
             <template v-slot:item.actions="{ item }">
                 <ScreenDialog2
-                :batalbtn="Produksi"
+                batalbtn="Produksi"
                 :edit="true"
-                :produksi_bahan="detail(item.raw.no_produksi, 'bahan')"
-                :produksi_barang="detail(item.raw.no_produksi, 'barang')"
-                :detailbahan="[{
-                  kode_barang: dataTable(item.raw.no_produksi, 'kodebhn'),
-                  nama_barang: dataTable(item.raw.no_produksi, 'baku'),
-                  jumlah: dataTable(item.raw.no_produksi, 'jumlah'),
-                  satuan: dataTable(item.raw.no_produksi, 'satuan')
-                }]"
-                :detailbarang="[{
-                  kode_barang: dataTable(item.raw.no_produksi, 'kodebrg'),
-                  nama_barang: dataTable(item.raw.no_produksi, 'brgjadi'),
-                  jumlah: dataTable(item.raw.no_produksi, 'jumlahbrg'),
-                  satuan: dataTable(item.raw.no_produksi, 'satuan')
-                }]"
+                :detailbahan="produksi.bahan(item.raw.no_produksi, detailbahan)"
+                :detailbarang="produksi.barang(item.raw.no_produksi, detailbarang)"
                 @confirm="confirm"
-                :headItem="headItem"
+                :headItem="produksi.headItem"
                 :item="item.raw"
-                :details="details"
-                :headers="headers"
-                :items="printdata()"
-                :search="search"
-                :category="category"
-                :selectCategory="selectCategory"
-                :iTitle="actIcon[1].text"
-                :btncolor="actIcon[1].color"
-                :icon="actIcon[1].icon"
-                :iVariant="actIcon[1].variant"
-                :alpha="alpha"
-                :actIcon="actIcon"
-                :disable="true"
+                :headers="produksi.headers"
                 />
             </template>
           </v-data-table>
@@ -346,6 +248,7 @@ import BtnOrange from '../components/button/btnOrange.vue';
             <btn-cancel class="me-2" @click="confirmdialog = false" btn_title="Batal" />
           </template>
         </dialogConfirm>
+      <alertVue v-model="valert" :sukses="status" :message="message" />
   </v-container>
 
 </template>

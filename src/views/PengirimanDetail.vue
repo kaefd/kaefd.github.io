@@ -19,32 +19,23 @@ export default {
     VDataTable,
     datePickerVue,
     btnInfoVue,
-        BtnOrange,
-        BtnCancel,
-        TextFieldForm,
-        TextField,
-        DialogVue,
-        CurrencyInput
+    BtnOrange,
+    BtnCancel,
+    TextFieldForm,
+    TextField,
+    DialogVue,
+    CurrencyInput
     },
     props:['pembelianbaru', 'namaPelanggan', 'detail_kirim','detailkirim', 'nokirim', 'nopjl', 'pjl_detail', 'alamatBongkar', 'groupbarang', 'batalbtn', 'pengiriman', 'pemasukan', 'totalpenjualan', 'namaTujuan', 'datainput', 'pageTitle', 'pengeluaran', 'no', 'tipe', 'namaSupplier', 'pengirimanDetail', 'pembelian', 'pelanggan', 'supplier', 'pembeliandetl', 'edit', 'kirim', 'headers', 'items', 'actIcon', 'icon', 'btncolor', 'search', 'iVariant', 'headDetails', 'details','disable', 'btn', 'datatext', 'itemDetail', 'category'],
     data () {
       return {
         dialog: false,
-        dialog2: false,
-        dialog3: false,
         dialog4: false,
-        dialogb: false,
         dialogbongkar: false,
-        jalan: false,
-        confirmdialog: false,
-        dialogkodeg: false,
         valid: false,
         detaildial: [],
-        arr: [],
         tipe_dokumen: ['BC25', 'BC41'],
         searched: '',
-        nama:'',
-        tujuan:'',
         barang: '',
         belumkirim: '',
         belumkirim_detail: '',
@@ -53,14 +44,9 @@ export default {
         nama_supplier : '',
         nama_pelanggan : '',
         pembelian_input: [],
-        detailpengiriman: '',
-        pjlhead: '',
         kode_pelanggan: this.namaPelanggan,
         inputdata: this.datainput,
         kurs: '',
-        nomorkirim: '',
-        pemasukan_detail: '',
-        pengiriman_detail : [this.pengiriman],
         required: [
         value => {
           if (value)  return true
@@ -96,41 +82,20 @@ export default {
         },
     },
     methods:{
-        belumterkirim(){
-            const apiUrl = '/penjualan_head/belum_terkirim'
-            api.getData(apiUrl)
-            .then(response => {
-            this.belumkirim = response.data
-            })
-            .catch(() => {
-                return this.$router.push('login');
-            })
-        },
-        belumterkirim_detail(){
-            const apiUrl = '/penjualan_detail/belum_terkirim'
-            api.getData(apiUrl)
-            .then(response => {
-            this.belumkirim_detail = response.data
-            })
-            .catch(() => {
-                return this.$router.push('login');
-            })
-        },
-        numb(value) {
-            let val = (value / 1).toFixed(0).replace('.', ',')
-            return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+        async fetchData() {
+            this.belumkirim = await api.getBelumTerkirim()
+            this.belumkirim_detail = await api.getBelumTerkirimDetail()
         },
         itemmasuk(value) {
             this.pembelian_input = value
         },
         confirm() {
             this.$emit('confirm', this.dataitem, [this.pengiriman])
-           
         },
         totalharga(v){
-                if (this.dataitem.no_penjualan == v ) {
-                    return this.numb(this.dataitem.total_penjualan)
-                }
+            if (this.dataitem.no_penjualan == v ) {
+                return functions.numb(this.dataitem.total_penjualan)
+            }
         },
         deleteditem(del) {
             for (let i = 0; i < this.pembelian_input.length; i++) {
@@ -149,25 +114,7 @@ export default {
         },
     },
     mounted() {
-        // this.fetchData()
-        this.detail
-        this.edit
-        // this.getBarang()
-        // this.getDetail()
-        // this.tujuanBongkar()
-        this.belumterkirim()
-        this.belumterkirim_detail()
-        // this.items
-        // this.pemasukan
-        // this.pengeluaran
-        // this.dataitem
-        // this.pembelian
-        // this.penjualan
-        this.$nextTick(() => {
-            this.nama_supplier = this.namaSupplier,
-            this.nama_pelanggan=  this.namaPelanggan
-        });
-        
+        this.fetchData()
     }
 }
 

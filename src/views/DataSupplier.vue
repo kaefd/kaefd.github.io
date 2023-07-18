@@ -10,7 +10,7 @@ import textField from '../components/form/textField.vue';
 </script>
 <script>
   export default {
-    props:['actIcon', 'cetak'],
+    props:['cetak'],
     components: {
     TableVue,
     menuList,
@@ -23,14 +23,6 @@ import textField from '../components/form/textField.vue';
         search: '',
         alpha: 0,
         items: '',
-        tambah: {
-          kode_supplier: '',
-          nama: '',
-          alamat: '',
-          kota: '',
-          negara: '',
-          status: true
-        }
       }
     },
     methods:{
@@ -70,7 +62,19 @@ import textField from '../components/form/textField.vue';
     </v-responsive>
     </v-row>
     <!-- VIEW -->
-    <TableVue :keyform="supplier.keyform" :ishidden="true" :disabled="true" :noselect="true" id="tbl_exporttable_to_xls" :screen="400" :headers="supplier.headers" :items="items" :view="true" :search="search" toolbar_title="Detail Data" :btncolor="actIcon[3].color" :icon="actIcon[3].icon" :iVariant="actIcon[3].variant" :alpha="alpha" :pageTitle="pageTitle"/>
+    <TableVue
+      :keyform="supplier.keyform"
+      :ishidden="true"
+      :disabled="true"
+      :noselect="true"
+      id="tbl_exporttable_to_xls"
+      :screen="400"
+      :headers="supplier.headers"
+      :items="items"
+      :view="true"
+      :search="search"
+      toolbar_title="Detail Data"
+      :pageTitle="pageTitle"/>
 </v-container>
   </template>
 <style>

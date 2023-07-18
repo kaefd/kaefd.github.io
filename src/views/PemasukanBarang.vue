@@ -30,11 +30,11 @@ export default {
     menuList,
     checkBox,
     DatePicker,
-        BtnOrange,
-        BtnCancel,
-        AlertVue
+    BtnOrange,
+    BtnCancel,
+    AlertVue
   },
-    props:['actIcon', 'cetak'],
+    props:['cetak'],
     data () {
       return {
         search: '',
@@ -150,7 +150,6 @@ export default {
       }
     },
     mounted() {
-      this.fetchData()
       this.selected()
       this.page()
     }
@@ -191,10 +190,27 @@ export default {
       <v-responsive class="d-flex align-center mb-sm-0 mb-1 me-sm-2 me-0" width="200" max-width="350">
           <div class="d-flex align-center w-100">
             <!-- ADD DATA -->
-            <PemasukanDetail :barang="barang" batalbtn="Pemasukan" :datainput="pemasukan.datainput" @inputhead="inputhead" :pemasukan="true" :supplier="supplier" :edit="false" :itemDetail="itemDetail" :datatext="datatext" :btn="btn" :headDetails="pemasukan.headDetails" :details="details" :headers="pemasukan.headers" :items="pemasukan.pilihtipe(selectdokumen, items, supplier)" :pembeliandetl="pembeliandetl" :search="search" :category="pemasukan.tipedokumen" :selectCategory="selectCategory" :iTitle="actIcon[0].text" :btncolor="actIcon[0].color" :icon="actIcon[0].icon" :iVariant="actIcon[0].variant" :alpha="alpha" :actIcon="actIcon" :pageTitle="pageTitle"/>
+            <PemasukanDetail
+            :barang="barang"
+            batalbtn="Pemasukan"
+            :datainput="pemasukan.datainput"
+            @inputhead="inputhead"
+            :pemasukan="true"
+            :supplier="supplier"
+            :edit="false"
+            :itemDetail="itemDetail"
+            :datatext="datatext"
+            :btn="btn"
+            :headDetails="pemasukan.headDetails"
+            :details="details"
+            :headers="pemasukan.headers"
+            :items="pemasukan.pilihtipe(selectdokumen, items, supplier)"
+            :pembeliandetl="pembeliandetl"
+            :search="search"
+            :category="pemasukan.tipedokumen"
+            :selectCategory="selectCategory"
+            :pageTitle="pageTitle"/>
           </div>
-          <!-- <v-chip class="mt-1 me-1" color="orange" size="small">{{ periode[0] }} - {{ periode[1] }}</v-chip>
-          <v-chip v-if="selectdokumen" class="mt-1" color="orange" size="small">{{ selectdokumen }}</v-chip> -->
       </v-responsive>
       <v-responsive class="me-sm-0 ms-sm-auto ms-0 me-auto" width="200" max-width="450">
         <div class="d-flex align-center justify-sm-end justify-start mt-md-1 mt-0">

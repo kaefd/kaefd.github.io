@@ -33,10 +33,10 @@ import BtnOrange from '../components/button/btnOrange.vue';
       textField,
       menuList,
       checkBox,
-        BtnFilter,
-        DatePicker,
-        BtnCancel,
-        BtnOrange
+      BtnFilter,
+      DatePicker,
+      BtnCancel,
+      BtnOrange
     },
     props:['cetak'],
     data () {
