@@ -11,8 +11,8 @@ export default {
 </script>
 
 <template>
-<v-toolbar class="bg-white">
-    <v-span class="text-button w-100 text-center font-weight-medium text-blue-custom">
+<v-toolbar class="bg-transparent">
+    <v-span class="text-button w-100 text-center font-weight-bold text-orange">
       {{ toolbar_title }}
     </v-span>
 </v-toolbar>

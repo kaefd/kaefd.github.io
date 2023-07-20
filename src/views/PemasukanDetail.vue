@@ -32,7 +32,7 @@ export default {
     CurrencyInput,
     BtnInfo
 },
-    props:['barang', 'pembelianbaru', 'laporan', 'namaPelanggan', 'total', 'groupbarang', 'batalbtn', 'penjualan', 'pemasukan', 'alamatBongkar', 'totalpenjualan', 'namaTujuan', 'datainput', 'pageTitle', 'pengeluaran', 'dokumenpjl', 'namaSupplier', 'pengirimanDetail', 'pembelian', 'pelanggan', 'supplier', 'pembeliandetl', 'edit', 'kirim', 'headers', 'items',  'search', 'iVariant', 'headDetails', 'details','disable', 'btn', 'datatext', 'itemDetail', 'category'],
+    props:['tema', 'barang', 'pembelianbaru', 'laporan', 'namaPelanggan', 'total', 'groupbarang', 'batalbtn', 'penjualan', 'pemasukan', 'alamatBongkar', 'totalpenjualan', 'namaTujuan', 'datainput', 'pageTitle', 'pengeluaran', 'dokumenpjl', 'namaSupplier', 'pengirimanDetail', 'pembelian', 'pelanggan', 'supplier', 'pembeliandetl', 'edit', 'kirim', 'headers', 'items',  'search', 'iVariant', 'headDetails', 'details','disable', 'btn', 'datatext', 'itemDetail', 'category'],
     data () {
       return {
         dialog: false,
@@ -163,7 +163,7 @@ export default {
                 <v-row no-gutters justify="center" justify-md="space-between">
                     <v-responsive class="pt-2 mx-md-0 mx-3" width="250">
                         <textFieldForm label="No Pemasukan" v-model="inputdata.no_pembelian" :disabled="true"/>
-                        <datePicker label="Tgl Pemasukan" v-model="inputdata.tgl_pembelian" :rules="required" />
+                        <datePicker label="Tgl Pemasukan" v-model="inputdata.tgl_pembelian" :tema="tema" :rules="required" />
                         <dialogSearch v-if="!edit" label="Supplier" :objectFilter="supplier" @pilihObjek="pilihObjek" cardTitle="SUPPLIER" max-width="400" :rules="required"/>
                     </v-responsive>
                     <v-responsive class="pt-2 mx-3" width="250">
@@ -175,7 +175,7 @@ export default {
                             @result="pilihtipedokumen"
                             />
                         <textFieldForm label="No Dokumen" v-model="inputdata.no_dokumen" required :rules="required" />
-                        <datePicker label="Tgl Dokumen" v-model="inputdata.tgl_dokumen" :rules="required" />
+                        <datePicker label="Tgl Dokumen" v-model="inputdata.tgl_dokumen" :tema="tema" :rules="required" />
                     </v-responsive>
                     <v-responsive class="pt-2 mx-md-0 mx-3" width="250">
                         <textFieldForm label="No Invoice" v-model="inputdata.no_invoice" :rules="required" />
@@ -237,11 +237,11 @@ export default {
             <template v-slot:item.actions="{ item, index }">
             <dialogVue v-model="detaildial[index]">
                 <template #titlecard>
-                    <v-card-title class="text-center text-button font-weight-bold">{{ item.raw.nama_barang }}</v-card-title>
+                    <v-card-title class="text-center text-button font-weight-bold text-orange">{{ item.raw.nama_barang }}</v-card-title>
                     <v-card-subtitle class="text-caption text-center mb-2 mt-n3">{{ item.raw.hs_code }}</v-card-subtitle>
                 </template>
                 <template #content>
-                    <v-sheet class="mx-auto mt-5 w-75">
+                    <v-sheet class="mx-auto mt-5 w-75 bg-transparent">
                         <text-field-form
                             v-if="edit"
                             label="Jumlah"
@@ -288,7 +288,7 @@ export default {
                             label="Total nilai"
                             :model-value="functions.numb(item.raw.nilai)"
                             :readonly="true"
-                            :hide-details="true"
+                            hide-details
                         />
                     </v-sheet>
                     <v-divider class="mt-3 mb-5"></v-divider>

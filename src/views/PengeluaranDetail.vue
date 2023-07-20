@@ -27,7 +27,7 @@ export default {
         DialogVue,
         CurrencyInput
     },
-    props:['pembelianbaru', 'namaPelanggan', 'laporan', 'groupbarang', 'barang', 'batalbtn', 'penjualan', 'pemasukan', 'alamatBongkar', 'namaTujuan', 'datainput', 'pageTitle', 'pengeluaran', 'dokumenpjl', 'namaSupplier', 'pengirimanDetail', 'pembelian', 'pelanggan', 'supplier', 'pembeliandetl', 'edit', 'kirim', 'headers', 'items', 'actIcon', 'icon', 'btncolor', 'search', 'iVariant', 'headDetails', 'details','disable', 'btn', 'datatext', 'itemDetail', 'category'],
+    props:['tema', 'pembelianbaru', 'namaPelanggan', 'laporan', 'groupbarang', 'barang', 'batalbtn', 'penjualan', 'pemasukan', 'alamatBongkar', 'namaTujuan', 'datainput', 'pageTitle', 'pengeluaran', 'dokumenpjl', 'namaSupplier', 'pengirimanDetail', 'pembelian', 'pelanggan', 'supplier', 'pembeliandetl', 'edit', 'kirim', 'headers', 'items', 'actIcon', 'icon', 'btncolor', 'search', 'iVariant', 'headDetails', 'details','disable', 'btn', 'datatext', 'itemDetail', 'category'],
     data () {
       return {
         dialog: false,
@@ -191,7 +191,7 @@ export default {
                 <v-row no-gutters v-if="!edit && pengeluaran" justify="center" justify-md="space-between" align="start" min-width="400">
                     <v-responsive class="pt-2 mx-md-0 mx-3" width="250">
                         <text-field-form label="No Pengeluaran" v-model= "inputdata.no_penjualan" readonly disabled />
-                        <datePickerVue label="Tgl Keluar" v-model="inputdata.tgl_penjualan" :rules="required" />
+                        <datePickerVue label="Tgl Keluar" v-model="inputdata.tgl_penjualan" :rules="required" :tema="tema"/>
                     </v-responsive>
                     <v-responsive class="pt-2 mx-3" width="250">
                         <dialogSearch v-if="!edit" label="Pelanggan" :objectFilter="pelanggan" @pilihObjek="pilihObjek" cardTitle="PELANGGAN" max-width="400" :rules="required"/>
@@ -242,7 +242,7 @@ export default {
                             </v-list>
                         </v-menu>
                         <text-field-form label="No Dokumen" v-model="inputdata.no_dokumen" :rules="required" />
-                        <datePickerVue label="Tgl Dokumen" v-model="inputdata.tgl_dokumen" :rules="required" />
+                        <datePickerVue label="Tgl Dokumen" v-model="inputdata.tgl_dokumen" :rules="required" :tema="tema"/>
                     </v-responsive>
                 </v-row>
                 </v-form>

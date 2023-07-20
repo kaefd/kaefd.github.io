@@ -31,7 +31,7 @@ export default {
     TextButton,
     CurrencyInput,
 },
-    props:['headers', 'headItem', 'edit', 'getbarang', 'detailbahan', 'groupbarang', 'detailbarang', 'select_kode', 'item'],
+    props:['tema', 'headers', 'headItem', 'edit', 'getbarang', 'detailbahan', 'groupbarang', 'detailbarang', 'select_kode', 'item'],
     data () {
       return {
         dialog: false,
@@ -146,7 +146,7 @@ export default {
                         <text-field-form v-if="!edit" label="No Produksi" :disabled="true" v-model="inputproduksi.no_produksi" />
                     </v-responsive>
                     <v-responsive class="pt-2 mx-3" width="250">
-                        <date-picker v-if="!edit" label="Tgl Produksi" v-model="inputproduksi.tgl_produksi" :rules="required" />
+                        <date-picker v-if="!edit" label="Tgl Produksi" v-model="inputproduksi.tgl_produksi" :tema="tema" :rules="required" />
                         <text-field-form v-if="edit" label="Tgl Produksi" :readonly="true" :rules="required" :model-value="functions.formatDate(item.tgl_produksi)" />
                     </v-responsive>
                     <v-responsive class="pt-2 mx-md-0 mx-3" width="250">
@@ -181,8 +181,8 @@ export default {
                     <v-responsive class="me-sm-2 me-0 " width="400">
                         <!-- ITEM DIALOG ADALAH KODE BARANG YANG SESUAI DENGAN KODE GROUP YANG DIPILIH -->
                         <DialogCard2 v-if="!edit" :produksi="true" :btn="btn[0]" width="400" :barang="detailbahan" :tambah="true" :getbarang="select_kode" :kodebarang="inputproduksi.kode_barang" :kodegroup="inputproduksi.kode_group" @pemasukanitem="bahanmasuk"/>
-                        <v-row v-if="edit" no-gutters class="justify-center py-1 text-button bg-grey-lighten-4 rounded-lg">detail bahan</v-row>
-                        <v-sheet class="border-sm rounded-lg mt-2">
+                        <v-row v-if="edit" no-gutters class="justify-center py-1 text-button rounded border">detail bahan</v-row>
+                        <v-sheet class="border-sm rounded-lg mt-2 bg-transparent">
                         <VDataTable
                             :headers="edit ? headItem : headers"
                             :items=" edit ? detailbahan : inputbahan"
@@ -206,7 +206,7 @@ export default {
                                     <v-card-subtitle class="text-caption text-center mb-2 mt-n3">{{ item.raw.kode_barang }}</v-card-subtitle>
                                 </template>
                                 <template #content>
-                                <v-sheet class="mx-auto mt-5 w-75">
+                                <v-sheet class="mx-auto mt-5 w-75 bg-transparent">
                                     <text-field-form
                                         v-if="edit"
                                         v-model="item.raw.jumlah"
@@ -234,8 +234,8 @@ export default {
                     <!-- TABEL TAMBAH BARANG -->
                     <v-responsive class="mt-md-0 mt-2" width="400">
                         <DialogCard2 :produksi="true" v-if="!edit" :kodegroup="inputproduksi.kode_group" :btn="btn[1]" width="400" :barang="detailbarang" :getbarang="getbarang" :inputbahan="inputbahan" :tambah="true" :kodebarang="inputproduksi.kode_barang" @pemasukanitem="barangmasuk" />
-                        <v-row v-if="edit" no-gutters class="justify-center py-1 text-button bg-grey-lighten-4 rounded-lg">detail barang</v-row>
-                        <v-sheet class="border-sm rounded-lg mt-2">
+                        <v-row v-if="edit" no-gutters class="justify-center py-1 text-button rounded border">detail barang</v-row>
+                        <v-sheet class="border-sm rounded-lg mt-2 bg-transparent">
                         <VDataTable
                             :headers="edit ? headItem : headers"
                             :items="edit ? detailbarang : inputbarang "
@@ -258,7 +258,7 @@ export default {
                                         <v-card-subtitle class="text-caption text-center mb-2 mt-n3">{{ item.raw.kode_barang }}</v-card-subtitle>
                                     </template>
                                     <template #content>
-                                    <v-sheet class="mx-auto mt-5 w-75">
+                                    <v-sheet class="mx-auto mt-5 w-75 bg-transparent">
                                         <text-field-form
                                             v-if="edit"
                                             v-model="item.raw.jumlah"

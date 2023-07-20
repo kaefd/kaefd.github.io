@@ -125,7 +125,7 @@ export default {
                         <td class="text-left" contenteditable>{{ item.qty }}</td>
                         <td class="text-left" contenteditable></td>
                         <td class="text-left">{{ item.jumlah }}</td>
-                        <td class="text-left">{{ detailpengiriman[i][0].no_dokumen }}/{{ detailpengiriman[i][0].tipe_dokumen.slice(2) }}</td>
+                        <td class="text-left">{{ detail_kirim[i].no_dokumen }}/{{ detail_kirim[i].tipe_dokumen.slice(2) }}</td>
                     </tr>
                     <tr>
                         <td></td>

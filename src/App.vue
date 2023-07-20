@@ -13,11 +13,12 @@ export default {
     data () {
       return {
         drawer: false,
+        tema: 'dark',
         databarang: '',
         actIcon: [
           { text: 'Tambah Data', icon: 'mdi-plus', color: '#3B7AA9', variant: 'tonal' },
           { text: 'Edit Data', icon: 'mdi-square-edit-outline', color: '#3B7AA9', variant: 'text', width: '30px', height: '30px' },
-          { text: 'Hapus Data', icon: 'mdi-delete', color: 'rgb(123, 172, 192)-darken-1', variant: 'text', width: '30px', height: '30px' },
+          { text: 'Hapus Data', icon: 'mdi-delete', color: '#5995c2-darken-1', variant: 'text', width: '30px', height: '30px' },
           { text: 'Detail Data', icon: 'mdi-dots-vertical', color: 'grey-darken-1', variant: 'text', width: '30px', height: '30px' },
         ],
         cetak: [
@@ -36,6 +37,11 @@ export default {
       page(value) {
         this.pageTitle = value
       },
+      theme(v) {
+        if(v) {
+          this.tema = 'dark'
+        } else this.tema = 'light'
+      }
     },
     mounted() {
       this.page()
@@ -48,9 +54,10 @@ export default {
 </script>
 
   <template>
+    <v-theme-provider :theme="tema" with-background>
       <v-layout>
         <NavDrawers v-model="drawer" v-if="pageTitle != null" :pageTitle="pageTitle" :item="items" :pemasukan="pemasukan" :produksi="produksi" :pengeluaran="pengeluaran" :kirim="kirim"/>
-        <AppBar v-if="pageTitle != null" :pageTitle="pageTitle">
+        <AppBar v-if="pageTitle != null" :pageTitle="pageTitle" @dark="theme">
           <template #app-btn>
               <!-- APP BAR ICON -->
                 <v-div class="me-5">
@@ -64,9 +71,10 @@ export default {
           </template>
         </AppBar>
         <v-main class="vh-100 vw-100">
-            <RouterView :actIcon="actIcon" :cetak="cetak" @page="page" @pages="page"/>
+            <RouterView :cetak="cetak" @page="page" @pages="page" :tema="tema"/>
         </v-main>
       </v-layout>
+    </v-theme-provider>
   </template>
 
 <style scoped>
@@ -77,8 +85,8 @@ export default {
 label {
   margin-bottom: 2px;
   display: block;
-  width: 20px;
-  height: 20px;
+  width: 15px;
+  height: 15px;
   cursor: pointer;
 }
 
@@ -95,8 +103,8 @@ label:before {
 label div {
   position: relative;
   top: 0;
-  height: 4px;
-  background-color: rgb(123, 172, 192);
+  height: 3px;
+  background-color: #5995c2;
   margin-bottom: 4px;
   transition: 0.3s ease transform, 0.3s ease top, 0.3s ease width,
     0.3s ease right;
@@ -114,29 +122,29 @@ label div:last-child {
 
 label div:nth-child(2) {
   right: 0;
-  width: 20px;
+  width: 15px;
 }
 
 #menu_checkbox:checked + label div:first-child {
   left: 0.5px;
   top: -1.3px;
   transform: rotateZ(45deg);
-  background: rgb(123, 172, 192);
+  background: #5995c2;
 }
 
 #menu_checkbox:checked + label div:last-child {
-  top: 9.7px;
-  left: -4px;
+  top: 11px;
+  left: -5px;
   transform: rotateZ(45deg);
-  background: rgb(123, 172, 192);
+  background: #5995c2;
 }
 
 #menu_checkbox:checked + label div:nth-child(2) {
-  width: 26px;
-  top: -0.1px;
-  left: -3px;
+  width: 20px;
+  top: -1px;
+  left: -2.5px;
   transform: rotateZ(-45deg);
-  background: rgb(123, 172, 192);
+  background: #5995c2;
 }
 
 

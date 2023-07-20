@@ -254,11 +254,6 @@ import BtnFilter from '../components/button/btnFilter.vue';
         :search="search"
         :category="category"
         :selectCategory="selectCategory"
-        :iTitle="actIcon[1].text"
-        :btncolor="actIcon[1].color"
-        :icon="actIcon[1].icon"
-        :iVariant="actIcon[1].variant"
-        :alpha="alpha"
         :laporanstok="true"
         />
   </v-container>

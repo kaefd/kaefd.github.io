@@ -27,7 +27,7 @@ import DatePicker from '../components/datepicker/datePicker.vue';
         BtnFilter,
         DatePicker,
     },
-    props:['actIcon', 'cetak'],
+    props:['tema', 'cetak'],
     data () {
       return {
         drawer: null,
@@ -229,9 +229,9 @@ import DatePicker from '../components/datepicker/datePicker.vue';
       <v-span class="text-caption text-weight-bold">Periode</v-span>
       <v-divider></v-divider>
       <v-label class="text-small mt-4">Tgl Awal</v-label>
-      <DatePicker v-model="filtered.periode[0]" :filter="true"/>
+      <DatePicker v-model="filtered.periode[0]" :filter="true" :tema="tema"/>
       <v-label class="text-small mt-1">Tgl Akhir</v-label>
-      <DatePicker v-model="filtered.periode[1]" :filter="true" />
+      <DatePicker v-model="filtered.periode[1]" :filter="true" :tema="tema"/>
       <!-- TIPE DOKUMEN -->
       <v-span class="text-caption text-weight-bold">Tipe Dokumen</v-span>
       <v-divider class="mb-6"></v-divider>
@@ -261,7 +261,7 @@ import DatePicker from '../components/datepicker/datePicker.vue';
       </v-responsive>
       </v-row>
       <!-- EDIT DATA -->
-      <v-sheet height="90%">
+      <v-sheet height="90%" class="bg-transparent">
       <v-data-table
           id="tbl_exporttable_to_xls"
           items-per-page="10"
@@ -326,6 +326,7 @@ import DatePicker from '../components/datepicker/datePicker.vue';
           <!-- eslint-disable-next-line vue/valid-v-slot -->
           <template v-slot:item.actions="{item}">
             <PemasukanDetail
+                :tema="tema"
                 batalbtn="Pemasukan"
                 @confirm="confirm"
                 :laporan="true"
@@ -343,11 +344,6 @@ import DatePicker from '../components/datepicker/datePicker.vue';
                 :search="search"
                 :category="tipedokumen"
                 :selectCategory="selectCategory"
-                :iTitle="actIcon[3].text"
-                :btncolor="actIcon[3].color"
-                :icon="actIcon[3].icon"
-                :iVariant="actIcon[3].variant"
-                :actIcon="actIcon"
                 :pageTitle="pageTitle"/>
           </template>
           <!-- NILAI TOTAL -->

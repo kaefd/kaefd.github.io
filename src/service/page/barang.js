@@ -16,7 +16,7 @@ import functions from "../functions"
         { title: 'Nama Barang', key: 'nama_barang' },
         { title: 'HS Kode', key: 'hs_code' },
         { title: 'Satuan', key: 'satuan' },
-        { key: 'actions', align:'start', sortable: false},
+        { key: 'actions', align:'end', sortable: false},
       ]
       const keyform = [
         'kategori_barang',

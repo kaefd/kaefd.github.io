@@ -19,7 +19,7 @@ import DatePicker from '../components/datepicker/datePicker.vue';
         TextField,
         DatePicker
     },
-    props:['actIcon', 'cetak'],
+    props:['tema', 'cetak'],
     data () {
       return {
         drawer: null,
@@ -163,9 +163,9 @@ import DatePicker from '../components/datepicker/datePicker.vue';
       <v-span class="text-caption text-weight-bold">Periode</v-span>
       <v-divider></v-divider>
       <v-label class="text-small mt-4">Tgl Awal</v-label>
-      <DatePicker v-model="filtered.periode[0]" :filter="true"/>
+      <DatePicker v-model="filtered.periode[0]" :filter="true" :tema="tema"/>
       <v-label class="text-small mt-1">Tgl Akhir</v-label>
-      <DatePicker v-model="filtered.periode[1]" :filter="true" />
+      <DatePicker v-model="filtered.periode[1]" :filter="true" :tema="tema"/>
       <!-- TIPE DOKUMEN -->
       <v-span class="text-caption text-weight-bold">Tipe Dokumen</v-span>
       <v-divider class="mb-6"></v-divider>
@@ -212,7 +212,14 @@ import DatePicker from '../components/datepicker/datePicker.vue';
           </template>
         </v-data-table>
       <!-- edit data -->
-        <TableVue id="tbl_exporttable_to_xls" :headers="headers" :items="selected()" :search="search" :category="category" :selectCategory="selectCategory" :iTitle="actIcon[1].text" :btncolor="actIcon[1].color" :icon="actIcon[1].icon" :iVariant="actIcon[1].variant" :alpha="alpha"/>
+        <TableVue
+          id="tbl_exporttable_to_xls"
+          :headers="headers"
+          :items="selected()"
+          :search="search"
+          :category="category"
+          :selectCategory="selectCategory"
+          />
   </v-container>
 
 </template>

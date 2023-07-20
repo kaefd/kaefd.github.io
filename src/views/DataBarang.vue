@@ -29,7 +29,7 @@ export default defineComponent ({
     alertVue,
   },
     name: 'DataBarang',
-    props:['cetak'],
+    props:['cetak', 'tema'],
     data () {
       return {
         dialog: false,

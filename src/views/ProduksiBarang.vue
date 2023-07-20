@@ -31,7 +31,7 @@ import alertVue from '../components/dialog/alertVue.vue';
       BtnOrange,
       alertVue,
     },
-    props:['cetak'],
+    props:['cetak', 'tema'],
     data () {
       return {
         filter: false,
@@ -99,7 +99,7 @@ import alertVue from '../components/dialog/alertVue.vue';
           this.status = this.valert = true
           setTimeout(() => {
             this.valert = false
-            // this.$router.go();
+            this.$router.go();
           }, 2500);
         })
         .catch((error) => {
@@ -174,9 +174,9 @@ import alertVue from '../components/dialog/alertVue.vue';
       <v-span class="text-caption text-weight-bold">Periode</v-span>
       <v-divider></v-divider>
       <v-label class="text-small mt-4">Tgl Awal</v-label>
-      <datePickerVue v-model="filtered.periode[0]" :filter="true"/>
+      <datePickerVue v-model="filtered.periode[0]" :filter="true" :tema="tema"/>
       <v-label class="text-small mt-1">Tgl Akhir</v-label>
-      <datePickerVue v-model="filtered.periode[1]" :filter="true" />
+      <datePickerVue v-model="filtered.periode[1]" :filter="true" :tema="tema"/>
     </template>
   </filterDrawer>
     <v-container class="pt-9 h-100">
@@ -185,6 +185,7 @@ import alertVue from '../components/dialog/alertVue.vue';
         <div class="d-flex align-center w-100">
           <!-- TAMBAH DATA -->
           <ScreenDialog2
+          :tema="tema"
           :headers="produksi.headItem"
           :items="items"
           :groupbarang="groupbarang"
@@ -211,7 +212,7 @@ import alertVue from '../components/dialog/alertVue.vue';
       </v-responsive>
       </v-row>
         <!-- EDIT DATA -->
-        <v-sheet height="90%">
+        <v-sheet height="90%" class="bg-transparent">
         <v-data-table
             id="tbl_exporttable_to_xls"
             items-per-page="10"

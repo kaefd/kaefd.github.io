@@ -13,7 +13,7 @@ export default {
 <template>
     <v-btn
         class="elevation-0 text-caption px-5"
-        color="grey-lighten-4"
+        variant="tonal"
         height="42"
         min-width="100"
         >

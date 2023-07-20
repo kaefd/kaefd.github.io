@@ -7,6 +7,7 @@ export default {
   props:['pageTitle'],
     data(){
         return {
+            dark: false,
             menu: [
                     { title: 'Ubah Password', value: 'changepass' },
                     { title: 'Logout', value: 'logout'},
@@ -17,46 +18,57 @@ export default {
     methods: {
       logout() {
         api.logout()
+      },
+      theme() {
+        this.dark =! this.dark
+        this.$emit('dark', this.dark)
       }
     },
   }
 </script>
 
 <template>
-    <v-app-bar class="elevation-0 bg-grey-lighten-5 py-1 border-b-sm" height="55">
+    <v-app-bar class="elevation-0 py-1 border-b-sm" height="55">
       <v-container class="d-flex align-center">
         <slot name="app-btn"></slot>
         <!-- TITLE -->
-        <v-title class="text-h7 font-weight-medium text-blue-custom">{{ pageTitle }}</v-title> 
+        <v-title class="text-button font-weight-medium text-blue-custom">{{ pageTitle }}</v-title> 
         <v-spacer></v-spacer>
-        <v-sheet class="d-flex align-center bg-transparent">
-          <v-avatar>
-            <v-icon color="grey-darken-1" size="large">mdi-account-circle</v-icon>
-          </v-avatar>
-          <v-span class="text-caption d-flex">
-            Admin
-            <v-icon size="20">mdi-chevron-down</v-icon>
-          </v-span>
-          <v-menu activator="parent">
-            <v-card width="300"  class="rounded-xl pa-2 bg-grey-lighten-3 border">
-              <div class="d-flex flex-column align-center bg-white rounded-xl">
-                <v-avatar size="100">
-                  <v-icon size="80">mdi-account-circle</v-icon>
-                </v-avatar>
-                <v-span>Admin</v-span>
-                <v-btn class="d-flex justify-start align-left rounded-b-xl elevation-0 mt-5" block size="60">
-                  <v-icon color="grey-darken-3 me-2 mt-n1 ms-6" size="19">mdi-key</v-icon>
-                  <v-span class="text-body-2">Ganti Password</v-span>
+        <v-div class="d-flex align-center">
+          <v-btn icon size="small" color="blue-custom" @click="theme()">
+            <v-span v-if="dark" class="material-symbols-outlined">dark_mode</v-span>
+            <v-span v-if="!dark" class="material-symbols-outlined">light_mode</v-span>
+          </v-btn>
+          <v-divider vertical class="mx-2"></v-divider>
+          <v-sheet id="akun" class="d-flex align-center bg-transparent text-blue-custom">
+            <v-avatar class="bg-blue-custom me-2" size="small">
+              <v-icon size="25" color="white">mdi-account</v-icon>
+            </v-avatar>
+            <v-span class="text-caption d-flex">
+              Admin
+              <v-icon size="20">mdi-chevron-down</v-icon>
+            </v-span>
+            <v-menu activator="#akun">
+              <v-card width="300"  class="rounded-xl pa-2 bg-grey-lighten-3 border">
+                <div class="d-flex flex-column align-center bg-white rounded-xl">
+                  <v-avatar size="100">
+                    <v-icon size="80">mdi-account-circle</v-icon>
+                  </v-avatar>
+                  <v-span>Admin</v-span>
+                  <v-btn class="d-flex justify-start align-left rounded-b-xl elevation-0 mt-5" block size="60">
+                    <v-icon color="grey-darken-3 me-2 mt-n1 ms-6" size="19">mdi-key</v-icon>
+                    <v-span class="text-body-2">Ganti Password</v-span>
+                  </v-btn>
+                </div>
+                <v-btn @click="logout()" variant="text" class="d-flex justify-start align-left rounded-xl elevation-0 text-body-2" block size="60">
+                  <v-icon size="20" class="me-2 ms-6">mdi-logout</v-icon>
+                  <v-span>Log out</v-span>
                 </v-btn>
-              </div>
-              <v-btn @click="logout()" variant="text" class="d-flex justify-start align-left rounded-xl elevation-0 text-body-2" block size="60">
-                <v-icon size="20" class="me-2 ms-6">mdi-logout</v-icon>
-                <v-span>Log out</v-span>
-              </v-btn>
-              <v-divider></v-divider>
-            </v-card>
-        </v-menu>
-        </v-sheet>
+                <v-divider></v-divider>
+              </v-card>
+            </v-menu>
+          </v-sheet>
+        </v-div>
         <!-- <v-menu>
           <template v-slot:activator="{ props: menu }">
             <v-tooltip location="top">

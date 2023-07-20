@@ -5,7 +5,7 @@
     { title: 'Nama', key: 'nama' },
     { title: 'Alamat', key: 'alamat' },
     { title: 'NPWP', key: 'npwp' },
-    { title: '', key: 'actions', sortable: false}
+    { title: '', key: 'actions', align: 'end', sortable: false}
   ]
   const keyform = [
     'kode_pelanggan',

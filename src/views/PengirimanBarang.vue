@@ -36,7 +36,7 @@ import TextButton from '../components/button/textButton.vue';
         DatePicker,
         TextButton
     },
-    props:['cetak'],
+    props:['cetak', 'tema'],
     data () {
       return {
         drawer: null,
@@ -178,9 +178,9 @@ import TextButton from '../components/button/textButton.vue';
       <v-span class="text-caption text-weight-bold">Periode</v-span>
       <v-divider></v-divider>
       <v-label class="text-small mt-4">Tgl Awal</v-label>
-      <DatePicker v-model="filtered.periode[0]" :filter="true"/>
+      <DatePicker v-model="filtered.periode[0]" :filter="true" :tema="tema"/>
       <v-label class="text-small mt-1">Tgl Akhir</v-label>
-      <DatePicker v-model="filtered.periode[1]" :filter="true" />
+      <DatePicker v-model="filtered.periode[1]" :filter="true" :tema="tema"/>
     </template>
   </filterDrawer>
   <v-container class="pt-9 h-100">
@@ -189,6 +189,7 @@ import TextButton from '../components/button/textButton.vue';
         <div class="d-flex align-center w-100">
           <!-- TAMBAH DATA -->
           <PengirimanDetail
+          :tema="tema"
           @inputhead="inputhead"
           :alamatBongkar="alamatBongkar"
           :kirim="true"
@@ -222,7 +223,7 @@ import TextButton from '../components/button/textButton.vue';
       </v-responsive>
       </v-row>
         <!-- EDIT DATA -->
-      <v-sheet height="90%">
+      <v-sheet height="90%" class="bg-transparent">
         <v-data-table
             id="tbl_exporttable_to_xls" 
             items-per-page="10"
@@ -232,7 +233,7 @@ import TextButton from '../components/button/textButton.vue';
             :hover="true"
             :fixed-header="true"
             density="compact"
-            class="text-caption py-3 px-5 h-100"
+            class="text-caption py-3 h-100"
             height="100%"
             >
             <!-- eslint-disable-next-line vue/valid-v-slot -->
@@ -270,7 +271,7 @@ import TextButton from '../components/button/textButton.vue';
                         :pengiriman="Penjualandetl(item.raw.no_pengiriman)"
                         :items="item.raw"
                         :nokirim="item.raw.no_pengiriman"
-                        :detail_kirim="kirim_detail"
+                        :detail_kirim="pengiriman.details(item.raw.no_pengiriman, kirim_detail, penjualanHead)"
                         :nopjl="Penjualandetl(item.raw.no_pengiriman)"
                       />
                     </v-list>

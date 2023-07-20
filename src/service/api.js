@@ -260,7 +260,7 @@ export default {
       user_input: head.user_input,
       tgl_batal: functions.day(),
       user_batal: "admin",
-      status: 'false'
+      status: "false",
     }
     const ph = JSON.stringify(produksi_head);
     const dbahan = JSON.stringify(detailbhn);

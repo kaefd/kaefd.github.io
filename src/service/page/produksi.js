@@ -36,6 +36,7 @@ const items = (head, dbahan, dbarang) => {
                     data.push({
                         no_produksi: head[i].no_produksi,
                         tgl_produksi: head[i].tgl_produksi,
+                        tgl_input: head[i].tgl_input,
                         kode_group: head[i].kode_group,
                         bahan_baku: dbahan[j].nama_barang,
                         jumlah: dbahan[j].jumlah,

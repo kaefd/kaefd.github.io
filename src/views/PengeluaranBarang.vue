@@ -38,7 +38,7 @@ import BtnOrange from '../components/button/btnOrange.vue';
       BtnCancel,
       BtnOrange
     },
-    props:['cetak'],
+    props:['cetak', 'tema'],
     data () {
       return {
         filter: false,
@@ -185,9 +185,9 @@ import BtnOrange from '../components/button/btnOrange.vue';
       <v-span class="text-caption text-weight-bold">Periode</v-span>
       <v-divider></v-divider>
       <v-label>Tgl Awal</v-label>
-      <DatePicker v-model="filtered.periode[0]" :filter="true"/>
+      <DatePicker v-model="filtered.periode[0]" :filter="true" :tema="tema"/>
       <v-label class="text-small mt-1">Tgl Akhir</v-label>
-      <DatePicker v-model="filtered.periode[1]" :filter="true" />
+      <DatePicker v-model="filtered.periode[1]" :filter="true" :tema="tema"/>
       <!-- TIPE DOKUMEN -->
       <v-span class="text-caption text-weight-bold">Tipe Dokumen</v-span>
       <v-divider class="mb-6"></v-divider>
@@ -214,6 +214,7 @@ import BtnOrange from '../components/button/btnOrange.vue';
         <div class="d-flex align-center w-100">
           <!-- TAMBAH DATA -->
           <PengeluaranDetail
+            :tema="tema"
             batalbtn="Pengeluaran"
             :datainput="pengeluaran.datainput"
             :pengeluaran="true"
@@ -252,7 +253,7 @@ import BtnOrange from '../components/button/btnOrange.vue';
       </v-responsive>
       </v-row>
         <!-- EDIT DATA -->
-        <v-sheet height="90%">
+        <v-sheet height="90%" class="bg-transparent">
         <v-data-table
             id="tbl_exporttable_to_xls" 
             items-per-page="10"

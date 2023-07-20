@@ -26,7 +26,7 @@ export default {
     DialogVue,
     CurrencyInput
     },
-    props:['pembelianbaru', 'namaPelanggan', 'detail_kirim','detailkirim', 'nokirim', 'nopjl', 'pjl_detail', 'alamatBongkar', 'groupbarang', 'batalbtn', 'pengiriman', 'pemasukan', 'totalpenjualan', 'namaTujuan', 'datainput', 'pageTitle', 'pengeluaran', 'no', 'tipe', 'namaSupplier', 'pengirimanDetail', 'pembelian', 'pelanggan', 'supplier', 'pembeliandetl', 'edit', 'kirim', 'headers', 'items', 'actIcon', 'icon', 'btncolor', 'search', 'iVariant', 'headDetails', 'details','disable', 'btn', 'datatext', 'itemDetail', 'category'],
+    props:['tema', 'pembelianbaru', 'namaPelanggan', 'detail_kirim','detailkirim', 'nokirim', 'nopjl', 'pjl_detail', 'alamatBongkar', 'groupbarang', 'batalbtn', 'pengiriman', 'pemasukan', 'totalpenjualan', 'namaTujuan', 'datainput', 'pageTitle', 'pengeluaran', 'no', 'tipe', 'namaSupplier', 'pengirimanDetail', 'pembelian', 'pelanggan', 'supplier', 'pembeliandetl', 'edit', 'kirim', 'headers', 'items', 'actIcon', 'icon', 'btncolor', 'search', 'iVariant', 'headDetails', 'details','disable', 'btn', 'datatext', 'itemDetail', 'category'],
     data () {
       return {
         dialog: false,
@@ -50,7 +50,6 @@ export default {
         required: [
         value => {
           if (value)  return true
-
           return 'harus diisi !'
         },
       ],
@@ -182,7 +181,7 @@ export default {
                     <v-row v-if="!edit" no-gutters justify="center" justify-md="space-between">
                         <v-responsive class="pt-2 mx-md-0 mx-3" width="250">
                             <text-field-form label="No Pengiriman" v-model= "inputdata.no_pengiriman" :rules="required" />
-                            <datePickerVue label="Tgl Pengiriman" v-model="inputdata.tgl_pengiriman" :rules="required" />
+                            <datePickerVue label="Tgl Pengiriman" v-model="inputdata.tgl_pengiriman" :rules="required" :tema="tema"/>
                         </v-responsive>
                         <v-responsive class="pt-2 mx-3" width="250">
                             <v-dialog v-model="dialog4" class="w-50">
@@ -297,7 +296,7 @@ export default {
                                 <text-field-form
                                     v-if="edit"
                                     label="Jumlah"
-                                    :model-value="numb(item.raw.jumlah)"
+                                    :model-value="functions.numb(item.raw.jumlah)"
                                     active="true"
                                     hide-details
                                     class="mb-3"
