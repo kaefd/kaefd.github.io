@@ -3,7 +3,7 @@ import axios from 'axios'
 import functions from './functions'
 
 const instance = axios.create({
-  baseURL: 'https://auristeel.com/api',
+  baseURL: 'https://auristeel.com/api-beta',
   headers: {
     'Permissions-Policy': 'interest-cohort=()',
     'csrf': localStorage.getItem('token'),
@@ -51,7 +51,7 @@ export default {
   /*********** DATA BARANG ***********/
   async getBarang(){
     try {
-      const response = await instance.get('/barang?status=true')
+      const response = await instance.get('/barang?status=1')
       return response.data;
     } catch (error) {
       return router.push('login')
