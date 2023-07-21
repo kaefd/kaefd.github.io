@@ -32,7 +32,7 @@ export default {
     CurrencyInput,
     BtnInfo
 },
-    props:['tema', 'barang', 'pembelianbaru', 'laporan', 'namaPelanggan', 'total', 'groupbarang', 'batalbtn', 'penjualan', 'pemasukan', 'alamatBongkar', 'totalpenjualan', 'namaTujuan', 'datainput', 'pageTitle', 'pengeluaran', 'dokumenpjl', 'namaSupplier', 'pengirimanDetail', 'pembelian', 'pelanggan', 'supplier', 'pembeliandetl', 'edit', 'kirim', 'headers', 'items',  'search', 'iVariant', 'headDetails', 'details','disable', 'btn', 'datatext', 'itemDetail', 'category'],
+    props:['username', 'tema', 'barang', 'pembelianbaru', 'laporan', 'namaPelanggan', 'total', 'groupbarang', 'batalbtn', 'penjualan', 'pemasukan', 'alamatBongkar', 'totalpenjualan', 'namaTujuan', 'datainput', 'pageTitle', 'pengeluaran', 'dokumenpjl', 'namaSupplier', 'pengirimanDetail', 'pembelian', 'pelanggan', 'supplier', 'pembeliandetl', 'edit', 'kirim', 'headers', 'items',  'search', 'iVariant', 'headDetails', 'details','disable', 'btn', 'datatext', 'itemDetail', 'category'],
     data () {
       return {
         dialog: false,
@@ -47,6 +47,9 @@ export default {
         list: [
             {title: 'Lihat Data', key: 'lihat'},
             {title: 'Batal Pemasukan', key: 'batal'},
+        ],
+        list2: [
+            {title: 'Lihat Data', key: 'lihat'},
         ],
         item: '',
         searched: '',
@@ -122,12 +125,12 @@ export default {
     >
     <template v-slot:activator="{ props }">
         <!-- TAMBAH -->
-        <btn-info v-if="!edit" v-bind="props" icon="mdi-plus" btn_title="Tambah Baru"/>
+        <btn-info v-if="!edit && username == 'admin'" v-bind="props" icon="mdi-plus" btn_title="Tambah Baru"/>
         <menuList
             v-if="edit"
             :submenu="true"
             icon="mdi-dots-vertical"
-            :items="list"
+            :items="username == 'admin' ? list : list2"
             @result="menuAksi"
         />
       </template>
@@ -300,7 +303,7 @@ export default {
             </dialogVue>
             </template>
             </v-data-table>
-            <v-div class="d-flex mb-0 mt-auto me-5 ms-auto">
+            <v-div v-if="username == 'admin'" class="d-flex mb-0 mt-auto me-5 ms-auto">
                 <btn-cancel btn_title="Batal" class="me-2" v-if="!edit" @click="pembelian_input = [], inputdata = [],  dialog = false" />
                 <btn-orange type="submit" btn_title="Simpan" v-if="!edit" @click="validate"/>
             </v-div>

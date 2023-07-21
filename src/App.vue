@@ -13,7 +13,8 @@ export default {
     data () {
       return {
         drawer: false,
-        tema: 'dark',
+        tema: null,
+        username: '',
         databarang: '',
         actIcon: [
           { text: 'Tambah Data', icon: 'mdi-plus', color: '#3B7AA9', variant: 'tonal' },
@@ -34,6 +35,9 @@ export default {
       }
     },
     methods: {
+      user(value) {
+        this.username = value
+      },
       page(value) {
         this.pageTitle = value
       },
@@ -56,7 +60,7 @@ export default {
   <template>
     <v-theme-provider :theme="tema" with-background>
       <v-layout>
-        <NavDrawers v-model="drawer" v-if="pageTitle != null" :pageTitle="pageTitle" :item="items" :pemasukan="pemasukan" :produksi="produksi" :pengeluaran="pengeluaran" :kirim="kirim"/>
+        <NavDrawers :username="username" v-model="drawer" v-if="pageTitle != null" :pageTitle="pageTitle" :item="items" :pemasukan="pemasukan" :produksi="produksi" :pengeluaran="pengeluaran" :kirim="kirim"/>
         <AppBar v-if="pageTitle != null" :pageTitle="pageTitle" @dark="theme">
           <template #app-btn>
               <!-- APP BAR ICON -->
@@ -71,7 +75,7 @@ export default {
           </template>
         </AppBar>
         <v-main class="vh-100 vw-100">
-            <RouterView :cetak="cetak" @page="page" @pages="page" :tema="tema"/>
+            <RouterView :cetak="cetak" @page="page" @pages="page" :tema="tema" @user="user" :username="username"/>
         </v-main>
       </v-layout>
     </v-theme-provider>

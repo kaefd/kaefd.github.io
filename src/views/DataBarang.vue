@@ -29,7 +29,7 @@ export default defineComponent ({
     alertVue,
   },
     name: 'DataBarang',
-    props:['cetak', 'tema'],
+    props:['cetak', 'tema', 'username'],
     data () {
       return {
         dialog: false,
@@ -162,6 +162,7 @@ export default defineComponent ({
         <div class="d-flex align-center w-100">
           <!-- TAMBAH DATA BARU -->
           <dialogMaster
+            v-if="username == 'admin'"
             toolbar_title="Tambah Data"
             :keyform="barang.keyform"
             :tambah="tambah"
@@ -192,14 +193,14 @@ export default defineComponent ({
       </v-row>
         <!-- TABLE -->
         <TableVue
+          :username="username"
           :keyform="barang.keyform"
           :noselect="statusselect"
           @edit="editForm"
           @del="del"
           id="tbl_exporttable_to_xls"
           :headers="barang.headers"
-          :items="barang.selected(selectCategory,
-          items)"
+          :items="barang.selected(selectCategory, items)"
           :search="search"
           :category="barang.category"
           :selectCategory="selectCategory"

@@ -15,7 +15,7 @@ import AlertVue from '../components/dialog/alertVue.vue';
 <script>
   export default defineComponent ({
     name: 'CustomerView',
-    props:['cetak'],
+    props:['cetak', 'username'],
     components: {
       TableVue,
       dialogMaster,
@@ -127,6 +127,7 @@ import AlertVue from '../components/dialog/alertVue.vue';
       <div class="d-flex align-center w-100">
       <!-- TAMBAH DATA -->
       <dialogMaster
+        v-if="username == 'admin'"
         :keyform="pelanggan.keyform"
         :tambah="tambah"
         :ishidden="true"

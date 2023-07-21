@@ -5,7 +5,7 @@ import api from '../../service/api';
 
 <script>
   export default {
-    props: ['act', 'pageTitle'],
+    props: ['act', 'pageTitle', 'username'],
     data () {
       return {
         // windowWidth: window.innerWidth,
@@ -101,7 +101,7 @@ import api from '../../service/api';
         <router-link to="/data-supplier">
           <v-list-item class="text-dark">Data Supplier</v-list-item>
         </router-link>
-        <router-link to="/data-user">
+        <router-link v-if="username == 'name'" to="/data-user">
           <v-list-item class="text-dark">Data User</v-list-item>
         </router-link>
       </v-list>

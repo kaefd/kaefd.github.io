@@ -31,13 +31,14 @@ export default {
         return this.$emit('page', this.pageTitle)
       },
       handleLogin() {
+        this.$emit('user', this.username)
         api.postLogin({
           username: this.username,
           password: this.password
         })
         .then(response => {
           localStorage.setItem('token', response.data)
-          window.location.href = '/'
+          this.$router.push('data-barang')
         })
         .catch((error) => {
           this.message = error.response.data
@@ -107,7 +108,7 @@ export default {
         <v-card class="size-card me-16 ms-auto rounded-xl">
           <v-form @submit.prevent="handleLogin" :validation-schema="schema">
             <v-container class="mx-auto w-85">
-              <v-div class="d-flex flex-column my-7 text-bluetheme">
+              <v-div class="d-flex flex-column my-7 text-blue-custom">
                 <v-span class="text-montserrat font-25 text-center">USER LOGIN</v-span>
               </v-div>
               <v-text-field variant="underlined" class="text-blue-custom text-field" density="compact" v-model="username" name="username">
