@@ -34,7 +34,7 @@ export default {
     BtnCancel,
     AlertVue
   },
-    props:['cetak', 'tema', 'username'],
+    props:['cetak', 'tema'],
     data () {
       return {
         search: '',
@@ -191,7 +191,6 @@ export default {
           <div class="d-flex align-center w-100">
             <!-- ADD DATA -->
             <PemasukanDetail
-            v-if="username == 'admin'"
             :tema="tema"
             :barang="barang"
             batalbtn="Pemasukan"
@@ -230,7 +229,6 @@ export default {
       </v-responsive>
     </v-row>
         <TableVue
-          :username="username"
           id="tbl_exporttable_to_xls"
           :items="pemasukan.pilihtipe(selectdokumen, items, supplier)"
           :search="search"

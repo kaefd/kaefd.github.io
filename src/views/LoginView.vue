@@ -31,7 +31,6 @@ export default {
         return this.$emit('page', this.pageTitle)
       },
       handleLogin() {
-        this.$emit('user', this.username)
         api.postLogin({
           username: this.username,
           password: this.password
@@ -43,7 +42,9 @@ export default {
         .catch((error) => {
           this.message = error.response.data
         })
-
+    },
+    users() {
+      
     }
   },
   mounted() {
