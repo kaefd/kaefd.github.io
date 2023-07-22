@@ -10,12 +10,13 @@ import api from '../service/api';
 import menuList from '../components/menu/menuList.vue';
 import textField from '../components/form/textField.vue'
 import AlertVue from '../components/dialog/alertVue.vue';
+import otoritas from '../service/page/otoritas';
 </script>
 
 <script>
   export default defineComponent ({
     name: 'CustomerView',
-    props:['cetak'],
+    props:['cetak', 'user'],
     components: {
       TableVue,
       dialogMaster,
@@ -33,6 +34,7 @@ import AlertVue from '../components/dialog/alertVue.vue';
         search: '',
         items:'',
         dialog: false,
+        authority: '',
         tambah: {
           kode_pelanggan: '',
           nama: '',
@@ -44,7 +46,11 @@ import AlertVue from '../components/dialog/alertVue.vue';
     },
     methods: {
       async fetchData() {
-        this.items = await api.getPelanggan()
+        if(this.user != '') {
+          this.items = await api.getPelanggan()
+          let user = await api.getOtoritas(this.user)
+          this.authority = otoritas.otoritas(user)
+        } else return this.$router.push('login')
       },
       page(){
         return this.$emit('page', this.pageTitle)
@@ -127,6 +133,7 @@ import AlertVue from '../components/dialog/alertVue.vue';
       <div class="d-flex align-center w-100">
       <!-- TAMBAH DATA -->
       <dialogMaster
+        v-if="otoritas.routes(authority, 'Tambah Pelanggan Baru')"
         :keyform="pelanggan.keyform"
         :tambah="tambah"
         :ishidden="true"
@@ -155,6 +162,9 @@ import AlertVue from '../components/dialog/alertVue.vue';
     <!-- edit -->
     <TableVue
       id="tbl_exporttable_to_xls"
+      :create="otoritas.routes(authority, 'Tambah Pelanggan Baru')"
+      :update="otoritas.routes(authority, 'Ubah Pelanggan')"
+      :delete="otoritas.routes(authority, 'Hapus Pelanggan')"
       :keyform="pelanggan.keyform"
       :noselect="statusselect"
       @edit="editForm"

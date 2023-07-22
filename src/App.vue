@@ -15,12 +15,6 @@ export default {
         drawer: false,
         tema: null,
         databarang: '',
-        actIcon: [
-          { text: 'Tambah Data', icon: 'mdi-plus', color: '#3B7AA9', variant: 'tonal' },
-          { text: 'Edit Data', icon: 'mdi-square-edit-outline', color: '#3B7AA9', variant: 'text', width: '30px', height: '30px' },
-          { text: 'Hapus Data', icon: 'mdi-delete', color: '#5995c2-darken-1', variant: 'text', width: '30px', height: '30px' },
-          { text: 'Detail Data', icon: 'mdi-dots-vertical', color: 'grey-darken-1', variant: 'text', width: '30px', height: '30px' },
-        ],
         cetak: [
           {title: 'export ke xlsx', icon: 'mdi-download', key: 'xlsx'},
           {title: 'export ke pdf', icon: 'mdi-file-pdf-box', key: 'pdf'},
@@ -30,10 +24,14 @@ export default {
         pemasukan: '',
         produksi: '',
         pengeluaran: '',
-        kirim: ''
+        kirim: '',
+        user_otoritas: ''
       }
     },
     methods: {
+      user (value) {
+        this.user_otoritas = value
+      },
       page(value) {
         this.pageTitle = value
       },
@@ -56,7 +54,7 @@ export default {
   <template>
     <v-theme-provider :theme="tema" with-background>
       <v-layout>
-        <NavDrawers v-model="drawer" v-if="pageTitle != null" :pageTitle="pageTitle" :item="items" :pemasukan="pemasukan" :produksi="produksi" :pengeluaran="pengeluaran" :kirim="kirim"/>
+        <NavDrawers v-model="drawer" v-if="pageTitle != null" :user="user_otoritas" :pageTitle="pageTitle" :item="items" :pemasukan="pemasukan" :produksi="produksi" :pengeluaran="pengeluaran" :kirim="kirim"/>
         <AppBar v-if="pageTitle != null" :pageTitle="pageTitle" @dark="theme">
           <template #app-btn>
               <!-- APP BAR ICON -->
@@ -71,7 +69,7 @@ export default {
           </template>
         </AppBar>
         <v-main class="vh-100 vw-100">
-            <RouterView :cetak="cetak" @page="page" @pages="page" :tema="tema"/>
+            <RouterView :cetak="cetak" @page="page" @pages="page" :tema="tema" @user="user" :user="user_otoritas"/>
         </v-main>
       </v-layout>
     </v-theme-provider>

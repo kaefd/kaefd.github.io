@@ -1,4 +1,5 @@
 <script>
+import otoritas from '../../service/page/otoritas'
 import BtnCancel from '../button/btnCancel.vue'
 // import textButton from '../button/textButton.vue'
 import btnInfo from '../button/btnInfo.vue'
@@ -15,7 +16,7 @@ export default {
     },
     props:
     [
-      'keyform', 'tambah', 'disabled', 'ishidden', 'editbtn', 'hapus', 'headers', 'category', 'toolbar_title','alpha', 'view', 'item', 'form', 'noselect', 'intable'
+      'keyform', 'tambah', 'disabled', 'ishidden', 'master', 'hapus', 'headers', 'category', 'toolbar_title','alpha', 'view', 'item', 'form', 'noselect', 'intable'
     ],
     data () {
       

@@ -17,8 +17,11 @@ const instance = axios.create({
 
 export default {
   
-  postLogin(data) {
-    return instance.post('/login', data)
+  postLogin(user, pass) {
+    return instance.post('/login', {
+      username: user,
+      password: pass
+    })
   },
   getData (url, data) {
     return instance.get(url, data)
@@ -29,6 +32,15 @@ export default {
 
   deleteData (url, payload) {
     return instance.delete(url, {data: payload})
+  },
+  /*********** OTORITAS ***********/
+  async getOtoritas(value){
+    try {
+      const response = await instance.get('/user_otoritas/'+value)
+      return response.data;
+    } catch (error) {
+      return router.push('login')
+    }
   },
   /*********** GROUP BARANG ***********/
   async getGroupBarang(){
@@ -87,7 +99,7 @@ export default {
   /*********** DATA PELANGGAN ***********/
   async getPelanggan() {
     try {
-      const response = await instance.get('/pelanggan?status=true')
+      const response = await instance.get('/pelanggan?status=1')
       return response.data;
     } catch (error) {
       return router.push('login')
@@ -122,7 +134,7 @@ export default {
   /*********** DATA SUPPLIER ***********/
   async getSupplier (){
     try {
-      const response = await instance.get('/supplier?status=true')
+      const response = await instance.get('/supplier?status=1')
       return response.data;
     } catch (error) {
       return router.push('login')

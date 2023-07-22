@@ -8,6 +8,7 @@ import checkBox from '../components/form/checkBox.vue';
 import menuList from '../components/menu/menuList.vue';
 import textField from '../components/form/textField.vue';
 import BtnFilter from '../components/button/btnFilter.vue';
+import otoritas from '../service/page/otoritas';
 </script>
 
 <script>
@@ -20,7 +21,7 @@ import BtnFilter from '../components/button/btnFilter.vue';
       textField,
         BtnFilter,
     },
-    props:['page','actIcon', 'cetak'],
+    props:['page','user', 'cetak'],
     data () {
       return {
         drawer: null,
@@ -109,8 +110,12 @@ import BtnFilter from '../components/button/btnFilter.vue';
     },
     methods: {
       async fetchData() {
-        this.items = await api.getGroupBarang()
-        this.barang = await api.getBarang()
+        if(this.user != ''){
+          this.items = await api.getGroupBarang()
+          this.barang = await api.getBarang()
+          let user = await api.getOtoritas(this.user)
+          this.authority = otoritas.otoritas(user)
+        } else return this.$router.push('login')
       },
       data(){
         let data = this.filter_kodebarang

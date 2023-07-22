@@ -16,6 +16,7 @@ import BtnCancel from '../components/button/btnCancel.vue';
 import BtnOrange from '../components/button/btnOrange.vue';
 import produksi from '../service/page/produksi';
 import alertVue from '../components/dialog/alertVue.vue';
+import otoritas from '../service/page/otoritas';
 </script>
 <script>
   export default {
@@ -31,7 +32,7 @@ import alertVue from '../components/dialog/alertVue.vue';
       BtnOrange,
       alertVue,
     },
-    props:['cetak', 'tema'],
+    props:['cetak', 'tema', 'user'],
     data () {
       return {
         filter: false,
@@ -41,6 +42,7 @@ import alertVue from '../components/dialog/alertVue.vue';
         dialog2: false,
         confirmdialog: false,
         valert: false,
+        authority: '',
         status: null,
         message: '',
         pageTitle: 'PRODUKSI BARANG',
@@ -69,12 +71,16 @@ import alertVue from '../components/dialog/alertVue.vue';
     },
     methods: {
       async fetchData(){
-        let head = await api.getProduksiHead(this.periode)
-        this.detailbahan = await api.getProDBahan(this.periode)
-        this.detailbarang = await api.getProDBarang(this.periode)
-        this.items = produksi.items(head, this.detailbahan, this.detailbarang)
-        this.groupbarang = await api.getGroupBarang()
-        this.getbarang = await api.getBarang()
+        if(this.user != ''){
+          let head = await api.getProduksiHead(this.periode)
+          this.detailbahan = await api.getProDBahan(this.periode)
+          this.detailbarang = await api.getProDBarang(this.periode)
+          this.items = produksi.items(head, this.detailbahan, this.detailbarang)
+          this.groupbarang = await api.getGroupBarang()
+          this.getbarang = await api.getBarang()
+          let user = await api.getOtoritas(this.user)
+          this.authority = otoritas.otoritas(user)
+        } else return this.$router.push('login')
       },
       // TAMBAH DATA
       inputhead(value, detlbahan, detlbarang) {
@@ -185,6 +191,7 @@ import alertVue from '../components/dialog/alertVue.vue';
         <div class="d-flex align-center w-100">
           <!-- TAMBAH DATA -->
           <ScreenDialog2
+          v-if="otoritas.routes(authority, 'Tambah Produksi Baru')"
           :tema="tema"
           :headers="produksi.headItem"
           :items="items"
@@ -229,6 +236,7 @@ import alertVue from '../components/dialog/alertVue.vue';
             <!-- eslint-disable-next-line vue/valid-v-slot -->
             <template v-slot:item.actions="{ item }">
                 <ScreenDialog2
+                :hapus="otoritas.routes(authority, 'Batal Pembelian')"
                 batalbtn="Produksi"
                 :edit="true"
                 :detailbahan="produksi.bahan(item.raw.no_produksi, detailbahan)"

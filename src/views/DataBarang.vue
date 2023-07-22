@@ -3,6 +3,7 @@
 import api from '../service/api';
 import functions from '../service/functions';
 import barang from '../service/page/barang';
+import otoritas from '../service/page/otoritas';
 // component
 import TableVue from '../components/TableVue.vue';
 import btnFilter from '../components/button/btnFilter.vue';
@@ -29,12 +30,13 @@ export default defineComponent ({
     alertVue,
   },
     name: 'DataBarang',
-    props:['cetak', 'tema'],
+    props:['cetak', 'tema', 'user'],
     data () {
       return {
         dialog: false,
         valert: false,
         status: null,
+        authority: '',
         message: '',
         search: '',
         filter: false,
@@ -57,7 +59,11 @@ export default defineComponent ({
     },
     methods: {
       async fetchData() {
-        this.items = await api.getBarang()
+        if(this.user != '') {
+          this.items = await api.getBarang()
+          let user = await api.getOtoritas(this.user)
+          this.authority = otoritas.otoritas(user)
+        } else return this.$router.push('login')
       },
       close(v) {
         return this.filter = v
@@ -162,6 +168,7 @@ export default defineComponent ({
         <div class="d-flex align-center w-100">
           <!-- TAMBAH DATA BARU -->
           <dialogMaster
+            v-if="otoritas.routes(authority, 'Tambah Barang Baru')"
             toolbar_title="Tambah Data"
             :keyform="barang.keyform"
             :tambah="tambah"
@@ -192,6 +199,9 @@ export default defineComponent ({
       </v-row>
         <!-- TABLE -->
         <TableVue
+          :create="otoritas.routes(authority, 'Tambah Barang Baru')"
+          :update="otoritas.routes(authority, 'Ubah Barang')"
+          :delete="otoritas.routes(authority, 'Hapus Barang')"
           :keyform="barang.keyform"
           :noselect="statusselect"
           @edit="editForm"

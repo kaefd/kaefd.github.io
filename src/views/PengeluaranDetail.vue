@@ -27,7 +27,7 @@ export default {
         DialogVue,
         CurrencyInput
     },
-    props:['tema', 'pembelianbaru', 'namaPelanggan', 'laporan', 'groupbarang', 'barang', 'batalbtn', 'penjualan', 'pemasukan', 'alamatBongkar', 'namaTujuan', 'datainput', 'pageTitle', 'pengeluaran', 'dokumenpjl', 'namaSupplier', 'pengirimanDetail', 'pembelian', 'pelanggan', 'supplier', 'pembeliandetl', 'edit', 'kirim', 'headers', 'items', 'actIcon', 'icon', 'btncolor', 'search', 'iVariant', 'headDetails', 'details','disable', 'btn', 'datatext', 'itemDetail', 'category'],
+    props:['tema', 'hapus', 'pembelianbaru', 'namaPelanggan', 'laporan', 'groupbarang', 'barang', 'batalbtn', 'penjualan', 'pemasukan', 'alamatBongkar', 'namaTujuan', 'datainput', 'pageTitle', 'pengeluaran', 'dokumenpjl', 'namaSupplier', 'pengirimanDetail', 'pembelian', 'pelanggan', 'supplier', 'pembeliandetl', 'edit', 'kirim', 'headers', 'items', 'actIcon', 'icon', 'btncolor', 'search', 'iVariant', 'headDetails', 'details','disable', 'btn', 'datatext', 'itemDetail', 'category'],
     data () {
       return {
         dialog: false,
@@ -151,7 +151,7 @@ export default {
             </template>
                 <v-list>
                   <v-list-item class="text-caption" density="compact" v-bind="props" >Lihat Data</v-list-item>
-                  <v-list-item v-if="!laporan" class="text-caption" density="compact" @click="confirm()" >Batal Pengeluaran</v-list-item>
+                  <v-list-item v-if="!laporan && hapus" class="text-caption" density="compact" @click="confirm()" >Batal Pengeluaran</v-list-item>
                 </v-list>
             </v-menu>
           </template>

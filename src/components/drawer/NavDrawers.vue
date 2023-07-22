@@ -1,11 +1,12 @@
 <script setup>
 import { RouterLink } from 'vue-router'
 import api from '../../service/api';
+import otoritas from '../../service/page/otoritas';
 </script>
 
 <script>
   export default {
-    props: ['act', 'pageTitle', 'username'],
+    props: ['act', 'pageTitle', 'user'],
     data () {
       return {
         // windowWidth: window.innerWidth,
@@ -29,10 +30,15 @@ import api from '../../service/api';
         produksi: '',
         produksidetail: '',
         kirim: '',
-        title: ''
+        title: '',
+        aut: ''
       }
     },
     methods: {
+      async fetchData() {
+        let data = await api.getOtoritas(this.user)
+        this.aut = otoritas.otoritas(data)
+      },
       page(){
         if(
             this.pageTitle == 'DATA BARANG' ||
@@ -59,6 +65,7 @@ import api from '../../service/api';
       this.$nextTick(() => {
       // window.addEventListener('resize', this.onResize);
       this.pageTitle
+      this.fetchData()
     })
     }
   }
@@ -92,36 +99,36 @@ import api from '../../service/api';
     </v-list-item>
     <v-menu activator="#master" location="end" width="200">
       <v-list class="text-caption" density="compact" elevation="3" rounded="0">
-        <router-link to="/data-barang">
+        <router-link v-if="otoritas.routes(aut, 'Data Barang')" to="/data-barang">
           <v-list-item class="text-dark">Data Barang</v-list-item>
         </router-link>
-        <router-link to="/data-pelanggan">
+        <router-link v-if="otoritas.routes(aut, 'Data Pelanggan')" to="/data-pelanggan">
           <v-list-item class="text-dark">Data Pelanggan</v-list-item>
         </router-link>
-        <router-link to="/data-supplier">
+        <router-link v-if="otoritas.routes(aut, 'Data Supplier')" to="/data-supplier">
           <v-list-item class="text-dark">Data Supplier</v-list-item>
         </router-link>
-        <router-link v-if="username == 'name'" to="/data-user">
+        <router-link v-if="otoritas.routes(aut, 'Data User')" to="/data-user">
           <v-list-item class="text-dark">Data User</v-list-item>
         </router-link>
       </v-list>
     </v-menu>
-    <RouterLink to="/pemasukan">
+    <RouterLink v-if="otoritas.routes(aut, 'Pembelian')" to="/pemasukan">
       <v-list-item prepend-icon="mdi-inbox-arrow-down" class="text-caption text-dark" :active="pageTitle == 'PEMASUKAN BARANG' ? true : false" @click="pageTitle='PEMASUKAN BARANG'">
       Pemasukan Barang
       </v-list-item>
     </RouterLink>
-    <RouterLink to="/produksi">
+    <RouterLink v-if="otoritas.routes(aut, 'Produksi')" to="/produksi">
       <v-list-item prepend-icon="mdi-chart-donut" class="text-caption text-dark" :active="pageTitle == 'PRODUKSI BARANG' ? true : false" @click="pageTitle='PRODUKSI BARANG'">
         Produksi Barang
       </v-list-item>
     </RouterLink>
-    <RouterLink to="/pengeluaran">
+    <RouterLink v-if="otoritas.routes(aut, 'Penjualan')" to="/pengeluaran">
       <v-list-item prepend-icon="mdi-inbox-arrow-up" class="text-caption text-dark" :active="pageTitle == 'PENGELUARAN BARANG' ? true : false" @click="pageTitle='PENGELUARAN BARANG'">
         Pengeluaran Barang
       </v-list-item>
     </RouterLink>
-    <RouterLink to="/pengiriman">
+    <RouterLink v-if="otoritas.routes(aut, 'Pengiriman')" to="/pengiriman">
       <v-list-item prepend-icon="mdi-send-variant" class="text-caption text-dark" :active="pageTitle == 'PENGIRIMAN BARANG' ? true : false" @click="pageTitle='PENGIRIMAN BARANG'">
         Pengiriman Barang
       </v-list-item>
@@ -131,16 +138,16 @@ import api from '../../service/api';
     </v-list-item>
     <v-menu activator="#laporan" location="end" width="200">
       <v-list class="text-caption" density="compact" elevation="3" rounded="0">
-        <router-link to="/laporan-stok">
+        <router-link v-if="otoritas.routes(aut, 'Laporan Stok Barang')" to="/laporan-stok">
           <v-list-item class="text-dark">Laporan Stok Barang</v-list-item>
         </router-link>
-        <router-link to="/laporan-pemasukan">
+        <router-link v-if="otoritas.routes(aut, 'Laporan Pembelian')" to="/laporan-pemasukan">
           <v-list-item class="text-dark">Laporan Pemasukan</v-list-item>
         </router-link>
-        <router-link to="/laporan-pengeluaran">
+        <router-link v-if="otoritas.routes(aut, 'Laporan Penjualan')" to="/laporan-pengeluaran">
           <v-list-item class="text-dark">Laporan Pengeluaran</v-list-item>
         </router-link>
-        <router-link to="/laporan-log">
+        <router-link v-if="otoritas.routes(aut, 'Laporan Log User')" to="/laporan-log">
           <v-list-item class="text-dark">Laporan Log User</v-list-item>
         </router-link>
       </v-list>

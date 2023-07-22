@@ -31,7 +31,7 @@ export default {
     TextButton,
     CurrencyInput,
 },
-    props:['tema', 'headers', 'headItem', 'edit', 'getbarang', 'detailbahan', 'groupbarang', 'detailbarang', 'select_kode', 'item'],
+    props:['tema', 'headers', 'headItem', 'edit', 'hapus', 'getbarang', 'detailbahan', 'groupbarang', 'detailbarang', 'select_kode', 'item'],
     data () {
       return {
         dialog: false,
@@ -127,7 +127,7 @@ export default {
             </template>
                 <v-list>
                   <v-list-item class="text-caption" density="compact" v-bind="props" >Lihat Data</v-list-item>
-                  <v-list-item class="text-caption" density="compact" @click="confirm()" >Batal Produksi</v-list-item>
+                  <v-list-item v-if="hapus" class="text-caption" density="compact" @click="confirm()" >Batal Produksi</v-list-item>
                 </v-list>
             </v-menu>
           </template>

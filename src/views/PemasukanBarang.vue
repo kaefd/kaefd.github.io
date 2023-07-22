@@ -2,6 +2,7 @@
 // service
 import api from '../service/api';
 import functions from '../service/functions';
+import otoritas from '../service/page/otoritas';
 import pemasukan from '../service/page/pemasukan';
 // components
 import TableVue from '../components/TableVue.vue';
@@ -34,7 +35,7 @@ export default {
     BtnCancel,
     AlertVue
   },
-    props:['cetak', 'tema'],
+    props:['cetak', 'tema', 'user'],
     data () {
       return {
         search: '',
@@ -43,6 +44,7 @@ export default {
         confirmdialog: false,
         status: null,
         valert: false,
+        authority: '',
         message: '',
         pageTitle: 'PEMASUKAN BARANG',
         btn: 'Tambah Barang',
@@ -72,10 +74,14 @@ export default {
         return this.$emit('page', this.pageTitle)
       },
       async fetchData() {
-        this.items = await api.getPemasukanHead(this.periode)
-        this.supplier = await api.getSupplier()
-        this.pembeliandetl = await api.getPemasukanDetail(this.periode)
-        this.barang = await api.getBarang()
+        if(this.user != '') {
+          this.items = await api.getPemasukanHead(this.periode)
+          this.supplier = await api.getSupplier()
+          this.pembeliandetl = await api.getPemasukanDetail(this.periode)
+          this.barang = await api.getBarang()
+          let user = await api.getOtoritas(this.user)
+          this.authority = otoritas.otoritas(user)
+        } else return this.$router.push('login')
       },
       // TAMBAH DATA
       inputhead(value, valuedetail) {
@@ -191,6 +197,7 @@ export default {
           <div class="d-flex align-center w-100">
             <!-- ADD DATA -->
             <PemasukanDetail
+            v-if="otoritas.routes(authority, 'Tambah Pembelian Baru')"
             :tema="tema"
             :barang="barang"
             batalbtn="Pemasukan"
@@ -229,6 +236,7 @@ export default {
       </v-responsive>
     </v-row>
         <TableVue
+          :hapus="otoritas.routes(authority, 'Batal Pembelian')"
           id="tbl_exporttable_to_xls"
           :items="pemasukan.pilihtipe(selectdokumen, items, supplier)"
           :search="search"

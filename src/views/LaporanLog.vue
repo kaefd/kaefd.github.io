@@ -19,7 +19,7 @@ import DatePicker from '../components/datepicker/datePicker.vue';
         TextField,
         DatePicker
     },
-    props:['tema', 'cetak'],
+    props:['tema', 'cetak', 'user'],
     data () {
       return {
         drawer: null,
@@ -43,7 +43,7 @@ import DatePicker from '../components/datepicker/datePicker.vue';
         ],
         selectuser:[],
         items: '',
-        user: '',
+        users: '',
         filtered: {
           selectuser: [],
           periode: []
@@ -84,7 +84,7 @@ import DatePicker from '../components/datepicker/datePicker.vue';
         const apiUrl = '/user?'
         api.getData(apiUrl)
         .then(response => {
-          this.user = response.data
+          this.users = response.data
         })
         .catch(() => {
           return this.$router.push('login');

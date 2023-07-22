@@ -27,7 +27,7 @@ import DatePicker from '../components/datepicker/datePicker.vue';
         BtnFilter,
         DatePicker,
     },
-    props:['tema', 'cetak'],
+    props:['tema', 'cetak', 'user'],
     data () {
       return {
         drawer: null,
@@ -87,10 +87,12 @@ import DatePicker from '../components/datepicker/datePicker.vue';
     },
     methods: {
       async fetchData() {
-        this.items = await api.getPemasukanHead(this.periode)
-        this.pembeliandetl = await api.getPemasukanDetail(this.periode)
-        this.supplier = await api.getSupplier()
-        this.barang = await api.getBarang()
+        if(this.user != '') {
+          this.items = await api.getPemasukanHead(this.periode)
+          this.pembeliandetl = await api.getPemasukanDetail(this.periode)
+          this.supplier = await api.getSupplier()
+          this.barang = await api.getBarang()
+        }
       },
       page(){
         return this.$emit('page', this.pageTitle)

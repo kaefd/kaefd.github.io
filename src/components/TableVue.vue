@@ -21,10 +21,10 @@ export default {
       dialogConfirm,
       btnCancel,
       menuList,
-        BtnOrange,
+      BtnOrange,
     },
     // props: ['loading', 'stokbarang', 'barang', 'groupbarang', 'laporanstok', 'disabled', 'keyform', 'headers', 'items', 'search', 'category', '', 'toolbar_title', 'icon', 'iVariant', 'alpha', 'screen', 'form', 'noselect', 'ishidden'],
-    props: ['stokbarang', 'groupbarang', 'laporanstok', 'masuk', 'supplier', 'pembeliandetl', 'view', 'disabled', 'keyform', 'headers', 'items', 'search', 'category', 'toolbar_title', 'form', 'noselect', 'ishidden', 'pageTitle'],
+    props: ['stokbarang', 'update', 'hapus', 'groupbarang', 'laporanstok', 'masuk', 'supplier', 'pembeliandetl', 'view', 'disabled', 'keyform', 'headers', 'items', 'search', 'category', 'toolbar_title', 'form', 'noselect', 'ishidden', 'pageTitle'],
     
     data () {
       return {
@@ -41,6 +41,12 @@ export default {
       }
     },
     methods:{
+      master() {
+        if(
+          this.update == 'Ubah Barang' ||
+          this.update == 'Ubah Pelanggan'
+        ){ return true } else return false
+      },
       result(value, i) {
         return value != 'hapus' ? this.dialog[i] = true : this.confirmdialog[i] = true
       },
@@ -100,9 +106,8 @@ export default {
         <LogBarang :headers="headers" :barang="items" :groupbarang="groupbarang" :stokbarang="stokbarang" :item="item.raw" :kode_group="item.raw.kode_group" :kode_barang="item.raw.kode_barang"/>
       </template>
       <!-- eslint-disable-next-line vue/valid-v-slot -->
-      <template v-if="!laporanstok && !masuk" v-slot:item.actions="{ item, index }">
+      <template v-if="!laporanstok && !masuk && master()" v-slot:item.actions="{ item, index }">
           <menuList v-if="!view" :items="list" icon="mdi-dots-vertical" :submenu="true" @result="result" :index="index" />
-          <menuList v-if="view" :items="list2" icon="mdi-dots-vertical" :submenu="true" @result="result" :index="index" />
           <dialogMaster v-model="dialog[index]" :view="view" editbtn="true" :ishidden="true" :keyform="keyform" :intable="true" :disabled="disabled" :noselect="noselect" :form="item.raw" @edit="edit" :item="item" :screen="screen" :headers="headers" :items="items" :category="category" :toolbar_title="toolbar_title"  :alpha="alpha">
             <template #cancel>
               <btnCancel @click=" dialog[index] = false" btn_title="Batal" />  
@@ -123,6 +128,7 @@ export default {
        <!-- eslint-disable-next-line vue/valid-v-slot -->
        <template v-if="masuk" v-slot:item.actions="{item}">
             <PemasukanDetail
+            :hapus="hapus"
             batalbtn="Pemasukan"
             @confirm="confirm"
             :supplier="supplier"

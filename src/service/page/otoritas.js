@@ -1,0 +1,23 @@
+const otoritas = (data) => {
+    let a = []
+    for (let i = 0; i < data.length; i++) {
+        if(data[i].status == 'true') {
+            a.push({
+                username: data[i].username,
+                jenis_otoritas: data[i].jenis_otoritas,
+            })
+        }
+    }
+    return a
+}
+const routes = (data, target) => {
+    for (let i = 0; i < data.length; i++) {
+        if(data[i].jenis_otoritas == target) {
+            return data[i].jenis_otoritas
+        }
+    }
+}
+export default {
+    otoritas,
+    routes,
+}

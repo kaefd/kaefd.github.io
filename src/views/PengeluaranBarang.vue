@@ -19,6 +19,7 @@ import DatePicker from '../components/datepicker/datePicker.vue';
 import BtnFilter from '../components/button/btnFilter.vue';
 import BtnCancel from '../components/button/btnCancel.vue';
 import BtnOrange from '../components/button/btnOrange.vue';
+import otoritas from '../service/page/otoritas';
 </script>
 
 <script>
@@ -38,7 +39,7 @@ import BtnOrange from '../components/button/btnOrange.vue';
       BtnCancel,
       BtnOrange
     },
-    props:['cetak', 'tema'],
+    props:['cetak', 'tema', 'user'],
     data () {
       return {
         filter: false,
@@ -48,6 +49,7 @@ import BtnOrange from '../components/button/btnOrange.vue';
         datapelanggan: '',
         dialog2: false,
         confirmdialog: false,
+        authority: '',
         status: null,
         valert: false,
         message: '',
@@ -77,12 +79,16 @@ import BtnOrange from '../components/button/btnOrange.vue';
     },
     methods: {
       async fetchData() {
-        let item = await api.getPenjualanHead(this.periode)
-        this.datapelanggan = await api.getPelanggan()
-        this.penjualan_head = pengeluaran.items(item, this.datapelanggan)
-        this.penjualan_detail = await api.getPenjualanDetail(this.periode)
-        this.groupbarang = await api.getGroupBarang()
-        this.barang = await api.getBarang()
+        if(this.user != ''){
+          let item = await api.getPenjualanHead(this.periode)
+          this.datapelanggan = await api.getPelanggan()
+          this.penjualan_head = pengeluaran.items(item, this.datapelanggan)
+          this.penjualan_detail = await api.getPenjualanDetail(this.periode)
+          this.groupbarang = await api.getGroupBarang()
+          this.barang = await api.getBarang()
+          let user = await api.getOtoritas(this.user)
+          this.authority = otoritas.otoritas(user)
+        } else return this.$router.push('login')
       },
       close(v) {
         return this.filter = v
@@ -214,6 +220,7 @@ import BtnOrange from '../components/button/btnOrange.vue';
         <div class="d-flex align-center w-100">
           <!-- TAMBAH DATA -->
           <PengeluaranDetail
+            v-if="otoritas.routes(authority, 'Tambah Penjualan Baru')"
             :tema="tema"
             batalbtn="Pengeluaran"
             :datainput="pengeluaran.datainput"
@@ -291,6 +298,7 @@ import BtnOrange from '../components/button/btnOrange.vue';
              <!-- eslint-disable-next-line vue/valid-v-slot -->
             <template v-slot:item.actions="{item}">
               <PengeluaranDetail
+              :hapus="otoritas.routes(authority, 'Batal Penjualan')"
               @confirm="confirm"
               batalbtn="Pengeluaran"
               :namaPelanggan="pelanggan.namaPelanggan(pelanggan, item.raw.kode_pelanggan)"

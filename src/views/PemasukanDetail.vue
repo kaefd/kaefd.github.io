@@ -13,6 +13,7 @@ import BtnOrange from '../components/button/btnOrange.vue';
 import dialogVue from '../components/dialog/dialogVue.vue';
 import CurrencyInput from '../components/form/currencyInput.vue';
 import BtnInfo from '../components/button/btnInfo.vue';
+import otoritas from '../service/page/otoritas';
 </script>
 
 <script>
@@ -32,7 +33,7 @@ export default {
     CurrencyInput,
     BtnInfo
 },
-    props:['tema', 'barang', 'pembelianbaru', 'laporan', 'namaPelanggan', 'total', 'groupbarang', 'batalbtn', 'penjualan', 'pemasukan', 'alamatBongkar', 'totalpenjualan', 'namaTujuan', 'datainput', 'pageTitle', 'pengeluaran', 'dokumenpjl', 'namaSupplier', 'pengirimanDetail', 'pembelian', 'pelanggan', 'supplier', 'pembeliandetl', 'edit', 'kirim', 'headers', 'items',  'search', 'iVariant', 'headDetails', 'details','disable', 'btn', 'datatext', 'itemDetail', 'category'],
+    props:['tema', 'hapus', 'barang', 'pembelianbaru', 'laporan', 'namaPelanggan', 'total', 'groupbarang', 'batalbtn', 'penjualan', 'pemasukan', 'alamatBongkar', 'totalpenjualan', 'namaTujuan', 'datainput', 'pageTitle', 'pengeluaran', 'dokumenpjl', 'namaSupplier', 'pengirimanDetail', 'pembelian', 'pelanggan', 'supplier', 'pembeliandetl', 'edit', 'kirim', 'headers', 'items',  'search', 'iVariant', 'headDetails', 'details','disable', 'btn', 'datatext', 'itemDetail', 'category'],
     data () {
       return {
         dialog: false,
@@ -47,6 +48,9 @@ export default {
         list: [
             {title: 'Lihat Data', key: 'lihat'},
             {title: 'Batal Pemasukan', key: 'batal'},
+        ],
+        viewOnly: [
+            {title: 'Lihat Data', key: 'lihat'},
         ],
         item: '',
         searched: '',
@@ -127,7 +131,7 @@ export default {
             v-if="edit"
             :submenu="true"
             icon="mdi-dots-vertical"
-            :items="list"
+            :items="hapus == 'Batal Pembelian' ? list : viewOnly"
             @result="menuAksi"
         />
       </template>

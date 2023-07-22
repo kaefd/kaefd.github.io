@@ -31,10 +31,7 @@ export default {
         return this.$emit('page', this.pageTitle)
       },
       handleLogin() {
-        api.postLogin({
-          username: this.username,
-          password: this.password
-        })
+        api.postLogin(this.username, this.password)
         .then(response => {
           localStorage.setItem('token', response.data)
           this.$router.push('data-barang')
@@ -44,7 +41,7 @@ export default {
         })
     },
     users() {
-      
+      return this.$emit('user', this.username)
     }
   },
   mounted() {
@@ -99,7 +96,7 @@ export default {
               <img src="../assets/img/PASS.png" class="me-3 mb-2 icon-small" />
             </v-text-field>
             <v-checkbox label="show password" density="compact" class="mt-2" color="orange" v-model="ispassword"></v-checkbox>
-            <v-btn block type="submit" class="text-white color-orangetheme elevation-0 btn-login d-block mx-auto">Login</v-btn>
+            <v-btn @click="users()" block type="submit" class="text-white color-orangetheme elevation-0 btn-login d-block mx-auto">Login</v-btn>
             </v-form>
           </v-container>
       </v-container>
@@ -119,10 +116,9 @@ export default {
                 <img src="../assets/img/PASS.png" class="ms-1 me-3 icon-small" />
               </v-text-field>
               <v-checkbox label="show password" density="compact" class="mt-2" color="orange" v-model="ispassword"></v-checkbox>
-              <v-btn block type="submit" class="text-white color-orangetheme elevation-0">Login</v-btn>
+              <v-btn  @click="users()" block type="submit" class="text-white color-orangetheme elevation-0">Login</v-btn>
             </v-container>
           </v-form>
-          <div v-if="message" class="error-message text-body-2 text-white pt-3">{{ message }}</div>
         </v-card>
       </v-row>
     </v-col>

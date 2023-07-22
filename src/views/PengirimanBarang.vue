@@ -18,6 +18,7 @@ import squareButton from '../components/button/buttonVue.vue';
 import BtnFilter from '../components/button/btnFilter.vue';
 import DatePicker from '../components/datepicker/datePicker.vue';
 import TextButton from '../components/button/textButton.vue';
+import otoritas from '../service/page/otoritas';
 </script>
 
 <script>
@@ -36,7 +37,7 @@ import TextButton from '../components/button/textButton.vue';
         DatePicker,
         TextButton
     },
-    props:['cetak', 'tema'],
+    props:['cetak', 'tema', 'user'],
     data () {
       return {
         drawer: null,
@@ -44,6 +45,7 @@ import TextButton from '../components/button/textButton.vue';
         filter: false,
         confirmdialog: false,
         valert: false,
+        authority: '',
         status: '',
         message: '',
         periode: [],
@@ -72,12 +74,16 @@ import TextButton from '../components/button/textButton.vue';
         return this.$emit('page', this.pageTitle)
       },
       async fetchData() {
-        let item = await api.getPengirimanHead(this.periode)
-        this.alamatBongkar = await api.alamatBongkar()
-        this.pelanggan = await api.getPelanggan()
-        this.pengirimanHead = pengiriman.items(item, this.pelanggan, this.alamatBongkar)
-        this.penjualanHead = await api.getPenjualanHead(this.periode)
-        this.kirim_detail = await api.getPengirimanDetail(this.periode)
+        if(this.user != ''){
+          let item = await api.getPengirimanHead(this.periode)
+          this.alamatBongkar = await api.alamatBongkar()
+          this.pelanggan = await api.getPelanggan()
+          this.pengirimanHead = pengiriman.items(item, this.pelanggan, this.alamatBongkar)
+          this.penjualanHead = await api.getPenjualanHead(this.periode)
+          this.kirim_detail = await api.getPengirimanDetail(this.periode)
+          let user = await api.getOtoritas(this.user)
+          this.authority = otoritas.otoritas(user)
+        } else return this.$router.push('login')
       },
       close(v) {
         return this.filter = v
@@ -189,6 +195,7 @@ import TextButton from '../components/button/textButton.vue';
         <div class="d-flex align-center w-100">
           <!-- TAMBAH DATA -->
           <PengirimanDetail
+          v-if="otoritas.routes(authority, 'Tambah Pengiriman Baru')"
           :tema="tema"
           @inputhead="inputhead"
           :alamatBongkar="alamatBongkar"
@@ -251,6 +258,7 @@ import TextButton from '../components/button/textButton.vue';
                     <v-list density="compact" class="px-3">
                       <v-list-item class="pa-0">
                         <PengirimanDetail
+                          :hapus="otoritas.routes(authority, 'Batal Pengiriman')"
                           batalbtn="Pengiriman"
                           :kirim="true"
                           :edit="true"
