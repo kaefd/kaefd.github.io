@@ -85,7 +85,7 @@ import otoritas from '../service/page/otoritas';
           this.pengirimanHead = pengiriman.items(item, this.pelanggan, this.alamatBongkar)
           this.penjualanHead = await api.getPenjualanHead(this.periode)
           this.kirim_detail = await api.getPengirimanDetail(this.periode)
-        }
+        } else return this.$router.push('login')
       },
       close(v) {
         return this.filter = v

@@ -83,7 +83,7 @@ export default {
           this.supplier = await api.getSupplier()
           this.pembeliandetl = await api.getPemasukanDetail(this.periode)
           this.barang = await api.getBarang()
-        }
+        } else return this.$router.push('login')
       },
       // TAMBAH DATA
       inputhead(value, valuedetail) {

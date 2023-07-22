@@ -90,7 +90,7 @@ import otoritas from '../service/page/otoritas';
           this.penjualan_detail = await api.getPenjualanDetail(this.periode)
           this.groupbarang = await api.getGroupBarang()
           this.barang = await api.getBarang()
-        }
+        } else return this.$router.push('login')
       },
       close(v) {
         return this.filter = v

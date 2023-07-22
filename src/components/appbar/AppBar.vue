@@ -4,7 +4,7 @@ import api from '../../service/api';
 
 <script>
 export default {
-  props:['pageTitle'],
+  props:['pageTitle', 'user'],
     data(){
         return {
             dark: false,
@@ -45,7 +45,7 @@ export default {
               <v-icon size="25" color="white">mdi-account</v-icon>
             </v-avatar>
             <v-span class="text-caption d-flex">
-              Admin
+              {{ user }}
               <v-icon size="20">mdi-chevron-down</v-icon>
             </v-span>
             <v-menu activator="#akun">
@@ -54,7 +54,7 @@ export default {
                   <v-avatar size="100">
                     <v-icon size="80">mdi-account-circle</v-icon>
                   </v-avatar>
-                  <v-span>Admin</v-span>
+                  <v-span>{{ user }}</v-span>
                   <v-btn class="d-flex justify-start align-left rounded-b-xl elevation-0 mt-5" block size="60">
                     <v-icon color="grey-darken-3 me-2 mt-n1 ms-6" size="19">mdi-key</v-icon>
                     <v-span class="text-body-2">Ganti Password</v-span>

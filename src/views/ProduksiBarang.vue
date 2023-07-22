@@ -82,7 +82,7 @@ import otoritas from '../service/page/otoritas';
           this.items = produksi.items(head, this.detailbahan, this.detailbarang)
           this.groupbarang = await api.getGroupBarang()
           this.getbarang = await api.getBarang()
-        }
+        } else return this.$router.push('login')
       },
       // TAMBAH DATA
       inputhead(value, detlbahan, detlbarang) {
