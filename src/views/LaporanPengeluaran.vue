@@ -13,6 +13,7 @@ import menuList from '../components/menu/menuList.vue';
 import checkBox from '../components/form/checkBox.vue';
 import BtnFilter from '../components/button/btnFilter.vue';
 import DatePicker from '../components/datepicker/datePicker.vue';
+import otoritas from '../service/page/otoritas';
 </script>
 
 <script>
@@ -34,6 +35,7 @@ import DatePicker from '../components/datepicker/datePicker.vue';
         search: '',
         periode: [],
         filter:false,
+        authority: '',
         pageTitle: 'LAPORAN PENGELUARAN BARANG',
         selectdokumen: [],
         btnTitle: 'Tambah Data',
@@ -83,11 +85,15 @@ import DatePicker from '../components/datepicker/datePicker.vue';
     },
     created() {
       this.periode = [this.tglawal(), functions.day()]
-       this.filtered.periode = [this.tglawal(), functions.day()]
+      this.filtered.periode = [this.tglawal(), functions.day()]
     },
     methods: {
       async fetchData() {
-        if(this.user != ''){
+        if(this.user != '') {
+          let user = await api.getOtoritas(this.user)
+          this.authority = otoritas.otoritas(user)
+        }
+        if(this.authority != '') {
           this.items = await api.getPenjualanHead(this.periode)
           this.pjldetail = await api.getPenjualanDetail(this.periode)
           this.pelanggan = await api.getPelanggan()

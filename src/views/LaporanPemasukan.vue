@@ -13,6 +13,7 @@ import menuList from '../components/menu/menuList.vue';
 import checkBox from '../components/form/checkBox.vue';
 import BtnFilter from '../components/button/btnFilter.vue';
 import DatePicker from '../components/datepicker/datePicker.vue';
+import otoritas from '../service/page/otoritas';
 
 </script>
 <script>
@@ -39,7 +40,7 @@ import DatePicker from '../components/datepicker/datePicker.vue';
         btnTitle: 'Tambah Data',
         cardTitle: 'Detail Barang',
         fullscreen: 'fullscreen',
-        alpha: null,
+        authority: '',
         tipedokumen: [
           'BC23',
           'BC40',
@@ -88,6 +89,10 @@ import DatePicker from '../components/datepicker/datePicker.vue';
     methods: {
       async fetchData() {
         if(this.user != '') {
+          let user = await api.getOtoritas(this.user)
+          this.authority = otoritas.otoritas(user)
+        }
+        if(this.authority != '') {
           this.items = await api.getPemasukanHead(this.periode)
           this.pembeliandetl = await api.getPemasukanDetail(this.periode)
           this.supplier = await api.getSupplier()

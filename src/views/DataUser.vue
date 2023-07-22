@@ -1,11 +1,12 @@
 <script setup>
 import { defineComponent } from 'vue';
 import api from '../service/api';
+import otoritas from '../service/page/otoritas';
 
 </script>
 <script>
   export default defineComponent({
-    props:['actIcon', 'cetak'],
+    props:['user', 'cetak'],
     name:'UserView',
     components: {
     },
@@ -17,6 +18,7 @@ import api from '../service/api';
         username: '',
         password: '',
         otority: '',
+        authority: '',
         dialogotoritas: [],
         userselect: 'admin',
         open: ['barang', 'Laporan'],
@@ -41,36 +43,21 @@ import api from '../service/api';
         
       }
     },
-    created() {
-        
-    },
-    computed: {
-      // JENIS OTORITAS
-
-        
-    },
       methods: {
-        getUser() {
-          api.getData('/user?status=true')
-          .then(response => {
-            this.items = response.data
-          })
-          .catch(() => {
-            return this.$router.push('login');
-          })
+        async fetchData () {
+          if(this.user != '') {
+          let user = await api.getOtoritas(this.user)
+          this.authority = otoritas.otoritas(user)
+        }
+          if(this.authority != '') {
+            this.items = await api.getUser()
+            let user = await api.getOtoritas(this.userselect)
+            this.user_otoritas = otoritas.otoritas(user)
+          } else return this.$router.push('login')
         },
-        getOtoritas(){
-          const apiUrl = '/user_otoritas?'
-          const params = {
-            username: this.userselect,
-          }
-          api.getData(apiUrl, { params })
-          .then(response => {
-            this.user_otoritas = response.data
-          })
-          .catch(() => {
-            return this.$router.push('login');
-          })
+        async pilihUser(value) {
+          let user = await api.getOtoritas(value)
+          this.user_otoritas = otoritas.otoritas(user)
         },
         page(){
           return this.$emit('page', this.pageTitle)
@@ -81,67 +68,6 @@ import api from '../service/api';
         },
         onScroll () {
           this.scrollInvoked++
-        },
-        otoritas(){
-        return {
-          'Data Barang' :
-          [
-            { jenisotoritas: this.user_otoritas[4].jenis_otoritas, status: this.user_otoritas[4].status },
-            { jenisotoritas: this.user_otoritas[21].jenis_otoritas, status: this.user_otoritas[21].status },
-            { jenisotoritas: this.user_otoritas[27].jenis_otoritas, status: this.user_otoritas[27].status, },
-            { jenisotoritas: this.user_otoritas[8].jenis_otoritas, status: this.user_otoritas[8].status, },
-          ],
-          'Data Pelanggan' :
-          [
-            { jenisotoritas: this.user_otoritas[5].jenis_otoritas, status: this.user_otoritas[5].status },
-            { jenisotoritas: this.user_otoritas[22].jenis_otoritas, status: this.user_otoritas[22].status },
-            { jenisotoritas: this.user_otoritas[28].jenis_otoritas, status: this.user_otoritas[28].status, },
-            { jenisotoritas: this.user_otoritas[9].jenis_otoritas, status: this.user_otoritas[9].status, },
-          ],
-          'Data Supplier' :
-          [
-            { jenisotoritas: this.user_otoritas[6].jenis_otoritas, status: this.user_otoritas[6].status },
-          ],
-          'Data User' :
-          [
-            { jenisotoritas: this.user_otoritas[7].jenis_otoritas, status: this.user_otoritas[7].status },
-          ],
-          'Pembelian' :
-          [
-            { jenisotoritas: this.user_otoritas[17].jenis_otoritas, status: this.user_otoritas[17].status },
-            { jenisotoritas: this.user_otoritas[23].jenis_otoritas, status: this.user_otoritas[23].status },
-            { jenisotoritas: this.user_otoritas[0].jenis_otoritas, status: this.user_otoritas[0].status },
-          ],
-          'Produksi' :
-          [
-            { jenisotoritas: this.user_otoritas[20].jenis_otoritas, status: this.user_otoritas[20].status },
-            { jenisotoritas: this.user_otoritas[26].jenis_otoritas, status: this.user_otoritas[26].status },
-            { jenisotoritas: this.user_otoritas[3].jenis_otoritas, status: this.user_otoritas[3].status },
-          ],
-          'Penjualan' :
-          [
-            { jenisotoritas: this.user_otoritas[19].jenis_otoritas, status: this.user_otoritas[19].status },
-            { jenisotoritas: this.user_otoritas[25].jenis_otoritas, status: this.user_otoritas[25].status },
-            { jenisotoritas: this.user_otoritas[2].jenis_otoritas, status: this.user_otoritas[2].status },
-          ],
-          'Pengiriman' :
-          [
-            { jenisotoritas: this.user_otoritas[18].jenis_otoritas, status: this.user_otoritas[18].status },
-            { jenisotoritas: this.user_otoritas[24].jenis_otoritas, status: this.user_otoritas[24].status },
-            { jenisotoritas: this.user_otoritas[1].jenis_otoritas, status: this.user_otoritas[1].status },
-          ],
-          'Laporan' :
-          [
-            { jenisotoritas: this.user_otoritas[10].jenis_otoritas, status: this.user_otoritas[10].status },
-            { jenisotoritas: this.user_otoritas[16].jenis_otoritas, status: this.user_otoritas[16].status },
-            { jenisotoritas: this.user_otoritas[12].jenis_otoritas, status: this.user_otoritas[12].status },
-            { jenisotoritas: this.user_otoritas[15].jenis_otoritas, status: this.user_otoritas[15].status },
-            { jenisotoritas: this.user_otoritas[14].jenis_otoritas, status: this.user_otoritas[14].status },
-            { jenisotoritas: this.user_otoritas[13].jenis_otoritas, status: this.user_otoritas[13].status },
-            { jenisotoritas: this.user_otoritas[11].jenis_otoritas, status: this.user_otoritas[11].status },
-          ],
-  
-        }
         },
         userotoritas(user, jns) {
           for (let i = 0; i < this.user_otoritas.length; i++) {
@@ -158,14 +84,12 @@ import api from '../service/api';
          }
         },
         updt() {
-          this.getOtoritas()
-          this.getUser()
+          this.fetchData()
         }
     },
     mounted() {
       this.page()
-      this.getOtoritas()
-      this.getUser()
+      this.fetchData()
     }
   })
 </script>
@@ -185,7 +109,7 @@ import api from '../service/api';
         <v-list-item
         v-for="item, i in items" :key="i"
         class="text-caption" density="compact"
-        @click="userselect = item.username"
+        @click="pilihUser(item.username)"
         >
         {{ item.username }}
         </v-list-item>

@@ -75,13 +75,15 @@ export default {
       },
       async fetchData() {
         if(this.user != '') {
+          let user = await api.getOtoritas(this.user)
+          this.authority = otoritas.otoritas(user)
+        }
+        if(this.authority != '') {
           this.items = await api.getPemasukanHead(this.periode)
           this.supplier = await api.getSupplier()
           this.pembeliandetl = await api.getPemasukanDetail(this.periode)
           this.barang = await api.getBarang()
-          let user = await api.getOtoritas(this.user)
-          this.authority = otoritas.otoritas(user)
-        } else return this.$router.push('login')
+        }
       },
       // TAMBAH DATA
       inputhead(value, valuedetail) {

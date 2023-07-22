@@ -13,7 +13,6 @@ import BtnOrange from '../components/button/btnOrange.vue';
 import dialogVue from '../components/dialog/dialogVue.vue';
 import CurrencyInput from '../components/form/currencyInput.vue';
 import BtnInfo from '../components/button/btnInfo.vue';
-import otoritas from '../service/page/otoritas';
 </script>
 
 <script>

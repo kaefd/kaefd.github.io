@@ -47,9 +47,11 @@ import otoritas from '../service/page/otoritas';
     methods: {
       async fetchData() {
         if(this.user != '') {
-          this.items = await api.getPelanggan()
           let user = await api.getOtoritas(this.user)
           this.authority = otoritas.otoritas(user)
+        }
+        if(this.authority != '') {
+          this.items = await api.getPelanggan()
         } else return this.$router.push('login')
       },
       page(){

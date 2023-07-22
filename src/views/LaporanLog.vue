@@ -7,6 +7,7 @@ import checkBox from '../components/form/checkBox.vue';
 import BtnFilter from '../components/button/btnFilter.vue';
 import TextField from '../components/form/textField.vue';
 import DatePicker from '../components/datepicker/datePicker.vue';
+import otoritas from '../service/page/otoritas';
 </script>
 
 <script>
@@ -30,7 +31,7 @@ import DatePicker from '../components/datepicker/datePicker.vue';
         btnTitle: 'Tambah Data',
         cardTitle: 'Detail Barang',
         fullscreen: 'fullscreen',
-        alpha: null,
+        authority: '',
         datauser: [
           'admin',
           'beacukai',
@@ -50,7 +51,7 @@ import DatePicker from '../components/datepicker/datePicker.vue';
         }
       }
     },
-    created() {
+    async created() {
       this.periode = [this.tglawal(), this.today()]
       this.filtered.periode = [this.tglawal(), this.today()]
     },

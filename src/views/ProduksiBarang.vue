@@ -66,21 +66,23 @@ import otoritas from '../service/page/otoritas';
       }
     },
     created() {
-        this.periode = [functions.tglawal(), functions.day()]
-        this.filtered.periode = [functions.tglawal(), functions.day()]
+      this.periode = [functions.tglawal(), functions.day()]
+      this.filtered.periode = [functions.tglawal(), functions.day()]
     },
     methods: {
       async fetchData(){
-        if(this.user != ''){
+        if(this.user != '') {
+          let user = await api.getOtoritas(this.user)
+          this.authority = otoritas.otoritas(user)
+        }
+        if(this.authority != '') {
           let head = await api.getProduksiHead(this.periode)
           this.detailbahan = await api.getProDBahan(this.periode)
           this.detailbarang = await api.getProDBarang(this.periode)
           this.items = produksi.items(head, this.detailbahan, this.detailbarang)
           this.groupbarang = await api.getGroupBarang()
           this.getbarang = await api.getBarang()
-          let user = await api.getOtoritas(this.user)
-          this.authority = otoritas.otoritas(user)
-        } else return this.$router.push('login')
+        }
       },
       // TAMBAH DATA
       inputhead(value, detlbahan, detlbarang) {

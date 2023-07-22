@@ -60,9 +60,11 @@ export default defineComponent ({
     methods: {
       async fetchData() {
         if(this.user != '') {
-          this.items = await api.getBarang()
           let user = await api.getOtoritas(this.user)
           this.authority = otoritas.otoritas(user)
+        }
+        if(this.authority != '') {
+          this.items = await api.getBarang()
         } else return this.$router.push('login')
       },
       close(v) {

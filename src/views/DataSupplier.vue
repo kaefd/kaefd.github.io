@@ -7,6 +7,7 @@ import supplier from '../service/page/supplier'
 import TableVue from '../components/TableVue.vue';
 import menuList from '../components/menu/menuList.vue';
 import textField from '../components/form/textField.vue';
+import otoritas from '../service/page/otoritas';
 </script>
 <script>
   export default {
@@ -27,7 +28,13 @@ import textField from '../components/form/textField.vue';
     },
     methods:{
       async fetchData() {
-        this.items = await api.getSupplier()
+        if(this.user != '') {
+          let user = await api.getOtoritas(this.user)
+          this.authority = otoritas.otoritas(user)
+        }
+        if(this.authority != '') {
+          this.items = await api.getSupplier()
+        } else return this.$router.push('login')
       },
       page(){
         return this.$emit('page', this.pageTitle)

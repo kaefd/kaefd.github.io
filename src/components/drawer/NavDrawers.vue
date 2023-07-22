@@ -31,13 +31,19 @@ import otoritas from '../../service/page/otoritas';
         produksidetail: '',
         kirim: '',
         title: '',
-        aut: ''
+        aut: '',
+        empty: null
       }
     },
     methods: {
       async fetchData() {
-        let data = await api.getOtoritas(this.user)
-        this.aut = otoritas.otoritas(data)
+        if(this.user != ''){
+          let data = await api.getOtoritas(this.user)
+          this.aut = otoritas.otoritas(data)
+          if(this.aut == []) {
+            this.empty = true
+          } else this.empty = false
+        }
       },
       page(){
         if(
@@ -97,7 +103,7 @@ import otoritas from '../../service/page/otoritas';
       >
       Data Master
     </v-list-item>
-    <v-menu activator="#master" location="end" width="200">
+    <v-menu :activator="otoritas.routes(aut, 'Data Barang') ? '#master' : null" location="end" width="200">
       <v-list class="text-caption" density="compact" elevation="3" rounded="0">
         <router-link v-if="otoritas.routes(aut, 'Data Barang')" to="/data-barang">
           <v-list-item class="text-dark">Data Barang</v-list-item>
@@ -136,7 +142,7 @@ import otoritas from '../../service/page/otoritas';
     <v-list-item id="laporan" prepend-icon="mdi-folder-outline" class="text-caption text-dark" :active="laporan()" value="laporan" @click="pageTitle = 'LAPORAN'">
       Laporan
     </v-list-item>
-    <v-menu activator="#laporan" location="end" width="200">
+    <v-menu :activator="otoritas.routes(aut, 'Laporan') ? '#laporan' : null" location="end" width="200">
       <v-list class="text-caption" density="compact" elevation="3" rounded="0">
         <router-link v-if="otoritas.routes(aut, 'Laporan Stok Barang')" to="/laporan-stok">
           <v-list-item class="text-dark">Laporan Stok Barang</v-list-item>

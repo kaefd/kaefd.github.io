@@ -35,7 +35,7 @@ import otoritas from '../service/page/otoritas';
         selectCategory: [],
         btnTitle: 'Tambah Data',
         cardTitle: 'Detail Barang',
-        alpha: 1,
+        authority:'',
         category: [
           'Bahan Baku',
           'Bahan Penolong',
@@ -110,11 +110,13 @@ import otoritas from '../service/page/otoritas';
     },
     methods: {
       async fetchData() {
-        if(this.user != ''){
-          this.items = await api.getGroupBarang()
-          this.barang = await api.getBarang()
+        if(this.user != '') {
           let user = await api.getOtoritas(this.user)
           this.authority = otoritas.otoritas(user)
+        }
+        if(this.authority != '') {
+          this.items = await api.getGroupBarang()
+          this.barang = await api.getBarang()
         } else return this.$router.push('login')
       },
       data(){

@@ -2,6 +2,7 @@
 import { VDataTable } from 'vuetify/labs/VDataTable'
 import api from '../service/api';
 import TextButton from '../components/button/textButton.vue';
+import otoritas from '../service/page/otoritas';
 </script>
 <script>
 export default {
@@ -16,6 +17,7 @@ export default {
         dialogbrg: false,
         logbrg: '',
         log_brg: '',
+        authority: '',
         headers: [
           { title: 'Kode Group', key: 'kode_group'},
           { title: 'Kategori Barang', key: 'kategori_barang'},
@@ -40,9 +42,6 @@ export default {
 
     }
     },
-    created() {
-        
-    },
     computed: {
         items () {
         let a = []
@@ -65,6 +64,15 @@ export default {
             }
             return a
         }
+    },
+    async created() {
+        if(this.user != '') {
+        let user = await api.getOtoritas(this.user)
+        this.authority = otoritas.otoritas(user)
+      }
+      if(this.authority == '') {
+        return this.$router.push('login')
+      }
     },
     methods: {
         async fetchData() {

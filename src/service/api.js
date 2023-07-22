@@ -36,7 +36,19 @@ export default {
   /*********** OTORITAS ***********/
   async getOtoritas(value){
     try {
-      const response = await instance.get('/user_otoritas/'+value)
+      const apiUrl = '/user_otoritas?'
+      let params = {
+        username: value
+      }
+      const response = await instance.get(apiUrl, {params})
+      return response.data;
+    } catch (error) {
+      return router.push('login')
+    }
+  },
+  async getUser(){
+    try {
+      const response = await instance.get('/user?status=true')
       return response.data;
     } catch (error) {
       return router.push('login')
