@@ -51,8 +51,8 @@ export default {
             <v-menu activator="#akun">
               <v-card width="300"  class="rounded-xl pa-2 bg-grey-lighten-3 border">
                 <div class="d-flex flex-column align-center bg-white rounded-xl">
-                  <v-avatar size="100">
-                    <v-icon size="80">mdi-account-circle</v-icon>
+                  <v-avatar class="bg-blue-custom" size="100">
+                    <v-icon size="80">mdi-account</v-icon>
                   </v-avatar>
                   <v-span>{{ user }}</v-span>
                   <v-btn class="d-flex justify-start align-left rounded-b-xl elevation-0 mt-5" block size="60">

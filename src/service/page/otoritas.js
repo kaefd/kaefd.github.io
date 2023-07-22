@@ -17,7 +17,20 @@ const routes = (data, target) => {
         }
     }
 }
+const all = (data, user) => {
+    let a = []
+    for (let i = 0; i < data.length; i++) {
+        if(data[i].username == user) {
+            a.push({
+                jenis_otoritas: data[i].jenis_otoritas,
+                status: data[i].status,
+            })
+        }
+    }
+    return a
+}
 export default {
     otoritas,
     routes,
+    all,
 }
