@@ -98,7 +98,7 @@ import otoritas from '../service/page/otoritas';
           this.pjldetail = await api.getPenjualanDetail(this.periode)
           this.pelanggan = await api.getPelanggan()
           this.barang = await api.getBarang()
-        }
+        } else return this.$router.push('login')
       },
       tglawal() {
         let d = new Date();
