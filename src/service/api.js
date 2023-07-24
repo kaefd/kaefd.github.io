@@ -34,21 +34,21 @@ export default {
     return instance.delete(url, {data: payload})
   },
   /*********** OTORITAS ***********/
-  async getOtoritas(value){
+  async getUser(){
     try {
-      const apiUrl = '/user_otoritas?'
-      let params = {
-        username: value
-      }
-      const response = await instance.get(apiUrl, {params})
+      const response = await instance.get('/user?status=true')
       return response.data;
     } catch (error) {
       return router.push('login')
     }
   },
-  async getUser(){
+  async getOtoritas(value){
     try {
-      const response = await instance.get('/user?status=true')
+      const apiUrl = '/user_otoritas?'
+      const params = {
+        username: value
+      }
+      const response = await instance.get(apiUrl, {params})
       return response.data;
     } catch (error) {
       return router.push('login')
@@ -459,8 +459,6 @@ export default {
   /*********** LOGOUT ***********/
   logout() {
     localStorage.removeItem('token')
-    localStorage.clear();
-    sessionStorage.clear();
     router.push('login')
   }
 }

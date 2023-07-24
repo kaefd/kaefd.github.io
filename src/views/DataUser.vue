@@ -1,7 +1,10 @@
 <script setup>
 import { defineComponent } from 'vue';
+import BtnCancel from '../components/button/btnCancel.vue';
 import BtnInfo from '../components/button/btnInfo.vue';
+import BtnOrange from '../components/button/btnOrange.vue';
 import TextButton from '../components/button/textButton.vue';
+import TableChecklist from '../components/form/tableChecklist.vue';
 import TextFieldForm from '../components/form/textFieldForm.vue';
 import api from '../service/api';
 import otoritas from '../service/page/otoritas';
@@ -14,12 +17,16 @@ import otoritas from '../service/page/otoritas';
     components: {
         BtnInfo,
         TextButton,
-        TextFieldForm
+        TextFieldForm,
+        BtnCancel,
+        BtnOrange,
+        TableChecklist
     },
     data () {
       return {
         drawer: false,
         detail: false,
+        edit: null,
         pageTitle: 'DATA USER',
         tab: null,
         username: '',
@@ -34,8 +41,12 @@ import otoritas from '../service/page/otoritas';
         jns_otoritas: ['Data Barang', 'Data Pelanggan', 'Data Supplier', 'Data User', 'Pembelian', 'Produksi', 'Penjualan', 'Pengiriman', 'Laporan' ],
         user_otoritas: '',
         headers: [
-          {title: "Username", key: "username"},
+          {title: "Jenis Otoritas", key: "jenis_otoritas"},
+          {title: "Tambah Data", key: "tambah"},
+          {title: "Edit Data", key: "edit"},
+          {title: "Batal/Hapus Data", key: "hapus"},
         ],
+        ds: {},
         j_otoritas: [
           {title: 'Data Barang', value: ['Tambah Barang', 'Ubah Barang', 'Hapus Barang']},
           {title: 'Pelanggan', value: ['Tambah Pelanggan Baru', 'Ubah Pelanggan', 'Hapus Pelanggan']},
@@ -52,15 +63,15 @@ import otoritas from '../service/page/otoritas';
     },
       methods: {
         async fetchData () {
-          if(this.user != '') {
+          // if(this.user != '') {
           let user = await api.getOtoritas()
           this.authority = otoritas.otoritas(user)
-        }
-          if(this.authority != '') {
+        // }
+          // if(this.authority != '') {
             this.items = await api.getUser()
             let user2 = await api.getOtoritas(this.userselect)
             this.user_otoritas = otoritas.otoritas(user2)
-          } else return this.$router.push('login')
+          // } else return this.$router.push('login')
         },
         async pilihUser(value) {
           this.userselect = value
@@ -123,34 +134,18 @@ import otoritas from '../service/page/otoritas';
           <v-span class="mx-auto text-button font-weight-bold text-orange">DETAIL USER</v-span>
           <v-divider></v-divider>
           <v-div class="d-flex flex-column align-center mt-5 w-100">
+            <btn-cancel v-if="!edit" @click="edit = true" btn_title="Edit Data" prepend-icon="mdi-pencil" variant="text" class="me-0 ms-auto" />
             <v-avatar class="bg-blue-custom" size="70">
               <v-icon size="50">mdi-account</v-icon>
             </v-avatar>
-            <text-field-form label="Username" :model-value="userselect" class="w-50 my-3"/>
-            <text-field-form label="Password" class="w-50"/>
-            <v-span class="text-button text-grey">otoritas</v-span>
-            <v-list class="w-100">
-              <!-- DATA BARANG -->
-              <v-list-item class="text-caption rounded-lg border">
-                <v-div class="d-flex align-center justify-space-between">
-                  <v-div>
-                    <v-span class="font-weight-medium">Data Barang</v-span>
-                  </v-div>
-                  <v-div class="d-flex flex-column align-center">
-                    <img src="../assets/img/on.png" style="width: 30px;">
-                    <v-span class="text-small text-grey">Tambah</v-span>
-                  </v-div>
-                  <v-div class="d-flex flex-column align-center">
-                    <img src="../assets/img/on.png" style="width: 30px;">
-                    <v-span class="text-small text-grey">Ubah</v-span>
-                  </v-div>
-                  <v-div class="d-flex flex-column align-center">
-                    <img src="../assets/img/on.png" style="width: 30px;">
-                    <v-span class="text-small text-grey">Hapus</v-span>
-                  </v-div>
-                </v-div>
-              </v-list-item>
-            </v-list>
+            <text-field-form label="Username" :model-value="userselect" :readonly="!edit ? true : false" class="w-50 my-3"/>
+            <text-field-form label="Password" :readonly="!edit ? true : false" class="w-50"/>
+              <table-checklist :headers="headers" :items="otoritas.items(user_otoritas)" :user_otoritas="user_otoritas" />
+              <v-div v-if="edit" class="d-flex me-0 ms-auto">
+                <btn-cancel color="red" btn_title="Hapus Akun" />
+                <btn-cancel @click="edit = false" btn_title="Batal" class="mx-2" />
+                <btn-orange btn_title="Simpan" />
+              </v-div>
           </v-div>
         </v-card>
       </v-dialog>
@@ -158,12 +153,3 @@ import otoritas from '../service/page/otoritas';
   </v-row>
 </v-container>
 </template>
-<style>
-
-.w-30 {
-  max-width: 32vw;
-}
-.w-15 {
-  width: 15vw !important;
-}
-</style>

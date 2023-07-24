@@ -59,13 +59,14 @@ export default defineComponent ({
     },
     methods: {
       async fetchData() {
-        if(this.user != '') {
-          let user = await api.getOtoritas(this.user)
-          this.authority = otoritas.otoritas(user)
-        }
-        if(this.authority != '') {
+        // if(this.authority != []) {
           this.items = await api.getBarang()
-        } else return this.$router.push('login')
+          if(this.user != '') {
+            let userOtoritas = await api.getOtoritas(this.user)
+            this.authority = otoritas.otoritas(userOtoritas)
+          }
+          // if(this.authority == []) return
+        // } 
       },
       close(v) {
         return this.filter = v
@@ -141,8 +142,8 @@ export default defineComponent ({
       },
       },
       mounted() {
-        this.fetchData()
         this.page()
+        this.fetchData()
         this.cetak
       }
       

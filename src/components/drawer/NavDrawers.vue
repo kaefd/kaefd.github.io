@@ -40,10 +40,7 @@ import otoritas from '../../service/page/otoritas';
         if(this.user != ''){
           let data = await api.getOtoritas(this.user)
           this.aut = otoritas.otoritas(data)
-          if(this.aut == []) {
-            this.empty = true
-          } else this.empty = false
-        }
+        } else return this.$router.push('login')
       },
       page(){
         if(
@@ -68,11 +65,9 @@ import otoritas from '../../service/page/otoritas';
       // },
     },
     mounted() {
-      this.$nextTick(() => {
-      // window.addEventListener('resize', this.onResize);
       this.pageTitle
+      this.user
       this.fetchData()
-    })
     }
   }
 </script>
