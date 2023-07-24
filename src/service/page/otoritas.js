@@ -5,6 +5,7 @@ const otoritas = (data) => {
             a.push({
                 username: data[i].username,
                 jenis_otoritas: data[i].jenis_otoritas,
+                status: data[i].status
             })
         }
     }
@@ -13,7 +14,7 @@ const otoritas = (data) => {
 const routes = (data, target) => {
     for (let i = 0; i < data.length; i++) {
         if(data[i].jenis_otoritas == target) {
-            return data[i].jenis_otoritas
+            return data[i].status
         }
     }
 }

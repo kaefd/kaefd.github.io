@@ -54,6 +54,463 @@ export default {
       return router.push('login')
     }
   },
+  postUser(data) {
+    let user = data.username
+    let pass = data.password
+    let oto = [
+      {
+        username: data.username,
+        jenis_otoritas: 'Data Barang',
+        status:data.data_barang
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Tambah Barang Baru',
+        status:data.tambah_barang_baru
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Ubah Barang',
+        status:data.ubah_barang
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Hapus Barang',
+        status:data.hapus_barang
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Data Pelanggan',
+        status:data.data_pelanggan
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Tambah Pelanggan Baru',
+        status:data.tambah_pelanggan_baru
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Ubah Pelanggan',
+        status:data.ubah_pelanggan
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Hapus Pelanggan',
+        status:data.Hapus_pelanggan
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Data Supplier',
+        status:data.data_supplier
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Data User',
+        status:data.data_user
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Pembelian',
+        status:data.pembelian
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Tambah Pembelian Baru',
+        status:data.tambah_pembelian_baru
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Batal Pembelian',
+        status:data.batal_pembelian
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Produksi',
+        status:data.produksi
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Tambah Produksi Baru',
+        status:data.tambah_produksi_baru
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Batal Produksi',
+        status:data.batal_produksi
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Penjualan',
+        status:data.penjualan
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Tambah Penjualan Baru',
+        status:data.tambah_penjualan
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Batal Penjualan',
+        status:data.batal_penjualan
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Pengiriman',
+        status:data.pengriman
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Tambah Pengiriman',
+        status:data.tambah_pengiriman
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Batal Pengiriman',
+        status:data.batal_pengiriman
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Laporan',
+        status:data.laporan
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Laporan Stok Barang',
+        status:data.laporan_stok_barang
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Laporan Pembelian',
+        status:data.laporan_pembelian
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Laporan Produksi',
+        status:data.laporan_produksi
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Laporan Penjualan',
+        status:data.laporan_penjualan
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Laporan Log User',
+        status:data.laporan_log_user
+      },
+    ]
+    const otoritas = JSON.stringify(oto);
+    return instance.post('/user', {
+      username : user,
+      password : pass,
+      otoritas : otoritas,
+    })
+  },
+  editUser(data) {
+    let user = data.username
+    let pass = data.password
+    let oto = [
+      {
+        username: data.username,
+        jenis_otoritas: 'Data Barang',
+        status:data.data_barang
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Tambah Barang Baru',
+        status:data.tambah_barang_baru
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Ubah Barang',
+        status:data.ubah_barang
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Hapus Barang',
+        status:data.hapus_barang
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Data Pelanggan',
+        status:data.data_pelanggan
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Tambah Pelanggan Baru',
+        status:data.tambah_pelanggan_baru
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Ubah Pelanggan',
+        status:data.ubah_pelanggan
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Hapus Pelanggan',
+        status:data.Hapus_pelanggan
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Data Supplier',
+        status:data.data_supplier
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Data User',
+        status:data.data_user
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Pembelian',
+        status:data.pembelian
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Tambah Pembelian Baru',
+        status:data.tambah_pembelian_baru
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Batal Pembelian',
+        status:data.batal_pembelian
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Produksi',
+        status:data.produksi
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Tambah Produksi Baru',
+        status:data.tambah_produksi_baru
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Batal Produksi',
+        status:data.batal_produksi
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Penjualan',
+        status:data.penjualan
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Tambah Penjualan Baru',
+        status:data.tambah_penjualan
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Batal Penjualan',
+        status:data.batal_penjualan
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Pengiriman',
+        status:data.pengriman
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Tambah Pengiriman',
+        status:data.tambah_pengiriman
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Batal Pengiriman',
+        status:data.batal_pengiriman
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Laporan',
+        status:data.laporan
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Laporan Stok Barang',
+        status:data.laporan_stok_barang
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Laporan Pembelian',
+        status:data.laporan_pembelian
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Laporan Produksi',
+        status:data.laporan_produksi
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Laporan Penjualan',
+        status:data.laporan_penjualan
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Laporan Log User',
+        status:data.laporan_log_user
+      },
+    ]
+    const otoritas = JSON.stringify(oto);
+    return instance.patch('/user', {
+      username : user,
+      password : pass,
+      otoritas : otoritas,
+    })
+  },
+  deleteUser(data) {
+    let user = data.username
+    let pass = data.password
+    let oto = [
+      {
+        username: data.username,
+        jenis_otoritas: 'Data Barang',
+        status:data.data_barang
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Tambah Barang Baru',
+        status:data.tambah_barang_baru
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Ubah Barang',
+        status:data.ubah_barang
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Hapus Barang',
+        status:data.hapus_barang
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Data Pelanggan',
+        status:data.data_pelanggan
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Tambah Pelanggan Baru',
+        status:data.tambah_pelanggan_baru
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Ubah Pelanggan',
+        status:data.ubah_pelanggan
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Hapus Pelanggan',
+        status:data.Hapus_pelanggan
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Data Supplier',
+        status:data.data_supplier
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Data User',
+        status:data.data_user
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Pembelian',
+        status:data.pembelian
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Tambah Pembelian Baru',
+        status:data.tambah_pembelian_baru
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Batal Pembelian',
+        status:data.batal_pembelian
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Produksi',
+        status:data.produksi
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Tambah Produksi Baru',
+        status:data.tambah_produksi_baru
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Batal Produksi',
+        status:data.batal_produksi
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Penjualan',
+        status:data.penjualan
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Tambah Penjualan Baru',
+        status:data.tambah_penjualan
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Batal Penjualan',
+        status:data.batal_penjualan
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Pengiriman',
+        status:data.pengriman
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Tambah Pengiriman',
+        status:data.tambah_pengiriman
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Batal Pengiriman',
+        status:data.batal_pengiriman
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Laporan',
+        status:data.laporan
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Laporan Stok Barang',
+        status:data.laporan_stok_barang
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Laporan Pembelian',
+        status:data.laporan_pembelian
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Laporan Produksi',
+        status:data.laporan_produksi
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Laporan Penjualan',
+        status:data.laporan_penjualan
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Laporan Log User',
+        status:data.laporan_log_user
+      },
+    ]
+    const otoritas = JSON.stringify(oto);
+    return instance.delete('/user', {
+      username : user,
+      password : pass,
+      otoritas : otoritas,
+      status: false
+    })
+  },
   /*********** GROUP BARANG ***********/
   async getGroupBarang(){
     try {
