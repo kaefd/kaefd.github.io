@@ -183,9 +183,9 @@ import otoritas from '../service/page/otoritas';
       <v-span class="text-caption text-weight-bold">Periode</v-span>
       <v-divider></v-divider>
       <v-label class="text-small mt-4">Tgl Awal</v-label>
-      <datePickerVue v-model="filtered.periode[0]" :filter="true" :tema="tema"/>
+      <datePickerVue :max-date="new Date()" v-model="filtered.periode[0]" :filter="true" :tema="tema"/>
       <v-label class="text-small mt-1">Tgl Akhir</v-label>
-      <datePickerVue v-model="filtered.periode[1]" :filter="true" :tema="tema"/>
+      <datePickerVue :min-date="new Date()" v-model="filtered.periode[1]" :filter="true" :tema="tema"/>
     </template>
   </filterDrawer>
     <v-container class="pt-9 h-100">

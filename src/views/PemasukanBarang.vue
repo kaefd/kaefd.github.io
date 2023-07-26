@@ -18,6 +18,7 @@ import DatePicker from '../components/datepicker/datePicker.vue';
 import BtnOrange from '../components/button/btnOrange.vue';
 import BtnCancel from '../components/button/btnCancel.vue';
 import AlertVue from '../components/dialog/alertVue.vue';
+
 </script>
 
 <script>
@@ -35,7 +36,7 @@ export default {
     BtnCancel,
     AlertVue
   },
-    props:['cetak', 'tema', 'user'],
+    props:['cetak', 'tema'],
     data () {
       return {
         search: '',
@@ -180,9 +181,9 @@ export default {
       <v-span class="text-caption text-weight-bold">Periode</v-span>
       <v-divider></v-divider>
       <v-label class="text-small mt-4">Tgl Awal</v-label>
-      <DatePicker v-model="filtered.periode[0]" :filter="true" :tema="tema"/>
+      <DatePicker v-model="filtered.periode[0]" :max-date="new Date()" :filter="true" :tema="tema"/>
       <v-label class="text-small mt-1">Tgl Akhir</v-label>
-      <DatePicker v-model="filtered.periode[1]" :filter="true" :tema="tema"/>
+      <DatePicker v-model="filtered.periode[1]" :min-date="new Date()" :filter="true" :tema="tema"/>
       <!-- TIPE DOKUMEN -->
       <v-span class="text-caption text-weight-bold">Tipe Dokumen</v-span>
       <v-divider class="mb-6"></v-divider>

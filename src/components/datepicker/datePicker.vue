@@ -41,6 +41,8 @@ export default {
             cancelText="batal"
             selectText="pilih"
             format="PP"
+            calendar-cell-class-name="dp-custom-cell"
+            menu-class-name="dp-custom-menu"
             :enable-time-picker="false"
             v-model="data"
         >
@@ -49,16 +51,36 @@ export default {
             </template>
         </VueDatePicker>
 </template>
-<style>
+<style lang="scss">
+.dp-custom-cell {
+    border-radius: 50%;
+}
+.dp__calendar_header_item {
+    font-size: 13px;
+    font-family: Arial, Helvetica, sans-serif;
+    margin-top: 10px;
+}
+.dp__action_button {
+    width: 60px;
+    height: 35px;
+    font-size: 14px;
+}
+.dp-custom-menu {
+    border: none;
+    box-shadow: 1px 1px 20px rgba(128, 128, 128, 0.336);
+    height: 400px;
+    width: 300px;
+}
+
 .dp__theme_dark {
    --dp-background-color: #212121;
    --dp-text-color: #ffffff;
    --dp-hover-color: #484848;
    --dp-hover-text-color: #ffffff;
    --dp-hover-icon-color: #959595;
-   --dp-primary-color: #005cb2;
+   --dp-primary-color: #f9a825;
    --dp-primary-text-color: #ffffff;
-   --dp-secondary-color: #a9a9a9;
+   --dp-secondary-color: #363636;
    --dp-border-color: #2d2d2d;
    --dp-menu-border-color: #2d2d2d;
    --dp-border-color-hover: #aaaeb7;
@@ -77,7 +99,7 @@ export default {
    --dp-hover-color: #f3f3f3;
    --dp-hover-text-color: #212121;
    --dp-hover-icon-color: #959595;
-   --dp-primary-color: #1976d2;
+   --dp-primary-color: #f9a825;
    --dp-primary-text-color: #f8f5f5;
    --dp-secondary-color: #c0c4cc;
    --dp-border-color: #ddd;

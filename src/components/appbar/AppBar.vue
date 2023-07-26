@@ -46,7 +46,7 @@ export default {
             <v-span v-if="!dark" class="material-symbols-outlined">light_mode</v-span>
           </v-btn>
           <v-divider vertical class="mx-2"></v-divider>
-          <v-sheet id="akun" class="d-flex align-center bg-transparent text-blue-custom">
+          <v-sheet id="akun" class="d-flex align-center text-blue-custom">
             <v-avatar class="bg-blue-custom me-2" size="small">
               <v-icon size="25" color="white">mdi-account</v-icon>
             </v-avatar>
@@ -55,9 +55,9 @@ export default {
               <v-icon size="20">mdi-chevron-down</v-icon>
             </v-span>
             <v-menu activator="#akun">
-              <v-card width="300"  class="rounded-xl pa-2 bg-grey-lighten-3 border">
-                <div class="d-flex flex-column align-center bg-white rounded-xl">
-                  <v-avatar class="bg-blue-custom" size="100">
+              <v-card width="300"  class="rounded-xl pa-2 border">
+                <div class="d-flex flex-column align-center rounded-xl border">
+                  <v-avatar class="bg-blue-custom mt-3" size="100">
                     <v-icon size="80">mdi-account</v-icon>
                   </v-avatar>
                   <v-span>{{ user }}</v-span>
@@ -70,7 +70,6 @@ export default {
                   <v-icon size="20" class="me-2 ms-6">mdi-logout</v-icon>
                   <v-span>Log out</v-span>
                 </v-btn>
-                <v-divider></v-divider>
               </v-card>
             </v-menu>
           </v-sheet>
@@ -105,7 +104,4 @@ export default {
 </template>
 
 <style>
-.bg-blue-custom {
-  background: #3B7AA9 !important;
-}
 </style>
