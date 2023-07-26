@@ -65,15 +65,16 @@ export default {
             return a
         }
     },
-    async created() {
-        if(this.user != '') {
-        let user = await api.getOtoritas(this.user)
-        this.authority = otoritas.otoritas(user)
-      }
-      if(this.authority == '') {
-        return this.$router.push('login')
-      }
-    },
+    // async created() {
+    //     let user = localStorage.getItem('user')
+    //     if(user != null) {
+    //     let otority = await api.getOtoritas(user)
+    //     this.authority = otoritas.otoritas(otority)
+    //   }
+    //   if(this.authority == '') {
+    //     return  await api.logout()
+    //   }
+    // },
     methods: {
         async fetchData() {
             this.logbrg = await api.getLogBarang()

@@ -17,11 +17,8 @@ const instance = axios.create({
 
 export default {
   
-  postLogin(user, pass) {
-    return instance.post('/login', {
-      username: user,
-      password: pass
-    })
+  postLogin(data) {
+    return instance.post('/login', data)
   },
   getData (url, data) {
     return instance.get(url, data)
@@ -36,22 +33,18 @@ export default {
   /*********** OTORITAS ***********/
   async getUser(){
     try {
-      const response = await instance.get('/user?status=true')
+      const response = await instance.get('/user')
       return response.data;
     } catch (error) {
-      return router.push('login')
+      return this.logout()
     }
   },
   async getOtoritas(value){
     try {
-      const apiUrl = '/user_otoritas?'
-      const params = {
-        username: value
-      }
-      const response = await instance.get(apiUrl, {params})
+      const response = await instance.get('/user_otoritas/'+value)
       return response.data;
     } catch (error) {
-      return router.push('login')
+      return this.logout()
     }
   },
   postUser(data) {
@@ -61,142 +54,142 @@ export default {
       {
         username: data.username,
         jenis_otoritas: 'Data Barang',
-        status:data.data_barang
+        status: String(data.data_barang)
       },
       {
         username: data.username,
         jenis_otoritas: 'Tambah Barang Baru',
-        status:data.tambah_barang_baru
+        status: String(data.tambah_barang)
       },
       {
         username: data.username,
         jenis_otoritas: 'Ubah Barang',
-        status:data.ubah_barang
+        status: String(data.ubah_barang)
       },
       {
         username: data.username,
         jenis_otoritas: 'Hapus Barang',
-        status:data.hapus_barang
+        status: String(data.hapus_barang)
       },
       {
         username: data.username,
         jenis_otoritas: 'Data Pelanggan',
-        status:data.data_pelanggan
+        status: String(data.data_pelanggan)
       },
       {
         username: data.username,
         jenis_otoritas: 'Tambah Pelanggan Baru',
-        status:data.tambah_pelanggan_baru
+        status: String(data.tambah_pelanggan_baru)
       },
       {
         username: data.username,
         jenis_otoritas: 'Ubah Pelanggan',
-        status:data.ubah_pelanggan
+        status: String(data.ubah_pelanggan)
       },
       {
         username: data.username,
         jenis_otoritas: 'Hapus Pelanggan',
-        status:data.Hapus_pelanggan
+        status: String(data.Hapus_pelanggan)
       },
       {
         username: data.username,
         jenis_otoritas: 'Data Supplier',
-        status:data.data_supplier
+        status: String(data.data_supplier)
       },
       {
         username: data.username,
         jenis_otoritas: 'Data User',
-        status:data.data_user
+        status: String(data.data_user)
       },
       {
         username: data.username,
         jenis_otoritas: 'Pembelian',
-        status:data.pembelian
+        status: String(data.pembelian)
       },
       {
         username: data.username,
         jenis_otoritas: 'Tambah Pembelian Baru',
-        status:data.tambah_pembelian_baru
+        status: String(data.tambah_pembelian_baru)
       },
       {
         username: data.username,
         jenis_otoritas: 'Batal Pembelian',
-        status:data.batal_pembelian
+        status: String(data.batal_pembelian)
       },
       {
         username: data.username,
         jenis_otoritas: 'Produksi',
-        status:data.produksi
+        status: String(data.produksi)
       },
       {
         username: data.username,
         jenis_otoritas: 'Tambah Produksi Baru',
-        status:data.tambah_produksi_baru
+        status: String(data.tambah_produksi_baru)
       },
       {
         username: data.username,
         jenis_otoritas: 'Batal Produksi',
-        status:data.batal_produksi
+        status: String(data.batal_produksi)
       },
       {
         username: data.username,
         jenis_otoritas: 'Penjualan',
-        status:data.penjualan
+        status: String(data.penjualan)
       },
       {
         username: data.username,
         jenis_otoritas: 'Tambah Penjualan Baru',
-        status:data.tambah_penjualan
+        status: String(data.tambah_penjualan)
       },
       {
         username: data.username,
         jenis_otoritas: 'Batal Penjualan',
-        status:data.batal_penjualan
+        status: String(data.batal_penjualan)
       },
       {
         username: data.username,
         jenis_otoritas: 'Pengiriman',
-        status:data.pengriman
+        status: String(data.pengriman)
       },
       {
         username: data.username,
         jenis_otoritas: 'Tambah Pengiriman',
-        status:data.tambah_pengiriman
+        status: String(data.tambah_pengiriman)
       },
       {
         username: data.username,
         jenis_otoritas: 'Batal Pengiriman',
-        status:data.batal_pengiriman
+        status: String(data.batal_pengiriman)
       },
       {
         username: data.username,
         jenis_otoritas: 'Laporan',
-        status:data.laporan
+        status: String(data.laporan)
       },
       {
         username: data.username,
         jenis_otoritas: 'Laporan Stok Barang',
-        status:data.laporan_stok_barang
+        status: String(data.laporan_stok_barang)
       },
       {
         username: data.username,
         jenis_otoritas: 'Laporan Pembelian',
-        status:data.laporan_pembelian
+        status: String(data.laporan_pembelian)
       },
       {
         username: data.username,
         jenis_otoritas: 'Laporan Produksi',
-        status:data.laporan_produksi
+        status: String(data.laporan_produksi)
       },
       {
         username: data.username,
         jenis_otoritas: 'Laporan Penjualan',
-        status:data.laporan_penjualan
+        status: String(data.laporan_penjualan)
       },
       {
         username: data.username,
         jenis_otoritas: 'Laporan Log User',
-        status:data.laporan_log_user
+        status: String(data.laporan_log_user)
       },
     ]
     const otoritas = JSON.stringify(oto);
@@ -213,142 +206,142 @@ export default {
       {
         username: data.username,
         jenis_otoritas: 'Data Barang',
-        status:data.data_barang
+        status: String(data.data_barang)
       },
       {
         username: data.username,
         jenis_otoritas: 'Tambah Barang Baru',
-        status:data.tambah_barang_baru
+        status: String(data.tambah_barang)
       },
       {
         username: data.username,
         jenis_otoritas: 'Ubah Barang',
-        status:data.ubah_barang
+        status: String(data.ubah_barang)
       },
       {
         username: data.username,
         jenis_otoritas: 'Hapus Barang',
-        status:data.hapus_barang
+        status: String(data.hapus_barang)
       },
       {
         username: data.username,
         jenis_otoritas: 'Data Pelanggan',
-        status:data.data_pelanggan
+        status: String(data.data_pelanggan)
       },
       {
         username: data.username,
         jenis_otoritas: 'Tambah Pelanggan Baru',
-        status:data.tambah_pelanggan_baru
+        status: String(data.tambah_pelanggan)
       },
       {
         username: data.username,
         jenis_otoritas: 'Ubah Pelanggan',
-        status:data.ubah_pelanggan
+        status: String(data.ubah_pelanggan)
       },
       {
         username: data.username,
         jenis_otoritas: 'Hapus Pelanggan',
-        status:data.Hapus_pelanggan
+        status: String(data.hapus_pelanggan)
       },
       {
         username: data.username,
         jenis_otoritas: 'Data Supplier',
-        status:data.data_supplier
+        status: String(data.data_supplier)
       },
       {
         username: data.username,
         jenis_otoritas: 'Data User',
-        status:data.data_user
+        status: String(data.data_user)
       },
       {
         username: data.username,
         jenis_otoritas: 'Pembelian',
-        status:data.pembelian
+        status: String(data.pembelian)
       },
       {
         username: data.username,
         jenis_otoritas: 'Tambah Pembelian Baru',
-        status:data.tambah_pembelian_baru
+        status: String(data.tambah_pembelian)
       },
       {
         username: data.username,
         jenis_otoritas: 'Batal Pembelian',
-        status:data.batal_pembelian
+        status: String(data.batal_pembelian)
       },
       {
         username: data.username,
         jenis_otoritas: 'Produksi',
-        status:data.produksi
+        status: String(data.produksi)
       },
       {
         username: data.username,
         jenis_otoritas: 'Tambah Produksi Baru',
-        status:data.tambah_produksi_baru
+        status: String(data.tambah_produksi)
       },
       {
         username: data.username,
         jenis_otoritas: 'Batal Produksi',
-        status:data.batal_produksi
+        status: String(data.batal_produksi)
       },
       {
         username: data.username,
         jenis_otoritas: 'Penjualan',
-        status:data.penjualan
+        status: String(data.penjualan)
       },
       {
         username: data.username,
         jenis_otoritas: 'Tambah Penjualan Baru',
-        status:data.tambah_penjualan
+        status: String(data.tambah_penjualan)
       },
       {
         username: data.username,
         jenis_otoritas: 'Batal Penjualan',
-        status:data.batal_penjualan
+        status: String(data.batal_penjualan)
       },
       {
         username: data.username,
         jenis_otoritas: 'Pengiriman',
-        status:data.pengriman
+        status: String(data.pengiriman)
       },
       {
         username: data.username,
-        jenis_otoritas: 'Tambah Pengiriman',
-        status:data.tambah_pengiriman
+        jenis_otoritas: 'Tambah Pengiriman Baru',
+        status: String(data.tambah_pengiriman)
       },
       {
         username: data.username,
         jenis_otoritas: 'Batal Pengiriman',
-        status:data.batal_pengiriman
+        status: String(data.batal_pengiriman)
       },
       {
         username: data.username,
         jenis_otoritas: 'Laporan',
-        status:data.laporan
+        status: String(data.laporan)
       },
       {
         username: data.username,
         jenis_otoritas: 'Laporan Stok Barang',
-        status:data.laporan_stok_barang
+        status: String(data.laporan_stok_barang)
       },
       {
         username: data.username,
         jenis_otoritas: 'Laporan Pembelian',
-        status:data.laporan_pembelian
+        status: String(data.laporan_pembelian)
       },
       {
         username: data.username,
         jenis_otoritas: 'Laporan Produksi',
-        status:data.laporan_produksi
+        status: String(data.laporan_produksi)
       },
       {
         username: data.username,
         jenis_otoritas: 'Laporan Penjualan',
-        status:data.laporan_penjualan
+        status: String(data.laporan_penjualan)
       },
       {
         username: data.username,
         jenis_otoritas: 'Laporan Log User',
-        status:data.laporan_log_user
+        status: String(data.laporan_log_user)
       },
     ]
     const otoritas = JSON.stringify(oto);
@@ -359,157 +352,7 @@ export default {
     })
   },
   deleteUser(data) {
-    let user = data.username
-    let pass = data.password
-    let oto = [
-      {
-        username: data.username,
-        jenis_otoritas: 'Data Barang',
-        status:data.data_barang
-      },
-      {
-        username: data.username,
-        jenis_otoritas: 'Tambah Barang Baru',
-        status:data.tambah_barang_baru
-      },
-      {
-        username: data.username,
-        jenis_otoritas: 'Ubah Barang',
-        status:data.ubah_barang
-      },
-      {
-        username: data.username,
-        jenis_otoritas: 'Hapus Barang',
-        status:data.hapus_barang
-      },
-      {
-        username: data.username,
-        jenis_otoritas: 'Data Pelanggan',
-        status:data.data_pelanggan
-      },
-      {
-        username: data.username,
-        jenis_otoritas: 'Tambah Pelanggan Baru',
-        status:data.tambah_pelanggan_baru
-      },
-      {
-        username: data.username,
-        jenis_otoritas: 'Ubah Pelanggan',
-        status:data.ubah_pelanggan
-      },
-      {
-        username: data.username,
-        jenis_otoritas: 'Hapus Pelanggan',
-        status:data.Hapus_pelanggan
-      },
-      {
-        username: data.username,
-        jenis_otoritas: 'Data Supplier',
-        status:data.data_supplier
-      },
-      {
-        username: data.username,
-        jenis_otoritas: 'Data User',
-        status:data.data_user
-      },
-      {
-        username: data.username,
-        jenis_otoritas: 'Pembelian',
-        status:data.pembelian
-      },
-      {
-        username: data.username,
-        jenis_otoritas: 'Tambah Pembelian Baru',
-        status:data.tambah_pembelian_baru
-      },
-      {
-        username: data.username,
-        jenis_otoritas: 'Batal Pembelian',
-        status:data.batal_pembelian
-      },
-      {
-        username: data.username,
-        jenis_otoritas: 'Produksi',
-        status:data.produksi
-      },
-      {
-        username: data.username,
-        jenis_otoritas: 'Tambah Produksi Baru',
-        status:data.tambah_produksi_baru
-      },
-      {
-        username: data.username,
-        jenis_otoritas: 'Batal Produksi',
-        status:data.batal_produksi
-      },
-      {
-        username: data.username,
-        jenis_otoritas: 'Penjualan',
-        status:data.penjualan
-      },
-      {
-        username: data.username,
-        jenis_otoritas: 'Tambah Penjualan Baru',
-        status:data.tambah_penjualan
-      },
-      {
-        username: data.username,
-        jenis_otoritas: 'Batal Penjualan',
-        status:data.batal_penjualan
-      },
-      {
-        username: data.username,
-        jenis_otoritas: 'Pengiriman',
-        status:data.pengriman
-      },
-      {
-        username: data.username,
-        jenis_otoritas: 'Tambah Pengiriman',
-        status:data.tambah_pengiriman
-      },
-      {
-        username: data.username,
-        jenis_otoritas: 'Batal Pengiriman',
-        status:data.batal_pengiriman
-      },
-      {
-        username: data.username,
-        jenis_otoritas: 'Laporan',
-        status:data.laporan
-      },
-      {
-        username: data.username,
-        jenis_otoritas: 'Laporan Stok Barang',
-        status:data.laporan_stok_barang
-      },
-      {
-        username: data.username,
-        jenis_otoritas: 'Laporan Pembelian',
-        status:data.laporan_pembelian
-      },
-      {
-        username: data.username,
-        jenis_otoritas: 'Laporan Produksi',
-        status:data.laporan_produksi
-      },
-      {
-        username: data.username,
-        jenis_otoritas: 'Laporan Penjualan',
-        status:data.laporan_penjualan
-      },
-      {
-        username: data.username,
-        jenis_otoritas: 'Laporan Log User',
-        status:data.laporan_log_user
-      },
-    ]
-    const otoritas = JSON.stringify(oto);
-    return instance.delete('/user', {
-      username : user,
-      password : pass,
-      otoritas : otoritas,
-      status: false
-    })
+    return instance.delete('/user?username='+ data)
   },
   /*********** GROUP BARANG ***********/
   async getGroupBarang(){
@@ -517,7 +360,7 @@ export default {
       const response = await instance.get('/group_barang')
       return response.data;
     } catch (error) {
-      return router.push('login')
+      return this.logout()
     }
   },
   /*********** ALAMAT BONGKAR ***********/
@@ -526,7 +369,7 @@ export default {
       const response = await instance.get('/alamat_bongkar')
       return response.data;
     } catch (error) {
-      return router.push('login')
+      return this.logout()
     }
   },
   /*********** DATA BARANG ***********/
@@ -535,7 +378,7 @@ export default {
       const response = await instance.get('/barang?status=1')
       return response.data;
     } catch (error) {
-      return router.push('login')
+      return this.logout()
     }
   },
   postBarang(value) {
@@ -571,7 +414,7 @@ export default {
       const response = await instance.get('/pelanggan?status=1')
       return response.data;
     } catch (error) {
-      return router.push('login')
+      return this.logout()
     }
   },
   postPelanggan(value) {
@@ -606,7 +449,7 @@ export default {
       const response = await instance.get('/supplier?status=1')
       return response.data;
     } catch (error) {
-      return router.push('login')
+      return this.logout()
     }
   },
   /***********  PEMASUKAN ***********/
@@ -620,7 +463,7 @@ export default {
       const response = await instance.get(apiUrl, {params})
       return response.data
     } catch (error) {
-      return router.push('login')
+      return this.logout()
     }
   },
   async getPemasukanDetail(param){
@@ -633,7 +476,7 @@ export default {
       const response = await instance.get(apiUrl, {params})
       return response.data
     } catch (error) {
-      return router.push('login')
+      return this.logout()
     }
   },
   postPemasukan(head, detail) {
@@ -685,7 +528,7 @@ export default {
       const response = await instance.get(apiUrl, {params})
       return response.data
     } catch (error) {
-      return router.push('login')
+      return this.logout()
     }
   },
   async getProDBahan(param) {
@@ -698,7 +541,7 @@ export default {
       const response = await instance.get(apiUrl, {params})
       return response.data
     } catch (error) {
-      return router.push('login')
+      return this.logout()
     }
   },
   async getProDBarang(param) {
@@ -711,7 +554,7 @@ export default {
       const response = await instance.get(apiUrl, {params})
       return response.data
     } catch (error) {
-      return router.push('login')
+      return this.logout()
     }
   },
   async getLogBarang() {
@@ -719,7 +562,7 @@ export default {
       const response = await instance.get('/log_barang?')
       return response.data;
     } catch (error) {
-      return router.push('login')
+      return this.logout()
     }
   },
   postProduksi(head, detailbahan, detaibarang) {
@@ -764,7 +607,7 @@ export default {
       const response = await instance.get(apiUrl, {params})
       return response.data
     } catch (error) {
-      return router.push('login')
+      return this.logout()
     }
   },
   async getPengirimanDetail (param){
@@ -777,7 +620,7 @@ export default {
       const response = await instance.get(apiUrl, {params})
       return response.data
     } catch (error) {
-      return router.push('login')
+      return this.logout()
     }
   },
   postPengiriman(head, detail) {
@@ -834,7 +677,7 @@ export default {
       const response = await instance.get(apiUrl, {params})
       return response.data
     } catch (error) {
-      return router.push('login')
+      return this.logout()
     }
   },
   async getPenjualanDetail (param){
@@ -847,7 +690,7 @@ export default {
       const response = await instance.get(apiUrl, {params})
       return response.data
     } catch (error) {
-      return router.push('login')
+      return this.logout()
     }
   },
   async getBelumTerkirim (){
@@ -855,7 +698,7 @@ export default {
       const response = await instance.get('/penjualan_head/belum_terkirim')
       return response.data;
     } catch (error) {
-      return router.push('login')
+      return this.logout()
     }
   },
   async getBelumTerkirimDetail (){
@@ -863,7 +706,7 @@ export default {
       const response = await instance.get('/penjualan_detail/belum_terkirim')
       return response.data;
     } catch (error) {
-      return router.push('login')
+      return this.logout()
     }
   },
   postPengeluaran(head, detail) {
@@ -916,6 +759,7 @@ export default {
   /*********** LOGOUT ***********/
   logout() {
     localStorage.removeItem('token')
-    router.push('login')
+    localStorage.removeItem('user')
+    return router.push('login')
   }
 }

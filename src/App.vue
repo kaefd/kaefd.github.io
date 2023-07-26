@@ -29,9 +29,7 @@ export default {
       }
     },
     methods: {
-      user (value) {
-        this.user_otoritas = value
-      },
+      
       page(value) {
         this.pageTitle = value
       },
@@ -54,8 +52,8 @@ export default {
   <template>
     <v-theme-provider :theme="tema" with-background>
       <v-layout>
-        <NavDrawers v-model="drawer" v-if="pageTitle != null" :user="user_otoritas" :pageTitle="pageTitle" :item="items" :pemasukan="pemasukan" :produksi="produksi" :pengeluaran="pengeluaran" :kirim="kirim"/>
-        <AppBar :user="user_otoritas" v-if="pageTitle != null" :pageTitle="pageTitle" @dark="theme">
+        <NavDrawers v-model="drawer" v-if="pageTitle != null" :pageTitle="pageTitle" :item="items" :pemasukan="pemasukan" :produksi="produksi" :pengeluaran="pengeluaran" :kirim="kirim"/>
+        <AppBar v-if="pageTitle != null" :pageTitle="pageTitle" @dark="theme">
           <template #app-btn>
               <!-- APP BAR ICON -->
                 <v-div class="me-5">
@@ -69,7 +67,7 @@ export default {
           </template>
         </AppBar>
         <v-main class="vh-100 vw-100">
-            <RouterView :cetak="cetak" @page="page" @pages="page" :tema="tema" @user="user" :user="user_otoritas"/>
+            <RouterView :cetak="cetak" @page="page" @pages="page" :tema="tema"/>
         </v-main>
       </v-layout>
     </v-theme-provider>

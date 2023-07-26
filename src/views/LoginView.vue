@@ -31,24 +31,25 @@ export default {
         return this.$emit('page', this.pageTitle)
       },
       handleLogin() {
-        api.postLogin(this.username, this.password)
+        api.postLogin({
+          username: this.username,
+          password: this.password
+        })
         .then(response => {
           localStorage.setItem('token', response.data)
-          this.$emit('user', this.username)
-          return this.$router.push('data-barang')
+          localStorage.setItem('user', this.username)
+          window.location.href = '/'
         })
         .catch((error) => {
-          this.message = error
+          this.message = error.response.data
         })
-    },
-    users() {
-      this.$emit('user', this.username)
     }
+   
+    
   },
   mounted() {
     this.page()
   },
-    
 }
 </script>
 <template>

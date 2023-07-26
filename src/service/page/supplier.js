@@ -6,7 +6,7 @@ const headers = [
     { title: 'Alamat', align: 'start', key: 'alamat', dis: true },
     { title: 'Kota', align: 'start', key: 'kota', dis: true },
     { title: 'Negara', align: 'start', key: 'negara', dis: true },
-    { title: '', align: 'start', key: 'actions', sortable: false },
+    { title: '', align: 'end', key: 'actions', sortable: false },
 ]
 const keyform = [
     'kode_supplier',

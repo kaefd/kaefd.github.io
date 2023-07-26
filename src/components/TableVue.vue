@@ -41,12 +41,6 @@ export default {
       }
     },
     methods:{
-      master() {
-        if(
-          this.update == 'Ubah Barang' ||
-          this.update == 'Ubah Pelanggan'
-        ){ return true } else return false
-      },
       result(value, i) {
         return value != 'hapus' ? this.dialog[i] = true : this.confirmdialog[i] = true
       },
@@ -106,8 +100,8 @@ export default {
         <LogBarang :headers="headers" :barang="items" :groupbarang="groupbarang" :stokbarang="stokbarang" :item="item.raw" :kode_group="item.raw.kode_group" :kode_barang="item.raw.kode_barang"/>
       </template>
       <!-- eslint-disable-next-line vue/valid-v-slot -->
-      <template v-if="!laporanstok && !masuk && master()" v-slot:item.actions="{ item, index }">
-          <menuList v-if="!view" :items="list" icon="mdi-dots-vertical" :submenu="true" @result="result" :index="index" />
+      <template v-if="!laporanstok && !masuk && update || view" v-slot:item.actions="{ item, index }">
+          <menuList :items="view ? list2 : list" icon="mdi-dots-vertical" :submenu="true" @result="result" :index="index" />
           <dialogMaster v-model="dialog[index]" :view="view" editbtn="true" :ishidden="true" :keyform="keyform" :intable="true" :disabled="disabled" :noselect="noselect" :form="item.raw" @edit="edit" :item="item" :screen="screen" :headers="headers" :items="items" :category="category" :toolbar_title="toolbar_title"  :alpha="alpha">
             <template #cancel>
               <btnCancel @click=" dialog[index] = false" btn_title="Batal" />  

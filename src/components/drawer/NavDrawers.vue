@@ -6,7 +6,7 @@ import otoritas from '../../service/page/otoritas';
 
 <script>
   export default {
-    props: ['act', 'pageTitle', 'user'],
+    props: ['act', 'pageTitle'],
     data () {
       return {
         // windowWidth: window.innerWidth,
@@ -37,10 +37,9 @@ import otoritas from '../../service/page/otoritas';
     },
     methods: {
       async fetchData() {
-        if(this.user != ''){
-          let data = await api.getOtoritas(this.user)
-          this.aut = otoritas.otoritas(data)
-        } else return this.$router.push('login')
+        let user = localStorage.getItem('user')
+          let data = await api.getOtoritas(user)
+          return this.aut = otoritas.otoritas(data)
       },
       page(){
         if(
@@ -65,8 +64,6 @@ import otoritas from '../../service/page/otoritas';
       // },
     },
     mounted() {
-      this.pageTitle
-      this.user
       this.fetchData()
     }
   }

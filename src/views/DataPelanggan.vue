@@ -46,13 +46,14 @@ import otoritas from '../service/page/otoritas';
     },
     methods: {
       async fetchData() {
-        if(this.user != '') {
-          let user = await api.getOtoritas(this.user)
-          this.authority = otoritas.otoritas(user)
+        let user = localStorage.getItem('user')
+        if(user != '') {
+          let otority = await api.getOtoritas(user)
+          this.authority = otoritas.otoritas(otority)
         }
         if(this.authority != '') {
           this.items = await api.getPelanggan()
-        } else return this.$router.push('login')
+        } else return  await api.logout()
       },
       page(){
         return this.$emit('page', this.pageTitle)
@@ -166,7 +167,7 @@ import otoritas from '../service/page/otoritas';
       id="tbl_exporttable_to_xls"
       :create="otoritas.routes(authority, 'Tambah Pelanggan Baru')"
       :update="otoritas.routes(authority, 'Ubah Pelanggan')"
-      :delete="otoritas.routes(authority, 'Hapus Pelanggan')"
+      :hapus="otoritas.routes(authority, 'Hapus Pelanggan')"
       :keyform="pelanggan.keyform"
       :noselect="statusselect"
       @edit="editForm"

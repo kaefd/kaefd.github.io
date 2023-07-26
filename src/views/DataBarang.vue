@@ -30,7 +30,7 @@ export default defineComponent ({
     alertVue,
   },
     name: 'DataBarang',
-    props:['cetak', 'tema', 'user'],
+    props:['cetak', 'tema'],
     data () {
       return {
         dialog: false,
@@ -59,14 +59,14 @@ export default defineComponent ({
     },
     methods: {
       async fetchData() {
-        // if(this.authority != []) {
+        let user = localStorage.getItem('user')
+        if(user != null) {
+          let otority = await api.getOtoritas(user)
+          this.authority = otoritas.otoritas(otority)
+        }
+        if(this.authority != '') {
           this.items = await api.getBarang()
-          if(this.user != '') {
-            let userOtoritas = await api.getOtoritas(this.user)
-            this.authority = otoritas.otoritas(userOtoritas)
-          }
-          // if(this.authority == []) return
-        // } 
+        } else return await api.logout()
       },
       close(v) {
         return this.filter = v
@@ -204,15 +204,14 @@ export default defineComponent ({
         <TableVue
           :create="otoritas.routes(authority, 'Tambah Barang Baru')"
           :update="otoritas.routes(authority, 'Ubah Barang')"
-          :delete="otoritas.routes(authority, 'Hapus Barang')"
+          :hapus="otoritas.routes(authority, 'Hapus Barang')"
           :keyform="barang.keyform"
           :noselect="statusselect"
           @edit="editForm"
           @del="del"
           id="tbl_exporttable_to_xls"
           :headers="barang.headers"
-          :items="barang.selected(selectCategory,
-          items)"
+          :items="barang.selected(selectCategory, items)"
           :search="search"
           :category="barang.category"
           :selectCategory="selectCategory"

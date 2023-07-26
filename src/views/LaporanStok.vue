@@ -110,14 +110,15 @@ import otoritas from '../service/page/otoritas';
     },
     methods: {
       async fetchData() {
-        if(this.user != '') {
-          let user = await api.getOtoritas(this.user)
-          this.authority = otoritas.otoritas(user)
+        let user = localStorage.getItem('user')
+        if(user != null) {
+          let otority = await api.getOtoritas(user)
+          this.authority = otoritas.otoritas(otority)
         }
         if(this.authority != '') {
           this.items = await api.getGroupBarang()
           this.barang = await api.getBarang()
-        } else return this.$router.push('login')
+        } else return  await api.logout()
       },
       data(){
         let data = this.filter_kodebarang

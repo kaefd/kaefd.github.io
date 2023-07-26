@@ -1,6 +1,7 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import middleware from '../service/middleware'
 import DataBarang from '../views/DataBarang.vue'
+import testPage from '../views/testPage.vue'
 import LoginView from '../views/LoginView.vue'
 import DataPelanggan from '../views/DataPelanggan.vue'
 import DataSupplier from '../views/DataSupplier.vue'
@@ -29,6 +30,14 @@ const router = createRouter({
       path: '/login',
       name: 'login',
       component: LoginView,
+    },
+    {
+      path: '/test-page',
+      name: 'testPage',
+      meta: {
+        middleware: [middleware]
+      },
+      component: testPage,
     },
     {
       path: '/data-barang',

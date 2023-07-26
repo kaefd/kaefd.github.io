@@ -100,7 +100,7 @@ import otoritas from '../service/page/otoritas';
             batal_produksi: Boolean(otoritas.routes(this.user_otoritas, 'Batal Produksi')),
             penjualan: Boolean(otoritas.routes(this.user_otoritas, 'Penjualan')),
             tambah_penjualan: Boolean(otoritas.routes(this.user_otoritas, 'Tambah Penjualan Baru')),
-            batal_pejualan: Boolean(otoritas.routes(this.user_otoritas, 'Batal Penjualan')),
+            batal_penjualan: Boolean(otoritas.routes(this.user_otoritas, 'Batal Penjualan')),
             pengiriman: Boolean(otoritas.routes(this.user_otoritas, 'Pengiriman')),
             tambah_pengiriman: Boolean(otoritas.routes(this.user_otoritas, 'Tambah Pengiriman Baru')),
             batal_pengiriman: Boolean(otoritas.routes(this.user_otoritas, 'Batal Pengiriman')),
@@ -115,16 +115,18 @@ import otoritas from '../service/page/otoritas';
     },
       methods: {
         async fetchData () {
-          // if(this.user != '') {
-          let user = await api.getOtoritas()
-          this.authority = otoritas.otoritas(user)
-        // }
-          // if(this.authority != '') {
+          //ambil otoritas user saat ini
+          let user = localStorage.getItem('user')
+          if(user != null) {
+            let otority = await api.getOtoritas(user)
+            this.authority = otoritas.otoritas(otority)
+          }
+          //ambil otoritas userselect
+          if(this.authority != '') {
             this.items = await api.getUser()
             let user2 = await api.getOtoritas(this.userselect)
-            this.us = await api.getOtoritas()
             this.user_otoritas = otoritas.otoritas(user2)
-          // } else return this.$router.push('login')
+          } else await api.logout()
         },
         async pilihUser(value) {
           this.userselect = value
@@ -183,6 +185,21 @@ import otoritas from '../service/page/otoritas';
               this.valert = true
               this.message =  error.response.data
             })
+        },
+        deleteUser() {
+          api.deleteUser(this.userselect)
+          .then(() => {
+              this.status = this.valert = true
+              setTimeout(() => {
+                this.valert = false
+                // this.$router.go();
+              }, 2500);
+            })
+            .catch((error) => {
+              this.status = false
+              this.valert = true
+              this.message =  error.response.data
+            })
         }
     },
     mounted() {
@@ -192,7 +209,6 @@ import otoritas from '../service/page/otoritas';
   })
 </script>
 <template>
-  {{ ds }}
 <v-container class="pt-9 h-100">
   <v-row no-gutters class="mb-2 mt-n4">
     <v-responsive class="mb-sm-0 mb-1" min-width="200">
@@ -213,7 +229,7 @@ import otoritas from '../service/page/otoritas';
               <v-icon size="50">mdi-account</v-icon>
             </v-avatar>
             <v-div v-if="!tambah" class="d-flex">
-              <btn-cancel @click="edit = true" class="text-caption mt-3" height="30" width="80" btn_title="Hapus User" />
+              <btn-cancel @click="deleteUser()" class="text-caption mt-3" height="30" width="80" btn_title="Hapus User" />
               <btn-cancel :disabled="edit" @click="edit = true, edituser" class="text-caption mt-3 ms-2" height="30" width="80" btn_title="Edit User" />
             </v-div>
             <text-field-form v-if="!edit && !tambah" label="Username" :model-value="userselect" readonly class="w-50 my-3"/>
@@ -353,7 +369,7 @@ import otoritas from '../service/page/otoritas';
                 <td></td>
                 <td>
                   <v-checkbox v-if="!edit && !tambah" hide-details color="orange" class="radio-small" :model-value="otoritas.routes(user_otoritas, 'Batal Penjualan') ? true : false" readonly />
-                  <v-checkbox v-if="edit || tambah" hide-details color="orange" class="radio-small" v-model="ds.batal_pejualan" />
+                  <v-checkbox v-if="edit || tambah" hide-details color="orange" class="radio-small" v-model="ds.batal_penjualan" />
                 </td>
               </tr>
               <tr>

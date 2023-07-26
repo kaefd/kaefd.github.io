@@ -71,9 +71,10 @@ import otoritas from '../service/page/otoritas';
     },
     methods: {
       async fetchData(){
-        if(this.user != '') {
-          let user = await api.getOtoritas(this.user)
-          this.authority = otoritas.otoritas(user)
+        let user = localStorage.getItem('user')
+        if(user != null) {
+          let otority = await api.getOtoritas(user)
+          this.authority = otoritas.otoritas(otority)
         }
         if(this.authority != '') {
           let head = await api.getProduksiHead(this.periode)
@@ -82,7 +83,7 @@ import otoritas from '../service/page/otoritas';
           this.items = produksi.items(head, this.detailbahan, this.detailbarang)
           this.groupbarang = await api.getGroupBarang()
           this.getbarang = await api.getBarang()
-        } else return this.$router.push('login')
+        } else return await api.logout()
       },
       // TAMBAH DATA
       inputhead(value, detlbahan, detlbarang) {

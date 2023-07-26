@@ -4,9 +4,10 @@ import api from '../../service/api';
 
 <script>
 export default {
-  props:['pageTitle', 'user'],
+  props:['pageTitle'],
     data(){
         return {
+            user: '',
             dark: false,
             menu: [
                     { title: 'Ubah Password', value: 'changepass' },
@@ -14,6 +15,8 @@ export default {
                 ],
             title: this.pageTitle
         }
+    },
+    created() {
     },
     methods: {
       logout() {
@@ -24,6 +27,9 @@ export default {
         this.$emit('dark', this.dark)
       }
     },
+    mounted() {
+      this.user = localStorage.getItem('user')
+    }
   }
 </script>
 
