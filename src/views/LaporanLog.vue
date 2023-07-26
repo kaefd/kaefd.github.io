@@ -7,10 +7,11 @@ import checkBox from '../components/form/checkBox.vue';
 import BtnFilter from '../components/button/btnFilter.vue';
 import TextField from '../components/form/textField.vue';
 import DatePicker from '../components/datepicker/datePicker.vue';
-import otoritas from '../service/page/otoritas';
+import laporan from '../service/page/laporan';
 </script>
 
 <script>
+import functions from '../service/functions';
 
   export default {
     components: {
@@ -36,12 +37,6 @@ import otoritas from '../service/page/otoritas';
           'admin',
           'beacukai',
         ],
-        headers: [
-          { title: 'Tanggal', key: 'tanggal'},
-          { title: 'Username', key: 'username' },
-          { title: 'Kategori', key: 'kategori' },
-          { title: 'Keterangan', key: 'keterangan' },
-        ],
         selectuser:[],
         items: '',
         users: '',
@@ -51,59 +46,17 @@ import otoritas from '../service/page/otoritas';
         }
       }
     },
-    async created() {
-      this.periode = [this.tglawal(), this.today()]
-      this.filtered.periode = [this.tglawal(), this.today()]
+    created() {
+      this.periode = [functions.tglawal(), functions.day()]
+      this.filtered.periode = [functions.tglawal(), functions.day()]
     },
     methods: {
-      today() {
-        let currentDate = new Date().toJSON().slice(0, 10);
-        return currentDate
-      },
-      tglawal() {
-        let d = new Date();
-        let m = d.getMonth();
-        d.setMonth(d.getMonth() - 1);
-        
-        // If still in same month, set date to last day of 
-        // previous month
-        if (d.getMonth() == m) d.setDate(0);
-        d.setHours(0, 0, 0, 0);
-    
-        //tl_awal
-        return d.toJSON().slice(0, 10)
-      },
-      formatDate(value){
-        let options = {
-          day: '2-digit',
-          year: 'numeric',
-          month: 'long'
+      async fetchData() {
+        let user = localStorage.getItem('user')
+        if(user != null) {
+          this.users = await api.getUser()
+          this.items = await api.getLogUser(this.periode)
         }
-         return new Date(value).toLocaleDateString('id', options)
-      },
-      getUser(){
-        const apiUrl = '/user?'
-        api.getData(apiUrl)
-        .then(response => {
-          this.users = response.data
-        })
-        .catch(() => {
-          return this.$router.push('login');
-        })
-      },
-      getLogUser() {
-        const apiUrl = '/log_user?'
-        const params = {
-          tgl_awal: this.periode[0],
-          tgl_akhir: this.periode[1],
-        }
-        api.getData(apiUrl, { params })
-        .then(response => {
-          this.items = response.data
-        })
-        .catch(() => {
-          return this.$router.push('login');
-        })
       },
       selected(){        
         if (this.selectuser.length === 0) {
@@ -119,8 +72,7 @@ import otoritas from '../service/page/otoritas';
         return this.$emit('page', this.pageTitle)
       },
       updt() {
-        this.getUser()
-        this.getLogUser()
+        this.fetchData()
       },
       reset() {
         this.filtered.selectuser = []
@@ -199,7 +151,7 @@ import otoritas from '../service/page/otoritas';
           id="tbl_exporttable_to_xls"
           :items-per-page="selected().length"
           :items="selected()"
-          :headers="headers"
+          :headers="laporan.headLogUser"
           :search="search"
           :hover="true"
           :fixed-header="true"
@@ -215,7 +167,7 @@ import otoritas from '../service/page/otoritas';
       <!-- edit data -->
         <TableVue
           id="tbl_exporttable_to_xls"
-          :headers="headers"
+          :headers="laporan.headLogUser"
           :items="selected()"
           :search="search"
           :category="category"

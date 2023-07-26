@@ -39,6 +39,19 @@ export default {
       return this.logout()
     }
   },
+  async getLogUser (param) {
+    try {
+      const apiUrl = '/log_user?'
+      const params = {
+        tgl_awal: param[0],
+        tgl_akhir: param[1]
+      }
+      const response = await instance.get(apiUrl, {params})
+      return response.data;
+    } catch (error) {
+      return this.logout()
+    }
+  },
   async getOtoritas(value){
     try {
       const response = await instance.get('/user_otoritas/'+value)

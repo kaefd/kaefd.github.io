@@ -8,7 +8,7 @@ export default {
     data(){
         return {
             user: '',
-            dark: false,
+            dark: null,
             menu: [
                     { title: 'Ubah Password', value: 'changepass' },
                     { title: 'Logout', value: 'logout'},
@@ -28,7 +28,6 @@ export default {
       }
     },
     mounted() {
-      this.user = localStorage.getItem('user')
     }
   }
 </script>
