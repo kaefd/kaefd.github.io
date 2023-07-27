@@ -4,6 +4,8 @@ import BtnCancel from '../components/button/btnCancel.vue';
 import BtnInfo from '../components/button/btnInfo.vue';
 import BtnOrange from '../components/button/btnOrange.vue';
 import TextButton from '../components/button/textButton.vue';
+import AlertVue from '../components/dialog/alertVue.vue';
+import DialogConfirm from '../components/dialog/dialogConfirm.vue';
 import TextFieldForm from '../components/form/textFieldForm.vue';
 import api from '../service/api';
 import otoritas from '../service/page/otoritas';
@@ -19,11 +21,14 @@ import otoritas from '../service/page/otoritas';
         TextFieldForm,
         BtnCancel,
         BtnOrange,
+        AlertVue,
+        DialogConfirm,
     },
     data () {
       return {
         drawer: false,
         detail: false,
+        confirmdialog: false,
         edit: null,
         tambah: null,
         pageTitle: 'DATA USER',
@@ -177,7 +182,7 @@ import otoritas from '../service/page/otoritas';
               this.status = this.valert = true
               setTimeout(() => {
                 this.valert = false
-                // this.$router.go();
+                this.$router.go();
               }, 2500);
             })
             .catch((error) => {
@@ -192,7 +197,7 @@ import otoritas from '../service/page/otoritas';
               this.status = this.valert = true
               setTimeout(() => {
                 this.valert = false
-                // this.$router.go();
+                this.$router.go();
               }, 2500);
             })
             .catch((error) => {
@@ -229,7 +234,7 @@ import otoritas from '../service/page/otoritas';
               <v-icon size="50">mdi-account</v-icon>
             </v-avatar>
             <v-div v-if="!tambah" class="d-flex">
-              <btn-cancel @click="deleteUser()" class="text-caption mt-3" height="30" width="80" btn_title="Hapus User" />
+              <btn-cancel @click="confirmdialog = true" class="text-caption mt-3" height="30" width="80" btn_title="Hapus User" />
               <btn-cancel :disabled="edit" @click="edit = true, edituser" class="text-caption mt-3 ms-2" height="30" width="80" btn_title="Edit User" />
             </v-div>
             <text-field-form v-if="!edit && !tambah" label="Username" :model-value="userselect" readonly class="w-50 my-3"/>
@@ -459,6 +464,15 @@ import otoritas from '../service/page/otoritas';
       </v-dialog>
     </v-responsive>
   </v-row>
+  <dialogConfirm v-model="confirmdialog" :object="pageTitle">
+    <template #yesButton>
+        <btn-orange @click="deleteUser(), confirmdialog = false" btn_title="Ya"/>
+    </template>
+    <template #cancelButton>
+      <btn-cancel class="me-2" @click="confirmdialog = false" btn_title="Batal" />
+    </template>
+  </dialogConfirm>
+  <alert-vue v-model="valert" :sukses="status" :message="message" />
 </v-container>
 </template>
 <style scoped>
