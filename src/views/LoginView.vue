@@ -94,7 +94,7 @@ export default {
             <v-text-field variant="underlined" class="text-blue-custom text-field mt-7" v-model="username" name="username" hide-details>
               <img src="../assets/img/USER.png" class="me-3 mb-2 icon-small"/>
             </v-text-field>
-            <v-text-field variant="underlined" class="text-blue-custom text-field" v-model="password" name="password" hide-details>
+            <v-text-field :type="ispassword == true ? 'text' : 'password'" variant="underlined" class="text-blue-custom text-field" v-model="password" name="password" hide-details>
               <img src="../assets/img/PASS.png" class="me-3 mb-2 icon-small" />
             </v-text-field>
             <v-checkbox label="show password" density="compact" class="mt-2" color="orange" v-model="ispassword"></v-checkbox>

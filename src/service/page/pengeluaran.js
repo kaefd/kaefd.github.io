@@ -5,7 +5,7 @@ const tipedokumen = [
 ]
 const status = [
     {title: 'menunggu', key: 'open'},
-    {title: 'selesai', key: 'close'},
+    {title: 'selesai', key: 'true'},
 ]
 const headers = [
     { title: 'Nomor Pengeluaran', key: 'no_penjualan'},
@@ -56,7 +56,8 @@ const items = (head, pelanggan) => {
           no_dokumen: head[i].no_dokumen,
           kode_pelanggan: pelanggan[j].nama,
           kode_group: head[i].kode_group,
-          total_penjualan: functions.numb(head[i].total_penjualan)
+          total_penjualan: functions.numb(head[i].total_penjualan),
+          status:  head[i].status
         })
       }
     }

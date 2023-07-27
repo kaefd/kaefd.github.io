@@ -3,7 +3,6 @@ import functions from '../service/functions';
 import { VDataTable } from 'vuetify/labs/VDataTable'
 import LogBarang from '../views/LogBarang.vue';
 import dialogMaster from './dialog/dialogMaster.vue';
-import barang from '../service/page/barang';
 import dialogConfirm from './dialog/dialogConfirm.vue';
 import menuList from './menu/menuList.vue';
 import PemasukanDetail from '../views/PemasukanDetail.vue';
@@ -73,31 +72,10 @@ export default {
         class="text-caption py-3 h-100"
         height="100%"
       >
-    <!-- CUSTOM PAGINATION STYLE -->
     <!-- ACTION DELETE & EDIT -->
       <!-- eslint-disable-next-line vue/valid-v-slot -->
-      <template v-if="laporanstok" v-slot:item.kategori_barang="{ item }">
-          {{ barang.slotitem(item.raw.kode_barang, items, 'k') }}
-      </template>
-      <!-- eslint-disable-next-line vue/valid-v-slot -->
-      <template v-if="laporanstok" v-slot:item.nama_barang="{ item }">
-          {{ barang.slotitem(item.raw.kode_barang, items, 'nm') }}
-      </template>
-      <!-- eslint-disable-next-line vue/valid-v-slot -->
-      <template v-if="laporanstok" v-slot:item.hs_code="{ item }">
-          {{ barang.slotitem(item.raw.kode_barang, items, 'hc') }}
-      </template>
-      <!-- eslint-disable-next-line vue/valid-v-slot -->
-      <template v-if="laporanstok" v-slot:item.satuan="{ item }">
-          {{ barang.slotitem(item.raw.kode_barang, items, 's') }}
-      </template>
-      <!-- eslint-disable-next-line vue/valid-v-slot -->
-      <template v-if="laporanstok" v-slot:item.stok_akhir="{item}">
-          {{ barang.sumStok(item.raw.kode_barang, stokbarang) }}
-      </template>
-      <!-- eslint-disable-next-line vue/valid-v-slot -->
       <template v-if="laporanstok" v-slot:item.actions="{item}">
-        <LogBarang :headers="headers" :barang="items" :groupbarang="groupbarang" :stokbarang="stokbarang" :item="item.raw" :kode_group="item.raw.kode_group" :kode_barang="item.raw.kode_barang"/>
+        <LogBarang :headers="headers" :barang="groupbarang" :groupbarang="groupbarang" :item="items" :kode_group="item.raw.kode_group" :kode_barang="item.raw.kode_barang"/>
       </template>
       <!-- eslint-disable-next-line vue/valid-v-slot -->
       <template v-if="!laporanstok && !masuk && update || view" v-slot:item.actions="{ item, index }">

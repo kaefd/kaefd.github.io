@@ -17,6 +17,7 @@ export default {
         }
     },
     created() {
+      this.user = localStorage.getItem('user')
     },
     methods: {
       logout() {

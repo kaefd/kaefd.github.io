@@ -2,7 +2,6 @@
 import { VDataTable } from 'vuetify/labs/VDataTable'
 import api from '../service/api';
 import TextButton from '../components/button/textButton.vue';
-import otoritas from '../service/page/otoritas';
 </script>
 <script>
 export default {
@@ -10,7 +9,7 @@ export default {
         VDataTable,
         TextButton,
     },
-    props: ['kode_group', 'barang', 'kode_barang', 'stokbarang', 'groupbarang'],
+    props: ['kode_group', 'barang', 'kode_barang', 'item', 'groupbarang'],
     data () {
       return {
         dialog: false,
@@ -45,18 +44,18 @@ export default {
     computed: {
         items () {
         let a = []
-            for (let i = 0; i < this.stokbarang.length; i++) {
+            for (let i = 0; i < this.item.length; i++) {
                 for (let j = 0; j < this.barang.length; j++) {
-                    if(this.stokbarang[i].kode_barang == this.kode_barang) {
-                        if(this.stokbarang[i].kode_barang == this.barang[j].kode_barang) {
+                    if(this.item[i].kode_barang == this.kode_barang) {
+                        if(this.item[i].kode_barang == this.barang[j].kode_barang) {
                             a.push({
                                 kode_group: '',
-                                kategori_barang: this.barang[j].kategori_barang,
+                                kategori_barang: this.item[j].kategori_barang,
                                 kode_barang: this.kode_barang,
-                                nama_barang: this.barang[j].nama_barang,
-                                hs_code: this.barang[j].hs_code,
-                                satuan: this.barang[j].satuan,
-                                stok_akhir: this.stokbarang[i].stok_akhir
+                                nama_barang: this.item[j].nama_barang,
+                                hs_code: this.item[j].hs_code,
+                                satuan: this.item[j].satuan,
+                                stok_akhir: this.item[i].stok_akhir
                             })
                         }
                     }

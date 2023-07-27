@@ -13,7 +13,7 @@ export default {
     data () {
       return {
         drawer: false,
-        tema: '',
+        tema: null,
         databarang: '',
         cetak: [
           {title: 'export ke xlsx', icon: 'mdi-download', key: 'xlsx'},

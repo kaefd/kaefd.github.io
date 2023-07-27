@@ -1,17 +1,18 @@
 <script setup>
 import TableVue from '../components/TableVue.vue';
 import api from '../service/api';
-import { jsPDF } from "jspdf";
-import 'jspdf-autotable'
 import filterDrawer from '../components/drawer/filterDrawer.vue';
 import checkBox from '../components/form/checkBox.vue';
 import menuList from '../components/menu/menuList.vue';
 import textField from '../components/form/textField.vue';
 import BtnFilter from '../components/button/btnFilter.vue';
 import otoritas from '../service/page/otoritas';
+import barang from '../service/page/barang';
 </script>
 
 <script>
+import laporan from '../service/page/laporan';
+import functions from '../service/functions';
   export default {
     components: {
       TableVue,
@@ -21,7 +22,7 @@ import otoritas from '../service/page/otoritas';
       textField,
         BtnFilter,
     },
-    props:['page','user', 'cetak'],
+    props:['page', 'cetak'],
     data () {
       return {
         drawer: null,
@@ -36,25 +37,8 @@ import otoritas from '../service/page/otoritas';
         btnTitle: 'Tambah Data',
         cardTitle: 'Detail Barang',
         authority:'',
-        category: [
-          'Bahan Baku',
-          'Bahan Penolong',
-          'Barang Setengah Jadi',
-          'Barang Jadi',
-          'Barang Sisa (Scrap)',
-          'Mesin & Peralatan',
-        ],
-        headers: [
-          { title: 'Kategori Barang', key: 'kategori_barang'},
-          { title: 'Kode Barang', key: 'kode_barang' },
-          { title: 'Nama Barang', key: 'nama_barang' },
-          { title: 'HS Kode', key: 'hs_code' },
-          { title: 'Satuan', key: 'satuan' },
-          { title: 'Stok Akhir', key: 'stok_akhir' },
-          { title: '', key: 'actions'},
-        ],
         items: '',
-        barang: '',
+        databarang: '',
         filtered: {
         kategori_barang: [],
         group_barang: [],
@@ -63,40 +47,19 @@ import otoritas from '../service/page/otoritas';
       }
     },
     computed: {
-      dataitem() {
-        let item = ''
-        let kode = []
-        for (let i = 0; i < this.items.length; i++) {
-          kode.push(this.items[i].kode_barang)
-        }
-        
-        return item
-      },
-      filterkodegroup() {
-        return this.barang.filter(item => {
-            return item.kode_group.toLowerCase().includes(this.searched.toLowerCase())
-        })
-      },
       selected(){        
         if (this.selectCategory.length === 0) {
-          return this.barang
+          return laporan.stokBarang(this.databarang, this.items)
         } else {
           // barang berdasarkan kategori
           let dt = []
-          let a = this.barang.filter(item => this.selectCategory.includes(item.kategori_barang));
+          let a = laporan.stokBarang(this.databarang, this.items).filter(item => this.selectCategory.includes(item.kategori_barang));
           for (let i = 0; i < a.length; i++) {
               dt.push(a[i].kode_barang)
           }
           // item berdasarkan kategori
-          return this.barang.filter(it => dt.includes(it.kode_barang))
+          return laporan.stokBarang(this.databarang, this.items).filter(it => dt.includes(it.kode_barang))
         }
-      },
-      kodebarang() {
-        let a = []
-        for (let i = 0; i < this.barang.length; i++) {
-          a.push(this.barang[i].kode_barang)
-        }
-        return a
       },
       filter_kodebarang() {
         let data = this.selected
@@ -117,7 +80,7 @@ import otoritas from '../service/page/otoritas';
         }
         if(this.authority != '') {
           this.items = await api.getGroupBarang()
-          this.barang = await api.getBarang()
+          this.databarang = await api.getBarang()
         } else return  await api.logout()
       },
       data(){
@@ -128,9 +91,6 @@ import otoritas from '../service/page/otoritas';
           return data.filter(item => this.group_barang.includes(item.kode_group));
         }
       },
-      addKodeGroup(value){
-        return this.filtered.group_barang.push(value)
-      },
       pages(){
         return this.$emit('page', this.pageTitle)
       },
@@ -138,38 +98,10 @@ import otoritas from '../service/page/otoritas';
         return this.filter = v
       },
       print(key){
-        if (key == 'xlsx') {
-          return this.ExportToExcel('xlsx')
-        } else if(key == 'pdf') {
-          return this.generatePDF()
-        }
-      },
-      generatePDF() {
-      const doc = new jsPDF({
-        orientation: "portrait",
-        unit: "in",
-        format: "letter"
-      });
-      var heading = this.pageTitle
-      var columns = this.headers
-      // text is placed using x, y coordinates
-      doc.setFontSize(16).text(heading, 0.5, 1.0);
-      doc.autoTable({
-        columns,
-        body: this.items,
-        margin: { left: 0.5, top: 1.25 }
-      })
-      .save(`${this.pageTitle}.pdf`);
-      },
-      ExportToExcel(type, fn, dl) {
-       var elt = document.getElementById('tbl_exporttable_to_xls');
-       // eslint-disable-next-line no-undef
-       var wb = XLSX.utils.table_to_book(elt, { sheet: "sheet1" });
-       return dl ?
-         // eslint-disable-next-line no-undef
-         XLSX.write(wb, { bookType: type, bookSST: true, type: 'base64' }):
-         // eslint-disable-next-line no-undef
-         XLSX.writeFile(wb, fn || (this.pageTitle+'.' + (type || 'xlsx')));
+        let title = this.pageTitle
+        let header = laporan.headStokBarang
+        let item = this.data()
+        functions.print(key, title, header, item)
       },
       kodegroup() {
         let kode = []
@@ -210,7 +142,7 @@ import otoritas from '../service/page/otoritas';
       <v-span class="text-caption text-weight-bold">Kategori Barang</v-span>
       <v-divider class="mb-6"></v-divider>
       <checkBox
-        v-for="label, i in category"
+        v-for="label, i in barang.category"
         :key="i"
         v-model="filtered.kategori_barang"
         :label="label"
@@ -254,13 +186,12 @@ import otoritas from '../service/page/otoritas';
         <!-- TABEL -->
         <TableVue
         id="tbl_exporttable_to_xls"
-        :stokbarang="items"
         :groupbarang="items"
-        :barang="barang"
-        :headers="headers"
+        :barang="databarang"
+        :headers="laporan.headStokBarang"
         :items="data()"
         :search="search"
-        :category="category"
+        :category="barang.category"
         :selectCategory="selectCategory"
         :laporanstok="true"
         />
