@@ -34,6 +34,7 @@ import otoritas from '../service/page/otoritas';
         search: '',
         items:'',
         dialog: false,
+        akses: '',
         authority: '',
         tambah: {
           kode_pelanggan: '',
@@ -48,10 +49,10 @@ import otoritas from '../service/page/otoritas';
       async fetchData() {
         let user = localStorage.getItem('user')
         if(user != '') {
-          let otority = await api.getOtoritas(user)
-          this.authority = otoritas.otoritas(otority)
+         this.akses = await api.getOtoritas(user)
+          this.authority = otoritas.otoritas(this.akses)
         }
-        if(this.authority != '') {
+        if(otoritas.routes(this.akses, 'Data Pelanggan')) {
           this.items = await api.getPelanggan()
         } else return  await api.logout()
       },
@@ -70,6 +71,7 @@ import otoritas from '../service/page/otoritas';
         .then(() => {
           this.status = true
           this.valert = true
+          this.message = "Data Berhasil Ditambahkan"
           setTimeout(() => {
             this.valert = false
             this.$router.go();
@@ -94,6 +96,7 @@ import otoritas from '../service/page/otoritas';
         .then(() => {
           this.status = true
           this.valert = true
+          this.message = "Data Berhasil Diubah"
           setTimeout(() => {
             this.valert = false
             // this.$router.go();
@@ -111,6 +114,7 @@ import otoritas from '../service/page/otoritas';
         .then(() => {
           this.status = true
           this.valert = true
+          this.message = "Data Berhasil Dihapus"
           setTimeout(() => {
             this.valert = false
             this.$router.go();

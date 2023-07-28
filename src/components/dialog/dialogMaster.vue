@@ -1,5 +1,4 @@
 <script>
-import otoritas from '../../service/page/otoritas'
 import BtnCancel from '../button/btnCancel.vue'
 // import textButton from '../button/textButton.vue'
 import btnInfo from '../button/btnInfo.vue'

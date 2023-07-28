@@ -101,6 +101,7 @@ import otoritas from '../service/page/otoritas';
         api.postPengeluaran(value, detail)
         .then(() => {
           this.status = this.valert = true
+          this.message = "Data Berhasil Ditambahkan"
           setTimeout(() => {
             this.valert = false
             this.$router.go();
@@ -117,6 +118,7 @@ import otoritas from '../service/page/otoritas';
         api.deletePengeluaran(this.head, this.detail)
         .then(() => {
           this.status = this.valert = true
+          this.message = "Data Berhasil Dibatalkan"
           setTimeout(() => {
             this.valert = false
             this.$router.go();

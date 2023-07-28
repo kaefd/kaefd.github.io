@@ -31,9 +31,12 @@ export default {
     return instance.delete(url, {data: payload})
   },
   /*********** OTORITAS ***********/
-  async getUser(){
+  async getUser(value){
     try {
-      const response = await instance.get('/user')
+      const params = {
+        username : value
+      }
+      const response = await instance.get('/user?', { params })
       return response.data;
     } catch (error) {
       return this.logout()
@@ -67,142 +70,142 @@ export default {
       {
         username: data.username,
         jenis_otoritas: 'Data Barang',
-        status: String(data.data_barang)
+        status: String(data.data_barang[0].status)
       },
       {
         username: data.username,
         jenis_otoritas: 'Tambah Barang Baru',
-        status: String(data.tambah_barang)
+        status: String(data.data_barang[1].status)
       },
       {
         username: data.username,
         jenis_otoritas: 'Ubah Barang',
-        status: String(data.ubah_barang)
+        status: String(data.data_barang[2].status)
       },
       {
         username: data.username,
         jenis_otoritas: 'Hapus Barang',
-        status: String(data.hapus_barang)
+        status: String(data.data_barang[3].status)
       },
       {
         username: data.username,
         jenis_otoritas: 'Data Pelanggan',
-        status: String(data.data_pelanggan)
+        status: String(data.data_pelanggan[0].status)
       },
       {
         username: data.username,
         jenis_otoritas: 'Tambah Pelanggan Baru',
-        status: String(data.tambah_pelanggan_baru)
+        status: String(data.data_pelanggan[1].status)
       },
       {
         username: data.username,
         jenis_otoritas: 'Ubah Pelanggan',
-        status: String(data.ubah_pelanggan)
+        status: String(data.data_pelanggan[2].status)
       },
       {
         username: data.username,
         jenis_otoritas: 'Hapus Pelanggan',
-        status: String(data.Hapus_pelanggan)
+        status: String(data.data_pelanggan[3].status)
       },
       {
         username: data.username,
         jenis_otoritas: 'Data Supplier',
-        status: String(data.data_supplier)
+        status: String(data.data_supplier[0].status)
       },
       {
         username: data.username,
         jenis_otoritas: 'Data User',
-        status: String(data.data_user)
+        status: String(data.data_user[0].status)
       },
       {
         username: data.username,
         jenis_otoritas: 'Pembelian',
-        status: String(data.pembelian)
+        status: String(data.pembelian[0].status)
       },
       {
         username: data.username,
         jenis_otoritas: 'Tambah Pembelian Baru',
-        status: String(data.tambah_pembelian_baru)
+        status: String(data.pembelian[1].status)
       },
       {
         username: data.username,
         jenis_otoritas: 'Batal Pembelian',
-        status: String(data.batal_pembelian)
+        status: String(data.pembelian[2].status)
       },
       {
         username: data.username,
         jenis_otoritas: 'Produksi',
-        status: String(data.produksi)
+        status: String(data.produksi[0].status)
       },
       {
         username: data.username,
         jenis_otoritas: 'Tambah Produksi Baru',
-        status: String(data.tambah_produksi_baru)
+        status: String(data.produksi[1].status)
       },
       {
         username: data.username,
         jenis_otoritas: 'Batal Produksi',
-        status: String(data.batal_produksi)
+        status: String(data.produksi[2].status)
       },
       {
         username: data.username,
         jenis_otoritas: 'Penjualan',
-        status: String(data.penjualan)
+        status: String(data.penjualan[0].status)
       },
       {
         username: data.username,
         jenis_otoritas: 'Tambah Penjualan Baru',
-        status: String(data.tambah_penjualan)
+        status: String(data.penjualan[1].status)
       },
       {
         username: data.username,
         jenis_otoritas: 'Batal Penjualan',
-        status: String(data.batal_penjualan)
+        status: String(data.penjualan[2].status)
       },
       {
         username: data.username,
         jenis_otoritas: 'Pengiriman',
-        status: String(data.pengriman)
+        status: String(data.pengiriman[0].status)
       },
       {
         username: data.username,
-        jenis_otoritas: 'Tambah Pengiriman',
-        status: String(data.tambah_pengiriman)
+        jenis_otoritas: 'Tambah Pengiriman Baru',
+        status: String(data.pengiriman[1].status)
       },
       {
         username: data.username,
         jenis_otoritas: 'Batal Pengiriman',
-        status: String(data.batal_pengiriman)
+        status: String(data.pengiriman[2].status)
       },
       {
         username: data.username,
         jenis_otoritas: 'Laporan',
-        status: String(data.laporan)
+        status: String(data.laporan[0].status)
       },
       {
         username: data.username,
         jenis_otoritas: 'Laporan Stok Barang',
-        status: String(data.laporan_stok_barang)
+        status: String(data.laporan_stok[0].status)
       },
       {
         username: data.username,
         jenis_otoritas: 'Laporan Pembelian',
-        status: String(data.laporan_pembelian)
+        status: String(data.laporan_pembelian[0].status)
       },
       {
         username: data.username,
         jenis_otoritas: 'Laporan Produksi',
-        status: String(data.laporan_produksi)
+        status: String(data.laporan_produksi[0].status)
       },
       {
         username: data.username,
         jenis_otoritas: 'Laporan Penjualan',
-        status: String(data.laporan_penjualan)
+        status: String(data.laporan_penjualan[0].status)
       },
       {
         username: data.username,
         jenis_otoritas: 'Laporan Log User',
-        status: String(data.laporan_log_user)
+        status: String(data.laporan_log[0].status)
       },
     ]
     const otoritas = JSON.stringify(oto);
@@ -212,6 +215,7 @@ export default {
       otoritas : otoritas,
     })
   },
+
   editUser(data) {
     let user = data.username
     let pass = data.password
@@ -219,142 +223,142 @@ export default {
       {
         username: data.username,
         jenis_otoritas: 'Data Barang',
-        status: String(data.data_barang)
+        status: String(data.data_barang[0].status)
       },
       {
         username: data.username,
         jenis_otoritas: 'Tambah Barang Baru',
-        status: String(data.tambah_barang)
+        status: String(data.data_barang[1].status)
       },
       {
         username: data.username,
         jenis_otoritas: 'Ubah Barang',
-        status: String(data.ubah_barang)
+        status: String(data.data_barang[2].status)
       },
       {
         username: data.username,
         jenis_otoritas: 'Hapus Barang',
-        status: String(data.hapus_barang)
+        status: String(data.data_barang[3].status)
       },
       {
         username: data.username,
         jenis_otoritas: 'Data Pelanggan',
-        status: String(data.data_pelanggan)
+        status: String(data.data_pelanggan[0].status)
       },
       {
         username: data.username,
         jenis_otoritas: 'Tambah Pelanggan Baru',
-        status: String(data.tambah_pelanggan)
+        status: String(data.data_pelanggan[1].status)
       },
       {
         username: data.username,
         jenis_otoritas: 'Ubah Pelanggan',
-        status: String(data.ubah_pelanggan)
+        status: String(data.data_pelanggan[2].status)
       },
       {
         username: data.username,
         jenis_otoritas: 'Hapus Pelanggan',
-        status: String(data.hapus_pelanggan)
+        status: String(data.data_pelanggan[3].status)
       },
       {
         username: data.username,
         jenis_otoritas: 'Data Supplier',
-        status: String(data.data_supplier)
+        status: String(data.data_supplier[0].status)
       },
       {
         username: data.username,
         jenis_otoritas: 'Data User',
-        status: String(data.data_user)
+        status: String(data.data_user[0].status)
       },
       {
         username: data.username,
         jenis_otoritas: 'Pembelian',
-        status: String(data.pembelian)
+        status: String(data.pembelian[0].status)
       },
       {
         username: data.username,
         jenis_otoritas: 'Tambah Pembelian Baru',
-        status: String(data.tambah_pembelian)
+        status: String(data.pembelian[1].status)
       },
       {
         username: data.username,
         jenis_otoritas: 'Batal Pembelian',
-        status: String(data.batal_pembelian)
+        status: String(data.pembelian[2].status)
       },
       {
         username: data.username,
         jenis_otoritas: 'Produksi',
-        status: String(data.produksi)
+        status: String(data.produksi[0].status)
       },
       {
         username: data.username,
         jenis_otoritas: 'Tambah Produksi Baru',
-        status: String(data.tambah_produksi)
+        status: String(data.produksi[1].status)
       },
       {
         username: data.username,
         jenis_otoritas: 'Batal Produksi',
-        status: String(data.batal_produksi)
+        status: String(data.produksi[2].status)
       },
       {
         username: data.username,
         jenis_otoritas: 'Penjualan',
-        status: String(data.penjualan)
+        status: String(data.penjualan[0].status)
       },
       {
         username: data.username,
         jenis_otoritas: 'Tambah Penjualan Baru',
-        status: String(data.tambah_penjualan)
+        status: String(data.penjualan[1].status)
       },
       {
         username: data.username,
         jenis_otoritas: 'Batal Penjualan',
-        status: String(data.batal_penjualan)
+        status: String(data.penjualan[2].status)
       },
       {
         username: data.username,
         jenis_otoritas: 'Pengiriman',
-        status: String(data.pengiriman)
+        status: String(data.pengiriman[0].status)
       },
       {
         username: data.username,
         jenis_otoritas: 'Tambah Pengiriman Baru',
-        status: String(data.tambah_pengiriman)
+        status: String(data.pengiriman[1].status)
       },
       {
         username: data.username,
         jenis_otoritas: 'Batal Pengiriman',
-        status: String(data.batal_pengiriman)
+        status: String(data.pengiriman[2].status)
       },
       {
         username: data.username,
         jenis_otoritas: 'Laporan',
-        status: String(data.laporan)
+        status: String(data.laporan[0].status)
       },
       {
         username: data.username,
         jenis_otoritas: 'Laporan Stok Barang',
-        status: String(data.laporan_stok_barang)
+        status: String(data.laporan_stok[0].status)
       },
       {
         username: data.username,
         jenis_otoritas: 'Laporan Pembelian',
-        status: String(data.laporan_pembelian)
+        status: String(data.laporan_pembelian[0].status)
       },
       {
         username: data.username,
         jenis_otoritas: 'Laporan Produksi',
-        status: String(data.laporan_produksi)
+        status: String(data.laporan_produksi[0].status)
       },
       {
         username: data.username,
         jenis_otoritas: 'Laporan Penjualan',
-        status: String(data.laporan_penjualan)
+        status: String(data.laporan_penjualan[0].status)
       },
       {
         username: data.username,
         jenis_otoritas: 'Laporan Log User',
-        status: String(data.laporan_log_user)
+        status: String(data.laporan_log[0].status)
       },
     ]
     const otoritas = JSON.stringify(oto);
@@ -364,8 +368,14 @@ export default {
       otoritas : otoritas,
     })
   },
-  deleteUser(data) {
-    return instance.delete('/user?username='+ data)
+  deleteUser(user) {
+    const apiUrl  = '/user'
+    let data = {
+      username: user
+    }
+    return instance.delete(apiUrl, {
+      data: data
+    })
   },
   /*********** GROUP BARANG ***********/
   async getGroupBarang(){

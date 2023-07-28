@@ -130,7 +130,7 @@ export default {
             v-if="edit"
             :submenu="true"
             icon="mdi-dots-vertical"
-            :items="hapus == 'Batal Pembelian' ? list : viewOnly"
+            :items="hapus ? list : viewOnly"
             @result="menuAksi"
         />
       </template>
@@ -166,7 +166,7 @@ export default {
                 <v-row no-gutters justify="center" justify-md="space-between">
                     <v-responsive class="pt-2 mx-md-0 mx-3" width="250">
                         <textFieldForm label="No Pemasukan" v-model="inputdata.no_pembelian" :disabled="true"/>
-                        <datePicker label="Tgl Pemasukan" v-model="inputdata.tgl_pembelian" :tema="tema" :rules="required" />
+                        <datePicker label="Tgl Pemasukan" v-model="inputdata.tgl_pembelian" :max-date="new Date()" :tema="tema" :rules="required" />
                         <dialogSearch v-if="!edit" label="Supplier" :objectFilter="supplier" @pilihObjek="pilihObjek" cardTitle="SUPPLIER" max-width="400" :rules="required"/>
                     </v-responsive>
                     <v-responsive class="pt-2 mx-3" width="250">
@@ -178,7 +178,7 @@ export default {
                             @result="pilihtipedokumen"
                             />
                         <textFieldForm label="No Dokumen" v-model="inputdata.no_dokumen" required :rules="required" />
-                        <datePicker label="Tgl Dokumen" v-model="inputdata.tgl_dokumen" :tema="tema" :rules="required" />
+                        <datePicker label="Tgl Dokumen" v-model="inputdata.tgl_dokumen" :max-date="new Date()" :tema="tema" :rules="required" />
                     </v-responsive>
                     <v-responsive class="pt-2 mx-md-0 mx-3" width="250">
                         <textFieldForm label="No Invoice" v-model="inputdata.no_invoice" :rules="required" />

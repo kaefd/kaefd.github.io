@@ -92,6 +92,7 @@ export default {
         api.postPemasukan(value, valuedetail)
         .then(() => {
           this.status = this.valert = true
+          this.message = "Data Berhasil Ditambahkan"
           setTimeout(() => {
             this.valert = false
             this.$router.go();
@@ -108,6 +109,7 @@ export default {
         api.deletePemasukan(this.pembelian_head, this.pdetail)
         .then(() => {
           this.status = this.valert = true
+          this.message = "Data Berhasil Dibatalkan"
           setTimeout(() => {
             this.valert = false
             this.$router.go();

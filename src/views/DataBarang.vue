@@ -37,6 +37,7 @@ export default defineComponent ({
         valert: false,
         status: null,
         authority: '',
+        akses: '',
         message: '',
         search: '',
         filter: false,
@@ -61,10 +62,10 @@ export default defineComponent ({
       async fetchData() {
         let user = localStorage.getItem('user')
         if(user != null) {
-          let otority = await api.getOtoritas(user)
-          this.authority = otoritas.otoritas(otority)
+          this.akses = await api.getOtoritas(user)
+          this.authority = otoritas.otoritas(this.akses)
         }
-        if(this.authority != '') {
+        if(otoritas.routes(this.akses, 'Data Barang')) {
           this.items = await api.getBarang()
         } else return await api.logout()
       },
@@ -82,6 +83,7 @@ export default defineComponent ({
           api.postBarang(value)
           .then(() => {
               this.status = this.valert = true
+              this.message = "Data Berhasil Ditambahkan"
               setTimeout(() => {
                 this.valert = false
                 this.$router.go();
@@ -98,6 +100,7 @@ export default defineComponent ({
           api.putBarang(value)
           .then(() => {
             this.status = this.valert = true
+            this.message = "Data Berhasil Diubah"
             setTimeout(() => {
               this.valert = false
               this.$router.go();
@@ -114,6 +117,7 @@ export default defineComponent ({
         api.deleteBarang(v)
         .then(() => {
           this.status = this.valert = true
+          this.message = "Data Berhasil Dihapus"
           setTimeout(() => {
             this.valert = false
             this.$router.go();

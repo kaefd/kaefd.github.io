@@ -20,6 +20,7 @@ import otoritas from '../service/page/otoritas';
     data () {
       return {
         drawer: false,
+        akses: '',
         pageTitle:'DATA SUPPLIER',
         search: '',
         alpha: 0,
@@ -30,10 +31,10 @@ import otoritas from '../service/page/otoritas';
       async fetchData() {
         let user = localStorage.getItem('user')
         if(user != null) {
-          let otority = await api.getOtoritas(user)
-          this.authority = otoritas.otoritas(otority)
+          this.akses = await api.getOtoritas(user)
+          this.authority = otoritas.otoritas(this.akses)
         }
-        if(this.authority != '') {
+        if(otoritas.routes(this.akses, 'Data Supplier')) {
           this.items = await api.getSupplier()
         } else return  await api.logout()
       },

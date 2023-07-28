@@ -90,6 +90,7 @@ import otoritas from '../service/page/otoritas';
         api.postProduksi(value, detlbahan, detlbarang)
         .then(() => {
           this.status = this.valert = true
+          this.message = "Data Berhasil Ditambahkan"
           setTimeout(() => {
             this.valert = false
             // this.$router.go();
@@ -106,6 +107,7 @@ import otoritas from '../service/page/otoritas';
         api.deleteProduksi(this.head, this.detailbhn, this.detailbrg)
         .then(() => {
           this.status = this.valert = true
+          this.message = "Data Berhasil Dibatalkan"
           setTimeout(() => {
             this.valert = false
             this.$router.go();

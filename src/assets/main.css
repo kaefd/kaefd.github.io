@@ -23,6 +23,9 @@ input::-webkit-inner-spin-button {
 .w-85 {
   width: 85% !important;
 }
+.vh-45 {
+  height: 35vh !important;
+}
 .h-80 {
   height: 80% !important;
 }
@@ -63,7 +66,9 @@ input::-webkit-inner-spin-button {
 .v-theme--light > .v-data-table {
   --v-theme-surface: #fafafa !important;
 }
-
+label.v-label {
+  font-size: 9pt !important;
+}
 .v-table  {
     background: var(--v-theme-surface) !important;
 }

@@ -9,6 +9,8 @@ import PemasukanDetail from '../views/PemasukanDetail.vue';
 import pemasukan from '../service/page/pemasukan';
 import btnCancel from './button/btnCancel.vue';
 import BtnOrange from './button/btnOrange.vue';
+import UserDetail from '../views/userDetail.vue';
+import otoritas from '../service/page/otoritas';
 </script>
 <script>
 export default {
@@ -21,13 +23,15 @@ export default {
       btnCancel,
       menuList,
       BtnOrange,
+        UserDetail,
     },
     // props: ['loading', 'stokbarang', 'barang', 'groupbarang', 'laporanstok', 'disabled', 'keyform', 'headers', 'items', 'search', 'category', '', 'toolbar_title', 'icon', 'iVariant', 'alpha', 'screen', 'form', 'noselect', 'ishidden'],
-    props: ['stokbarang', 'update', 'hapus', 'groupbarang', 'laporanstok', 'masuk', 'supplier', 'pembeliandetl', 'view', 'disabled', 'keyform', 'headers', 'items', 'search', 'category', 'toolbar_title', 'form', 'noselect', 'ishidden', 'pageTitle'],
+    props: [ 'userdetail', 'editdata', 'otority', 'user_otoritas', 'j_otoritas', 'stokbarang', 'update', 'hapus', 'groupbarang', 'laporanstok', 'masuk', 'supplier', 'pembeliandetl', 'view', 'disabled', 'keyform', 'headers', 'items', 'search', 'category', 'toolbar_title', 'form', 'noselect', 'ishidden', 'pageTitle'],
     
     data () {
       return {
         dialog: [],
+        detail: [],
         totaldata: this.items.length,
         confirmdialog: [],
         list: [
@@ -43,6 +47,9 @@ export default {
       result(value, i) {
         return value != 'hapus' ? this.dialog[i] = true : this.confirmdialog[i] = true
       },
+      result2(value, i) {
+        return value != 'hapus' ? this.detail[i] = true : this.confirmdialog[i] = true
+      },
       edit(value) {
         return this.$emit('edit', value)
       },
@@ -52,6 +59,9 @@ export default {
       },
       confirm(head, detail) {
         this.$emit('confirm', head, detail)
+      },
+      test(i) {
+        return alert(i)
       }
     },
     mounted() {
@@ -73,6 +83,23 @@ export default {
         height="100%"
       >
     <!-- ACTION DELETE & EDIT -->
+    <!-- eslint-disable-next-line vue/valid-v-slot -->
+      <template v-if="userdetail" v-slot:item.actions="{item, index}">
+        <menuList :items="list" icon="mdi-dots-vertical" :submenu="true" @result="result2" :index="index" />
+        <user-detail v-model="detail[index]" :editdata="editdata" :user_otoritas="user_otoritas" :j_otoritas="j_otoritas" :userselect="item.raw.username" :otority="otoritas.all(otority, item.raw.username)" @submitUser="edit" >
+          <template #cancel>
+            <btn-cancel @click="detail[index] = false" btn_title="Batal" class="mx-2" />
+          </template>
+        </user-detail>
+        <dialogConfirm v-model="confirmdialog[index]" :object="pageTitle">
+        <template #yesButton>
+            <btn-orange class="ms-2" type="submit" @click="del(item.raw.username, index)" btn_title="Ya"/>
+        </template>
+        <template #cancelButton>
+          <btn-cancel @click="confirmdialog[index] = false" btn_title="Batal" />
+        </template>
+      </dialogConfirm>
+      </template>
       <!-- eslint-disable-next-line vue/valid-v-slot -->
       <template v-if="laporanstok" v-slot:item.actions="{item}">
         <LogBarang :headers="headers" :barang="groupbarang" :groupbarang="groupbarang" :item="items" :kode_group="item.raw.kode_group" :kode_barang="item.raw.kode_barang"/>

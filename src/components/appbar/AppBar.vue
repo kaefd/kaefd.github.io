@@ -57,13 +57,13 @@ export default {
             <v-menu activator="#akun">
               <v-card width="300"  class="rounded-xl pa-2 border">
                 <div class="d-flex flex-column align-center rounded-xl border">
-                  <v-avatar class="bg-blue-custom mt-3" size="100">
+                  <v-avatar class="bg-blue-custom mt-3 mb-2" size="100">
                     <v-icon size="80">mdi-account</v-icon>
                   </v-avatar>
                   <v-span>{{ user }}</v-span>
                   <v-btn class="d-flex justify-start align-left rounded-b-xl elevation-0 mt-5" block size="60">
-                    <v-icon color="grey-darken-3 me-2 mt-n1 ms-6" size="19">mdi-key</v-icon>
-                    <v-span class="text-body-2">Ganti Password</v-span>
+                    <v-icon color="mt-n1 ms-6" size="19">mdi-key</v-icon>
+                    <v-span class="ms-2 text-body-2">Ganti Password</v-span>
                   </v-btn>
                 </div>
                 <v-btn @click="logout()" variant="text" class="d-flex justify-start align-left rounded-xl elevation-0 text-body-2" block size="60">

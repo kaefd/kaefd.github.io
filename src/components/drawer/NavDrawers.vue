@@ -57,7 +57,7 @@ import otoritas from '../../service/page/otoritas';
           this.pageTitle == 'LAPORAN LOG USER'
         ){
           return true
-        }
+        } else return false
       },
       // onResize() {
       // this.windowWidth = window.innerWidth
