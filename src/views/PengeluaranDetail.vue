@@ -90,12 +90,7 @@ export default {
             this.pembelian_input = value
         },
         confirm() {
-            this.$emit('confirm', this.dataitem, [this.penjualan])
-        },
-        totalharga(v){
-            if (this.dataitem.no_penjualan == v ) {
-                return this.numb(this.dataitem.total_penjualan)
-            }
+            this.$emit('confirm', this.dataitem, this.penjualan)
         },
         deleteditem(del) {
             for (let i = 0; i < this.pembelian_input.length; i++) {
@@ -174,7 +169,7 @@ export default {
                 <v-row no-gutters v-if="edit" justify="center" justify-md="space-between" align="start" class="pt-7" min-width="400">
                     <v-responsive class="pt-2 mx-md-0 mx-3" width="250">
                         <text-field-form label="No Penjualan" :model-value="items.no_penjualan" readonly />
-                        <text-field-form label="Tgl Penjualan" :model-value="items.tgl_penjualan" readonly/>
+                        <text-field-form label="Tgl Penjualan" :model-value="functions.formatDate(items.tgl_penjualan)" readonly/>
                     </v-responsive>
                     <v-responsive class="pt-2 mx-3 pt-2" width="250">
                         <text-field-form label="Pelanggan" :model-value="items.kode_pelanggan" readonly />
@@ -258,7 +253,7 @@ export default {
                     :fixed-header="true"
                     density="compact"
                     class="text-caption py-7 px-5"
-                    height="300"
+                    height="220"
                 >
                 <!-- CUSTOM PAGINATION STYLE -->
                 <template v-slot:bottom>
@@ -298,7 +293,7 @@ export default {
                 <template v-slot:item.actions="{ item, index }">
                     <dialog-vue v-model="detaildial[index]">
                         <template #titlecard>
-                            <v-card-title class="text-center text-button font-weight-bold">{{ item.raw.nama_barang }}</v-card-title>
+                            <v-card-title class="text-center text-orange text-button font-weight-bold">{{ item.raw.nama_barang }}</v-card-title>
                             <v-card-subtitle class="text-caption text-center mb-2 mt-n3">{{ item.raw.hs_code }}</v-card-subtitle>
                         </template>
                         <template #content>
@@ -339,7 +334,7 @@ export default {
                             />
                             <text-field-form
                                 label="Total Harga"
-                                :model-value="edit ? functions.numb(item.raw.harga_jual * item.raw.jumlah) : numb(pembelian_input[index].harga_jual * pembelian_input[index].jumlah)"
+                                :model-value="edit ? functions.numb(item.raw.harga_jual * item.raw.jumlah) : pembelian_input[index].harga_jual * pembelian_input[index].jumlah"
                                 readonly
                                 hide-details
                                 class="mb-3"

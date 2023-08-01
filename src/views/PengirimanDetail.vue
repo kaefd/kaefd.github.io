@@ -26,7 +26,7 @@ export default {
     DialogVue,
     CurrencyInput
     },
-    props:['tema', 'hapus', 'pembelianbaru', 'namaPelanggan', 'detail_kirim','detailkirim', 'nokirim', 'nopjl', 'pjl_detail', 'alamatBongkar', 'groupbarang', 'batalbtn', 'pengiriman', 'pemasukan', 'totalpenjualan', 'namaTujuan', 'datainput', 'pageTitle', 'pengeluaran', 'no', 'tipe', 'namaSupplier', 'pengirimanDetail', 'pembelian', 'pelanggan', 'supplier', 'pembeliandetl', 'edit', 'kirim', 'headers', 'items', 'actIcon', 'icon', 'btncolor', 'search', 'iVariant', 'headDetails', 'details','disable', 'btn', 'datatext', 'itemDetail', 'category'],
+    props:['tema', 'hapus', 'pembelianbaru', 'namaPelanggan','detailkirim', 'nokirim', 'nopjl', 'pjl_detail', 'alamatBongkar', 'groupbarang', 'batalbtn', 'pengiriman', 'pemasukan', 'totalpenjualan', 'namaTujuan', 'datainput', 'pageTitle', 'pengeluaran', 'no', 'tipe', 'namaSupplier', 'pengirimanDetail', 'pembelian', 'pelanggan', 'supplier', 'pembeliandetl', 'edit', 'kirim', 'headers', 'items', 'actIcon', 'icon', 'btncolor', 'search', 'iVariant', 'headDetails', 'details','disable', 'btn', 'datatext', 'itemDetail', 'category'],
     data () {
       return {
         dialog: false,
@@ -39,6 +39,7 @@ export default {
         barang: '',
         belumkirim: '',
         belumkirim_detail: '',
+        kirim_detail: '',
         namasupplier: '',
         dataitem: this.items,
         nama_supplier : '',
@@ -84,12 +85,35 @@ export default {
         async fetchData() {
             this.belumkirim = await api.getBelumTerkirim()
             this.belumkirim_detail = await api.getBelumTerkirimDetail()
+            let pjl = []
+            for (let i = 0; i < this.nopjl.length; i++) {
+                pjl.push(await api.getHeadPenjualan(this.nopjl[i]))
+            }
+            let data = []
+            for (let j = 0; j < this.pjl_detail.length; j++) {
+                for (let k = 0; k < pjl.length; k++) {
+                    if(this.pjl_detail[j].no_penjualan == pjl[k][0].no_penjualan) {
+                        data.push({
+                            no_penjualan: this.pjl_detail[j].no_penjualan,
+                            tipe_dokumen: pjl[k][0].tipe_dokumen,
+                            no_dokumen: pjl[k][0].no_dokumen,
+                            kode_group: this.pjl_detail[j].kode_group,
+                            kode_barang: this.pjl_detail[j].kode_barang,
+                            nama_barang: this.pjl_detail[j].nama_barang,
+                            hs_code: this.pjl_detail[j].hs_code,
+                            jumlah: this.pjl_detail[j].jumlah,
+                            satuan: this.pjl_detail[j].satuan
+                        })
+                    }
+                }
+            }
+            this.kirim_detail = data
         },
         itemmasuk(value) {
             this.pembelian_input = value
         },
         confirm() {
-            this.$emit('confirm', this.dataitem, [this.pengiriman])
+            this.$emit('confirm', this.dataitem, this.pengiriman)
         },
         totalharga(v){
             if (this.dataitem.no_penjualan == v ) {
@@ -165,11 +189,11 @@ export default {
                 <v-row no-gutters v-if="edit" justify="center" justify-md="space-between" align="start" class="pt-7" min-width="400">
                     <v-responsive class="pt-2 mx-md-0 mx-3" width="250">
                         <text-field-form label="No Pengiriman" v-model= "dataitem.no_pengiriman" readonly />
-                        <text-field-form label="Tgl Pengiriman" v-model="dataitem.tgl_pengiriman" readonly />
+                        <text-field-form label="Tgl Pengiriman" :model-value="functions.formatDate(dataitem.tgl_pengiriman)" readonly />
                     </v-responsive>
                     <v-responsive class="pt-2 mx-3" width="250">
                         <text-field-form label="Pelanggan" :model-value="dataitem.kode_pelanggan" readonly />
-                        <text-field-form label="Tujuan Bongkar" :model-value="dataitem.kode_alamat_bongkar" readonly />
+                        <text-field-form label="Tujuan Bongkar" :model-value="dataitem.nama" readonly />
                     </v-responsive>
                     <v-responsive class="pt-2 mx-md-0 mx-3" width="250">
                         <text-field-form label="Supir" :model-value="dataitem.supir" readonly />
@@ -268,12 +292,12 @@ export default {
                 <!-- TABEL EDIT/VIEW -->
                 <v-data-table
                     :headers="headDetails"
-                    :items="edit ? detail_kirim : pembelian_input"
+                    :items="edit ? kirim_detail : pembelian_input"
                     :hover="true"
                     :fixed-header="true"
                     density="compact"
                     class="text-caption py-7"
-                    height="300"
+                    height="220"
                 >
                 <!-- CUSTOM PAGINATION STYLE -->
                 <template v-slot:bottom>
@@ -288,7 +312,7 @@ export default {
                 <template v-slot:item.actions="{ item, index }">
                     <dialog-vue v-model="detaildial[index]">
                         <template #titlecard>
-                            <v-card-title class="text-center text-button font-weight-bold mt-n5">{{ item.raw.nama_barang }}</v-card-title>
+                            <v-card-title class="text-center text-orange text-button font-weight-bold">{{ item.raw.nama_barang }}</v-card-title>
                             <v-card-subtitle class="text-caption text-center mb-2 mt-n3">{{ item.raw.hs_code }}</v-card-subtitle>
                         </template>
                         <template #content>

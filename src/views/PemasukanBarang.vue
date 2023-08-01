@@ -137,7 +137,7 @@ export default {
       print(key){
         let title = this.pageTitle
         let header = pemasukan.headers
-        let item = pemasukan.printdata(this.items, this.supplier, this.pembeliandetl)
+        let item = pemasukan.pilihtipe(this.selectdokumen, this.items, this.supplier)
         functions.print(key, title, header, item)
       },
       reset() {

@@ -120,6 +120,11 @@ th {
 .text-montserrat {
   font-family: 'Montserrat';
 }
+.text-med {
+  font-size: 10.5pt;
+  color: black;
+  font-weight: 500;
+}
 .text-bluetheme {
   color: #0C223D;
 }

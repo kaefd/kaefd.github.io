@@ -11,6 +11,7 @@ import btnCancel from './button/btnCancel.vue';
 import BtnOrange from './button/btnOrange.vue';
 import UserDetail from '../views/userDetail.vue';
 import otoritas from '../service/page/otoritas';
+import laporan from '../service/page/laporan';
 </script>
 <script>
 export default {
@@ -25,8 +26,7 @@ export default {
       BtnOrange,
         UserDetail,
     },
-    // props: ['loading', 'stokbarang', 'barang', 'groupbarang', 'laporanstok', 'disabled', 'keyform', 'headers', 'items', 'search', 'category', '', 'toolbar_title', 'icon', 'iVariant', 'alpha', 'screen', 'form', 'noselect', 'ishidden'],
-    props: [ 'userdetail', 'editdata', 'otority', 'user_otoritas', 'j_otoritas', 'stokbarang', 'update', 'hapus', 'groupbarang', 'laporanstok', 'masuk', 'supplier', 'pembeliandetl', 'view', 'disabled', 'keyform', 'headers', 'items', 'search', 'category', 'toolbar_title', 'form', 'noselect', 'ishidden', 'pageTitle'],
+    props: [ 'userdetail', 'editdata', 'stok', 'otority','logbrg', 'user_otoritas', 'j_otoritas', 'stokbarang', 'update', 'hapus', 'groupbarang', 'laporanstok', 'masuk', 'supplier', 'pembeliandetl', 'view', 'disabled', 'keyform', 'headers', 'items', 'search', 'category', 'toolbar_title', 'form', 'noselect', 'ishidden', 'pageTitle'],
     
     data () {
       return {
@@ -102,7 +102,7 @@ export default {
       </template>
       <!-- eslint-disable-next-line vue/valid-v-slot -->
       <template v-if="laporanstok" v-slot:item.actions="{item}">
-        <LogBarang :headers="headers" :barang="groupbarang" :groupbarang="groupbarang" :item="items" :kode_group="item.raw.kode_group" :kode_barang="item.raw.kode_barang"/>
+        <LogBarang :headers="headers" :logbrg="logbrg" :barang="groupbarang" :groupbarang="groupbarang" :detail="laporan.subDetail(stok, item.raw.kode_barang)" :kode_group="item.raw.kode_group" :kode_barang="item.raw.kode_barang"/>
       </template>
       <!-- eslint-disable-next-line vue/valid-v-slot -->
       <template v-if="!laporanstok && !masuk && update || view" v-slot:item.actions="{ item, index }">

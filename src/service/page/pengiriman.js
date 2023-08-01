@@ -1,8 +1,8 @@
 const headers = [
   { title: 'No Pengiriman', key: 'no_pengiriman'},
   { title: 'Tgl Pengiriman', key: 'tgl_pengiriman' },
-  { title: 'Pelanggan', key: 'kode_pelanggan' },
-  { title: 'Tujuan Bongkar', key: 'kode_alamat_bongkar' },
+  { title: 'Pelanggan', key: 'namaplg' },
+  { title: 'Tujuan Bongkar', key: 'nama' },
   { title: 'Supir', key: 'supir' },
   { title: 'Polisi', key: 'no_polisi' },
   { title: '', key: 'actions', sortable: false},
@@ -42,11 +42,17 @@ const items = (head, pelanggan, bongkar) => {
             data.push({
               no_pengiriman: head[i].no_pengiriman,
               tgl_pengiriman: head[i].tgl_pengiriman,
-              kode_pelanggan: pelanggan[j].nama,
-              kode_alamat_bongkar: bongkar[k].nama,
+              kode_pelanggan: head[j].kode_pelanggan,
+              kode_alamat_bongkar: head[j].kode_alamat_bongkar,
               alamat: bongkar[k].alamat,
               supir: head[i].supir,
               no_polisi: head[i].no_polisi,
+              user_input: head[i].user_input,
+              user_batal: head[i].user_batal,
+              tgl_input: head[i].tgl_input,
+              tgl_batal: head[i].tgl_batal,
+              nama: bongkar[k].nama,
+              namaplg: pelanggan[j].nama,
             })
           }
         }
@@ -59,7 +65,7 @@ const details = (nopgm, detail, pjl) => {
   let data = []
     for (let j = 0; j < detail.length; j++) {
       for (let k = 0; k < pjl.length; k++) {
-        if(detail[j].no_pengiriman == nopgm){
+        if(detail[j].no_pengiriman == nopgm) {
           if(detail[j].no_penjualan == pjl[k].no_penjualan){
             data.push({
               no_penjualan: detail[j].no_penjualan,
@@ -83,5 +89,5 @@ export default {
   headDetails,
   datainput,
   items,
-  details
+  details,
 }

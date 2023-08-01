@@ -62,6 +62,7 @@ import otoritas from '../service/page/otoritas';
         groupbarang: '',
         getbarang:'',
         getbahan:'',
+        temp: '',
         select_kode: [],
       }
     },
@@ -93,7 +94,7 @@ import otoritas from '../service/page/otoritas';
           this.message = "Data Berhasil Ditambahkan"
           setTimeout(() => {
             this.valert = false
-            // this.$router.go();
+            this.$router.go();
           }, 2500);
         })
         .catch((error) => {
@@ -129,19 +130,24 @@ import otoritas from '../service/page/otoritas';
         return this.fetchData()
       },
       input_kodegroup(value) {
-        let kode = ''
-          for (let i = 0; i < this.groupbarang.length; i++) {
-            if(this.groupbarang[i].kode_group == value) {
-              // cari nama_Barang yang kode barangnya sama
-                kode = this.groupbarang[i].kode_barang
-              }
-            }
-
-          for (let j = 0; j < this.getbarang.length; j++) {
-              if( kode == this.getbarang[j].kode_barang) {
-                return this.select_kode =[this.getbarang[j]]
-              }
+       
+        let kode = []
+        let data = []
+        for (let i = 0; i < this.groupbarang.length; i++) {
+          if(this.groupbarang[i].kode_group == value) {
+            kode.push(this.groupbarang[i].kode_barang)
           }
+        }
+
+        for (let j = 0; j < this.getbarang.length; j++) {
+          for (let k = 0; k < kode.length; k++) {
+            if(this.getbarang[j].kode_barang == kode[k]) {
+              data.push(this.getbarang[j])
+            }
+          }
+        }
+        this.temp = data
+        return this.select_kode = kode
       },
       close(v) {
         return this.filter = v
@@ -149,7 +155,7 @@ import otoritas from '../service/page/otoritas';
       print(key){
         let title = this.pageTitle
         let header = produksi.headers
-        let item = this.printdata()
+        let item = this.items
         functions.print(key, title, header, item)
       },
       page(){
@@ -204,7 +210,7 @@ import otoritas from '../service/page/otoritas';
           :getbarang="getbarang"
           @input_kodegroup="input_kodegroup"
           @inputhead="inputhead"
-          :select_kode="select_kode"/>
+          :select_kode="temp"/>
         </div>
         <!-- <v-chip class="mt-1 me-1" color="orange" size="small">{{ periode[0] }} - {{ periode[1] }}</v-chip> -->
       </v-responsive>

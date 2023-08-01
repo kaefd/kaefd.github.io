@@ -27,7 +27,6 @@ export default {
     'nokirim',
     'belumkirim',
     'kodegroup',
-    'kodebarang',
     'belumkirim_detail',
     'blmkirim',
     'penjualan',
@@ -162,7 +161,6 @@ export default {
       done('ok')
     },
     pemasukanItem(kode, i) {
-        this.state.no_urut = 1
         this.state.hs_code = kode.hs_code
         this.state.satuan = kode.satuan
         let nilai = ''
@@ -187,7 +185,7 @@ export default {
                 jumlah_diterima: this.state.jumlah_diterima,
                 satuan: this.state.satuan,
                 nilai: this.state.nilai,
-                no_urut: this.state.no_urut,
+                no_urut: i,
             })
             let arr = []
             for (let i = 0; i < this.pemasukan_item.length; i++) {
@@ -200,7 +198,7 @@ export default {
 
         } else if(this.produksi) {
             for (let i = 0; i < this.groupbarang.length; i++) {
-                if(this.groupbarang[i].kode_group == this.kodegroup && this.groupbarang[i].kode_barang == this.kodebarang) {
+                if(this.groupbarang[i].kode_group == this.kodegroup && this.groupbarang[i].kode_barang == kode.kode_barang) {
                     nilai = this.groupbarang[i].nilai_akhir / this.groupbarang[i].stok_akhir
                 }
             }
@@ -225,7 +223,7 @@ export default {
                 satuan: this.state.satuan,
                 harga_jual: this.penjualan_detail.harga_jual,
                 total_terjual: this.terjual,
-                no_urut: 1
+                no_urut: i
             })
         }else if(this.pengiriman) {
             this.pemasukan_item.push({
@@ -240,7 +238,7 @@ export default {
                 jumlah: this.penjualan_detail.jumlah,
                 jumlah_terkirim: this.penjualan_detail.jumlah_terkirim,
                 satuan: this.state.satuan,
-                no_urut: 1,
+                no_urut: i+1,
                 nilai: nilai
             })
         }
@@ -271,8 +269,8 @@ export default {
             <btn-info v-bind="props" :disabled="getbarang == '' || inputbahan == '' ? true : false" btn_title="Tambah Barang" icon="mdi-plus" />
         </template>
     <v-card class="py-5 px-7 rounded-xl">
-            <v-card-title v-if="blmkirim" class="text-center text-blue-custom text-button font-weight-bold mb-3">PENGELUARAN BELUM TERKIRIM</v-card-title>
-            <v-card-title v-if="!blmkirim" class="text-center text-blue-custom text-button font-weight-bold mb-3">STOK BARANG</v-card-title>
+            <v-card-title v-if="blmkirim" class="text-center text-orange text-button font-weight-bold mb-3">PENGELUARAN BELUM TERKIRIM</v-card-title>
+            <v-card-title v-if="!blmkirim" class="text-center text-orange text-button font-weight-bold mb-3">STOK BARANG</v-card-title>
             <text-field
                 id="input"
                 v-model="search"
@@ -304,7 +302,7 @@ export default {
                                 <!-- penjualandetail belumkirim(pjl, nama, kodegroup) -->
                                 {{ item.nama_barang }} ({{ pjl_detail(item.no_penjualan, 'kode') }}) <br>
                                 <!-- penjualandetail(jumlah-terkirim) -->
-                                Jumlah belum terkirim: {{ functions.numb(item.jumlah - item.jumlah_terkirim) }}  <br>
+                                Jumlah belum terkirim: {{ item.jumlah - item.jumlah_terkirim }}  <br>
                                 Stok barang: {{ stok(pjl_detail(item.no_penjualan, 'kode'), item.kode_barang) }}
                             </v-span>
                         </v-div>
@@ -315,7 +313,7 @@ export default {
                     </v-list-item>
                     <v-dialog @update="dialogchild" max-width="370" v-model="dialogchild[b]">
                         <v-card class="py-5 w-100 mx-auto rounded-xl">
-                            <v-span class="text-button text-center font-weight-bold">{{ item.nama_barang }}</v-span>
+                            <v-span class="text-button text-orange text-center font-weight-bold">{{ item.nama_barang }}</v-span>
                             <v-span class="text-caption text-center">{{ item.kode_barang }} - {{ item.hs_code }}</v-span>
                             <v-divider class="mt-3 mb-5"></v-divider>
                             <form @submit.prevent="submit" ref="form" class="mx-auto w-75 pt-2 bg-transparent">

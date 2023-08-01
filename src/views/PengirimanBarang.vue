@@ -13,12 +13,14 @@ import filterDrawer from '../components/drawer/filterDrawer.vue';
 import textField from '../components/form/textField.vue';
 import menuList from '../components/menu/menuList.vue';
 import dialogConfirm from '../components/dialog/dialogConfirm.vue';
-import squareButton from '../components/button/buttonVue.vue';
 // plugins
 import BtnFilter from '../components/button/btnFilter.vue';
 import DatePicker from '../components/datepicker/datePicker.vue';
 import TextButton from '../components/button/textButton.vue';
 import otoritas from '../service/page/otoritas';
+import BtnCancel from '../components/button/btnCancel.vue';
+import AlertVue from '../components/dialog/alertVue.vue';
+import BtnOrange from '../components/button/btnOrange.vue';
 </script>
 
 <script>
@@ -26,18 +28,20 @@ import otoritas from '../service/page/otoritas';
   export default {
     components: {
       SuratJalan,
-      squareButton,
       dialogConfirm,
       PengirimanDetail,
       VDataTable,
       filterDrawer,
       textField,
       menuList,
-        BtnFilter,
-        DatePicker,
-        TextButton
+      BtnFilter,
+      DatePicker,
+      TextButton,
+      AlertVue,
+        BtnOrange,
+        BtnCancel,
     },
-    props:['cetak', 'tema', 'user'],
+    props :['cetak', 'tema', 'user'],
     data () {
       return {
         drawer: null,
@@ -63,6 +67,7 @@ import otoritas from '../service/page/otoritas';
         kirim_detail: '',
         pelanggan: '',
         alamatBongkar: '',
+        nopjl: '',
       }
     },
     created() {
@@ -95,21 +100,19 @@ import otoritas from '../service/page/otoritas';
         let a = []
         for (let i = 0; i < this.kirim_detail.length; i++) {
           if ( this.kirim_detail[i].no_pengiriman == value ) {
-              a.push(this.kirim_detail[i])
+              a.push(this.kirim_detail[i].no_penjualan)
           }
         }
         return a
       },
       pjl_detail(value) {
-        for (let i = 0; i < this.pengirimanHead.length; i++) {
-          for (let j = 0; j < this.penjualanHead.length; j++) {
-            if ( this.pengirimanHead[i].no_pengiriman == value ) {
-              if(this.penjualanHead[j].no_penjualan == this.pengirimanHead.no_penjualan) {
-                return this.penjualanHead[j]
-              } 
-            }else 'salah'
-          }
+        let a = []
+          for (let j = 0; j < this.kirim_detail.length; j++) {
+              if(this.kirim_detail[j].no_pengiriman == value) {
+                a.push(this.kirim_detail[j])
+              }
         }
+        return a
       },
       selected() {
         this.fetchData()
@@ -136,7 +139,7 @@ import otoritas from '../service/page/otoritas';
           this.status = this.valert = true
           setTimeout(() => {
             this.valert = false
-            // this.$router.go();
+            this.$router.go();
           }, 2500);
         })
         .catch((error) => {
@@ -152,7 +155,7 @@ import otoritas from '../service/page/otoritas';
           this.status = this.valert = true
           setTimeout(() => {
             this.valert = false
-            // this.$router.go();
+            this.$router.go();
           }, 2500);
         })
         .catch((error) => {
@@ -268,7 +271,6 @@ import otoritas from '../service/page/otoritas';
                           @confirm="confirm"
                           :pengiriman="Penjualandetl(item.raw.no_pengiriman)"
                           :nokirim="item.raw.no_pengiriman"
-                          :detail_kirim="pengiriman.details(item.raw.no_pengiriman, kirim_detail, penjualanHead)"
                           :nopjl="Penjualandetl(item.raw.no_pengiriman)"
                           :pjl_detail="pjl_detail(item.raw.no_pengiriman)"
                           :pageTitle="pageTitle"
@@ -282,8 +284,8 @@ import otoritas from '../service/page/otoritas';
                         :pengiriman="Penjualandetl(item.raw.no_pengiriman)"
                         :items="item.raw"
                         :nokirim="item.raw.no_pengiriman"
-                        :detail_kirim="pengiriman.details(item.raw.no_pengiriman, kirim_detail, penjualanHead)"
                         :nopjl="Penjualandetl(item.raw.no_pengiriman)"
+                        :pjl_detail="pjl_detail(item.raw.no_pengiriman)"
                       />
                     </v-list>
                   </v-menu>
@@ -291,13 +293,14 @@ import otoritas from '../service/page/otoritas';
             </v-data-table>
         </v-sheet>
         <dialogConfirm v-model="confirmdialog" :object="pageTitle">
-          <template #yesButton>
-              <squareButton type="submit" variant="outlined" color="orange-lighten-1" @click="del(), confirmdialog = false" btn_title="Ya"/>
-          </template>
-          <template #cancelButton>
-            <squareButton type="submit" variant="outlined" color="grey" @click="confirmdialog = false" btn_title="Batal" />
-          </template>
+        <template #yesButton>
+          <btn-orange class="ms-2" @click="del(), confirmdialog = false" btn_title="Ya"/>
+        </template>
+        <template #cancelButton>
+          <btn-cancel @click="confirmdialog = false" btn_title="Batal" />
+        </template>
         </dialogConfirm>
+        <alert-vue v-model="valert" :sukses="status" :message="message"/>
   </v-container>
 
 </template>

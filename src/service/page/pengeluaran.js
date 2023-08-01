@@ -12,7 +12,7 @@ const headers = [
     { title: 'Tanggal Keluar', key: 'tgl_penjualan' },
     { title: 'Tipe Dokumen', key: 'tipe_dokumen' },
     { title: 'No Dokumen', key: 'no_dokumen' },
-    { title: 'Pelanggan', key: 'kode_pelanggan' },
+    { title: 'Pelanggan', key: 'nama' },
     { title: 'Kode Group', key: 'kode_group' },
     { title: 'Total Penjualan', key: 'total_penjualan' },
     { title: '', key: 'actions', sortable: false},
@@ -54,9 +54,14 @@ const items = (head, pelanggan) => {
           tipe_dokumen: head[i].tipe_dokumen,
           tgl_dokumen: head[i].tgl_dokumen,
           no_dokumen: head[i].no_dokumen,
-          kode_pelanggan: pelanggan[j].nama,
+          nama: pelanggan[j].nama,
+          kode_pelanggan: pelanggan[j].kode_pelanggan,
           kode_group: head[i].kode_group,
-          total_penjualan: functions.numb(head[i].total_penjualan),
+          user_input: head[i].user_input,
+          user_batal: '',
+          tgl_input: head[i].tgl_input,
+          tgl_batal: head[i].tgl_batal,
+          total_penjualan: head[i].total_penjualan,
           status:  head[i].status
         })
       }

@@ -14,6 +14,7 @@ export default {
           year: 'numeric',
           month: 'long'
         }
+        // let getHour = new Date(value).toLocaleTimeString('id', {timeStyle:'short'})
         let date = new Date(value).toLocaleDateString('id', options)
         if(value != '') {
           return date
@@ -40,7 +41,7 @@ export default {
     numb2(value) {
       let val = (value / 1).toFixed(2).replace(',', ',')
       return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-  },
+    },
     // PRINT || EXPORT DATA
     generatePDF(title, header, item) {
         const doc = new jsPDF({
@@ -81,7 +82,7 @@ export default {
       return target.filter(item => {
               return item.nama.toLowerCase().includes(search.toLowerCase())
           })
-      },
+    },
     // DRAWER
     datafilter(select, filtered) {
       select = filtered
@@ -90,5 +91,15 @@ export default {
         } else if (select == []) {
           return select = []
         }
-   }
-  }
+    },
+    // DATA
+    removeDuplicate (data) {
+      let uniqueChars = [];
+      data.forEach((c) => {
+          if (!uniqueChars.includes(c)) {
+              uniqueChars.push(c);
+          }
+      })
+      return uniqueChars
+    }
+  } 

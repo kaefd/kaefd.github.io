@@ -1,7 +1,8 @@
 <script setup>
 import { VDataTable } from 'vuetify/labs/VDataTable'
-import api from '../service/api';
 import TextButton from '../components/button/textButton.vue';
+import laporan from '../service/page/laporan';
+import functions from '../service/functions';
 </script>
 <script>
 export default {
@@ -9,12 +10,11 @@ export default {
         VDataTable,
         TextButton,
     },
-    props: ['kode_group', 'barang', 'kode_barang', 'item', 'groupbarang'],
+    props: ['kode_group', 'barang', 'kode_barang', 'detail', 'groupbarang', 'logbrg'],
     data () {
       return {
         dialog: false,
-        dialogbrg: false,
-        logbrg: '',
+        dialogbrg: [],
         log_brg: '',
         authority: '',
         headers: [
@@ -33,7 +33,8 @@ export default {
           { title: 'Kode Barang', key: 'kode_barang' },
           { title: 'Kategori', key: 'kategori'},
           { title: 'Keterangan', key: 'keterangan' },
-          { title: 'Stok Awal', key: 'stok_masuk' },
+          { title: 'Stok Awal', key: 'stok_awal' },
+          { title: 'Stok Masuk', key: 'stok_masuk' },
           { title: 'Stok Keluar', key: 'stok_keluar' },
           { title: 'Stok Akhir', key: 'stok_akhir' },
           { title: '', key: 'actions'},
@@ -42,65 +43,13 @@ export default {
     }
     },
     computed: {
-        items () {
-        let a = []
-            for (let i = 0; i < this.item.length; i++) {
-                for (let j = 0; j < this.barang.length; j++) {
-                    if(this.item[i].kode_barang == this.kode_barang) {
-                        if(this.item[i].kode_barang == this.barang[j].kode_barang) {
-                            a.push({
-                                kode_group: '',
-                                kategori_barang: this.item[j].kategori_barang,
-                                kode_barang: this.kode_barang,
-                                nama_barang: this.item[j].nama_barang,
-                                hs_code: this.item[j].hs_code,
-                                satuan: this.item[j].satuan,
-                                stok_akhir: this.item[i].stok_akhir
-                            })
-                        }
-                    }
-                }
-            }
-            return a
-        }
+        
     },
-    // async created() {
-    //     let user = localStorage.getItem('user')
-    //     if(user != null) {
-    //     let otority = await api.getOtoritas(user)
-    //     this.authority = otoritas.otoritas(otority)
-    //   }
-    //   if(this.authority == '') {
-    //     return  await api.logout()
-    //   }
-    // },
     methods: {
-        async fetchData() {
-            this.logbrg = await api.getLogBarang()
-        },
-        kodegroup(v) {
-            let a = []
-            for (let i = 0; i < this.groupbarang.length; i++) {
-                if(this.groupbarang[i].kode_barang == v) {
-                    a.push(this.groupbarang[i].kode_group)
-                }
-            }
-            return a
-        },
-        log(kodegroup, kodebrg) {
-            let a = []
-            for (let i = 0; i < this.logbrg.length; i++) {
-                if(this.logbrg[i].kode_group == kodegroup && this.logbrg[i].kode_barang == kodebrg) {
-                    a.push(this.logbrg[i])
-                }
-            }
-            this.log_brg = a
-        }
+        
     },
     mounted() {
-        this.fetchData()
     }
-
 }
 </script>
 
@@ -128,7 +77,7 @@ export default {
                 <v-data-table
                 items-per-page="10"
                 :headers="headers"
-                :items="items"
+                :items="detail"
                 :search="search"
                 :hover="true"
                 :fixed-header="true"
@@ -138,35 +87,31 @@ export default {
                 >
                 <template v-slot:bottom>
                 </template>
-                <!-- eslint-disable-next-line vue/valid-v-slot -->
-                <template v-slot:item.kode_group="{item, index}">
-                    {{ kodegroup(item.raw.kode_barang)[index] }}
-                </template>
                  <!-- eslint-disable-next-line vue/valid-v-slot -->
                  <template v-slot:item.actions="{item, index}">
                     <text-button
-                        @click="dialogbrg = true, log(kodegroup(item.raw.kode_barang)[index], item.raw.kode_barang)"
+                        @click="dialogbrg[index] = true"
                         icon="mdi-dots-vertical"
                     >
                     </text-button>
                     <v-dialog
-                        v-model="dialogbrg"
+                        v-model="dialogbrg[index]"
                         :scrim="false"
                         transition="dialog-bottom-transition"
                         fullscreen
                         >
                         <v-toolbar class="bg-blue-custom text-white" height="50">
-                            <text-button @click="dialogbrg = false" icon="mdi-close" color="white" />
+                            <text-button @click="dialogbrg[index] = false" icon="mdi-close" color="white" />
                             <v-toolbar-title class="text-button">DETAIL LOG BARANG</v-toolbar-title>
                             <v-spacer></v-spacer>
                         </v-toolbar>
                         <v-card>
-                            <v-sheet>
+                            <v-container>
                                 <!-- TABEL DATA -->
                                 <v-data-table
                                 items-per-page="10"
                                 :headers="subheaders"
-                                :items="log_brg"
+                                :items="laporan.log(item.raw.kode_group, item.raw.kode_barang, logbrg)"
                                 :search="search"
                                 :hover="true"
                                 :fixed-header="true"
@@ -176,8 +121,12 @@ export default {
                                 >
                                 <template v-slot:bottom>
                                 </template>
+                                <!-- eslint-disable-next-line vue/valid-v-slot -->
+                                <template v-slot:item.tanggal="{item}">
+                                    {{ functions.formatDate(item.raw.tanggal) }}
+                                </template>
                                 </v-data-table>
-                            </v-sheet>
+                            </v-container>
                         </v-card>
                     </v-dialog>
                 </template>

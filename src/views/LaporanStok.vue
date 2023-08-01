@@ -38,6 +38,7 @@ import functions from '../service/functions';
         cardTitle: 'Detail Barang',
         authority:'',
         items: '',
+        logbrg: '',
         databarang: '',
         filtered: {
         kategori_barang: [],
@@ -62,14 +63,29 @@ import functions from '../service/functions';
         }
       },
       filter_kodebarang() {
-        let data = this.selected
+        let data = laporan.noDuplicate(this.selected)
         if (this.kode_barang.length === 0) {
           return data
         } else {
           return data.filter(item => this.kode_barang.includes(item.kode_barang));
         }
       },
-      
+      dataItem(){
+        let data = this.filter_kodebarang
+        if (this.group_barang.length === 0) {
+          return data
+        } else {
+          let a = data.filter(item => this.group_barang.includes(item.kode_group));
+          return a
+        }
+      },
+      kodeGroup () {
+            let a = []
+            for (let i = 0; i < this.items.length; i++) {
+                a.push(this.items[i].kode_group)
+            }
+            return functions.removeDuplicate(a)
+      }
     },
     methods: {
       async fetchData() {
@@ -81,15 +97,8 @@ import functions from '../service/functions';
         if(this.authority != '') {
           this.items = await api.getGroupBarang()
           this.databarang = await api.getBarang()
+          this.logbrg = await api.getLogBarang()
         } else return  await api.logout()
-      },
-      data(){
-        let data = this.filter_kodebarang
-        if (this.group_barang.length === 0) {
-          return data
-        } else {
-          return data.filter(item => this.group_barang.includes(item.kode_group));
-        }
       },
       pages(){
         return this.$emit('page', this.pageTitle)
@@ -100,15 +109,8 @@ import functions from '../service/functions';
       print(key){
         let title = this.pageTitle
         let header = laporan.headStokBarang
-        let item = this.data()
+        let item = this.dataItem
         functions.print(key, title, header, item)
-      },
-      kodegroup() {
-        let kode = []
-        for (let i = 0; i < this.items.length; i++) {
-          kode.push(this.items[i].kode_group)          
-        }
-        return kode
       },
       filterdata() {
         this.selectCategory = this.filtered.kategori_barang
@@ -152,7 +154,7 @@ import functions from '../service/functions';
       <v-span class="text-caption text-weight-bold">Kode Group</v-span>
       <v-divider></v-divider>
       <v-combobox
-        :items="kodegroup()"
+        :items="kodeGroup"
         v-model="filtered.group_barang"
         multiple
         variant="underlined"
@@ -187,9 +189,11 @@ import functions from '../service/functions';
         <TableVue
         id="tbl_exporttable_to_xls"
         :groupbarang="items"
+        :stok="laporan.detail(databarang, items)"
         :barang="databarang"
+        :logbrg="logbrg"
         :headers="laporan.headStokBarang"
-        :items="data()"
+        :items="dataItem"
         :search="search"
         :category="barang.category"
         :selectCategory="selectCategory"

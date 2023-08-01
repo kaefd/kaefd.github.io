@@ -48,7 +48,6 @@ export default {
         required: [
         value => {
           if (value)  return true
-
           return 'harus diisi !'
         },
       ],
@@ -56,9 +55,14 @@ export default {
     },
     computed: {
         filterkodegroup() {
-        return this.groupbarang.filter((item) => {
-                return item.kode_group.toLowerCase().includes(this.searched.toLowerCase())
-            })
+        let a = []
+        for (let i = 0; i < this.groupbarang.length; i++) {
+            a.push(this.groupbarang[i].kode_group)
+        }
+        let b = functions.removeDuplicate(a)
+        return b.filter((item) => {
+            return item.toLowerCase().includes(this.searched.toLowerCase())
+        })
         },
     },
     methods: {
@@ -67,6 +71,9 @@ export default {
         },
         barangmasuk(value) {
             this.inputbarang = value
+            this.inputbarang[0].nilai = this.inputbahan[0].nilai
+            
+
         },
         input_kodegroup(value) {
             this.inputproduksi.kode_group = value
@@ -80,9 +87,9 @@ export default {
                 jenis = this.inputbarang
             }
             for (let i = 0; i < jenis.length; i++) {
-                    if( del == jenis[i] ) {
-                        jenis.splice(i,1);
-                    }
+                if( del == jenis[i] ) {
+                    jenis.splice(i,1);
+                }
             }
         },
         confirm() {
@@ -99,7 +106,6 @@ export default {
     },
     mounted() {
     }
-
 }
 </script>
 
@@ -112,9 +118,7 @@ export default {
     >
         <!-- BUTTON DIALOG -->
           <template v-slot:activator="{ props }">
-            
             <btn-info-vue v-if="!edit" btn_title="Tambah Baru" v-bind="props" icon="mdi-plus" />
-            
             <v-menu>
             <template v-slot:activator="{ props }">
                 <!-- LIHAT DATA -->
@@ -146,7 +150,7 @@ export default {
                         <text-field-form v-if="!edit" label="No Produksi" :disabled="true" v-model="inputproduksi.no_produksi" />
                     </v-responsive>
                     <v-responsive class="pt-2 mx-3" width="250">
-                        <date-picker v-if="!edit" label="Tgl Produksi" v-model="inputproduksi.tgl_produksi" :tema="tema" :rules="required" />
+                        <date-picker v-if="!edit" :max-date="new Date" label="Tgl Produksi" v-model="inputproduksi.tgl_produksi" :tema="tema" :rules="required" />
                         <text-field-form v-if="edit" label="Tgl Produksi" :readonly="true" :rules="required" :model-value="functions.formatDate(item.tgl_produksi)" />
                     </v-responsive>
                     <v-responsive class="pt-2 mx-md-0 mx-3" width="250">
@@ -156,7 +160,7 @@ export default {
                                 <text-field-form v-if="!edit" label="Kode Group" v-bind="props" v-model="inputproduksi.kode_group" :rules="required" />
                             </template>
                             <v-card class="py-5 px-7 rounded-xl mx-auto w-100" max-width="400">
-                                <v-card-title class="text-center text-blue-darken-4 mb-3 text-button font-weight-bold">KODE GROUP</v-card-title>
+                                <v-card-title class="text-center text-orange mb-3 text-button font-weight-bold">KODE GROUP</v-card-title>
                                 <text-field v-model="searched" label="Search" class="mb-4" />
                                 <v-list>
                                     <v-for v-for="kode, i in filterkodegroup" :key="i">
@@ -164,9 +168,9 @@ export default {
                                             style="cursor: pointer;"
                                             class="text-caption"
                                             density="compact"
-                                            @click="input_kodegroup(kode.kode_group), inputproduksi.kode_barang = kode.kode_barang, dialog5 = false "
+                                            @click="input_kodegroup(kode), dialog5 = false "
                                         >
-                                            <v-span class="text-caption">{{ kode.kode_group }}</v-span>
+                                            <v-span class="text-caption">{{ kode }}</v-span>
                                         </v-list-item>
                                     </v-for>
                                 </v-list>
@@ -180,7 +184,7 @@ export default {
                     <!-- TABEL TAMBAH/EDIT BAHAN -->
                     <v-responsive class="me-sm-2 me-0 " width="400">
                         <!-- ITEM DIALOG ADALAH KODE BARANG YANG SESUAI DENGAN KODE GROUP YANG DIPILIH -->
-                        <DialogCard2 v-if="!edit" :produksi="true" :btn="btn[0]" width="400" :barang="detailbahan" :tambah="true" :getbarang="select_kode" :kodebarang="inputproduksi.kode_barang" :kodegroup="inputproduksi.kode_group" @pemasukanitem="bahanmasuk"/>
+                        <DialogCard2 v-if="!edit" :produksi="true" :btn="btn[0]" width="400" :barang="detailbahan" :tambah="true" :getbarang="select_kode" :kodegroup="inputproduksi.kode_group" @pemasukanitem="bahanmasuk"/>
                         <v-row v-if="edit" no-gutters class="justify-center py-1 text-button rounded border">detail bahan</v-row>
                         <v-sheet class="border-sm rounded-lg mt-2 bg-transparent">
                         <VDataTable
@@ -202,7 +206,7 @@ export default {
                         <template v-slot:item.actions="{ item, index }">
                             <DialogVue  @update="dialogchild" v-model="dialogbhn[index]">
                                 <template #titlecard>
-                                    <v-card-title class="text-center text-button font-weight-bold">{{ item.raw.nama_barang }}</v-card-title>
+                                    <v-card-title class="text-center text-orange text-button font-weight-bold">{{ item.raw.nama_barang }}</v-card-title>
                                     <v-card-subtitle class="text-caption text-center mb-2 mt-n3">{{ item.raw.kode_barang }}</v-card-subtitle>
                                 </template>
                                 <template #content>
@@ -233,7 +237,7 @@ export default {
                     </v-responsive>
                     <!-- TABEL TAMBAH BARANG -->
                     <v-responsive class="mt-md-0 mt-2" width="400">
-                        <DialogCard2 :produksi="true" v-if="!edit" :kodegroup="inputproduksi.kode_group" :btn="btn[1]" width="400" :barang="detailbarang" :getbarang="getbarang" :inputbahan="inputbahan" :tambah="true" :kodebarang="inputproduksi.kode_barang" @pemasukanitem="barangmasuk" />
+                        <DialogCard2 :produksi="true" v-if="!edit" :kodegroup="inputproduksi.kode_group" :btn="btn[1]" width="400" :barang="detailbarang" :getbarang="getbarang" :inputbahan="inputbahan" :tambah="true" @pemasukanitem="barangmasuk" />
                         <v-row v-if="edit" no-gutters class="justify-center py-1 text-button rounded border">detail barang</v-row>
                         <v-sheet class="border-sm rounded-lg mt-2 bg-transparent">
                         <VDataTable
@@ -254,7 +258,7 @@ export default {
                             <template v-slot:item.actions="{ item, index }">
                                 <DialogVue @update="dialogbrg" v-model="dialogbrg[index]">
                                     <template #titlecard>
-                                        <v-card-title class="text-center text-button font-weight-bold">{{ item.raw.nama_barang }}</v-card-title>
+                                        <v-card-title class="text-center text-orange text-button font-weight-bold">{{ item.raw.nama_barang }}</v-card-title>
                                         <v-card-subtitle class="text-caption text-center mb-2 mt-n3">{{ item.raw.kode_barang }}</v-card-subtitle>
                                     </template>
                                     <template #content>
@@ -274,7 +278,7 @@ export default {
                                     </v-sheet>
                                     <v-divider class="mt-3 mb-5"></v-divider>
                                         <v-div v-if="!edit" class="d-flex me-5 ms-auto">
-                                            <btn-cancel btn_title="Hapus" @click="deleteditem(item.raw, 'bahan'), dialogbrg[index] = false, inputproduksi = []" class="me-2"></btn-cancel>
+                                            <btn-cancel btn_title="Hapus" @click="deleteditem(item.raw, 'barang'), dialogbrg[index] = false, inputproduksi = []" class="me-2"></btn-cancel>
                                             <btn-orange btn_title="Simpan" type="submit" @click="dialogbrg[index] = false"></btn-orange>
                                         </v-div>
                                     </template>

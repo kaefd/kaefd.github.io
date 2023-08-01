@@ -39,9 +39,9 @@ const items = (head, dbahan, dbarang) => {
                         tgl_input: head[i].tgl_input,
                         kode_group: head[i].kode_group,
                         bahan_baku: dbahan[j].nama_barang,
-                        jumlah: dbahan[j].jumlah,
+                        jumlah: functions.numb(dbahan[j].jumlah),
                         barang_jadi: dbarang[k].nama_barang,
-                        jml_barang_jadi: dbarang[k].jumlah,
+                        jml_barang_jadi: functions.numb(dbarang[k].jumlah),
                     })
                 }
             }

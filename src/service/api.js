@@ -434,7 +434,7 @@ export default {
   /*********** DATA PELANGGAN ***********/
   async getPelanggan() {
     try {
-      const response = await instance.get('/pelanggan?status=1')
+      const response = await instance.get('/pelanggan')
       return response.data;
     } catch (error) {
       return this.logout()
@@ -597,6 +597,11 @@ export default {
       produksi_detail_bahan : dbahan,
       produksi_detail_barang : dbarang,
     })
+    // return console.log({
+    //     produksi_head : h,
+    //     produksi_detail_bahan : dbahan,
+    //     produksi_detail_barang : dbarang,
+    //   })
   },
   deleteProduksi(head, detailbhn, detailbrg) {
     let produksi_head = {
@@ -703,6 +708,16 @@ export default {
       return this.logout()
     }
   },
+  async getHeadPenjualan (param){
+    try {
+      const apiUrl = '/penjualan_head/'+param
+      
+      const response = await instance.get(apiUrl)
+      return response.data
+    } catch (error) {
+      console.log(error);
+    }
+  },
   async getPenjualanDetail (param){
     try {
       const apiUrl = '/penjualan_detail?'
@@ -756,7 +771,7 @@ export default {
     })
   },
   deletePengeluaran(head, detail){
-    let penjualan_head = {
+    const pjl = {
       no_penjualan: head.no_penjualan,
       tgl_penjualan: head.tgl_penjualan,
       tipe_dokumen: head.tipe_dokumen,
@@ -767,11 +782,11 @@ export default {
       total_penjualan: head.total_penjualan,
       tgl_input: head.tgl_input,
       user_input: head.user_input,
-      tgl_batal: functions.day(),
+      tgl_batal: new Date(),
       user_batal: 'admin',
       status: 'false'
     }
-    const ph = JSON.stringify(penjualan_head);
+    const ph = JSON.stringify(pjl);
     const pd = JSON.stringify(detail);
     let data = {
       penjualan_head: ph,

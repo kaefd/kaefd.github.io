@@ -20,6 +20,7 @@ import BtnFilter from '../components/button/btnFilter.vue';
 import BtnCancel from '../components/button/btnCancel.vue';
 import BtnOrange from '../components/button/btnOrange.vue';
 import otoritas from '../service/page/otoritas';
+import AlertVue from '../components/dialog/alertVue.vue';
 </script>
 
 <script>
@@ -37,7 +38,8 @@ import otoritas from '../service/page/otoritas';
       BtnFilter,
       DatePicker,
       BtnCancel,
-      BtnOrange
+      BtnOrange,
+        AlertVue
     },
     props:['cetak', 'tema', 'user'],
     data () {
@@ -104,7 +106,7 @@ import otoritas from '../service/page/otoritas';
           this.message = "Data Berhasil Ditambahkan"
           setTimeout(() => {
             this.valert = false
-            this.$router.go();
+            // this.$router.go();
           }, 2500);
         })
         .catch((error) => {
@@ -121,7 +123,7 @@ import otoritas from '../service/page/otoritas';
           this.message = "Data Berhasil Dibatalkan"
           setTimeout(() => {
             this.valert = false
-            this.$router.go();
+            // this.$router.go();
           }, 2500);
         })
         .catch((error) => {
@@ -278,26 +280,9 @@ import otoritas from '../service/page/otoritas';
             class="text-caption py-3 h-100"
             height="100%"
             >
+          
             <!-- eslint-disable-next-line vue/valid-v-slot -->
-              <!-- <template v-slot:item.tgl_penjualan="{item}">
-                {{ functions.formatDate(item.raw.tgl_penjualan) }}
-              </template> -->
-            <!-- CUSTOM PAGINATION STYLE -->
-            <!-- <template v-slot:bottom> -->
-                <!-- <v-row no-gutters class="justify-end align-center my-1">
-                  <v-pagination
-                    v-model="page"
-                    :length="4"
-                    size="small"
-                    rounded="circle"
-                    prev-icon="mdi-menu-left"
-                    next-icon="mdi-menu-right"
-                  ></v-pagination>
-                  <v-spacer></v-spacer>
-                  <span>Total: 1978 data</span>
-                </v-row> -->
-              <!-- </template> -->
-            <!-- dialog actions -->
+            <template v-slot:item.total_penjualan="{item}">{{ functions.numb(item.raw.total_penjualan) }}</template>
             <!-- eslint-disable-next-line vue/valid-v-slot -->
             <template v-slot:item.tgl_penjualan="{ item }">{{ functions.formatDate(item.raw.tgl_penjualan) }}</template>
              <!-- eslint-disable-next-line vue/valid-v-slot -->
@@ -307,8 +292,7 @@ import otoritas from '../service/page/otoritas';
               @confirm="confirm"
               batalbtn="Pengeluaran"
               :namaPelanggan="pelanggan.namaPelanggan(pelanggan, item.raw.kode_pelanggan)"
-              :penjualan="pengeluaran.penjualan(penjualan_detail,
-              item.raw.no_penjualan)"
+              :penjualan="pengeluaran.penjualan(penjualan_detail, item.raw.no_penjualan)"
               :edit="true"
               :pengeluaran="true"
               :pageTitle="pageTitle"
@@ -330,6 +314,7 @@ import otoritas from '../service/page/otoritas';
           <btn-cancel @click="confirmdialog = false" btn_title="Batal" />
         </template>
         </dialogConfirm>
+        <alertVue v-model="valert" :sukses="status" :message="message"/>
   </v-container>
 
 </template>
