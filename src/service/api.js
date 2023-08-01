@@ -3,7 +3,7 @@ import axios from 'axios'
 import functions from './functions'
 
 const instance = axios.create({
-  baseURL: 'https://auristeel.com/api-beta',
+  baseURL: 'https://auristeel.com/api',
   headers: {
     'Permissions-Policy': 'interest-cohort=()',
     'csrf': localStorage.getItem('token'),
@@ -399,7 +399,7 @@ export default {
   /*********** DATA BARANG ***********/
   async getBarang(){
     try {
-      const response = await instance.get('/barang?status=1')
+      const response = await instance.get('/barang?status=true')
       return response.data;
     } catch (error) {
       return this.logout()
@@ -470,7 +470,7 @@ export default {
   /*********** DATA SUPPLIER ***********/
   async getSupplier (){
     try {
-      const response = await instance.get('/supplier?status=1')
+      const response = await instance.get('/supplier?status=true')
       return response.data;
     } catch (error) {
       return this.logout()

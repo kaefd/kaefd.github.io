@@ -350,8 +350,8 @@ export default {
                 </template>
                 </v-data-table>
                 <v-div class="d-flex mb-0 mt-auto me-5 ms-auto">
-                    <btn-orange v-if="!edit" @click="validate" :hidden="disable" btn_title="Simpan" class="me-2" />
                     <btn-cancel v-if="!edit" @click="dialog = false" btn_title="Batal"/>
+                    <btn-orange v-if="!edit" @click="validate" :hidden="disable" btn_title="Simpan" class="ms-2" />
                 </v-div>
             </v-container>
         </v-card>
