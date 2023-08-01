@@ -45,6 +45,7 @@ const items = (head, pelanggan, bongkar) => {
               kode_pelanggan: head[j].kode_pelanggan,
               kode_alamat_bongkar: head[j].kode_alamat_bongkar,
               alamat: bongkar[k].alamat,
+              kabupaten: bongkar[k].kabupaten,
               supir: head[i].supir,
               no_polisi: head[i].no_polisi,
               user_input: head[i].user_input,
