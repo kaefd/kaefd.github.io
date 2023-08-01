@@ -102,7 +102,9 @@ export default {
                             nama_barang: this.pjl_detail[j].nama_barang,
                             hs_code: this.pjl_detail[j].hs_code,
                             jumlah: this.pjl_detail[j].jumlah,
-                            satuan: this.pjl_detail[j].satuan
+                            satuan: this.pjl_detail[j].satuan,
+                            no_urut: this.pjl_detail[j].no_urut,
+                            nilai: this.pjl_detail[j].nilai
                         })
                     }
                 }
@@ -113,7 +115,7 @@ export default {
             this.pembelian_input = value
         },
         confirm() {
-            this.$emit('confirm', this.dataitem, this.pengiriman)
+            this.$emit('confirm', this.dataitem, this.kirim_detail)
         },
         totalharga(v){
             if (this.dataitem.no_penjualan == v ) {
@@ -167,7 +169,7 @@ export default {
             class="text-caption"
             @click="confirm()"
             >
-            Batal Pengeluaran
+            Batal Pengiriman
             </v-list-item>
           </template>
           <!-- dialog content -->

@@ -65,18 +65,7 @@ export default {
 }
 </script>
 <template>
-<!--  <v-row fluid class="d-flex flex-column justify-center align-center bg-indigo-custom vh-100">
-    <v-card class="text-white bg-trasp rounded-0 d-flex flex-column justify-center border align-center elevation-0 py-12" width="300">
-        <v-icon size="70">mdi-account</v-icon>
-        <v-form @submit.prevent="handleLogin" :validation-schema="schema" class="text-white w-75 pt-6">
-            <v-text-field variant="outlined" density="compact" type="text" id="username" v-model="username" name="username" required label="Username"></v-text-field>
-            <v-text-field variant="outlined" density="compact" label="Password" id="password" v-model="password" name="password" required type="Password"></v-text-field>
-            <v-btn type="submit" block height="50" class="elevation-0 rounded-0 bg-blue-custom">LOGIN</v-btn>
-        </v-form>
-        <div v-if="message" class="error-message text-body-2 text-white pt-3">{{ message }}</div>
-    </v-card>
-  </v-row>
--->
+
 <v-responsive class="bg-bluetheme h-100 w-100 pb-7">
   <v-row class="h-100">
     <v-col class="d-flex flex-column">
@@ -89,6 +78,7 @@ export default {
         </v-container>
       </v-div>
       </v-div>
+      <!-- MOBILE -->
       <v-row no-gutters class="w-100 h-50 absolute bg-people mobile">
         <v-div class="my-auto mx-auto d-flex flex-column align-center">
           <v-avatar color="white" class="logo-small">
@@ -115,7 +105,8 @@ export default {
           </v-container>
       </v-container>
     </v-col>
-    <v-col class="show absolute h-100">
+    <!--  -->
+    <v-col class="show absolute h-100 pb-10">
       <v-row no-gutters class="w-50 me-md-0 ms-md-auto mx-auto h-100" align="center">
         <v-card class="size-card me-16 ms-auto rounded-xl">
           <v-form @submit.prevent="handleLogin" :validation-schema="schema">
@@ -135,9 +126,9 @@ export default {
           </v-form>
         </v-card>
       </v-row>
+      <v-span class="d-block text-caption text-center text-grey">AURI STEEL METALINDO <br />version.{{ script.version }}</v-span>
     </v-col>
   </v-row>
-  <v-span class="d-block text-caption text-center text-grey">AURI STEEL METALINDO <br />version.{{ script.version }}</v-span>
   <alert-vue v-model="valert" :sukses="status" :message="message"/>
 </v-responsive>
 </template>
