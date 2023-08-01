@@ -20,6 +20,18 @@ export default {
           return date
         } else return ''
     },
+    formatDateTime(value){
+      let options = {
+        day: '2-digit',
+        year: 'numeric',
+        month: 'long'
+      }
+      let getHour = new Date(value).toLocaleTimeString('id', {timeStyle:'short'})
+      let date = new Date(value).toLocaleDateString('id', options)
+      if(value != '') {
+        return date + ' ' + getHour
+      } else return ''
+  },
     tglawal() {
       let d = new Date();
       let m = d.getMonth();
@@ -33,6 +45,7 @@ export default {
       //tl_awal
       return d.toJSON().slice(0, 10)
     },
+    
     // NUMBER
     numb(value) {
         let val = (value / 1).toFixed(2).replace(',', ',')

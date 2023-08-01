@@ -26,7 +26,7 @@ export default {
       BtnOrange,
         UserDetail,
     },
-    props: [ 'userdetail', 'editdata', 'stok', 'otority','logbrg', 'user_otoritas', 'j_otoritas', 'stokbarang', 'update', 'hapus', 'groupbarang', 'laporanstok', 'masuk', 'supplier', 'pembeliandetl', 'view', 'disabled', 'keyform', 'headers', 'items', 'search', 'category', 'toolbar_title', 'form', 'noselect', 'ishidden', 'pageTitle'],
+    props: [ 'userdetail', 'editdata', 'stok', 'otority','logbrg', 'user_otoritas', 'j_otoritas', 'stokbarang', 'update', 'hapus', 'groupbarang', 'laporanstok', 'masuk', 'supplier', 'pembeliandetl', 'view', 'disabled', 'keyform', 'headers', 'items', 'search', 'category', 'toolbar_title', 'form', 'noselect', 'ishidden', 'pageTitle', 'log'],
     
     data () {
       return {
@@ -103,6 +103,10 @@ export default {
       <!-- eslint-disable-next-line vue/valid-v-slot -->
       <template v-if="laporanstok" v-slot:item.actions="{item}">
         <LogBarang :headers="headers" :logbrg="logbrg" :barang="groupbarang" :groupbarang="groupbarang" :detail="laporan.subDetail(stok, item.raw.kode_barang)" :kode_group="item.raw.kode_group" :kode_barang="item.raw.kode_barang"/>
+      </template>
+      <!-- eslint-disable-next-line vue/valid-v-slot -->
+      <template v-if="log" v-slot:item.tanggal="{ item }">
+        {{ functions.formatDateTime(item.raw.tanggal) }}
       </template>
       <!-- eslint-disable-next-line vue/valid-v-slot -->
       <template v-if="!laporanstok && !masuk && update || view" v-slot:item.actions="{ item, index }">

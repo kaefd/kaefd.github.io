@@ -230,7 +230,7 @@ import otoritas from '../service/page/otoritas';
       </v-responsive>
       </v-row>
         <!-- EDIT DATA -->
-        <v-sheet height="90%" class="bg-transparent">
+        <v-sheet height="87%" class="bg-transparent">
         <v-data-table
             id="tbl_exporttable_to_xls"
             items-per-page="10"

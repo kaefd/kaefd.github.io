@@ -8,10 +8,10 @@ import BtnFilter from '../components/button/btnFilter.vue';
 import TextField from '../components/form/textField.vue';
 import DatePicker from '../components/datepicker/datePicker.vue';
 import laporan from '../service/page/laporan';
+import functions from '../service/functions';
 </script>
 
 <script>
-import functions from '../service/functions';
 
   export default {
     components: {
@@ -146,24 +146,6 @@ import functions from '../service/functions';
         </div>
       </v-responsive>
       </v-row>
-      <!-- EDIT DATA -->
-      <v-data-table
-          id="tbl_exporttable_to_xls"
-          :items-per-page="selected().length"
-          :items="selected()"
-          :headers="laporan.headLogUser"
-          :search="search"
-          :hover="true"
-          :fixed-header="true"
-          density="compact"
-          class="text-caption py-3 h-100"
-          height="100%"
-          >
-          <!-- CUSTOM PAGINATION STYLE -->
-          <template v-slot:bottom>
-            
-          </template>
-        </v-data-table>
       <!-- edit data -->
         <TableVue
           id="tbl_exporttable_to_xls"
@@ -172,6 +154,7 @@ import functions from '../service/functions';
           :search="search"
           :category="category"
           :selectCategory="selectCategory"
+          :log="true"
           />
   </v-container>
 

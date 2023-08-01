@@ -267,7 +267,7 @@ import AlertVue from '../components/dialog/alertVue.vue';
       </v-responsive>
       </v-row>
         <!-- EDIT DATA -->
-        <v-sheet height="90%" class="bg-transparent">
+        <v-sheet height="89%" class="bg-transparent">
         <v-data-table
             id="tbl_exporttable_to_xls" 
             items-per-page="10"
