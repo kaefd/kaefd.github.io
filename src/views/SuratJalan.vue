@@ -147,7 +147,7 @@ export default {
                         <td class="text-left">{{ item.nama_barang }}</td>
                         <td class="text-left" contenteditable>{{ item.qty }}</td>
                         <td class="text-left" contenteditable></td>
-                        <td class="text-left">{{ item.jumlah }}</td>
+                        <td class="text-left">{{ functions.numb2(item.jumlah) }}</td>
                         <td class="text-left">{{ kirim_detail[i].no_dokumen }}/{{ kirim_detail[i].tipe_dokumen.slice(2) }}</td>
                     </tr>
                     <tr>
@@ -155,7 +155,7 @@ export default {
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td class="text-left font-weight-bold">{{ sum() }}</td>
+                        <td class="text-left font-weight-bold">{{ functions.numb2(sum()) }}</td>
                     </tr>
                     </tbody>
                 </v-table>
@@ -201,6 +201,7 @@ export default {
     font-size: 10pt !important;
     font-weight: 500;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: black !important;
 }
 .v-table--density-compact > .v-table__wrapper > table > tbody > tr > th, .v-table--density-compact > .v-table__wrapper > table > thead > tr > th, .v-table--density-compact > .v-table__wrapper > table > tfoot > tr > th {
     height: 20px !important;
