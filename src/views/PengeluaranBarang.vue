@@ -106,7 +106,7 @@ import AlertVue from '../components/dialog/alertVue.vue';
           this.message = "Data Berhasil Ditambahkan"
           setTimeout(() => {
             this.valert = false
-            // this.$router.go();
+            this.$router.go();
           }, 2500);
         })
         .catch((error) => {
@@ -123,7 +123,7 @@ import AlertVue from '../components/dialog/alertVue.vue';
           this.message = "Data Berhasil Dibatalkan"
           setTimeout(() => {
             this.valert = false
-            // this.$router.go();
+            this.$router.go();
           }, 2500);
         })
         .catch((error) => {

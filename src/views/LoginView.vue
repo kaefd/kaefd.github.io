@@ -1,6 +1,8 @@
 <script setup>
 import api from '../service/api';
 import 'animate.css';
+import script from '../../package.json'
+import AlertVue from '../components/dialog/alertVue.vue';
 // import axios from 'axios'
 // import { mapActions } from 'vuex'
 // import { Form } from "vee-validate";
@@ -11,6 +13,7 @@ import 'animate.css';
 <script>
 export default {
   components: {
+    AlertVue
     // eslint-disable-next-line vue/no-reserved-component-names
     // Form,
   },
@@ -20,6 +23,8 @@ export default {
       message: "",
       username:'',
       password:'',
+      valert: false,
+      status: null,
       user: false,
       pass: false,
       ispassword: false
@@ -38,10 +43,17 @@ export default {
         .then(response => {
           localStorage.setItem('token', response.data)
           localStorage.setItem('user', this.username)
-          window.location.href = '/'
+          this.status = this.valert = true
+          this.message = 'Berhasil Login'
+          setTimeout(() => {
+            this.valert = false
+            window.location.href = '/'
+          }, 2500);
         })
         .catch((error) => {
-          this.message = error.response.data
+          this.status = false
+          this.valert = true
+          this.message =  error.response.data
         })
     }
    
@@ -65,7 +77,7 @@ export default {
     </v-card>
   </v-row>
 -->
-<v-responsive class="bg-bluetheme h-100 w-100">
+<v-responsive class="bg-bluetheme h-100 w-100 pb-7">
   <v-row class="h-100">
     <v-col class="d-flex flex-column">
       <v-div class="w-100 h-100">
@@ -125,6 +137,8 @@ export default {
       </v-row>
     </v-col>
   </v-row>
+  <v-span class="d-block text-caption text-center text-grey">AURI STEEL METALINDO <br />version.{{ script.version }}</v-span>
+  <alert-vue v-model="valert" :sukses="status" :message="message"/>
 </v-responsive>
 </template>
 

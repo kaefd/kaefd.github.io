@@ -15,6 +15,7 @@ const instance = axios.create({
   }
 })
 
+const user = localStorage.getItem('user')
 export default {
   
   postLogin(data) {
@@ -518,7 +519,7 @@ export default {
     const h = {
       no_pembelian: head.no_pembelian,
       user_input: head.user_input,
-      user_batal: 'admin',
+      user_batal: user,
       tgl_pembelian: head.tgl_pembelian,
       tgl_input: head.tgl_input,
       tgl_batal: '',
@@ -611,7 +612,7 @@ export default {
       tgl_input: head.tgl_input,
       user_input: head.user_input,
       tgl_batal: functions.day(),
-      user_batal: "admin",
+      user_batal: user,
       status: "false",
     }
     const ph = JSON.stringify(produksi_head);
@@ -659,7 +660,7 @@ export default {
       kode_alamat_bongkar: head.kode_alamat_bongkar,
       supir: head.supir,
       no_polisi: head.no_polisi,
-      user_input: 'admin',
+      user_input: user,
       tgl_input: functions.day(),
       tgl_batal:'1999-12-31T17:00:00.000Z',
       user_batal: '',
@@ -683,7 +684,7 @@ export default {
       user_input: head.user_input,
       tgl_input: head.tgl_input,
       tgl_batal: functions.day(),
-      user_batal: 'admin',
+      user_batal: user,
       status: 'false'
     }
     const ph = JSON.stringify(pengiriman_head);
@@ -758,7 +759,7 @@ export default {
       kode_group: head.kode_group,
       total_penjualan: detail[0].total_terjual,
       tgl_input: functions.day(),
-      user_input: 'admin',
+      user_input: user,
       tgl_batal: '1999-12-31T17:00:00.000Z',
       user_batal: '',
       status: 'open'
@@ -783,7 +784,7 @@ export default {
       tgl_input: head.tgl_input,
       user_input: head.user_input,
       tgl_batal: new Date(),
-      user_batal: 'admin',
+      user_batal: user,
       status: 'false'
     }
     const ph = JSON.stringify(pjl);
