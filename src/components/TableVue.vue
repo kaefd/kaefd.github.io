@@ -24,14 +24,15 @@ export default {
       btnCancel,
       menuList,
       BtnOrange,
-        UserDetail,
+      UserDetail,
     },
-    props: [ 'userdetail', 'editdata', 'stok', 'otority','logbrg', 'user_otoritas', 'j_otoritas', 'stokbarang', 'update', 'hapus', 'groupbarang', 'laporanstok', 'masuk', 'supplier', 'pembeliandetl', 'view', 'disabled', 'keyform', 'headers', 'items', 'search', 'category', 'toolbar_title', 'form', 'noselect', 'ishidden', 'pageTitle', 'log'],
+    props: [ 'userdetail', 'editdata','sortby', 'stok', 'otority','logbrg', 'user_otoritas', 'j_otoritas', 'stokbarang', 'update', 'hapus', 'groupbarang', 'laporanstok', 'masuk', 'supplier', 'pembeliandetl', 'view', 'disabled', 'keyform', 'headers', 'items', 'search', 'category', 'toolbar_title', 'form', 'noselect', 'ishidden', 'pageTitle', 'log'],
     
     data () {
       return {
         dialog: [],
         detail: [],
+        sorting: this.sortby,
         totaldata: this.items.length,
         confirmdialog: [],
         list: [
@@ -72,6 +73,7 @@ export default {
     <v-sheet height="94%" class="bg-transparent">
       <!-- TABEL DATA -->
       <v-data-table
+        v-model:sort-by="sorting"
         items-per-page="10"
         :headers="headers"
         :items="items"

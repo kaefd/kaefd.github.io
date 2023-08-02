@@ -1,6 +1,5 @@
-const sortBy = [{ key: 'no_pengiriman', order: 'desc' }]
 const headers = [
-  { title: 'No Pengiriman', key: 'no_pengiriman', order: 'asc'},
+  { title: 'No Pengiriman', key: 'no_pengiriman', sortable: true},
   { title: 'Tgl Pengiriman', key: 'tgl_pengiriman' },
   { title: 'Pelanggan', key: 'namaplg' },
   { title: 'Tujuan Bongkar', key: 'nama' },
@@ -87,7 +86,6 @@ const details = (nopgm, detail, pjl) => {
   return data
 }
 export default {
-  sortBy,
   headers,
   headDetails,
   datainput,

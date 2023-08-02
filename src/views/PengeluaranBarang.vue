@@ -61,7 +61,7 @@ import AlertVue from '../components/dialog/alertVue.vue';
         btn: 'Tambah Barang',
         cardTitle: 'Detail Barang',
         fullscreen: 'fullscreen',
-        alpha: null,
+        sortBy: [{ key: 'no_penjualan', order:'desc'}],
         filtered: {
           selectdokumen: [],
           periode: [],
@@ -269,6 +269,7 @@ import AlertVue from '../components/dialog/alertVue.vue';
         <!-- EDIT DATA -->
         <v-sheet height="95%" class="bg-transparent">
         <v-data-table
+            v-model:sort-by="sortBy"
             id="tbl_exporttable_to_xls" 
             items-per-page="10"
             :headers="pengeluaran.headers"

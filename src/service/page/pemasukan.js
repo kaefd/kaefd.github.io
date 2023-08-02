@@ -1,6 +1,6 @@
 import functions from "../functions"
 
-const sortBy = [{ key: 'tgl_pembelian', order: 'desc' }]
+const sortBy = [{ key: 'no_pembelian', order: 'desc' }]
 const headers = [
   { title: 'Nomor Pemasukan', key: 'no_pembelian'},
   { title: 'Tanggal Masuk', key: 'tgl_pembelian' },
