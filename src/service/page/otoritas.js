@@ -38,6 +38,11 @@ const pengiriman = [
 ]
 const laporan = [
     'Laporan',
+    'Laporan Stok Barang',
+    'Laporan Pembelian',
+    'Laporan Produksi',
+    'Laporan Penjualan',
+    'Laporan Log User'
 ]
 const laporan_stok = [
     'Laporan Stok Barang'

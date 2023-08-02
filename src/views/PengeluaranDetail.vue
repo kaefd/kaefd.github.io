@@ -190,7 +190,7 @@ export default {
                     </v-responsive>
                     <v-responsive class="pt-2 mx-3" width="250">
                         <dialogSearch v-if="!edit" label="Pelanggan" :objectFilter="pelanggan" @pilihObjek="pilihObjek" cardTitle="PELANGGAN" max-width="400" :rules="required"/>
-                        <v-dialog v-model="dialogkodeg" class="w-50">
+                        <v-dialog v-model="dialogkodeg" transition="dialog-bottom-transition" width="auto">
                             <template v-slot:activator="{ props }">
                                 <text-field-form
                                 label="Kode Group"
@@ -200,8 +200,9 @@ export default {
                                 :rules="required"
                                 />
                             </template>
-                            <v-card class="py-5 px-7 rounded-xl mx-auto" width="400">
-                                <v-card-title class="text-center text-blue-darken-4 mb-3 text-button font-weight-bold">KODE GROUP</v-card-title>
+                            <v-card class="py-5 px-7 rounded-xl mx-auto"  min-width="300" width="35vw" max-width="400" height="90vh">
+                                <v-div>
+                                <v-card-title class="text-center text-orange mb-3 text-button font-weight-bold">KODE GROUP</v-card-title>
                                 <text-field
                                     v-model="searched"
                                     label="Search"
@@ -219,6 +220,7 @@ export default {
                                         </v-list-item>
                                     </v-for>
                                 </v-list>
+                            </v-div>
                             </v-card>
                         </v-dialog>
                     </v-responsive>
@@ -243,7 +245,7 @@ export default {
                 </v-form>
                 <!-- BUTTON TAMBAH BARANG -->
                 <v-div v-if="!edit" :pembelianbaru="pembelianbaru" :pembeliandetl="pembeliandetl" class="text-sm-left text-center">
-                    <dialogScroll @reset="reset" :pengeluaran="true"  :barang="barang" :itemDetail="itemDetail" @pemasukanitem="itemmasuk" :btn="btn" width="400" />
+                    <dialogScroll dialog_title="Data Barang" @reset="reset" :pengeluaran="true"  :barang="barang" :itemDetail="itemDetail" @pemasukanitem="itemmasuk" :btn="btn" width="400" />
                 </v-div>
                 <!-- TABEL EDIT/VIEW -->
                 <v-data-table
@@ -252,7 +254,7 @@ export default {
                     :hover="true"
                     :fixed-header="true"
                     density="compact"
-                    class="text-caption py-7 px-5"
+                    class="text-caption py-1 mt-2 px-5 border-sm rounded-lg"
                     height="220"
                 >
                 <!-- CUSTOM PAGINATION STYLE -->

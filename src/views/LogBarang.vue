@@ -65,14 +65,14 @@ export default {
           <text-button v-bind="props" icon="mdi-dots-vertical" />
         </template>
         <!-- dialog content -->
-        <v-card class="bg-grey-lighten-5 w-100">
+        <v-card class="bg-grey-lighten-5 w-100 h-100">
             <v-toolbar class="bg-blue-custom text-white" height="50">
                 <text-button @click="dialog = false" icon="mdi-close" color="white"/>
                 <v-toolbar-title class="text-button">DETAIL STOK BARANG</v-toolbar-title>
                 <v-spacer></v-spacer>
             </v-toolbar>
-            <v-container>
-            <v-sheet>
+            <v-container class="h-100">
+            <v-sheet height="100%" class="bg-transparent">
                 <!-- TABEL DATA -->
                 <v-data-table
                 items-per-page="10"
@@ -82,8 +82,8 @@ export default {
                 :hover="true"
                 :fixed-header="true"
                 density="compact"
-                class="text-caption py-3"
-                height="63vh"
+                class="text-caption pt-1 rounded-lg border-sm h-100"
+                height="100%"
                 >
                 <template v-slot:bottom>
                 </template>
@@ -106,7 +106,8 @@ export default {
                             <v-spacer></v-spacer>
                         </v-toolbar>
                         <v-card>
-                            <v-container>
+                            <v-container class="h-100">
+                            <v-sheet height="91%" class="bg-transparent">
                                 <!-- TABEL DATA -->
                                 <v-data-table
                                 items-per-page="10"
@@ -116,8 +117,8 @@ export default {
                                 :hover="true"
                                 :fixed-header="true"
                                 density="compact"
-                                class="text-caption py-3"
-                                height="63vh"
+                                class="text-caption pt-1 rounded-lg border-sm h-100"
+                                height="100%"
                                 >
                                 <template v-slot:bottom>
                                 </template>
@@ -126,6 +127,7 @@ export default {
                                     {{ functions.formatDate(item.raw.tanggal) }}
                                 </template>
                                 </v-data-table>
+                            </v-sheet>
                             </v-container>
                         </v-card>
                     </v-dialog>

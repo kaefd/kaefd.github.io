@@ -136,7 +136,7 @@ export default {
             </v-menu>
           </template>
           <!-- dialog content -->
-            <v-card>
+            <v-card class="bg-grey-lighten-5">
                 <v-toolbar class="bg-blue-custom text-white" height="50">
                 <text-button icon="mdi-close" color="white" @click="dialog = false, inputproduksi = inputbahan = inputbarang = []" />
                 <v-toolbar-title class="text-button">DETAIL PRODUKSI</v-toolbar-title>
@@ -144,10 +144,10 @@ export default {
                 </v-toolbar>
                 <v-container>
                 <v-form  @submit.prevent ref="form">
-                <v-row no-gutters justify="center" justify-md="space-between" align="start" class="pt-7 pb-5" min-width="400">
+                <v-row no-gutters justify="center" justify-md="space-between" align="start" class="pt-7 pb-3" min-width="400">
                     <v-responsive class="pt-2 mx-md-0 mx-3" width="250">
-                        <text-field-form v-if="edit" :model-value="item.no_produksi" label="No Produksi" />
-                        <text-field-form v-if="!edit" label="No Produksi" :disabled="true" v-model="inputproduksi.no_produksi" />
+                        <text-field-form v-if="edit" :model-value="item.no_produksi" label="No Produksi" readonly />
+                        <text-field-form v-if="!edit" label="No Produksi" readonly class="bg-grey-lighten-4" v-model="inputproduksi.no_produksi" />
                     </v-responsive>
                     <v-responsive class="pt-2 mx-3" width="250">
                         <date-picker v-if="!edit" :max-date="new Date" label="Tgl Produksi" v-model="inputproduksi.tgl_produksi" :tema="tema" :rules="required" />
@@ -155,11 +155,12 @@ export default {
                     </v-responsive>
                     <v-responsive class="pt-2 mx-md-0 mx-3" width="250">
                         <text-field-form v-if="edit" label="Kode Group" :model-value="item.kode_group" readonly :rules="required" />
-                        <v-dialog v-model="dialog5" class="w-50" >
+                        <v-dialog v-model="dialog5" transition="dialog-bottom-transition" width="auto" >
                             <template v-slot:activator="{ props }">
                                 <text-field-form v-if="!edit" label="Kode Group" v-bind="props" v-model="inputproduksi.kode_group" :rules="required" />
                             </template>
-                            <v-card class="py-5 px-7 rounded-xl mx-auto w-100" max-width="400">
+                            <v-card class="py-5 px-7 rounded-xl mx-auto" min-width="300" width="35vw" max-width="400" height="90vh">
+                                <v-div>
                                 <v-card-title class="text-center text-orange mb-3 text-button font-weight-bold">KODE GROUP</v-card-title>
                                 <text-field v-model="searched" label="Search" class="mb-4" />
                                 <v-list>
@@ -174,6 +175,7 @@ export default {
                                         </v-list-item>
                                     </v-for>
                                 </v-list>
+                                </v-div>
                             </v-card>
                     </v-dialog>
                     </v-responsive>
@@ -184,7 +186,7 @@ export default {
                     <!-- TABEL TAMBAH/EDIT BAHAN -->
                     <v-responsive class="me-sm-2 me-0 " width="400">
                         <!-- ITEM DIALOG ADALAH KODE BARANG YANG SESUAI DENGAN KODE GROUP YANG DIPILIH -->
-                        <DialogCard2 v-if="!edit" :produksi="true" :btn="btn[0]" width="400" :barang="detailbahan" :tambah="true" :getbarang="select_kode" :kodegroup="inputproduksi.kode_group" @pemasukanitem="bahanmasuk"/>
+                        <DialogCard2 dialog_title="stok barang" v-if="!edit" :produksi="true" :btn="btn[0]" width="400" :barang="detailbahan" :tambah="true" :getbarang="select_kode" :kodegroup="inputproduksi.kode_group" @pemasukanitem="bahanmasuk"/>
                         <v-row v-if="edit" no-gutters class="justify-center py-1 text-button rounded border">detail bahan</v-row>
                         <v-sheet class="border-sm rounded-lg mt-2 bg-transparent">
                         <VDataTable
@@ -194,7 +196,7 @@ export default {
                             :fixed-header="true"
                             density="compact"
                             class="text-body-2 py-3 px-5 text-caption"
-                            height="40vh"
+                            height="50vh"
                         >
                         <template v-slot:bottom>
                         </template>
@@ -237,7 +239,7 @@ export default {
                     </v-responsive>
                     <!-- TABEL TAMBAH BARANG -->
                     <v-responsive class="mt-md-0 mt-2" width="400">
-                        <DialogCard2 :produksi="true" v-if="!edit" :kodegroup="inputproduksi.kode_group" :btn="btn[1]" width="400" :barang="detailbarang" :getbarang="getbarang" :inputbahan="inputbahan" :tambah="true" @pemasukanitem="barangmasuk" />
+                        <DialogCard2 dialog_title="data barang" :produksi="true" v-if="!edit" :kodegroup="inputproduksi.kode_group" :btn="btn[1]" width="400" :barang="detailbarang" :getbarang="getbarang" :inputbahan="inputbahan" :tambah="true" @pemasukanitem="barangmasuk" />
                         <v-row v-if="edit" no-gutters class="justify-center py-1 text-button rounded border">detail barang</v-row>
                         <v-sheet class="border-sm rounded-lg mt-2 bg-transparent">
                         <VDataTable
@@ -247,7 +249,7 @@ export default {
                             :fixed-header="true"
                             density="compact"
                             class="text-body-2 py-3 px-5 text-caption"
-                            height="40vh">
+                            height="50vh">
                             <template v-slot:bottom>
                             </template>
                             <!-- eslint-disable-next-line vue/valid-v-slot -->

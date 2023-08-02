@@ -158,6 +158,8 @@ import UserDetail from './userDetail.vue';
   <v-row no-gutters class="mb-2 mt-n4">
     <v-responsive class="mb-sm-0 mb-1" min-width="200">
       <btn-info @click="tambah = true, edit = false, detail = true, ds = j_otoritas" btn_title="Tambah User" icon="mdi-plus" />
+    </v-responsive>
+  </v-row>
       <table-vue
         :userdetail="true"
         :items = items
@@ -175,8 +177,6 @@ import UserDetail from './userDetail.vue';
           <btn-cancel @click=" detail = false" btn_title="Batal" class="mx-2" />
         </template>
       </user-detail>
-    </v-responsive>
-  </v-row>
   <dialogConfirm v-model="confirmdialog" :object="pageTitle">
     <template #yesButton>
         <btn-orange @click="deleteUser(), confirmdialog = false" btn_title="Ya"/>

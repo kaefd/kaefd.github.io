@@ -188,19 +188,8 @@ export default {
                     </v-responsive>
                 </v-row>
             </v-form>
-            <!-- BUTTON TAMBAH BARANG -->
-            <!-- <v-div v-if="!edit" :pembelianbaru="pembelianbaru" :pembeliandetl="pembeliandetl" class="text-sm-left text-center">
-                <dialogScroll @reset="reset"  :barang="barang" :itemDetail="itemDetail" @pemasukanitem="itemmasuk" :masuk="true" :btn="btn" width="400" /> -->
-                <!-- <dialogSearch :button="true" btn_title="Tambah Barang" v-model="" :objectFilter="barang" cardTitle="STOK BARANG" @pilihObjek="pilihStok">
-                    <template #close>
-                        <textButton icon="mdi-close" @click=" = false" />
-                    </template>
-                </dialogSearch>
-                <dialogForm v-model="dialog2" :item="item" @pemasukanItem="pemasukanItem" /> -->
-            <!-- </v-div> -->
-            <!-- BUTTON TAMBAH BARANG -->
             <v-div v-if="!edit" :pembelianbaru="pembelianbaru" :pembeliandetl="pembeliandetl" class="text-sm-left text-center">
-                <dialogScroll @reset="reset" :kurs="inputdata.kurs" :barang="barang" :itemDetail="itemDetail" @pemasukanitem="itemmasuk" :pemasukan="true" :btn="btn" max-width="400" />
+                <dialogScroll @reset="reset" :kurs="inputdata.kurs" :barang="barang" :itemDetail="itemDetail" @pemasukanitem="itemmasuk" :pemasukan="true" dialog_title="Data Barang" :btn="btn" max-width="400" />
             </v-div>
             <!-- TABEL EDIT/VIEW -->
             <v-data-table
@@ -209,7 +198,7 @@ export default {
                 :hover="true"
                 :fixed-header="true"
                 density="compact"
-                class="text-caption py-7 px-5"
+                class="text-caption pt-1 px-5 border-sm rounded-lg mt-2"
                 height="150"
             >
             <template v-slot:bottom>

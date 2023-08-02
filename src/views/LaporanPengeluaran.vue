@@ -284,7 +284,7 @@ import otoritas from '../service/page/otoritas';
       </v-responsive>
       </v-row>
       <!-- EDIT DATA -->
-      <v-sheet height="90%" class="bg-transparent">
+      <v-sheet height="94%" class="bg-transparent">
       <v-data-table
           id="tbl_exporttable_to_xls"
           items-per-page="10"
@@ -294,7 +294,7 @@ import otoritas from '../service/page/otoritas';
           :hover="true"
           :fixed-header="true"
           density="compact"
-          class="text-caption py-3 h-100"
+          class="text-caption pt-1 pb-12 rounded-lg border-sm h-100"
           height="100%"
           >
           <!-- eslint-disable-next-line vue/valid-v-slot -->

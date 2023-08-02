@@ -252,7 +252,7 @@ export default {
           :pembeliandetl="pembeliandetl"
           @confirm="confirm"
           :pageTitle="pageTitle"
-          class="py-3"
+          class="mt-2"
         />
         <dialogConfirm v-model="confirmdialog" :object="pageTitle">
         <template #yesButton>

@@ -38,11 +38,11 @@ export default {
             let penjualan = []
             let pengiriman = []
             let laporan = []
-            let laporan_stok = []
-            let laporan_pembelian = []
-            let laporan_produksi = []
-            let laporan_penjualan = []
-            let laporan_log = []
+            // let laporan_stok = []
+            // let laporan_pembelian = []
+            // let laporan_produksi = []
+            // let laporan_penjualan = []
+            // let laporan_log = []
             for (let i = 0; i < otoritas.data_barang.length; i++) {
                 data_barang.push({
                     jenis_otoritas: otoritas.data_barang[i],
@@ -97,36 +97,36 @@ export default {
                     status: this.edit ? otoritas.routes(this.otority, otoritas.laporan[i]) : false
                 })
             }
-            for (let i = 0; i < otoritas.laporan_stok.length; i++) {
-                laporan_stok.push({
-                    jenis_otoritas: otoritas.laporan_stok[i],
-                    status: this.edit ? otoritas.routes(this.otority, otoritas.laporan_stok[i]) : false
-                })
-            }
-            for (let i = 0; i < otoritas.laporan_pembelian.length; i++) {
-                laporan_pembelian.push({
-                    jenis_otoritas: otoritas.laporan_pembelian[i],
-                    status: this.edit ? otoritas.routes(this.otority, otoritas.laporan_pembelian[i]) : false
-                })
-            }
-            for (let i = 0; i < otoritas.laporan_produksi.length; i++) {
-                laporan_produksi.push({
-                    jenis_otoritas: otoritas.laporan_produksi[i],
-                    status: this.edit ? otoritas.routes(this.otority, otoritas.laporan_produksi[i]) : false
-                })
-            }
-            for (let i = 0; i < otoritas.laporan_penjualan.length; i++) {
-                laporan_penjualan.push({
-                    jenis_otoritas: otoritas.laporan_penjualan[i],
-                    status: this.edit ? otoritas.routes(this.otority, otoritas.laporan_penjualan[i]) : false
-                })
-            }
-            for (let i = 0; i < otoritas.laporan_log.length; i++) {
-                laporan_log.push({
-                    jenis_otoritas: otoritas.laporan_log[i],
-                    status: this.edit ? otoritas.routes(this.otority, otoritas.laporan_log[i]) : false
-                })
-            }
+            // for (let i = 0; i < otoritas.laporan_stok.length; i++) {
+            //     laporan_stok.push({
+            //         jenis_otoritas: otoritas.laporan_stok[i],
+            //         status: this.edit ? otoritas.routes(this.otority, otoritas.laporan_stok[i]) : false
+            //     })
+            // }
+            // for (let i = 0; i < otoritas.laporan_pembelian.length; i++) {
+            //     laporan_pembelian.push({
+            //         jenis_otoritas: otoritas.laporan_pembelian[i],
+            //         status: this.edit ? otoritas.routes(this.otority, otoritas.laporan_pembelian[i]) : false
+            //     })
+            // }
+            // for (let i = 0; i < otoritas.laporan_produksi.length; i++) {
+            //     laporan_produksi.push({
+            //         jenis_otoritas: otoritas.laporan_produksi[i],
+            //         status: this.edit ? otoritas.routes(this.otority, otoritas.laporan_produksi[i]) : false
+            //     })
+            // }
+            // for (let i = 0; i < otoritas.laporan_penjualan.length; i++) {
+            //     laporan_penjualan.push({
+            //         jenis_otoritas: otoritas.laporan_penjualan[i],
+            //         status: this.edit ? otoritas.routes(this.otority, otoritas.laporan_penjualan[i]) : false
+            //     })
+            // }
+            // for (let i = 0; i < otoritas.laporan_log.length; i++) {
+            //     laporan_log.push({
+            //         jenis_otoritas: otoritas.laporan_log[i],
+            //         status: this.edit ? otoritas.routes(this.otority, otoritas.laporan_log[i]) : false
+            //     })
+            // }
             return this.ds = {
                 username: username,
                 password: password,
@@ -139,11 +139,11 @@ export default {
                 penjualan: penjualan,
                 pengiriman: pengiriman,
                 laporan: laporan,
-                laporan_stok: laporan_stok,
-                laporan_pembelian: laporan_pembelian,
-                laporan_produksi: laporan_produksi,
-                laporan_penjualan: laporan_penjualan,
-                laporan_log: laporan_log
+                // laporan_stok: laporan_stok,
+                // laporan_pembelian: laporan_pembelian,
+                // laporan_produksi: laporan_produksi,
+                // laporan_penjualan: laporan_penjualan,
+                // laporan_log: laporan_log
             }
         }
     },
@@ -285,71 +285,6 @@ export default {
                             </template>
                             <v-list-item v-for="barang, b in edituser.laporan.slice(1, edituser.laporan.length)" :key="b">
                                 <v-checkbox color="orange" class="radio-small customdense" :label="barang.jenis_otoritas" :model-value="barang.status" v-model="ds.laporan[b+1].status" hide-details density="compact"/>
-                            </v-list-item>
-                        </v-list-group>
-                    </v-list>
-                    <!-- LAPORAN STOK BARANG -->
-                    <v-list v-model:opened="open[9]" density="compact" class="w-100 pa-0">
-                        <v-list-group value="Laporan Stok" class="text-caption">
-                            <template v-slot:activator="{ props }">
-                                <v-list-item v-bind="props">
-                                    <v-checkbox color="orange" class="radio-small customdense" label="Laporan Stok Barang" :model-value="edituser.laporan_stok[0].status" v-model="ds.laporan_stok[0].status" hide-details density="compact"/>
-                                </v-list-item>
-                            </template>
-                            <v-list-item v-for="barang, b in edituser.laporan_stok.slice(1, edituser.laporan_stok.length)" :key="b">
-                                <v-checkbox color="orange" class="radio-small customdense" :label="barang.jenis_otoritas" :model-value="barang.status" v-model="ds.laporan_stok[b+1].status" hide-details density="compact"/>
-                            </v-list-item>
-                        </v-list-group>
-                    </v-list>
-                    <!-- LAPORAN PEMASUKAN -->
-                    <v-list v-model:opened="open[8]" density="compact" class="w-100 pa-0">
-                        <v-list-group value="Laporan Pemasukan" class="text-caption">
-                            <template v-slot:activator="{ props }">
-                                <v-list-item v-bind="props">
-                                    <v-checkbox color="orange" class="radio-small customdense" label="Laporan Pemasukan" :model-value="edituser.laporan_pembelian[0].status" v-model="ds.laporan_pembelian[0].status" hide-details density="compact"/>
-                                </v-list-item>
-                            </template>
-                            <v-list-item v-for="barang, b in edituser.laporan_pembelian.slice(1, edituser.laporan_pembelian.length)" :key="b">
-                                <v-checkbox color="orange" class="radio-small customdense" :label="barang.jenis_otoritas" :model-value="barang.status" v-model="ds.laporan_pembelian[b+1].status" hide-details density="compact"/>
-                            </v-list-item>
-                        </v-list-group>
-                    </v-list>
-                    <!-- LAPORAN PRODUKSI -->
-                    <v-list v-model:opened="open[9]" density="compact" class="w-100 pa-0">
-                        <v-list-group value="Laporan Produksi" class="text-caption">
-                            <template v-slot:activator="{ props }">
-                                <v-list-item v-bind="props">
-                                    <v-checkbox color="orange" class="radio-small customdense" label="Laporan Produksi" :model-value="edituser.laporan_produksi[0].status" v-model="ds.laporan_produksi[0].status" hide-details density="compact"/>
-                                </v-list-item>
-                            </template>
-                            <v-list-item v-for="barang, b in edituser.laporan_produksi.slice(1, edituser.laporan_produksi.length)" :key="b">
-                                <v-checkbox color="orange" class="radio-small customdense" :label="barang.jenis_otoritas" :model-value="barang.status" v-model="ds.laporan_produksi[b+1].status" hide-details density="compact"/>
-                            </v-list-item>
-                        </v-list-group>
-                    </v-list>
-                    <!-- LAPORAN PENGELUARAN -->
-                    <v-list v-model:opened="open[10]" density="compact" class="w-100 pa-0">
-                        <v-list-group value="Laporan Pengeluaran" class="text-caption">
-                            <template v-slot:activator="{ props }">
-                                <v-list-item v-bind="props">
-                                    <v-checkbox color="orange" class="radio-small customdense" label="Laporan Pengeluaran" :model-value="edituser.laporan_penjualan[0].status" v-model="ds.laporan_penjualan[0].status" hide-details density="compact"/>
-                                </v-list-item>
-                            </template>
-                            <v-list-item v-for="barang, b in edituser.laporan_penjualan.slice(1, edituser.laporan_penjualan.length)" :key="b">
-                                <v-checkbox color="orange" class="radio-small customdense" :label="barang.jenis_otoritas" :model-value="barang.status" v-model="ds.laporan_penjualan[b+1].status" hide-details density="compact"/>
-                            </v-list-item>
-                        </v-list-group>
-                    </v-list>
-                    <!-- LAPORAN LOG USER -->
-                    <v-list v-model:opened="open[11]" density="compact" class="w-100 pa-0">
-                        <v-list-group value="Laporan Log User" class="text-caption">
-                            <template v-slot:activator="{ props }">
-                                <v-list-item v-bind="props">
-                                    <v-checkbox color="orange" class="radio-small customdense" label="Laporan Log User" :model-value="edituser.laporan_log[0].status" v-model="ds.laporan_log[0].status" hide-details density="compact"/>
-                                </v-list-item>
-                            </template>
-                            <v-list-item v-for="barang, b in edituser.laporan_log.slice(1, edituser.laporan_log.length)" :key="b">
-                                <v-checkbox color="orange" class="radio-small customdense" :label="barang.jenis_otoritas" :model-value="barang.status" v-model="ds.laporan_log[b+1].status" hide-details density="compact"/>
                             </v-list-item>
                         </v-list-group>
                     </v-list>

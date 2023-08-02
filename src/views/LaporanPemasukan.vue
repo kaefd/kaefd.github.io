@@ -269,7 +269,7 @@ import otoritas from '../service/page/otoritas';
       </v-responsive>
       </v-row>
       <!-- EDIT DATA -->
-      <v-sheet height="90%" class="bg-transparent">
+      <v-sheet height="95%" class="bg-transparent">
       <v-data-table
           id="tbl_exporttable_to_xls"
           items-per-page="10"
@@ -279,25 +279,9 @@ import otoritas from '../service/page/otoritas';
           :hover="true"
           :fixed-header="true"
           density="compact"
-          class="text-caption py-3 h-100"
+          class="text-caption pt-1 pb-12 rounded-lg border-sm h-100"
           height="100%"
           >
-          <!-- CUSTOM PAGINATION STYLE -->
-          <!-- <template v-slot:bottom> -->
-            <!-- <v-row no-gutters class="justify-end align-center my-1">
-              <v-pagination
-                v-model="page"
-                :length="4"
-                size="small"
-                rounded="circle"
-                prev-icon="mdi-menu-left"
-                next-icon="mdi-menu-right"
-              ></v-pagination>
-              <v-spacer></v-spacer>
-              <span>Total: 1978 data</span>
-            </v-row> -->
-          <!-- </template> -->
-          <!-- NAMA SUPPLIER -->
           <!-- eslint-disable-next-line vue/valid-v-slot -->
           <template v-slot:item.tgl_pembelian="{item}">
               {{ functions.formatDate(item.raw.tgl_pembelian) }}
@@ -354,16 +338,6 @@ import otoritas from '../service/page/otoritas';
                 :selectCategory="selectCategory"
                 :pageTitle="pageTitle"/>
           </template>
-          <!-- NILAI TOTAL -->
-          <!--  eslint-disable-next-line vue/valid-v-slot -->
-          <!-- <template v-slot:item.total_nilai= "{ item }">
-            <td>{{ numb(item.raw.total_nilai) }}</td>
-          </template> -->
-          <!-- TOTAL NILAI -->
-          <!-- eslint-disable-next-line vue/valid-v-slot -->
-          <!-- <template v-slot:item.rp= "{ item }">
-            <td>{{ numb(totalnilai(item.raw)) }}</td>
-          </template> -->
         </v-data-table>
       </v-sheet>
     </v-container>

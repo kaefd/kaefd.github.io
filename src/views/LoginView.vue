@@ -43,12 +43,7 @@ export default {
         .then(response => {
           localStorage.setItem('token', response.data)
           localStorage.setItem('user', this.username)
-          this.status = this.valert = true
-          this.message = 'Berhasil Login'
-          setTimeout(() => {
-            this.valert = false
-            window.location.href = '/'
-          }, 2500);
+          window.location.href = '/'
         })
         .catch((error) => {
           this.status = false

@@ -222,7 +222,7 @@ import AlertVue from '../components/dialog/alertVue.vue';
     </template>
   </filterDrawer>
   <v-container class="pt-9 h-100">
-    <v-row no-gutters class="rounded-t-xl align-start mt-n4 mb-2">
+    <v-row no-gutters class="rounded-t-xl align-end mt-n4 mb-2">
       <v-responsive class="d-flex align-center mb-sm-0 mb-1 me-sm-2 me-0" width="200" max-width="350">
         <div class="d-flex align-center w-100">
           <!-- TAMBAH DATA -->
@@ -267,7 +267,7 @@ import AlertVue from '../components/dialog/alertVue.vue';
       </v-responsive>
       </v-row>
         <!-- EDIT DATA -->
-        <v-sheet height="89%" class="bg-transparent">
+        <v-sheet height="95%" class="bg-transparent">
         <v-data-table
             id="tbl_exporttable_to_xls" 
             items-per-page="10"
@@ -277,7 +277,7 @@ import AlertVue from '../components/dialog/alertVue.vue';
             :hover="true"
             :fixed-header="true"
             density="compact"
-            class="text-caption py-3 h-100"
+            class="text-caption pt-1 pb-12 border-sm rounded-lg h-100"
             height="100%"
             >
           

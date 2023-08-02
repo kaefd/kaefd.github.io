@@ -197,7 +197,7 @@ import otoritas from '../service/page/otoritas';
     </template>
   </filterDrawer>
     <v-container class="pt-9 h-100">
-      <v-row no-gutters class="align-start mt-n4 mb-2">
+      <v-row no-gutters class="align-end mt-n4 mb-2">
         <v-responsive class="d-flex align-start mb-sm-0 mb-1 me-sm-2 me-0" width="200" max-width="350">
         <div class="d-flex align-center w-100">
           <!-- TAMBAH DATA -->
@@ -230,7 +230,7 @@ import otoritas from '../service/page/otoritas';
       </v-responsive>
       </v-row>
         <!-- EDIT DATA -->
-        <v-sheet height="87%" class="bg-transparent">
+        <v-sheet height="94%" class="bg-transparent">
         <v-data-table
             id="tbl_exporttable_to_xls"
             items-per-page="10"
@@ -240,7 +240,7 @@ import otoritas from '../service/page/otoritas';
             :hover="true"
             :fixed-header="true"
             density="compact"
-            class="text-caption py-3 h-100"
+            class="text-caption pt-1 pb-12 h-100 border-sm rounded-lg"
             height="100%">
             <!-- eslint-disable-next-line vue/valid-v-slot -->
             <template v-slot:item.tgl_produksi="{ item }">{{ functions.formatDate(item.raw.tgl_produksi) }}</template>

@@ -134,7 +134,7 @@ import functions from '../service/functions';
   <v-container class="pt-9 h-100">
     <v-row no-gutters class="mb-2 mt-n4">
       <v-responsive>
-        <div class="d-flex">
+        <div class="d-flex me-0 ms-auto">
           <!-- SEARCH -->
           <text-field
             v-model="search"
@@ -142,7 +142,7 @@ import functions from '../service/functions';
           >
           </text-field>
         <!-- BUTTON FILTER -->
-        <btn-filter @click="filter = !filter " />
+        <btn-filter class="ms-2" @click="filter = !filter " />
         </div>
       </v-responsive>
       </v-row>

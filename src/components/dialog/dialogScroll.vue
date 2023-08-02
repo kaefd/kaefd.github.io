@@ -39,6 +39,7 @@ export default {
     'pembeliandetl',
     'getbarang',
     'kurs',
+    'dialog_title',
     ],
     data() {
         return {
@@ -263,14 +264,14 @@ export default {
 </script>
 
 <template>
-    <v-dialog v-model="dialog">
+    <v-dialog v-model="dialog" transition="dialog-bottom-transition" width="auto">
         <!-- BUTTON TAMBAH -->
         <template v-slot:activator="{ props }">
             <btn-info v-bind="props" :disabled="getbarang == '' || inputbahan == '' ? true : false" btn_title="Tambah Barang" icon="mdi-plus" />
         </template>
-    <v-card class="py-5 px-7 rounded-xl">
-            <v-card-title v-if="blmkirim" class="text-center text-orange text-button font-weight-bold mb-3">PENGELUARAN BELUM TERKIRIM</v-card-title>
-            <v-card-title v-if="!blmkirim" class="text-center text-orange text-button font-weight-bold mb-3">STOK BARANG</v-card-title>
+        <v-card class="py-5 px-7 rounded-xl" min-width="300" width="35vw" max-width="400" height="90vh">
+            <v-div>
+            <v-card-title class="text-center text-orange text-button font-weight-bold mb-3">{{ dialog_title }}</v-card-title>
             <text-field
                 id="input"
                 v-model="search"
@@ -311,8 +312,8 @@ export default {
                         </v-div>
                         <v-divider></v-divider>
                     </v-list-item>
-                    <v-dialog @update="dialogchild" max-width="370" v-model="dialogchild[b]">
-                        <v-card class="py-5 w-100 mx-auto rounded-xl">
+                    <v-dialog @update="dialogchild" transition="dialog-bottom-transition" width="auto" v-model="dialogchild[b]">
+                        <v-card class="py-5 mx-auto rounded-xl" min-width="300" max-width="375" width="35vw">
                             <v-span class="text-button text-orange text-center font-weight-bold">{{ item.nama_barang }}</v-span>
                             <v-span class="text-caption text-center">{{ item.kode_barang }} - {{ item.hs_code }}</v-span>
                             <v-divider class="mt-3 mb-5"></v-divider>
@@ -375,7 +376,8 @@ export default {
                 </template>
             </v-infinite-scroll>
         </v-list>
-    </v-card>
+    </v-div>
+        </v-card>
         
     </v-dialog>
 </template>

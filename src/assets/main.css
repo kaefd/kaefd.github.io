@@ -66,6 +66,9 @@ input::-webkit-inner-spin-button {
 .v-theme--light > .v-data-table {
   --v-theme-surface: #fafafa !important;
 }
+.v-data-table-header__content {
+  text-align: center !important;
+}
 label.v-label {
   font-size: 9pt !important;
 }

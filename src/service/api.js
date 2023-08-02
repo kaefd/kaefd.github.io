@@ -339,27 +339,27 @@ export default {
       {
         username: data.username,
         jenis_otoritas: 'Laporan Stok Barang',
-        status: String(data.laporan_stok[0].status)
+        status: String(data.laporan[1].status)
       },
       {
         username: data.username,
         jenis_otoritas: 'Laporan Pembelian',
-        status: String(data.laporan_pembelian[0].status)
+        status: String(data.laporan[2].status)
       },
       {
         username: data.username,
         jenis_otoritas: 'Laporan Produksi',
-        status: String(data.laporan_produksi[0].status)
+        status: String(data.laporan[3].status)
       },
       {
         username: data.username,
         jenis_otoritas: 'Laporan Penjualan',
-        status: String(data.laporan_penjualan[0].status)
+        status: String(data.laporan[4].status)
       },
       {
         username: data.username,
         jenis_otoritas: 'Laporan Log User',
-        status: String(data.laporan_log[0].status)
+        status: String(data.laporan[5].status)
       },
     ]
     const otoritas = JSON.stringify(oto);
@@ -369,10 +369,10 @@ export default {
       otoritas : otoritas,
     })
   },
-  deleteUser(user) {
+  deleteUser(username) {
     const apiUrl  = '/user'
     let data = {
-      username: user
+      username: username
     }
     return instance.delete(apiUrl, {
       data: data

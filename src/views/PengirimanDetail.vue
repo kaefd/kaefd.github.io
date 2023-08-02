@@ -210,7 +210,7 @@ export default {
                             <datePickerVue label="Tgl Pengiriman" v-model="inputdata.tgl_pengiriman" :rules="required" :tema="tema"/>
                         </v-responsive>
                         <v-responsive class="pt-2 mx-3" width="250">
-                            <v-dialog v-model="dialog4" class="w-50">
+                            <v-dialog v-model="dialog4" transition="dialog-bottom-transition" width="auto">
                                 <template v-slot:activator="{props}">
                                     <text-field-form
                                         v-bind="props"
@@ -221,9 +221,9 @@ export default {
                                     >
                                     </text-field-form>
                                 </template>
-                                <v-card class="py-5 px-7 rounded-xl mx-auto vh-100" width="400">
+                                <v-card class="py-5 px-7 rounded-xl mx-auto" min-width="300" max-width="400" width="35vw" height="90vh">
                                 <v-div>
-                                    <v-card-title class="text-center text-blue-darken-4 mb-3 text-button font-weight-bold">PELANGGAN</v-card-title>
+                                    <v-card-title class="text-center text-orange mb-3 text-button font-weight-bold">PELANGGAN</v-card-title>
                                     <text-field
                                         v-model="searched"
                                         label="Search"
@@ -243,7 +243,7 @@ export default {
                                 </v-list>
                                 </v-card>
                             </v-dialog>
-                            <v-dialog v-model="dialogbongkar" class="w-50">
+                            <v-dialog v-model="dialogbongkar" transition="dialog-bottom-transition" width="auto">
                                 <template v-slot:activator="{props}">
                                     <text-field-form
                                         v-bind="props"
@@ -254,8 +254,8 @@ export default {
                                     >
                                     </text-field-form>
                                 </template>
-                                <v-card class="py-5 px-6 rounded-xl" width="400">
-                                        <v-card-title class="text-center text-blue-darken-4 mb-3 text-button font-weight-bold">ALAMAT BONGKAR</v-card-title>
+                                <v-card class="py-5 px-6 rounded-xl" min-width="300" max-width="400" width="35vw" height="90vh">
+                                        <v-card-title class="text-center text-orange mb-3 text-button font-weight-bold">ALAMAT BONGKAR</v-card-title>
                                         <text-field
                                             v-model="searched"
                                             label="Search"
@@ -289,7 +289,7 @@ export default {
                 </v-form>
                 <!-- BUTTON TAMBAH BARANG -->
                 <v-div v-if="!edit" class="text-sm-left text-center">
-                    <dialogScroll @reset="reset" :nokirim="inputdata.no_pengiriman" :blmkirim="true" :belumkirim="belumkirim" :belumkirim_detail="belumkirim_detail" :barang="barang" :itemDetail="itemDetail" @pemasukanitem="itemmasuk" :pengiriman="true" :penjualan="penjualan" :btn="btn" width="400" />
+                    <dialogScroll dialog_title="pengeluaran belum terkirim" @reset="reset" :nokirim="inputdata.no_pengiriman" :blmkirim="true" :belumkirim="belumkirim" :belumkirim_detail="belumkirim_detail" :barang="barang" :itemDetail="itemDetail" @pemasukanitem="itemmasuk" :pengiriman="true" :penjualan="penjualan" :btn="btn" width="400" />
                 </v-div>
                 <!-- TABEL EDIT/VIEW -->
                 <v-data-table
@@ -298,7 +298,7 @@ export default {
                     :hover="true"
                     :fixed-header="true"
                     density="compact"
-                    class="text-caption py-7"
+                    class="text-caption py-1 rounded-lg border-sm mt-2"
                     height="220"
                 >
                 <!-- CUSTOM PAGINATION STYLE -->
@@ -346,8 +346,8 @@ export default {
                 </template>
                 </v-data-table>
                 <v-div v-if="!edit" class="d-flex mb-0 mt-auto me-5 ms-auto">
-                    <btn-orange @click="validate" btn_title="Simpan" class="me-2" />
                     <btn-cancel @click="pembelian_input = [], inputdata = [], dialog=false" btn_title="Batal" />
+                    <btn-orange @click="validate" btn_title="Simpan" class="ms-2" />
                 </v-div>
                 </v-container>
             </v-card>

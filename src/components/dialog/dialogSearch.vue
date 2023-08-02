@@ -35,8 +35,9 @@ export default {
         <textFieldForm  v-bind="props" v-if="!button" :label="label" v-model="pilih" readonly :rules="rules" />
         <btnInfo v-bind="props" v-if="button" icon="mdi-plus" :btn_title="btn_title"/>
     </template>
-    <v-card class="py-5 px-7 rounded-xl">
-        <v-card-title class="text-center text-blue-darken-4 mb-3 text-button font-weight-bold">{{ cardTitle }}</v-card-title>
+    <v-card class="py-5 px-7 rounded-xl" min-width="300" width="35vw" max-width="400" height="90vh">
+        <v-div>
+        <v-card-title class="text-center text-orange mb-3 text-button font-weight-bold">{{ cardTitle }}</v-card-title>
         <textField
             v-model="search"
             label="Search"
@@ -54,6 +55,7 @@ export default {
                 </v-list-item>
             </v-div>
         </v-list>
+    </v-div>
     </v-card>
 </v-dialog>  
 </template>

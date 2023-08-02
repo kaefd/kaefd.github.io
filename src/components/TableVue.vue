@@ -69,7 +69,7 @@ export default {
 }
 </script>
 <template>
-    <v-sheet height="90%" class="bg-transparent">
+    <v-sheet height="94%" class="bg-transparent">
       <!-- TABEL DATA -->
       <v-data-table
         items-per-page="10"
@@ -79,10 +79,11 @@ export default {
         :hover="true"
         :fixed-header="true"
         density="compact"
-        class="text-caption py-3 h-100"
+        class="text-caption pt-1 pb-12 h-100  border-sm rounded-lg"
         height="100%"
       >
     <!-- ACTION DELETE & EDIT -->
+   
     <!-- eslint-disable-next-line vue/valid-v-slot -->
       <template v-if="userdetail" v-slot:item.actions="{item, index}">
         <menuList :items="list" icon="mdi-dots-vertical" :submenu="true" @result="result2" :index="index" />
