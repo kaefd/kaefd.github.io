@@ -1,4 +1,4 @@
-const sortBy = [{ key: 'tgl_pengiriman', order: 'desc' }]
+const sortBy = [{ key: 'no_pengiriman', order: 'desc' }]
 const headers = [
   { title: 'No Pengiriman', key: 'no_pengiriman', order: 'asc'},
   { title: 'Tgl Pengiriman', key: 'tgl_pengiriman' },

@@ -242,6 +242,7 @@ export default {
       </v-responsive>
     </v-row>
         <TableVue
+          :sort-by="pemasukan.sortBy"
           :hapus="otoritas.routes(authority, 'Batal Pembelian')"
           id="tbl_exporttable_to_xls"
           :items="pemasukan.pilihtipe(selectdokumen, items, supplier)"
