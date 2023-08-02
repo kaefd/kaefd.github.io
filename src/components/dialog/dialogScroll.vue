@@ -137,14 +137,15 @@ export default {
         }
     },
     stok(kodegroup, kodebrg) {
-        // if kode barang& kode group == v
-        // kode group-> belumkirim detail
-        // kode barang = kode
         for (let i = 0; i < this.groupbarang.length; i++) {
             if(this.groupbarang[i].kode_group == kodegroup && this.groupbarang[i].kode_barang == kodebrg) {
-                return functions.numb(this.groupbarang[i].stok_akhir)
+                return functions.numb2(this.groupbarang[i].stok_akhir)
             }
         }        
+    },
+    min(a, b) {
+        let result = a - b
+        return functions.numb2(result)
     },
     async api () {
       return new Promise(resolve => {
@@ -277,8 +278,8 @@ export default {
                 label="Search"
                 class="mb-4"
             ></text-field>
-            <v-list class="me-2">
-                <v-sheet height="90vh" v-for="(item, b) in filteredItems" :key="item">
+            <v-list class="me-2 100vh">
+                <v-div v-for="(item, b) in filteredItems" :key="item">
                     <v-list-item
                         v-if="!blmkirim"
                         class="text-caption"
@@ -301,7 +302,7 @@ export default {
                                 <!-- penjualandetail belumkirim(pjl, nama, kodegroup) -->
                                 {{ item.nama_barang }} ({{ pjl_detail(item.no_penjualan, 'kode') }}) <br>
                                 <!-- penjualandetail(jumlah-terkirim) -->
-                                Jumlah belum terkirim: {{ item.jumlah - item.jumlah_terkirim }}  <br>
+                                Jumlah belum terkirim: {{ min(item.jumlah, item.jumlah_terkirim) }}  <br>
                                 Stok barang: {{ stok(pjl_detail(item.no_penjualan, 'kode'), item.kode_barang) }}
                             </v-span>
                         </v-div>
@@ -371,7 +372,7 @@ export default {
                             </v-div>
                         </v-card>          
                     </v-dialog>
-                </v-sheet>
+                </v-div>
         </v-list>
         </v-card>
     </v-dialog>

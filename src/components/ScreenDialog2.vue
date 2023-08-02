@@ -160,7 +160,6 @@ export default {
                                 <text-field-form v-if="!edit" label="Kode Group" v-bind="props" v-model="inputproduksi.kode_group" :rules="required" />
                             </template>
                             <v-card class="py-5 px-7 rounded-xl mx-auto" min-width="300" width="35vw" max-width="400" height="90vh">
-                                <v-div>
                                 <v-card-title class="text-center text-orange mb-3 text-button font-weight-bold">KODE GROUP</v-card-title>
                                 <text-field v-model="searched" label="Search" class="mb-4" />
                                 <v-list>
@@ -175,7 +174,6 @@ export default {
                                         </v-list-item>
                                     </v-for>
                                 </v-list>
-                                </v-div>
                             </v-card>
                     </v-dialog>
                     </v-responsive>
