@@ -419,18 +419,9 @@ export default {
   },
   deleteBarang(v) {
     let input = {
-      kategori_barang : v.kategori_barang,
       kode_barang : v.kode_barang,
-      nama_barang: v.nama_barang,
-      hs_code: v.hs_code,
-      satuan: v.satuan,
-      status: 0,
     }
-    const payload = JSON.stringify(input);
-    let data = {
-      barang: payload
-    }
-    return instance.delete('/barang', { data: data })
+    return instance.delete('/barang', { data: input })
   },
   /*********** DATA PELANGGAN ***********/
   async getPelanggan() {
@@ -456,16 +447,8 @@ export default {
   deletePelanggan(value) {
     let input = {
       kode_pelanggan : value.kode_pelanggan,
-      nama : value.kode_pelanggan,
-      alamat: value.alamat,
-      npwp: value.npwp,
-      status: "false",
     }
-    const payload = JSON.stringify(input);
-    let data = {
-      pelanggan: payload
-    }
-    return instance.delete('/pelanggan', { data: data })
+    return instance.delete('/pelanggan', { data: input })
   },
   /*********** DATA SUPPLIER ***********/
   async getSupplier (){
@@ -518,28 +501,24 @@ export default {
   deletePemasukan(head, detail){
     const h = {
       no_pembelian: head.no_pembelian,
-      user_input: head.user_input,
-      user_batal: user,
-      tgl_pembelian: head.tgl_pembelian,
-      tgl_input: head.tgl_input,
-      tgl_batal: '',
-      kode_supplier: head.kode_supplier,
-      tipe_dokumen: head.tipe_dokumen,
-      no_dokumen: head.no_dokumen,
-      tgl_dokumen: head.tgl_dokumen,
-      no_invoice: head.no_invoice,
-      no_bl: head.no_bl,
-      mata_uang: head.mata_uang,
-      kurs: head.kurs,
-      status: "false"
+      // tgl_batal: '',
+      // kode_supplier: head.kode_supplier,
+      // tipe_dokumen: head.tipe_dokumen,
+      // no_dokumen: head.no_dokumen,
+      // tgl_dokumen: head.tgl_dokumen,
+      // no_invoice: head.no_invoice,
+      // no_bl: head.no_bl,
+      // mata_uang: head.mata_uang,
+      // kurs: head.kurs,
+      // status: "false"
     }
     const pbl_head = JSON.stringify(h);
     const pbl_detail = JSON.stringify(detail);
     let data = {
-      pembelian_head: pbl_head,
+      pembelian_head: h,
       pembelian_detail: pbl_detail,
     }
-    return instance.delete('/pembelian_head', { data: data })
+    return instance.delete('/pembelian_head', { data: h })
   },
   /***********  PRODUKSI ***********/
   async getProduksiHead(param) {
@@ -607,13 +586,13 @@ export default {
   deleteProduksi(head, detailbhn, detailbrg) {
     let produksi_head = {
       no_produksi: head.no_produksi,
-      tgl_produksi: head.tgl_produksi,
-      kode_group: head.kode_group,
-      tgl_input: head.tgl_input,
-      user_input: head.user_input,
-      tgl_batal: functions.day(),
-      user_batal: user,
-      status: "false",
+      // tgl_produksi: head.tgl_produksi,
+      // kode_group: head.kode_group,
+      // tgl_input: head.tgl_input,
+      // user_input: head.user_input,
+      // tgl_batal: functions.day(),
+      // user_batal: user,
+      // status: "false",
     }
     const ph = JSON.stringify(produksi_head);
     const dbahan = JSON.stringify(detailbhn);
@@ -623,7 +602,7 @@ export default {
       produksi_detail_bahan : dbahan,
       produksi_detail_barang : dbarang,
     }
-    return instance.delete('/produksi_head', { data: data })
+    return instance.delete('/produksi_head', { data: produksi_head })
   },
   /***********  PENGIRIMAN ***********/
   async getPengirimanHead (param){
@@ -676,16 +655,6 @@ export default {
   deletePengiriman (head, detail) {
     let pengiriman_head = {
       no_pengiriman: head.no_pengiriman,
-      tgl_pengiriman: head.tgl_pengiriman,
-      kode_pelanggan: head.kode_pelanggan,
-      kode_alamat_bongkar: head.kode_alamat_bongkar,
-      supir: head.supir,
-      no_polisi: head.no_polisi,
-      user_input: head.user_input,
-      tgl_input: head.tgl_input,
-      tgl_batal: functions.day(),
-      user_batal: user,
-      status: "false"
     }
     const ph = JSON.stringify(pengiriman_head);
     const pd = JSON.stringify(detail);
@@ -693,7 +662,7 @@ export default {
       pengiriman_head: ph,
       pengiriman_detail: pd,
     }
-    return instance.delete('/pengiriman_head', { data: data })
+    return instance.delete('/pengiriman_head', { data: pengiriman_head })
   },
   /*********** PENGELUARAN ***********/
   async getPenjualanHead (param){
@@ -774,18 +743,18 @@ export default {
   deletePengeluaran(head, detail){
     const pjl = {
       no_penjualan: head.no_penjualan,
-      tgl_penjualan: head.tgl_penjualan,
-      tipe_dokumen: head.tipe_dokumen,
-      no_dokumen: head.no_dokumen,
-      tgl_dokumen: head.tgl_dokumen,
-      kode_pelanggan: head.kode_pelanggan,
-      kode_group: head.kode_group,
-      total_penjualan: head.total_penjualan,
-      tgl_input: head.tgl_input,
-      user_input: head.user_input,
-      tgl_batal: new Date(),
-      user_batal: user,
-      status: 'false'
+      // tgl_penjualan: head.tgl_penjualan,
+      // tipe_dokumen: head.tipe_dokumen,
+      // no_dokumen: head.no_dokumen,
+      // tgl_dokumen: head.tgl_dokumen,
+      // kode_pelanggan: head.kode_pelanggan,
+      // kode_group: head.kode_group,
+      // total_penjualan: head.total_penjualan,
+      // tgl_input: head.tgl_input,
+      // user_input: head.user_input,
+      // tgl_batal: new Date(),
+      // user_batal: user,
+      // status: 'false'
     }
     const ph = JSON.stringify(pjl);
     const pd = JSON.stringify(detail);
@@ -793,7 +762,7 @@ export default {
       penjualan_head: ph,
       penjualan_detail: pd,
     }
-    return instance.delete('/penjualan_head', { data: data })
+    return instance.delete('/penjualan_head', { data: pjl })
   },
   /*********** LOGOUT ***********/
   logout() {
