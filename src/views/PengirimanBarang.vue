@@ -238,6 +238,7 @@ import BtnOrange from '../components/button/btnOrange.vue';
         <!-- EDIT DATA -->
       <v-sheet height="95%" class="bg-transparent">
         <v-data-table
+            v-model:sort-by="pengiriman.sortBy"
             id="tbl_exporttable_to_xls" 
             items-per-page="10"
             :headers="pengiriman.headers"

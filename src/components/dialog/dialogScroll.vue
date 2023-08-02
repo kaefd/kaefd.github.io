@@ -269,8 +269,7 @@ export default {
         <template v-slot:activator="{ props }">
             <btn-info v-bind="props" :disabled="getbarang == '' || inputbahan == '' ? true : false" btn_title="Tambah Barang" icon="mdi-plus" />
         </template>
-        <v-card class="py-5 px-7 rounded-xl" min-width="300" width="35vw" max-width="400" height="90vh">
-            <v-div>
+        <v-card class="py-5 px-7 rounded-xl" min-width="300" width="35vw" max-width="400">
             <v-card-title class="text-center text-orange text-button font-weight-bold mb-3">{{ dialog_title }}</v-card-title>
             <text-field
                 id="input"
@@ -279,8 +278,7 @@ export default {
                 class="mb-4"
             ></text-field>
             <v-list class="me-2">
-            <v-infinite-scroll :items="filteredItems" :onLoad="load">
-                <template v-for="(item, b) in filteredItems" :key="item">
+                <v-sheet height="90vh" v-for="(item, b) in filteredItems" :key="item">
                     <v-list-item
                         v-if="!blmkirim"
                         class="text-caption"
@@ -373,11 +371,8 @@ export default {
                             </v-div>
                         </v-card>          
                     </v-dialog>
-                </template>
-            </v-infinite-scroll>
+                </v-sheet>
         </v-list>
-    </v-div>
         </v-card>
-        
     </v-dialog>
 </template>
