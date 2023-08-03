@@ -198,9 +198,9 @@ import otoritas from '../service/page/otoritas';
     </template>
   </filterDrawer>
     <v-container class="pt-9 h-100">
-      <v-row no-gutters class="align-end mt-n4 mb-2">
-        <v-responsive class="d-flex align-start mb-sm-0 mb-1 me-sm-2 me-0" width="200" max-width="350">
-        <div class="d-flex align-center w-100">
+      <v-row no-gutters class="mt-n4 mb-2">
+        <v-responsive class="d-flex align-center mb-sm-0 mb-1 me-sm-2 me-0" width="200" max-width="350">
+        <v-div class="d-flex align-center w-100">
           <!-- TAMBAH DATA -->
           <ScreenDialog2
           v-if="otoritas.routes(authority, 'Tambah Produksi Baru')"
@@ -212,10 +212,10 @@ import otoritas from '../service/page/otoritas';
           @input_kodegroup="input_kodegroup"
           @inputhead="inputhead"
           :select_kode="temp"/>
-        </div>
+        </v-div>
         <!-- <v-chip class="mt-1 me-1" color="orange" size="small">{{ periode[0] }} - {{ periode[1] }}</v-chip> -->
       </v-responsive>
-      <v-responsive class="me-sm-0 ms-sm-auto ms-0 me-auto mt-md-2 mt-0" width="200" max-width="450">
+      <v-responsive class="me-sm-0 ms-sm-auto ms-0 me-auto" width="200" max-width="450">
         <div class="d-flex justify-sm-end justify-start">
           <!-- SEARCH -->
           <textField  v-model="search" placeholder="Search" icon="mdi-magnify" class="me-2"/>

@@ -148,7 +148,7 @@ export default {
                         <td class="text-left">{{ item.nama_barang }}</td>
                         <td class="text-left" contenteditable>{{ item.qty }}</td>
                         <td class="text-left" contenteditable></td>
-                        <td class="text-left">{{ functions.numb2(item.jumlah) }}</td>
+                        <td class="text-left">{{ functions.numb(item.jumlah, null, false) }}</td>
                         <td class="text-left">{{ kirim_detail[i].no_dokumen }}/{{ kirim_detail[i].tipe_dokumen.slice(2) }}</td>
                     </tr>
                     <tr>
@@ -156,7 +156,7 @@ export default {
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td class="text-left font-weight-bold">{{ functions.numb2(sum()) }}</td>
+                        <td class="text-left font-weight-bold">{{ functions.numb(sum(), 2, true) }}</td>
                     </tr>
                     </tbody>
                 </v-table>

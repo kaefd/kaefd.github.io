@@ -199,7 +199,7 @@ export default {
                         <template v-slot:bottom>
                         </template>
                         <!-- eslint-disable-next-line vue/valid-v-slot -->
-                        <template v-if="!edit" v-slot:item.jumlah="{ item }">
+                        <template v-slot:item.jumlah="{ item }">
                             {{ functions.numb(item.raw.jumlah) }}
                         </template>
                         <!-- eslint-disable-next-line vue/valid-v-slot -->
@@ -251,7 +251,7 @@ export default {
                             <template v-slot:bottom>
                             </template>
                             <!-- eslint-disable-next-line vue/valid-v-slot -->
-                            <template v-if="!edit" v-slot:item.jumlah="{ item }">
+                            <template v-slot:item.jumlah="{ item }">
                                 {{ functions.numb(item.raw.jumlah) }}
                             </template>
                             <!-- eslint-disable-next-line vue/valid-v-slot -->

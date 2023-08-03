@@ -72,7 +72,7 @@ const subDetail = (data, kode) => {
                 hs_code: data[i].hs_code,
                 satuan: data[i].satuan,
                 kode_group: data[i].kode_group,
-                stok_akhir: functions.numb(data[i].stok_akhir)
+                stok_akhir: functions.numb(data[i].stok_akhir, 2, true)
             })
         }
     }
@@ -88,10 +88,10 @@ const log = (kodegroup, kodebrg, log) => {
                 kode_barang: log[i].kode_barang,
                 kategori: log[i].kategori,
                 keterangan: log[i].keterangan,
-                stok_awal: functions.numb(log[i].stok_awal),
-                stok_masuk: functions.numb(log[i].stok_masuk),
-                stok_keluar: functions.numb(log[i].stok_keluar),
-                stok_akhir: functions.numb(log[i].stok_akhir)
+                stok_awal: functions.numb(log[i].stok_awal, 2, true),
+                stok_masuk: functions.numb(log[i].stok_masuk, 2, true),
+                stok_keluar: functions.numb(log[i].stok_keluar, 2, true),
+                stok_akhir: functions.numb(log[i].stok_akhir, 2, true)
             })
         }
     }

@@ -270,15 +270,15 @@ export default {
                 </template>
                 <!-- eslint-disable-next-line vue/valid-v-slot -->
                 <template v-slot:item.harga_jual="{item}">
-                    {{functions.numb(item.raw.harga_jual, 2)}}
+                    {{functions.numb(item.raw.harga_jual, 2, true)}}
                 </template>
                 <!-- eslint-disable-next-line vue/valid-v-slot -->
                 <template v-slot:item.total_terjual="{item, index}">
                     <v-if v-if="edit">
-                        {{ functions.numb(item.raw.jumlah * item.raw.harga_jual, 2) }}
+                        {{ functions.numb(item.raw.jumlah * item.raw.harga_jual, 2, true) }}
                     </v-if>
                     <v-if v-if="!edit">
-                        {{ functions.numb(pembelian_input[index].jumlah * pembelian_input[index].harga_jual, 2) }}
+                        {{ functions.numb(pembelian_input[index].jumlah * pembelian_input[index].harga_jual, 2, true) }}
                     </v-if>
                 </template>
                 <!-- eslint-disable-next-line vue/valid-v-slot -->
@@ -319,7 +319,7 @@ export default {
                             <text-field-form
                                 v-if="edit"
                                 label="Harga"
-                                :model-value="functions.numb(item.raw.harga_jual)"
+                                :model-value="functions.numb(item.raw.harga_jual, 2, true)"
                                 readonly
                                 hide-details
                                 class="mb-3"
