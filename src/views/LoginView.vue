@@ -75,8 +75,8 @@ export default {
       <v-responsive class="pt-14 ps-14 align-center" :height="windowWidth > 776 ? '40vh' : ''" width="375">
         <img src="../assets/img/logo_text.png" alt="brandlogo" style="width: 40vw;">
       </v-responsive>
-      <v-responsive class="align-center" :class="windowWidth > 776 ? 'me-10' : ''" :min-width="windowWidth > 776 ? 375 : 350">
-        <v-card :class="windowWidth > 776 ? '' : 'bg-trans-blue mb-7'" class="rounded-xl mx-auto elevation-3 px-2" :height="windowWidth > 776 ? '67vh' : '60vh'" max-width="350">
+      <v-responsive class="align-center" :class="windowWidth > 776 ? 'me-10' : ''" :min-width="windowWidth > 776 ? 375 : 267">
+        <v-card :class="windowWidth > 776 ? '' : 'bg-trans-blue mb-7'" class="rounded-xl mx-auto elevation-3 px-2" :height="windowWidth > 776 ? '67vh' : '60vh'" :max-width="windowWidth > 776 ? 350 : 300">
           <v-form @submit.prevent="handleLogin" :validation-schema="schema" class="text-center w-75 mx-auto py-12 h-100 d-flex flex-column">
           <v-span class="text-blue-custom font-25 text-montserrat mx-auto">USER LOGIN</v-span>
           <v-spacer></v-spacer>
