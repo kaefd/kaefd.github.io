@@ -30,7 +30,7 @@ export default {
 </script>
 
 <template>
-<v-dialog v-model="dialog">
+<v-dialog v-model="dialog" transition="dialog-bottom-transition">
     <template v-slot:activator="{props}">
         <textFieldForm  v-bind="props" v-if="!button" :label="label" v-model="pilih" readonly :rules="rules" />
         <btnInfo v-bind="props" v-if="button" icon="mdi-plus" :btn_title="btn_title"/>

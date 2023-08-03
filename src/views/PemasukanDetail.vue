@@ -164,7 +164,7 @@ export default {
             <!-- TAMBAH PEMASUKAN -->
             <v-form class="pt-7" v-if="!edit && pemasukan"  @submit.prevent ref="form">
                 <v-row no-gutters justify="center" justify-md="space-between">
-                    <v-responsive class="pt-2 mx-md-0 mx-3" width="250">
+                    <v-responsive class="pt-2 mx-md-0 mx-3 overflow-visible" width="250">
                         <textFieldForm label="No Pemasukan" v-model="inputdata.no_pembelian" :disabled="true"/>
                         <datePicker label="Tgl Pemasukan" v-model="inputdata.tgl_pembelian" :max-date="new Date()" :tema="tema" :rules="required" />
                         <dialogSearch v-if="!edit" label="Supplier" :objectFilter="supplier" @pilihObjek="pilihObjek" cardTitle="SUPPLIER" max-width="400" :rules="required"/>
@@ -175,8 +175,7 @@ export default {
                             activator="#tipe"
                             icon="mdi-dots-vertical"
                             :items="tipe_dokumen"
-                            @result="pilihtipedokumen"
-                            />
+                            @result="pilihtipedokumen"/>
                         <textFieldForm label="No Dokumen" v-model="inputdata.no_dokumen" required :rules="required" />
                         <datePicker label="Tgl Dokumen" v-model="inputdata.tgl_dokumen" :max-date="new Date()" :tema="tema" :rules="required" />
                     </v-responsive>

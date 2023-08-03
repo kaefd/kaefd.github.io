@@ -27,13 +27,14 @@ export default {
         this.def
     }
 }
+const customPosition = () => ({ top: 0, left: 0 });
 </script>
 
 <template>
         <VueDatePicker
             :dark="tema == 'dark' ? true : false"
             class="text-small"
-            teleport-center
+            :alt-position="customPosition"
             :clearable="false"
             :format-locale="id"
             required
@@ -67,7 +68,7 @@ export default {
 }
 .dp-custom-menu {
     border: none;
-    box-shadow: 1px 1px 20px rgba(128, 128, 128, 0.336);
+    box-shadow: 1px 1px 20px rgba(78, 78, 78, 0.172);
     height: 400px;
     width: 300px;
 }
@@ -116,6 +117,9 @@ export default {
 }
 .dp__input_wrap .dp__input  {
     height: 41px !important;
+}
+.dp__outer_menu_wrap {
+    position: absolute !important;
 }
 .false .dp__input_wrap .dp__input {
     border-color: rgb(192, 1, 1) !important;

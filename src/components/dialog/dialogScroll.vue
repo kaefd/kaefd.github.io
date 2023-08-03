@@ -272,15 +272,17 @@ export default {
         <template v-slot:activator="{ props }">
             <btn-info v-bind="props" :disabled="getbarang == '' || inputbahan == '' ? true : false" btn_title="Tambah Barang" icon="mdi-plus" />
         </template>
-        <v-card class="py-5 px-7 rounded-xl" min-width="300" width="35vw" max-width="400">
+        <v-card class="py-5 px-7 rounded-xl vh-100" min-width="300" width="35vw" max-width="400">
             <v-card-title class="text-center text-orange text-button font-weight-bold mb-3">{{ dialog_title }}</v-card-title>
-            <text-field
-                id="input"
-                v-model="search"
-                label="Search"
-                class="mb-4"
-            ></text-field>
-            <v-list class="me-2 100vh">
+            <v-div>
+                <text-field
+                    id="input"
+                    v-model="search"
+                    label="Search"
+                    class="mb-4"
+                ></text-field>
+            </v-div>
+            <v-list class="me-2">
                 <v-div v-for="(item, b) in filteredItems" :key="item">
                     <v-list-item
                         v-if="!blmkirim"

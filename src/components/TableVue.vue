@@ -145,6 +145,7 @@ export default {
             :datatext="datatext"
             :btn="btn"
             :headDetails="pemasukan.headDetails"
+            :details="[details]"
             :headers="pemasukan.headers"
             :items="item.raw"
             :search="search"

@@ -34,9 +34,6 @@ const router = createRouter({
     {
       path: '/test-page',
       name: 'testPage',
-      meta: {
-        middleware: [middleware]
-      },
       component: testPage,
     },
     {
