@@ -238,6 +238,8 @@ export default {
                 no_dokumen: this.pjl_detail(kode.no_penjualan, 'no'),
                 hs_code: this.state.hs_code,
                 jumlah: this.penjualan_detail.jumlah,
+                jumlah_konversi: this.penjualan_detail.jumlah_konversi,
+                satuan_konversi: this.penjualan_detail.satuan_konversi,
                 jumlah_terkirim: this.penjualan_detail.jumlah_terkirim,
                 satuan: this.state.satuan,
                 no_urut: i+1,
@@ -321,6 +323,22 @@ export default {
                                     v-if="!pemasukan"
                                     v-model="penjualan_detail.jumlah"
                                     label="Jumlah"
+                                    :hide-details="true"
+                                    :disabled="hiddenbtn"
+                                    :options="{ currency: 'EUR', currencyDisplay: 'hidden' }"
+                                />
+                                <currency-input
+                                    v-if="pengiriman"
+                                    v-model="penjualan_detail.jumlah_konversi"
+                                    label="Jumlah konversi"
+                                    :hide-details="true"
+                                    :disabled="hiddenbtn"
+                                    :options="{ currency: 'EUR', currencyDisplay: 'hidden' }"
+                                />
+                                <currency-input
+                                    v-if="pengiriman"
+                                    v-model="penjualan_detail.satuan_konversi"
+                                    label="Satuan konversi"
                                     :hide-details="true"
                                     :disabled="hiddenbtn"
                                     :options="{ currency: 'EUR', currencyDisplay: 'hidden' }"

@@ -47,9 +47,11 @@ export default {
     },
     
     // NUMBER
-    numb(value) {
-        let val = (value / 1).toFixed(2).replace(',', ',')
-        return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+    numb(value, n, fixed) {
+        if(fixed) {
+          let val = (value / 1).toFixed(n).replace(',', ',')
+          return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+        } else return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
     },
     numb2(value) {
       let val = (value / 1).toFixed(0).replace(',', ',')

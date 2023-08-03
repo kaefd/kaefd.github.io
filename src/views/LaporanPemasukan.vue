@@ -145,7 +145,7 @@ import otoritas from '../service/page/otoritas';
         }
 
         if(col == 'total') {
-            return functions.numb(value)
+            return functions.numb(value, 2)
         }
         if(col === 'kategori' || col == 'namabrg' || col == 'hscode' || col == 'satuan' || col == 'diterima') {
           for (let i = 0; i < this.pembeliandetl.length; i++) {

@@ -270,15 +270,15 @@ export default {
                 </template>
                 <!-- eslint-disable-next-line vue/valid-v-slot -->
                 <template v-slot:item.harga_jual="{item}">
-                    {{functions.numb(item.raw.harga_jual)}}
+                    {{functions.numb(item.raw.harga_jual, 2)}}
                 </template>
                 <!-- eslint-disable-next-line vue/valid-v-slot -->
                 <template v-slot:item.total_terjual="{item, index}">
                     <v-if v-if="edit">
-                        {{ functions.numb(item.raw.jumlah * item.raw.harga_jual) }}
+                        {{ functions.numb(item.raw.jumlah * item.raw.harga_jual, 2) }}
                     </v-if>
                     <v-if v-if="!edit">
-                        {{ functions.numb(pembelian_input[index].jumlah * pembelian_input[index].harga_jual) }}
+                        {{ functions.numb(pembelian_input[index].jumlah * pembelian_input[index].harga_jual, 2) }}
                     </v-if>
                 </template>
                 <!-- eslint-disable-next-line vue/valid-v-slot -->

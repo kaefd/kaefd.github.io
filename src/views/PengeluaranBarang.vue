@@ -283,7 +283,7 @@ import AlertVue from '../components/dialog/alertVue.vue';
             >
           
             <!-- eslint-disable-next-line vue/valid-v-slot -->
-            <template v-slot:item.total_penjualan="{item}">{{ functions.numb(item.raw.total_penjualan) }}</template>
+            <template v-slot:item.total_penjualan="{item}">{{ functions.numb(item.raw.total_penjualan, 2) }}</template>
             <!-- eslint-disable-next-line vue/valid-v-slot -->
             <template v-slot:item.tgl_penjualan="{ item }">{{ functions.formatDate(item.raw.tgl_penjualan) }}</template>
              <!-- eslint-disable-next-line vue/valid-v-slot -->

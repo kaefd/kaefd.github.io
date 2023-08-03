@@ -206,7 +206,7 @@ export default {
                 <v-form  @submit.prevent ref="form" class="pt-7">
                     <v-row v-if="!edit" no-gutters justify="center" justify-md="space-between">
                         <v-responsive class="pt-2 mx-md-0 mx-3" width="250">
-                            <text-field-form label="No Pengiriman" v-model= "inputdata.no_pengiriman" :rules="required" />
+                            <text-field-form label="No Pengiriman" v-model= "inputdata.no_pengiriman" readonly class="bg-grey-lighten-4" />
                             <datePickerVue label="Tgl Pengiriman" v-model="inputdata.tgl_pengiriman" :rules="required" :tema="tema"/>
                         </v-responsive>
                         <v-responsive class="pt-2 mx-3" width="250">
@@ -263,7 +263,7 @@ export default {
                                         <v-list class="my-4">
                                         <v-div class="vh-100">
                                             <v-list-item
-                                            v-for="s, i in filteralamat" :key="i"
+                                            v-for="s, i in filteralamat.slice(0, 15)" :key="i"
                                             density="compact"
                                             style="cursor: pointer;"
                                             class="text-caption"
@@ -308,7 +308,7 @@ export default {
                 <!-- CUSTOM KOLOM -->
                 <!-- eslint-disable-next-line vue/valid-v-slot -->
                 <template v-slot:item.jumlah="{ item }">
-                    {{ functions.numb(item.raw.jumlah) }}
+                    {{ functions.numb(item.raw.jumlah, null, false ) }}
                 </template>
                 <!-- eslint-disable-next-line vue/valid-v-slot -->
                 <template v-slot:item.actions="{ item, index }">
@@ -322,10 +322,11 @@ export default {
                                 <text-field-form
                                     v-if="edit"
                                     label="Jumlah"
-                                    :model-value="functions.numb(item.raw.jumlah)"
+                                    :model-value="functions.numb(item.raw.jumlah, null, false)"
                                     active="true"
                                     hide-details
                                     class="mb-3"
+                                    readonly
                                 />
                                 <currency-input
                                     v-if="!edit"

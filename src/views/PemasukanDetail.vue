@@ -215,7 +215,7 @@ export default {
             </template>
             <!-- eslint-disable-next-line vue/valid-v-slot -->
             <template v-slot:item.nilai="{item}">
-                {{functions.numb(item.raw.nilai)}}
+                {{functions.numb(item.raw.nilai, 2)}}
             </template>
             <!-- eslint-disable-next-line vue/valid-v-slot -->
             <template v-slot:item.tipe_dokumen>
