@@ -222,6 +222,14 @@ a {
   background-position: center;
   background-size: cover;
 }
+@media only screen and (max-width: 776px) {
+  .bg-auri {
+    background-image: url('./img/bg-01.jpg');
+    background-repeat: no-repeat;
+    background-position: left;
+    background-size: cover;
+  }
+}
 /* @media (max-width: 1000px) and (min-height: 600px) {
   .mobile {
     visibility: visible;

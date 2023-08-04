@@ -67,7 +67,7 @@ export default {
   <v-container fluid class="d-flex flex-column h-100">
     <v-row class="h-100">
       <v-responsive class="pt-14 ps-14 align-center" :height="window > 776 ? '40vh' : ''" width="375">
-        <img src="../assets/img/logo_text.png" alt="brandlogo" style="width: 40vw;">
+        <img src="../assets/img/logo_text.png" alt="brandlogo" style="min-width: 250px; width: 40vw;">
       </v-responsive>
       <v-responsive class="align-center" :class="window > 776 ? 'me-10' : ''" :min-width="window > 776 ? 375 : 267">
         <v-card :class="window > 776 ? '' : 'bg-trans-blue mt-n7'" class="rounded-xl mx-auto elevation-3 px-2" :height="window > 776 ? 430 : 365" :max-width="window > 776 ? 350 : 300">
