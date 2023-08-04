@@ -76,8 +76,8 @@ export default {
         <img src="../assets/img/logo_text.png" alt="brandlogo" style="width: 40vw;">
       </v-responsive>
       <v-responsive class="align-center" :class="windowWidth > 776 ? 'me-10' : ''" :min-width="windowWidth > 776 ? 375 : 267">
-        <v-card :class="windowWidth > 776 ? '' : 'bg-trans-blue mt-n7'" class="rounded-xl mx-auto elevation-3 px-2" :height="windowWidth > 776 ? '67vh' : '60vh'" :max-width="windowWidth > 776 ? 350 : 300">
-          <v-form @submit.prevent="handleLogin" :validation-schema="schema" class="text-center w-75 mx-auto py-12 h-100 d-flex flex-column">
+        <v-card :class="windowWidth > 776 ? '' : 'bg-trans-blue mt-n7'" class="rounded-xl mx-auto elevation-3 px-2" :height="windowWidth > 776 ? 430 : 365" :max-width="windowWidth > 776 ? 350 : 300">
+          <v-form @submit.prevent="handleLogin" :validation-schema="schema" class="text-center w-75 mx-auto py-14 h-100 d-flex flex-column">
           <v-span class="text-blue-custom font-25 text-montserrat mx-auto">USER LOGIN</v-span>
           <v-spacer></v-spacer>
             <v-div>
@@ -107,5 +107,11 @@ export default {
 </v-responsive>
 </template>
 
-<style>
+<style scoped>
+@media only screen and (max-width: 600px) {
+  .h-100 {
+    height: 95% !important;
+  }
+}
+
 </style>
