@@ -19,7 +19,7 @@ export default {
   :placeholder="placeholder"
   single-line
   hide-details
-  style="height: 42px;"
+  style="height: 42px; min-width: 200px !important;"
 >
 </v-text-field>    
 </template>

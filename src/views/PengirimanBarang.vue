@@ -41,7 +41,7 @@ import BtnOrange from '../components/button/btnOrange.vue';
         BtnOrange,
         BtnCancel,
     },
-    props :['cetak', 'tema', 'user'],
+    props :['cetak', 'tema', 'user', 'window'],
     data () {
       return {
         drawer: null,
@@ -237,7 +237,7 @@ import BtnOrange from '../components/button/btnOrange.vue';
       </v-responsive>
       </v-row>
         <!-- EDIT DATA -->
-      <v-sheet height="95%" class="bg-transparent">
+        <v-sheet :height="window > 776 ? '94%' : '87%'">
         <v-data-table
             v-model:sort-by="sortBy"
             id="tbl_exporttable_to_xls" 
@@ -249,7 +249,7 @@ import BtnOrange from '../components/button/btnOrange.vue';
             :fixed-header="true"
             density="compact"
             class="text-caption pt-1 pb-12 border-sm rounded-lg h-100"
-            height="100%"
+            :height="window > 776 ? '100%' : '92%'"
             >
             <!-- eslint-disable-next-line vue/valid-v-slot -->
               <template v-slot:item.tgl_pengiriman="{item}">

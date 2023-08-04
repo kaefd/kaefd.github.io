@@ -28,7 +28,7 @@ import otoritas from '../service/page/otoritas';
         BtnFilter,
         DatePicker,
     },
-    props:['tema', 'cetak'],
+    props:['tema', 'cetak', 'window'],
     data () {
       return {
         drawer: null,
@@ -284,7 +284,7 @@ import otoritas from '../service/page/otoritas';
       </v-responsive>
       </v-row>
       <!-- EDIT DATA -->
-      <v-sheet height="94%" class="bg-transparent">
+      <v-sheet :height="window > 776 ? '94%' : '87%'">
       <v-data-table
           id="tbl_exporttable_to_xls"
           items-per-page="10"
@@ -295,7 +295,7 @@ import otoritas from '../service/page/otoritas';
           :fixed-header="true"
           density="compact"
           class="text-caption pt-1 pb-12 rounded-lg border-sm h-100"
-          height="100%"
+          :height="window > 776 ? '100%' : '92%'"
           >
           <!-- eslint-disable-next-line vue/valid-v-slot -->
           <template v-slot:item.tgl_penjualan="{item}">
@@ -331,7 +331,7 @@ import otoritas from '../service/page/otoritas';
           </template>
           <!-- eslint-disable-next-line vue/valid-v-slot -->
           <template v-slot:item.actions="{item}">
-              <PengeluaranDetail @confirm="confirm" batalbtn="Pengeluaran" :laporan="true" :namaPelanggan="namaPelanggan(item.raw.kode_pelanggan)" :penjualan="penjualan(item.raw.no_penjualan)" :edit="true" :pengeluaran="true" :pageTitle="pageTitle" :headDetails="headDetails" :items="item.raw" :details="details" :headers="headers" :search="search" :category="category" :selectCategory="selectCategory" :disable="true"/>
+              <PengeluaranDetail :window="window" @confirm="confirm" batalbtn="Pengeluaran" :laporan="true" :namaPelanggan="namaPelanggan(item.raw.kode_pelanggan)" :penjualan="penjualan(item.raw.no_penjualan)" :edit="true" :pengeluaran="true" :pageTitle="pageTitle" :headDetails="headDetails" :items="item.raw" :details="details" :headers="headers" :search="search" :category="category" :selectCategory="selectCategory" :disable="true"/>
           </template>
         </v-data-table>
       </v-sheet>

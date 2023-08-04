@@ -65,14 +65,13 @@ export default {
           <text-button v-bind="props" icon="mdi-dots-vertical" />
         </template>
         <!-- dialog content -->
-        <v-card class="bg-grey-lighten-5 w-100 h-100">
+        <v-card>
             <v-toolbar class="bg-blue-custom text-white" height="50">
                 <text-button @click="dialog = false" icon="mdi-close" color="white"/>
                 <v-toolbar-title class="text-button">DETAIL STOK BARANG</v-toolbar-title>
                 <v-spacer></v-spacer>
             </v-toolbar>
-            <v-container class="h-100">
-            <v-sheet height="100%" class="bg-transparent">
+            <v-sheet class="ma-5" :height="window > 776 ? '94%' : '87%'">
                 <!-- TABEL DATA -->
                 <v-data-table
                 items-per-page="10"
@@ -83,7 +82,7 @@ export default {
                 :fixed-header="true"
                 density="compact"
                 class="text-caption pt-1 rounded-lg border-sm h-100"
-                height="100%"
+                :height="window > 776 ? '100%' : '92%'"
                 >
                 <template v-slot:bottom>
                 </template>
@@ -106,8 +105,7 @@ export default {
                             <v-spacer></v-spacer>
                         </v-toolbar>
                         <v-card>
-                            <v-container class="h-100">
-                            <v-sheet height="91%" class="bg-transparent">
+                                <v-sheet class="ma-5" :height="window > 776 ? '94%' : '87%'">
                                 <!-- TABEL DATA -->
                                 <v-data-table
                                 items-per-page="10"
@@ -118,7 +116,7 @@ export default {
                                 :fixed-header="true"
                                 density="compact"
                                 class="text-caption pt-1 rounded-lg border-sm h-100"
-                                height="100%"
+                                :height="window > 776 ? '100%' : '92%'"
                                 >
                                 <template v-slot:bottom>
                                 </template>
@@ -128,13 +126,11 @@ export default {
                                 </template>
                                 </v-data-table>
                             </v-sheet>
-                            </v-container>
                         </v-card>
                     </v-dialog>
                 </template>
                 </v-data-table>
             </v-sheet>
-            </v-container>
         </v-card>
 
     </v-dialog>

@@ -32,7 +32,7 @@ import otoritas from '../service/page/otoritas';
       BtnOrange,
       alertVue,
     },
-    props:['cetak', 'tema', 'user'],
+    props:['cetak', 'tema', 'user', 'window'],
     data () {
       return {
         filter: false,
@@ -203,6 +203,7 @@ import otoritas from '../service/page/otoritas';
         <v-div class="d-flex align-center w-100">
           <!-- TAMBAH DATA -->
           <ScreenDialog2
+          :window="window"
           v-if="otoritas.routes(authority, 'Tambah Produksi Baru')"
           :tema="tema"
           :headers="produksi.headItem"
@@ -231,7 +232,7 @@ import otoritas from '../service/page/otoritas';
       </v-responsive>
       </v-row>
         <!-- EDIT DATA -->
-        <v-sheet height="94%" class="bg-transparent">
+        <v-sheet :height="window > 776 ? '95%' : '87%'">
         <v-data-table
             v-model:sort-by="sortBy"
             id="tbl_exporttable_to_xls"
@@ -243,12 +244,13 @@ import otoritas from '../service/page/otoritas';
             :fixed-header="true"
             density="compact"
             class="text-caption pt-1 pb-12 h-100 border-sm rounded-lg"
-            height="100%">
+            :height="window > 776 ? '100%' : '92%'">
             <!-- eslint-disable-next-line vue/valid-v-slot -->
             <template v-slot:item.tgl_produksi="{ item }">{{ functions.formatDate(item.raw.tgl_produksi) }}</template>
             <!-- eslint-disable-next-line vue/valid-v-slot -->
             <template v-slot:item.actions="{ item }">
                 <ScreenDialog2
+                :window="window"
                 :hapus="otoritas.routes(authority, 'Batal Pembelian')"
                 batalbtn="Produksi"
                 :edit="true"
@@ -272,5 +274,4 @@ import otoritas from '../service/page/otoritas';
         </dialogConfirm>
       <alertVue v-model="valert" :sukses="status" :message="message" />
   </v-container>
-
 </template>

@@ -41,7 +41,7 @@ import AlertVue from '../components/dialog/alertVue.vue';
       BtnOrange,
         AlertVue
     },
-    props:['cetak', 'tema', 'user'],
+    props:['cetak', 'tema', 'user', 'window'],
     data () {
       return {
         filter: false,
@@ -267,7 +267,7 @@ import AlertVue from '../components/dialog/alertVue.vue';
       </v-responsive>
       </v-row>
         <!-- EDIT DATA -->
-        <v-sheet height="95%" class="bg-transparent">
+        <v-sheet :height="window > 776 ? '94%' : '87%'">
         <v-data-table
             v-model:sort-by="sortBy"
             id="tbl_exporttable_to_xls" 
@@ -279,7 +279,7 @@ import AlertVue from '../components/dialog/alertVue.vue';
             :fixed-header="true"
             density="compact"
             class="text-caption pt-1 pb-12 border-sm rounded-lg h-100"
-            height="100%"
+            :height="window > 776 ? '100%' : '92%'"
             >
           
             <!-- eslint-disable-next-line vue/valid-v-slot -->

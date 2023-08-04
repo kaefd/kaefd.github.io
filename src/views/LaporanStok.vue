@@ -22,7 +22,7 @@ import functions from '../service/functions';
       textField,
         BtnFilter,
     },
-    props:['page', 'cetak'],
+    props:['page', 'cetak', 'window'],
     data () {
       return {
         drawer: null,
@@ -187,6 +187,7 @@ import functions from '../service/functions';
         </v-row>
         <!-- TABEL -->
         <TableVue
+        :window="window"
         id="tbl_exporttable_to_xls"
         :groupbarang="items"
         :stok="laporan.detail(databarang, items)"
@@ -204,28 +205,4 @@ import functions from '../service/functions';
 
 </template>
 <style>
-.v-field__input {
-  overflow: auto !important;
-  flex-wrap: nowrap !important;
-}
-/* width */
-::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-  background: #f1f1f1; 
-}
- 
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: #888; 
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: #555; 
-}
 </style>

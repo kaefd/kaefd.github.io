@@ -16,7 +16,7 @@ import otoritas from '../service/page/otoritas';
 <script>
   export default defineComponent ({
     name: 'CustomerView',
-    props:['cetak', 'user'],
+    props:['cetak', 'user', 'window'],
     components: {
       TableVue,
       dialogMaster,
@@ -172,6 +172,7 @@ import otoritas from '../service/page/otoritas';
       :create="otoritas.routes(authority, 'Tambah Pelanggan Baru')"
       :update="otoritas.routes(authority, 'Ubah Pelanggan')"
       :hapus="otoritas.routes(authority, 'Hapus Pelanggan')"
+      :window="window"
       :keyform="pelanggan.keyform"
       :noselect="statusselect"
       @edit="editForm"

@@ -13,7 +13,9 @@ const light = {
 		background: '#fafafa',
 		dark: '#212121',
 		'blue-custom': '#3B7AA9',
-		'white': '#fff'
+		'white': '#fff',
+		'black': '#121212',
+		'grey-lighten-4': '#f5f5f5'
 	}
 }
 const dark = {
@@ -22,7 +24,10 @@ const dark = {
 		background: '#121212',
 		dark: '#e8e8e8',
 		'blue-custom': '#6699bf',
-		'white': '#121212'
+		'black': '#fff',
+		'white': '#121212',
+		'grey-lighten-4': '#2b2b2b'
+		
 	}
 }
 export default createVuetify(

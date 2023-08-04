@@ -36,7 +36,7 @@ export default {
     BtnCancel,
     AlertVue
   },
-    props:['cetak', 'tema'],
+    props:['cetak', 'tema', 'window'],
     data () {
       return {
         search: '',
@@ -243,6 +243,7 @@ export default {
       </v-responsive>
     </v-row>
         <TableVue
+          :window="window"
           :sortby="pemasukan.sortBy"
           :hapus="otoritas.routes(authority, 'Batal Pembelian')"
           id="tbl_exporttable_to_xls"

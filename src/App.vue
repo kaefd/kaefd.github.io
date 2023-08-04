@@ -12,6 +12,7 @@ export default {
   },
     data () {
       return {
+        windowWidth: window.innerWidth,
         drawer: false,
         tema: null,
         databarang: '',
@@ -29,7 +30,9 @@ export default {
       }
     },
     methods: {
-      
+      onResize() {
+        this.windowWidth = window.innerWidth
+      },
       page(value) {
         this.pageTitle = value
       },
@@ -40,6 +43,9 @@ export default {
       }
     },
     mounted() {
+      this.$nextTick(() => {
+        window.addEventListener('resize', this.onResize)
+      })
       this.page()
       // this.getPembelian()
       // this.getProduksihead()
@@ -67,7 +73,7 @@ export default {
           </template>
         </AppBar>
         <v-main class="vh-100 vw-100">
-            <RouterView :cetak="cetak" @page="page" @pages="page" :tema="tema"/>
+            <RouterView :cetak="cetak" @page="page" @pages="page" :tema="tema" :window="windowWidth"/>
         </v-main>
       </v-layout>
     </v-theme-provider>

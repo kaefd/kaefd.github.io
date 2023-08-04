@@ -26,7 +26,7 @@ export default {
       BtnOrange,
       UserDetail,
     },
-    props: [ 'userdetail', 'editdata','sortby', 'stok', 'otority','logbrg', 'user_otoritas', 'j_otoritas', 'stokbarang', 'update', 'hapus', 'groupbarang', 'laporanstok', 'masuk', 'supplier', 'pembeliandetl', 'view', 'disabled', 'keyform', 'headers', 'items', 'search', 'category', 'toolbar_title', 'form', 'noselect', 'ishidden', 'pageTitle', 'log'],
+    props: [ 'userdetail', 'editdata','sortby', 'stok', 'otority','logbrg', 'user_otoritas', 'j_otoritas', 'stokbarang', 'update', 'hapus', 'groupbarang', 'laporanstok', 'masuk', 'supplier', 'pembeliandetl', 'view', 'disabled', 'keyform', 'headers', 'items', 'search', 'category', 'toolbar_title', 'form', 'noselect', 'ishidden', 'pageTitle', 'log', 'window'],
     
     data () {
       return {
@@ -70,7 +70,7 @@ export default {
 }
 </script>
 <template>
-    <v-sheet height="94%" class="bg-transparent">
+    <v-sheet :height="window > 776 ? '94%' : '87%'">
       <!-- TABEL DATA -->
       <v-data-table
         v-model:sort-by="sorting"
@@ -81,8 +81,8 @@ export default {
         :hover="true"
         :fixed-header="true"
         density="compact"
-        class="text-caption pt-1 pb-12 h-100  border-sm rounded-lg"
-        height="100%"
+        class="text-caption pt-2 pb-12 h-100  border-sm rounded-lg"
+        :height="window > 776 ? '100%' : '92%'"
       >
     <!-- ACTION DELETE & EDIT -->
    
@@ -145,7 +145,6 @@ export default {
             :datatext="datatext"
             :btn="btn"
             :headDetails="pemasukan.headDetails"
-            :details="[details]"
             :headers="pemasukan.headers"
             :items="item.raw"
             :search="search"

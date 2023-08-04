@@ -30,7 +30,7 @@ export default defineComponent ({
     alertVue,
   },
     name: 'DataBarang',
-    props:['cetak', 'tema'],
+    props:['cetak', 'tema', 'window'],
     data () {
       return {
         dialog: false,
@@ -209,6 +209,7 @@ export default defineComponent ({
           :create="otoritas.routes(authority, 'Tambah Barang Baru')"
           :update="otoritas.routes(authority, 'Ubah Barang')"
           :hapus="otoritas.routes(authority, 'Hapus Barang')"
+          :window="window"
           :keyform="barang.keyform"
           :noselect="statusselect"
           @edit="editForm"
@@ -227,3 +228,4 @@ export default defineComponent ({
   <!-- ALERT -->
   <alertVue v-model="valert" :sukses="status" :message="message"/>
   </template>
+  

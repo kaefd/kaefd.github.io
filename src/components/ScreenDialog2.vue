@@ -31,7 +31,7 @@ export default {
     TextButton,
     CurrencyInput,
 },
-    props:['tema', 'headers', 'headItem', 'edit', 'hapus', 'getbarang', 'detailbahan', 'groupbarang', 'detailbarang', 'select_kode', 'item'],
+    props:['window', 'tema', 'headers', 'headItem', 'edit', 'hapus', 'getbarang', 'detailbahan', 'groupbarang', 'detailbarang', 'select_kode', 'item'],
     data () {
       return {
         dialog: false,
@@ -136,7 +136,7 @@ export default {
             </v-menu>
           </template>
           <!-- dialog content -->
-            <v-card class="bg-grey-lighten-5">
+            <v-card>
                 <v-toolbar class="bg-blue-custom text-white" height="50">
                 <text-button icon="mdi-close" color="white" @click="dialog = false, inputproduksi = inputbahan = inputbarang = []" />
                 <v-toolbar-title class="text-button">DETAIL PRODUKSI</v-toolbar-title>
@@ -144,12 +144,12 @@ export default {
                 </v-toolbar>
                 <v-container>
                 <v-form  @submit.prevent ref="form">
-                <v-row no-gutters justify="center" justify-md="space-between" align="start" class="pt-7 pb-3" min-width="400">
+                <v-row no-gutters justify="center" justify-md="space-between" align="start" class="pb-3" min-width="400">
                     <v-responsive class="pt-2 mx-md-0 mx-3" width="250">
-                        <text-field-form v-if="edit" :model-value="item.no_produksi" label="No Produksi" readonly />
+                        <text-field-form v-if="edit" :model-value="item.no_produksi" label="No Produksi" readonly class="bg-grey-lighten-4" />
                         <text-field-form v-if="!edit" label="No Produksi" readonly class="bg-grey-lighten-4" v-model="inputproduksi.no_produksi" />
                     </v-responsive>
-                    <v-responsive class="pt-2 mx-3" width="250">
+                    <v-responsive class="pt-2 mx-3 overflow-visible" width="250">
                         <date-picker v-if="!edit" :max-date="new Date" label="Tgl Produksi" v-model="inputproduksi.tgl_produksi" :tema="tema" :rules="required" />
                         <text-field-form v-if="edit" label="Tgl Produksi" :readonly="true" :rules="required" :model-value="functions.formatDate(item.tgl_produksi)" />
                     </v-responsive>
@@ -182,21 +182,21 @@ export default {
                 </v-row>
                 </v-form>
                 <!-- TABLE -->
-                <v-row no-gutters justify="center" justify-md="space-between" align="start" min-width="400">
+                <v-row no-gutters justify="center" justify-md="space-between" align="start" class="mx-sm-0 mx-3" min-width="400">
                     <!-- TABEL TAMBAH/EDIT BAHAN -->
-                    <v-responsive class="me-sm-2 me-0 " width="400">
+                    <v-responsive class="me-sm-2 me-0 text-sm-left text-center" width="400">
                         <!-- ITEM DIALOG ADALAH KODE BARANG YANG SESUAI DENGAN KODE GROUP YANG DIPILIH -->
                         <DialogCard2 dialog_title="stok barang" v-if="!edit" :produksi="true" :btn="btn[0]" width="400" :barang="detailbahan" :tambah="true" :getbarang="select_kode" :kodegroup="inputproduksi.kode_group" @pemasukanitem="bahanmasuk"/>
                         <v-row v-if="edit" no-gutters class="justify-center py-1 text-button rounded border">detail bahan</v-row>
-                        <v-sheet class="border-sm rounded-lg mt-2 bg-transparent">
-                        <VDataTable
+                        <v-container class="border-sm rounded-lg mt-2">
+                        <v-data-table
                             :headers="edit ? headItem : headers"
                             :items=" edit ? detailbahan : inputbahan"
                             :hover="true"
                             :fixed-header="true"
                             density="compact"
-                            class="text-body-2 py-3 px-5 text-caption"
-                            height="50vh"
+                            class="text-body-2 pb-3 px-5 text-caption"
+                            :height="window > 776 ? '45vh' : 200"
                         >
                         <template v-slot:bottom>
                         </template>
@@ -234,22 +234,22 @@ export default {
                                 </template>
                             </DialogVue>
                         </template>
-                        </VDataTable>
-                        </v-sheet>
+                        </v-data-table>
+                        </v-container>
                     </v-responsive>
                     <!-- TABEL TAMBAH BARANG -->
-                    <v-responsive class="mt-md-0 mt-2" width="400">
+                    <v-responsive class="mt-md-0 mt-2 text-sm-left text-center" width="400">
                         <DialogCard2 dialog_title="data barang" :produksi="true" v-if="!edit" :kodegroup="inputproduksi.kode_group" :btn="btn[1]" width="400" :barang="detailbarang" :getbarang="getbarang" :inputbahan="inputbahan" :tambah="true" @pemasukanitem="barangmasuk" />
                         <v-row v-if="edit" no-gutters class="justify-center py-1 text-button rounded border">detail barang</v-row>
-                        <v-sheet class="border-sm rounded-lg mt-2 bg-transparent">
-                        <VDataTable
+                        <v-container class="border-sm rounded-lg mt-2">
+                        <v-data-table
                             :headers="edit ? headItem : headers"
                             :items="edit ? detailbarang : inputbarang "
                             :hover="true"
                             :fixed-header="true"
                             density="compact"
-                            class="text-body-2 py-3 px-5 text-caption"
-                            height="50vh">
+                            class="text-body-2 pb-3 px-5 text-caption he"
+                            :height="window > 776 ? '45vh' : 200">
                             <template v-slot:bottom>
                             </template>
                             <!-- eslint-disable-next-line vue/valid-v-slot -->
@@ -286,12 +286,12 @@ export default {
                                     </template>
                                 </DialogVue>
                             </template> 
-                        </VDataTable>
-                        </v-sheet>
+                        </v-data-table>
+                        </v-container>
                     </v-responsive>
                 </v-row>
                     <!-- edit data -->
-                <v-row class="float-end mt-7">
+                <v-row no-gutters class="float-end mt-3">
                     <btnCancel v-if="!edit" @click="dialog = false, inputproduksi = inputbahan = inputbarang = []" btn_title="Batal" />
                     <btnOrange v-if="!edit" @click="validate" btn_title="Simpan" class="ms-2" />
                 </v-row>
@@ -300,4 +300,3 @@ export default {
 
     </v-dialog>
 </template>
-

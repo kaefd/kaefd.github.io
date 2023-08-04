@@ -188,7 +188,7 @@ export default {
                 </v-toolbar>
                 <v-container class="h-100 d-flex flex-column">
                 <!-- EDIT -->
-                <v-row no-gutters v-if="edit" justify="center" justify-md="space-between" align="start" class="pt-7" min-width="400">
+                <v-row v-if="edit" justify="center" justify-md="space-between" align="start" min-width="400">
                     <v-responsive class="pt-2 mx-md-0 mx-3" width="250">
                         <text-field-form label="No Pengiriman" v-model= "dataitem.no_pengiriman" readonly />
                         <text-field-form label="Tgl Pengiriman" :model-value="functions.formatDate(dataitem.tgl_pengiriman)" readonly />
@@ -203,8 +203,9 @@ export default {
                     </v-responsive>
                 </v-row>
                 <!-- TAMBAH PENGIRIMAN -->
-                <v-form  @submit.prevent ref="form" class="pt-7">
-                    <v-row v-if="!edit" no-gutters justify="center" justify-md="space-between">
+                <v-form  @submit.prevent ref="form">
+                <v-container>
+                    <v-row  v-if="!edit" no-gutters justify="center" justify-md="space-between">
                         <v-responsive class="pt-2 mx-md-0 mx-3" width="250">
                             <text-field-form label="No Pengiriman" v-model= "inputdata.no_pengiriman" readonly class="bg-grey-lighten-4" />
                             <datePickerVue label="Tgl Pengiriman" v-model="inputdata.tgl_pengiriman" :rules="required" :tema="tema"/>
@@ -286,20 +287,22 @@ export default {
                             <text-field-form label="No Polisi" v-model="inputdata.no_polisi" :rules="required" />
                         </v-responsive>
                     </v-row>
+                </v-container>
                 </v-form>
                 <!-- BUTTON TAMBAH BARANG -->
-                <v-div v-if="!edit" class="text-sm-left text-center">
+                <v-container v-if="!edit" class="text-sm-left text-center mt-n5 mb-n5">
                     <dialogScroll dialog_title="pengeluaran belum terkirim" @reset="reset" :nokirim="inputdata.no_pengiriman" :blmkirim="true" :belumkirim="belumkirim" :belumkirim_detail="belumkirim_detail" :barang="barang" :itemDetail="itemDetail" @pemasukanitem="itemmasuk" :pengiriman="true" :penjualan="penjualan" :btn="btn" width="400" />
-                </v-div>
+                </v-container>
                 <!-- TABEL EDIT/VIEW -->
-                <v-data-table
+                <v-container>
+                    <v-data-table
                     :headers="headDetails"
                     :items="edit ? kirim_detail : pembelian_input"
                     :hover="true"
                     :fixed-header="true"
                     density="compact"
                     class="text-caption py-1 rounded-lg border-sm mt-2"
-                    height="220"
+                    height="250"
                 >
                 <!-- CUSTOM PAGINATION STYLE -->
                 <template v-slot:bottom>
@@ -345,10 +348,11 @@ export default {
                         </template>
                     </dialog-vue>
                 </template>
-                </v-data-table>
+                    </v-data-table>
+                </v-container>
                 <v-div v-if="!edit" class="d-flex mb-0 mt-auto me-5 ms-auto">
-                    <btn-cancel @click="pembelian_input = [], inputdata = [], dialog=false" btn_title="Batal" />
-                    <btn-orange @click="validate" btn_title="Simpan" class="ms-2" />
+                    <btn-cancel @click="pembelian_input = [], inputdata = [], dialog=false" btn_title="Batal" class="mb-3" />
+                    <btn-orange @click="validate" btn_title="Simpan" class="ms-2 mb-3" />
                 </v-div>
                 </v-container>
             </v-card>

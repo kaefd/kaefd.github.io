@@ -28,7 +28,7 @@ import otoritas from '../service/page/otoritas';
         BtnFilter,
         DatePicker,
     },
-    props:['tema', 'cetak'],
+    props:['tema', 'cetak', 'window'],
     data () {
       return {
         drawer: null,
@@ -269,7 +269,7 @@ import otoritas from '../service/page/otoritas';
       </v-responsive>
       </v-row>
       <!-- EDIT DATA -->
-      <v-sheet height="95%" class="bg-transparent">
+      <v-sheet :height="window > 776 ? '94%' : '87%'">
       <v-data-table
           id="tbl_exporttable_to_xls"
           items-per-page="10"
@@ -280,7 +280,7 @@ import otoritas from '../service/page/otoritas';
           :fixed-header="true"
           density="compact"
           class="text-caption pt-1 pb-12 rounded-lg border-sm h-100"
-          height="100%"
+          :height="window > 776 ? '100%' : '92%'"
           >
           <!-- eslint-disable-next-line vue/valid-v-slot -->
           <template v-slot:item.tgl_pembelian="{item}">
@@ -318,6 +318,7 @@ import otoritas from '../service/page/otoritas';
           <!-- eslint-disable-next-line vue/valid-v-slot -->
           <template v-slot:item.actions="{item}">
             <PemasukanDetail
+                :window="window"
                 :tema="tema"
                 batalbtn="Pemasukan"
                 @confirm="confirm"
