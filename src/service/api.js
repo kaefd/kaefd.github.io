@@ -663,7 +663,7 @@ export default {
       user_input: head.user_input,
       tgl_input: head.tgl_input,
       tgl_batal: functions.day(),
-      user_batal: 'admin',
+      user_batal: user,
       status: 'false'
     }
     const ph = JSON.stringify(pengiriman_head);
