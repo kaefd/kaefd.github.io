@@ -273,7 +273,6 @@ export default {
             <btn-info v-bind="props" :disabled="getbarang == '' || inputbahan == '' ? true : false" btn_title="Tambah Barang" icon="mdi-plus" />
         </template>
         <v-card class="py-5 px-7 rounded-xl vh-100" min-width="300" width="35vw" max-width="400">
-            {{ dataPgm }}
             <v-card-title class="text-center text-orange text-button font-weight-bold mb-3">{{ dialog_title }}</v-card-title>
             <v-div>
                 <text-field
@@ -284,7 +283,7 @@ export default {
                 ></text-field>
             </v-div>
             <v-list class="me-2">
-                <v-div v-for="(item, b) in filteredItems.slice(0, 25)" :key="item">
+                <v-div v-for="(item, b) in filteredItems.slice(0, 40)" :key="item">
                     <v-list-item
                         v-if="!blmkirim"
                         class="text-caption"
