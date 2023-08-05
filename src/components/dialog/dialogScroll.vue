@@ -111,7 +111,7 @@ export default {
                 })
             } else if(this.blmkirim && !this.tambah ) {
                 return this.belumkirim_detail.filter(item => {
-                    return item.no_penjualan.toLowerCase().includes(this.search.toLowerCase())
+                    return item.nama_barang.toLowerCase().includes(this.search.toLowerCase())
                 })
             } else {
                 return this.getbarang.filter(item => {
@@ -283,7 +283,7 @@ export default {
                 ></text-field>
             </v-div>
             <v-list class="me-2">
-                <v-div v-for="(item, b) in filteredItems" :key="item">
+                <v-div v-for="(item, b) in filteredItems.slice(0, 25)" :key="item">
                     <v-list-item
                         v-if="!blmkirim"
                         class="text-caption"

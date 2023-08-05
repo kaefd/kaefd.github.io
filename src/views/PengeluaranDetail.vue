@@ -184,7 +184,7 @@ export default {
                 <!-- TAMBAH PENGELUARAN -->
                 <v-form  @submit.prevent ref="form" class="mx-3">
                 <v-row no-gutters v-if="!edit && pengeluaran" justify="center" justify-md="space-between" align="start" min-width="400">
-                    <v-responsive class="pt-2 mx-md-0 mx-3" width="250">
+                    <v-responsive class="pt-2 mx-md-0 mx-3 overflow-visible" width="250">
                         <text-field-form label="No Pengeluaran" v-model= "inputdata.no_penjualan" readonly class="bg-grey-lighten-4" />
                         <datePickerVue label="Tgl Keluar" v-model="inputdata.tgl_penjualan" :rules="required" :tema="tema"/>
                     </v-responsive>
@@ -220,7 +220,7 @@ export default {
                             </v-card>
                         </v-dialog>
                     </v-responsive>
-                    <v-responsive class="pt-2 mx-md-0 mx-3" width="250">
+                    <v-responsive class="pt-2 mx-md-0 mx-3 overflow-visible" width="250">
                         <text-field-form id="tipe" label="Tipe Dokumen" v-model="inputdata.tipe_dokumen" :rules="required" readonly />                                
                         <v-menu activator="#tipe" class="elevation-0">
                             <v-list>

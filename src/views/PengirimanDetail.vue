@@ -257,10 +257,12 @@ export default {
                                 </template>
                                 <v-card class="py-5 px-6 rounded-xl" min-width="300" max-width="400" width="35vw" height="90vh">
                                         <v-card-title class="text-center text-orange mb-3 text-button font-weight-bold">ALAMAT BONGKAR</v-card-title>
-                                        <text-field
-                                            v-model="searched"
-                                            label="Search"
-                                        ></text-field>
+                                        <v-div>
+                                            <text-field
+                                                v-model="searched"
+                                                label="Search"
+                                            ></text-field>
+                                        </v-div>
                                         <v-list class="my-4">
                                         <v-div class="vh-100">
                                             <v-list-item

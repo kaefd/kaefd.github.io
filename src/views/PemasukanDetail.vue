@@ -169,7 +169,7 @@ export default {
                         <datePicker label="Tgl Pemasukan" v-model="inputdata.tgl_pembelian" :max-date="new Date()" :tema="tema" :rules="required" />
                         <dialogSearch v-if="!edit" label="Supplier" :objectFilter="supplier" @pilihObjek="pilihObjek" cardTitle="SUPPLIER" max-width="400" :rules="required"/>
                     </v-responsive>
-                    <v-responsive class="pt-2 mx-3" width="250">
+                    <v-responsive class="pt-2 mx-3 overflow-visible" width="250">
                         <textFieldForm id="tipe" label="Tipe Dokumen" v-model="inputdata.tipe_dokumen" readonly :rules="required" />
                         <menuForm
                             activator="#tipe"
