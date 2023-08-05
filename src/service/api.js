@@ -655,6 +655,16 @@ export default {
   deletePengiriman (head, detail) {
     let pengiriman_head = {
       no_pengiriman: head.no_pengiriman,
+      tgl_pengiriman: head.tgl_pengiriman,
+      kode_pelanggan: head.kode_pelanggan,
+      kode_alamat_bongkar: head.kode_alamat_bongkar,
+      supir: head.supir,
+      no_polisi: head.no_polisi,
+      user_input: head.user_input,
+      tgl_input: head.tgl_input,
+      tgl_batal: functions.day(),
+      user_batal: 'admin',
+      status: 'false'
     }
     const ph = JSON.stringify(pengiriman_head);
     const pd = JSON.stringify(detail);
