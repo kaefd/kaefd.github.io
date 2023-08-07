@@ -266,6 +266,7 @@ import BtnOrange from '../components/button/btnOrange.vue';
                     <v-list density="compact" class="px-3">
                       <v-list-item class="pa-0">
                         <PengirimanDetail
+                          :window="window"
                           :hapus="otoritas.routes(authority, 'Batal Pengiriman')"
                           batalbtn="Pengiriman"
                           :kirim="true"

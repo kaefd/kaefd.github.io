@@ -143,7 +143,7 @@ export default {
             </v-toolbar>
             <v-container class="h-100 d-flex flex-column">
             <!-- EDIT -->
-            <v-row no-gutters  v-if="edit" justify="center" justify-md="space-between" align="start" min-width="400">
+            <v-row no-gutters  v-if="edit" justify="center" justify-md="space-between" align="start" min-width="400" class="mx-3">
                 <v-responsive class="pt-2 mx-md-0 mx-3" width="250">
                     <textFieldForm label="No Pemasukan" :model-value="items.no_pembelian" readonly/>
                     <textFieldForm label="Tgl Pemasukan" :model-value="functions.formatDate(items.tgl_pembelian)" readonly/>

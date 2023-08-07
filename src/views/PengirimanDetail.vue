@@ -26,7 +26,7 @@ export default {
     DialogVue,
     CurrencyInput
     },
-    props:['tema', 'hapus', 'pembelianbaru', 'namaPelanggan','detailkirim', 'nokirim', 'nopjl', 'pjl_detail', 'alamatBongkar', 'groupbarang', 'batalbtn', 'pengiriman', 'pemasukan', 'totalpenjualan', 'namaTujuan', 'datainput', 'pageTitle', 'pengeluaran', 'no', 'tipe', 'namaSupplier', 'pengirimanDetail', 'pembelian', 'pelanggan', 'supplier', 'pembeliandetl', 'edit', 'kirim', 'headers', 'items', 'actIcon', 'icon', 'btncolor', 'search', 'iVariant', 'headDetails', 'details','disable', 'btn', 'datatext', 'itemDetail', 'category'],
+    props:['tema', 'window', 'hapus', 'pembelianbaru', 'namaPelanggan','detailkirim', 'nokirim', 'nopjl', 'pjl_detail', 'alamatBongkar', 'groupbarang', 'batalbtn', 'pengiriman', 'pemasukan', 'totalpenjualan', 'namaTujuan', 'datainput', 'pageTitle', 'pengeluaran', 'no', 'tipe', 'namaSupplier', 'pengirimanDetail', 'pembelian', 'pelanggan', 'supplier', 'pembeliandetl', 'edit', 'kirim', 'headers', 'items', 'actIcon', 'icon', 'btncolor', 'search', 'iVariant', 'headDetails', 'details','disable', 'btn', 'datatext', 'itemDetail', 'category'],
     data () {
       return {
         dialog: false,
@@ -188,7 +188,7 @@ export default {
                 </v-toolbar>
                 <v-container class="h-100 d-flex flex-column">
                 <!-- EDIT -->
-                <v-row v-if="edit" justify="center" justify-md="space-between" align="start" min-width="400">
+                <v-row no-gutters v-if="edit" justify="center" justify-md="space-between" align="start" min-width="400" class="mx-3">
                     <v-responsive class="pt-2 mx-md-0 mx-3" width="250">
                         <text-field-form label="No Pengiriman" v-model= "dataitem.no_pengiriman" readonly />
                         <text-field-form label="Tgl Pengiriman" :model-value="functions.formatDate(dataitem.tgl_pengiriman)" readonly />
@@ -203,8 +203,7 @@ export default {
                     </v-responsive>
                 </v-row>
                 <!-- TAMBAH PENGIRIMAN -->
-                <v-form  @submit.prevent ref="form">
-                <v-container>
+                <v-form  @submit.prevent ref="form" class="mx-3">
                     <v-row  v-if="!edit" no-gutters justify="center" justify-md="space-between">
                         <v-responsive class="pt-2 mx-md-0 mx-3 overflow-visible" width="250">
                             <text-field-form label="No Pengiriman" v-model= "inputdata.no_pengiriman" class="bg-grey-lighten-4" />
@@ -289,7 +288,6 @@ export default {
                             <text-field-form label="No Polisi" v-model="inputdata.no_polisi" :rules="required" />
                         </v-responsive>
                     </v-row>
-                </v-container>
                 </v-form>
                 <!-- BUTTON TAMBAH BARANG -->
                 <v-container v-if="!edit" class="text-sm-left text-center mt-n5 mb-n5">
@@ -304,7 +302,7 @@ export default {
                     :fixed-header="true"
                     density="compact"
                     class="text-caption py-1 rounded-lg border-sm mt-2"
-                    height="250"
+                    :height="window > 776 ? '60vh' : 250"
                 >
                 <!-- CUSTOM PAGINATION STYLE -->
                 <template v-slot:bottom>

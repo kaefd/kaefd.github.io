@@ -76,7 +76,7 @@ export default {
         <template v-slot:activator="{ props }">
             <v-list-item class="text-caption" v-bind="props">Cetak Surat Jalan</v-list-item>
         </template>
-        <v-toolbar class="bg-blue-custom">
+        <v-toolbar class="bg-blue-custom" height="50">
             <v-btn
                 icon
                 @click="jalan = false"
@@ -102,7 +102,7 @@ export default {
                 <v-span class="text-h6 font-weight-bold">SURAT JALAN</v-span>
                 <v-div class="d-flex mt-3">
                     <!-- PENERIMA -->
-                    <v-div class="d-flex text-med">
+                    <v-div class="d-flex text-body-2">
                         <v-span class="me-2">PENERIMA :</v-span>
                         <v-span class="text-start">
                             {{ uppercase(items.nama) }} <br/>
@@ -112,7 +112,7 @@ export default {
                     </v-div>
                     <v-spacer></v-spacer>
                     <!-- TUJUAN -->
-                    <v-div class="d-flex text-med">
+                    <v-div class="d-flex text-body-2">
                         <!-- NO SURAT JALAN -->
                         <v-div class="d-flex flex-column">
                             <v-span class="me-2 text-start">No Surat Jalan</v-span>
@@ -139,7 +139,7 @@ export default {
                         <th class="text-left bg-white">Keterangan(Ex.BC)</th>
                     </tr>
                     </thead>
-                    <tbody class="text-small">
+                    <tbody class="text-body-2">
                     <tr
                         v-for="item, i in kirim_detail"
                         :key="i"
@@ -160,7 +160,7 @@ export default {
                     </tr>
                     </tbody>
                 </v-table>
-                <v-div class="d-flex flex-column align-start justify-space-between text-small">
+                <v-div class="d-flex flex-column align-start justify-space-between text-body-2">
                     <v-text class="d-flex flex-column align-start">
                         Keterangan
                         <v-span class="ms-3">1. Surat Jalan ini merupakan bukti penerimaan barang</v-span>
@@ -183,7 +183,6 @@ export default {
     width: 21cm;
     height: 12cm;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-weight: bold !important;
 }
 @media print {
   body {
@@ -196,13 +195,8 @@ export default {
     height: 12cm;
     left: 0;
     top: 0;
-  }
-}
-.text-small {
-    font-size: 10pt !important;
-    font-weight: 500;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: black !important;
+  }
 }
 .v-table--density-compact > .v-table__wrapper > table > tbody > tr > th, .v-table--density-compact > .v-table__wrapper > table > thead > tr > th, .v-table--density-compact > .v-table__wrapper > table > tfoot > tr > th {
     height: 20px !important;

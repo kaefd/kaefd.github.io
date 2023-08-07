@@ -27,7 +27,7 @@ export default {
         DialogVue,
         CurrencyInput
     },
-    props:['tema', 'hapus', 'pembelianbaru', 'namaPelanggan', 'laporan', 'groupbarang', 'barang', 'batalbtn', 'penjualan', 'pemasukan', 'alamatBongkar', 'namaTujuan', 'datainput', 'pageTitle', 'pengeluaran', 'dokumenpjl', 'namaSupplier', 'pengirimanDetail', 'pembelian', 'pelanggan', 'supplier', 'pembeliandetl', 'edit', 'kirim', 'headers', 'items', 'actIcon', 'icon', 'btncolor', 'search', 'iVariant', 'headDetails', 'details','disable', 'btn', 'datatext', 'itemDetail', 'category'],
+    props:['tema', 'window', 'hapus', 'pembelianbaru', 'namaPelanggan', 'laporan', 'groupbarang', 'barang', 'batalbtn', 'penjualan', 'pemasukan', 'alamatBongkar', 'namaTujuan', 'datainput', 'pageTitle', 'pengeluaran', 'dokumenpjl', 'namaSupplier', 'pengirimanDetail', 'pembelian', 'pelanggan', 'supplier', 'pembeliandetl', 'edit', 'kirim', 'headers', 'items', 'actIcon', 'icon', 'btncolor', 'search', 'iVariant', 'headDetails', 'details','disable', 'btn', 'datatext', 'itemDetail', 'category'],
     data () {
       return {
         dialog: false,
@@ -166,7 +166,7 @@ export default {
                 </v-toolbar>
                 <v-container class="h-100 d-flex flex-column">
                 <!-- EDIT -->
-                <v-row no-gutters v-if="edit" justify="center" justify-md="space-between" align="start" min-width="400">
+                <v-row no-gutters v-if="edit" justify="center" justify-md="space-between" align="start" min-width="400" class="mx-3">
                     <v-responsive class="pt-2 mx-md-0 mx-3" width="250">
                         <text-field-form label="No Penjualan" :model-value="items.no_penjualan" readonly />
                         <text-field-form label="Tgl Penjualan" :model-value="functions.formatDate(items.tgl_penjualan)" readonly/>
@@ -252,7 +252,7 @@ export default {
                         :fixed-header="true"
                         density="compact"
                         class="text-caption py-1 mt-2 px-5 border-sm rounded-lg"
-                        height="200"
+                        :height="window > 776 ? '50vh' : 200"
                     >
                     <!-- CUSTOM PAGINATION STYLE -->
                     <template v-slot:bottom>

@@ -289,6 +289,7 @@ import AlertVue from '../components/dialog/alertVue.vue';
              <!-- eslint-disable-next-line vue/valid-v-slot -->
             <template v-slot:item.actions="{item}">
               <PengeluaranDetail
+              :window="window"
               :hapus="otoritas.routes(authority, 'Batal Penjualan')"
               @confirm="confirm"
               batalbtn="Pengeluaran"
