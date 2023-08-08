@@ -515,8 +515,9 @@ export default {
     const pbl_head = JSON.stringify(h);
     const pbl_detail = JSON.stringify(detail);
     let data = {
-      pembelian_head: pbl_head,
-      pembelian_detail: pbl_detail,
+      // pembelian_head: pbl_head,
+      // pembelian_detail: pbl_detail,
+      no_pembelian: head.no_pembelian
     }
     return instance.delete('/pembelian_head', { data: data })
   },
@@ -642,7 +643,7 @@ export default {
       user_input: user,
       tgl_input: functions.day(),
       tgl_batal:'1999-12-31T17:00:00.000Z',
-      user_batal: '',
+      user_batal: user,
       status: 'true'
     }
     const ph = JSON.stringify(h);

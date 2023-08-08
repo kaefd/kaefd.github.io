@@ -21,7 +21,7 @@ import functions from '../service/functions';
         TextField,
         DatePicker
     },
-    props:['tema', 'cetak', 'user'],
+    props:['tema', 'cetak', 'user', 'window'],
     data () {
       return {
         drawer: null,
@@ -133,8 +133,8 @@ import functions from '../service/functions';
 
   <v-container class="pt-9 h-100">
     <v-row no-gutters class="mb-2 mt-n4">
-      <v-responsive>
-        <div class="d-flex me-0 ms-auto">
+      <v-responsive class="me-0 ms-auto" max-width="450">
+        <div class="d-flex">
           <!-- SEARCH -->
           <text-field
             v-model="search"
@@ -148,6 +148,7 @@ import functions from '../service/functions';
       </v-row>
       <!-- edit data -->
         <TableVue
+          :window="window"
           id="tbl_exporttable_to_xls"
           :headers="laporan.headLogUser"
           :items="selected()"

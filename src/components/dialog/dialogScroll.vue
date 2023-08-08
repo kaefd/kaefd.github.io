@@ -40,6 +40,7 @@ export default {
     'getbarang',
     'kurs',
     'dialog_title',
+    'pjl_blmterkirm'
     ],
     data() {
         return {
@@ -110,8 +111,8 @@ export default {
                     return item.nama_barang.toLowerCase().includes(this.search.toLowerCase())
                 })
             } else if(this.blmkirim && !this.tambah ) {
-                return this.belumkirim_detail.filter(item => {
-                    return item.nama_barang.toLowerCase().includes(this.search.toLowerCase())
+                return this.pjl_blmterkirm.filter(item => {
+                    return item.no_dokumen.toLowerCase().includes(this.search.toLowerCase())
                 })
             } else {
                 return this.getbarang.filter(item => {
@@ -242,7 +243,7 @@ export default {
                 satuan_konversi: this.penjualan_detail.satuan_konversi,
                 jumlah_terkirim: this.penjualan_detail.jumlah_terkirim,
                 satuan: this.state.satuan,
-                no_urut: i+1,
+                no_urut: i + 1,
                 nilai: nilai
             })
         }
@@ -301,13 +302,13 @@ export default {
                         <v-div class="d-flex">
                             <v-div>
                             <!-- penjualandetail belumkirim(tipedokumen-nodokumen) -->
-                            <v-span class="font-weight-medium">{{ pjl_detail(item.no_penjualan, 'tipe') }}-{{ pjl_detail(item.no_penjualan, 'no') }}</v-span> <br>
+                            <v-span class="font-weight-medium">{{ item.tipe_dokumen }}-{{ item.no_dokumen }}</v-span> <br>
                             <v-span class="text-small">
                                 <!-- penjualandetail belumkirim(pjl, nama, kodegroup) -->
-                                {{ item.nama_barang }} ({{ pjl_detail(item.no_penjualan, 'kode') }}) <br>
+                                {{ item.nama_barang }} ({{ item.kode_barang }}) <br>
                                 <!-- penjualandetail(jumlah-terkirim) -->
                                 Jumlah belum terkirim: {{ min(item.jumlah, item.jumlah_terkirim) }}  <br>
-                                Stok barang: {{ stok(pjl_detail(item.no_penjualan, 'kode'), item.kode_barang) }}
+                                Stok barang: {{ stok(item.kode_group, item.kode_barang) }}
                             </v-span>
                         </v-div>
                         <v-spacer></v-spacer>

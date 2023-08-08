@@ -93,6 +93,31 @@ const checkstatus = (select, head, status) => {
       return data.filter(item => status.includes(item.status));
     }
 }
+const item_blmterikirim = (head, detail) => {
+  let a = []
+  for (let i = 0; i < detail.length; i++) {
+    for (let j = 0; j < head.length; j++) {
+      if(detail[i].no_penjualan ==  head[j].no_penjualan) {
+        a.push({
+          no_penjualan: detail[i].no_penjualan,
+          kode_barang: detail[i].kode_barang,
+          nama_barang: detail[i].nama_barang,
+          hs_code: detail[i].hs_code,
+          jumlah: detail[i].jumlah,
+          jumlah_terkirim: detail[i].jumlah_terkirim,
+          satuan: detail[i].satuan,
+          harga_jual: detail[i].harga_jual,
+          tipe_dokumen: head[j].tipe_dokumen,
+          no_dokumen: head[j].no_dokumen,
+          tgl_dokumen: head[j].tgl_dokumen,
+          kode_pelanggan: head[j].kode_pelanggan,
+          kode_group: head[j].kode_group,
+          total_penjualan: head[j].total_penjualan,
+        })
+      }
+    }
+  } return a
+}
 export default {
   tipedokumen,
   status,
@@ -102,5 +127,6 @@ export default {
   items,
   pilihtipe,
   penjualan,
-  checkstatus
+  checkstatus,
+  item_blmterikirim
 }

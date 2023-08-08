@@ -21,6 +21,7 @@ import otoritas from '../service/page/otoritas';
 import BtnCancel from '../components/button/btnCancel.vue';
 import AlertVue from '../components/dialog/alertVue.vue';
 import BtnOrange from '../components/button/btnOrange.vue';
+import pengeluaran from '../service/page/pengeluaran';
 </script>
 
 <script>
@@ -51,6 +52,8 @@ import BtnOrange from '../components/button/btnOrange.vue';
         valert: false,
         authority: '',
         status: '',
+        pjl_terkirim: '',
+        pjl_blmterkirm: '',
         message: '',
         periode: [],
         checkStatus: 'menunggu',
@@ -92,6 +95,9 @@ import BtnOrange from '../components/button/btnOrange.vue';
           this.pengirimanHead = pengiriman.items(item, this.pelanggan, this.alamatBongkar)
           this.penjualanHead = await api.getPenjualanHead(this.periode)
           this.kirim_detail = await api.getPengirimanDetail(this.periode)
+          let blm_kirim = await api.getBelumTerkirim()
+          let blm_kirim_detail = await api.getBelumTerkirimDetail()
+          this.pjl_blmterkirm = pengeluaran.item_blmterikirim(blm_kirim, blm_kirim_detail)
         } else return await api.logout()
       },
       close(v) {
@@ -204,6 +210,7 @@ import BtnOrange from '../components/button/btnOrange.vue';
           <PengirimanDetail
           v-if="otoritas.routes(authority, 'Tambah Pengiriman Baru')"
           :tema="tema"
+          :pjl_blmterkirm="pjl_blmterkirm"
           @inputhead="inputhead"
           :alamatBongkar="alamatBongkar"
           :kirim="true"

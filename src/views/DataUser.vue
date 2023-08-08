@@ -13,7 +13,7 @@ import UserDetail from './userDetail.vue';
 </script>
 <script>
   export default defineComponent({
-    props:['user', 'cetak'],
+    props:['user', 'cetak', 'window'],
     name:'UserView',
     components: {
         BtnInfo,
@@ -161,6 +161,7 @@ import UserDetail from './userDetail.vue';
     </v-responsive>
   </v-row>
       <table-vue
+        :window="window"
         :userdetail="true"
         :items = items
         :headers="head"

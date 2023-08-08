@@ -157,11 +157,11 @@ export default {
 }
 </script>
 <template>
-    <v-dialog v-model="detail" max-width="400" transition="dialog-bottom-transition">
-        <v-card class="rounded-xl pa-3 vh-100">
+    <v-dialog v-model="detail" width="400" transition="dialog-bottom-transition">
+        <v-card class="rounded-xl pa-3">
           <v-span class="mx-auto text-button font-weight-bold text-orange">DETAIL USER</v-span>
           <v-divider></v-divider>
-            <v-container class="d-flex flex-column align-center w-100 h-100">
+            <v-sheet class="d-flex flex-column align-center w-100 px-3 mt-2" height="80vh">
                 <v-avatar class="bg-blue-custom" size="70">
                 <v-icon size="50">mdi-account</v-icon>
                 </v-avatar>
@@ -170,7 +170,7 @@ export default {
                     <text-field-form label="Password" v-model="ds.password" class="w-75 mx-auto"/>
                 </v-div>
                 <v-span class="text-grey mx-auto text-button">OTORITAS</v-span>
-                <v-div class="overflow-auto vh-45 w-100">
+                <v-div class="overflow-auto vh-30 w-100">
                     <!-- DATA BARANG -->
                     <v-list v-model:opened="open[0]" density="compact" class="w-100 pa-0">
                         <v-list-group value="Data Barang" class="text-caption">
@@ -290,11 +290,11 @@ export default {
                     </v-list>
                 </v-div>
                 <v-spacer></v-spacer>
-                <v-div class="d-flex ms-auto">
+                <v-div class="d-flex ms-auto pb-3">
                     <slot name="cancel"></slot>
                     <btn-orange @click="submit()" btn_title="Simpan" />
                 </v-div>
-            </v-container>
+            </v-sheet>
         </v-card>
       </v-dialog>
 </template>
