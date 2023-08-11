@@ -49,6 +49,13 @@ const items = (head, dbahan, dbarang) => {
     }
     return data
 }
+const noDuplicate = (a) => {
+    const unique = a.filter((obj, index) => {
+        return index === a.findIndex(o => obj.no_produksi === o.no_produksi);
+    });
+
+    return unique
+}
 const bahan = (no_produksi, dbahan) => {
     let data = []
     for (let i = 0; i < dbahan.length; i++) {
@@ -92,4 +99,5 @@ export default {
     items,
     bahan,
     barang,
+    noDuplicate,
 }

@@ -117,12 +117,12 @@ export default {
                         <v-div class="d-flex flex-column">
                             <v-span class="me-2 text-start">No Surat Jalan</v-span>
                             <v-span class="me-2 text-start">Tgl Pengiriman</v-span>
-                            <v-span class="me-2 text-start">Nama Supir</v-span>
+                            <v-span class="me-2 text-start">Supir/No Polisi</v-span>
                         </v-div>
                         <!-- TGL PENGIRIMAN -->
                         <v-div class="d-flex flex-column">
                             <v-span class="text-start" contenteditable>: {{ items.no_pengiriman }}</v-span>
-                            <v-span class="text-start">: {{ functions.formatDate(items.tgl_pengiriman) }}<v-span contenteditable></v-span></v-span>
+                            <v-span class="text-start">: {{ functions.formatDateTime(items.tgl_pengiriman) }}<v-span contenteditable></v-span></v-span>
                             <v-span class="text-start">: {{ items.supir }}/{{ items.no_polisi }}</v-span>
                         </v-div>
                     </v-div>
@@ -164,7 +164,7 @@ export default {
                     <v-text class="d-flex flex-column align-start">
                         Keterangan
                         <v-span class="ms-3">1. Surat Jalan ini merupakan bukti penerimaan barang</v-span>
-                        <v-span class="ms-3">1. Surat Jalan ini bukan bukti penjualan (Faktur/Invoice)</v-span>
+                        <v-span class="ms-3">2. Surat Jalan ini bukan bukti penjualan (Faktur/Invoice)</v-span>
                         Barang sudah diterima dalam keadaan Baik dan Cukup oleh :
                     </v-text>
                     <v-div class="d-flex justify-space-between w-100 mt-15">

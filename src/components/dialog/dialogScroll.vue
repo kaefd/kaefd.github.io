@@ -188,7 +188,7 @@ export default {
                 jumlah_diterima: this.state.jumlah_diterima,
                 satuan: this.state.satuan,
                 nilai: this.state.nilai,
-                no_urut: i,
+                no_urut: '',
             })
             let arr = []
             for (let i = 0; i < this.pemasukan_item.length; i++) {
@@ -205,6 +205,7 @@ export default {
                     nilai = this.groupbarang[i].nilai_akhir / this.groupbarang[i].stok_akhir
                 }
             }
+            
                 this.pemasukan_item.push({
                     no_produksi: '',
                     kode_barang: kode.kode_barang,
@@ -212,7 +213,7 @@ export default {
                     hs_code: this.state.hs_code,
                     jumlah: this.penjualan_detail.jumlah,
                     satuan: this.state.satuan,
-                    no_urut: 1,
+                    no_urut: '',
                     nilai: nilai,
                 })
         } else if(this.pengeluaran) {
@@ -226,7 +227,7 @@ export default {
                 satuan: this.state.satuan,
                 harga_jual: this.penjualan_detail.harga_jual,
                 total_terjual: this.terjual,
-                no_urut: i
+                no_urut: ''
             })
         }else if(this.pengiriman) {
             this.pemasukan_item.push({
@@ -243,7 +244,7 @@ export default {
                 satuan_konversi: this.penjualan_detail.satuan_konversi,
                 jumlah_terkirim: this.penjualan_detail.jumlah_terkirim,
                 satuan: this.state.satuan,
-                no_urut: i + 1,
+                no_urut: '',
                 nilai: nilai
             })
         }

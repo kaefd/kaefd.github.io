@@ -13,7 +13,6 @@ import TextFieldForm from '../components/form/textFieldForm.vue';
 import TextField from '../components/form/textField.vue';
 import DialogVue from '../components/dialog/dialogVue.vue';
 import CurrencyInput from '../components/form/currencyInput.vue';
-import pengeluaran from '../service/page/pengeluaran';
 export default {
     components: {
     dialogScroll,
@@ -114,7 +113,25 @@ export default {
             this.kirim_detail = data
         },
         itemmasuk(value) {
-            this.pembelian_input = value
+            let a = []
+            for (let i = 0; i < value.length; i++) {
+                a.push({
+                    no_penjualan: value[i].no_penjualan,
+                    no_pengiriman: value[i].no_pengiriman,
+                    kode_barang: value[i].kode_barang,
+                    nama_barang: value[i].nama_barang,
+                    kode_group: value[i].kode_group,
+                    tipe_dokumen: value[i].tipe_dokumen,
+                    no_dokumen: value[i].no_dokumen,
+                    hs_code: value[i].hs_code,
+                    jumlah: value[i].jumlah,
+                    jumlah_konversi: value[i].jumlah_konversi,
+                    satuan: value[i].satuan,
+                    no_urut: i + 1,
+                    nilai: value[i].nilai
+                })
+            }
+            return this.pembelian_input = a
         },
         confirm() {
             this.$emit('confirm', this.dataitem, this.kirim_detail)
@@ -130,6 +147,15 @@ export default {
                     this.pembelian_input.splice(i,1);
                 }
             }
+        },
+        jumlahtotal(data) {
+            let arr = []
+            for (let i = 0; i < data.length; i++) {
+                arr.push(data[i].jumlah)
+            }
+            return arr.reduce((total, current) => {
+                return total + current;
+            }, 0);
         },
         async validate () {
             const { valid } = await this.$refs.form.validate()
@@ -308,6 +334,8 @@ export default {
                 >
                 <!-- CUSTOM PAGINATION STYLE -->
                 <template v-slot:bottom>
+                    <v-span v-if="edit" class="float-end me-5 text-caption font-weight-medium">Total Jumlah : {{ functions.numb(jumlahtotal(kirim_detail), 2, true) }}</v-span>
+                    <v-span v-if="!edit" class="float-end me-5 text-caption font-weight-medium">Total Jumlah : {{ functions.numb(jumlahtotal(pembelian_input)) }}</v-span>
                 </template>
                 <!-- dialog actions -->
                 <!-- CUSTOM KOLOM -->

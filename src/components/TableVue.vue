@@ -116,7 +116,7 @@ export default {
           <menuList :items="view ? list2 : list" icon="mdi-dots-vertical" :submenu="true" @result="result" :index="index" />
           <dialogMaster v-model="dialog[index]" :view="view" editbtn="true" :ishidden="true" :keyform="keyform" :intable="true" :disabled="disabled" :noselect="noselect" :form="item.raw" @edit="edit" :item="item" :screen="screen" :headers="headers" :items="items" :category="category" :toolbar_title="toolbar_title"  :alpha="alpha">
             <template #cancel>
-              <btnCancel @click=" dialog[index] = false" btn_title="Batal" />  
+              <btnCancel @click="dialog[index] = false" btn_title="Batal" />  
             </template>
           </dialogMaster>
         <!-- DIALOG CONFIRM -->

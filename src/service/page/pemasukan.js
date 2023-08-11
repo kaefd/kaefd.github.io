@@ -135,6 +135,15 @@ const pilihtipe = (select, item, supplier) => {
       return datatable(item, supplier).filter(item => select.includes(item.tipe_dokumen));
     }
 }
+const sum = (data) => {
+  let arr = []
+  for (let i = 0; i < data.length; i++) {
+      arr.push(data[i].jumlah)
+  }
+  return arr.reduce((total, current) => {
+      return total + current;
+  }, 0);
+}
 export default {
   sortBy,
   headers,
@@ -145,5 +154,6 @@ export default {
   pembelian,
   dataTable,
   printdata,
-  pilihtipe
+  pilihtipe,
+  sum,
 }

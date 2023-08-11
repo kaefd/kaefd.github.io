@@ -770,8 +770,9 @@ export default {
     const ph = JSON.stringify(pjl);
     const pd = JSON.stringify(detail);
     let data = {
-      penjualan_head: ph,
-      penjualan_detail: pd,
+      // penjualan_head: ph,
+      // penjualan_detail: pd,
+      no_penjualan: head.no_penjualan
     }
     return instance.delete('/penjualan_head', { data: data })
   },

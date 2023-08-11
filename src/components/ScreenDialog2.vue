@@ -67,12 +67,36 @@ export default {
     },
     methods: {
         bahanmasuk(value) {
-            this.inputbahan = value
+            let a = []
+            for (let i = 0; i < value.length; i++) {
+                a.push({
+                    no_produksi: value[i].no_produksi,
+                    kode_barang: value[i].kode_barang,
+                    nama_barang: value[i].nama_barang,
+                    hs_code: value[i].hs_code,
+                    jumlah: value[i].jumlah,
+                    satuan: value[i].satuan,
+                    no_urut: i + 1,
+                    nilai: value[i].nilai,
+                })
+            }
+            this.inputbahan = a
         },
         barangmasuk(value) {
-            this.inputbarang = value
-            this.inputbarang[0].nilai = this.inputbahan[0].nilai
-            
+            let a = []
+            for (let i = 0; i < value.length; i++) {
+                a.push({
+                    no_produksi: value[i].no_produksi,
+                    kode_barang: value[i].kode_barang,
+                    nama_barang: value[i].nama_barang,
+                    hs_code: value[i].hs_code,
+                    jumlah: value[i].jumlah,
+                    satuan: value[i].satuan,
+                    no_urut: i + 1,
+                    nilai: this.inputbahan[0].nilai,
+                })
+            }
+            this.inputbarang = a
 
         },
         input_kodegroup(value) {

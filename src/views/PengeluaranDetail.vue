@@ -13,6 +13,7 @@ import dialogSearch from '../components/dialog/dialogSearch.vue';
 import TextField from '../components/form/textField.vue';
 import DialogVue from '../components/dialog/dialogVue.vue';
 import CurrencyInput from '../components/form/currencyInput.vue';
+import pemasukan from '../service/page/pemasukan';
 export default {
     components: {
         dialogScroll,
@@ -86,8 +87,21 @@ export default {
         },
     },
     methods:{
-        itemmasuk(value) {
-            this.pembelian_input = value
+        itemmasuk(v) {
+            let a = []
+            for (let i = 0; i < v.length; i++) {
+                a.push({no_penjualan: v[i].no_penjualan,
+                kode_barang: v[i].kode_barang,
+                nama_barang: v[i].nama_barang,
+                hs_code: v[i].hs_code,
+                jumlah: v[i].jumlah,
+                jumlah_terkirim: v[i].jumlah_terkirim,
+                satuan: v[i].satuan,
+                harga_jual: v[i].harga_jual,
+                total_terjual: v[i].total_terjual,
+                no_urut: i + 1})
+            }
+            return this.pembelian_input = a
         },
         confirm() {
             this.$emit('confirm', this.dataitem, this.penjualan)
@@ -98,6 +112,20 @@ export default {
                     this.pembelian_input.splice(i,1);
                 }
             }
+        },
+        jumlahtotal(data, p) {
+            let arr = []
+            for (let i = 0; i < data.length; i++) {
+                if(p == 'jumlah') {
+                    arr.push(data[i].jumlah)
+                }
+                if(p == 'nilai') {
+                    arr.push(data[i].jumlah * data[i].harga_jual)
+                }
+            }
+            return arr.reduce((total, current) => {
+                return total + current;
+            }, 0);
         },
         pilihObjek(s){
             this.inputdata.kode_pelanggan = s.kode_pelanggan
@@ -256,6 +284,8 @@ export default {
                     >
                     <!-- CUSTOM PAGINATION STYLE -->
                     <template v-slot:bottom>
+                        <v-span v-if="laporan && edit" class="float-end me-5 text-caption font-weight-medium">Total Jumlah : {{ functions.numb(pemasukan.sum(penjualan), 2, true) }} / Total harga: {{ functions.numb(jumlahtotal(penjualan, 'nilai'), 2, true) }}</v-span>
+                        <v-span v-if="!edit" class="float-end me-5 text-caption font-weight-medium">Total Jumlah : {{ functions.numb(jumlahtotal(pembelian_input, 'jumlah')) }} / Total harga: {{ functions.numb(jumlahtotal(pembelian_input, 'nilai'), 2, true) }}</v-span>
                     </template>
                     <!-- dialog actions -->
                     <!-- CUSTOM KOLOM -->

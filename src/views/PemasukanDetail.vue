@@ -13,6 +13,7 @@ import BtnOrange from '../components/button/btnOrange.vue';
 import dialogVue from '../components/dialog/dialogVue.vue';
 import CurrencyInput from '../components/form/currencyInput.vue';
 import BtnInfo from '../components/button/btnInfo.vue';
+import pemasukan from '../service/page/pemasukan';
 </script>
 
 <script>
@@ -82,8 +83,22 @@ export default {
     },
     methods:{
         itemmasuk(v, total){
-            this.pembelian_input = v
+            let a = []
             this.inputdata.total_nilai = total
+            for (let i = 0; i < v.length; i++) {
+                a.push({
+                    no_pembelian: v[i].no_pembelian,
+                    kode_barang: v[i].kode_barang,
+                    nama_barang: v[i].nama_barang,
+                    hs_code: v[i].hs_code,
+                    jumlah:v[i].jumlah,
+                    jumlah_diterima: v[i].jumlah_diterima,
+                    satuan: v[i].satuan,
+                    nilai: v[i].nilai,
+                    no_urut: i + 1
+                })
+            }
+            return this.pembelian_input = a
         },
         menuAksi(v) {
             v == 'lihat' ? this.dialog = true : this.confirm()
@@ -104,6 +119,21 @@ export default {
                     this.pembelian_input.splice(i,1);
                 }
             }
+        },
+        jumlahtotal(p) {
+            let arr = []
+            for (let i = 0; i < this.pembelian_input.length; i++) {
+                if(p == 'jumlah') {
+                    arr.push(this.pembelian_input[i].jumlah)
+                }
+                if(p == 'nilai') {
+                    arr.push(this.pembelian_input[i].nilai)
+
+                }
+            }
+            return arr.reduce((total, current) => {
+                return total + current;
+            }, 0);
         },
         async validate () {
             const { valid } = await this.$refs.form.validate()
@@ -202,8 +232,8 @@ export default {
                     height="200"
                 >
                 <template v-slot:bottom>
-                    <v-span v-if="laporan && edit" class="float-end me-5 text-caption font-weight-bold">Jumlah : {{ total }}</v-span>
-                    <v-span v-if="!laporan && edit" class="float-end me-5 text-caption font-weight-bold">Jumlah : {{ functions.numb(pembelian[0].nilai) }}</v-span>
+                    <v-span v-if="laporan && edit" class="float-end me-5 text-caption font-weight-medium">Total Jumlah : {{ functions.numb(pemasukan.sum(pembelian), 2, true) }} / Total nilai: {{ functions.numb(pembelian[0].nilai) }}</v-span>
+                    <v-span v-if="!laporan" class="float-end me-5 text-caption font-weight-medium">Total Jumlah : {{ functions.numb(jumlahtotal('jumlah')) }} / Total nilai: {{ functions.numb(jumlahtotal('nilai'), 2, true) }}</v-span>
                 </template>
                 <!-- eslint-disable-next-line vue/valid-v-slot -->
                 <template v-slot:item.jumlah="{item}">
