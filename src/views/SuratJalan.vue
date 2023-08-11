@@ -122,7 +122,7 @@ export default {
                         <!-- TGL PENGIRIMAN -->
                         <v-div class="d-flex flex-column">
                             <v-span class="text-start" contenteditable>: {{ items.no_pengiriman }}</v-span>
-                            <v-span class="text-start">: {{ functions.formatDateTime(items.tgl_pengiriman) }}<v-span contenteditable></v-span></v-span>
+                            <v-span class="text-start">: {{ functions.formatDate(items.tgl_pengiriman) }}<v-span contenteditable></v-span></v-span>
                             <v-span class="text-start">: {{ items.supir }}/{{ items.no_polisi }}</v-span>
                         </v-div>
                     </v-div>
