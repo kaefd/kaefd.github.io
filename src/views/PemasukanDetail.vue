@@ -33,7 +33,7 @@ export default {
     CurrencyInput,
     BtnInfo
 },
-    props:['tema', 'hapus', 'barang', 'pembelianbaru', 'laporan', 'namaPelanggan', 'total', 'groupbarang', 'batalbtn', 'penjualan', 'pemasukan', 'alamatBongkar', 'totalpenjualan', 'namaTujuan', 'datainput', 'pageTitle', 'pengeluaran', 'dokumenpjl', 'namaSupplier', 'pengirimanDetail', 'pembelian', 'pelanggan', 'supplier', 'pembeliandetl', 'edit', 'kirim', 'headers', 'items',  'search', 'iVariant', 'headDetails', 'details','disable', 'btn', 'datatext', 'itemDetail', 'category'],
+    props:['tema', 'window', 'hapus', 'barang', 'pembelianbaru', 'laporan', 'namaPelanggan', 'total', 'groupbarang', 'batalbtn', 'penjualan', 'pemasukan', 'alamatBongkar', 'totalpenjualan', 'namaTujuan', 'datainput', 'pageTitle', 'pengeluaran', 'dokumenpjl', 'namaSupplier', 'pengirimanDetail', 'pembelian', 'pelanggan', 'supplier', 'pembeliandetl', 'edit', 'kirim', 'headers', 'items',  'search', 'iVariant', 'headDetails', 'details','disable', 'btn', 'datatext', 'itemDetail', 'category'],
     data () {
       return {
         dialog: false,
@@ -197,7 +197,7 @@ export default {
                     <v-responsive class="pt-2 mx-md-0 mx-3 overflow-visible" width="250">
                         <textFieldForm label="No Pemasukan" v-model="inputdata.no_pembelian" readonly class="bg-grey-lighten-4"/>
                         <datePicker label="Tgl Pemasukan" v-model="inputdata.tgl_pembelian" :max-date="new Date()" :tema="tema" :rules="required" />
-                        <dialogSearch v-if="!edit" label="Supplier" :objectFilter="supplier" @pilihObjek="pilihObjek" cardTitle="SUPPLIER" max-width="400" :rules="required"/>
+                        <dialogSearch v-if="!edit" :window="window" label="Supplier" :objectFilter="supplier" @pilihObjek="pilihObjek" cardTitle="SUPPLIER" max-width="400" :rules="required"/>
                     </v-responsive>
                     <v-responsive class="pt-2 mx-3 overflow-visible" width="250">
                         <textFieldForm id="tipe" label="Tipe Dokumen" v-model="inputdata.tipe_dokumen" readonly :rules="required" />
@@ -218,7 +218,7 @@ export default {
                 </v-row>
             </v-form>
             <v-container v-if="!edit" :pembelianbaru="pembelianbaru" :pembeliandetl="pembeliandetl" class="text-sm-left text-center mb-n5">
-                <dialogScroll @reset="reset" :kurs="inputdata.kurs" :barang="barang" :itemDetail="itemDetail" @pemasukanitem="itemmasuk" :pemasukan="true" dialog_title="Data Barang" :btn="btn" max-width="400" />
+                <dialogScroll :window="window" @reset="reset" :kurs="inputdata.kurs" :barang="barang" :itemDetail="itemDetail" @pemasukanitem="itemmasuk" :pemasukan="true" dialog_title="Data Barang" :btn="btn" max-width="400" />
             </v-container>
             <!-- TABEL EDIT/VIEW -->
             <v-container>
@@ -229,7 +229,7 @@ export default {
                     :fixed-header="true"
                     density="compact"
                     class="text-caption pt-1 border-sm rounded-lg my-3"
-                    height="200"
+                    :height="edit ? '42vh' : '25vh'"
                 >
                 <template v-slot:bottom>
                     <v-span v-if="laporan && edit" class="float-end me-5 text-caption font-weight-medium">Total Jumlah : {{ functions.numb(pemasukan.sum(pembelian), 2, true) }} / Total nilai: {{ functions.numb(pembelian[0].nilai) }}</v-span>
@@ -323,7 +323,7 @@ export default {
                 </template>
                 </v-data-table>
             </v-container>
-            <v-div class="d-flex mb-0 mt-auto me-0 ms-auto">
+            <v-div class="d-flex mb-0 mt-auto me-5 ms-auto">
                 <btn-cancel class="mb-3 me-2" btn_title="Batal" v-if="!edit" @click="pembelian_input = [], inputdata = [],  dialog = false" />
                 <btn-orange class="mb-3" type="submit" btn_title="Simpan" v-if="!edit" @click="validate"/>
             </v-div>

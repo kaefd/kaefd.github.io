@@ -28,7 +28,7 @@ export default {
         DialogVue,
         CurrencyInput
     },
-    props:['tema', 'window', 'hapus', 'pembelianbaru', 'namaPelanggan', 'laporan', 'groupbarang', 'barang', 'batalbtn', 'penjualan', 'pemasukan', 'alamatBongkar', 'namaTujuan', 'datainput', 'pageTitle', 'pengeluaran', 'dokumenpjl', 'namaSupplier', 'pengirimanDetail', 'pembelian', 'pelanggan', 'supplier', 'pembeliandetl', 'edit', 'kirim', 'headers', 'items', 'actIcon', 'icon', 'btncolor', 'search', 'iVariant', 'headDetails', 'details','disable', 'btn', 'datatext', 'itemDetail', 'category'],
+    props:[ 'tema', 'window', 'hapus', 'pembelianbaru', 'namaPelanggan', 'laporan', 'groupbarang', 'barang', 'batalbtn', 'penjualan', 'pemasukan', 'alamatBongkar', 'namaTujuan', 'datainput', 'pageTitle', 'pengeluaran', 'dokumenpjl', 'namaSupplier', 'pengirimanDetail', 'pembelian', 'pelanggan', 'supplier', 'pembeliandetl', 'edit', 'kirim', 'headers', 'items', 'actIcon', 'icon', 'btncolor', 'search', 'iVariant', 'headDetails', 'details','disable', 'btn', 'datatext', 'itemDetail', 'category'],
     data () {
       return {
         dialog: false,
@@ -217,36 +217,14 @@ export default {
                         <datePickerVue label="Tgl Keluar" v-model="inputdata.tgl_penjualan" :rules="required" :tema="tema"/>
                     </v-responsive>
                     <v-responsive class="pt-2 mx-3" width="250">
-                        <dialogSearch v-if="!edit" label="Pelanggan" :objectFilter="pelanggan" @pilihObjek="pilihObjek" cardTitle="PELANGGAN" max-width="400" :rules="required"/>
-                        <v-dialog v-model="dialogkodeg" transition="dialog-bottom-transition" width="auto">
-                            <template v-slot:activator="{ props }">
-                                <text-field-form
-                                label="Kode Group"
-                                v-bind="props"
-                                v-model="inputdata.kode_group"
-                                readonly
-                                :rules="required"
-                                />
-                            </template>
-                            <v-card class="py-5 px-7 rounded-xl mx-auto"  min-width="300" width="35vw" max-width="400" height="90vh">
-                                <v-card-title class="text-center text-orange mb-3 text-button font-weight-bold">KODE GROUP</v-card-title>
-                                <v-div>
-                                    <text-field v-model="searched" label="Search" class="mb-4"/>
-                                </v-div>
-                                <v-list>
-                                    <v-for v-for="kode, i in filterkodegroup.slice(0, 20)" :key="i">
-                                        <v-list-item
-                                        style="cursor: pointer;"
-                                        class="text-caption"
-                                        density="compact"
-                                        @click="inputdata.kode_group = kode.kode_group, dialogkodeg = false "
-                                        >
-                                            {{ kode.kode_group }}
-                                        </v-list-item>
-                                    </v-for>
-                                </v-list>
-                            </v-card>
-                        </v-dialog>
+                        <dialogSearch v-if="!edit" :window="window" label="Pelanggan" :objectFilter="pelanggan" @pilihObjek="pilihObjek" cardTitle="PELANGGAN" max-width="400" :rules="required"/>
+                        <text-field-form
+                        label="Kode Group"
+                        @click="dialogkodeg = true"
+                        v-model="inputdata.kode_group"
+                        readonly
+                        :rules="required"
+                        />
                     </v-responsive>
                     <v-responsive class="pt-2 mx-md-0 mx-3 overflow-visible" width="250">
                         <text-field-form id="tipe" label="Tipe Dokumen" v-model="inputdata.tipe_dokumen" :rules="required" readonly />                                
@@ -269,7 +247,7 @@ export default {
                 </v-form>
                 <!-- BUTTON TAMBAH BARANG -->
                 <v-container v-if="!edit" :pembelianbaru="pembelianbaru" :pembeliandetl="pembeliandetl" class="text-sm-left text-center mb-n5">
-                    <dialogScroll dialog_title="Data Barang" @reset="reset" :pengeluaran="true"  :barang="barang" :itemDetail="itemDetail" @pemasukanitem="itemmasuk" :btn="btn" width="400" />
+                    <dialogScroll :window="window" dialog_title="Data Barang" @reset="reset" :pengeluaran="true"  :barang="barang" :itemDetail="itemDetail" @pemasukanitem="itemmasuk" :btn="btn" width="400" />
                 </v-container>
                 <!-- TABEL EDIT/VIEW -->
                 <v-container>
@@ -385,6 +363,27 @@ export default {
                 </v-div>
             </v-container>
         </v-card>
+        <v-dialog v-model="dialogkodeg" transition="dialog-bottom-transition" width="auto">
+            <v-card class="py-5 px-7 rounded-xl mx-auto" min-width="300" :width="window < 600 ? '87vw' : '50vw'" height="90vh" max-width="400">
+                <v-btn v-if="window < 500" icon="mdi-close" class="absolute" variant="text" @click="dialogkodeg = false"></v-btn>
+                <v-card-title class="text-center text-orange mb-3 text-button font-weight-bold">KODE GROUP</v-card-title>
+                <v-div>
+                    <text-field v-model="searched" label="Search" class="mb-4"/>
+                </v-div>
+                <v-list>
+                    <v-for v-for="kode, i in filterkodegroup.slice(0, 20)" :key="i">
+                        <v-list-item
+                        style="cursor: pointer;"
+                        class="text-caption"
+                        density="compact"
+                        @click="inputdata.kode_group = kode.kode_group, dialogkodeg = false "
+                        >
+                            {{ kode.kode_group }}
+                        </v-list-item>
+                    </v-for>
+                </v-list>
+            </v-card>
+        </v-dialog>
     </v-dialog>
 </template>
 

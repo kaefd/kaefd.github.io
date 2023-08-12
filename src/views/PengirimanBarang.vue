@@ -197,9 +197,9 @@ import pengeluaran from '../service/page/pengeluaran';
       <v-span class="text-caption text-weight-bold">Periode</v-span>
       <v-divider></v-divider>
       <v-label class="text-small mt-4">Tgl Awal</v-label>
-      <DatePicker v-model="filtered.periode[0]" :max-date="new Date()" :filter="true" :tema="tema"/>
+      <DatePicker teleport-center v-model="filtered.periode[0]" :max-date="new Date()" :filter="true" :tema="tema"/>
       <v-label class="text-small mt-1">Tgl Akhir</v-label>
-      <DatePicker v-model="filtered.periode[1]" :min-date="filtered.periode[0]" :filter="true" :tema="tema"/>
+      <DatePicker teleport-center v-model="filtered.periode[1]" :min-date="filtered.periode[0]" :filter="true" :tema="tema"/>
     </template>
   </filterDrawer>
   <v-container class="pt-9 h-100">
@@ -210,6 +210,7 @@ import pengeluaran from '../service/page/pengeluaran';
           <PengirimanDetail
           v-if="otoritas.routes(authority, 'Tambah Pengiriman Baru')"
           :tema="tema"
+          :window="window"
           :pjl_blmterkirm="pjl_blmterkirm"
           @inputhead="inputhead"
           :alamatBongkar="alamatBongkar"

@@ -5,7 +5,7 @@ import btnCancel from './button/btnCancel.vue';
 import btnInfoVue from './button/btnInfo.vue';
 import btnOrange from './button/btnOrange.vue';
 import DatePicker from './datepicker/datePicker.vue';
-import DialogCard2 from './dialog/dialogScroll.vue';
+import dialogScroll from './dialog/dialogScroll.vue';
 import TextField from './form/textField.vue';
 import TextFieldForm from './form/textFieldForm.vue';
 import DialogVue from './dialog/dialogVue.vue';
@@ -20,7 +20,7 @@ import produksi from '../service/page/produksi';
 export default {
     components: {
     VDataTable,
-    DialogCard2,
+    dialogScroll,
     btnInfoVue,
     btnCancel,
     btnOrange,
@@ -116,6 +116,15 @@ export default {
                 }
             }
         },
+        jumlahtotal(p) {
+            let arr = []
+            for (let i = 0; i < p.length; i++) {
+                arr.push(p[i].jumlah)
+            }
+            return arr.reduce((total, current) => {
+                return total + current;
+            }, 0);
+        },
         confirm() {
             this.$emit('confirm', this.item, this.detailbahan, this.detailbarang)
         },
@@ -179,29 +188,7 @@ export default {
                     </v-responsive>
                     <v-responsive class="pt-2 mx-md-0 mx-3" width="250">
                         <text-field-form v-if="edit" label="Kode Group" :model-value="item.kode_group" readonly :rules="required" />
-                        <v-dialog v-model="dialog5" transition="dialog-bottom-transition" width="auto" >
-                            <template v-slot:activator="{ props }">
-                                <text-field-form v-if="!edit" label="Kode Group" v-bind="props" v-model="inputproduksi.kode_group" :rules="required" />
-                            </template>
-                            <v-card class="py-5 px-7 rounded-xl mx-auto" min-width="300" width="35vw" max-width="400" height="90vh">
-                                <v-card-title class="text-center text-orange mb-3 text-button font-weight-bold">KODE GROUP</v-card-title>
-                                <v-div>
-                                    <text-field v-model="searched" label="Search" class="mb-4" />
-                                </v-div>
-                                <v-list>
-                                    <v-for v-for="kode, i in filterkodegroup" :key="i">
-                                        <v-list-item
-                                            style="cursor: pointer;"
-                                            class="text-caption"
-                                            density="compact"
-                                            @click="input_kodegroup(kode), dialog5 = false "
-                                        >
-                                            <v-span class="text-caption">{{ kode }}</v-span>
-                                        </v-list-item>
-                                    </v-for>
-                                </v-list>
-                            </v-card>
-                    </v-dialog>
+                        <text-field-form v-if="!edit" label="Kode Group" @click="dialog5 = true" v-model="inputproduksi.kode_group" :rules="required" />
                     </v-responsive>
                 </v-row>
                 </v-form>
@@ -210,7 +197,7 @@ export default {
                     <!-- TABEL TAMBAH/EDIT BAHAN -->
                     <v-responsive class="me-sm-2 me-0 text-sm-left text-center" width="400">
                         <!-- ITEM DIALOG ADALAH KODE BARANG YANG SESUAI DENGAN KODE GROUP YANG DIPILIH -->
-                        <DialogCard2 dialog_title="stok barang" v-if="!edit" :produksi="true" :btn="btn[0]" width="400" :barang="detailbahan" :tambah="true" :getbarang="select_kode" :kodegroup="inputproduksi.kode_group" @pemasukanitem="bahanmasuk"/>
+                        <dialogScroll :window="window" dialog_title="stok barang" v-if="!edit" :produksi="true" :btn="btn[0]" width="400" :barang="detailbahan" :tambah="true" :getbarang="select_kode" :kodegroup="inputproduksi.kode_group" @pemasukanitem="bahanmasuk"/>
                         <v-row v-if="edit" no-gutters class="justify-center py-1 text-button rounded border">detail bahan</v-row>
                         <v-container class="border-sm rounded-lg mt-2">
                         <v-data-table
@@ -223,6 +210,8 @@ export default {
                             :height="window > 776 ? '45vh' : 200"
                         >
                         <template v-slot:bottom>
+                            <v-span v-if="edit" class="float-end me-5 text-caption font-weight-medium">Jumlah Bahan : {{ functions.numb(jumlahtotal(detailbahan)) }}</v-span>
+                            <v-span v-if="!edit" class="float-end me-5 text-caption font-weight-medium">Jumlah bahan : {{ functions.numb(jumlahtotal(inputbahan)) }}</v-span>
                         </template>
                         <!-- eslint-disable-next-line vue/valid-v-slot -->
                         <template v-slot:item.jumlah="{ item }">
@@ -263,7 +252,7 @@ export default {
                     </v-responsive>
                     <!-- TABEL TAMBAH BARANG -->
                     <v-responsive class="mt-md-0 mt-2 text-sm-left text-center" width="400">
-                        <DialogCard2 dialog_title="data barang" :produksi="true" v-if="!edit" :kodegroup="inputproduksi.kode_group" :btn="btn[1]" width="400" :barang="detailbarang" :getbarang="getbarang" :inputbahan="inputbahan" :tambah="true" @pemasukanitem="barangmasuk" />
+                        <dialogScroll dialog_title="data barang" :produksi="true" v-if="!edit" :kodegroup="inputproduksi.kode_group" :btn="btn[1]" width="400" :barang="detailbarang" :getbarang="getbarang" :inputbahan="inputbahan" :tambah="true" @pemasukanitem="barangmasuk" />
                         <v-row v-if="edit" no-gutters class="justify-center py-1 text-button rounded border">detail barang</v-row>
                         <v-container class="border-sm rounded-lg mt-2">
                         <v-data-table
@@ -275,6 +264,8 @@ export default {
                             class="text-body-2 pb-3 px-5 text-caption he"
                             :height="window > 776 ? '45vh' : 200">
                             <template v-slot:bottom>
+                                <v-span v-if="edit" class="float-end me-5 text-caption font-weight-medium">Jumlah Bahan : {{ functions.numb(jumlahtotal(detailbarang)) }}</v-span>
+                                <v-span v-if="!edit" class="float-end me-5 text-caption font-weight-medium">Jumlah bahan : {{ functions.numb(jumlahtotal(inputbarang)) }}</v-span>
                             </template>
                             <!-- eslint-disable-next-line vue/valid-v-slot -->
                             <template v-slot:item.jumlah="{ item }">
@@ -321,6 +312,26 @@ export default {
                 </v-row>
                 </v-container>
             </v-card>
-
+            <v-dialog v-model="dialog5" transition="dialog-bottom-transition" width="auto">
+            <v-card class="py-5 px-7 rounded-xl mx-auto" min-width="300" :width="window < 600 ? '87vw' : '50vw'" height="90vh" max-width="400">
+                <v-btn v-if="window < 500" icon="mdi-close" class="absolute" variant="text" @click="dialog5 = false"></v-btn>
+                <v-card-title class="text-center text-orange mb-3 text-button font-weight-bold">KODE GROUP</v-card-title>
+                <v-div>
+                    <text-field v-model="searched" label="Search" class="mb-4" />
+                </v-div>
+                <v-list>
+                    <v-for v-for="kode, i in filterkodegroup" :key="i">
+                        <v-list-item
+                            style="cursor: pointer;"
+                            class="text-caption"
+                            density="compact"
+                            @click="input_kodegroup(kode), dialog5 = false "
+                        >
+                            <v-span class="text-caption">{{ kode }}</v-span>
+                        </v-list-item>
+                    </v-for>
+                </v-list>
+            </v-card>
+            </v-dialog>
     </v-dialog>
 </template>

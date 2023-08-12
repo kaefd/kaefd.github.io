@@ -193,9 +193,9 @@ import otoritas from '../service/page/otoritas';
       <v-span class="text-caption text-weight-bold">Periode</v-span>
       <v-divider></v-divider>
       <v-label class="text-small mt-4">Tgl Awal</v-label>
-      <datePickerVue :max-date="new Date()" v-model="filtered.periode[0]" :filter="true" :tema="tema"/>
+      <datePickerVue teleport-center :max-date="new Date()" v-model="filtered.periode[0]" :filter="true" :tema="tema"/>
       <v-label class="text-small mt-1">Tgl Akhir</v-label>
-      <datePickerVue :min-date="filtered.periode[0]" v-model="filtered.periode[1]" :filter="true" :tema="tema"/>
+      <datePickerVue teleport-center :min-date="filtered.periode[0]" v-model="filtered.periode[1]" :filter="true" :tema="tema"/>
     </template>
   </filterDrawer>
     <v-container class="pt-9 h-100">
@@ -204,8 +204,8 @@ import otoritas from '../service/page/otoritas';
         <v-div class="d-flex align-center w-100">
           <!-- TAMBAH DATA -->
           <ScreenDialog2
-          :window="window"
           v-if="otoritas.routes(authority, 'Tambah Produksi Baru')"
+          :window="window"
           :tema="tema"
           :headers="produksi.headItem"
           :items="items"

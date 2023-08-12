@@ -11,7 +11,7 @@ import otoritas from '../service/page/otoritas';
 </script>
 <script>
   export default {
-    props:['cetak'],
+    props:['cetak', 'window'],
     components: {
     TableVue,
     menuList,
@@ -72,6 +72,7 @@ import otoritas from '../service/page/otoritas';
     </v-row>
     <!-- VIEW -->
     <TableVue
+      :window="window"
       :keyform="supplier.keyform"
       :ishidden="true"
       :disabled="true"

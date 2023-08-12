@@ -40,7 +40,8 @@ export default {
     'getbarang',
     'kurs',
     'dialog_title',
-    'pjl_blmterkirm'
+    'pjl_blmterkirm',
+    'window',
     ],
     data() {
         return {
@@ -269,13 +270,14 @@ export default {
 </script>
 
 <template>
-    <v-dialog v-model="dialog" transition="dialog-bottom-transition" width="auto">
+    <v-dialog v-model="dialog" transition="dialog-bottom-transition">
         <!-- BUTTON TAMBAH -->
         <template v-slot:activator="{ props }">
             <btn-info v-bind="props" :disabled="getbarang == '' || inputbahan == '' ? true : false" btn_title="Tambah Barang" icon="mdi-plus" />
         </template>
-        <v-card class="py-5 px-7 rounded-xl vh-100" min-width="300" width="35vw" max-width="400">
-            <v-card-title class="text-center text-orange text-button font-weight-bold mb-3">{{ dialog_title }}</v-card-title>
+        <v-card class="py-5 px-7 rounded-xl vh-100" min-width="300" max-width="400">
+            <v-btn v-if="window < 500" icon="mdi-close" class="absolute" variant="text" @click="dialog = false"></v-btn>
+            <v-card-title class="text-center text-orange text-button font-weight-bold mb-3 px-12">{{ dialog_title }}</v-card-title>
             <v-div>
                 <text-field
                     id="input"

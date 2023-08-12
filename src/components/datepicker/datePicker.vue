@@ -67,12 +67,11 @@ const customPosition = () => ({ top: 0, left: 0 });
     font-size: 14px;
 }
 .dp-custom-menu {
-    border: none;
-    box-shadow: 1px 1px 20px rgba(78, 78, 78, 0.172);
+    box-shadow: 1px 1px 20px rgba(0, 0, 0, 0.385);
     height: 400px;
     width: 300px;
+    border-color: rgba(255, 255, 255, 0.223);
 }
-
 .dp__theme_dark {
    --dp-background-color: #212121;
    --dp-text-color: #ffffff;
