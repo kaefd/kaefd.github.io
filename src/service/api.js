@@ -599,9 +599,10 @@ export default {
     const dbahan = JSON.stringify(detailbhn);
     const dbarang = JSON.stringify(detailbrg);
     const data = {
-      produksi_head : ph,
-      produksi_detail_bahan : dbahan,
-      produksi_detail_barang : dbarang,
+      // produksi_head : ph,
+      // produksi_detail_bahan : dbahan,
+      // produksi_detail_barang : dbarang,
+      no_produksi: head.no_produksi
     }
     return instance.delete('/produksi_head', { data: data })
   },

@@ -81,8 +81,13 @@ export default {
                 })
             },
         filterkodegroup() {
-            return this.groupbarang.filter(item => {
-                    return item.kode_group.toLowerCase().includes(this.searched.toLowerCase())
+            let a = []
+            for (let i = 0; i < this.groupbarang.length; i++) {
+                a.push(this.groupbarang[i].kode_group)
+            }
+            let b = functions.removeDuplicate(a)
+            return b.filter((item) => {
+                return item.toLowerCase().includes(this.searched.toLowerCase())
             })
         },
     },
@@ -200,7 +205,7 @@ export default {
                         <text-field-form label="Tgl Penjualan" :model-value="functions.formatDate(items.tgl_penjualan)" readonly/>
                     </v-responsive>
                     <v-responsive class="pt-2 mx-3 pt-2" width="250">
-                        <text-field-form label="Pelanggan" :model-value="items.kode_pelanggan" readonly />
+                        <text-field-form label="Pelanggan" :model-value="items.nama" readonly />
                         <text-field-form label="Kode Group" :model-value="items.kode_group" readonly />
                     </v-responsive>
                     <v-responsive class="pt-2 mx-md-0 mx-3" width="250">
@@ -258,11 +263,11 @@ export default {
                         :fixed-header="true"
                         density="compact"
                         class="text-caption py-1 mt-2 px-5 border-sm rounded-lg"
-                        :height="window > 776 ? '50vh' : 200"
+                        :height="edit ? '50vh' : 200"
                     >
                     <!-- CUSTOM PAGINATION STYLE -->
                     <template v-slot:bottom>
-                        <v-span v-if="laporan && edit" class="float-end me-5 text-caption font-weight-medium">Total Jumlah : {{ functions.numb(pemasukan.sum(penjualan), 2, true) }} / Total harga: {{ functions.numb(jumlahtotal(penjualan, 'nilai'), 2, true) }}</v-span>
+                        <v-span v-if="edit" class="float-end me-5 text-caption font-weight-medium">Total Jumlah : {{ functions.numb(pemasukan.sum(penjualan)) }} / Total harga: {{ functions.numb(jumlahtotal(penjualan, 'nilai'), 2, true) }}</v-span>
                         <v-span v-if="!edit" class="float-end me-5 text-caption font-weight-medium">Total Jumlah : {{ functions.numb(jumlahtotal(pembelian_input, 'jumlah')) }} / Total harga: {{ functions.numb(jumlahtotal(pembelian_input, 'nilai'), 2, true) }}</v-span>
                     </template>
                     <!-- dialog actions -->
@@ -376,9 +381,9 @@ export default {
                         style="cursor: pointer;"
                         class="text-caption"
                         density="compact"
-                        @click="inputdata.kode_group = kode.kode_group, dialogkodeg = false "
+                        @click="inputdata.kode_group = kode, dialogkodeg = false "
                         >
-                            {{ kode.kode_group }}
+                            {{ kode }}
                         </v-list-item>
                     </v-for>
                 </v-list>

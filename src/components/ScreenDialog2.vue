@@ -17,6 +17,7 @@ import CurrencyInput from './form/currencyInput.vue';
 
 <script>
 import produksi from '../service/page/produksi';
+import AlertVue from './dialog/alertVue.vue';
 export default {
     components: {
     VDataTable,
@@ -39,6 +40,9 @@ export default {
         dialogbhn: [],
         dialogbrg: [],
         dialog5: false,
+        valert: false,
+        status: null,
+        message: '',
         searched: '',
         inputbahan: '',
         inputbarang: '',
@@ -64,6 +68,16 @@ export default {
             return item.toLowerCase().includes(this.searched.toLowerCase())
         })
         },
+        group_detail() {
+            let a = []
+            for (let i = 0; i < this.filterkodegroup.length; i++) {
+                for (let j = 0; j < this.groupbarang.length; j++) {
+                    if(this.filterkodegroup[i] == this.groupbarang[j].kode_group) {
+                        a.push(this.groupbarang[j])
+                    }
+                }
+            } return a
+        } 
     },
     methods: {
         bahanmasuk(value) {
@@ -130,11 +144,30 @@ export default {
         },
         async validate () {
             const { valid } = await this.$refs.form.validate()
-            if (valid){
+            let result = Boolean
+            let barang = []
+            
+            for (let i = 0; i < this.inputbarang.length; i++) {
+                barang.push(this.inputbarang[i].jumlah)
+            }
+            barang.reduce((total, current) => {
+                return total + current;
+            }, 0);
+
+            for (let j = 0; j < this.inputbahan.length; j++) {
+                if(this.inputbahan[j].jumlah == barang) {
+                    result = true
+                } else result = false
+            }
+            if (valid && result){
                 // 1st = head, 2nd = detailbahan, 3rd = detailbarang
                 return this.$emit('inputhead', this.inputproduksi, this.inputbahan, this.inputbarang)
             }
-            this.dialog = false
+            else {
+                this.valert = true
+                this.status = false
+                this.message = "jumlah bahan baku dan barang jadi tidak sesuai"
+            }
         },
     },
     mounted() {
@@ -197,7 +230,7 @@ export default {
                     <!-- TABEL TAMBAH/EDIT BAHAN -->
                     <v-responsive class="me-sm-2 me-0 text-sm-left text-center" width="400">
                         <!-- ITEM DIALOG ADALAH KODE BARANG YANG SESUAI DENGAN KODE GROUP YANG DIPILIH -->
-                        <dialogScroll :window="window" dialog_title="stok barang" v-if="!edit" :produksi="true" :btn="btn[0]" width="400" :barang="detailbahan" :tambah="true" :getbarang="select_kode" :kodegroup="inputproduksi.kode_group" @pemasukanitem="bahanmasuk"/>
+                        <dialogScroll :window="window" dialog_title="stok barang" v-if="!edit" :group_detail="group_detail" :produksi="true" :btn="btn[0]" width="400" :barang="detailbahan" :stok_akhir="true" :tambah="true" :getbarang="select_kode" :kodegroup="inputproduksi.kode_group" @pemasukanitem="bahanmasuk"/>
                         <v-row v-if="edit" no-gutters class="justify-center py-1 text-button rounded border">detail bahan</v-row>
                         <v-container class="border-sm rounded-lg mt-2">
                         <v-data-table
@@ -264,8 +297,8 @@ export default {
                             class="text-body-2 pb-3 px-5 text-caption he"
                             :height="window > 776 ? '45vh' : 200">
                             <template v-slot:bottom>
-                                <v-span v-if="edit" class="float-end me-5 text-caption font-weight-medium">Jumlah Bahan : {{ functions.numb(jumlahtotal(detailbarang)) }}</v-span>
-                                <v-span v-if="!edit" class="float-end me-5 text-caption font-weight-medium">Jumlah bahan : {{ functions.numb(jumlahtotal(inputbarang)) }}</v-span>
+                                <v-span v-if="edit" class="float-end me-5 text-caption font-weight-medium">Jumlah Barang : {{ functions.numb(jumlahtotal(detailbarang)) }}</v-span>
+                                <v-span v-if="!edit" class="float-end me-5 text-caption font-weight-medium">Jumlah Barang : {{ functions.numb(jumlahtotal(inputbarang)) }}</v-span>
                             </template>
                             <!-- eslint-disable-next-line vue/valid-v-slot -->
                             <template v-slot:item.jumlah="{ item }">
@@ -333,5 +366,6 @@ export default {
                 </v-list>
             </v-card>
             </v-dialog>
+            <AlertVue v-model="valert" :sukses="status" :message="message" />
     </v-dialog>
 </template>

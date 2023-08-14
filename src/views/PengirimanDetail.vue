@@ -86,31 +86,33 @@ export default {
         async fetchData() {
             this.belumkirim = await api.getBelumTerkirim()
             this.belumkirim_detail = await api.getBelumTerkirimDetail()
-            let pjl = []
-            for (let i = 0; i < this.nopjl.length; i++) {
-                pjl.push(await api.getHeadPenjualan(this.nopjl[i]))
-            }
-            let data = []
-            for (let j = 0; j < this.pjl_detail.length; j++) {
-                for (let k = 0; k < pjl.length; k++) {
-                    if(this.pjl_detail[j].no_penjualan == pjl[k][0].no_penjualan) {
-                        data.push({
-                            no_penjualan: this.pjl_detail[j].no_penjualan,
-                            tipe_dokumen: pjl[k][0].tipe_dokumen,
-                            no_dokumen: pjl[k][0].no_dokumen,
-                            kode_group: this.pjl_detail[j].kode_group,
-                            kode_barang: this.pjl_detail[j].kode_barang,
-                            nama_barang: this.pjl_detail[j].nama_barang,
-                            hs_code: this.pjl_detail[j].hs_code,
-                            jumlah: this.pjl_detail[j].jumlah,
-                            satuan: this.pjl_detail[j].satuan,
-                            no_urut: this.pjl_detail[j].no_urut,
-                            nilai: this.pjl_detail[j].nilai
-                        })
+            if(this.edit) {
+                let pjl = []
+                for (let i = 0; i < this.nopjl.length; i++) {
+                    pjl.push(await api.getHeadPenjualan(this.nopjl[i]))
+                }
+                let data = []
+                for (let j = 0; j < this.pjl_detail.length; j++) {
+                    for (let k = 0; k < pjl.length; k++) {
+                        if(this.pjl_detail[j].no_penjualan == pjl[k][0].no_penjualan) {
+                            data.push({
+                                no_penjualan: this.pjl_detail[j].no_penjualan,
+                                tipe_dokumen: pjl[k][0].tipe_dokumen,
+                                no_dokumen: pjl[k][0].no_dokumen,
+                                kode_group: this.pjl_detail[j].kode_group,
+                                kode_barang: this.pjl_detail[j].kode_barang,
+                                nama_barang: this.pjl_detail[j].nama_barang,
+                                hs_code: this.pjl_detail[j].hs_code,
+                                jumlah: this.pjl_detail[j].jumlah,
+                                satuan: this.pjl_detail[j].satuan,
+                                no_urut: this.pjl_detail[j].no_urut,
+                                nilai: this.pjl_detail[j].nilai
+                            })
+                        }
                     }
                 }
+                this.kirim_detail = data
             }
-            this.kirim_detail = data
         },
         itemmasuk(value) {
             let a = []
@@ -126,6 +128,7 @@ export default {
                     hs_code: value[i].hs_code,
                     jumlah: value[i].jumlah,
                     jumlah_konversi: value[i].jumlah_konversi,
+                    satuan_konversi: value[i].satuan_konversi,
                     satuan: value[i].satuan,
                     no_urut: i + 1,
                     nilai: value[i].nilai
@@ -274,7 +277,7 @@ export default {
                     :fixed-header="true"
                     density="compact"
                     class="text-caption py-1 rounded-lg border-sm mt-2"
-                    :height="window > 776 ? '60vh' : 250"
+                    :height="edit ? '60vh' : 300"
                 >
                 <!-- CUSTOM PAGINATION STYLE -->
                 <template v-slot:bottom>

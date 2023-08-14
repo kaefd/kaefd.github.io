@@ -17,6 +17,8 @@ const headDetails = [
   {title: 'HS Code', key: 'hs_code' },
   {title: 'Jumlah', key: 'jumlah' },
   {title: 'Satuan', key: 'satuan' },
+  {title: 'Qty', key: 'jumlah_konversi' },
+  {title: 'Satuan Konversi', key: 'satuan_konversi' },
   {title: '', key: 'actions', sortable: false },
 ]
 const datainput = {

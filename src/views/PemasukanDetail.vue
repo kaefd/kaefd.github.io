@@ -120,14 +120,14 @@ export default {
                 }
             }
         },
-        jumlahtotal(p) {
+        jumlahtotal(v, p) {
             let arr = []
-            for (let i = 0; i < this.pembelian_input.length; i++) {
+            for (let i = 0; i < v.length; i++) {
                 if(p == 'jumlah') {
-                    arr.push(this.pembelian_input[i].jumlah)
+                    arr.push(v[i].jumlah)
                 }
                 if(p == 'nilai') {
-                    arr.push(this.pembelian_input[i].nilai)
+                    arr.push(v[i].nilai)
 
                 }
             }
@@ -232,8 +232,8 @@ export default {
                     :height="edit ? '42vh' : '25vh'"
                 >
                 <template v-slot:bottom>
-                    <v-span v-if="laporan && edit" class="float-end me-5 text-caption font-weight-medium">Total Jumlah : {{ functions.numb(pemasukan.sum(pembelian), 2, true) }} / Total nilai: {{ functions.numb(pembelian[0].nilai) }}</v-span>
-                    <v-span v-if="!laporan" class="float-end me-5 text-caption font-weight-medium">Total Jumlah : {{ functions.numb(jumlahtotal('jumlah')) }} / Total nilai: {{ functions.numb(jumlahtotal('nilai'), 2, true) }}</v-span>
+                    <v-span v-if="edit" class="float-end me-5 text-caption font-weight-medium">Total Jumlah : {{ functions.numb(jumlahtotal(pembelian, 'jumlah')) }} / Total nilai: {{ functions.numb(jumlahtotal(pembelian, 'nilai'), 2, true) }}</v-span>
+                    <v-span v-if="!edit" class="float-end me-5 text-caption font-weight-medium">Total Jumlah : {{ functions.numb(jumlahtotal(pembelian_input, 'jumlah')) }} / Total nilai: {{ functions.numb(jumlahtotal(pembelian_input, 'nilai'), 2, true) }}</v-span>
                 </template>
                 <!-- eslint-disable-next-line vue/valid-v-slot -->
                 <template v-slot:item.jumlah="{item}">

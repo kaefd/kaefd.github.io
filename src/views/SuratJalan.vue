@@ -28,7 +28,9 @@ export default {
                             nama_barang: this.pjl_detail[j].nama_barang,
                             hs_code: this.pjl_detail[j].hs_code,
                             jumlah: this.pjl_detail[j].jumlah,
-                            satuan: this.pjl_detail[j].satuan
+                            satuan: this.pjl_detail[j].satuan,
+                            jumlah_konversi: this.pjl_detail[j].jumlah_konversi,
+                            satuan_konversi: this.pjl_detail[j].satuan_konversi
                         })
                     }
                 }
@@ -150,8 +152,8 @@ export default {
                     >
                         <td class="text-left">{{ i+1 }}</td>
                         <td class="text-left">{{ item.nama_barang }}</td>
-                        <td class="text-left" contenteditable>{{ item.qty }}</td>
-                        <td class="text-left" contenteditable></td>
+                        <td class="text-left" contenteditable>{{ item.jumlah_konversi }}</td>
+                        <td class="text-left" contenteditable>{{ item.satuan_konversi }}</td>
                         <td class="text-left">{{ functions.numb(item.jumlah, null, false) }}</td>
                         <td class="text-left">{{ kirim_detail[i].no_dokumen }}/{{ kirim_detail[i].tipe_dokumen.slice(2) }}</td>
                     </tr>
