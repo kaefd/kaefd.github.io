@@ -182,7 +182,7 @@ export default {
                 <v-responsive class="pt-2 mx-3" width="250">
                     <textFieldForm label="Tipe Dokumen" :model-value="items.tipe_dokumen" readonly/>
                     <textFieldForm label="No Dokumen" :model-value="items.no_dokumen" readonly/>
-                    <textFieldForm label="Tgl Dokumen" :model-value="functions.formatDate(items.tgl_dokumen)" readonly/>
+                    <textFieldForm label="Tgl Dokumen" :model-value="items.tgl_dokumen" readonly/>
                 </v-responsive>
                 <v-responsive class="pt-2 mx-md-0 mx-3" width="250">
                     <textFieldForm label="No Invoice" :model-value="items.no_invoice" readonly/>

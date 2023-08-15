@@ -144,22 +144,7 @@ export default {
         },
         async validate () {
             const { valid } = await this.$refs.form.validate()
-            let result = Boolean
-            let barang = []
-            
-            for (let i = 0; i < this.inputbarang.length; i++) {
-                barang.push(this.inputbarang[i].jumlah)
-            }
-            barang.reduce((total, current) => {
-                return total + current;
-            }, 0);
-
-            for (let j = 0; j < this.inputbahan.length; j++) {
-                if(this.inputbahan[j].jumlah == barang) {
-                    result = true
-                } else result = false
-            }
-            if (valid && result){
+            if (valid){
                 // 1st = head, 2nd = detailbahan, 3rd = detailbarang
                 return this.$emit('inputhead', this.inputproduksi, this.inputbahan, this.inputbarang)
             }
@@ -261,7 +246,7 @@ export default {
                                 <v-sheet class="mx-auto mt-5 w-75 bg-transparent">
                                     <text-field-form
                                         v-if="edit"
-                                        v-model="item.raw.jumlah"
+                                        :model-value="functions.numb(item.raw.jumlah)"
                                         label="Jumlah"
                                         readonly
                                     />
@@ -315,13 +300,13 @@ export default {
                                     <v-sheet class="mx-auto mt-5 w-75 bg-transparent">
                                         <text-field-form
                                             v-if="edit"
-                                            v-model="item.raw.jumlah"
+                                            :model-value="functions.numb(item.raw.jumlah)"
                                             label="Jumlah"
                                             readonly
                                         />
                                         <currency-input
                                             v-if="!edit"
-                                            v-model="item.raw.jumlah"
+                                            v-model="(item.raw.jumlah)"
                                             label="Jumlah"
                                             :options="{ currency: 'EUR', currencyDisplay: 'hidden' }"
                                         />

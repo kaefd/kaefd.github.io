@@ -30,12 +30,12 @@ export default {
 
 <template>
 <v-navigation-drawer
-        class="border-0 elevation-0 mt-5"
+        class="border-0 elevation-0 mt-5 rounded-left"
         width="320"
         location="right"
         temporary
       >
-      <v-sheet class="py-5 h-80">
+      <v-sheet class="py-5 h-80 rounded-left">
         <div class="d-flex align-center">
           <v-span class="text-button ms-4">Filter</v-span>
         </div>

@@ -172,8 +172,14 @@ label.v-label {
 .rounded-right {
   border-top-right-radius: 20px !important;
   border-top-left-radius: 0 !important;
-  border-bottom-left-radius: 0a !important;
+  border-bottom-left-radius: 0 !important;
   border-bottom-right-radius: 20px !important;
+}
+.rounded-left {
+  border-top-left-radius: 20px !important;
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+  border-bottom-left-radius: 20px !important;
 }
 /*LINK STYLE*/
 

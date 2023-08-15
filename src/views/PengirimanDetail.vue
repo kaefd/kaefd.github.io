@@ -277,7 +277,7 @@ export default {
                     :fixed-header="true"
                     density="compact"
                     class="text-caption py-1 rounded-lg border-sm mt-2"
-                    :height="edit ? '60vh' : 300"
+                    :height="edit && window > 776 ? '60vh' : 250"
                 >
                 <!-- CUSTOM PAGINATION STYLE -->
                 <template v-slot:bottom>

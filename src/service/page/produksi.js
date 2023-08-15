@@ -27,6 +27,27 @@ const input = {
     user_batal: '',
     status: 'true'
 }
+const detail_items = (no, detail) => {
+    let nama = []
+    let res = ''
+        for (let j = 0; j < detail.length; j++) {
+            if(no == detail[j].no_produksi) {
+               nama.push(detail[j].nama_barang)
+            }
+    }
+    return nama.toString()
+}
+const sum = (no, value) => {
+    let arr = []
+    for (let i = 0; i < value.length; i++) {
+        if(no == value[i].no_produksi) {
+            arr.push(value[i].jumlah)
+        }
+    }
+    return arr.reduce((total, current) => {
+        return total + current;
+    }, 0)
+}
 const items = (head, dbahan, dbarang) => {
     let data = []
     for (let i = 0; i < head.length; i++) {
@@ -38,10 +59,10 @@ const items = (head, dbahan, dbarang) => {
                         tgl_produksi: head[i].tgl_produksi,
                         tgl_input: head[i].tgl_input,
                         kode_group: head[i].kode_group,
-                        bahan_baku: dbahan[j].nama_barang,
-                        jumlah: functions.numb(dbahan[j].jumlah),
-                        barang_jadi: dbarang[k].nama_barang,
-                        jml_barang_jadi: functions.numb(dbarang[k].jumlah),
+                        bahan_baku: detail_items(head[i].no_produksi, dbahan),
+                        jumlah: functions.numb(sum(head[i].no_produksi, dbahan)),
+                        barang_jadi: detail_items(head[i].no_produksi, dbarang),
+                        jml_barang_jadi: functions.numb(sum(head[i].no_produksi, dbarang)),
                     })
                 }
             }
@@ -100,4 +121,6 @@ export default {
     bahan,
     barang,
     noDuplicate,
+    detail_items,
+    sum,
 }
