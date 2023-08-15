@@ -38,6 +38,7 @@ export default {
             let penjualan = []
             let pengiriman = []
             let laporan = []
+            let setelan = []
             // let laporan_stok = []
             // let laporan_pembelian = []
             // let laporan_produksi = []
@@ -97,6 +98,12 @@ export default {
                     status: this.edit ? otoritas.routes(this.otority, otoritas.laporan[i]) : false
                 })
             }
+            for (let i = 0; i < otoritas.setelan.length; i++) {
+                setelan.push({
+                    jenis_otoritas: otoritas.setelan[i],
+                    status: this.edit ? otoritas.routes(this.otority, otoritas.setelan[i]) : false
+                })
+            }
             // for (let i = 0; i < otoritas.laporan_stok.length; i++) {
             //     laporan_stok.push({
             //         jenis_otoritas: otoritas.laporan_stok[i],
@@ -139,6 +146,7 @@ export default {
                 penjualan: penjualan,
                 pengiriman: pengiriman,
                 laporan: laporan,
+                setelan: setelan
                 // laporan_stok: laporan_stok,
                 // laporan_pembelian: laporan_pembelian,
                 // laporan_produksi: laporan_produksi,
@@ -285,6 +293,19 @@ export default {
                             </template>
                             <v-list-item v-for="barang, b in edituser.laporan.slice(1, edituser.laporan.length)" :key="b">
                                 <v-checkbox color="orange" class="radio-small customdense" :label="barang.jenis_otoritas" :model-value="barang.status" v-model="ds.laporan[b+1].status" hide-details density="compact"/>
+                            </v-list-item>
+                        </v-list-group>
+                    </v-list>
+                    <!-- PENGATURAN UMUM -->
+                    <v-list v-model:opened="open[9]" density="compact" class="w-100 pa-0">
+                        <v-list-group value="Setelan" class="text-caption">
+                            <template v-slot:activator="{ props }">
+                                <v-list-item v-bind="props">
+                                    <v-checkbox color="orange" class="radio-small customdense" label="Pengaturan Umum" :model-value="edituser.setelan[0].status" v-model="ds.setelan[0].status" hide-details density="compact"/>
+                                </v-list-item>
+                            </template>
+                            <v-list-item v-for="barang, b in edituser.setelan.slice(1, edituser.setelan.length)" :key="b">
+                                <v-checkbox color="orange" class="radio-small customdense" :label="barang.jenis_otoritas" :model-value="barang.status" v-model="ds.setelan[b+1].status" hide-details density="compact"/>
                             </v-list-item>
                         </v-list-group>
                     </v-list>

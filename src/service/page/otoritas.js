@@ -35,6 +35,8 @@ const pengiriman = [
     'Pengiriman',
     'Batal Pengiriman',
     'Tambah Pengiriman Baru',
+    'Cetak Surat Jalan',
+    'Cetak DO'
 ]
 const laporan = [
     'Laporan',
@@ -44,20 +46,10 @@ const laporan = [
     'Laporan Penjualan',
     'Laporan Log User'
 ]
-const laporan_stok = [
-    'Laporan Stok Barang'
-]
-const laporan_pembelian = [
-    'Laporan Pembelian',
-]
-const laporan_produksi = [
-    'Laporan Produksi',
-]
-const laporan_penjualan = [
-    'Laporan Penjualan',
-]
-const laporan_log = [
-    'Laporan Log User'
+const setelan = [
+    'Pengaturan Umum',
+    'Export pdf',
+    'Export xlsx',
 ]
 const otoritas = (data) => {
     let a = []
@@ -207,44 +199,6 @@ const items = (data) => {
     }
     return a
 }
-// const item = (data, user) => {
-//     const a = []
-//     for (let i = 0; i < data.length; i++) {
-//         if(data[i].username == user) {
-//             a.push({
-                // data_barang: data[i].status,
-                // tambah_barang: data[i].status,
-                // ubah_barang: data[i].status,
-                // hapus_barang: data[i].status,
-                // data_pelanggan: data[i].status,
-                // tambah_pelanggan: data[i].status,
-                // ubah_pelanggan: data[i].status,
-                // hapus_pelanggan: data[i].status,
-                // data_supplier: data[i].status,
-                // data_user: data[i].status,
-                // pembelian: data[i].status,
-                // tambah_pembelian: data[i].status,
-                // batal_pembelian: data[i].status,
-                // produksi: data[i].status,
-                // tambah_produksi: data[i].status,
-                // batal_produksi: data[i].status,
-                // penjualan: data[i].status,
-                // tambah_penjualan: data[i].status,
-                // batal_penjualan: data[i].status,
-                // pengiriman: data[i].status,
-                // tambah_pengiriman: data[i].status,
-                // batal_pengiriman: data[i].status,
-                // laporan: data[i].status,
-                // laporan_stok_barang: data[i].status,
-                // laporan_pembelian: data[i].status,
-                // laporan_produksi: data[i].status,
-                // laporan_penjualan: data[i].status,
-                // laporan_log_user: data[i].status
-//             })
-//         }
-//     }
-//     return a
-// }
 export default {
     data_barang,
     data_pelanggan,
@@ -255,11 +209,7 @@ export default {
     penjualan,
     pengiriman,
     laporan,
-    laporan_stok,
-    laporan_pembelian,
-    laporan_produksi,
-    laporan_penjualan,
-    laporan_log,
+    setelan,
     otoritas,
     routes,
     all,
