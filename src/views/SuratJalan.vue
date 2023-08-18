@@ -162,7 +162,7 @@ export default {
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td class="text-left font-weight-bold">{{ functions.numb(sum(), 2, true) }}</td>
+                        <td class="text-left font-weight-bold">{{ functions.numb(sum()) }}</td>
                     </tr>
                     </tbody>
                 </v-table>
