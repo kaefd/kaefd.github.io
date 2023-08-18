@@ -745,8 +745,9 @@ export default {
     const ph = JSON.stringify(pengiriman_head);
     const pd = JSON.stringify(detail);
     let data = {
-      pengiriman_head: ph,
-      pengiriman_detail: pd,
+      // pengiriman_head: ph,
+      // pengiriman_detail: pd,
+      no_pengiriman: head.no_pengiriman
     }
     return instance.delete('/pengiriman_head', { data: data })
   },

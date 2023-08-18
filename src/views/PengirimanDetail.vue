@@ -104,6 +104,8 @@ export default {
                                 nama_barang: this.pjl_detail[j].nama_barang,
                                 hs_code: this.pjl_detail[j].hs_code,
                                 jumlah: this.pjl_detail[j].jumlah,
+                                jumlah_konversi: this.pjl_detail[j].jumlah_konversi,
+                                satuan_konversi: this.pjl_detail[j].satuan_konversi,
                                 satuan: this.pjl_detail[j].satuan,
                                 no_urut: this.pjl_detail[j].no_urut,
                                 nilai: this.pjl_detail[j].nilai
