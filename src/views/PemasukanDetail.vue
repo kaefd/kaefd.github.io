@@ -33,7 +33,7 @@ export default {
     CurrencyInput,
     BtnInfo
 },
-    props:['tema', 'window', 'hapus', 'barang', 'pembelianbaru', 'laporan', 'namaPelanggan', 'total', 'groupbarang', 'batalbtn', 'penjualan', 'pemasukan', 'alamatBongkar', 'totalpenjualan', 'namaTujuan', 'datainput', 'pageTitle', 'pengeluaran', 'dokumenpjl', 'namaSupplier', 'pengirimanDetail', 'pembelian', 'pelanggan', 'supplier', 'pembeliandetl', 'edit', 'kirim', 'headers', 'items',  'search', 'iVariant', 'headDetails', 'details','disable', 'btn', 'datatext', 'itemDetail', 'category'],
+    props:['tema', 'window', 'hapus', 'total_nilai', 'barang', 'pembelianbaru', 'laporan', 'namaPelanggan', 'total', 'groupbarang', 'batalbtn', 'penjualan', 'pemasukan', 'alamatBongkar', 'totalpenjualan', 'namaTujuan', 'datainput', 'pageTitle', 'pengeluaran', 'dokumenpjl', 'namaSupplier', 'pengirimanDetail', 'pembelian', 'pelanggan', 'supplier', 'pembeliandetl', 'edit', 'kirim', 'headers', 'items',  'search', 'iVariant', 'headDetails', 'details','disable', 'btn', 'datatext', 'itemDetail', 'category'],
     data () {
       return {
         dialog: false,
@@ -59,7 +59,7 @@ export default {
         nama_supplier : '',
         nama_pelanggan : '',
         tujuan_bongkar: '',
-        pembelian_input: '',
+        pembelian_input: [],
         inputdata: this.datainput,
         kurs: '',
         pemasukan_detail: '',
@@ -81,24 +81,25 @@ export default {
             this.kurs = k.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
         }
     },
+    computed: {
+        heightSizing() {
+            let h = ''
+            if(this.window > 1500 && this.edit) {
+                h = '55vh'
+            } if(this.window < 1500 && this.edit) {
+                h = '30vh'
+            } if(this.window > 1500 && !this.edit) {
+                h = '50vh'
+            } if(this.window < 1500 && !this.edit) {
+                h = '23vh'
+            }
+            return h
+        }
+    },
     methods:{
         itemmasuk(v, total){
-            let a = []
             this.inputdata.total_nilai = total
-            for (let i = 0; i < v.length; i++) {
-                a.push({
-                    no_pembelian: v[i].no_pembelian,
-                    kode_barang: v[i].kode_barang,
-                    nama_barang: v[i].nama_barang,
-                    hs_code: v[i].hs_code,
-                    jumlah:v[i].jumlah,
-                    jumlah_diterima: v[i].jumlah_diterima,
-                    satuan: v[i].satuan,
-                    nilai: v[i].nilai,
-                    no_urut: i + 1
-                })
-            }
-            return this.pembelian_input = a
+            this.pembelian_input = v
         },
         menuAksi(v) {
             v == 'lihat' ? this.dialog = true : this.confirm()
@@ -116,7 +117,7 @@ export default {
         deleteditem(del) {
             for (let i = 0; i < this.pembelian_input.length; i++) {
                 if( del == this.pembelian_input[i] ) {
-                    this.pembelian_input.splice(i,1);
+                    this.pembelian_input.splice(i,1)
                 }
             }
         },
@@ -140,9 +141,23 @@ export default {
             if (valid){
                 // inputata = head
                 // pembelian_input = detail
-                this.$emit('inputhead', this.inputdata, this.pembelian_input)
+                let a = []
+                for (let i = 0; i < this.pembelian_input.length; i++) {
+                    a.push({
+                        no_pembelian: this.pembelian_input[i].no_pembelian,
+                        kode_barang: this.pembelian_input[i].kode_barang,
+                        nama_barang: this.pembelian_input[i].nama_barang,
+                        hs_code: this.pembelian_input[i].hs_code,
+                        jumlah:this.pembelian_input[i].jumlah,
+                        jumlah_diterima: this.pembelian_input[i].jumlah_diterima,
+                        satuan: this.pembelian_input[i].satuan,
+                        nilai: this.pembelian_input[i].nilai,
+                        no_urut: i + 1
+                    })
+                }
+                this.$emit('inputhead', this.inputdata, a)
+                this.dialog = false
             }
-            this.dialog = false
         },
     },
 }
@@ -171,7 +186,7 @@ export default {
             <v-toolbar-title class="text-button mt-1">{{ 'DETAIL '+ pageTitle }}</v-toolbar-title>
             <v-spacer></v-spacer>
             </v-toolbar>
-            <v-container class="h-100 d-flex flex-column">
+            <v-container class="h-100 d-flex flex-column mt-5">
             <!-- EDIT -->
             <v-row no-gutters  v-if="edit" justify="center" justify-md="space-between" align="start" min-width="400" class="mx-3">
                 <v-responsive class="pt-2 mx-md-0 mx-3" width="250">
@@ -221,40 +236,26 @@ export default {
                 <dialogScroll :window="window" @reset="reset" :kurs="inputdata.kurs" :barang="barang" :itemDetail="itemDetail" @pemasukanitem="itemmasuk" :pemasukan="true" dialog_title="Data Barang" :btn="btn" max-width="400" />
             </v-container>
             <!-- TABEL EDIT/VIEW -->
-            <v-container>
+            <v-container class="100%">
                 <v-data-table
                     :headers="headDetails"
                     :items="edit ? pembelian : pembelian_input"
                     :hover="true"
                     :fixed-header="true"
                     density="compact"
-                    class="text-caption pt-1 border-sm rounded-lg my-3"
-                    :height="edit ? '42vh' : '25vh'"
+                    class="text-caption pt-1 border-sm rounded-lg my-3 h-100"
+                    :height="heightSizing"
                 >
                 <template v-slot:bottom>
                     <v-span v-if="edit" class="float-end me-5 text-caption font-weight-medium">Total Jumlah : {{ functions.numb(jumlahtotal(pembelian, 'jumlah')) }} / Total nilai: {{ functions.numb(jumlahtotal(pembelian, 'nilai'), 2, true) }}</v-span>
                     <v-span v-if="!edit" class="float-end me-5 text-caption font-weight-medium">Total Jumlah : {{ functions.numb(jumlahtotal(pembelian_input, 'jumlah')) }} / Total nilai: {{ functions.numb(jumlahtotal(pembelian_input, 'nilai'), 2, true) }}</v-span>
                 </template>
                 <!-- eslint-disable-next-line vue/valid-v-slot -->
-                <template v-slot:item.jumlah="{item}">
-                    {{functions.numb(item.raw.jumlah)}}
-                </template>
+                <template v-slot:item.nilai="{item}">{{ functions.numb(item.raw.nilai, 2, true) }}</template>
                 <!-- eslint-disable-next-line vue/valid-v-slot -->
-                <template v-slot:item.jumlah_diterima="{item}">
-                    {{functions.numb(item.raw.jumlah_diterima)}}
-                </template>
+                <template v-slot:item.jumlah="{item}">{{ functions.numb(item.raw.jumlah) }}</template>
                 <!-- eslint-disable-next-line vue/valid-v-slot -->
-                <template v-slot:item.nilai="{item}">
-                    {{functions.numb(item.raw.nilai, 2, true)}}
-                </template>
-                <!-- eslint-disable-next-line vue/valid-v-slot -->
-                <template v-slot:item.tipe_dokumen>
-                    {{ dokumenpjl.tipe_dokumen }}
-                </template>
-                <!-- eslint-disable-next-line vue/valid-v-slot -->
-                <template v-slot:item.no_dokumen>
-                    {{ dokumenpjl.no_dokumen }}
-                </template>
+                <template v-slot:item.jumlah_diterima="{item}">{{ functions.numb(item.raw.jumlah_diterima) }}</template>
                 <!-- eslint-disable-next-line vue/valid-v-slot -->
                 <template v-slot:item.actions="{ item, index }">
                 <dialogVue v-model="detaildial[index]">
@@ -308,7 +309,7 @@ export default {
                             <text-field-form
                                 v-if="edit"
                                 label="Total nilai"
-                                :model-value="functions.numb(item.raw.nilai)"
+                                :model-value="items.total_nilai"
                                 :readonly="true"
                                 hide-details
                             />

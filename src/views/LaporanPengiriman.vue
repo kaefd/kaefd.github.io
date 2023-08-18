@@ -60,9 +60,8 @@ import CircularLoader from '../components/animate/circularLoader.vue';
         message: '',
         periode: [],
         checkStatus: 'menunggu',
-        pageTitle: 'PENGIRIMAN BARANG',
+        pageTitle: 'LAPORAN PENGIRIMAN',
         selectCategory: '',
-        btn: 'Tambah Barang',
         filtered: {
           periode: []
         },
@@ -96,12 +95,12 @@ import CircularLoader from '../components/animate/circularLoader.vue';
           let item = await api.getPengirimanHead(this.periode)
           this.alamatBongkar = await api.alamatBongkar()
           this.pelanggan = await api.getPelanggan()
-          this.kirim_detail = await api.getPengirimanDetail(this.periode)
           this.penjualanHead = await api.getPenjualanHead(this.periode)
+          this.kirim_detail = await api.getPengirimanDetail(this.periode)
           let blm_kirim = await api.getBelumTerkirim()
           let blm_kirim_detail = await api.getBelumTerkirimDetail()
           this.pjl_blmterkirm = pengeluaran.item_blmterikirim(blm_kirim, blm_kirim_detail)
-          this.pengirimanHead = pengiriman.items(item, this.pelanggan, this.alamatBongkar, this.kirim_detail) 
+          this.pengirimanHead = pengiriman.items(item, this.pelanggan, this.alamatBongkar, this.kirim_detail)
           this.loading = false
         } else return await api.logout()
       },
@@ -209,30 +208,6 @@ import CircularLoader from '../components/animate/circularLoader.vue';
   </filterDrawer>
   <v-container class="pt-9 h-100">
     <v-row no-gutters class="rounded-t-xl align-end mt-n4 mb-2">
-      <v-responsive class="d-flex align-center mb-sm-0 mb-1" min-width="200">
-        <div class="d-flex align-center w-100">
-          <!-- TAMBAH DATA -->
-          <PengirimanDetail
-          v-if="otoritas.routes(authority, 'Tambah Pengiriman Baru')"
-          :tema="tema"
-          :window="window"
-          :pjl_blmterkirm="pjl_blmterkirm"
-          @inputhead="inputhead"
-          :alamatBongkar="alamatBongkar"
-          :kirim="true"
-          :supplier="pelanggan"
-          :datainput="pengiriman.datainput"
-          :pageTitle="pageTitle"
-          :headDetails="pengiriman.headDetails"
-          :details="items"
-          :headers="pengiriman.headers"
-          :items="items"
-          :search="search"
-          :category="barang.category"
-          :selectCategory="selectCategory"
-          :datatext="datatext"/>
-        </div>
-      </v-responsive>
       <v-responsive class="me-sm-0 ms-sm-auto ms-0 me-auto" max-width="450">
         <div class="d-flex align-center justify-sm-end justify-start">
           <!-- SEARCH -->
@@ -256,7 +231,7 @@ import CircularLoader from '../components/animate/circularLoader.vue';
             v-model:sort-by="sortBy"
             id="tbl_exporttable_to_xls" 
             items-per-page="10"
-            :headers="pengiriman.headers"
+            :headers="pengiriman.headersLaporan"
             :items="pengirimanHead"
             :search="search"
             :hover="true"
@@ -289,8 +264,6 @@ import CircularLoader from '../components/animate/circularLoader.vue';
                       <v-list-item class="pa-0">
                         <PengirimanDetail
                           :window="window"
-                          :hapus="otoritas.routes(authority, 'Batal Pengiriman')"
-                          :alamatBgkr="otoritas.routes(authority, 'Tujuan Bongkar')"
                           batalbtn="Pengiriman"
                           :kirim="true"
                           :edit="true"
@@ -306,15 +279,6 @@ import CircularLoader from '../components/animate/circularLoader.vue';
                           :disable="true"
                           />
                       </v-list-item>
-                      <SuratJalan
-                        v-if="otoritas.routes(authority, 'Cetak Surat Jalan')"
-                        :pengiriman="Penjualandetl(item.raw.no_pengiriman)"
-                        :items="item.raw"
-                        :nokirim="item.raw.no_pengiriman"
-                        :nopjl="Penjualandetl(item.raw.no_pengiriman)"
-                        :pjl_detail="pjl_detail(item.raw.no_pengiriman)"
-                      />
-                      <!-- CETAK DO -->
                     </v-list>
                   </v-menu>
             </template>

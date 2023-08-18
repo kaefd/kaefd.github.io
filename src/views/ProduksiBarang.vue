@@ -17,6 +17,7 @@ import BtnOrange from '../components/button/btnOrange.vue';
 import produksi from '../service/page/produksi';
 import alertVue from '../components/dialog/alertVue.vue';
 import otoritas from '../service/page/otoritas';
+import CircularLoader from '../components/animate/circularLoader.vue';
 </script>
 <script>
   export default {
@@ -31,6 +32,7 @@ import otoritas from '../service/page/otoritas';
       BtnCancel,
       BtnOrange,
       alertVue,
+        CircularLoader,
     },
     props:['cetak', 'tema', 'user', 'window'],
     data () {
@@ -41,6 +43,7 @@ import otoritas from '../service/page/otoritas';
         periode: [],
         dialog2: false,
         confirmdialog: false,
+        loading: true,
         valert: false,
         authority: '',
         status: null,
@@ -79,6 +82,7 @@ import otoritas from '../service/page/otoritas';
           this.authority = otoritas.otoritas(otority)
         }
         if(this.authority != '') {
+          this.loading = true
           let head = await api.getProduksiHead(this.periode)
           this.detailbahan = await api.getProDBahan(this.periode)
           this.detailbarang = await api.getProDBarang(this.periode)
@@ -86,6 +90,7 @@ import otoritas from '../service/page/otoritas';
           this.items = produksi.noDuplicate(item)
           this.groupbarang = await api.getGroupBarang()
           this.getbarang = await api.getBarang()
+          this.loading = false
         } else return await api.logout()
       },
       // TAMBAH DATA
@@ -223,6 +228,8 @@ import otoritas from '../service/page/otoritas';
           <textField  v-model="search" placeholder="Search" icon="mdi-magnify" class="me-2"/>
             <!-- EXPORT DATA -->
             <menuList
+              v-if="otoritas.routes(authority, 'Pengaturan Umum')"
+              :otority="authority"
               icon="mdi-dots-vertical"
               :items="cetak"
               @result="print"
@@ -274,5 +281,6 @@ import otoritas from '../service/page/otoritas';
           </template>
         </dialogConfirm>
       <alertVue v-model="valert" :sukses="status" :message="message" />
+      <circular-loader :loading="loading" />
   </v-container>
 </template>

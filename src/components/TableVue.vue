@@ -26,12 +26,13 @@ export default {
       BtnOrange,
       UserDetail,
     },
-    props: [ 'userdetail', 'editdata','sortby', 'stok', 'otority','logbrg', 'user_otoritas', 'j_otoritas', 'stokbarang', 'update', 'hapus', 'groupbarang', 'laporanstok', 'masuk', 'supplier', 'pembeliandetl', 'view', 'disabled', 'keyform', 'headers', 'items', 'search', 'category', 'toolbar_title', 'form', 'noselect', 'ishidden', 'pageTitle', 'log', 'window'],
+    props: [ 'userdetail', 'loading', 'editdata','sortby', 'stok', 'otority','logbrg', 'user_otoritas', 'j_otoritas', 'stokbarang', 'update', 'hapus', 'groupbarang', 'laporanstok', 'masuk', 'supplier', 'pembeliandetl', 'view', 'disabled', 'keyform', 'headers', 'items', 'search', 'category', 'toolbar_title', 'form', 'noselect', 'ishidden', 'pageTitle', 'log', 'window'],
     
     data () {
       return {
         dialog: [],
         detail: [],
+        paginate: '',
         sorting: this.sortby,
         totaldata: this.items.length,
         confirmdialog: [],
@@ -74,9 +75,10 @@ export default {
       <!-- TABEL DATA -->
       <v-data-table
         v-model:sort-by="sorting"
-        items-per-page="10"
+        :items-per-page="10"
         :headers="headers"
         :items="items"
+        :loading="loading"
         :search="search"
         :hover="true"
         :fixed-header="true"
@@ -135,6 +137,7 @@ export default {
        <template v-if="masuk" v-slot:item.actions="{item}">
             <PemasukanDetail
             :hapus="hapus"
+            :window="window"
             batalbtn="Pemasukan"
             @confirm="confirm"
             :supplier="supplier"

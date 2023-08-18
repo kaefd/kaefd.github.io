@@ -2,7 +2,7 @@
 import api from '../service/api';
 import 'animate.css';
 import script from '../../package.json'
-import AlertVue from '../components/dialog/alertVue.vue';
+// import AlertVue from '../components/dialog/alertVue.vue';
 import BtnOrange from '../components/button/btnOrange.vue';
 // import axios from 'axios'
 // import { mapActions } from 'vuex'
@@ -14,7 +14,7 @@ import BtnOrange from '../components/button/btnOrange.vue';
 <script>
 export default {
   components: {
-    AlertVue
+    // AlertVue
     // eslint-disable-next-line vue/no-reserved-component-names
     // Form,
   },
@@ -51,6 +51,9 @@ export default {
           this.status = false
           this.valert = true
           this.message =  error.response.data
+          setTimeout(() => {
+            this.valert = false
+          }, 2000);
         })
     }
    
@@ -96,7 +99,17 @@ export default {
       </v-responsive>
     </v-row>
     <v-span class="text-caption text-center text-grey">AURI STEEL METALINDO <br />version.{{ script.version }}</v-span>
+    <v-div class="absolute w-100 pe-8 text-caption mt-n3">
+      <v-alert
+        v-model="valert"
+        transition="scroll-y-transition"
+        color="red-darken-1"
+        density="compact"
+        type="error"
+        title="Gagal !"
+        :text="message"
+      ></v-alert>
+    </v-div>
   </v-container>
-  <alert-vue v-model="valert" :sukses="status" :message="message"/>
 </v-responsive>
 </template>

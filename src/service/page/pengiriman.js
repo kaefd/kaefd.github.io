@@ -7,6 +7,19 @@ const headers = [
   { title: 'Polisi', key: 'no_polisi' },
   { title: '', key: 'actions', sortable: false},
 ]
+const headersLaporan = [
+  { title: 'No Pengiriman', key: 'no_pengiriman', sortable: true},
+  { title: 'Tgl Pengiriman', key: 'tgl_pengiriman' },
+  { title: 'Pelanggan', key: 'namaplg' },
+  { title: 'Tujuan Bongkar', key: 'nama' },
+  { title: 'Supir', key: 'supir' },
+  { title: 'Polisi', key: 'no_polisi' },
+  {title: 'Kode Group', key: 'kode_group' },
+  {title: 'Nama Barang', key: 'nama_barang' },
+  {title: 'Hs Code', key: 'hs_code' },
+  {title: 'Satuan', key: 'satuan' },
+  { title: '', key: 'actions', sortable: false},
+]
 const headDetails = [
   {title: 'No Penjualan', key: 'no_penjualan' },
   {title: 'Tipe Dokumen', key: 'tipe_dokumen' },
@@ -34,7 +47,21 @@ const datainput = {
   user_batal: '',
   status: ''
 }
-const items = (head, pelanggan, bongkar) => {
+const detailpbl = (no, detail, param) => {
+  let a = []
+  for (let i = 0; i < detail.length; i++) {
+    if(detail[i].no_pengiriman == no) {
+      if(param == 'nama') {
+        a.push(detail[i].nama_barang)
+        
+      } else a = detail[i]
+    }
+  }
+  if(param == 'nama') {
+    return a.toString()
+  } else return a
+}
+const items = (head, pelanggan, bongkar, detail, pjl) => {
   let data = []
   for (let i = 0; i < head.length; i++) {
     for (let j = 0; j < pelanggan.length; j++) {
@@ -47,6 +74,7 @@ const items = (head, pelanggan, bongkar) => {
               kode_pelanggan: head[j].kode_pelanggan,
               kode_alamat_bongkar: head[j].kode_alamat_bongkar,
               alamat: bongkar[k].alamat,
+              alamat_pelanggan: pelanggan[j].alamat,
               kabupaten: bongkar[k].kabupaten,
               supir: head[i].supir,
               no_polisi: head[i].no_polisi,
@@ -56,6 +84,11 @@ const items = (head, pelanggan, bongkar) => {
               tgl_batal: head[i].tgl_batal,
               nama: bongkar[k].nama,
               namaplg: pelanggan[j].nama,
+              kode_barang: detailpbl(head[i].no_pengiriman, detail).kode_barang,
+              kode_group: detailpbl(head[i].no_pengiriman, detail).kode_group,
+              hs_code: detailpbl(head[i].no_pengiriman, detail).hs_code,
+              satuan: detailpbl(head[i].no_pengiriman, detail).satuan,
+              nama_barang: detailpbl(head[i].no_pengiriman, detail, 'nama'),
             })
           }
         }
@@ -91,6 +124,7 @@ export default {
   headers,
   headDetails,
   datainput,
+  headersLaporan,
   items,
   details,
 }

@@ -14,6 +14,7 @@ import checkBox from '../components/form/checkBox.vue';
 import BtnFilter from '../components/button/btnFilter.vue';
 import DatePicker from '../components/datepicker/datePicker.vue';
 import otoritas from '../service/page/otoritas';
+import CircularLoader from '../components/animate/circularLoader.vue';
 </script>
 
 <script>
@@ -27,6 +28,7 @@ import otoritas from '../service/page/otoritas';
       checkBox,
         BtnFilter,
         DatePicker,
+        CircularLoader,
     },
     props:['tema', 'cetak', 'window'],
     data () {
@@ -35,6 +37,7 @@ import otoritas from '../service/page/otoritas';
         search: '',
         periode: [],
         filter:false,
+        loading: true,
         authority: '',
         pageTitle: 'LAPORAN PENGELUARAN BARANG',
         selectdokumen: [],
@@ -95,10 +98,12 @@ import otoritas from '../service/page/otoritas';
           this.authority = otoritas.otoritas(otority)
         }
         if(this.authority != '') {
+          this.loading = true
           this.items = await api.getPenjualanHead(this.periode)
           this.pjldetail = await api.getPenjualanDetail(this.periode)
           this.pelanggan = await api.getPelanggan()
           this.barang = await api.getBarang()
+          this.loading = false
         } else return  await api.logout()
       },
       tglawal() {
@@ -274,6 +279,8 @@ import otoritas from '../service/page/otoritas';
           <textField  v-model="search" placeholder="Search" icon="mdi-magnify" class="me-2"/>
             <!-- EXPORT DATA -->
           <menuList
+            v-if="otoritas.routes(authority, 'Pengaturan Umum')"
+            :otority="authority"
             icon="mdi-dots-vertical"
             :items="cetak"
             @result="print"
@@ -336,5 +343,5 @@ import otoritas from '../service/page/otoritas';
         </v-data-table>
       </v-sheet>
     </v-container>
-
+  <circular-loader :loading="loading" />
 </template>

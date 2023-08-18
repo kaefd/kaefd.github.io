@@ -17,8 +17,8 @@ export default {
         tema: null,
         databarang: '',
         cetak: [
-          {title: 'export ke xlsx', icon: 'mdi-download', key: 'xlsx'},
-          {title: 'export ke pdf', icon: 'mdi-file-pdf-box', key: 'pdf'},
+          {title: 'Export xlsx', icon: 'mdi-download', key: 'xlsx'},
+          {title: 'Export pdf', icon: 'mdi-file-pdf-box', key: 'pdf'},
         ],
 
         pageTitle: '',

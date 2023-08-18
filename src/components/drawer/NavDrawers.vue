@@ -6,7 +6,7 @@ import otoritas from '../../service/page/otoritas';
 
 <script>
   export default {
-    props: ['act', 'pageTitle'],
+    props: ['pageTitle'],
     data () {
       return {
         // windowWidth: window.innerWidth,
@@ -54,6 +54,7 @@ import otoritas from '../../service/page/otoritas';
           this.pageTitle == 'LAPORAN STOK BARANG' ||
           this.pageTitle == 'LAPORAN PEMASUKAN BARANG' ||
           this.pageTitle == 'LAPORAN PENGELUARAN BARANG' ||
+          this.pageTitle == 'LAPORAN PENGIRIMAN' ||
           this.pageTitle == 'LAPORAN LOG USER'
         ){
           return true
@@ -144,6 +145,9 @@ import otoritas from '../../service/page/otoritas';
         </router-link>
         <router-link v-if="otoritas.routes(aut, 'Laporan Penjualan')" to="/laporan-pengeluaran">
           <v-list-item class="text-dark">Laporan Pengeluaran</v-list-item>
+        </router-link>
+        <router-link v-if="otoritas.routes(aut, 'Laporan Pengiriman')" to="/laporan-pengiriman">
+          <v-list-item class="text-dark">Laporan Pengiriman</v-list-item>
         </router-link>
         <router-link v-if="otoritas.routes(aut, 'Laporan Log User')" to="/laporan-log">
           <v-list-item class="text-dark">Laporan Log User</v-list-item>

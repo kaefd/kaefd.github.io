@@ -46,7 +46,28 @@ const datainput = {
   user_batal: '',
   status: "true"
 }
-const datatable = (item, supplier) => {
+const detailpbl = (no, detail, param) => {
+  let a = []
+  for (let i = 0; i < detail.length; i++) {
+    if(detail[i].no_pembelian == no) {
+      if(param == 'nama') {
+        a.push(detail[i].nama_barang)
+        
+      } else a = detail[i]
+    }
+  }
+  if(param == 'nama') {
+    return a.toString()
+  } else return a
+}
+const barang = (target, value) => {
+  for (let i = 0; i < value.length; i++) {
+    if(value[i].kode_barang == target) {
+      return value[i].kategori_barang
+    }
+  }
+}
+const datatable = (item, supplier, detail, dtbarang) => {
   let a = []
   for (let i = 0; i < item.length; i++) {
     for (let k = 0; k < supplier.length; k++) {
@@ -69,6 +90,14 @@ const datatable = (item, supplier) => {
           tgl_input: item[i].tgl_input,
           tgl_batal: item[i].tgl_batal,
           status: item[i].status,
+          nama_barang: detailpbl(item[i].no_pembelian, detail, 'nama'),
+          kode_barang: detailpbl(item[i].no_pembelian, detail).kode_barang,
+          hs_code: detailpbl(item[i].no_pembelian, detail).hs_code,
+          satuan: detailpbl(item[i].no_pembelian, detail).satuan,
+          jumlah_diterima: functions.numb(detailpbl(item[i].no_pembelian, detail).jumlah_diterima),
+          jumlah: detailpbl(item[i].no_pembelian, detail).jumlah,
+          nilai: detailpbl(item[i].no_pembelian, detail).nilai,
+          kategori_barang: barang(detailpbl(item[i].no_pembelian, detail).kode_barang, dtbarang),
         })
       }
     }
@@ -128,11 +157,11 @@ const printdata = (item, supplier, detail) => {
   }
   return a
 }
-const pilihtipe = (select, item, supplier) => {
+const pilihtipe = (select, item, supplier, detail, barang) => {
   if (select.length === 0) {
-      return datatable(item, supplier);
+      return datatable(item, supplier, detail, barang);
     } else {
-      return datatable(item, supplier).filter(item => select.includes(item.tipe_dokumen));
+      return datatable(item, supplier, detail, barang).filter(item => select.includes(item.tipe_dokumen));
     }
 }
 const sum = (data) => {
@@ -156,4 +185,5 @@ export default {
   printdata,
   pilihtipe,
   sum,
+  detailpbl,
 }

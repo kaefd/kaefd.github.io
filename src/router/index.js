@@ -13,6 +13,7 @@ import PengirimanBarang from '../views/PengirimanBarang.vue'
 import LaporanStok from '../views/LaporanStok.vue'
 import LaporanPemasukan from '../views/LaporanPemasukan.vue'
 import LaporanPengeluaran from '../views/LaporanPengeluaran.vue'
+import LaporanPengiriman from '../views/LaporanPengiriman.vue'
 import LogView from '../views/LaporanLog.vue'
 const router = createRouter({
   history: createWebHashHistory(),
@@ -123,6 +124,14 @@ const router = createRouter({
         middleware: [middleware]
       },
       component: LaporanPengeluaran,
+    },
+    {
+      path: '/laporan-pengiriman',
+      name: 'LaporanPengiriman',
+      meta: {
+        middleware: [middleware]
+      },
+      component: LaporanPengiriman,
     },
     {
       path: '/laporan-log',

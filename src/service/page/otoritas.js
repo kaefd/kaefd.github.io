@@ -36,7 +36,8 @@ const pengiriman = [
     'Batal Pengiriman',
     'Tambah Pengiriman Baru',
     'Cetak Surat Jalan',
-    'Cetak DO'
+    'Cetak DO',
+    'Alamat Bongkar'
 ]
 const laporan = [
     'Laporan',
@@ -44,6 +45,7 @@ const laporan = [
     'Laporan Pembelian',
     'Laporan Produksi',
     'Laporan Penjualan',
+    'Laporan Pengiriman',
     'Laporan Log User'
 ]
 const setelan = [
@@ -65,14 +67,17 @@ const otoritas = (data) => {
     return a
 }
 const routes = (data, target) => {
-    for (let i = 0; i < data.length; i++) {
-        if(data[i].jenis_otoritas == target) {
-            let a = data[i].status
-            if( a == 'true') {
-                return true
-            } else false
+    let a = false
+    if(data.length >= 1) {
+        for (let i = 0; i < data.length; i++) {
+            if(data[i].jenis_otoritas == target) {
+                if( data[i].status == 'true') {
+                    a = true
+                } else a = false
+            }
         }
-    }
+    } else a = false
+     return a
 }
 
 const all = (data, user) => {

@@ -13,6 +13,7 @@ import barang from '../service/page/barang';
 <script>
 import laporan from '../service/page/laporan';
 import functions from '../service/functions';
+import CircularLoader from '../components/animate/circularLoader.vue';
   export default {
     components: {
       TableVue,
@@ -21,6 +22,7 @@ import functions from '../service/functions';
       menuList,
       textField,
         BtnFilter,
+        CircularLoader,
     },
     props:['page', 'cetak', 'window'],
     data () {
@@ -32,6 +34,7 @@ import functions from '../service/functions';
         kode_barang: [],
         filter: false,
         dialoggb: false,
+        loading: true,
         pageTitle: 'LAPORAN STOK BARANG',
         selectCategory: [],
         btnTitle: 'Tambah Data',
@@ -95,9 +98,11 @@ import functions from '../service/functions';
           this.authority = otoritas.otoritas(otority)
         }
         if(this.authority != '') {
+          this.loading = true
           this.items = await api.getGroupBarang()
           this.databarang = await api.getBarang()
           this.logbrg = await api.getLogBarang()
+          this.loading = false
         } else return  await api.logout()
       },
       pages(){
@@ -176,6 +181,8 @@ import functions from '../service/functions';
             <textField  v-model="search" placeholder="Search" icon="mdi-magnify" class="me-2"/>
             <!-- EXPORT DATA -->
             <menuList
+              v-if="otoritas.routes(authority, 'Pengaturan Umum')"
+              :otority="authority"
               icon="mdi-dots-vertical"
               :items="cetak"
               @result="print"
@@ -201,8 +208,7 @@ import functions from '../service/functions';
         :laporanstok="true"
         />
   </v-container>
-
-
+  <circular-loader :loading="loading" />
 </template>
 <style>
 </style>

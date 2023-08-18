@@ -18,6 +18,7 @@ import DatePicker from '../components/datepicker/datePicker.vue';
 import BtnOrange from '../components/button/btnOrange.vue';
 import BtnCancel from '../components/button/btnCancel.vue';
 import AlertVue from '../components/dialog/alertVue.vue';
+import CircularLoader from '../components/animate/circularLoader.vue';
 
 </script>
 
@@ -34,7 +35,8 @@ export default {
     DatePicker,
     BtnOrange,
     BtnCancel,
-    AlertVue
+    AlertVue,
+        CircularLoader
   },
     props:['cetak', 'tema', 'window'],
     data () {
@@ -43,6 +45,7 @@ export default {
         periode: [],
         filter: false,
         confirmdialog: false,
+        loading: true,
         status: null,
         valert: false,
         authority: '',
@@ -58,6 +61,7 @@ export default {
         pembelian_head: '',
         pdetail: '',
         items: '',
+        dataitems: '',
         supplier: '',
         pembeliandetl: '',
         filtered: {
@@ -82,10 +86,13 @@ export default {
           this.authority = otoritas.otoritas(otority)
         }
         if(this.authority != '') {
+          this.loading = true
           this.items = await api.getPemasukanHead(this.periode)
           this.supplier = await api.getSupplier()
           this.pembeliandetl = await api.getPemasukanDetail(this.periode)
           this.barang = await api.getBarang()
+          this.dataitems = pemasukan.pilihtipe(this.selectdokumen, this.items, this.supplier, this.pembeliandetl, this.barang)
+          this.loading = false
         } else  await api.logout()
       },
       // TAMBAH DATA
@@ -138,7 +145,7 @@ export default {
       print(key){
         let title = this.pageTitle
         let header = pemasukan.headers
-        let item = pemasukan.pilihtipe(this.selectdokumen, this.items, this.supplier)
+        let item = this.dataitems
         functions.print(key, title, header, item)
       },
       reset() {
@@ -220,7 +227,7 @@ export default {
             :headDetails="pemasukan.headDetails"
             :details="details"
             :headers="pemasukan.headers"
-            :items="pemasukan.pilihtipe(selectdokumen, items, supplier)"
+            :items="dataitems"
             :pembeliandetl="pembeliandetl"
             :search="search"
             :category="pemasukan.tipedokumen"
@@ -234,6 +241,8 @@ export default {
           <textField  v-model="search" placeholder="Search" icon="mdi-magnify" class="me-2"/>
           <!-- EXPORT DATA -->
           <menuList
+            v-if="otoritas.routes(authority, 'Pengaturan Umum')"
+            :otority="authority"
             icon="mdi-dots-vertical"
             :items="cetak"
             @result="print"
@@ -248,7 +257,7 @@ export default {
           :sortby="pemasukan.sortBy"
           :hapus="otoritas.routes(authority, 'Batal Pembelian')"
           id="tbl_exporttable_to_xls"
-          :items="pemasukan.pilihtipe(selectdokumen, items, supplier)"
+          :items="dataitems"
           :search="search"
           :headers="pemasukan.headers"
           :masuk="true"
@@ -267,5 +276,6 @@ export default {
         </template>
         </dialogConfirm>
         <alertVue v-model="valert" :sukses="status" :message="message"/>
+        <circular-loader :loading="loading" />
   </v-container>
 </template>

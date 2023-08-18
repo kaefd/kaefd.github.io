@@ -90,26 +90,32 @@ export default {
                 return item.toLowerCase().includes(this.searched.toLowerCase())
             })
         },
+        
     },
     methods:{
         itemmasuk(v) {
-            let a = []
-            for (let i = 0; i < v.length; i++) {
-                a.push({no_penjualan: v[i].no_penjualan,
-                kode_barang: v[i].kode_barang,
-                nama_barang: v[i].nama_barang,
-                hs_code: v[i].hs_code,
-                jumlah: v[i].jumlah,
-                jumlah_terkirim: v[i].jumlah_terkirim,
-                satuan: v[i].satuan,
-                harga_jual: v[i].harga_jual,
-                total_terjual: v[i].total_terjual,
-                no_urut: i + 1})
-            }
-            return this.pembelian_input = a
+            this.pembelian_input = v
         },
         confirm() {
             this.$emit('confirm', this.dataitem, this.penjualan)
+        },
+        tipeDokumen (data) {
+            this.inputdata.kode_group = data
+            let a = ''
+            // BC DETECT
+            if(data.slice(0, 4) == 'BC23') {
+                a = 'BC25'
+            }
+            if(data.slice(0, 4) == 'BC40') {
+                a = 'BC41'
+            }
+            if(data.slice(0, 9) == 'PPKEK-LDP') {
+                a = 'BC25'
+            }
+            if(data.slice(0, 11) == 'PPKEK-TLDDP') {
+                a = 'BC41'
+            }
+            return this.inputdata.tipe_dokumen = a
         },
         deleteditem(del) {
             for (let i = 0; i < this.pembelian_input.length; i++) {
@@ -142,7 +148,23 @@ export default {
             if (valid){
                 // inputata = head
                 // pembelian_input = detail
-                this.$emit('inputhead', this.inputdata, this.pembelian_input)
+                let a = []
+                for (let i = 0; i < this.pembelian_input.length; i++) {
+                    a.push({
+                        no_penjualan: this.pembelian_input[i].no_penjualan,
+                        kode_barang: this.pembelian_input[i].kode_barang,
+                        nama_barang: this.pembelian_input[i].nama_barang,
+                        hs_code: this.pembelian_input[i].hs_code,
+                        jumlah: this.pembelian_input[i].jumlah,
+                        jumlah_terkirim: this.pembelian_input[i].jumlah_terkirim,
+                        satuan: this.pembelian_input[i].satuan,
+                        harga_jual: this.pembelian_input[i].harga_jual,
+                        total_terjual: this.pembelian_input[i].total_terjual,
+                        no_urut: i + 1
+                    })
+                    
+                }
+                this.$emit('inputhead', this.inputdata, a)
             }
         },
         
@@ -189,7 +211,7 @@ export default {
                     <v-btn
                         icon
                         dark
-                        @click="pembelian_input = [], dialog = false"
+                        @click="inputdata= {}, pembelian_input=[], dialog = false"
                         size="small"
                     >
                     <v-icon>mdi-close</v-icon>
@@ -232,8 +254,8 @@ export default {
                         />
                     </v-responsive>
                     <v-responsive class="pt-2 mx-md-0 mx-3 overflow-visible" width="250">
-                        <text-field-form id="tipe" label="Tipe Dokumen" v-model="inputdata.tipe_dokumen" :rules="required" readonly />                                
-                        <v-menu activator="#tipe" class="elevation-0">
+                        <text-field-form label="Tipe Dokumen" v-model="inputdata.tipe_dokumen" :rules="required" readonly />                                
+                        <!-- <v-menu activator="#tipe" class="elevation-0">
                             <v-list>
                               <v-list-item
                                 v-for="(item, index) in tipe_dokumen"
@@ -244,7 +266,7 @@ export default {
                                 <v-list-item-title @click="inputdata.tipe_dokumen = item" class="text-caption">{{ item }}</v-list-item-title>
                               </v-list-item>
                             </v-list>
-                        </v-menu>
+                        </v-menu> -->
                         <text-field-form label="No Dokumen" v-model="inputdata.no_dokumen" :rules="required" />
                         <datePickerVue label="Tgl Dokumen" v-model="inputdata.tgl_dokumen" :rules="required" :tema="tema"/>
                     </v-responsive>
@@ -363,7 +385,7 @@ export default {
                     </v-data-table>
                 </v-container>
                 <v-div class="d-flex mb-0 mt-auto me-5 ms-auto">
-                    <btn-cancel v-if="!edit" @click="dialog = false" btn_title="Batal" class="mb-3"/>
+                    <btn-cancel v-if="!edit" @click="dialog = false, inputdata= {}, pembelian_input=[]" btn_title="Batal" class="mb-3"/>
                     <btn-orange v-if="!edit" @click="validate" :hidden="disable" btn_title="Simpan" class="ms-2 mb-3" />
                 </v-div>
             </v-container>
@@ -381,7 +403,7 @@ export default {
                         style="cursor: pointer;"
                         class="text-caption"
                         density="compact"
-                        @click="inputdata.kode_group = kode, dialogkodeg = false "
+                        @click="tipeDokumen(kode), dialogkodeg = false "
                         >
                             {{ kode }}
                         </v-list-item>

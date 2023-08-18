@@ -13,6 +13,7 @@ import checkBox from '../components/form/checkBox.vue';
 import filterDrawer from '../components/drawer/filterDrawer.vue';
 import alertVue from '../components/dialog/alertVue.vue';
 import dialogMaster from '../components/dialog/dialogMaster.vue';
+import circularLoader from '../components/animate/circularLoader.vue';
 // plugin
 import { defineComponent } from 'vue';
 </script>
@@ -28,6 +29,7 @@ export default defineComponent ({
     checkBox,
     filterDrawer,
     alertVue,
+    circularLoader,
   },
     name: 'DataBarang',
     props:['cetak', 'tema', 'window'],
@@ -36,6 +38,7 @@ export default defineComponent ({
         dialog: false,
         valert: false,
         status: null,
+        loading: true,
         authority: '',
         akses: '',
         message: '',
@@ -66,7 +69,9 @@ export default defineComponent ({
           this.authority = otoritas.otoritas(this.akses)
         }
         if(otoritas.routes(this.akses, 'Data Barang')) {
+          this.loading = true
           this.items = await api.getBarang()
+          this.loading = false
         } else return await api.logout()
       },
       close(v) {
@@ -196,6 +201,8 @@ export default defineComponent ({
           <textField  v-model="search" placeholder="Search" class="me-2"/>
           <!-- EXPORT DATA -->
           <menuList
+            v-if="otoritas.routes(authority, 'Pengaturan Umum')"
+            :otority="authority"
             :items="cetak"
             @result="print"
           />
@@ -227,5 +234,6 @@ export default defineComponent ({
   </v-container>
   <!-- ALERT -->
   <alertVue v-model="valert" :sukses="status" :message="message"/>
+  <circular-loader :loading="loading" />
   </template>
   

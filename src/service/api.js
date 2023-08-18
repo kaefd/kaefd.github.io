@@ -180,33 +180,68 @@ export default {
       },
       {
         username: data.username,
+        jenis_otoritas: 'Cetak Surat Jalan',
+        status: String(data.pengiriman[3].status)
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Cetak DO',
+        status: String(data.pengiriman[4].status)
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Alamat Bongkar',
+        status: String(data.pengiriman[5].status)
+      },
+      {
+        username: data.username,
         jenis_otoritas: 'Laporan',
         status: String(data.laporan[0].status)
       },
       {
         username: data.username,
         jenis_otoritas: 'Laporan Stok Barang',
-        status: String(data.laporan_stok[0].status)
+        status: String(data.laporan[1].status)
       },
       {
         username: data.username,
         jenis_otoritas: 'Laporan Pembelian',
-        status: String(data.laporan_pembelian[0].status)
+        status: String(data.laporan[2].status)
       },
       {
         username: data.username,
         jenis_otoritas: 'Laporan Produksi',
-        status: String(data.laporan_produksi[0].status)
+        status: String(data.laporan[3].status)
       },
       {
         username: data.username,
         jenis_otoritas: 'Laporan Penjualan',
-        status: String(data.laporan_penjualan[0].status)
+        status: String(data.laporan[4].status)
       },
       {
         username: data.username,
         jenis_otoritas: 'Laporan Log User',
-        status: String(data.laporan_log[0].status)
+        status: String(data.laporan[5].status)
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Laporan Pengiriman',
+        status: String(data.laporan[6].status)
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Pengaturan Umum',
+        status: String(data.setelan[0].status)
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Export pdf',
+        status: String(data.setelan[1].status)
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Export xlsx',
+        status: String(data.setelan[2].status)
       },
     ]
     const otoritas = JSON.stringify(oto);
@@ -333,6 +368,21 @@ export default {
       },
       {
         username: data.username,
+        jenis_otoritas: 'Cetak Surat Jalan',
+        status: String(data.pengiriman[3].status)
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Cetak DO',
+        status: String(data.pengiriman[4].status)
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Alamat Bongkar',
+        status: String(data.pengiriman[5].status)
+      },
+      {
+        username: data.username,
         jenis_otoritas: 'Laporan',
         status: String(data.laporan[0].status)
       },
@@ -360,6 +410,26 @@ export default {
         username: data.username,
         jenis_otoritas: 'Laporan Log User',
         status: String(data.laporan[5].status)
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Laporan Pengiriman',
+        status: String(data.laporan[6].status)
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Pengaturan Umum',
+        status: String(data.setelan[0].status)
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Export pdf',
+        status: String(data.setelan[1].status)
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Export xlsx',
+        status: String(data.setelan[2].status)
       },
     ]
     const otoritas = JSON.stringify(oto);
@@ -653,6 +723,10 @@ export default {
       pengiriman_head : ph,
       pengiriman_detail : d,
     })
+    // return console.log({
+    //   pengiriman_head : ph,
+    //   pengiriman_detail : d,
+    // })
   },
   deletePengiriman (head, detail) {
     let pengiriman_head = {

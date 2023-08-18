@@ -1,3 +1,6 @@
+<script setup>
+import otoritas from '../../service/page/otoritas'
+</script>
 <script>
 import btnOption from '../button/btnOption.vue'
 import textButton from '../button/textButton.vue'
@@ -6,7 +9,7 @@ export default {
         btnOption,
         textButton,
   },
-    props:['icon', 'items', 'variant', 'submenu', 'index'],
+    props:['icon', 'items', 'variant', 'submenu', 'index', 'otority'],
     data () {
         return {
         }
@@ -35,7 +38,8 @@ export default {
         class="text-caption"
         :prepend-icon="c.icon"
       >
-      {{ c.title }}
+        <v-span v-if="!submenu && otoritas.routes(otority, c.title)">{{ c.title }}</v-span>
+        <v-span v-if="submenu">{{ c.title }}</v-span>
       </v-list-item>
     </v-list>
 </v-menu>       

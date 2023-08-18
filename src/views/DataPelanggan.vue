@@ -11,6 +11,7 @@ import menuList from '../components/menu/menuList.vue';
 import textField from '../components/form/textField.vue'
 import AlertVue from '../components/dialog/alertVue.vue';
 import otoritas from '../service/page/otoritas';
+import CircularLoader from '../components/animate/circularLoader.vue';
 </script>
 
 <script>
@@ -22,12 +23,14 @@ import otoritas from '../service/page/otoritas';
       dialogMaster,
       menuList,
       textField,
-      AlertVue
+      AlertVue,
+        CircularLoader
     },
     data () {
       return {
         pageTitle: 'DATA PELANGGAN',
         statusselect: true,
+        loading: true,
         status: '',
         message: '',
         valert: false,
@@ -53,7 +56,9 @@ import otoritas from '../service/page/otoritas';
           this.authority = otoritas.otoritas(this.akses)
         }
         if(otoritas.routes(this.akses, 'Data Pelanggan')) {
+          this.loading = true
           this.items = await api.getPelanggan()
+          this.loading = false
         } else return  await api.logout()
       },
       page(){
@@ -159,6 +164,8 @@ import otoritas from '../service/page/otoritas';
         <textField  v-model="search" placeholder="Search" icon="mdi-magnify" class="me-2"/>
         <!-- EXPORT DATA -->
         <menuList
+          v-if="otoritas.routes(authority, 'Pengaturan Umum')"
+          :otority="authority"
           icon="mdi-dots-vertical"
           :items="cetak"
           @result="print"
@@ -187,6 +194,7 @@ import otoritas from '../service/page/otoritas';
     />
   </v-container>
   <AlertVue v-model="valert" :sukses="status" :message="message"/>
+  <circular-loader :loading="loading" />
   </template>
 
 <style>

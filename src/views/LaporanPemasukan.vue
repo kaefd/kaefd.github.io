@@ -14,6 +14,8 @@ import checkBox from '../components/form/checkBox.vue';
 import BtnFilter from '../components/button/btnFilter.vue';
 import DatePicker from '../components/datepicker/datePicker.vue';
 import otoritas from '../service/page/otoritas';
+import pemasukan from '../service/page/pemasukan';
+import CircularLoader from '../components/animate/circularLoader.vue';
 
 </script>
 <script>
@@ -27,6 +29,7 @@ import otoritas from '../service/page/otoritas';
       checkBox,
         BtnFilter,
         DatePicker,
+        CircularLoader,
     },
     props:['tema', 'cetak', 'window'],
     data () {
@@ -35,6 +38,7 @@ import otoritas from '../service/page/otoritas';
         search: '',
         periode: [],
         filter: false,
+        loading: true,
         pageTitle: 'LAPORAN PEMASUKAN BARANG',
         selectdokumen: [],
         btnTitle: 'Tambah Data',
@@ -52,7 +56,7 @@ import otoritas from '../service/page/otoritas';
           { title: 'Tanggal Pembelian', key: 'tgl_pembelian' },
           { title: 'Tipe Dokumen', key: 'tipe_dokumen' },
           { title: 'No Dokumen', key: 'no_dokumen' },
-          { title: 'Supplier', key: 'nama' },
+          { title: 'Supplier', key: 'kode_supplier' },
           { title: 'Kategori Barang', key: 'kategori_barang' },
           { title: 'Nama Barang', key: 'nama_barang' },
           { title: 'HS Code', key: 'hs_code' },
@@ -74,6 +78,7 @@ import otoritas from '../service/page/otoritas';
         details: '',
         items: '',
         pembeliandetl: '',
+        dataitems: '',
         barang: '',
         supplier: '',
         filtered: {
@@ -94,10 +99,13 @@ import otoritas from '../service/page/otoritas';
           this.authority = otoritas.otoritas(otority)
         }
         if(this.authority != '') {
+          this.loading = true
           this.items = await api.getPemasukanHead(this.periode)
-          this.pembeliandetl = await api.getPemasukanDetail(this.periode)
           this.supplier = await api.getSupplier()
+          this.pembeliandetl = await api.getPemasukanDetail(this.periode)
           this.barang = await api.getBarang()
+          this.dataitems = pemasukan.pilihtipe(this.selectdokumen, this.items, this.supplier, this.pembeliandetl, this.barang)
+          this.loading = false
         } else return  await api.logout()
       },
       page(){
@@ -195,7 +203,7 @@ import otoritas from '../service/page/otoritas';
       print(key){
         let title = this.pageTitle
         let header = this.headers
-        let item = this.printdata()
+        let item = this.dataitems
         functions.print(key, title, header, item)
       },
       reset() {
@@ -259,6 +267,8 @@ import otoritas from '../service/page/otoritas';
           <textField  v-model="search" placeholder="Search" icon="mdi-magnify" class="me-2"/>
           <!-- EXPORT DATA -->
           <menuList
+            v-if="otoritas.routes(authority, 'Pengaturan Umum')"
+            :otority="authority"
             icon="mdi-dots-vertical"
             :items="cetak"
             @result="print"
@@ -273,7 +283,7 @@ import otoritas from '../service/page/otoritas';
       <v-data-table
           id="tbl_exporttable_to_xls"
           items-per-page="10"
-          :items="pilihtipe()"
+          :items="dataitems"
           :headers="headers"
           :search="search"
           :hover="true"
@@ -285,34 +295,6 @@ import otoritas from '../service/page/otoritas';
           <!-- eslint-disable-next-line vue/valid-v-slot -->
           <template v-slot:item.tgl_pembelian="{item}">
               {{ functions.formatDate(item.raw.tgl_pembelian) }}
-          </template>
-          <!-- eslint-disable-next-line vue/valid-v-slot -->
-          <template v-slot:item.nama="{item}">
-              {{ dataTable(item.raw.kode_supplier, 'nama') }}
-          </template>
-          <!-- eslint-disable-next-line vue/valid-v-slot -->
-          <template v-slot:item.kategori_barang="{item}">
-              {{ dataTable(item.raw.no_pembelian, 'kategori') }}
-          </template>
-          <!-- eslint-disable-next-line vue/valid-v-slot -->
-          <template v-slot:item.nama_barang="{item}">
-              {{ dataTable(item.raw.no_pembelian, 'namabrg') }}
-          </template>
-          <!-- eslint-disable-next-line vue/valid-v-slot -->
-          <template v-slot:item.hs_code="{item}">
-              {{ dataTable(item.raw.no_pembelian, 'hscode') }}
-          </template>
-          <!-- eslint-disable-next-line vue/valid-v-slot -->
-          <template v-slot:item.satuan="{item}">
-              {{ dataTable(item.raw.no_pembelian, 'satuan') }}
-          </template>
-          <!-- eslint-disable-next-line vue/valid-v-slot -->
-          <template v-slot:item.jumlah_diterima="{item}">
-              {{ dataTable(item.raw.no_pembelian, 'diterima') }}
-          </template>
-          <!-- eslint-disable-next-line vue/valid-v-slot -->
-          <template v-slot:item.total_nilai="{item}">
-              {{ dataTable(item.raw.total_nilai, 'total') }}
           </template>
           <!-- BUTTON EDIT -->
           <!-- eslint-disable-next-line vue/valid-v-slot -->
@@ -342,4 +324,5 @@ import otoritas from '../service/page/otoritas';
         </v-data-table>
       </v-sheet>
     </v-container>
+  <circular-loader :loading="loading" />
   </template>

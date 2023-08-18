@@ -26,7 +26,7 @@ export default {
     DialogVue,
     CurrencyInput
     },
-    props:['tema', 'window', 'hapus', 'pjl_blmterkirm', 'pembelianbaru', 'namaPelanggan','detailkirim', 'nokirim', 'nopjl', 'pjl_detail', 'alamatBongkar', 'groupbarang', 'batalbtn', 'pengiriman', 'pemasukan', 'totalpenjualan', 'namaTujuan', 'datainput', 'pageTitle', 'pengeluaran', 'no', 'tipe', 'namaSupplier', 'pengirimanDetail', 'pembelian', 'pelanggan', 'supplier', 'pembeliandetl', 'edit', 'kirim', 'headers', 'items', 'actIcon', 'icon', 'btncolor', 'search', 'iVariant', 'headDetails', 'details','disable', 'btn', 'datatext', 'itemDetail', 'category'],
+    props:['tema', 'window', 'alamatBgkr', 'hapus', 'pjl_blmterkirm', 'pembelianbaru', 'namaPelanggan','detailkirim', 'nokirim', 'nopjl', 'pjl_detail', 'alamatBongkar', 'groupbarang', 'batalbtn', 'pengiriman', 'pemasukan', 'totalpenjualan', 'namaTujuan', 'datainput', 'pageTitle', 'pengeluaran', 'no', 'tipe', 'namaSupplier', 'pengirimanDetail', 'pembelian', 'pelanggan', 'supplier', 'pembeliandetl', 'edit', 'kirim', 'headers', 'items', 'actIcon', 'icon', 'btncolor', 'search', 'iVariant', 'headDetails', 'details','disable', 'btn', 'datatext', 'itemDetail', 'category'],
     data () {
       return {
         dialog: false,
@@ -115,26 +115,7 @@ export default {
             }
         },
         itemmasuk(value) {
-            let a = []
-            for (let i = 0; i < value.length; i++) {
-                a.push({
-                    no_penjualan: value[i].no_penjualan,
-                    no_pengiriman: value[i].no_pengiriman,
-                    kode_barang: value[i].kode_barang,
-                    nama_barang: value[i].nama_barang,
-                    kode_group: value[i].kode_group,
-                    tipe_dokumen: value[i].tipe_dokumen,
-                    no_dokumen: value[i].no_dokumen,
-                    hs_code: value[i].hs_code,
-                    jumlah: value[i].jumlah,
-                    jumlah_konversi: value[i].jumlah_konversi,
-                    satuan_konversi: value[i].satuan_konversi,
-                    satuan: value[i].satuan,
-                    no_urut: i + 1,
-                    nilai: value[i].nilai
-                })
-            }
-            return this.pembelian_input = a
+            this.pembelian_input = value
         },
         confirm() {
             this.$emit('confirm', this.dataitem, this.kirim_detail)
@@ -165,7 +146,27 @@ export default {
             if (valid){
                 // inputata = head
                 // pembelian_input = detail
-                this.$emit('inputhead', this.inputdata, this.pembelian_input)
+                let a = []
+                for (let i = 0; i < this.pembelian_input.length; i++) {
+                    a.push({
+                        no_penjualan: this.pembelian_input[i].no_penjualan,
+                        no_pengiriman: this.inputdata.no_pengiriman,
+                        kode_barang: this.pembelian_input[i].kode_barang,
+                        nama_barang: this.pembelian_input[i].nama_barang,
+                        kode_group: this.pembelian_input[i].kode_group,
+                        tipe_dokumen: this.pembelian_input[i].tipe_dokumen,
+                        no_dokumen: this.pembelian_input[i].no_dokumen,
+                        hs_code: this.pembelian_input[i].hs_code,
+                        jumlah: this.pembelian_input[i].jumlah,
+                        jumlah_konversi: this.pembelian_input[i].jumlah_konversi,
+                        satuan_konversi: this.pembelian_input[i].satuan_konversi,
+                        satuan: this.pembelian_input[i].satuan,
+                        no_urut: i + 1,
+                        nilai: this.pembelian_input[i].nilai
+                    })
+                    
+                }
+                this.$emit('inputhead', this.inputdata, a)
             }
         },
     },
@@ -225,12 +226,12 @@ export default {
                         <text-field-form label="Tgl Pengiriman" :model-value="functions.formatDate(dataitem.tgl_pengiriman)" readonly />
                     </v-responsive>
                     <v-responsive class="pt-2 mx-3" width="250">
-                        <text-field-form label="Pelanggan" :model-value="dataitem.kode_pelanggan" readonly />
-                        <text-field-form label="Tujuan Bongkar" :model-value="dataitem.nama" readonly />
-                    </v-responsive>
-                    <v-responsive class="pt-2 mx-md-0 mx-3" width="250">
                         <text-field-form label="Supir" :model-value="dataitem.supir" readonly />
                         <text-field-form label="No Polisi" :model-value="dataitem.no_polisi" readonly />
+                    </v-responsive>
+                    <v-responsive class="pt-2 mx-md-0 mx-3" width="250">
+                        <text-field-form label="Pelanggan" :model-value="dataitem.namaplg" readonly />
+                        <text-field-form v-if="alamatBgkr" label="Tujuan Bongkar" :model-value="dataitem.nama" readonly />
                     </v-responsive>
                 </v-row>
                 <!-- TAMBAH PENGIRIMAN -->
@@ -291,6 +292,10 @@ export default {
                     {{ functions.numb(item.raw.jumlah, null, false ) }}
                 </template>
                 <!-- eslint-disable-next-line vue/valid-v-slot -->
+                <template v-if="!edit" v-slot:item.jumlah_konversi="{ item }">
+                   {{ functions.numb(item.raw.jumlah_konversi) }}
+                </template>
+                <!-- eslint-disable-next-line vue/valid-v-slot -->
                 <template v-slot:item.actions="{ item, index }">
                     <dialog-vue v-model="detaildial[index]">
                         <template #titlecard>
@@ -301,7 +306,7 @@ export default {
                             <v-sheet class="mx-auto mt-5 w-75">
                                 <text-field-form
                                     v-if="edit"
-                                    label="Jumlah"
+                                    label="Jumlah (Tonase)"
                                     :model-value="functions.numb(item.raw.jumlah, null, false)"
                                     active="true"
                                     hide-details
@@ -310,11 +315,44 @@ export default {
                                 />
                                 <currency-input
                                     v-if="!edit"
-                                    label="Jumlah"
+                                    label="Jumlah (Tonase)"
                                     v-model="pembelian_input[index].jumlah"
                                     active="true"
                                     class="mb-3"
                                     :options="{ currency: 'EUR', currencyDisplay: 'hidden'}"
+                                />
+                                <text-field-form
+                                    v-if="edit"
+                                    label="Qty"
+                                    :model-value="item.raw.jumlah_konversi"
+                                    active="true"
+                                    hide-details
+                                    class="mb-3"
+                                    readonly
+                                />
+                                <currency-input
+                                    v-if="!edit"
+                                    label="Qty"
+                                    v-model="pembelian_input[index].jumlah_konversi"
+                                    active="true"
+                                    class="mb-3"
+                                    :options="{ currency: 'EUR', currencyDisplay: 'hidden'}"
+                                />
+                                <text-field-form
+                                    v-if="edit"
+                                    label="Satuan Konversi"
+                                    :model-value="item.raw.satuan_konversi"
+                                    active="true"
+                                    hide-details
+                                    class="mb-3"
+                                    readonly
+                                />
+                                <text-field-form
+                                    v-if="!edit"
+                                    label="Satuan Konversi"
+                                    v-model="pembelian_input[index].satuan_konversi"
+                                    active="true"
+                                    class="mb-3"
                                 />
                             </v-sheet>
                             <v-divider class="mt-3 mb-5"></v-divider>

@@ -21,6 +21,7 @@ import BtnCancel from '../components/button/btnCancel.vue';
 import BtnOrange from '../components/button/btnOrange.vue';
 import otoritas from '../service/page/otoritas';
 import AlertVue from '../components/dialog/alertVue.vue';
+import CircularLoader from '../components/animate/circularLoader.vue';
 </script>
 
 <script>
@@ -39,7 +40,8 @@ import AlertVue from '../components/dialog/alertVue.vue';
       DatePicker,
       BtnCancel,
       BtnOrange,
-        AlertVue
+        AlertVue,
+        CircularLoader
     },
     props:['cetak', 'tema', 'user', 'window'],
     data () {
@@ -51,6 +53,7 @@ import AlertVue from '../components/dialog/alertVue.vue';
         datapelanggan: '',
         dialog2: false,
         confirmdialog: false,
+        loading: true,
         authority: '',
         status: null,
         valert: false,
@@ -87,12 +90,14 @@ import AlertVue from '../components/dialog/alertVue.vue';
           this.authority = otoritas.otoritas(otority)
         }
         if(this.authority != '') {
-        let item = await api.getPenjualanHead(this.periode)
+          this.loading = true
+          let item = await api.getPenjualanHead(this.periode)
           this.datapelanggan = await api.getPelanggan()
           this.penjualan_head = pengeluaran.items(item, this.datapelanggan)
           this.penjualan_detail = await api.getPenjualanDetail(this.periode)
           this.groupbarang = await api.getGroupBarang()
           this.barang = await api.getBarang()
+          this.loading = false
         } else return  await api.logout()
       },
       close(v) {
@@ -258,6 +263,8 @@ import AlertVue from '../components/dialog/alertVue.vue';
           <textField  v-model="search" placeholder="Search" icon="mdi-magnify" class="me-2"/>
             <!-- EXPORT DATA -->
           <menuList
+            v-if="otoritas.routes(authority, 'Pengaturan Umum')"
+            :otority="authority"
             icon="mdi-dots-vertical"
             :items="cetak"
             @result="print"
@@ -318,6 +325,7 @@ import AlertVue from '../components/dialog/alertVue.vue';
         </template>
         </dialogConfirm>
         <alertVue v-model="valert" :sukses="status" :message="message"/>
+        <circular-loader :loading="loading" />
   </v-container>
 
 </template>

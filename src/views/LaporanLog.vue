@@ -9,6 +9,7 @@ import TextField from '../components/form/textField.vue';
 import DatePicker from '../components/datepicker/datePicker.vue';
 import laporan from '../service/page/laporan';
 import functions from '../service/functions';
+import CircularLoader from '../components/animate/circularLoader.vue';
 </script>
 
 <script>
@@ -19,7 +20,8 @@ import functions from '../service/functions';
       checkBox,
         BtnFilter,
         TextField,
-        DatePicker
+        DatePicker,
+        CircularLoader
     },
     props:['tema', 'cetak', 'user', 'window'],
     data () {
@@ -28,6 +30,7 @@ import functions from '../service/functions';
         search: '',
         periode: [],
         filter: false,
+        loading: true,
         pageTitle: 'LAPORAN LOG USER',
         btnTitle: 'Tambah Data',
         cardTitle: 'Detail Barang',
@@ -54,9 +57,11 @@ import functions from '../service/functions';
       async fetchData() {
         let user = localStorage.getItem('user')
         if(user != null) {
+          this.loading = true
           this.users = await api.getUser()
           this.items = await api.getLogUser(this.periode)
-        }
+          this.loading = false
+        } else await api.logout()
       },
       selected(){        
         if (this.selectuser.length === 0) {
@@ -158,5 +163,5 @@ import functions from '../service/functions';
           :log="true"
           />
   </v-container>
-
+  <circular-loader :loading="loading" />
 </template>

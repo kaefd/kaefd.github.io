@@ -64,7 +64,7 @@ export default {
                 jumlah: '',
                 nilai: '',
                 harga_jual:'',
-                jumlah_konversi: '',
+                jumlah_konversi: 0,
                 satuan_konversi: ''
             }
         }
@@ -236,9 +236,9 @@ export default {
                 no_pengiriman: this.nokirim,
                 kode_barang: kode.kode_barang,
                 nama_barang: kode.nama_barang,
-                kode_group: kode.no_penjualan,
-                tipe_dokumen: kode.no_penjualan,
-                no_dokumen: kode.no_penjualan,
+                kode_group: kode.kode_group,
+                tipe_dokumen: kode.tipe_dokumen,
+                no_dokumen: kode.no_dokumen,
                 hs_code: this.state.hs_code,
                 jumlah: this.penjualan_detail.jumlah,
                 jumlah_konversi: this.penjualan_detail.jumlah_konversi,
@@ -255,7 +255,7 @@ export default {
             jumlah: '',
             nilai: '',
             harga_jual:'',
-            jumlah_konversi: '',
+            jumlah_konversi: 0,
             satuan_konversi: ''
         }
         this.dialogchild[i] = false
@@ -333,17 +333,17 @@ export default {
                                 <currency-input
                                     v-if="!pemasukan"
                                     v-model="penjualan_detail.jumlah"
-                                    label="Jumlah"
+                                    label="Jumlah (Tonase)"
                                     :hide-details="true"
                                     :disabled="hiddenbtn"
                                     :options="{ currency: 'EUR', currencyDisplay: 'hidden' }"
                                 />
-                                <text-field-form
+                                <currency-input
                                     v-if="pengiriman"
-                                    type="number"
                                     v-model="penjualan_detail.jumlah_konversi"
-                                    label="Jumlah konversi"
+                                    label="Qty"
                                     :hide-details="true"
+                                    :options="{ currency: 'EUR', currencyDisplay: 'hidden' }"
                                 />
                                 <text-field-form
                                     v-if="pengiriman"
@@ -354,7 +354,7 @@ export default {
                                 <currency-input
                                     v-if="pemasukan"
                                     v-model="state.jumlah"
-                                    label="Jumlah"
+                                    label="Jumlah (Tonase)"
                                     :hide-details="true"
                                     :disabled="hiddenbtn"
                                     :options="{ currency: 'EUR', currencyDisplay: 'hidden' }"

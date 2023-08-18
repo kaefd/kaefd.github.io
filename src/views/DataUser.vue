@@ -1,5 +1,6 @@
 <script setup>
 import { defineComponent } from 'vue';
+import CircularLoader from '../components/animate/circularLoader.vue';
 import BtnCancel from '../components/button/btnCancel.vue';
 import BtnInfo from '../components/button/btnInfo.vue';
 import BtnOrange from '../components/button/btnOrange.vue';
@@ -23,6 +24,7 @@ import UserDetail from './userDetail.vue';
         DialogConfirm,
         TableVue,
         UserDetail,
+        CircularLoader,
     },
     data () {
       return {
@@ -30,6 +32,7 @@ import UserDetail from './userDetail.vue';
         detail: false,
         confirmdialog: false,
         pageTitle: 'DATA USER',
+        loading: true,
         tab: null,
         valert: false,
         message: '',
@@ -69,9 +72,11 @@ import UserDetail from './userDetail.vue';
           //ambil otoritas userselect
           if(otoritas.routes(this.akses, 'Data User')) {
             // data user
+            this.loading = true
             this.items = await api.getUser()
             this.otority = await api.getOtoritas(this.userselect)
             this.user_otoritas = otoritas.otoritas(this.otority)
+            this.loading = false
           } else await api.logout()
         },
         async pilihUser(value) {
@@ -154,7 +159,7 @@ import UserDetail from './userDetail.vue';
   })
 </script>
 <template>
-<v-container class="pt-9 h-100">
+<v-container class="pt-9 h-100"> 
   <v-row no-gutters class="mb-2 mt-n4">
     <v-responsive class="mb-sm-0 mb-1" min-width="200">
       <btn-info @click="tambah = true, edit = false, detail = true, ds = j_otoritas" btn_title="Tambah User" icon="mdi-plus" />
@@ -187,5 +192,6 @@ import UserDetail from './userDetail.vue';
     </template>
   </dialogConfirm>
   <alert-vue v-model="valert" :sukses="status" :message="message" />
+  <circular-loader :loading="loading" />
 </v-container>
 </template>

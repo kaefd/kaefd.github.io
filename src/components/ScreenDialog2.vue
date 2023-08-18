@@ -81,36 +81,10 @@ export default {
     },
     methods: {
         bahanmasuk(value) {
-            let a = []
-            for (let i = 0; i < value.length; i++) {
-                a.push({
-                    no_produksi: value[i].no_produksi,
-                    kode_barang: value[i].kode_barang,
-                    nama_barang: value[i].nama_barang,
-                    hs_code: value[i].hs_code,
-                    jumlah: value[i].jumlah,
-                    satuan: value[i].satuan,
-                    no_urut: i + 1,
-                    nilai: value[i].nilai,
-                })
-            }
-            this.inputbahan = a
+            this.inputbahan = value
         },
         barangmasuk(value) {
-            let a = []
-            for (let i = 0; i < value.length; i++) {
-                a.push({
-                    no_produksi: value[i].no_produksi,
-                    kode_barang: value[i].kode_barang,
-                    nama_barang: value[i].nama_barang,
-                    hs_code: value[i].hs_code,
-                    jumlah: value[i].jumlah,
-                    satuan: value[i].satuan,
-                    no_urut: i + 1,
-                    nilai: this.inputbahan[0].nilai,
-                })
-            }
-            this.inputbarang = a
+            this.inputbarang = value
 
         },
         input_kodegroup(value) {
@@ -121,7 +95,8 @@ export default {
             let jenis = []
             if(p == 'bahan') {
                 jenis = this.inputbahan
-            } else if(p == 'barang') {
+            }
+            if(p == 'barang') {
                 jenis = this.inputbarang
             }
             for (let i = 0; i < jenis.length; i++) {
@@ -145,13 +120,37 @@ export default {
         async validate () {
             const { valid } = await this.$refs.form.validate()
             if (valid){
+                // detailbahan
+                let dtlbahan = []
+                let dtlbarang = []
+                for (let i = 0; i < this.inputbahan.length; i++) {
+                    dtlbahan.push({
+                        no_produksi: this.inputbahan[i].no_produksi,
+                        kode_barang: this.inputbahan[i].kode_barang,
+                        nama_barang: this.inputbahan[i].nama_barang,
+                        hs_code: this.inputbahan[i].hs_code,
+                        jumlah: this.inputbahan[i].jumlah,
+                        satuan: this.inputbahan[i].satuan,
+                        no_urut: i + 1,
+                        nilai: this.inputbahan[i].nilai,
+                    })
+                }
+                // detailbarang
+                for (let i = 0; i < this.inputbarang.length; i++) {
+                    dtlbarang.push({
+                        no_produksi: this.inputbarang[i].no_produksi,
+                        kode_barang: this.inputbarang[i].kode_barang,
+                        nama_barang: this.inputbarang[i].nama_barang,
+                        hs_code: this.inputbarang[i].hs_code,
+                        jumlah: this.inputbarang[i].jumlah,
+                        satuan: this.inputbarang[i].satuan,
+                        no_urut: i + 1,
+                        nilai: this.inputbahan[0].nilai,
+                    })
+                    
+                }
                 // 1st = head, 2nd = detailbahan, 3rd = detailbarang
-                return this.$emit('inputhead', this.inputproduksi, this.inputbahan, this.inputbarang)
-            }
-            else {
-                this.valert = true
-                this.status = false
-                this.message = "jumlah bahan baku dan barang jadi tidak sesuai"
+                return this.$emit('inputhead', this.inputproduksi, dtlbahan, dtlbarang)
             }
         },
     },
@@ -313,7 +312,7 @@ export default {
                                     </v-sheet>
                                     <v-divider class="mt-3 mb-5"></v-divider>
                                         <v-div v-if="!edit" class="d-flex me-5 ms-auto">
-                                            <btn-cancel btn_title="Hapus" @click="deleteditem(item.raw, 'barang'), dialogbrg[index] = false, inputproduksi = []" class="me-2"></btn-cancel>
+                                            <btn-cancel btn_title="Hapus" @click="deleteditem(item.raw, 'barang'), dialogbrg[index] = false" class="me-2"></btn-cancel>
                                             <btn-orange btn_title="Simpan" type="submit" @click="dialogbrg[index] = false"></btn-orange>
                                         </v-div>
                                     </template>

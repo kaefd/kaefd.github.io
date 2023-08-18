@@ -109,11 +109,11 @@ export default {
                 <v-div class="d-flex mt-3">
                     <!-- PENERIMA -->
                     <v-div class="d-flex text-body-2">
-                        <v-span class="me-2">PENERIMA :</v-span>
-                        <v-span class="text-start">
-                            {{ uppercase(items.nama) }} <br/>
-                            {{ uppercase(items.alamat) }} <br/>
-                            {{ uppercase(items.kabupaten) }}
+                        <v-span class="me-2">PENERIMA: </v-span>
+                        <v-span class="text-start w-75">
+                            {{ uppercase(items.namaplg) }} <br/>
+                            {{ uppercase(items.alamat_pelanggan) }} <br/>
+                            <!-- {{ uppercase(items.kabupaten) }} -->
                         </v-span>
                     </v-div>
                     <v-spacer></v-spacer>
@@ -127,7 +127,7 @@ export default {
                         </v-div>
                         <!-- TGL PENGIRIMAN -->
                         <v-div class="d-flex flex-column">
-                            <v-span class="text-start" contenteditable>: {{ items.no_pengiriman }}</v-span>
+                            <v-span class="text-start">: {{ items.no_pengiriman }}</v-span>
                             <v-span class="text-start">: {{ functions.formatDate(items.tgl_pengiriman) }} <v-span contenteditable>/ {{ getTime() }}</v-span></v-span>
                             <v-span class="text-start">: {{ items.supir }}/{{ items.no_polisi }}</v-span>
                         </v-div>

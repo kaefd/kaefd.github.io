@@ -8,6 +8,7 @@ import TableVue from '../components/TableVue.vue';
 import menuList from '../components/menu/menuList.vue';
 import textField from '../components/form/textField.vue';
 import otoritas from '../service/page/otoritas';
+import CircularLoader from '../components/animate/circularLoader.vue';
 </script>
 <script>
   export default {
@@ -16,10 +17,13 @@ import otoritas from '../service/page/otoritas';
     TableVue,
     menuList,
     textField,
+        CircularLoader,
 },
     data () {
       return {
         drawer: false,
+        loading: true,
+        authority: '',
         akses: '',
         pageTitle:'DATA SUPPLIER',
         search: '',
@@ -35,7 +39,9 @@ import otoritas from '../service/page/otoritas';
           this.authority = otoritas.otoritas(this.akses)
         }
         if(otoritas.routes(this.akses, 'Data Supplier')) {
+          this.loading = true
           this.items = await api.getSupplier()
+          this.loading = false
         } else return  await api.logout()
       },
       page(){
@@ -63,6 +69,8 @@ import otoritas from '../service/page/otoritas';
         <textField  v-model="search" placeholder="Search" icon="mdi-magnify" class="me-2"/>
         <!-- EXPORT DATA -->
         <menuList
+          v-if="otoritas.routes(authority, 'Pengaturan Umum')"
+          :otority="authority"
           icon="mdi-dots-vertical"
           :items="cetak"
           @result="print"
@@ -85,7 +93,8 @@ import otoritas from '../service/page/otoritas';
       :search="search"
       toolbar_title="Detail Data"
       :pageTitle="pageTitle"/>
-</v-container>
+  </v-container>
+  <circular-loader :loading="loading" />
   </template>
 <style>
 
