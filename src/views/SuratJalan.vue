@@ -53,16 +53,44 @@ export default {
             }
             this.penjualanHead = pjl
         },      
-        // dataitems(value) {
-        //     let qty = []
-        //     let satuan = ''
-
-        //     for (let i = 0; i < this.kirim_detail.length; i++) {
-        //         if(value == 'qty') {
-
-        //         }
-        //     }
-        // },
+        dataitems(value, p) {
+            let qty = []
+            let jumlah = []
+            let keterangan = []
+            let satuan = ''
+            for (let i = 0; i < this.kirim_detail.length; i++) {
+                if(value == this.kirim_detail[i].nama_barang) {
+                    if(p == 'qty') {
+                       qty.push(this.kirim_detail[i].jumlah_konversi)
+                    }
+                    if(p == 'jumlah') {
+                       jumlah.push(this.kirim_detail[i].jumlah)
+                    }
+                    if(p == 'keterangan') {
+                       keterangan.push(" " + this.kirim_detail[i].no_dokumen + "/" + this.kirim_detail[i].tipe_dokumen.slice(2))
+                    }
+                    if(p == 'satuan') {
+                        satuan = this.kirim_detail[i].satuan_konversi
+                    }
+                }
+            }
+            if(p == 'qty') {
+                return qty.reduce((total, current) => {
+                    return total + current;
+                }, 0);
+            }
+            if(p == 'jumlah') {
+                return jumlah.reduce((total, current) => {
+                    return total + current;
+                }, 0);
+            }
+            if(p == 'keterangan') {
+                return keterangan.toString()
+            }
+            if(p == 'satuan') {
+                return satuan
+            }
+        },
         getTime() {
             let getHour = new Date().toLocaleTimeString('id', {timeStyle:'short'})
             return getHour
@@ -163,15 +191,15 @@ export default {
                     </thead>
                     <tbody class="text-body-2">
                     <tr
-                        v-for="item, i in kirim_detail"
+                        v-for="item, i in nama_brg"
                         :key="i"
                     >
                         <td class="text-left">{{ i+1 }}</td>
-                        <td class="text-left">{{ item.nama_barang }}</td>
-                        <td class="text-left" contenteditable>{{ item.jumlah_konversi }}</td>
-                        <td class="text-left" contenteditable>{{ item.satuan_konversi }}</td>
-                        <td class="text-left">{{ functions.numb(item.jumlah, null, false) }}</td>
-                        <td class="text-left">{{ kirim_detail[i].no_dokumen }}/{{ kirim_detail[i].tipe_dokumen.slice(2) }}</td>
+                        <td class="text-left">{{ item }}</td>
+                        <td class="text-left" contenteditable>{{ dataitems(item, 'qty') }}</td>
+                        <td class="text-left" contenteditable>{{ dataitems(item, 'satuan') }}</td>
+                        <td class="text-left">{{ functions.numb(dataitems(item, 'jumlah')) }}</td>
+                        <td class="text-left">{{ dataitems(item, 'keterangan') }}</td>
                     </tr>
                     <tr>
                         <td></td>
