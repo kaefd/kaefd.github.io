@@ -28,7 +28,7 @@ export default {
         DialogVue,
         CurrencyInput
     },
-    props:[ 'tema', 'window', 'hapus', 'pembelianbaru', 'namaPelanggan', 'laporan', 'groupbarang', 'barang', 'batalbtn', 'penjualan', 'pemasukan', 'alamatBongkar', 'namaTujuan', 'datainput', 'pageTitle', 'pengeluaran', 'dokumenpjl', 'namaSupplier', 'pengirimanDetail', 'pembelian', 'pelanggan', 'supplier', 'pembeliandetl', 'edit', 'kirim', 'headers', 'items', 'actIcon', 'icon', 'btncolor', 'search', 'iVariant', 'headDetails', 'details','disable', 'btn', 'datatext', 'itemDetail', 'category'],
+    props:[ 'tema', 'window', 'windowH', 'hapus', 'pembelianbaru', 'namaPelanggan', 'laporan', 'groupbarang', 'barang', 'batalbtn', 'penjualan', 'pemasukan', 'alamatBongkar', 'namaTujuan', 'datainput', 'pageTitle', 'pengeluaran', 'dokumenpjl', 'namaSupplier', 'pengirimanDetail', 'pembelian', 'pelanggan', 'supplier', 'pembeliandetl', 'edit', 'kirim', 'headers', 'items', 'actIcon', 'icon', 'btncolor', 'search', 'iVariant', 'headDetails', 'details','disable', 'btn', 'datatext', 'itemDetail', 'category'],
     data () {
       return {
         dialog: false,
@@ -70,6 +70,31 @@ export default {
         }
     },
     computed: {
+        heightSizing() {
+            let h = ''
+            if(this.edit) {
+                if(this.window > 1500) {
+                    if(this.windowH > 800) {
+                        h = '55vh'
+                    } else h ='40vh'
+                } else if(this.window < 1500) {
+                    if(this.windowH > 800) {
+                        h = '55vh'
+                    } else h ='40vh'
+                }
+            } else if(!this.edit) {
+                if(this.window > 1500) {
+                    if(this.windowH > 800) {
+                        h = '40vh'
+                    } else h ='23vh'
+                } else if(this.window < 1500) {
+                    if(this.windowH > 800) {
+                        h = '40vh'
+                    } else h ='23vh'
+                }
+            }
+            return h
+        },
         filtersupplier() {
             return this.supplier.filter(item => {
                     return item.nama.toLowerCase().includes(this.searched.toLowerCase())
@@ -90,7 +115,6 @@ export default {
                 return item.toLowerCase().includes(this.searched.toLowerCase())
             })
         },
-        
     },
     methods:{
         itemmasuk(v) {

@@ -33,7 +33,7 @@ export default {
     CurrencyInput,
     BtnInfo
 },
-    props:['tema', 'window', 'hapus', 'total_nilai', 'barang', 'pembelianbaru', 'laporan', 'namaPelanggan', 'total', 'groupbarang', 'batalbtn', 'penjualan', 'pemasukan', 'alamatBongkar', 'totalpenjualan', 'namaTujuan', 'datainput', 'pageTitle', 'pengeluaran', 'dokumenpjl', 'namaSupplier', 'pengirimanDetail', 'pembelian', 'pelanggan', 'supplier', 'pembeliandetl', 'edit', 'kirim', 'headers', 'items',  'search', 'iVariant', 'headDetails', 'details','disable', 'btn', 'datatext', 'itemDetail', 'category'],
+    props:['tema', 'window', 'windowH', 'hapus', 'total_nilai', 'barang', 'pembelianbaru', 'laporan', 'namaPelanggan', 'total', 'groupbarang', 'batalbtn', 'penjualan', 'pemasukan', 'alamatBongkar', 'totalpenjualan', 'namaTujuan', 'datainput', 'pageTitle', 'pengeluaran', 'dokumenpjl', 'namaSupplier', 'pengirimanDetail', 'pembelian', 'pelanggan', 'supplier', 'pembeliandetl', 'edit', 'kirim', 'headers', 'items',  'search', 'iVariant', 'headDetails', 'details','disable', 'btn', 'datatext', 'itemDetail', 'category'],
     data () {
       return {
         dialog: false,
@@ -84,14 +84,26 @@ export default {
     computed: {
         heightSizing() {
             let h = ''
-            if(this.window > 1500 && this.edit) {
-                h = '55vh'
-            } if(this.window < 1500 && this.edit) {
-                h = '30vh'
-            } if(this.window > 1500 && !this.edit) {
-                h = '50vh'
-            } if(this.window < 1500 && !this.edit) {
-                h = '23vh'
+            if(this.edit) {
+                if(this.window > 1500) {
+                    if(this.windowH > 800) {
+                        h = '55vh'
+                    } else h ='40vh'
+                } else if(this.window < 1500) {
+                    if(this.windowH > 800) {
+                        h = '55vh'
+                    } else h ='40vh'
+                }
+            } else if(!this.edit) {
+                if(this.window > 1500) {
+                    if(this.windowH > 800) {
+                        h = '40vh'
+                    } else h ='23vh'
+                } else if(this.window < 1500) {
+                    if(this.windowH > 800) {
+                        h = '40vh'
+                    } else h ='23vh'
+                }
             }
             return h
         }

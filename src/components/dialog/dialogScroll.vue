@@ -244,7 +244,6 @@ export default {
                 jumlah_konversi: this.penjualan_detail.jumlah_konversi,
                 satuan_konversi: this.penjualan_detail.satuan_konversi,
                 jumlah_terkirim: this.penjualan_detail.jumlah_terkirim,
-                keterangan: kode.no_dokumen + "/" + kode.tipe_dokumen.slice(2),
                 satuan: this.state.satuan,
                 no_urut: '',
                 nilai: nilai

@@ -34,7 +34,7 @@ import CircularLoader from '../components/animate/circularLoader.vue';
       alertVue,
         CircularLoader,
     },
-    props:['cetak', 'tema', 'user', 'window'],
+    props:['cetak', 'tema', 'user', 'window', 'windowH'],
     data () {
       return {
         filter: false,
@@ -211,6 +211,7 @@ import CircularLoader from '../components/animate/circularLoader.vue';
           <ScreenDialog2
           v-if="otoritas.routes(authority, 'Tambah Produksi Baru')"
           :window="window"
+          :windowH="windowH"
           :tema="tema"
           :headers="produksi.headItem"
           :items="items"
@@ -259,6 +260,7 @@ import CircularLoader from '../components/animate/circularLoader.vue';
             <template v-slot:item.actions="{ item }">
                 <ScreenDialog2
                 :window="window"
+                :windowH="windowH"
                 :hapus="otoritas.routes(authority, 'Batal Pembelian')"
                 batalbtn="Produksi"
                 :edit="true"

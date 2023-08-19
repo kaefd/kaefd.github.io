@@ -26,7 +26,7 @@ export default {
       BtnOrange,
       UserDetail,
     },
-    props: [ 'userdetail', 'loading', 'editdata','sortby', 'stok', 'otority','logbrg', 'user_otoritas', 'j_otoritas', 'stokbarang', 'update', 'hapus', 'groupbarang', 'laporanstok', 'masuk', 'supplier', 'pembeliandetl', 'view', 'disabled', 'keyform', 'headers', 'items', 'search', 'category', 'toolbar_title', 'form', 'noselect', 'ishidden', 'pageTitle', 'log', 'window'],
+    props: [ 'userdetail', 'windowH', 'editdata','sortby', 'stok', 'otority','logbrg', 'user_otoritas', 'j_otoritas', 'stokbarang', 'update', 'hapus', 'groupbarang', 'laporanstok', 'masuk', 'supplier', 'pembeliandetl', 'view', 'disabled', 'keyform', 'headers', 'items', 'search', 'category', 'toolbar_title', 'form', 'noselect', 'ishidden', 'pageTitle', 'log', 'window'],
     
     data () {
       return {
@@ -138,6 +138,7 @@ export default {
             <PemasukanDetail
             :hapus="hapus"
             :window="window"
+            :windowH="windowH"
             batalbtn="Pemasukan"
             @confirm="confirm"
             :supplier="supplier"

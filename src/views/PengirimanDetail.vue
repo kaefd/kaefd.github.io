@@ -106,7 +106,6 @@ export default {
                                 jumlah: this.pjl_detail[j].jumlah,
                                 jumlah_konversi: this.pjl_detail[j].jumlah_konversi,
                                 satuan_konversi: this.pjl_detail[j].satuan_konversi,
-                                keterangan: this.pjl_detail[j].keterangan,
                                 satuan: this.pjl_detail[j].satuan,
                                 no_urut: this.pjl_detail[j].no_urut,
                                 nilai: this.pjl_detail[j].nilai
@@ -118,6 +117,7 @@ export default {
             }
         },
         itemmasuk(value) {
+            this.inputdata.keterangan = ""
             this.pembelian_input = value
         },
         confirm() {
@@ -163,7 +163,6 @@ export default {
                         jumlah: this.pembelian_input[i].jumlah,
                         jumlah_konversi: this.pembelian_input[i].jumlah_konversi,
                         satuan_konversi: this.pembelian_input[i].satuan_konversi,
-                        keterangan: this.pembelian_input[i].keterangan,
                         satuan: this.pembelian_input[i].satuan,
                         no_urut: i + 1,
                         nilai: this.pembelian_input[i].nilai

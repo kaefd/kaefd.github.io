@@ -32,7 +32,7 @@ export default {
     TextButton,
     CurrencyInput,
 },
-    props:['window', 'tema', 'headers', 'headItem', 'edit', 'hapus', 'getbarang', 'detailbahan', 'groupbarang', 'detailbarang', 'select_kode', 'item'],
+    props:['window', 'windowH', 'tema', 'headers', 'headItem', 'edit', 'hapus', 'getbarang', 'detailbahan', 'groupbarang', 'detailbarang', 'select_kode', 'item'],
     data () {
       return {
         dialog: false,
@@ -58,6 +58,31 @@ export default {
       }
     },
     computed: {
+        heightSizing() {
+            let h = ''
+            if(this.edit) {
+                if(this.window > 1500) {
+                    if(this.windowH > 800) {
+                        h = '60vh'
+                    } else h ='55vh'
+                } else if(this.window < 1500) {
+                    if(this.windowH > 800) {
+                        h = '60vh'
+                    } else h ='55vh'
+                }
+            } else if(!this.edit) {
+                if(this.window > 1500) {
+                    if(this.windowH > 800) {
+                        h = '55vh'
+                    } else h ='50vh'
+                } else if(this.window < 1500) {
+                    if(this.windowH > 800) {
+                        h = '55vh'
+                    } else h ='50vh'
+                }
+            }
+            return h
+        },
         filterkodegroup() {
         let a = []
         for (let i = 0; i < this.groupbarang.length; i++) {
@@ -192,7 +217,7 @@ export default {
                 <v-toolbar-title class="text-button">DETAIL PRODUKSI</v-toolbar-title>
                 <v-spacer></v-spacer>
                 </v-toolbar>
-                <v-container>
+                <v-container class="mt-5">
                 <v-form  @submit.prevent ref="form">
                 <v-row no-gutters justify="center" justify-md="space-between" align="start" class="pb-3" min-width="400">
                     <v-responsive class="pt-2 mx-md-0 mx-3" width="250">
@@ -224,7 +249,7 @@ export default {
                             :fixed-header="true"
                             density="compact"
                             class="text-body-2 pb-3 px-5 text-caption"
-                            :height="window > 776 ? '45vh' : 200"
+                            :height="heightSizing"
                         >
                         <template v-slot:bottom>
                             <v-span v-if="edit" class="float-end me-5 text-caption font-weight-medium">Jumlah Bahan : {{ functions.numb(jumlahtotal(detailbahan)) }}</v-span>
@@ -279,7 +304,7 @@ export default {
                             :fixed-header="true"
                             density="compact"
                             class="text-body-2 pb-3 px-5 text-caption he"
-                            :height="window > 776 ? '45vh' : 200">
+                            :height="heightSizing">
                             <template v-slot:bottom>
                                 <v-span v-if="edit" class="float-end me-5 text-caption font-weight-medium">Jumlah Barang : {{ functions.numb(jumlahtotal(detailbarang)) }}</v-span>
                                 <v-span v-if="!edit" class="float-end me-5 text-caption font-weight-medium">Jumlah Barang : {{ functions.numb(jumlahtotal(inputbarang)) }}</v-span>

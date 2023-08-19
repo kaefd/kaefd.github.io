@@ -13,6 +13,7 @@ export default {
     data () {
       return {
         windowWidth: window.innerWidth,
+        windowHeight: window.innerHeight,
         drawer: false,
         tema: null,
         databarang: '',
@@ -32,6 +33,7 @@ export default {
     methods: {
       onResize() {
         this.windowWidth = window.innerWidth
+        this.windowHeight = window.innerHeight
       },
       page(value) {
         this.pageTitle = value
@@ -73,7 +75,7 @@ export default {
           </template>
         </AppBar>
         <v-main class="vh-100 vw-100">
-            <RouterView :cetak="cetak" @page="page" @pages="page" :tema="tema" :window="windowWidth"/>
+            <RouterView :cetak="cetak" @page="page" @pages="page" :tema="tema" :window="windowWidth" :windowH="windowHeight"/>
         </v-main>
       </v-layout>
     </v-theme-provider>

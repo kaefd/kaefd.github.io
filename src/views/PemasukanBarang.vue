@@ -38,7 +38,7 @@ export default {
     AlertVue,
         CircularLoader
   },
-    props:['cetak', 'tema', 'window'],
+    props:['cetak', 'tema', 'window', 'windowH'],
     data () {
       return {
         search: '',
@@ -212,6 +212,7 @@ export default {
             <!-- ADD DATA -->
             <PemasukanDetail
             :window="window"
+            :windowH="windowH"
             v-if="otoritas.routes(authority, 'Tambah Pembelian Baru')"
             :tema="tema"
             :barang="barang"
@@ -254,6 +255,7 @@ export default {
     </v-row>
         <TableVue
           :window="window"
+          :windowH="windowH"
           :sortby="pemasukan.sortBy"
           :hapus="otoritas.routes(authority, 'Batal Pembelian')"
           id="tbl_exporttable_to_xls"

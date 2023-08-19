@@ -32,7 +32,6 @@ const headDetails = [
   {title: 'Satuan', key: 'satuan' },
   {title: 'Qty', key: 'jumlah_konversi' },
   {title: 'Satuan Konversi', key: 'satuan_konversi' },
-  {title: 'Keterangan', key: 'keterangan' },
   {title: '', key: 'actions', sortable: false },
 ]
 const datainput = {

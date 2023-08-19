@@ -710,6 +710,7 @@ export default {
       kode_pelanggan: head.kode_pelanggan,
       kode_alamat_bongkar: head.kode_alamat_bongkar,
       supir: head.supir,
+      keterangan: "",
       no_polisi: head.no_polisi,
       user_input: user,
       tgl_input: functions.day(),
