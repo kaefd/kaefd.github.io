@@ -26,7 +26,7 @@ export default {
     DialogVue,
     CurrencyInput
     },
-    props:['tema', 'window', 'alamatBgkr', 'hapus', 'pjl_blmterkirm', 'pembelianbaru', 'namaPelanggan','detailkirim', 'nokirim', 'nopjl', 'pjl_detail', 'alamatBongkar', 'groupbarang', 'batalbtn', 'pengiriman', 'pemasukan', 'totalpenjualan', 'namaTujuan', 'datainput', 'pageTitle', 'pengeluaran', 'no', 'tipe', 'namaSupplier', 'pengirimanDetail', 'pembelian', 'pelanggan', 'supplier', 'pembeliandetl', 'edit', 'kirim', 'headers', 'items', 'actIcon', 'icon', 'btncolor', 'search', 'iVariant', 'headDetails', 'details','disable', 'btn', 'datatext', 'itemDetail', 'category'],
+    props:['tema', 'window', 'windowH', 'alamatBgkr', 'hapus', 'pjl_blmterkirm', 'pembelianbaru', 'namaPelanggan','detailkirim', 'nokirim', 'nopjl', 'pjl_detail', 'alamatBongkar', 'groupbarang', 'batalbtn', 'pengiriman', 'pemasukan', 'totalpenjualan', 'namaTujuan', 'datainput', 'pageTitle', 'pengeluaran', 'no', 'tipe', 'namaSupplier', 'pengirimanDetail', 'pembelian', 'pelanggan', 'supplier', 'pembeliandetl', 'edit', 'kirim', 'headers', 'items', 'actIcon', 'icon', 'btncolor', 'search', 'iVariant', 'headDetails', 'details','disable', 'btn', 'datatext', 'itemDetail', 'category'],
     data () {
       return {
         dialog: false,
@@ -66,6 +66,31 @@ export default {
             }
     },
     computed: {
+        heightSizing() {
+            let h = ''
+            if(this.edit) {
+                if(this.window > 1500) {
+                    if(this.windowH > 800) {
+                        h = '60vh'
+                    } else h ='55vh'
+                } else if(this.window < 1500) {
+                    if(this.windowH > 800) {
+                        h = '60vh'
+                    } else h ='55vh'
+                }
+            } else if(!this.edit) {
+                if(this.window > 1500) {
+                    if(this.windowH > 800) {
+                        h = '50vh'
+                    } else h ='43vh'
+                } else if(this.window < 1500) {
+                    if(this.windowH > 800) {
+                        h = '50vh'
+                    } else h ='43vh'
+                }
+            }
+            return h
+        },
         filtersupplier() {
             return this.supplier.filter(item => {
                     return item.nama.toLowerCase().includes(this.searched.toLowerCase())
@@ -280,8 +305,8 @@ export default {
                     :hover="true"
                     :fixed-header="true"
                     density="compact"
-                    class="text-caption py-1 rounded-lg border-sm mt-2"
-                    :height="edit && window > 776 ? '60vh' : 250"
+                    class="text-caption py-1 rounded-lg border-sm mt-2 h-100"
+                    :height="heightSizing"
                 >
                 <!-- CUSTOM PAGINATION STYLE -->
                 <template v-slot:bottom>

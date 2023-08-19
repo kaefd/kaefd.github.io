@@ -75,22 +75,22 @@ export default {
             if(this.edit) {
                 if(this.window > 1500) {
                     if(this.windowH > 800) {
-                        h = '55vh'
-                    } else h ='40vh'
+                        h = '60vh'
+                    } else h ='50vh'
                 } else if(this.window < 1500) {
                     if(this.windowH > 800) {
-                        h = '55vh'
-                    } else h ='40vh'
+                        h = '60vh'
+                    } else h ='47vh'
                 }
             } else if(!this.edit) {
                 if(this.window > 1500) {
                     if(this.windowH > 800) {
                         h = '40vh'
-                    } else h ='23vh'
+                    } else h ='32vh'
                 } else if(this.window < 1500) {
                     if(this.windowH > 800) {
                         h = '40vh'
-                    } else h ='23vh'
+                    } else h ='32vh'
                 }
             }
             return h
@@ -243,7 +243,7 @@ export default {
                 <v-toolbar-title class="text-button mt-1">{{ 'DETAIL '+ pageTitle }}</v-toolbar-title>
                 <v-spacer></v-spacer>
                 </v-toolbar>
-                <v-container class="h-100 d-flex flex-column">
+                <v-container class="h-100 d-flex flex-column mt-5">
                 <!-- EDIT -->
                 <v-row no-gutters v-if="edit" justify="center" justify-md="space-between" align="start" min-width="400" class="mx-3">
                     <v-responsive class="pt-2 mx-md-0 mx-3" width="250">
@@ -308,8 +308,8 @@ export default {
                         :hover="true"
                         :fixed-header="true"
                         density="compact"
-                        class="text-caption py-1 mt-2 px-5 border-sm rounded-lg"
-                        :height="edit ? '50vh' : 200"
+                        class="text-caption py-1 mt-2 px-5 border-sm rounded-lg h-100"
+                        :height="heightSizing"
                     >
                     <!-- CUSTOM PAGINATION STYLE -->
                     <template v-slot:bottom>

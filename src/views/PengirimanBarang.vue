@@ -44,7 +44,7 @@ import CircularLoader from '../components/animate/circularLoader.vue';
         BtnCancel,
         CircularLoader,
     },
-    props :['cetak', 'tema', 'user', 'window'],
+    props :['cetak', 'tema', 'user', 'window', 'windowH'],
     data () {
       return {
         drawer: null,
@@ -216,6 +216,7 @@ import CircularLoader from '../components/animate/circularLoader.vue';
           v-if="otoritas.routes(authority, 'Tambah Pengiriman Baru')"
           :tema="tema"
           :window="window"
+          :windowH="windowH"
           :pjl_blmterkirm="pjl_blmterkirm"
           @inputhead="inputhead"
           :alamatBongkar="alamatBongkar"
@@ -289,6 +290,7 @@ import CircularLoader from '../components/animate/circularLoader.vue';
                       <v-list-item class="pa-0">
                         <PengirimanDetail
                           :window="window"
+                          :windowH="windowH"
                           :hapus="otoritas.routes(authority, 'Batal Pengiriman')"
                           :alamatBgkr="otoritas.routes(authority, 'Alamat Bongkar')"
                           batalbtn="Pengiriman"

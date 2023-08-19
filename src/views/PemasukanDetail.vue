@@ -248,7 +248,7 @@ export default {
                 <dialogScroll :window="window" @reset="reset" :kurs="inputdata.kurs" :barang="barang" :itemDetail="itemDetail" @pemasukanitem="itemmasuk" :pemasukan="true" dialog_title="Data Barang" :btn="btn" max-width="400" />
             </v-container>
             <!-- TABEL EDIT/VIEW -->
-            <v-container class="100%">
+            <v-container>
                 <v-data-table
                     :headers="headDetails"
                     :items="edit ? pembelian : pembelian_input"
