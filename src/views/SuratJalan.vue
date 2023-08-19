@@ -67,7 +67,7 @@ export default {
                        jumlah.push(this.kirim_detail[i].jumlah)
                     }
                     if(p == 'keterangan') {
-                       keterangan.push(" " + this.kirim_detail[i].no_dokumen + "/" + this.kirim_detail[i].tipe_dokumen.slice(2))
+                       keterangan.push("\n"+this.kirim_detail[i].no_dokumen + "/" + this.kirim_detail[i].tipe_dokumen.slice(2))
                     }
                     if(p == 'satuan') {
                         satuan = this.kirim_detail[i].satuan_konversi

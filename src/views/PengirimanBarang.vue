@@ -271,11 +271,11 @@ import CircularLoader from '../components/animate/circularLoader.vue';
               </template>
               <!-- eslint-disable-next-line vue/valid-v-slot -->
               <template v-slot:item.nama="{item}">
-                <v-span v-if="otoritas.routes(authority, 'Tujuan Bongkar')">{{ item.raw.nama }}</v-span>
+                <v-span v-if="otoritas.routes(authority, 'Alamat Bongkar')">{{ item.raw.nama }}</v-span>
               </template>
               <!-- eslint-disable-next-line vue/valid-v-slot -->
               <template v-slot:column.nama="{ column }">
-                <v-span v-if="otoritas.routes(authority, 'Tujuan Bongkar')">{{ column.title }}</v-span>
+                <v-span v-if="otoritas.routes(authority, 'Alamat Bongkar')">{{ column.title }}</v-span>
               </template>
              <!-- eslint-disable-next-line vue/valid-v-slot -->
               <template v-slot:item.actions="{ item }">
@@ -290,7 +290,7 @@ import CircularLoader from '../components/animate/circularLoader.vue';
                         <PengirimanDetail
                           :window="window"
                           :hapus="otoritas.routes(authority, 'Batal Pengiriman')"
-                          :alamatBgkr="otoritas.routes(authority, 'Tujuan Bongkar')"
+                          :alamatBgkr="otoritas.routes(authority, 'Alamat Bongkar')"
                           batalbtn="Pengiriman"
                           :kirim="true"
                           :edit="true"
