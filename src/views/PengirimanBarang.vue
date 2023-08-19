@@ -101,7 +101,7 @@ import CircularLoader from '../components/animate/circularLoader.vue';
           let blm_kirim = await api.getBelumTerkirim()
           let blm_kirim_detail = await api.getBelumTerkirimDetail()
           this.pjl_blmterkirm = pengeluaran.item_blmterikirim(blm_kirim, blm_kirim_detail)
-          this.pengirimanHead = pengiriman.items(item, this.pelanggan, this.alamatBongkar, this.kirim_detail) 
+          this.pengirimanHead = pengiriman.items(item, this.pelanggan, this.alamatBongkar, this.kirim_detail, this.pjl_blmterkirm) 
           this.loading = false
         } else return await api.logout()
       },

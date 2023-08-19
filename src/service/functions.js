@@ -40,7 +40,6 @@ export default {
       // If still in same month, set date to last day of 
       // previous month
       if (d.getMonth() == m) d.setDate(0);
-      d.setHours(0, 0, 0, 0);
   
       //tl_awal
       return d.toJSON().slice(0, 10)

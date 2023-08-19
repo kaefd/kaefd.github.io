@@ -32,6 +32,7 @@ const headDetails = [
   {title: 'Satuan', key: 'satuan' },
   {title: 'Qty', key: 'jumlah_konversi' },
   {title: 'Satuan Konversi', key: 'satuan_konversi' },
+  {title: 'Keterangan', key: 'keterangan' },
   {title: '', key: 'actions', sortable: false },
 ]
 const datainput = {
@@ -45,8 +46,10 @@ const datainput = {
   tgl_input: '',
   tgl_batal:'',
   user_batal: '',
+  keterangan: '',
   status: ''
 }
+
 const detailpbl = (no, detail, param) => {
   let a = []
   for (let i = 0; i < detail.length; i++) {
@@ -58,10 +61,11 @@ const detailpbl = (no, detail, param) => {
     }
   }
   if(param == 'nama') {
-    return a.toString()
+    let b = [...new Set(a)];
+    return b.toString()
   } else return a
 }
-const items = (head, pelanggan, bongkar, detail, pjl) => {
+const items = (head, pelanggan, bongkar, detail) => {
   let data = []
   for (let i = 0; i < head.length; i++) {
     for (let j = 0; j < pelanggan.length; j++) {
@@ -72,6 +76,7 @@ const items = (head, pelanggan, bongkar, detail, pjl) => {
               no_pengiriman: head[i].no_pengiriman,
               tgl_pengiriman: head[i].tgl_pengiriman,
               kode_pelanggan: head[j].kode_pelanggan,
+              keterangan: head[j].keterangan,
               kode_alamat_bongkar: head[j].kode_alamat_bongkar,
               alamat: bongkar[k].alamat,
               alamat_pelanggan: pelanggan[j].alamat,
@@ -96,6 +101,17 @@ const items = (head, pelanggan, bongkar, detail, pjl) => {
     }
   }
   return data
+}
+// const suratjalan (value) => {
+//   for (let i = 0; i < value.length; i++) {
+//   }
+// }
+const noDuplicate = (a) => {
+  const unique = a.filter((obj, index) => {
+      return index === a.findIndex(o => obj.nama_barang === o.nama_barang);
+  });
+
+  return unique
 }
 const details = (nopgm, detail, pjl) => {
   let data = []
@@ -127,4 +143,5 @@ export default {
   headersLaporan,
   items,
   details,
+  noDuplicate,
 }

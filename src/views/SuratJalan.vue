@@ -36,6 +36,13 @@ export default {
                 }
             }
             return data
+        },
+        nama_brg() {
+            let a = []
+            for (let i = 0; i < this.kirim_detail.length; i++) {
+                a.push(this.kirim_detail[i].nama_barang)
+            }
+            return [...new Set(a)]
         }
     },
     methods: {
@@ -45,8 +52,17 @@ export default {
                 pjl.push(await api.getHeadPenjualan(this.nopjl[i]))
             }
             this.penjualanHead = pjl
-            
-        },
+        },      
+        // dataitems(value) {
+        //     let qty = []
+        //     let satuan = ''
+
+        //     for (let i = 0; i < this.kirim_detail.length; i++) {
+        //         if(value == 'qty') {
+
+        //         }
+        //     }
+        // },
         getTime() {
             let getHour = new Date().toLocaleTimeString('id', {timeStyle:'short'})
             return getHour
@@ -147,7 +163,7 @@ export default {
                     </thead>
                     <tbody class="text-body-2">
                     <tr
-                        v-for="item, i in kirim_detail"
+                        v-for="item, i in nama_brg"
                         :key="i"
                     >
                         <td class="text-left">{{ i+1 }}</td>
