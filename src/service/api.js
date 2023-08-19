@@ -715,7 +715,7 @@ export default {
       user_input: user,
       tgl_input: functions.day(),
       tgl_batal:'1999-12-31T17:00:00.000Z',
-      user_batal: head.user_batal,
+      user_batal: "",
       status: 'true'
     }
     const ph = JSON.stringify(h);

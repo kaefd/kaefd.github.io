@@ -14,6 +14,7 @@ export default {
       return {
         items: '',
         res: '',
+        doDialog: null,
       }
   },
   methods: {
@@ -23,16 +24,22 @@ export default {
     
   },
   mounted() {
-    this.fetch()
   }
 }
 </script>
 
 <template>
-  <v-toolbar class="bg-blue-custom" height="50">
+<v-dialog
+    v-model="doDialog"
+    fullscreen
+    :scrim="false">
+    <template v-slot:activator="{ props }">
+        <v-list-item class="text-caption" v-bind="props">Cetak DO</v-list-item>
+    </template>
+    <v-toolbar class="bg-blue-custom" height="50">
       <v-btn
           icon
-          @click="jalan = false"
+          @click="doDialog = false"
           size="small"
           class="text-white"
       >
@@ -98,6 +105,7 @@ export default {
       <v-span class="d-block text-right font-italic">Print Date : {{ functions.formatDateTime(new Date) }}</v-span>
     </v-sheet>
   </v-card>
+  </v-dialog>
 </template>
 <style scoped>
 .page {
@@ -138,10 +146,3 @@ export default {
     height: 20px !important;
 }
 </style>
-<!-- pengiriman_detail
-: 
-"[{\"no_pengiriman\":\"PJS-230849021\",\"no_penjualan\":\"PJL-23050059\",\"no_urut\":1,\"kode_group\":\"PPKEK-LDP-000034\",\"kode_barang\":\"CA\",\"nama_barang\":\"CANAL\",\"hs_code\":\"73089099\",\"jumlah_konversi\":0,\"satuan_konversi\":\"\",\"jumlah\":1000,\"satuan\":\"KG\",\"nilai\":11358.048466850829}
-{\"no_pengiriman\":\"PJS-230849021\",\"no_penjualan\":\"PJL-23050093\",\"no_urut\":1,\"kode_group\":\"PPKEK-LDP-000191\",\"kode_barang\":\"RS\",\"nama_barang\":\"ROLLSHEET\",\"hs_code\":\"73089099\",\"jumlah_konversi\":0,\"satuan_konversi\":\"\",\"jumlah\":18,\"satuan\":\"KG\",\"nilai\":13098.921666666658}]"
-pengiriman_head
-: 
-"{\"no_pengiriman\":\"PJS-230849021\",\"tgl_pengiriman\":\"2023-08-09 00:00:00.000\",\"kode_pelanggan\":\"ASMT\",\"kode_alamat_bongkar\":\"CS-00038\",\"keterangan\":\"\",\"supir\":\"BOGIE\",\"no_polisi\":\"H-8329-PO\",\"tgl_input\":\"2023-08-19 15:50:25.703\",\"user_input\":\"admin\",\"tgl_batal\":\"2000-01-01 00:00:00.000\",\"user_batal\":\"\",\"status\":\"true\"}" -->

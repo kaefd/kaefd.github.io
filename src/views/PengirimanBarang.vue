@@ -23,6 +23,7 @@ import AlertVue from '../components/dialog/alertVue.vue';
 import BtnOrange from '../components/button/btnOrange.vue';
 import pengeluaran from '../service/page/pengeluaran';
 import CircularLoader from '../components/animate/circularLoader.vue';
+import CetakDo from './cetakDo.vue';
 </script>
 
 <script>
@@ -317,6 +318,7 @@ import CircularLoader from '../components/animate/circularLoader.vue';
                         :pjl_detail="pjl_detail(item.raw.no_pengiriman)"
                       />
                       <!-- CETAK DO -->
+                      <CetakDo />
                     </v-list>
                   </v-menu>
             </template>

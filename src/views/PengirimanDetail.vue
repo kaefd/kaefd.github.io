@@ -45,7 +45,7 @@ export default {
         dataitem: this.items,
         nama_supplier : '',
         nama_pelanggan : '',
-        pembelian_input: [],
+        pembelian_input: '',
         kode_pelanggan: this.namaPelanggan,
         inputdata: this.datainput,
         kurs: '',
@@ -142,7 +142,6 @@ export default {
             }
         },
         itemmasuk(value) {
-            this.inputdata.keterangan = ""
             this.pembelian_input = value
         },
         confirm() {
@@ -182,14 +181,12 @@ export default {
                         kode_barang: this.pembelian_input[i].kode_barang,
                         nama_barang: this.pembelian_input[i].nama_barang,
                         kode_group: this.pembelian_input[i].kode_group,
-                        tipe_dokumen: this.pembelian_input[i].tipe_dokumen,
-                        no_dokumen: this.pembelian_input[i].no_dokumen,
                         hs_code: this.pembelian_input[i].hs_code,
                         jumlah: this.pembelian_input[i].jumlah,
                         jumlah_konversi: this.pembelian_input[i].jumlah_konversi,
                         satuan_konversi: this.pembelian_input[i].satuan_konversi,
                         satuan: this.pembelian_input[i].satuan,
-                        no_urut: i + 1,
+                        no_urut: 1,
                         nilai: this.pembelian_input[i].nilai
                     })
                     
@@ -316,13 +313,13 @@ export default {
                 <!-- dialog actions -->
                 <!-- CUSTOM KOLOM -->
                 <!-- eslint-disable-next-line vue/valid-v-slot -->
-                <template v-slot:item.jumlah="{ item }">
-                    {{ functions.numb(item.raw.jumlah, null, false ) }}
-                </template>
+                <!-- <template v-slot:item.jumlah="{ item }">
+                    {{ functions.numb(item.raw.jumlah) }}
+                </template> -->
                 <!-- eslint-disable-next-line vue/valid-v-slot -->
-                <template v-if="!edit" v-slot:item.jumlah_konversi="{ item }">
+                <!-- <template v-if="!edit" v-slot:item.jumlah_konversi="{ item }">
                    {{ functions.numb(item.raw.jumlah_konversi) }}
-                </template>
+                </template> -->
                 <!-- eslint-disable-next-line vue/valid-v-slot -->
                 <template v-slot:item.actions="{ item, index }">
                     <dialog-vue v-model="detaildial[index]">
@@ -335,7 +332,7 @@ export default {
                                 <text-field-form
                                     v-if="edit"
                                     label="Jumlah (Tonase)"
-                                    :model-value="functions.numb(item.raw.jumlah, null, false)"
+                                    :model-value="functions.numb(item.raw.jumlah)"
                                     active="true"
                                     hide-details
                                     class="mb-3"
