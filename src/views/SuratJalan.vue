@@ -163,7 +163,7 @@ export default {
                     </thead>
                     <tbody class="text-body-2">
                     <tr
-                        v-for="item, i in nama_brg"
+                        v-for="item, i in kirim_detail"
                         :key="i"
                     >
                         <td class="text-left">{{ i+1 }}</td>
