@@ -27,7 +27,7 @@ export default defineConfig({
     },
     proxy: {
       '/api': {
-        target: 'https://auristeel.com', // Ganti dengan URL API yang sesuai
+        target: 'https://auristeel.com',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ''),
       },

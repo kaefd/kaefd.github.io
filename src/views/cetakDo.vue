@@ -9,11 +9,9 @@ export default {
   component: {
     tableMain
   },
-  props: ['item'],
+  props: ['items', 'namaTujuan', 'pengiriman', 'alamatPelanggan','nokirim', 'pjl_detail', 'nopjl'],
   data () {
       return {
-        items: '',
-        res: '',
         doDialog: null,
       }
   },
@@ -56,6 +54,7 @@ export default {
       </v-btn>
   </v-toolbar>
   <v-card id="do" class="overflow-auto bg-orange">
+    {{ items }}
     <v-sheet class="page mx-auto pa-7">
       <v-span class="text-h5 font-weight-bold d-flex justify-center">DELIVERY ORDER</v-span>
       <!-- TUJUAN KIRIM -->

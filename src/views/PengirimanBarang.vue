@@ -320,7 +320,13 @@ import CetakDo from './cetakDo.vue';
                         :pjl_detail="pjl_detail(item.raw.no_pengiriman)"
                       />
                       <!-- CETAK DO -->
-                      <!-- <CetakDo /> -->
+                      <!-- <CetakDo
+                        :pengiriman="Penjualandetl(item.raw.no_pengiriman)"
+                        :items="item.raw"
+                        :nokirim="item.raw.no_pengiriman"
+                        :nopjl="Penjualandetl(item.raw.no_pengiriman)"
+                        :pjl_detail="pjl_detail(item.raw.no_pengiriman)"
+                      /> -->
                     </v-list>
                   </v-menu>
             </template>

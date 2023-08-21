@@ -27,6 +27,7 @@ export default {
         this.def
     }
 }
+const customPosition = () => ({ top: 0, left: 0 });
 </script>
 
 <template>
@@ -52,7 +53,7 @@ export default {
     </VueDatePicker>
 </template>
 
-<style scoped>
+<style>
 .dp-custom-cell {
     border-radius: 50%;
 }
