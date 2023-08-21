@@ -142,8 +142,10 @@ import CetakDo from './cetakDo.vue';
         this.selected()
       },
       filterdata() {
-        this.periode[0] = this.filtered.periode[0]
-        this.periode[1] = this.filtered.periode[1]
+        let awal = this.filtered.periode[0]
+        let akhir = this.filtered.periode[1]
+        this.periode[0] = new Date(awal).toJSON().slice(0, 10)
+        this.periode[1] = new Date(akhir).toJSON().slice(0, 10)
         this.selected()
       },
       inputhead(head, detail) {
@@ -318,7 +320,7 @@ import CetakDo from './cetakDo.vue';
                         :pjl_detail="pjl_detail(item.raw.no_pengiriman)"
                       />
                       <!-- CETAK DO -->
-                      <CetakDo />
+                      <!-- <CetakDo /> -->
                     </v-list>
                   </v-menu>
             </template>

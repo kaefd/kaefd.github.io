@@ -27,32 +27,32 @@ export default {
         this.def
     }
 }
-const customPosition = () => ({ top: 0, left: 0 });
 </script>
 
 <template>
-        <VueDatePicker
-            :dark="tema == 'dark' ? true : false"
-            class="text-small"
-            :alt-position="customPosition"
-            :clearable="false"
-            :format-locale="id"
-            required
-            locale="id"
-            cancelText="batal"
-            selectText="pilih"
-            format="PP"
-            calendar-cell-class-name="dp-custom-cell"
-            menu-class-name="dp-custom-menu"
-            :enable-time-picker="false"
-            v-model="data"
-        >
-            <template v-if="!filter" #trigger>
-                <textFieldForm readonly :label="label" :model-value="functions.formatDate(data)" :rules="rules" hideDetails/>
-            </template>
-        </VueDatePicker>
+    <VueDatePicker
+        :dark="tema == 'dark' ? true : false"
+        class="text-small"
+        :alt-position="customPosition"
+        :clearable="false"
+        :format-locale="id"
+        required
+        locale="id"
+        cancelText="batal"
+        selectText="pilih"
+        format="PP"
+        calendar-cell-class-name="dp-custom-cell"
+        menu-class-name="dp-custom-menu"
+        :enable-time-picker="false"
+        v-model="data"
+    >
+        <template v-if="!filter" #trigger>
+            <textFieldForm readonly :label="label" :model-value="functions.formatDate(data)" :rules="rules" hideDetails/>
+        </template>
+    </VueDatePicker>
 </template>
-<style lang="scss">
+
+<style scoped>
 .dp-custom-cell {
     border-radius: 50%;
 }

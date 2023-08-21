@@ -157,8 +157,10 @@ export default {
         this.selected()
       },
       filterdata() {
-        this.periode[0] = this.filtered.periode[0]
-        this.periode[1] = this.filtered.periode[1]
+        let awal = this.filtered.periode[0]
+        let akhir = this.filtered.periode[1]
+        this.periode[0] = new Date(awal).toJSON().slice(0, 10)
+        this.periode[1] = new Date(akhir).toJSON().slice(0, 10)
         this.selected()
         this.selectdokumen = this.filtered.selectdokumen
         if(!this.selectdokumen) {
@@ -174,14 +176,6 @@ export default {
       this.page()
     }
   }
-    const date = ref()
-
-    // For demo purposes assign range from the current date
-    onMounted(() => {
-      const startDate = new Date();
-      // const endDate = new Date(new Date().setDate(startDate.getDate() + 7));
-      date.value = [startDate, startDate];
-    })
 
 </script>
 

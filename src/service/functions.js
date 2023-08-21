@@ -33,14 +33,16 @@ export default {
       } else return ''
   },
     tglawal() {
+      // set a month
       let d = new Date();
-      let m = d.getMonth();
-      d.setMonth(d.getMonth() - 1);
+      // let m = d.getMonth();
+      // d.setMonth(d.getMonth() - 1);
       
-      // If still in same month, set date to last day of 
-      // previous month
-      if (d.getMonth() == m) d.setDate(0);
-  
+      // if (d.getMonth() == m) d.setDate(0)
+
+      // set a week
+      d.setDate(d.getDate() - 7)
+
       //tl_awal
       return d.toJSON().slice(0, 10)
     },

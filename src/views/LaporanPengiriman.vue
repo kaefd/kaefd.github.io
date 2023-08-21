@@ -140,8 +140,10 @@ import CircularLoader from '../components/animate/circularLoader.vue';
         this.selected()
       },
       filterdata() {
-        this.periode[0] = this.filtered.periode[0]
-        this.periode[1] = this.filtered.periode[1]
+        let awal = this.filtered.periode[0]
+        let akhir = this.filtered.periode[1]
+        this.periode[0] = new Date(awal).toJSON().slice(0, 10)
+        this.periode[1] = new Date(akhir).toJSON().slice(0, 10)
         this.selected()
       },
       inputhead(head, detail) {

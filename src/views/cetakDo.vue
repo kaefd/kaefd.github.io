@@ -55,7 +55,7 @@ export default {
           <v-icon>mdi-printer</v-icon>
       </v-btn>
   </v-toolbar>
-  <v-card id="do" class="overflow-auto">
+  <v-card id="do" class="overflow-auto bg-orange">
     <v-sheet class="page mx-auto pa-7">
       <v-span class="text-h5 font-weight-bold d-flex justify-center">DELIVERY ORDER</v-span>
       <!-- TUJUAN KIRIM -->
@@ -73,7 +73,7 @@ export default {
       </v-div>
       <!-- TABEL DETAIL BARANG -->
       <!-- TABEL BARANG -->
-      <v-sheet height="60%">
+      <v-sheet height="60%" width="100%">
         <v-table density="compact" class="mt-5 w-100">
             <thead>
               <tr>
@@ -82,7 +82,7 @@ export default {
                 <th class="text-medium">Keterangan</th>
                 <th class="text-medium">Catatan</th>
               </tr>
-          </thead>
+            </thead>
             <tbody class="text-body-2">
             <tr
                 
@@ -93,7 +93,6 @@ export default {
                 <td class="text-medium" contenteditable></td>
             </tr>
             <tr>
-                <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
