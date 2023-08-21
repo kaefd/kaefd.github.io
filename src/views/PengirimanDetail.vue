@@ -243,7 +243,7 @@ export default {
                 <v-toolbar-title class="text-button mt-1">{{ 'DETAIL '+ pageTitle }}</v-toolbar-title>
                 <v-spacer></v-spacer>
                 </v-toolbar>
-                <v-container class="h-100 d-flex flex-column">
+                <v-container class="h-100 d-flex flex-column mt-5">
                 <!-- EDIT -->
                 <v-row no-gutters v-if="edit" justify="center" justify-md="space-between" align="start" min-width="400" class="mx-3">
                     <v-responsive class="pt-2 mx-md-0 mx-3" width="250">
