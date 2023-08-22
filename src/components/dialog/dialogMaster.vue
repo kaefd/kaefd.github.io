@@ -1,18 +1,22 @@
 <script>
 import BtnCancel from '../button/btnCancel.vue'
+import BtnInfo from '../button/btnInfo.vue'
 // import textButton from '../button/textButton.vue'
 import btnInfo from '../button/btnInfo.vue'
 import BtnOrange from '../button/btnOrange.vue'
 import textFieldForm from '../form/textFieldForm.vue'
 import toolbarHeader from '../form/toolbarHeader.vue'
+import MenuList from '../menu/menuList.vue'
 export default {
     components : {
-      btnInfo,
-      toolbarHeader,
-      textFieldForm,
-        BtnOrange,
-        BtnCancel,
-    },
+    btnInfo,
+    toolbarHeader,
+    textFieldForm,
+    BtnOrange,
+    BtnCancel,
+    MenuList,
+    BtnInfo
+},
     props:
     [
       'keyform', 'tambah', 'disabled', 'ishidden', 'master', 'hapus', 'headers', 'category', 'toolbar_title','alpha', 'view', 'item', 'form', 'noselect', 'intable'
@@ -21,10 +25,9 @@ export default {
       
       return {
         dialog: false,
-        edit: this.form,
+        edit: {},
         data: this.tambah,
         list: [
-          {title: 'Lihat Detail', key: 'lihat'},
           {title: 'Edit Data', icon: 'mdi-pencil', key: 'edit'},
           {title: 'Hapus Data', icon: 'mdi-delete', key: 'hapus'},
         ],
@@ -41,10 +44,14 @@ export default {
     computed: {
     },
     methods: {
+      menuAksi(v) {
+            v == 'edit' ? this.dialog = true : false
+        },
       submit(value) {
         if(this.item == null) {
           this.$emit('form', value)
         } else {
+
           this.$emit('edit', value)
         }
         this.dialog = false
@@ -54,17 +61,21 @@ export default {
       },
       async validate () {
         const { valid } = await this.$refs.form.validate()
-        let data = ''
+        let data = {}
         if (valid){
           if(this.item == null) {
             data = this.data
           } else {
-            data = this.edit
+            data = this.item
           }
             return this.submit(data)
         }
        },
+    },
+    mounted () {
+      
     }
+    
 
 }
 </script>
@@ -75,33 +86,17 @@ export default {
       transition="dialog-bottom-transition"
       width="370"
     >
-    <!-- button dialog -->
+    
       <template v-slot:activator="{ props }">
         <!-- TAMBAH -->
-        <btnInfo v-if="!intable" icon="mdi-plus" btn_title="Tambah Data" v-bind="props" />
-        <v-responsive v-if="intable" width="100">
-          <!-- EDIT -->
-          <v-btn
-          v-if="editbtn && !ishidden"
-          v-bind="props"
-          class="text-caption"
-          variant="text"
-          >
-          <v-icon class="ms-n3 me-2">mdi-pencil</v-icon>
-          Edit Data
-          </v-btn>
-          <!-- HAPUS -->
-          <v-btn
-          v-if="hapus"
-          class="text-caption"
-          block
-          variant="text"
-          prepend-icon="mdi-delete"
-          :hidden="ishidden"
-          >
-          Hapus Data
-          </v-btn>
-        </v-responsive>
+        <btn-info v-if="!intable" v-bind="props" icon="mdi-plus" btn_title="Tambah Baru"/>
+        <!-- <MenuList
+            v-if="edit && intable"
+            :submenu="true"
+            icon="mdi-dots-vertical"
+            :items="list"
+            @result="menuAksi"
+        /> -->
       </template>
       <!-- CONTENT DIALOG EDIT/TAMBAH -->
       <v-card class="rounded-xl">
@@ -125,7 +120,6 @@ export default {
                       <v-list-item
                         v-for="(item, index) in category.slice(this.alpha, category.length)"
                         :key="index"
-                        :value="index"
                         density="compact"
                       >
                         <v-list-item-title  @click="data[keyform[0]] = item" class="text-caption">{{ item }}</v-list-item-title>
@@ -137,8 +131,7 @@ export default {
                   v-if="item != null"
                   id="tipe"
                   :label="headers[0].title"
-                  v-model="edit[keyform[0]]"
-                  :value="Object.values(item.raw)[0]"
+                  v-model="item[keyform[0]]"
                   readonly
                   :rules="required"
                 >                                
@@ -146,12 +139,11 @@ export default {
                 <v-menu activator="#tipe" class="elevation-0">
                     <v-list>
                       <v-list-item
-                        v-for="(item, index) in category.slice(this.alpha, category.length)"
+                        v-for="(i, index) in category.slice(this.alpha, category.length)"
                         :key="index"
-                        :value="index"
                         density="compact"
                       >
-                        <v-list-item-title @click="edit[keyform[0]] = item" class="text-caption">{{ item }}</v-list-item-title>
+                        <v-list-item-title @click="item[keyform[0]] = i" class="text-caption">{{ i }}</v-list-item-title>
                       </v-list-item>
                     </v-list>
                 </v-menu>
@@ -169,7 +161,7 @@ export default {
                 <text-field-form
                 v-if="this.item != null"
                 :label="headers[0].title"
-                v-model="edit[keyform[0]]"
+                v-model="item[keyform[0]]"
                 :readonly="headers[0].dis"
                 :rules="required"
                 ></text-field-form> 
@@ -184,7 +176,7 @@ export default {
                   <text-field-form
                     v-if="this.item != null"
                     :label="h.title"
-                    v-model="edit[keyform[i+1]]"
+                    v-model="item[keyform[i+1]]"
                     :readonly="headers[i+1].dis"
                     :rules="required"
                   ></text-field-form> 

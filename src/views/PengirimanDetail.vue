@@ -97,9 +97,12 @@ export default {
                 })
             },
         filteralamat() {
-            return this.alamatBongkar.filter(item => {
-                    return item.nama.toLowerCase().includes(this.searched.toLowerCase())
-                })
+            // return this.alamatBongkar.filter(item => {
+            //         return item.nama.toLowerCase().includes(this.searched.toLowerCase())
+            //     })
+            if(this.searched != '') {
+                return this.searchObj(this.alamatBongkar)
+            } else return this.alamatBongkar
             },
         filterkodegroup() {
             return this.groupbarang.filter(item => {
@@ -140,6 +143,23 @@ export default {
                 }
                 this.kirim_detail = data
             }
+        },
+        searchObj(value) {
+            let a = {}
+            a = value.filter(item => {
+                return item.nama.toLowerCase().includes(this.searched.toLowerCase())
+            })
+            if(a == '') {
+                a = value.filter(item => {
+                    return item.alamat.toLowerCase().includes(this.searched.toLowerCase())
+                })
+                if(a == '') {
+                    a = value.filter(item => {
+                        return item.kabupaten.toLowerCase().includes(this.searched.toLowerCase())
+                    })
+                }
+            }
+            return a
         },
         itemmasuk(value) {
             this.pembelian_input = value
@@ -421,7 +441,7 @@ export default {
             </v-card>
         </v-dialog>
         <v-dialog v-model="dialogbongkar" transition="dialog-bottom-transition" width="auto">
-            <v-card class="py-5 px-7 rounded-xl mx-auto" min-width="300" :width="window < 600 ? '87vw' : '50vw'" height="90vh" max-width="400">
+            <v-card class="py-5 px-7 rounded-xl mx-auto" min-width="300" height="90vh" max-width="400">
                 <v-btn v-if="window < 500" icon="mdi-close" class="absolute" variant="text" @click="dialogbongkar = false"></v-btn>
                 <v-card-title class="text-center text-orange mb-3 text-button font-weight-bold">ALAMAT BONGKAR</v-card-title>
                     <v-div>

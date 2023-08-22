@@ -10,6 +10,7 @@ import DatePicker from '../components/datepicker/datePicker.vue';
 import laporan from '../service/page/laporan';
 import functions from '../service/functions';
 import CircularLoader from '../components/animate/circularLoader.vue';
+import otoritas from '../service/page/otoritas';
 </script>
 
 <script>
@@ -31,6 +32,7 @@ import CircularLoader from '../components/animate/circularLoader.vue';
         periode: [],
         filter: false,
         loading: true,
+        akses: '',
         pageTitle: 'LAPORAN LOG USER',
         btnTitle: 'Tambah Data',
         cardTitle: 'Detail Barang',
@@ -56,12 +58,22 @@ import CircularLoader from '../components/animate/circularLoader.vue';
     methods: {
       async fetchData() {
         let user = localStorage.getItem('user')
+        // if(user != null) {
+        //   this.loading = true
+        //   this.users = await api.getUser()
+        //   this.items = await api.getLogUser(this.periode)
+        //   this.loading = false
+        // } else await api.logout()
         if(user != null) {
+          this.akses = await api.getOtoritas(user)
+          this.authority = otoritas.otoritas(this.akses)
+        }
+        if(otoritas.routes(this.akses, 'Laporan Log User')) {
           this.loading = true
           this.users = await api.getUser()
           this.items = await api.getLogUser(this.periode)
           this.loading = false
-        } else await api.logout()
+        } else return await api.logout()
       },
       selected(){        
         if (this.selectuser.length === 0) {

@@ -57,6 +57,21 @@ import functions from "../functions"
         
       }
     }
+    const item = (item) => {
+      let a = []
+      for (let i = 0; i < item.length; i++) {
+        a.push({
+          index: i,
+          kategori_barang: item[i].kategori_barang,
+          kode_barang: item[i].kode_barang,
+          nama_barang: item[i].nama_barang,
+          hs_code: item[i].hs_code,
+          satuan: item[i].satuan,
+          status: item[i].status
+        })        
+      }
+      return a
+    }
     const sumStok = (kode, target) => {
       let sum = []
       for (let i = 0; i < target.length; i++) {
@@ -90,4 +105,5 @@ import functions from "../functions"
       slotitem,
       sumStok,
       barang,
+      item
     }

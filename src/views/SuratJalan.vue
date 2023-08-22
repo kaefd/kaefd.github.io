@@ -91,13 +91,6 @@ export default {
                 return satuan
             }
         },
-        getTime() {
-            let getHour = new Date().toLocaleTimeString('id', {timeStyle:'short'})
-            return getHour
-        },
-        uppercase(v) {
-            return v.toUpperCase()
-        },
         print() {
             window.print()
         },
@@ -145,7 +138,7 @@ export default {
                 <v-icon>mdi-printer</v-icon>
             </v-btn>
         </v-toolbar>
-        <v-card id="suratjalan">
+        <v-card id="suratjalan" class="bg-grey-lighten-1 overflow-visible">
             <v-sheet class="mx-auto text-center py-3 px-7 page">
                 <v-span class="text-h6 font-weight-bold">PT. AURI STEEL METALINDO</v-span>
                 <v-divider thickness="3" color="black" class="border-opacity-100 mt-3 mb-1"></v-divider>
@@ -155,8 +148,8 @@ export default {
                     <v-div class="d-flex text-body-2">
                         <v-span class="me-2">PENERIMA: </v-span>
                         <v-span class="text-start w-75">
-                            {{ uppercase(items.namaplg) }} <br/>
-                            {{ uppercase(items.alamat_pelanggan) }} <br/>
+                            {{ functions.uppercase(items.namaplg) }} <br/>
+                            {{ functions.uppercase(items.alamat_pelanggan) }} <br/>
                             <!-- {{ uppercase(items.kabupaten) }} -->
                         </v-span>
                     </v-div>
@@ -172,7 +165,7 @@ export default {
                         <!-- TGL PENGIRIMAN -->
                         <v-div class="d-flex flex-column">
                             <v-span class="text-start">: {{ items.no_pengiriman }}</v-span>
-                            <v-span class="text-start">: {{ functions.formatDate(items.tgl_pengiriman) }} <v-span contenteditable>/ {{ getTime() }}</v-span></v-span>
+                            <v-span class="text-start" contenteditable>: {{ functions.formatDate(items.tgl_pengiriman) }} <v-span contenteditable>/ {{ functions.getTime() }}</v-span></v-span>
                             <v-span class="text-start">: {{ items.supir }}/{{ items.no_polisi }}</v-span>
                         </v-div>
                     </v-div>
@@ -231,13 +224,18 @@ export default {
 <style scoped>
 .page {
     width: 21cm;
-    height: 12cm;
+    height: 100vh;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 @media print {
   body {
     visibility: hidden;
   }
+  .page {
+    width: 21cm;
+    height: 12cm;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
   #suratjalan {
     visibility: visible;
     position: absolute;

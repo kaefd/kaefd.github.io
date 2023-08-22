@@ -43,7 +43,7 @@ export default {
             {title: 'BC23', key: 'BC23'},
             {title: 'BC40', key: 'BC40'},
             {title: 'PPKEK dari LDP', key: 'PPKEK-LDP'},
-            {title: 'PPKEK dari TDDP', key: 'PPKEK-TDDP'}
+            {title: 'PPKEK dari TDDP', key: 'PPKEK-TLDDP'}
         ],
         list: [
             {title: 'Lihat Data', key: 'lihat'},

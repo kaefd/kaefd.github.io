@@ -116,7 +116,7 @@ export default {
       <!-- eslint-disable-next-line vue/valid-v-slot -->
       <template v-if="!laporanstok && !masuk && update || view" v-slot:item.actions="{ item, index }">
           <menuList :items="view ? list2 : list" icon="mdi-dots-vertical" :submenu="true" @result="result" :index="index" />
-          <dialogMaster v-model="dialog[index]" :view="view" editbtn="true" :ishidden="true" :keyform="keyform" :intable="true" :disabled="disabled" :noselect="noselect" :form="item.raw" @edit="edit" :item="item" :screen="screen" :headers="headers" :items="items" :category="category" :toolbar_title="toolbar_title"  :alpha="alpha">
+          <dialogMaster v-model="dialog[index]" :view="view" editbtn="true" :ishidden="true" :keyform="keyform" :intable="true" :edit="true" :disabled="disabled" :noselect="noselect" :form="item.raw" @edit="edit" :item="item.raw" :screen="screen" :headers="headers" :items="item.raw" :category="category" :toolbar_title="toolbar_title"  :alpha="alpha">
             <template #cancel>
               <btnCancel @click="dialog[index] = false" btn_title="Batal" />  
             </template>

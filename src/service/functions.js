@@ -46,7 +46,10 @@ export default {
       //tl_awal
       return d.toJSON().slice(0, 10)
     },
-    
+    getTime() {
+      let getHour = new Date().toLocaleTimeString('id', {timeStyle:'short'})
+      return getHour
+    },
     // NUMBER
     numb(value, n, fixed) {
         if(fixed) {
@@ -107,6 +110,9 @@ export default {
         } else if (select == []) {
           return select = []
         }
+    },
+    uppercase(v) {
+      return v.toUpperCase()
     },
     // DATA
     removeDuplicate (data) {

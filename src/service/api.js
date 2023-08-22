@@ -5,13 +5,13 @@ import functions from './functions'
 const instance = axios.create({
   baseURL: 'https://auristeel.com/api',
   headers: {
-    'Permissions-Policy': 'interest-cohort=()',
+    // 'Permissions-Policy': 'interest-cohort=()',
     'csrf': localStorage.getItem('token'),
-    'accept': '*/*',
+    // 'accept': '*/*',
     'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': '*',
-    'access-control-allow-credentials': true,
-    'access-control-allow-methods': 'GET,HEAD,PUT,PATCH,POST,DELETE'
+    // 'Access-Control-Allow-Origin': '*',
+    // 'access-control-allow-credentials': true,
+    // 'access-control-allow-methods': '*'
   }
 })
 
@@ -857,6 +857,6 @@ export default {
   logout() {
     localStorage.removeItem('token')
     localStorage.removeItem('user')
-    return router.push('login')
+    return router.push('/login')
   }
 }

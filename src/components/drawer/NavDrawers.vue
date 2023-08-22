@@ -30,6 +30,8 @@ import otoritas from '../../service/page/otoritas';
         produksi: '',
         produksidetail: '',
         kirim: '',
+        akses: '',
+        authority: '',
         title: '',
         aut: '',
         empty: null
@@ -37,9 +39,14 @@ import otoritas from '../../service/page/otoritas';
     },
     methods: {
       async fetchData() {
-        let user = localStorage.getItem('user')
+          // let user = localStorage.getItem('user')
+          // let data = await api.getOtoritas(user)
+          // return this.aut = otoritas.otoritas(data)
+          let user = localStorage.getItem('user')
+        if(user != null) {
           let data = await api.getOtoritas(user)
           return this.aut = otoritas.otoritas(data)
+        }
       },
       page(){
         if(

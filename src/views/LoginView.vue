@@ -45,7 +45,7 @@ export default {
         .then(response => {
           localStorage.setItem('token', response.data)
           localStorage.setItem('user', this.username)
-          window.location.href = '/'
+          window.location.href = '/inventori'
         })
         .catch((error) => {
           this.status = false

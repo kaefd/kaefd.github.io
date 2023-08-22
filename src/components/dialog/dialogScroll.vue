@@ -114,17 +114,26 @@ export default {
         },
         filteredItems() {
             if(!this.tambah && !this.blmkirim) {
-                return this.barang.filter(item => {
-                    return item.nama_barang.toLowerCase().includes(this.search.toLowerCase())
-                })
+                // return this.barang.filter(item => {
+                //     return item.kode_barang.toLowerCase().includes(this.search.toLowerCase())
+                // })
+                if(this.search != '') {
+                    return this.searchBarang(this.barang)
+                } else return this.barang
             } else if(this.blmkirim && !this.tambah ) {
-                return this.pjl_blmterkirm.filter(item => {
-                    return item.no_dokumen.toLowerCase().includes(this.search.toLowerCase())
-                })
+                // return this.pjl_blmterkirm.filter(item => {
+                //     return item.no_dokumen.toLowerCase().includes(this.search.toLowerCase())
+                // })
+                if(this.search != '') {
+                    return this.searchObj(this.pjl_blmterkirm)
+                } else return this.pjl_blmterkirm
             } else {
-                return this.getbarang.filter(item => {
-                    return item.nama_barang.toLowerCase().includes(this.search.toLowerCase())
-                })
+                // return this.getbarang.filter(item => {
+                //     return item.nama_barang.toLowerCase().includes(this.search.toLowerCase())
+                // })
+                if(this.search != '') {
+                    return this.searchBarang(this.getbarang)
+                } else return this.getbarang
             }
         },
     },
@@ -135,6 +144,44 @@ export default {
                return this.group_detail[i].stok_akhir
             }
         }
+    },
+    searchBarang(value) {
+        let a = {}
+        a = value.filter(item => {
+            return item.kode_barang.toLowerCase().includes(this.search.toLowerCase())
+        })
+        if(a == '') {
+            a = value.filter(item => {
+                return item.nama_barang.toLowerCase().includes(this.search.toLowerCase())
+            })
+        } return a
+    },
+    searchObj(value) {
+        let a = {}
+        a = value.filter(item => {
+            return item.no_dokumen.toLowerCase().includes(this.search.toLowerCase())
+        })
+        if(a == '') {
+            a = value.filter(item => {
+                return item.nama_barang.toLowerCase().includes(this.search.toLowerCase())
+            })
+            if(a == '') {
+                a = value.filter(item => {
+                    return item.no_penjualan.toLowerCase().includes(this.search.toLowerCase())
+                })
+                if(a == '') {
+                    a = value.filter(item => {
+                        return item.kode_group.toLowerCase().includes(this.search.toLowerCase())
+                    })
+                    if(a == '') {
+                    a = value.filter(item => {
+                        return item.tipe_dokumen.toLowerCase().includes(this.search.toLowerCase())
+                    })
+                }
+                }
+            }
+        }
+        return a
     },
     stok(kodegroup, kodebrg) {
         for (let i = 0; i < this.groupbarang.length; i++) {
@@ -296,9 +343,10 @@ export default {
                         density="compact"
                         @click="dialogchild[b] = true, state.nama_barang = item.nama_barang"
                         >
-                        <v-div class="d-flex justify-space-between">
+                        <v-div class="d-flex justify-space-between text-caption">
                             <v-span>{{ item.nama_barang }}</v-span>
                             <v-span v-if="stok_akhir">{{ stok_detail(item.kode_barang) }}</v-span>
+                            <v-span v-if="!stok_akhir">{{ item.kode_barang }}</v-span>
                         </v-div>
                     </v-list-item>
                     <v-list-item
@@ -313,7 +361,7 @@ export default {
                             <v-span class="font-weight-medium">{{ item.tipe_dokumen }}-{{ item.no_dokumen }}</v-span> <br>
                             <v-span class="text-small">
                                 <!-- penjualandetail belumkirim(pjl, nama, kodegroup) -->
-                                {{ item.nama_barang }} ({{ item.kode_barang }}) <br>
+                                {{ item.nama_barang }} ({{ item.kode_group }}) <br>
                                 <!-- penjualandetail(jumlah-terkirim) -->
                                 Jumlah belum terkirim: {{ min(item.jumlah, item.jumlah_terkirim) }}  <br>
                                 Stok barang: {{ stok(item.kode_group, item.kode_barang) }}

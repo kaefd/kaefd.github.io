@@ -48,6 +48,7 @@ export default defineComponent ({
         selectCategory: [],
         statusselect: false,
         items: '',
+        fresh: false,
         tambah: {
           kategori_barang: '',
           kode_barang: '',
@@ -70,9 +71,13 @@ export default defineComponent ({
         }
         if(otoritas.routes(this.akses, 'Data Barang')) {
           this.loading = true
-          this.items = await api.getBarang()
+          let item = await api.getBarang()
+          this.items = barang.item(item)
           this.loading = false
         } else return await api.logout()
+      },
+      refresh(){
+        
       },
       close(v) {
         return this.filter = v
@@ -160,7 +165,6 @@ export default defineComponent ({
 
 </script>
 <template>
-  
   <filterDrawer v-model="filter" @close="close" @reset="reset" @filterdata="filterdata">
     <template #default>
       <v-span class="text-caption text-weight-bold">Kategori Barang</v-span>
@@ -208,6 +212,7 @@ export default defineComponent ({
           />
           <!-- BUTTON FILTER -->
           <btnFilter @click="filter = !filter" />
+          <v-btn variant="text" color="indigo" icon="mdi-reload" size="small" class="rounded-circle" @click="fetchData()"></v-btn>
         </div>
       </v-responsive>
       </v-row>

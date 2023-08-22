@@ -1,4 +1,4 @@
-import { createRouter, createWebHashHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 import middleware from '../service/middleware'
 import DataBarang from '../views/DataBarang.vue'
 import testPage from '../views/testPage.vue'
@@ -16,7 +16,7 @@ import LaporanPengeluaran from '../views/LaporanPengeluaran.vue'
 import LaporanPengiriman from '../views/LaporanPengiriman.vue'
 import LogView from '../views/LaporanLog.vue'
 const router = createRouter({
-  history: createWebHashHistory(),
+  history: createWebHistory('/inventori'),
   routes: [
     {
      path: '/',

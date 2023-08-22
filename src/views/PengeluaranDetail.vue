@@ -139,6 +139,9 @@ export default {
             if(data.slice(0, 11) == 'PPKEK-TLDDP') {
                 a = 'BC41'
             }
+            if(data.slice(0, 10) == 'PPKEK-TDDP') {
+                a = 'BC41'
+            }
             return this.inputdata.tipe_dokumen = a
         },
         deleteditem(del) {
@@ -278,8 +281,8 @@ export default {
                         />
                     </v-responsive>
                     <v-responsive class="pt-2 mx-md-0 mx-3 overflow-visible" width="250">
-                        <text-field-form label="Tipe Dokumen" v-model="inputdata.tipe_dokumen" :rules="required" readonly />                                
-                        <!-- <v-menu activator="#tipe" class="elevation-0">
+                        <text-field-form id="tipe" label="Tipe Dokumen" v-model="inputdata.tipe_dokumen" :rules="required" readonly />                                
+                        <v-menu activator="#tipe" class="elevation-0">
                             <v-list>
                               <v-list-item
                                 v-for="(item, index) in tipe_dokumen"
@@ -290,7 +293,7 @@ export default {
                                 <v-list-item-title @click="inputdata.tipe_dokumen = item" class="text-caption">{{ item }}</v-list-item-title>
                               </v-list-item>
                             </v-list>
-                        </v-menu> -->
+                        </v-menu>
                         <text-field-form label="No Dokumen" v-model="inputdata.no_dokumen" :rules="required" />
                         <datePickerVue label="Tgl Dokumen" v-model="inputdata.tgl_dokumen" :rules="required" :tema="tema"/>
                     </v-responsive>

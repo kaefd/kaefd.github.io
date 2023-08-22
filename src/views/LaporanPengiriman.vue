@@ -224,6 +224,7 @@ import CircularLoader from '../components/animate/circularLoader.vue';
           />
           <!-- BUTTON FILTER -->
           <btn-filter @click="filter = !filter" />
+          <v-btn variant="text" color="indigo" icon="mdi-reload" size="small" class="rounded-circle" @click="fetchData()"></v-btn>
         </div>
       </v-responsive>
       </v-row>
