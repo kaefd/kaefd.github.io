@@ -333,7 +333,7 @@ import CetakDo from './cetakDo.vue';
             </template>
             </v-data-table>
         </v-sheet>
-        <dialogConfirm v-model="confirmdialog" :object="pageTitle">
+        <dialogConfirm v-model="confirmdialog" :object="pageTitle" :item="head.no_pengiriman" mess="Membatalkan">
         <template #yesButton>
           <btn-orange class="ms-2" @click="del(), confirmdialog = false" btn_title="Ya"/>
         </template>

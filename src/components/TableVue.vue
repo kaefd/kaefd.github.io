@@ -96,7 +96,7 @@ export default {
             <btn-cancel @click="detail[index] = false" btn_title="Batal" class="mx-2" />
           </template>
         </user-detail>
-        <dialogConfirm v-model="confirmdialog[index]" :object="pageTitle">
+        <dialogConfirm v-model="confirmdialog[index]" :object="pageTitle" :item="item.raw" mess="Menghapus">
         <template #yesButton>
             <btn-orange class="ms-2" type="submit" @click="del(item.raw.username, index)" btn_title="Ya"/>
         </template>
@@ -122,7 +122,7 @@ export default {
             </template>
           </dialogMaster>
         <!-- DIALOG CONFIRM -->
-      <dialogConfirm v-model="confirmdialog[index]" :object="pageTitle">
+      <dialogConfirm v-model="confirmdialog[index]" :object="pageTitle" :item="item.raw" mess="Menghapus">
         <template #yesButton>
             <btn-orange class="ms-2" type="submit" @click="del(item.raw, index)" btn_title="Ya"/>
         </template>

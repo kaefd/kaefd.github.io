@@ -183,15 +183,15 @@ import UserDetail from './userDetail.vue';
           <btn-cancel @click=" detail = false" btn_title="Batal" class="mx-2" />
         </template>
       </user-detail>
-  <dialogConfirm v-model="confirmdialog" :object="pageTitle">
-    <template #yesButton>
-        <btn-orange @click="deleteUser(), confirmdialog = false" btn_title="Ya"/>
-    </template>
-    <template #cancelButton>
-      <btn-cancel class="me-2" @click="confirmdialog = false" btn_title="Batal" />
-    </template>
-  </dialogConfirm>
-  <alert-vue v-model="valert" :sukses="status" :message="message" />
-  <circular-loader :loading="loading" />
+    <dialogConfirm v-model="confirmdialog" :object="pageTitle">
+      <template #yesButton>
+          <btn-orange @click="deleteUser(), confirmdialog = false" btn_title="Ya"/>
+      </template>
+      <template #cancelButton>
+        <btn-cancel class="me-2" @click="confirmdialog = false" btn_title="Batal" />
+      </template>
+    </dialogConfirm>
+    <alert-vue v-model="valert" :sukses="status" :message="message" />
+    <circular-loader :loading="loading" />
 </v-container>
 </template>

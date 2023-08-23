@@ -264,7 +264,7 @@ export default {
           :pageTitle="pageTitle"
           class="mt-2"
         />
-        <dialogConfirm v-model="confirmdialog" :object="pageTitle">
+        <dialogConfirm v-model="confirmdialog" :object="pageTitle" :item="pembelian_head.no_pembelian" mess="Membatalkan">
         <template #yesButton>
             <btn-orange @click="del(), confirmdialog = false" btn_title="Ya"/>
         </template>

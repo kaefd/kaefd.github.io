@@ -321,7 +321,7 @@ import CircularLoader from '../components/animate/circularLoader.vue';
             </template>
           </v-data-table>
         </v-sheet>
-        <dialogConfirm v-model="confirmdialog" :object="pageTitle">
+        <dialogConfirm v-model="confirmdialog" :object="pageTitle" :item="head.no_penjualan" mess="Membatalkan">
         <template #yesButton>
           <btn-orange class="ms-2" @click="del(), confirmdialog = false" btn_title="Ya"/>
         </template>
