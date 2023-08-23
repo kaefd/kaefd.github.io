@@ -148,9 +148,9 @@ export default {
                     <v-div class="d-flex text-body-2">
                         <v-span class="me-2">PENERIMA: </v-span>
                         <v-span class="text-start w-75">
-                            {{ functions.uppercase(items.namaplg) }} <br/>
-                            {{ functions.uppercase(items.alamat_pelanggan) }} <br/>
-                            <!-- {{ uppercase(items.kabupaten) }} -->
+                            {{ functions.uppercase(items.nama) }} <br/>
+                            {{ functions.uppercase(items.alamat) }} <br/>
+                            {{ functions.uppercase(items.kabupaten) }}
                         </v-span>
                     </v-div>
                     <v-spacer></v-spacer>

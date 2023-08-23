@@ -8,7 +8,6 @@ import pengiriman from '../service/page/pengiriman';
 import { VDataTable } from 'vuetify/labs/VDataTable'
 import PengirimanDetail from './PengirimanDetail.vue';
 import SuratJalan from './SuratJalan.vue';
-import { ref, onMounted } from 'vue';
 import filterDrawer from '../components/drawer/filterDrawer.vue';
 import textField from '../components/form/textField.vue';
 import menuList from '../components/menu/menuList.vue';
@@ -190,13 +189,6 @@ import CetakDo from './cetakDo.vue';
       this.fetchData()
     }
   }
-  const date = ref()
-    // For demo purposes assign range from the current date
-    onMounted(() => {
-      const startDate = new Date();
-      // const endDate = new Date(new Date().setDate(startDate.getDate() + 7));
-      date.value = [startDate, startDate];
-    })
 </script>
 
 <template>

@@ -2,7 +2,7 @@
 </script>
 <script>
 export default {
-    props: ['sukses', 'message'],
+    props: ['sukses', 'message', 'status'],
     data(){
         return {
         }
@@ -19,14 +19,19 @@ export default {
             <v-if v-if="sukses">
                 <img src="../../assets/img/sukses.gif" style="width:100px" />
             </v-if>
-            <v-if v-if="!sukses">
+            <v-if v-if="!sukses && !status">
                 <img src="../../assets/img/gagal.jpg" class="animate__animated animate__bounceIn mt-3" style="width:90px" />
+            </v-if>
+            <v-if v-if="status == 'warn'">
+                <img src="../../assets/img/warning.png" class="animate__animated animate__bounceIn mt-3" style="width:90px" />
             </v-if>
         </v-sheet>
         <v-span v-if="sukses" class="text-center text-button text-green">Berhasil!</v-span>
-        <v-span v-if="!sukses" class="text-center text-button text-red">Gagal!</v-span>
+        <v-span v-if="!sukses && !status" class="text-center text-button text-red">Gagal!</v-span>
+        <v-span v-if="status == 'warn'" class="text-center text-button text-orange-darken-2">Gagal!</v-span>
         <v-span v-if="sukses" class="text-center text-caption text-green-lighten-1">{{ message }}</v-span>
-        <v-span v-if="!sukses" class="text-center text-caption text-red-lighten-1">{{ message }}</v-span>
+        <v-span v-if="!sukses && !status" class="text-center text-caption text-red-lighten-1">{{ message }}</v-span>
+        <v-span v-if="status == 'warn'" class="text-center text-caption text-orange-darken-2">{{ message }}</v-span>
         <v-div class="d-flex w-50 mx-auto justify-space-between mb-3">
             <slot name="cancelButton"></slot>
             <slot name="yesButton"></slot>

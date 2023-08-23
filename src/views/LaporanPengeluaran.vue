@@ -5,7 +5,6 @@ import functions from '../service/functions';
 // components
 import { VDataTable } from 'vuetify/labs/VDataTable'
 import '@vuepic/vue-datepicker/dist/main.css'
-import { ref, onMounted } from 'vue';
 import PengeluaranDetail from './PengeluaranDetail.vue';
 import filterDrawer from '../components/drawer/filterDrawer.vue';
 import textField from '../components/form/textField.vue';
@@ -241,15 +240,6 @@ import CircularLoader from '../components/animate/circularLoader.vue';
       this.updt()
     }
   }
-
-  const date = ref();
-
-    // For demo purposes assign range from the current date
-    onMounted(() => {
-      const startDate = new Date();
-      const endDate = new Date(new Date().setDate(startDate.getDate() + 7));
-      date.value = [startDate, endDate];
-    })
 </script>
 
 <template>

@@ -1,7 +1,6 @@
 <script setup>
 import TableVue from '../components/TableVue.vue';
 import api from '../service/api';
-import { ref, onMounted } from 'vue';
 import filterDrawer from '../components/drawer/filterDrawer.vue';
 import checkBox from '../components/form/checkBox.vue';
 import BtnFilter from '../components/button/btnFilter.vue';
@@ -117,15 +116,6 @@ import otoritas from '../service/page/otoritas';
       this.updt()
     }
   }
-
-  const date = ref();
-
-    // For demo purposes assign range from the current date
-    onMounted(() => {
-      const startDate = new Date();
-      const endDate = new Date(new Date().setDate(startDate.getDate() + 7));
-      date.value = [startDate, endDate];
-    })
 </script>
 
 <template>

@@ -60,7 +60,7 @@ export default {
   <template>
     <v-theme-provider :theme="tema" with-background>
       <v-layout>
-        <NavDrawers v-model="drawer" v-if="pageTitle != null" :pageTitle="pageTitle" :item="items" :pemasukan="pemasukan" :produksi="produksi" :pengeluaran="pengeluaran" :kirim="kirim"/>
+        <NavDrawers v-model="drawer" v-if="pageTitle != null" :pageTitle="pageTitle" :pemasukan="pemasukan" :produksi="produksi" :pengeluaran="pengeluaran" :kirim="kirim"/>
         <AppBar v-if="pageTitle != null" :pageTitle="pageTitle" @dark="theme">
           <template #app-btn>
               <!-- APP BAR ICON -->

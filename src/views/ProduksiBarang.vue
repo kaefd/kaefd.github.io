@@ -5,7 +5,6 @@ import functions from '../service/functions';
 // components
 import { VDataTable } from 'vuetify/labs/VDataTable'
 import ScreenDialog2 from '../components/ScreenDialog2.vue';
-import { ref, onMounted } from 'vue';
 import filterDrawer from '../components/drawer/filterDrawer.vue';
 import textField from '../components/form/textField.vue';
 import menuList from '../components/menu/menuList.vue';
@@ -187,12 +186,6 @@ import CircularLoader from '../components/animate/circularLoader.vue';
           this.page()
       }
   }
-  const date = ref();
-
-    onMounted(() => {
-      const startDate = new Date();
-      date.value = [startDate, startDate];
-    })
 </script>
 <template>
   <filterDrawer v-model="filter" @close="close" @reset="reset" @filterdata="filterdata">

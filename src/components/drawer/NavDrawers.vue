@@ -85,7 +85,7 @@ import otoritas from '../../service/page/otoritas';
       <v-avatar>
       <img
         src="../../assets/img/just_logo.png"
-        width="35"
+        style="width:35px"
       />
       </v-avatar>
       <v-span class="text-button ms-3 text-dark">IT Inventori</v-span>

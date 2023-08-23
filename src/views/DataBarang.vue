@@ -55,7 +55,7 @@ export default defineComponent ({
           nama_barang: '',
           hs_code:'',
           satuan: '',
-          status: 1
+          status: "true"
         },
         filtered: {
           kategori_barang: []
@@ -233,7 +233,6 @@ export default defineComponent ({
           :category="barang.category"
           :selectCategory="selectCategory"
           toolbar_title="Edit Data"
-          :form="form"
           :pageTitle="pageTitle"
         />
   </v-container>
