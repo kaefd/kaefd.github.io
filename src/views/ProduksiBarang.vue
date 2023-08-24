@@ -148,7 +148,17 @@ import CircularLoader from '../components/animate/circularLoader.vue';
         for (let j = 0; j < this.getbarang.length; j++) {
           for (let k = 0; k < kode.length; k++) {
             if(this.getbarang[j].kode_barang == kode[k]) {
-              data.push(this.getbarang[j])
+              data.push({
+                kode_group: value,
+                no_produksi: this.getbarang[j].no_produksi,
+                kode_barang: this.getbarang[j].kode_barang,
+                nama_barang: this.getbarang[j].nama_barang,
+                hs_code: this.getbarang[j].hs_code,
+                jumlah: this.getbarang[j].jumlah,
+                satuan: this.getbarang[j].satuan,
+                no_urut: this.getbarang[j].no_urut,
+                nilai: this.getbarang[j].nilai
+              })
             }
           }
         }

@@ -46,7 +46,7 @@ export default {
     'pjl_blmterkirm',
     'window',
     'group_detail',
-    'stok_akhir'
+    'stok_akhir',
   ],
   data() {
     return {
@@ -277,6 +277,7 @@ export default {
         }
           this.pemasukan_item.push({
           no_produksi: '',
+          kode_group: kode.kode_group,
           kode_barang: kode.kode_barang,
           nama_barang: this.state.nama_barang,
           hs_code: this.state.hs_code,
@@ -352,7 +353,7 @@ export default {
       this.dialogchild[i] = false
     },
     check(value) {
-      if(!this.pengiriman) {
+      if(!this.pengiriman && !this.produksi) {
         if(this.pemasukan_item == ''){
           this.res = true
         } else if (this.pemasukan_item != '') {
@@ -382,6 +383,20 @@ export default {
             }
           }
         }
+      } 
+      else if (this.produksi) {
+        if(this.pemasukan_item == ''){
+          this.res = true
+        } else if (this.pemasukan_item != '') {
+          for (let i = 0; i < this.pemasukan_item.length; i++) {
+            if(value.kode_group == this.pemasukan_item[i].kode_group) {
+              if(value.kode_barang == this.pemasukan_item[i].kode_barang) {
+                this.res = false
+                break;
+              } else this.res = true
+            } else this.res = true
+          }
+        }
       }
     }
   },
@@ -398,7 +413,6 @@ export default {
     <template v-slot:activator="{ props }">
       <btn-info
         v-bind="props"
-        :disabled="getbarang == '' || inputbahan == '' ? true : false"
         btn_title="Tambah Barang"
         icon="mdi-plus"
       />
@@ -464,7 +478,6 @@ export default {
             v-model="dialogchild[b]"
           >
             <v-card class="py-5 mx-auto rounded-xl" min-width="300" max-width="375" width="35vw">
-                res : {{ res }}
               <v-span class="text-button text-orange text-center font-weight-bold">{{
                 item.nama_barang
               }}</v-span>

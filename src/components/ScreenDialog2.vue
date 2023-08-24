@@ -102,7 +102,7 @@ export default {
                     }
                 }
             } return a
-        } 
+        },
     },
     methods: {
         bahanmasuk(value) {
@@ -110,9 +110,16 @@ export default {
         },
         barangmasuk(value) {
             this.inputbarang = value
-
         },
         input_kodegroup(value) {
+            if(this.inputproduksi.kode_group == '') {
+                this.inputproduksi.kode_group = value
+            }
+            if(this.inputproduksi.kode_group != '') {
+                for (let i = 0; i < this.inputbahan.length; i++) {
+                    this.inputbahan.splice(0,this.inputbahan.length);
+                }
+            }
             this.inputproduksi.kode_group = value
             this.$emit('input_kodegroup', this.inputproduksi.kode_group)
         },
