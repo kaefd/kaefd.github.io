@@ -346,6 +346,7 @@ export default {
           <dialogScroll
             :window="window"
             @reset="reset"
+            :inptbarang="true"
             :kurs="inputdata.kurs"
             :barang="barang"
             :itemDetail="itemDetail"

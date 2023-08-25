@@ -306,7 +306,7 @@ export default {
                 </v-form>
                 <!-- BUTTON TAMBAH BARANG -->
                 <v-container v-if="!edit" :pembelianbaru="pembelianbaru" :pembeliandetl="pembeliandetl" class="text-sm-left text-center mb-n5">
-                    <dialogScroll :window="window" dialog_title="Data Barang" @reset="reset" :pengeluaran="true"  :barang="barang" :itemDetail="itemDetail" @pemasukanitem="itemmasuk" :btn="btn" width="400" />
+                    <dialogScroll :window="window" dialog_title="Data Barang" @reset="reset" :pengeluaran="true" :inptbarang="true"  :barang="barang" :itemDetail="itemDetail" @pemasukanitem="itemmasuk" :btn="btn" width="400" />
                 </v-container>
                 <!-- TABEL EDIT/VIEW -->
                 <v-container>
@@ -443,9 +443,7 @@ export default {
                     <!-- SHOW MORE BUTTON -->
                     <v-div v-if="filterkodegroup.length > more" class="d-flex justify-center align-center">
                     <v-divider length="50"></v-divider>
-                    <v-btn @click="lainnya()" variant="text" size="small" class="text-caption"
-                        >lihat lainnya</v-btn
-                    >
+                    <v-btn @click="lainnya()" variant="text" size="small" class="text-caption">lihat lainnya</v-btn>
                     <v-divider length="50"></v-divider>
                     </v-div>
                 </v-list>

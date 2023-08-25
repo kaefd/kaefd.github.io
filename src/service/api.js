@@ -9,7 +9,7 @@ const instance = axios.create({
     'csrf': localStorage.getItem('token'),
     // 'accept': '*/*',
     'Content-Type': 'application/json',
-    // 'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Origin': '*',
     // 'access-control-allow-credentials': true,
     // 'access-control-allow-methods': '*'
   }

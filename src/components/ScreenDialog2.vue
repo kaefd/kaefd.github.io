@@ -145,6 +145,21 @@ export default {
       this.inputproduksi.kode_group = value
       this.$emit('input_kodegroup', this.inputproduksi.kode_group)
     },
+    stok_detail(value) {
+        for (let i = 0; i < this.group_detail.length; i++) {
+            if (this.group_detail[i].kode_barang == value) {
+                return this.group_detail[i].stok_akhir
+            }
+        }
+    },
+    tempStok(value, i) {
+      if(value.jumlah > this.stok_detail(value.kode_barang)) {
+        this.status = 'warn'
+        this.message = 'Jumlah melebihi stok'
+        this.valert = true
+        this.dialogbhn[i] = true
+      } else this.dialogbhn[i] = false
+    },
     deleteditem(del, p) {
       let jenis = []
       if (p == 'bahan') {
@@ -324,7 +339,6 @@ export default {
               :btn="btn[0]"
               width="400"
               :barang="detailbahan"
-              :stok_akhir="true"
               :tambah="true"
               :getbarang="select_kode"
               :kodegroup="inputproduksi.kode_group"
@@ -357,7 +371,7 @@ export default {
                 </template>
                 <!-- eslint-disable-next-line vue/valid-v-slot -->
                 <template v-slot:item.actions="{ item, index }">
-                  <DialogVue @update="dialogchild" v-model="dialogbhn[index]">
+                  <DialogVue @update="dialogchild" :persistent="true" v-model="dialogbhn[index]">
                     <template #titlecard>
                       <v-card-title class="text-center text-orange text-button font-weight-bold">{{
                         item.raw.nama_barang
@@ -391,7 +405,7 @@ export default {
                         <btn-orange
                           btn_title="Simpan"
                           type="submit"
-                          @click="dialogbhn[index] = false"
+                          @click="tempStok(item.raw, index)"
                         ></btn-orange>
                       </v-div>
                     </template>
@@ -406,6 +420,7 @@ export default {
               dialog_title="data barang"
               :produksi="true"
               v-if="!edit"
+              :inptbarang="true"
               :kodegroup="inputproduksi.kode_group"
               :btn="btn[1]"
               width="400"
@@ -442,7 +457,7 @@ export default {
                 </template>
                 <!-- eslint-disable-next-line vue/valid-v-slot -->
                 <template v-slot:item.actions="{ item, index }">
-                  <DialogVue @update="dialogbrg" v-model="dialogbrg[index]">
+                  <DialogVue @update="dialogbrg" :persistent="true" v-model="dialogbrg[index]">
                     <template #titlecard>
                       <v-card-title class="text-center text-orange text-button font-weight-bold">{{
                         item.raw.nama_barang
@@ -539,6 +554,6 @@ export default {
         </v-list>
       </v-card>
     </v-dialog>
-    <AlertVue v-model="valert" :sukses="status" :message="message" />
+    <AlertVue v-model="valert" :sukses="status" :message="message" :status="status" />
   </v-dialog>
 </template>
