@@ -38,6 +38,7 @@ export default {
         dialogb: false,
         dialogkodeg: false,
         valid: false,
+        more: 0,
         detaildial: [],
         arr: [],
         tipe_dokumen: ['BC25', 'BC41'],
@@ -117,6 +118,10 @@ export default {
         },
     },
     methods:{
+        lainnya() {
+            let a = this.more + 10
+            this.more = a
+        },
         itemmasuk(v) {
             this.pembelian_input = v
         },
@@ -274,7 +279,7 @@ export default {
                         <dialogSearch v-if="!edit" :window="window" label="Pelanggan" :objectFilter="pelanggan" @pilihObjek="pilihObjek" cardTitle="PELANGGAN" max-width="400" :rules="required"/>
                         <text-field-form
                         label="Kode Group"
-                        @click="dialogkodeg = true"
+                        @click="dialogkodeg = true, more = 15"
                         v-model="inputdata.kode_group"
                         readonly
                         :rules="required"
@@ -425,7 +430,7 @@ export default {
                     <text-field v-model="searched" label="Search" class="mb-4"/>
                 </v-div>
                 <v-list>
-                    <v-for v-for="kode, i in filterkodegroup.slice(0, 20)" :key="i">
+                    <v-div v-for="kode, i in filterkodegroup.slice(0, more)" :key="i">
                         <v-list-item
                         style="cursor: pointer;"
                         class="text-caption"
@@ -434,7 +439,15 @@ export default {
                         >
                             {{ kode }}
                         </v-list-item>
-                    </v-for>
+                    </v-div>
+                    <!-- SHOW MORE BUTTON -->
+                    <v-div v-if="filterkodegroup.length > more" class="d-flex justify-center align-center">
+                    <v-divider length="50"></v-divider>
+                    <v-btn @click="lainnya()" variant="text" size="small" class="text-caption"
+                        >lihat lainnya</v-btn
+                    >
+                    <v-divider length="50"></v-divider>
+                    </v-div>
                 </v-list>
             </v-card>
         </v-dialog>

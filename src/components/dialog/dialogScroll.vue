@@ -46,7 +46,7 @@ export default {
     'pjl_blmterkirm',
     'window',
     'group_detail',
-    'stok_akhir',
+    'stok_akhir'
   ],
   data() {
     return {
@@ -54,6 +54,10 @@ export default {
       dialog: false,
       valert: false,
       status: '',
+      more: 0,
+      split: 0,
+      moretext: 'lihat lainnya',
+      btnmore: false,
       message: '',
       dialogchild: [],
       newbarang: this.barang,
@@ -143,6 +147,10 @@ export default {
     }
   },
   methods: {
+    lainnya() {
+      let a = this.more + 10
+      this.more = a
+    },
     stok_detail(value) {
       for (let i = 0; i < this.group_detail.length; i++) {
         if (this.group_detail[i].kode_barang == value) {
@@ -238,7 +246,7 @@ export default {
       // PEMASUKAN
       if (this.pemasukan) {
         this.check(kode)
-        if(this.res) {
+        if (this.res) {
           this.pemasukan_item.push({
             no_pembelian: '',
             kode_barang: kode.kode_barang,
@@ -259,42 +267,42 @@ export default {
           })
           this.total = nilai * this.kurs
           this.dialog = false
-        } else { 
+        } else {
           this.status = 'warn'
-          this.message = "Barang sudah pernah diinput"
+          this.message = 'Barang sudah pernah diinput'
           this.valert = true
         }
       } else if (this.produksi) {
         this.check(kode)
-        if(this.res) {
+        if (this.res) {
           for (let i = 0; i < this.groupbarang.length; i++) {
-          if (
-            this.groupbarang[i].kode_group == this.kodegroup &&
-            this.groupbarang[i].kode_barang == kode.kode_barang
-          ) {
-            nilai = this.groupbarang[i].nilai_akhir / this.groupbarang[i].stok_akhir
+            if (
+              this.groupbarang[i].kode_group == this.kodegroup &&
+              this.groupbarang[i].kode_barang == kode.kode_barang
+            ) {
+              nilai = this.groupbarang[i].nilai_akhir / this.groupbarang[i].stok_akhir
+            }
           }
-        }
           this.pemasukan_item.push({
-          no_produksi: '',
-          kode_group: kode.kode_group,
-          kode_barang: kode.kode_barang,
-          nama_barang: this.state.nama_barang,
-          hs_code: this.state.hs_code,
-          jumlah: this.penjualan_detail.jumlah,
-          satuan: this.state.satuan,
-          no_urut: '',
-          nilai: nilai
-        })
-        this.dialog = false
-        } else { 
+            no_produksi: '',
+            kode_group: kode.kode_group,
+            kode_barang: kode.kode_barang,
+            nama_barang: this.state.nama_barang,
+            hs_code: this.state.hs_code,
+            jumlah: this.penjualan_detail.jumlah,
+            satuan: this.state.satuan,
+            no_urut: '',
+            nilai: nilai
+          })
+          this.dialog = false
+        } else {
           this.status = 'warn'
-          this.message = "Barang sudah pernah diinput"
+          this.message = 'Barang sudah pernah diinput'
           this.valert = true
         }
       } else if (this.pengeluaran) {
         this.check(kode)
-        if(this.res) {
+        if (this.res) {
           this.pemasukan_item.push({
             no_penjualan: '',
             kode_barang: kode.kode_barang,
@@ -308,14 +316,14 @@ export default {
             no_urut: ''
           })
           this.dialog = false
-        } else { 
+        } else {
           this.status = 'warn'
-          this.message = "Barang sudah pernah diinput"
+          this.message = 'Barang sudah pernah diinput'
           this.valert = true
         }
       } else if (this.pengiriman) {
         this.check(kode)
-        if(this.res) {
+        if (this.res) {
           this.pemasukan_item.push({
             no_penjualan: kode.no_penjualan,
             no_pengiriman: this.nokirim,
@@ -334,9 +342,9 @@ export default {
             nilai: nilai
           })
           this.dialog = false
-        } else { 
+        } else {
           this.status = 'warn'
-          this.message = "Barang sudah pernah diinput"
+          this.message = 'Barang sudah pernah diinput'
           this.valert = true
         }
       }
@@ -353,29 +361,29 @@ export default {
       this.dialogchild[i] = false
     },
     check(value) {
-      if(!this.pengiriman && !this.produksi) {
-        if(this.pemasukan_item == ''){
+      if (!this.pengiriman && !this.produksi) {
+        if (this.pemasukan_item == '') {
           this.res = true
         } else if (this.pemasukan_item != '') {
           for (let i = 0; i < this.pemasukan_item.length; i++) {
             if (value.kode_barang == this.pemasukan_item[i].kode_barang) {
               this.res = false
-              break;
+              break
             } else if (value.kode_barang != this.pemasukan_item[i].kode_barang) {
               this.res = true
             }
           }
         }
       } else if (this.pengiriman) {
-        if(this.pemasukan_item == ''){
+        if (this.pemasukan_item == '') {
           this.res = true
         } else if (this.pemasukan_item != '') {
           for (let i = 0; i < this.pemasukan_item.length; i++) {
             if (value.no_dokumen == this.pemasukan_item[i].no_dokumen) {
-              if(value.kode_group == this.pemasukan_item[i].kode_group) {
-                if(value.kode_barang == this.pemasukan_item[i].kode_barang) {
+              if (value.kode_group == this.pemasukan_item[i].kode_group) {
+                if (value.kode_barang == this.pemasukan_item[i].kode_barang) {
                   this.res = false
-                  break;
+                  break
                 } else this.res = true
               } else this.res = true
             } else if (value.no_dokumen != this.pemasukan_item[i].no_dokumen) {
@@ -383,16 +391,15 @@ export default {
             }
           }
         }
-      } 
-      else if (this.produksi) {
-        if(this.pemasukan_item == ''){
+      } else if (this.produksi) {
+        if (this.pemasukan_item == '') {
           this.res = true
         } else if (this.pemasukan_item != '') {
           for (let i = 0; i < this.pemasukan_item.length; i++) {
-            if(value.kode_group == this.pemasukan_item[i].kode_group) {
-              if(value.kode_barang == this.pemasukan_item[i].kode_barang) {
+            if (value.kode_group == this.pemasukan_item[i].kode_group) {
+              if (value.kode_barang == this.pemasukan_item[i].kode_barang) {
                 this.res = false
-                break;
+                break
               } else this.res = true
             } else this.res = true
           }
@@ -411,11 +418,7 @@ export default {
   <v-dialog v-model="dialog" transition="dialog-bottom-transition">
     <!-- BUTTON TAMBAH -->
     <template v-slot:activator="{ props }">
-      <btn-info
-        v-bind="props"
-        btn_title="Tambah Barang"
-        icon="mdi-plus"
-      />
+      <btn-info v-bind="props" @click="more = 15" btn_title="Tambah Barang" icon="mdi-plus" />
     </template>
     <v-card class="py-5 px-7 rounded-xl vh-100" min-width="300" max-width="400">
       <v-btn
@@ -424,7 +427,8 @@ export default {
         class="absolute"
         variant="text"
         @click="dialog = false"
-      ></v-btn>
+      >
+      </v-btn>
       <v-card-title class="text-center text-orange text-button font-weight-bold mb-3 px-12">{{
         dialog_title
       }}</v-card-title>
@@ -432,12 +436,12 @@ export default {
         <text-field id="input" v-model="search" label="Search" class="mb-4"></text-field>
       </v-div>
       <v-list class="me-2">
-        <v-div v-for="(item, b) in filteredItems.slice(0, 40)" :key="item">
+        <v-div v-for="(item, b) in filteredItems.slice(0, more)" :key="item">
           <v-list-item
             v-if="!blmkirim"
             class="text-caption"
             density="compact"
-            @click="(dialogchild[b] = true), (state.nama_barang = item.nama_barang)"
+            @click=";(dialogchild[b] = true), (state.nama_barang = item.nama_barang)"
           >
             <v-div class="d-flex justify-space-between text-caption">
               <v-span>{{ item.nama_barang }}</v-span>
@@ -550,13 +554,26 @@ export default {
               <v-divider class="mt-3"></v-divider>
               <v-div class="d-inline me-5 ms-auto mt-5">
                 <btn-cancel @click="dialogchild[b] = false" btn_title="batal" />
-                <btn-orange type="submit" @click="pemasukanItem(item, b)" btn_title="Simpan" class="ms-2" />
+                <btn-orange
+                  type="submit"
+                  @click="pemasukanItem(item, b)"
+                  btn_title="Simpan"
+                  class="ms-2"
+                />
               </v-div>
             </v-card>
           </v-dialog>
         </v-div>
+        <!-- SHOW MORE BUTTON -->
+        <v-div v-if="filteredItems.length > more" class="d-flex justify-center align-center">
+          <v-divider length="50"></v-divider>
+          <v-btn @click="lainnya()" variant="text" size="small" class="text-caption"
+            >lihat lainnya</v-btn
+          >
+          <v-divider length="50"></v-divider>
+        </v-div>
       </v-list>
     </v-card>
-    <alertVue v-model="valert" :status="status" :message="message"/>
+    <alertVue v-model="valert" :status="status" :message="message" />
   </v-dialog>
 </template>
