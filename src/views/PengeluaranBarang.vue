@@ -127,7 +127,7 @@ import CircularLoader from '../components/animate/circularLoader.vue';
           this.message = "Data Berhasil Dibatalkan"
           setTimeout(() => {
             this.valert = false
-            this.$router.go();
+            // this.$router.go();
           }, 2500);
         })
         .catch((error) => {

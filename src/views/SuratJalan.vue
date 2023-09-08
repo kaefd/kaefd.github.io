@@ -244,6 +244,8 @@ export default {
     left: 0;
     top: 0;
     color: black !important;
+    text-rendering: optimizeLegibility;
+    image-rendering: auto;
   }
 }
 .v-table--density-compact > .v-table__wrapper > table > tbody > tr > th, .v-table--density-compact > .v-table__wrapper > table > thead > tr > th, .v-table--density-compact > .v-table__wrapper > table > tfoot > tr > th {

@@ -17,6 +17,7 @@ import CurrencyInput from '../form/currencyInput.vue'
 import functions from '../../service/functions'
 import TextFieldForm from '../form/textFieldForm.vue'
 import AlertVue from './alertVue.vue'
+import dialogSearch from './dialogSearch.vue'
 
 export default {
     components: {
@@ -26,7 +27,8 @@ export default {
         TextField,
         CurrencyInput,
         TextFieldForm,
-        AlertVue
+        AlertVue,
+        dialogSearch,
     },
     props: [
         'hiddenbtn',
@@ -52,18 +54,22 @@ export default {
         'pjl_blmterkirm',
         'window',
         'group_detail',
-        'inptbarang'
+        'inptbarang',
+        'bahanbaku',
+        'getKonversi'
     ],
     data() {
         return {
             search: '',
             dialog: false,
             valert: false,
+            konversi: null,
             status: '',
-            more: 0,
+            more: 15,
             split: 0,
             moretext: 'lihat lainnya',
             btnmore: false,
+            kodebahan: '',
             message: '',
             dialogchild: [],
             newbarang: this.barang,
@@ -76,22 +82,26 @@ export default {
             total: '',
             pemasukan_item: [],
             penjualan_detail: {
-                jumlah: '',
+                jumlah: 0,
                 nilai: '',
                 harga_jual: '',
                 jumlah_konversi: 0,
-                satuan_konversi: ''
             }
         }
     },
     setup() {
         const initialState = {
             kode_barang: '',
+            kode_konversi: '',
             nama_barang: '',
+            nama_konversi: '',
+            persentase: 0,
             hs_code: '',
-            jumlah: '',
-            jumlah_diterima: '',
+            jumlah: 0,
+            jumlah_konversi: 0,
+            jumlah_diterima: 0,
             satuan: '',
+            satuan_konversi: '',
             nilai: '',
             no_urut: '',
             status: '',
@@ -165,10 +175,14 @@ export default {
                 if (this.search != '') {
                     return this.searchObj(this.pjl_blmterkirm)
                 } else return this.pjl_blmterkirm
-            } else {
+            } else if (this.produksi && this.konversi) {
                 // return this.getbarang.filter(item => {
                 //     return item.nama_barang.toLowerCase().includes(this.search.toLowerCase())
                 // })
+                if (this.search != '') {
+                    return this.searchBarang(this.getKonversi)
+                } else return this.getKonversi
+            } else {
                 if (this.search != '') {
                     return this.searchBarang(this.getbarang)
                 } else return this.getbarang
@@ -189,14 +203,26 @@ export default {
         },
         searchBarang(value) {
             let a = {}
-            a = value.filter((item) => {
-                return item.kode_barang.toLowerCase().includes(this.search.toLowerCase())
-            })
-            if (a == '') {
+            if(!this.konversi) {
                 a = value.filter((item) => {
-                    return item.nama_barang.toLowerCase().includes(this.search.toLowerCase())
+                    return item.kode_barang.toLowerCase().includes(this.search.toLowerCase())
                 })
+                if (a == '') {
+                    a = value.filter((item) => {
+                        return item.nama_barang.toLowerCase().includes(this.search.toLowerCase())
+                    })
+                }
+            } else {
+                a = value.filter((item) => {
+                return item.kode_konversi.toLowerCase().includes(this.search.toLowerCase())
+                })
+                if (a == '') {
+                    a = value.filter((item) => {
+                        return item.nama_konversi.toLowerCase().includes(this.search.toLowerCase())
+                    })
+                }
             }
+            
             return a
         },
         searchObj(value) {
@@ -259,6 +285,11 @@ export default {
 
             done('ok')
         },
+        barangKonversi(value) {
+            this.state.kode_konversi = value.kode_konversi
+            this.state.nama_konversi = value.nama
+            this.state.satuan_konversi = value.satuan_konversi
+        },
         pemasukanItem(kode, i) {
             this.state.hs_code = kode.hs_code
             this.state.satuan = kode.satuan
@@ -289,6 +320,7 @@ export default {
                         jumlah_diterima: this.state.jumlah_diterima,
                         satuan: this.state.satuan,
                         nilai: this.state.nilai,
+                        persentase: this.state.persentase,
                         no_urut: ''
                     })
                     let arr = []
@@ -319,14 +351,19 @@ export default {
                               nilai = this.groupbarang[i].nilai_akhir / this.groupbarang[i].stok_akhir
                           }
                       }
+                      this.kodebahan = kode.kode_barang
                       this.pemasukan_item.push({
                           no_produksi: '',
                           kode_group: kode.kode_group,
                           kode_barang: kode.kode_barang,
+                          kode_konversi: kode.kode_konversi,
                           nama_barang: this.state.nama_barang,
+                          nama_konversi: this.state.nama_konversi,
                           hs_code: this.state.hs_code,
                           jumlah: this.penjualan_detail.jumlah,
+                          jumlah_konversi: this.penjualan_detail.jumlah_konversi,
                           satuan: this.state.satuan,
+                          satuan_konversi: kode.satuan_konversi,
                           no_urut: '',
                           nilai: nilai
                       })
@@ -381,8 +418,10 @@ export default {
                           no_dokumen: kode.no_dokumen,
                           hs_code: this.state.hs_code,
                           jumlah: this.penjualan_detail.jumlah,
+                          kode_konversi: this.state.kode_konversi,
+                          nama_konversi: this.state.nama_konversi,
                           jumlah_konversi: this.penjualan_detail.jumlah_konversi,
-                          satuan_konversi: this.penjualan_detail.satuan_konversi,
+                          satuan_konversi: this.state.satuan_konversi,
                           jumlah_terkirim: this.penjualan_detail.jumlah_terkirim,
                           jumlah_blmterkirim: (kode.jumlah - kode.jumlah_terkirim),
                           satuan: this.state.satuan,
@@ -437,8 +476,17 @@ export default {
                         if (value.no_dokumen == this.pemasukan_item[i].no_dokumen) {
                             if (value.kode_group == this.pemasukan_item[i].kode_group) {
                                 if (value.kode_barang == this.pemasukan_item[i].kode_barang) {
-                                    this.res = false
-                                    break
+                                    if(!this.konversi) {
+                                        if(this.pemasukan_item[i].kode_konversi == '') {
+                                            this.res = false
+                                            break
+                                        } else this.res = true
+                                    } else if(this.konversi) {
+                                        if(this.state.kode_konversi == this.pemasukan_item[i].kode_konversi) {
+                                            this.res = false
+                                            break
+                                        } else this.res = true
+                                    }
                                 } else this.res = true
                             } else this.res = true
                         } else if (value.no_dokumen != this.pemasukan_item[i].no_dokumen) {
@@ -446,19 +494,36 @@ export default {
                         }
                     }
                 }
-            } else if (this.produksi) {
+            }
+            else if (this.produksi && !this.bahanbaku) {
                 if (this.pemasukan_item == '') {
                     this.res = true
                 } else if (this.pemasukan_item != '') {
                     for (let i = 0; i < this.pemasukan_item.length; i++) {
                         if (value.kode_group == this.pemasukan_item[i].kode_group) {
-                            if (value.kode_barang == this.pemasukan_item[i].kode_barang) {
-                                this.res = false
-                                break
-                            } else this.res = true
+                            if(!this.konversi) {
+                                if (value.kode_barang == this.pemasukan_item[i].kode_barang) {
+                                    this.res = false
+                                    break
+                                } else this.res = true
+                            }
+                            if(this.konversi) {
+                                if (value.kode_konversi == this.pemasukan_item[i].kode_konversi) {
+                                    this.res = false
+                                    break
+                                } else this.res = true
+                            }
                         } else this.res = true
                     }
                 }
+            }
+        },
+        pro(value, b) {
+            if(!this.bahanbaku) {
+                this.dialogchild[b] = true
+            } else {
+                this.kodebahan = value
+                this.$emit('pemasukanitem', this.kodebahan)
             }
         }
     },
@@ -473,20 +538,27 @@ export default {
 <v-dialog v-model="dialog" transition="dialog-bottom-transition">
     <!-- BUTTON TAMBAH -->
     <template v-slot:activator="{ props }">
-        <btn-info v-bind="props" @click="more = 15" btn_title="Tambah Barang" icon="mdi-plus" />
+        <btn-info v-if="!bahanbaku" v-bind="props" @click="more = 15, konversi = false" btn_title="Tambah Barang" class="me-3" />
+        <btn-info v-if="!bahanbaku && produksi || pengiriman" v-bind="props" @click="more = 15, konversi = true" btn_title="Tambah Konversi Barang" />
+        <!-- <text-field-form v-if="bahanbaku" readonly v-bind="props" @click="more = 15" label="Bahan Baku" v-model="kodebahan" /> -->
     </template>
     <v-card class="py-5 px-7 rounded-xl vh-100" min-width="300" max-width="400">
         <v-btn v-if="window < 500" icon="mdi-close" class="absolute" variant="text" @click="dialog = false">
         </v-btn>
         <v-card-title class="text-center text-orange text-button font-weight-bold mb-3 px-12">{{
         dialog_title
-      }}</v-card-title>
+        }}</v-card-title>
         <v-div>
             <text-field id="input" v-model="search" label="Search" class="mb-4"></text-field>
         </v-div>
         <v-list class="me-2">
             <v-div v-for="(item, b) in filteredItems.slice(0, more)" :key="item">
-                <v-list-item v-if="!blmkirim" class="text-caption" density="compact" @click=";(dialogchild[b] = true), (state.nama_barang = item.nama_barang)">
+                <v-list-item v-if="!blmkirim && konversi" class="text-caption" density="compact" @click=";(pro(item.kode_konversi, b)), (state.nama_konversi = item.nama_konversi)">
+                    <v-div class="d-flex justify-space-between text-caption">
+                        <v-span>{{ item.nama_konversi }}</v-span>
+                    </v-div>
+                </v-list-item>
+                <v-list-item v-if="!blmkirim && !konversi" class="text-caption" density="compact" @click=";(pro(item.kode_barang, b)), (state.nama_barang = item.nama_barang)">
                     <v-div class="d-flex justify-space-between text-caption">
                         <v-span>{{ item.nama_barang }}</v-span>
                         <v-span v-if="!inptbarang">{{ stok_detail(item.kode_barang) }}</v-span>
@@ -512,18 +584,20 @@ export default {
                     </v-div>
                     <v-divider></v-divider>
                 </v-list-item>
-                <v-dialog @update="dialogchild" :persistent="true" transition="dialog-bottom-transition" width="auto" v-model="dialogchild[b]">
+                <v-dialog v-if="!bahanbaku" @update="dialogchild" :persistent="true" transition="dialog-bottom-transition" width="auto" v-model="dialogchild[b]">
                     <v-card class="py-5 mx-auto rounded-xl" min-width="300" max-width="375" width="35vw">
                         <v-span class="text-button text-orange text-center font-weight-bold">{{
                 item.nama_barang
               }}</v-span>
-                        <v-span class="text-caption text-center">{{ item.kode_barang }} - {{ item.hs_code }}</v-span>
+                        <v-span v-if="!konversi" class="text-caption text-center">{{ item.kode_barang }} - {{ item.hs_code }}</v-span>
+                        <v-span v-if="konversi" class="text-caption text-center">{{ item.kode_konversi }}</v-span>
                         <v-divider class="mt-3 mb-5"></v-divider>
                         <form @submit.prevent="submit" ref="form" class="mx-auto w-75 pt-2 bg-transparent">
-                            <currency-input v-if="!pemasukan" v-model="penjualan_detail.jumlah" label="Jumlah (Tonase)" :hide-details="true" :disabled="hiddenbtn" :options="{ currency: 'EUR', currencyDisplay: 'hidden' }" />
-                            <currency-input v-if="pengiriman" v-model="penjualan_detail.jumlah_konversi" label="Qty" :hide-details="true" :options="{ currency: 'EUR', currencyDisplay: 'hidden' }" />
-                            <text-field-form v-if="pengiriman" v-model="penjualan_detail.satuan_konversi" label="Satuan konversi" :hide-details="true" />
-                            <currency-input v-if="pemasukan" v-model="state.jumlah" label="Jumlah (Tonase)" :hide-details="true" :disabled="hiddenbtn" :options="{ currency: 'EUR', currencyDisplay: 'hidden' }" />
+                            <dialogSearch v-if="pengiriman && konversi" :button="false" label="Kode Konversi" :objectFilter="getKonversi" card-title="Barang Konversi" @pilihObjek="barangKonversi" />
+                            <currency-input v-if="!pemasukan && !konversi" v-model="penjualan_detail.jumlah" label="Jumlah (KG)" :hide-details="true" :disabled="hiddenbtn" :options="{ currency: 'EUR', currencyDisplay: 'hidden' }" />
+                            <currency-input v-if="!pemasukan && konversi" v-model="penjualan_detail.jumlah_konversi" label="Jumlah (konversi)" :hide-details="true" :disabled="hiddenbtn" :options="{ currency: 'EUR', currencyDisplay: 'hidden' }" />
+                            <text-field-form v-if="pengiriman && konversi" v-model="state.satuan_konversi" label="Satuan konversi" readonly :hide-details="true" />
+                            <currency-input v-if="pemasukan" v-model="state.jumlah" label="Jumlah (KG)" :hide-details="true" :disabled="hiddenbtn" :options="{ currency: 'EUR', currencyDisplay: 'hidden' }" />
                             <currency-input v-if="pemasukan" v-model="state.jumlah_diterima" label="Jumlah Diterima" :hide-details="true" :disabled="hiddenbtn" :options="{ currency: 'EUR', currencyDisplay: 'hidden' }" />
                             <currency-input v-if="pemasukan" v-model="state.nilai" label="Nilai Total" :hide-details="true" :options="{ currency: 'EUR', currencyDisplay: 'hidden' }" />
                             <currency-input v-if="!tambah && pengeluaran" v-model="penjualan_detail.harga_jual" label="Harga" :hide-details="true" :disabled="hiddenbtn" :options="{ currency: 'EUR', currencyDisplay: 'hidden' }" />

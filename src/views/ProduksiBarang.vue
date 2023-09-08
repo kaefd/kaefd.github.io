@@ -64,6 +64,7 @@ import CircularLoader from '../components/animate/circularLoader.vue';
         detailbarang: '',
         groupbarang: '',
         getbarang:'',
+        getKonversi: '',
         getbahan:'',
         temp: '',
         select_kode: [],
@@ -89,6 +90,7 @@ import CircularLoader from '../components/animate/circularLoader.vue';
           this.items = produksi.noDuplicate(item)
           this.groupbarang = await api.getGroupBarang()
           this.getbarang = await api.getBarang()
+          this.getKonversi = await api.getKonversi()
           this.loading = false
         } else return await api.logout()
       },
@@ -222,6 +224,7 @@ import CircularLoader from '../components/animate/circularLoader.vue';
           :items="items"
           :groupbarang="groupbarang"
           :getbarang="getbarang"
+          :getKonversi="getKonversi"
           @input_kodegroup="input_kodegroup"
           @inputhead="inputhead"
           :select_kode="temp"/>

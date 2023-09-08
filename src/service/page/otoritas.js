@@ -4,6 +4,12 @@ const data_barang = [
     'Ubah Barang',
     'Hapus Barang'
 ]
+const barang_konversi = [
+    'Barang Konversi',
+    'Tambah Barang Konversi',
+    'Ubah Barang Konversi',
+    'Hapus Barang Konversi'
+]
 const data_pelanggan = [
     'Data Pelanggan',
     'Tambah Pelanggan Baru',
@@ -206,6 +212,7 @@ const items = (data) => {
 }
 export default {
     data_barang,
+    barang_konversi,
     data_pelanggan,
     data_supplier,
     data_user,

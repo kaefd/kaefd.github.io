@@ -241,7 +241,7 @@ import CircularLoader from '../components/animate/circularLoader.vue';
       <v-label class="text-small mt-4">Tgl Awal</v-label>
       <DatePicker teleport-center v-model="filtered.periode[0]" :max-date="new Date()" :filter="true" :tema="tema"/>
       <v-label class="text-small mt-1">Tgl Akhir</v-label>
-      <DatePicker teleport-center v-model="filtered.periode[1]" :min-date="filtered.periode[0]" :filter="true" :tema="tema"/>
+      <DatePicker teleport-center v-model="filtered.periode[1]" class="mb-4" :min-date="filtered.periode[0]" :filter="true" :tema="tema"/>
       <!-- TIPE DOKUMEN -->
       <v-span class="text-caption text-weight-bold">Tipe Dokumen</v-span>
       <v-divider class="mb-6"></v-divider>

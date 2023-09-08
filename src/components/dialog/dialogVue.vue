@@ -9,7 +9,7 @@ export default {
         TextButton,
         BtnInfo
      },
-    props:['label', 'validated', 'rules', 'master'],
+    props:['label', 'validated', 'rules', 'master', 'btn_title'],
     data () {
         return {
             data: ''
@@ -30,7 +30,7 @@ export default {
     <!-- button dialog -->
         <template v-slot:activator="{ props }">
             <text-button v-if="!master" v-bind="props" icon="mdi-dots-vertical" />
-            <btn-info v-if="master" v-bind="props" icon="mdi-plus" btn_title="Tambah Data" />
+            <btn-info v-if="master" v-bind="props" :icon="btn_title != '' ? '' : 'mdi-plus'" :btn_title="btn_title != '' ? btn_title : 'Tambah Data'" />
         </template>
         <v-card class="bg-white mx-auto py-5 rounded-xl" min-width="300" max-width="375" width="35vw">
             <slot name="titlecard"></slot>

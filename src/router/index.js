@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import middleware from '../service/middleware'
 import DataBarang from '../views/DataBarang.vue'
+import KonversiBarang from '../views/KonversiBarang.vue'
 import testPage from '../views/testPage.vue'
 import LoginView from '../views/LoginView.vue'
 import DataPelanggan from '../views/DataPelanggan.vue'
@@ -15,6 +16,7 @@ import LaporanPemasukan from '../views/LaporanPemasukan.vue'
 import LaporanPengeluaran from '../views/LaporanPengeluaran.vue'
 import LaporanPengiriman from '../views/LaporanPengiriman.vue'
 import LogView from '../views/LaporanLog.vue'
+import notPage from '../views/notPage.vue'
 const router = createRouter({
   history: createWebHistory('/inventori'),
   routes: [
@@ -44,6 +46,14 @@ const router = createRouter({
         middleware: [middleware]
       },
       component: DataBarang,
+    },
+    {
+      path: '/barang-konversi',
+      name: 'KonversiBarang',
+      meta: {
+        middleware: [middleware]
+      },
+      component: KonversiBarang,
     },
     {
       path: '/data-pelanggan',
@@ -140,6 +150,11 @@ const router = createRouter({
         middleware: [middleware]
       },
       component: LogView,
+    },
+    {
+      path: '/:catchAll(.*)',
+      name: 'notPage',
+      component: notPage,
     },
   ]
 })

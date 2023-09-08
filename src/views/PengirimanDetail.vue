@@ -77,7 +77,8 @@ export default {
         'btn',
         'datatext',
         'itemDetail',
-        'category'
+        'category',
+        'barangKonversi'
     ],
     data() {
         return {
@@ -350,7 +351,7 @@ export default {
             </v-form>
             <!-- BUTTON TAMBAH BARANG -->
             <v-container v-if="!edit" class="text-sm-left text-center mt-n5 mb-n5">
-                <dialogScroll :window="window" dialog_title="pengeluaran belum terkirim" @reset="reset" :nokirim="inputdata.no_pengiriman" :blmkirim="true" :pjl_blmterkirm="pjl_blmterkirm" :belumkirim="belumkirim" :belumkirim_detail="belumkirim_detail" :barang="barang" :itemDetail="itemDetail" @pemasukanitem="itemmasuk" :pengiriman="true" :penjualan="penjualan" :inptbarang="true" :btn="btn" width="400" />
+                <dialogScroll :window="window" dialog_title="pengeluaran belum terkirim" @reset="reset" :nokirim="inputdata.no_pengiriman" :blmkirim="true" :getKonversi="barangKonversi" :pjl_blmterkirm="pjl_blmterkirm" :belumkirim="belumkirim" :belumkirim_detail="belumkirim_detail" :barang="barang" :itemDetail="itemDetail" @pemasukanitem="itemmasuk" :pengiriman="true" :penjualan="penjualan" :inptbarang="true" :btn="btn" width="400" />
             </v-container>
             <!-- TABEL EDIT/VIEW -->
             <v-container>
@@ -372,7 +373,7 @@ export default {
                 </template> -->
                     <!-- eslint-disable-next-line vue/valid-v-slot -->
                     <template v-slot:item.actions="{ item, index }">
-                        <dialog-vue v-model="detaildial[index]" :persistent="true">
+                        <dialog-vue v-model="detaildial[index]" :persistent="edit ? false : true">
                             <template #titlecard>
                                 <v-card-title class="text-center text-orange text-button font-weight-bold">{{
                                     item.raw.nama_barang

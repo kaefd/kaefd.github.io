@@ -156,7 +156,7 @@ export default {
       v == 'lihat' ? (this.dialog = true) : this.confirm()
     },
     confirm() {
-      this.$emit('confirm', this.dataitem, this.pembelian)
+      this.$emit('confirm', this.items, this.pembelian)
     },
     pilihObjek(s) {
       this.inputdata.kode_supplier = s.kode_supplier
@@ -329,11 +329,12 @@ export default {
               <textFieldForm label="No BL" v-model="inputdata.no_bl" :rules="required" />
               <textFieldForm label="Mata Uang" v-model="inputdata.mata_uang" :rules="required" />
               <textFieldForm
-                type="number"
-                label="Kurs"
-                v-model="inputdata.kurs"
-                :rules="required"
+              type="number"
+              label="Kurs"
+              v-model="inputdata.kurs"
+              :rules="required"
               />
+              <textFieldForm type="number" label="Persentase" v-model="inputdata.persentase" />
             </v-responsive>
           </v-row>
         </v-form>

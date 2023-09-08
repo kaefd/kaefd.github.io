@@ -9,7 +9,6 @@ import TableVue from '../components/TableVue.vue'
 import btnFilter from '../components/button/btnFilter.vue'
 import menuList from '../components/menu/menuList.vue'
 import textField from '../components/form/textField.vue'
-import checkBox from '../components/form/checkBox.vue'
 import filterDrawer from '../components/drawer/filterDrawer.vue'
 import alertVue from '../components/dialog/alertVue.vue'
 import dialogMaster from '../components/dialog/dialogMaster.vue'
@@ -26,12 +25,11 @@ export default defineComponent({
     btnFilter,
     menuList,
     textField,
-    checkBox,
     filterDrawer,
     alertVue,
     circularLoader
   },
-  name: 'DataBarang',
+  name: 'BarangKonversi',
   props: ['cetak', 'tema', 'window'],
   data() {
     return {
@@ -44,21 +42,30 @@ export default defineComponent({
       message: '',
       search: '',
       filter: false,
-      pageTitle: 'DATA BARANG',
-      selectCategory: [],
+      pageTitle: 'BARANG KONVERSI',
+      pilihKodeBarang: [],
       statusselect: false,
       items: '',
       fresh: false,
+      kodebarang: '',
+      headers: [
+        {title: 'Kode Barang', key: 'kode_barang'},
+        {title: 'Kode Konversi', key: 'kode_konversi'},
+        {title: 'Nama Konversi', key: 'nama_konversi'},
+        {title: 'Satuan Konversi', key: 'satuan_konversi'},
+        {title: 'Berat', key: 'berat'},
+        {key: 'actions', sortable: false},
+      ],
       tambah: {
-        kategori_barang: '',
         kode_barang: '',
-        nama_barang: '',
-        hs_code: '',
-        satuan: '',
+        kode_konversi: '',
+        nama_konversi: '',
+        satuan_konversi: '',
+        berat: '',
         status: 'true'
       },
       filtered: {
-        kategori_barang: []
+        kode_barang: []
       }
     }
   },
@@ -69,10 +76,11 @@ export default defineComponent({
         this.akses = await api.getOtoritas(user)
         this.authority = otoritas.otoritas(this.akses)
       }
-      if (otoritas.routes(this.akses, 'Data Barang')) {
+      if (otoritas.routes(this.akses, 'Barang Konversi')) {
         this.loading = true
-        let item = await api.getBarang()
-        this.items = barang.item(item)
+        this.items = await api.getKonversi()
+        let brg = await api.getBarang()
+        this.kodebarang = barang.kodebarang(brg)
         this.loading = false
       } else return await api.logout()
     },
@@ -81,14 +89,14 @@ export default defineComponent({
     },
     print(key) {
       let title = this.pageTitle
-      let header = barang.headers
+      let header = this.headers
       let item = this.items
       functions.print(key, title, header, item)
     },
     // TAMBAH DATA
     submit(value) {
       api
-        .postBarang(value)
+        .postKonversi(value)
         .then(() => {
           this.status = this.valert = true
           this.message = 'Data Berhasil Ditambahkan'
@@ -106,7 +114,7 @@ export default defineComponent({
     // EDIT DATA
     editForm(value) {
       api
-        .putBarang(value)
+        .putKonversi(value)
         .then(() => {
           this.status = this.valert = true
           this.message = 'Data Berhasil Diubah'
@@ -125,7 +133,7 @@ export default defineComponent({
     // HAPUS DATA
     del(v) {
       api
-        .deleteBarang(v)
+        .deleteKonversi(v)
         .then(() => {
           this.status = this.valert = true
           this.message = 'Data Berhasil Dihapus'
@@ -144,16 +152,16 @@ export default defineComponent({
       return this.$emit('page', this.pageTitle)
     },
     filterdata() {
-      this.selectCategory = this.filtered.kategori_barang
-      if (!this.selectCategory) {
-        this.selectCategory = []
-      } else if (this.selectCategory == []) {
-        this.selectCategory = []
+      this.pilihKodeBarang = this.filtered.kode_barang
+      if (!this.pilihKodeBarang) {
+        this.pilihKodeBarang = []
+      } else if (this.pilihKodeBarang == []) {
+        this.pilihKodeBarang = []
       }
     },
     reset() {
-      this.filtered.kategori_barang = []
-      this.selectCategory = []
+      this.filtered.kode_barang = []
+      this.pilihKodeBarang = []
     }
   },
   mounted() {
@@ -166,15 +174,28 @@ export default defineComponent({
 <template>
   <filterDrawer v-model="filter" @close="close" @reset="reset" @filterdata="filterdata">
     <template #default>
-      <v-span class="text-caption text-weight-bold">Kategori Barang</v-span>
+      <v-span class="text-caption text-weight-bold">Kode Barang</v-span>
       <v-divider class="mb-6"></v-divider>
-      <checkBox
+      <!-- <checkBox
         v-for="(label, i) in barang.category"
         :key="i"
         v-model="filtered.kategori_barang"
         :label="label"
         :value="label"
-      />
+      /> -->
+      <v-combobox
+        :items="kodebarang"
+        v-model="filtered.kode_barang"
+        multiple
+        variant="underlined"
+        density="compact"
+        class="overflow-auto"
+        hide-details
+        single-line
+        hide-selected
+        chips
+        closable-chips
+      ></v-combobox>
     </template>
   </filterDrawer>
   <v-container class="pt-9 h-100">
@@ -183,17 +204,17 @@ export default defineComponent({
         <div class="d-flex align-center w-100">
           <!-- TAMBAH DATA BARU -->
           <dialogMaster
-            v-if="otoritas.routes(authority, 'Tambah Barang Baru')"
-            toolbar_title="Tambah Data"
-            :keyform="barang.keyform"
+            v-if="otoritas.routes(authority, 'Tambah Barang Konversi')"
+            toolbar_title="Tambah Barang Konversi"
+            :keyform="tambah"
             :tambah="tambah"
             :ishidden="true"
             :noselect="statusselect"
             @form="submit"
             :screen="400"
-            :headers="barang.headers"
+            :headers="headers"
             :items="items"
-            :category="barang.category"
+            :category="kodebarang"
             :submitForm="submitForm"
           />
         </div>
@@ -224,20 +245,20 @@ export default defineComponent({
     </v-row>
     <!-- TABLE -->
     <TableVue
-      :create="otoritas.routes(authority, 'Tambah Barang Baru')"
-      :update="otoritas.routes(authority, 'Ubah Barang')"
-      :hapus="otoritas.routes(authority, 'Hapus Barang')"
+      :create="otoritas.routes(authority, 'Tambah Barang Konversi')"
+      :update="otoritas.routes(authority, 'Ubah Barang Konversi')"
+      :hapus="otoritas.routes(authority, 'Hapus Barang Konversi')"
       :window="window"
-      :keyform="barang.keyform"
+      :keyform="tambah"
       :noselect="statusselect"
       @edit="editForm"
       @del="del"
       id="tbl_exporttable_to_xls"
-      :headers="barang.headers"
-      :items="barang.selected(selectCategory, items)"
+      :headers="headers"
+      :items="items"
       :search="search"
-      :category="barang.category"
-      :selectCategory="selectCategory"
+      :category="kodebarang"
+      :selectCategory="pilihKodeBarang"
       toolbar_title="Edit Data"
       :pageTitle="pageTitle"
     />

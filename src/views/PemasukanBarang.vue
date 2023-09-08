@@ -89,13 +89,7 @@ export default {
         this.supplier = await api.getSupplier()
         this.pembeliandetl = await api.getPemasukanDetail(this.periode)
         this.barang = await api.getBarang()
-        this.dataitems = pemasukan.pilihtipe(
-          this.selectdokumen,
-          this.items,
-          this.supplier,
-          this.pembeliandetl,
-          this.barang
-        )
+        this.dataitems = pemasukan.pilihtipe(this.selectdokumen, this.items, this.supplier, this.pembeliandetl, this.barang)
         this.loading = false
       } else await api.logout()
     },
@@ -199,6 +193,7 @@ export default {
       <v-label class="text-small mt-1">Tgl Akhir</v-label>
       <DatePicker
         teleport-center
+        class="mb-4"
         v-model="filtered.periode[1]"
         :min-date="filtered.periode[0]"
         :filter="true"

@@ -17,7 +17,6 @@ import otoritas from '../service/page/otoritas';
   export default {
     components: {
       filterDrawer,
-      checkBox,
         BtnFilter,
         TextField,
         DatePicker,
@@ -37,10 +36,6 @@ import otoritas from '../service/page/otoritas';
         cardTitle: 'Detail Barang',
         fullscreen: 'fullscreen',
         authority: '',
-        datauser: [
-          'admin',
-          'beacukai',
-        ],
         selectuser:[],
         items: '',
         users: '',
@@ -53,6 +48,14 @@ import otoritas from '../service/page/otoritas';
     created() {
       this.periode = [functions.tglawal(), functions.day()]
       this.filtered.periode = [functions.tglawal(), functions.day()]
+    },
+    computed : {
+      datauser () {
+        let a = []
+        for (let i = 0; i < this.users.length; i++) {
+          a.push(this.users[i].username)
+        } return a
+      }
     },
     methods: {
       async fetchData() {
@@ -127,16 +130,23 @@ import otoritas from '../service/page/otoritas';
       <v-label class="text-small mt-4">Tgl Awal</v-label>
       <DatePicker teleport-center v-model="filtered.periode[0]" :max-date="new Date()" :filter="true" :tema="tema"/>
       <v-label class="text-small mt-1">Tgl Akhir</v-label>
-      <DatePicker teleport-center v-model="filtered.periode[1]" :min-date="filtered.periode[0]" :filter="true" :tema="tema"/>
+      <DatePicker teleport-center v-model="filtered.periode[1]" class="mb-4" :min-date="filtered.periode[0]" :filter="true" :tema="tema"/>
       <!-- TIPE DOKUMEN -->
-      <v-span class="text-caption text-weight-bold">Tipe Dokumen</v-span>
-      <v-divider class="mb-6"></v-divider>
-        <checkBox
-          v-for="label, i in datauser" :key="i"
-          v-model="filtered.selectuser"
-          :label="label"
-          :value="label"
-        />
+      <v-span class="text-caption text-weight-bold">User</v-span>
+      <v-divider></v-divider>
+      <v-combobox
+        :items="datauser"
+        v-model="filtered.selectuser"
+        multiple
+        variant="underlined"
+        density="compact"
+        class="overflow-auto"
+        hide-details
+        single-line
+        hide-selected
+        chips
+        closable-chips
+      ></v-combobox>
     </template>
   </filterDrawer>
 

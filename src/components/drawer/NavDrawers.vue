@@ -1,12 +1,12 @@
 <script setup>
 import { RouterLink } from 'vue-router'
-import api from '../../service/api';
+// import api from '../../service/api';
 import otoritas from '../../service/page/otoritas';
 </script>
 
 <script>
   export default {
-    props: ['pageTitle'],
+    props: ['pageTitle', 'aut'],
     data () {
       return {
         // windowWidth: window.innerWidth,
@@ -30,27 +30,15 @@ import otoritas from '../../service/page/otoritas';
         produksi: '',
         produksidetail: '',
         kirim: '',
-        akses: '',
-        authority: '',
         title: '',
-        aut: '',
         empty: null
       }
     },
     methods: {
-      async fetchData() {
-          // let user = localStorage.getItem('user')
-          // let data = await api.getOtoritas(user)
-          // return this.aut = otoritas.otoritas(data)
-          let user = localStorage.getItem('user')
-        if(user != null) {
-          let data = await api.getOtoritas(user)
-          return this.aut = otoritas.otoritas(data)
-        }
-      },
       page(){
         if(
             this.pageTitle == 'DATA BARANG' ||
+            this.pageTitle == 'BARANG KONVERSI' ||
             this.pageTitle == 'DATA PELANGGAN' ||
             this.pageTitle == 'DATA SUPPLIER' ||
             this.pageTitle == 'DATA USER'
@@ -72,7 +60,7 @@ import otoritas from '../../service/page/otoritas';
       // },
     },
     mounted() {
-      this.fetchData()
+      // this.fetchData()
     }
   }
 </script>
@@ -97,7 +85,7 @@ import otoritas from '../../service/page/otoritas';
       id="master"
       class="text-caption mt-3 text-dark"
       value="master"
-      @click="pageTitle = 'MASTER', draw('master')"
+      @click="pageTitle = 'MASTER'"
       :active="page()"
       prepend-icon="mdi-database"
       >
@@ -107,6 +95,9 @@ import otoritas from '../../service/page/otoritas';
       <v-list class="text-caption" density="compact" elevation="3" rounded="0">
         <router-link v-if="otoritas.routes(aut, 'Data Barang')" to="/data-barang">
           <v-list-item class="text-dark">Data Barang</v-list-item>
+        </router-link>
+        <router-link v-if="otoritas.routes(aut, 'Barang Konversi')" to="/barang-konversi">
+          <v-list-item class="text-dark">Barang Konversi</v-list-item>
         </router-link>
         <router-link v-if="otoritas.routes(aut, 'Data Pelanggan')" to="/data-pelanggan">
           <v-list-item class="text-dark">Data Pelanggan</v-list-item>

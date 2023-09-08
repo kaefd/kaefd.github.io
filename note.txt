@@ -1,0 +1,6 @@
+1. produksi gagal input :
+-> stokAwal not defined
+2.pengiriman gagal input :
+-> (-kode konversi)
+3. input pengiriman
+4. produksi (total tonase input tidak diketahui jika memilih input barang konversi)

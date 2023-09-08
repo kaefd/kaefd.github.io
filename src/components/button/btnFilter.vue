@@ -12,11 +12,11 @@ export default {
 
 <template>
     <v-btn
-        class="me-2"
+        class=""
         size="small"
         variant="text"
         icon
     >
-        <v-icon size="20" color="blue-custom">mdi-filter</v-icon>
+        <v-icon size="20" color="blue-custom">mdi-table-filter</v-icon>
     </v-btn>
 </template>

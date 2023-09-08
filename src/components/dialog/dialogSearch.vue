@@ -12,7 +12,6 @@ export default {
     props: [
         'window',
         'label',
-        'dataValue',
         'objectFilter',
         'button',
         'btn_title',
@@ -44,12 +43,12 @@ export default {
 </script>
 
 <template>
-<v-dialog v-model="dialog" transition="dialog-bottom-transition">
+<v-dialog v-model="dialog" transition="dialog-bottom-transition" width="auto">
     <template v-slot:activator="{ props }">
         <textFieldForm v-bind="props" v-if="!button" :label="label" v-model="pilih" @click="more = 15" readonly :rules="rules" />
         <btnInfo v-bind="props" v-if="button" icon="mdi-plus" :btn_title="btn_title" />
     </template>
-    <v-card class="py-5 px-7 rounded-xl" min-width="300" max-width="400">
+    <v-card class="py-5 px-7 rounded-xl vh-100 mx-auto" min-width="300" width="400" max-width="400">
         <v-btn v-if="window < 500" icon="mdi-close" class="absolute" variant="text" @click="dialog = false"></v-btn>
         <v-card-title class="text-center text-orange mb-3 text-button font-weight-bold">{{
         cardTitle

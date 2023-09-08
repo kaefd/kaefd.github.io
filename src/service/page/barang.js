@@ -72,6 +72,12 @@ import functions from "../functions"
       }
       return a
     }
+    const kodebarang = (value) => {
+      let a = []
+      for (let i = 0; i < value.length; i++) {
+        a.push(value[i].kode_barang)
+      } return a
+    }
     const sumStok = (kode, target) => {
       let sum = []
       for (let i = 0; i < target.length; i++) {
@@ -105,5 +111,6 @@ import functions from "../functions"
       slotitem,
       sumStok,
       barang,
-      item
+      item,
+      kodebarang
     }

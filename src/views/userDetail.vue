@@ -30,6 +30,7 @@ export default {
             let username = this.userselect
             let password = ''
             let data_barang = []
+            let barang_konversi = []
             let data_pelanggan = []
             let data_supplier = []
             let data_user = []
@@ -48,6 +49,12 @@ export default {
                 data_barang.push({
                     jenis_otoritas: otoritas.data_barang[i],
                     status: this.edit ? otoritas.routes(this.otority, otoritas.data_barang[i]) : false
+                })
+            }
+            for (let i = 0; i < otoritas.barang_konversi.length; i++) {
+                barang_konversi.push({
+                    jenis_otoritas: otoritas.barang_konversi[i],
+                    status: this.edit ? otoritas.routes(this.otority, otoritas.barang_konversi[i]) : false
                 })
             }
             for (let i = 0; i < otoritas.data_pelanggan.length; i++) {
@@ -138,6 +145,7 @@ export default {
                 username: username,
                 password: password,
                 data_barang: data_barang,
+                barang_konversi: barang_konversi,
                 data_pelanggan: data_pelanggan,
                 data_supplier: data_supplier,
                 data_user: data_user,
@@ -189,6 +197,19 @@ export default {
                             </template>
                             <v-list-item v-for="barang, b in edituser.data_barang.slice(1, edituser.data_barang.length)" :key="b">
                                 <v-checkbox color="orange" class="radio-small customdense" :label="barang.jenis_otoritas" :model-value="barang.status" v-model="ds.data_barang[b+1].status" hide-details density="compact"/>
+                            </v-list-item>
+                        </v-list-group>
+                    </v-list>
+                    <!-- DATA BARANG KONVERSI -->
+                    <v-list v-model:opened="open[0]" density="compact" class="w-100 pa-0">
+                        <v-list-group value="Barang Konversi" class="text-caption">
+                            <template v-slot:activator="{ props }">
+                                <v-list-item v-bind="props">
+                                    <v-checkbox color="orange" class="radio-small customdense" :label="edituser.barang_konversi[0].jenis_otoritas" :model-value="edituser.barang_konversi[0].status" v-model="ds.barang_konversi[0].status" hide-details density="compact"/>
+                                </v-list-item>
+                            </template>
+                            <v-list-item v-for="barang, b in edituser.barang_konversi.slice(1, edituser.barang_konversi.length)" :key="b">
+                                <v-checkbox color="orange" class="radio-small customdense" :label="barang.jenis_otoritas" :model-value="barang.status" v-model="ds.barang_konversi[b+1].status" hide-details density="compact"/>
                             </v-list-item>
                         </v-list-group>
                     </v-list>

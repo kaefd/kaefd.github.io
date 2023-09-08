@@ -126,7 +126,7 @@ export default {
             this.pembelian_input = v
         },
         confirm() {
-            this.$emit('confirm', this.dataitem, this.penjualan)
+            this.$emit('confirm', this.items, this.penjualan)
         },
         tipeDokumen (data) {
             this.inputdata.kode_group = data

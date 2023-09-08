@@ -27,10 +27,11 @@ const headDetails = [
   {title: 'Kode Group', key: 'kode_group' },
   {title: 'Kode Barang', key: 'kode_barang' },
   {title: 'Nama Barang', key: 'nama_barang' },
-  {title: 'HS Code', key: 'hs_code' },
   {title: 'Jumlah', key: 'jumlah' },
   {title: 'Satuan', key: 'satuan' },
-  {title: 'Qty', key: 'jumlah_konversi' },
+  {title: 'Kode Konversi', key: 'kode_konversi' },
+  {title: 'Nama Konversi', key: 'nama_konversi' },
+  {title: 'Jumlah Konversi', key: 'jumlah_konversi' },
   {title: 'Satuan Konversi', key: 'satuan_konversi' },
   {title: '', key: 'actions', sortable: false },
 ]
@@ -135,6 +136,19 @@ const details = (nopgm, detail, pjl) => {
     }
   return data
 }
+const konversi = (value) => {
+  let a = [] 
+  for (let i = 0; i < value.length; i++) {
+    a.push({
+      kode_barang: value[i].kode_barang,
+      kode_konversi: value[i].kode_konversi,
+      nama: value[i].nama_konversi,
+      satuan_konversi: value[i].satuan_konversi,
+      berat: value[i].berat,
+      status: value[i].status
+    })
+  } return a
+}
 export default {
   headers,
   headDetails,
@@ -143,4 +157,5 @@ export default {
   items,
   details,
   noDuplicate,
+  konversi,
 }

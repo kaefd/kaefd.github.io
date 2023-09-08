@@ -75,6 +75,7 @@ import CetakDo from './cetakDo.vue';
         pelanggan: '',
         alamatBongkar: '',
         nopjl: '',
+        barangKonversi: '',
       }
     },
     created() {
@@ -102,6 +103,8 @@ import CetakDo from './cetakDo.vue';
           let blm_kirim_detail = await api.getBelumTerkirimDetail()
           this.pjl_blmterkirm = pengeluaran.item_blmterikirim(blm_kirim, blm_kirim_detail)
           this.pengirimanHead = pengiriman.items(item, this.pelanggan, this.alamatBongkar, this.kirim_detail, this.pjl_blmterkirm) 
+          let konversi = await api.getKonversi()
+          this.barangKonversi = pengiriman.konversi(konversi)
           this.loading = false
         } else return await api.logout()
       },
@@ -226,7 +229,7 @@ import CetakDo from './cetakDo.vue';
           :search="search"
           :category="barang.category"
           :selectCategory="selectCategory"
-          :datatext="datatext"/>
+          :datatext="datatext" :barangKonversi="barangKonversi"/>
         </div>
       </v-responsive>
       <v-responsive class="me-sm-0 ms-sm-auto ms-0 me-auto" max-width="450">
@@ -313,13 +316,13 @@ import CetakDo from './cetakDo.vue';
                         :pjl_detail="pjl_detail(item.raw.no_pengiriman)"
                       />
                       <!-- CETAK DO -->
-                      <!-- <CetakDo
+                      <CetakDo
                         :pengiriman="Penjualandetl(item.raw.no_pengiriman)"
                         :items="item.raw"
                         :nokirim="item.raw.no_pengiriman"
                         :nopjl="Penjualandetl(item.raw.no_pengiriman)"
                         :pjl_detail="pjl_detail(item.raw.no_pengiriman)"
-                      /> -->
+                      />
                     </v-list>
                   </v-menu>
             </template>

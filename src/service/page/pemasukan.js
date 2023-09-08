@@ -36,15 +36,23 @@ const datainput = {
   kode_supplier: '',
   tipe_dokumen: '',
   no_dokumen: '',
+  persentase: '',
   tgl_dokumen: '',
   no_invoice: '',
   no_bl: '',
   total_nilai: '',
   mata_uang: '',
   kurs: '',
-  user_input: 'admin',
+  user_input: '',
   user_batal: '',
   status: "true"
+}
+const headTitle = () => {
+  let a = []
+  for(let i = 0; i < headers.length; i++) {
+    a.push(headers[i].title)
+  }
+  return a
 }
 const detailpbl = (no, detail, param) => {
   let a = []
@@ -85,6 +93,7 @@ const datatable = (item, supplier, detail, dtbarang) => {
           no_invoice: item[i].no_invoice,
           no_bl: item[i].no_bl,
           kurs: item[i].kurs,
+          persentase: item[i].persentase,
           user_input: item[i].user_input,
           user_batal: item[i].user_batal,
           tgl_input: item[i].tgl_input,
@@ -180,6 +189,7 @@ export default {
   headDetails,
   datainput,
   datatable,
+  headTitle,
   pembelian,
   dataTable,
   printdata,

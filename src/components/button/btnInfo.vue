@@ -15,8 +15,8 @@ export default {
         class="elevation-0 text-caption px-5 text-white rounded"
         color="blue-custom"
         height="42"
-        min-width="100"
+        width="137"
         :prepend-icon="icon">
-        {{ btn_title }}
+        <v-span class="text-wrap">{{ btn_title }}</v-span>
     </v-btn>
 </template>
