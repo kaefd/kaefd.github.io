@@ -56,6 +56,14 @@ export default defineComponent({
         {title: 'Berat', key: 'berat'},
         {key: 'actions', sortable: false},
       ],
+      keyform: [
+        'kode_barang',
+        'kode_konversi',
+        'nama_konversi',
+        'satuan_konversi',
+        'berat',
+        'status',
+      ],
       tambah: {
         kode_barang: '',
         kode_konversi: '',
@@ -206,7 +214,7 @@ export default defineComponent({
           <dialogMaster
             v-if="otoritas.routes(authority, 'Tambah Barang Konversi')"
             toolbar_title="Tambah Barang Konversi"
-            :keyform="tambah"
+            :keyform="keyform"
             :tambah="tambah"
             :ishidden="true"
             :noselect="statusselect"
@@ -215,7 +223,6 @@ export default defineComponent({
             :headers="headers"
             :items="items"
             :category="kodebarang"
-            :submitForm="submitForm"
           />
         </div>
       </v-responsive>
@@ -249,7 +256,7 @@ export default defineComponent({
       :update="otoritas.routes(authority, 'Ubah Barang Konversi')"
       :hapus="otoritas.routes(authority, 'Hapus Barang Konversi')"
       :window="window"
-      :keyform="tambah"
+      :keyform="keyform"
       :noselect="statusselect"
       @edit="editForm"
       @del="del"

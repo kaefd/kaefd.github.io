@@ -194,7 +194,6 @@ export default defineComponent({
             :headers="barang.headers"
             :items="items"
             :category="barang.category"
-            :submitForm="submitForm"
           />
         </div>
       </v-responsive>

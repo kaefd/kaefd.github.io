@@ -267,19 +267,24 @@ export default {
                 // pembelian_input = detail
                 let a = []
                 for (let i = 0; i < this.pembelian_input.length; i++) {
+                    let kode = ''
+                    if(this.pembelian_input[i].kode_konversi != '') {
+                        kode = ""
+                    } else kode = this.pembelian_input[i].kode_barang
                     a.push({
                         no_penjualan: this.pembelian_input[i].no_penjualan,
-                        no_pengiriman: this.inputdata.no_pengiriman,
-                        kode_barang: this.pembelian_input[i].kode_barang,
-                        nama_barang: this.pembelian_input[i].nama_barang,
-                        kode_group: this.pembelian_input[i].kode_group,
-                        hs_code: this.pembelian_input[i].hs_code,
+                        // no_pengiriman: this.inputdata.no_pengiriman,
+                        kode_barang: kode,
+                        // nama_barang: this.pembelian_input[i].nama_barang,
+                        // kode_group: this.pembelian_input[i].kode_group,
+                        // hs_code: this.pembelian_input[i].hs_code,
                         jumlah: this.pembelian_input[i].jumlah,
                         jumlah_konversi: this.pembelian_input[i].jumlah_konversi,
-                        satuan_konversi: this.pembelian_input[i].satuan_konversi,
-                        satuan: this.pembelian_input[i].satuan,
+                        kode_konversi: this.pembelian_input[i].kode_konversi,
+                        // satuan_konversi: this.pembelian_input[i].satuan_konversi,
+                        // satuan: this.pembelian_input[i].satuan,
                         no_urut: 1,
-                        nilai: this.pembelian_input[i].nilai
+                        // nilai: this.pembelian_input[i].nilai
                     })
                 }
                 this.$emit('inputhead', this.inputdata, a)

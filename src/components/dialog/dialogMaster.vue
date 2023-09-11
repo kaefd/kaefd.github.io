@@ -85,6 +85,7 @@ export default {
       :scrim="false"
       transition="dialog-bottom-transition"
       width="370"
+      max-width="400"
     >
     
       <template v-slot:activator="{ props }">
@@ -131,7 +132,7 @@ export default {
                   v-if="item != null"
                   id="tipe"
                   :label="headers[0].title"
-                  v-model="item[keyform[0]]"
+                  :model-value="item[keyform[0]]"
                   readonly
                   :rules="required"
                 >                                
@@ -161,7 +162,7 @@ export default {
                 <text-field-form
                 v-if="this.item != null"
                 :label="headers[0].title"
-                v-model="item[keyform[0]]"
+                :model-value="item[keyform[0]]"
                 :readonly="headers[0].dis"
                 :rules="required"
                 ></text-field-form> 
@@ -176,7 +177,7 @@ export default {
                   <text-field-form
                     v-if="this.item != null"
                     :label="h.title"
-                    v-model="item[keyform[i+1]]"
+                    :model-value="item[keyform[i+1]]"
                     :readonly="headers[i+1].dis"
                     :rules="required"
                   ></text-field-form> 
