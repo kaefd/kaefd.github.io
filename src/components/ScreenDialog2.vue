@@ -372,6 +372,7 @@ export default {
                     <btn-info btn_title="Barang Konversi" class="ms-3" />
                     <v-row v-if="edit" no-gutters class="justify-center py-1 text-button rounded border">detail barang</v-row>
                     <v-container class="border-sm rounded-lg mt-2">
+                        {{detailbarang}}
                         <v-data-table :headers="edit ? headItem : headers" :items="edit ? detailbarang : inputbarang" :hover="true" :fixed-header="true" density="compact" class="text-body-2 pb-3 px-5 text-caption he" :height="heightSizing">
                             <template v-slot:bottom>
                                 <v-span v-if="edit" class="float-end me-5 text-caption font-weight-medium">Jumlah : {{ functions.numb(jumlahtotal(detailbarang)) }}</v-span>

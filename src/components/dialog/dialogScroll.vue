@@ -352,15 +352,24 @@ export default {
                           }
                       }
                       this.kodebahan = kode.kode_barang
+                      let kodekonversi = ''
+                      let jml = 0
+                      if(this.konversi) {
+                        kodekonversi = kode.kode_konversi
+                        jml = 0
+                      } else {
+                        kodekonversi = this.state.kode_konversi
+                        jml = this.penjualan_detail.jumlah
+                      }
                       this.pemasukan_item.push({
                           no_produksi: '',
                           kode_group: kode.kode_group,
                           kode_barang: kode.kode_barang,
-                          kode_konversi: kode.kode_konversi,
+                          kode_konversi: kodekonversi,
                           nama_barang: this.state.nama_barang,
                           nama_konversi: this.state.nama_konversi,
                           hs_code: this.state.hs_code,
-                          jumlah: this.penjualan_detail.jumlah,
+                          jumlah: jml,
                           jumlah_konversi: this.penjualan_detail.jumlah_konversi,
                           satuan: this.state.satuan,
                           satuan_konversi: kode.satuan_konversi,
