@@ -4,7 +4,8 @@ import router from './router'
 import vuetify from "./plugins/vuetify";
 import { loadFonts } from "./plugins/webfontloader";
 import "./assets/main.css"
-import VueDatePicker from '../node_modules/@vuepic/vue-datepicker/';
+import VueDatePicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css'
 
 loadFonts();
 
