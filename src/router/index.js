@@ -18,7 +18,7 @@ import LaporanPengiriman from '../views/LaporanPengiriman.vue'
 import LogView from '../views/LaporanLog.vue'
 import notPage from '../views/notPage.vue'
 const router = createRouter({
-  history: createWebHistory('/kaefd.github.io/'),
+  history: createWebHistory('/inventori'),
   routes: [
     {
      path: '/',
