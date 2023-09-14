@@ -88,7 +88,7 @@ export default {
           XLSX.write(wb, { bookType: type, bookSST: true, type: 'base64' }):
           // eslint-disable-next-line no-undef
           XLSX.writeFile(wb, fn || (title+'.' + (type)));
-     },
+    },
     print(key, title, header, item){
         if (key == 'xlsx') {
           return this.ExportToExcel('xlsx', title)

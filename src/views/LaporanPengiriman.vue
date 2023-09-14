@@ -27,22 +27,6 @@ import CircularLoader from '../components/animate/circularLoader.vue';
 <script>
 
   export default {
-    components: {
-      SuratJalan,
-      dialogConfirm,
-      PengirimanDetail,
-      VDataTable,
-      filterDrawer,
-      textField,
-      menuList,
-      BtnFilter,
-      DatePicker,
-      TextButton,
-      AlertVue,
-        BtnOrange,
-        BtnCancel,
-        CircularLoader,
-    },
     props :['cetak', 'tema', 'user', 'window'],
     data () {
       return {
@@ -222,7 +206,7 @@ import CircularLoader from '../components/animate/circularLoader.vue';
       </v-row>
         <!-- EDIT DATA -->
         <v-sheet :height="window > 776 ? '94%' : '87%'">
-        <v-data-table
+        <v-data-table-virtual
             v-model:sort-by="sortBy"
             id="tbl_exporttable_to_xls" 
             items-per-page="10"
@@ -277,7 +261,7 @@ import CircularLoader from '../components/animate/circularLoader.vue';
                     </v-list>
                   </v-menu>
             </template>
-            </v-data-table>
+            </v-data-table-virtual>
         </v-sheet>
         <dialogConfirm v-model="confirmdialog" :object="pageTitle">
         <template #yesButton>

@@ -260,6 +260,7 @@ export default {
             <textFieldForm label="Tipe Dokumen" :model-value="items.tipe_dokumen" readonly />
             <textFieldForm label="No Dokumen" :model-value="items.no_dokumen" readonly />
             <textFieldForm label="Tgl Dokumen" :model-value="items.tgl_dokumen" readonly />
+            <textFieldForm type="number" label="Persentase" :model-value="items.persentase" />
           </v-responsive>
           <v-responsive class="pt-2 mx-md-0 mx-3" width="250">
             <textFieldForm label="No Invoice" :model-value="items.no_invoice" readonly />
@@ -323,6 +324,7 @@ export default {
                 :tema="tema"
                 :rules="required"
               />
+              <textFieldForm type="number" label="Persentase" v-model="inputdata.persentase" />
             </v-responsive>
             <v-responsive class="pt-2 mx-md-0 mx-3" width="250">
               <textFieldForm label="No Invoice" v-model="inputdata.no_invoice" :rules="required" />
@@ -334,7 +336,6 @@ export default {
               v-model="inputdata.kurs"
               :rules="required"
               />
-              <textFieldForm type="number" label="Persentase" v-model="inputdata.persentase" />
             </v-responsive>
           </v-row>
         </v-form>

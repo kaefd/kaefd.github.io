@@ -3,7 +3,7 @@
 import api from '../service/api';
 import functions from '../service/functions';
 // components
-import { VDataTable } from 'vuetify/labs/VDataTable'
+import { VDataTableVirtual } from 'vuetify/labs/VDataTable'
 import ScreenDialog2 from '../components/ScreenDialog2.vue';
 import filterDrawer from '../components/drawer/filterDrawer.vue';
 import textField from '../components/form/textField.vue';
@@ -20,19 +20,6 @@ import CircularLoader from '../components/animate/circularLoader.vue';
 </script>
 <script>
   export default {
-    components: {
-      ScreenDialog2,
-      VDataTable,
-      textField,
-      menuList,
-      dialogConfirm,
-      BtnFilter,
-      datePickerVue,
-      BtnCancel,
-      BtnOrange,
-      alertVue,
-        CircularLoader,
-    },
     props:['cetak', 'tema', 'user', 'window', 'windowH'],
     data () {
       return {
@@ -251,7 +238,7 @@ import CircularLoader from '../components/animate/circularLoader.vue';
       </v-row>
         <!-- EDIT DATA -->
         <v-sheet :height="window > 776 ? '95%' : '87%'">
-        <v-data-table
+        <v-data-table-virtual
             v-model:sort-by="sortBy"
             id="tbl_exporttable_to_xls"
             items-per-page="10"
@@ -261,7 +248,7 @@ import CircularLoader from '../components/animate/circularLoader.vue';
             :hover="true"
             :fixed-header="true"
             density="compact"
-            class="text-caption pt-1 pb-12 h-100 border-sm rounded-lg"
+            class="text-caption pt-1 h-100 border-sm rounded-lg"
             :height="window > 776 ? '100%' : '92%'">
             <!-- eslint-disable-next-line vue/valid-v-slot -->
             <template v-slot:item.tgl_produksi="{ item }">{{ functions.formatDate(item.raw.tgl_produksi) }}</template>
@@ -281,7 +268,7 @@ import CircularLoader from '../components/animate/circularLoader.vue';
                 :headers="produksi.headers"
                 />
             </template>
-          </v-data-table>
+          </v-data-table-virtual>
           </v-sheet>
         <dialogConfirm v-model="confirmdialog" :object="pageTitle" :item="head.no_produksi" mess="Membatalkan">
           <template #yesButton>

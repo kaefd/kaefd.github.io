@@ -11,7 +11,7 @@ const headers = [
   { title: '', key: 'actions', sortable: false }
 ]
 const headItem = [
-  { title: 'Kode Barang/Konversi', key: 'kode_barang' },
+  { title: 'Kode Barang', key: 'kode_barang' },
   { title: 'Nama Barang', key: 'nama_barang' },
   { title: 'Jumlah', key: 'jumlah' },
   { title: 'Satuan', key: 'satuan' },
@@ -108,6 +108,10 @@ const barang = (no_produksi, dbarang) => {
         no_produksi: dbarang[i].no_produksi,
         no_urut: 1,
         kode_barang: dbarang[i].kode_barang,
+        kode_konversi: dbarang[i].kode_konversi,
+        nama_konversi: dbarang[i].nama_konversi,
+        satuan_konversi: dbarang[i].satuan_konversi,
+        jumlah_konversi: dbarang[i].jumlah_konversi,
         nama_barang: dbarang[i].nama_barang,
         jumlah: dbarang[i].jumlah,
         hs_code: dbarang[i].hs_code,

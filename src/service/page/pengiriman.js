@@ -75,9 +75,9 @@ const items = (head, pelanggan, bongkar, detail) => {
             data.push({
               no_pengiriman: head[i].no_pengiriman,
               tgl_pengiriman: head[i].tgl_pengiriman,
-              kode_pelanggan: head[j].kode_pelanggan,
-              keterangan: head[j].keterangan,
-              kode_alamat_bongkar: head[j].kode_alamat_bongkar,
+              kode_pelanggan: pelanggan[j].kode_pelanggan,
+              keterangan: head[i].keterangan,
+              kode_alamat_bongkar: head[i].kode_alamat_bongkar,
               alamat: bongkar[k].alamat,
               alamat_pelanggan: pelanggan[j].alamat,
               kabupaten: bongkar[k].kabupaten,

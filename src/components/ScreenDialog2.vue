@@ -63,6 +63,7 @@ export default {
             inputbahan: '',
             inputbarang: '',
             masuk: '',
+            konversi: '',
             inputproduksi: produksi.input,
             btn: ['Tambah Bahan', 'Tambah Barang'],
             required: [
@@ -324,55 +325,10 @@ export default {
             </v-form>
             <!-- TABLE -->
             <v-row no-gutters justify="center" justify-md="space-between" align="start" class="mx-sm-0 mx-3" min-width="400">
-                <!-- TABEL TAMBAH/EDIT BAHAN -->
-                <!-- <v-responsive class="me-sm-2 me-0 text-sm-left text-center" width="400"> -->
-                    <!-- ITEM DIALOG ADALAH KODE BARANG YANG SESUAI DENGAN KODE GROUP YANG DIPILIH -->
-                    
-                    <!-- <v-row v-if="edit" no-gutters class="justify-center py-1 text-button rounded border">detail bahan</v-row> -->
-                    <!-- <v-container class="border-sm rounded-lg mt-2"> -->
-                        <!-- <v-data-table :headers="edit ? headItem : headers" :items="edit ? detailbahan : inputbahan" :hover="true" :fixed-header="true" density="compact" class="text-body-2 pb-3 px-5 text-caption" :height="heightSizing"> -->
-                            <!-- <template v-slot:bottom>
-                                <v-span v-if="edit" class="float-end me-5 text-caption font-weight-medium">Jumlah Bahan : {{ functions.numb(jumlahtotal(detailbahan)) }}</v-span>
-                                <v-span v-if="!edit" class="float-end me-5 text-caption font-weight-medium">Jumlah bahan : {{ functions.numb(jumlahtotal(inputbahan)) }}</v-span>
-                            </template> -->
-                            <!-- eslint-disable-next-line vue/valid-v-slot -->
-                            <!-- <template v-slot:item.jumlah="{ item }">
-                                {{ item.raw.jumlah }}
-                            </template> -->
-                            <!-- eslint-disable-next-line vue/valid-v-slot -->
-                            <!-- <template v-slot:item.actions="{ item, index }">
-                                <DialogVue @update="dialogchild" :persistent="edit ? false : true" v-model="dialogbhn[index]">
-                                    <template #titlecard>
-                                    <v-card-title class="text-center text-orange text-button font-weight-bold">{{
-                                      item.raw.nama_barang
-                                    }}</v-card-title>
-                                                      <v-card-subtitle class="text-caption text-center mb-2 mt-n3">{{
-                                      item.raw.kode_barang
-                                    }}</v-card-subtitle>
-                                    </template>
-                                    <template #content>
-                                        <v-sheet class="mx-auto mt-5 w-75 bg-transparent">
-                                            <text-field-form v-if="edit" :model-value="functions.numb(item.raw.jumlah)" label="Jumlah" readonly />
-                                            <currency-input v-if="!edit" v-model="item.raw.jumlah" label="Jumlah" :options="{ currency: 'EUR', currencyDisplay: 'hidden' }" />
-                                        </v-sheet>
-                                        <v-divider class="mt-3 mb-5"></v-divider>
-                                        <v-div v-if="!edit" class="d-flex me-5 ms-auto">
-                                            <btn-cancel btn_title="Hapus" @click="deleteditem(item.raw, 'bahan'), (dialogbhn[index] = false)" class="me-2"></btn-cancel>
-                                            <btn-orange btn_title="Simpan" type="submit" @click="tempStok(item.raw, index)"></btn-orange>
-                                        </v-div>
-                                    </template>
-                                </DialogVue>
-                            </template> -->
-                        <!-- </v-data-table> -->
-                    <!-- </v-container> -->
-                <!-- </v-responsive> -->
-                <!-- TABEL TAMBAH BARANG -->
                 <v-responsive class="mt-md-0 mt-1 text-sm-left text-center" width="400">
                     <dialogScroll v-if="!edit" dialog_title="data barang" :produksi="true" :inptbarang="true" :kodegroup="inputproduksi.kode_group" :btn="btn[1]" width="400" :barang="detailbarang" :getbarang="getbarang" :getKonversi="getKonversi" :inputbahan="inputbahan" :tambah="true" @pemasukanitem="barangmasuk" />
-                    <btn-info btn_title="Barang Konversi" class="ms-3" />
                     <v-row v-if="edit" no-gutters class="justify-center py-1 text-button rounded border">detail barang</v-row>
                     <v-container class="border-sm rounded-lg mt-2">
-                        {{detailbarang}}
                         <v-data-table :headers="edit ? headItem : headers" :items="edit ? detailbarang : inputbarang" :hover="true" :fixed-header="true" density="compact" class="text-body-2 pb-3 px-5 text-caption he" :height="heightSizing">
                             <template v-slot:bottom>
                                 <v-span v-if="edit" class="float-end me-5 text-caption font-weight-medium">Jumlah : {{ functions.numb(jumlahtotal(detailbarang)) }}</v-span>
@@ -388,16 +344,18 @@ export default {
                                 <DialogVue @update="dialogbrg" :persistent="edit ? false : true" v-model="dialogbrg[index]">
                                     <template #titlecard>
                                         <v-card-title class="text-center text-orange text-button font-weight-bold">{{
-                                          item.raw.nama_barang
+                                          item.raw.konversi == '' ? item.raw.nama_barang : item.raw.nama_konversi
                                         }}</v-card-title>
-                                                          <v-card-subtitle class="text-caption text-center mb-2 mt-n3">{{
-                                          item.raw.kode_barang
+                                        <v-card-subtitle class="text-caption text-center mb-2 mt-n3">{{
+                                          item.raw.konversi == '' ? item.raw.kode_barang : item.raw.kode_konversi
                                         }}</v-card-subtitle>
                                     </template>
                                     <template #content>
                                         <v-sheet class="mx-auto mt-5 w-75 bg-transparent">
-                                            <text-field-form v-if="edit" :model-value="functions.numb(item.raw.jumlah)" label="Jumlah" readonly />
-                                            <currency-input v-if="!edit" v-model="item.raw.jumlah" label="Jumlah" :options="{ currency: 'EUR', currencyDisplay: 'hidden' }" />
+                                            <text-field-form v-if="edit && !item.raw.konversi" :model-value="functions.numb(item.raw.jumlah)" label="Jumlah" readonly />
+                                            <currency-input v-if="!edit && !item.raw.konversi" v-model="item.raw.jumlah" label="Jumlah" :options="{ currency: 'EUR', currencyDisplay: 'hidden' }" />
+                                            <text-field-form v-if="edit && item.raw.konversi" :model-value="functions.numb(item.raw.jumlah_konversi)" label="Jumlah Konversi" readonly />
+                                            <currency-input v-if="!edit && item.raw.konversi" v-model="item.raw.jumlah_konversi" label="Jumlah Konversi" :options="{ currency: 'EUR', currencyDisplay: 'hidden' }" />
                                         </v-sheet>
                                         <v-divider class="mt-3 mb-5"></v-divider>
                                         <v-div v-if="!edit" class="d-flex me-5 ms-auto">

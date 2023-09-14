@@ -1,6 +1,5 @@
 <script setup>
 import functions from '../service/functions';
-import { VDataTable } from 'vuetify/labs/VDataTable'
 import LogBarang from '../views/LogBarang.vue';
 import dialogMaster from './dialog/dialogMaster.vue';
 import dialogConfirm from './dialog/dialogConfirm.vue';
@@ -17,7 +16,6 @@ import laporan from '../service/page/laporan';
 export default {
     components: {
       PemasukanDetail,
-      VDataTable,
       dialogMaster,
       LogBarang,
       dialogConfirm,
@@ -73,7 +71,7 @@ export default {
 <template>
     <v-sheet :height="window > 776 ? '94%' : '87%'">
       <!-- TABEL DATA -->
-      <v-data-table
+      <VDataTableVirtual
         v-model:sort-by="sorting"
         :items-per-page="10"
         :headers="headers"
@@ -83,7 +81,7 @@ export default {
         :hover="true"
         :fixed-header="true"
         density="compact"
-        class="text-caption pt-2 pb-12 h-100  border-sm rounded-lg"
+        class="text-caption pt-2  h-100  border-sm rounded-lg"
         :height="window > 776 ? '100%' : '92%'"
       >
     <!-- ACTION DELETE & EDIT -->
@@ -156,6 +154,6 @@ export default {
             :selectCategory="selectCategory"
             :pageTitle="pageTitle"/>
       </template>
-    </v-data-table>
+    </VDataTableVirtual>
     </v-sheet>
 </template>

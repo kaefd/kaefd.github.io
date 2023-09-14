@@ -5,7 +5,6 @@ import functions from '../service/functions';
 import barang from '../service/page/barang';
 import pengiriman from '../service/page/pengiriman';
 // component
-import { VDataTable } from 'vuetify/labs/VDataTable'
 import PengirimanDetail from './PengirimanDetail.vue';
 import SuratJalan from './SuratJalan.vue';
 import filterDrawer from '../components/drawer/filterDrawer.vue';
@@ -24,26 +23,8 @@ import pengeluaran from '../service/page/pengeluaran';
 import CircularLoader from '../components/animate/circularLoader.vue';
 import CetakDo from './cetakDo.vue';
 </script>
-
 <script>
-
   export default {
-    components: {
-      SuratJalan,
-      dialogConfirm,
-      PengirimanDetail,
-      VDataTable,
-      filterDrawer,
-      textField,
-      menuList,
-      BtnFilter,
-      DatePicker,
-      TextButton,
-      AlertVue,
-        BtnOrange,
-        BtnCancel,
-        CircularLoader,
-    },
     props :['cetak', 'tema', 'user', 'window', 'windowH'],
     data () {
       return {
@@ -252,7 +233,7 @@ import CetakDo from './cetakDo.vue';
       </v-row>
         <!-- EDIT DATA -->
         <v-sheet :height="window > 776 ? '94%' : '87%'">
-        <v-data-table
+        <v-data-table-virtual
             v-model:sort-by="sortBy"
             id="tbl_exporttable_to_xls" 
             items-per-page="10"
@@ -262,7 +243,7 @@ import CetakDo from './cetakDo.vue';
             :hover="true"
             :fixed-header="true"
             density="compact"
-            class="text-caption pt-1 pb-12 border-sm rounded-lg h-100"
+            class="text-caption pt-1 border-sm rounded-lg h-100"
             :height="window > 776 ? '100%' : '92%'"
             >
             <!-- eslint-disable-next-line vue/valid-v-slot -->
@@ -326,7 +307,7 @@ import CetakDo from './cetakDo.vue';
                     </v-list>
                   </v-menu>
             </template>
-            </v-data-table>
+            </v-data-table-virtual>
         </v-sheet>
         <dialogConfirm v-model="confirmdialog" :object="pageTitle" :item="head.no_pengiriman" mess="Membatalkan">
         <template #yesButton>

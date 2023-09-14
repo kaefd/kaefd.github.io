@@ -3,7 +3,6 @@
 import api from '../service/api';
 import functions from '../service/functions';
 // components
-import { VDataTable } from 'vuetify/labs/VDataTable'
 import '@vuepic/vue-datepicker/dist/main.css'
 import PengeluaranDetail from './PengeluaranDetail.vue';
 import filterDrawer from '../components/drawer/filterDrawer.vue';
@@ -19,16 +18,6 @@ import CircularLoader from '../components/animate/circularLoader.vue';
 <script>
 
   export default {
-    components: {
-      PengeluaranDetail,
-      filterDrawer,
-      textField,
-      menuList,
-      checkBox,
-        BtnFilter,
-        DatePicker,
-        CircularLoader,
-    },
     props:['tema', 'cetak', 'window'],
     data () {
       return {
@@ -285,7 +274,7 @@ import CircularLoader from '../components/animate/circularLoader.vue';
       </v-row>
       <!-- EDIT DATA -->
       <v-sheet :height="window > 776 ? '94%' : '87%'">
-      <v-data-table
+      <v-data-table-virtual
           id="tbl_exporttable_to_xls"
           items-per-page="10"
           :items="pilihtipe()"
@@ -294,7 +283,7 @@ import CircularLoader from '../components/animate/circularLoader.vue';
           :hover="true"
           :fixed-header="true"
           density="compact"
-          class="text-caption pt-1 pb-12 rounded-lg border-sm h-100"
+          class="text-caption pt-1 rounded-lg border-sm h-100"
           :height="window > 776 ? '100%' : '92%'"
           >
           <!-- eslint-disable-next-line vue/valid-v-slot -->
@@ -333,7 +322,7 @@ import CircularLoader from '../components/animate/circularLoader.vue';
           <template v-slot:item.actions="{item}">
               <PengeluaranDetail :window="window" @confirm="confirm" batalbtn="Pengeluaran" :laporan="true" :namaPelanggan="namaPelanggan(item.raw.kode_pelanggan)" :penjualan="penjualan(item.raw.no_penjualan)" :edit="true" :pengeluaran="true" :pageTitle="pageTitle" :headDetails="headDetails" :items="item.raw" :details="details" :headers="headers" :search="search" :category="category" :selectCategory="selectCategory" :disable="true"/>
           </template>
-        </v-data-table>
+        </v-data-table-virtual>
       </v-sheet>
     </v-container>
   <circular-loader :loading="loading" />

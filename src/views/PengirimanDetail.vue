@@ -187,6 +187,8 @@ export default {
                                 no_dokumen: pjl[k][0].no_dokumen,
                                 kode_group: this.pjl_detail[j].kode_group,
                                 kode_barang: this.pjl_detail[j].kode_barang,
+                                kode_konversi: this.pjl_detail[j].kode_konversi,
+                                nama_konversi: this.pjl_detail[j].nama_konversi,
                                 nama_barang: this.pjl_detail[j].nama_barang,
                                 hs_code: this.pjl_detail[j].hs_code,
                                 jumlah: this.pjl_detail[j].jumlah,
@@ -380,21 +382,17 @@ export default {
                     <template v-slot:item.actions="{ item, index }">
                         <dialog-vue v-model="detaildial[index]" :persistent="edit ? false : true">
                             <template #titlecard>
-                                <v-card-title class="text-center text-orange text-button font-weight-bold">{{
-                                    item.raw.nama_barang
-                                  }}</v-card-title>
-                                                <v-card-subtitle class="text-caption text-center mb-2 mt-n3">{{
-                                    item.raw.hs_code
-                                  }}</v-card-subtitle>
+                                <v-card-title class="text-center text-orange text-button font-weight-bold">{{!item.raw.konversi ? item.raw.nama_barang : item.raw.nama_konversi}}</v-card-title>
+                                <v-card-subtitle class="text-caption text-center mb-2 mt-n3">{{!item.raw.konversi ? item.raw.hs_code : item.raw.kode_konversi}}</v-card-subtitle>
                             </template>
                             <template #content>
                                 <v-sheet class="mx-auto mt-5 w-75">
-                                    <text-field-form v-if="edit" label="Jumlah (Tonase)" :model-value="functions.numb(item.raw.jumlah)" active="true" hide-details class="mb-3" readonly />
-                                    <currency-input v-if="!edit" label="Jumlah (Tonase)" v-model="pembelian_input[index].jumlah" active="true" class="mb-3" :options="{ currency: 'EUR', currencyDisplay: 'hidden' }" />
-                                    <text-field-form v-if="edit" label="Qty" :model-value="item.raw.jumlah_konversi" active="true" hide-details class="mb-3" readonly />
-                                    <currency-input v-if="!edit" label="Qty" v-model="pembelian_input[index].jumlah_konversi" active="true" class="mb-3" :options="{ currency: 'EUR', currencyDisplay: 'hidden' }" />
-                                    <text-field-form v-if="edit" label="Satuan Konversi" :model-value="item.raw.satuan_konversi" active="true" hide-details class="mb-3" readonly />
-                                    <text-field-form v-if="!edit" label="Satuan Konversi" v-model="pembelian_input[index].satuan_konversi" active="true" class="mb-3" />
+                                    <text-field-form v-if="edit && !item.raw.konversi" label="Jumlah (Tonase)" :model-value="functions.numb(item.raw.jumlah)" active="true" hide-details class="mb-3" readonly />
+                                    <currency-input v-if="!edit && !item.raw.konversi" label="Jumlah (Tonase)" v-model="pembelian_input[index].jumlah" active="true" class="mb-3" :options="{ currency: 'EUR', currencyDisplay: 'hidden' }" />
+                                    <text-field-form v-if="edit && item.raw.konversi" label="Qty" :model-value="item.raw.jumlah_konversi" active="true" hide-details class="mb-3" readonly />
+                                    <currency-input v-if="!edit && item.raw.konversi" label="Qty" v-model="pembelian_input[index].jumlah_konversi" active="true" class="mb-3" :options="{ currency: 'EUR', currencyDisplay: 'hidden' }" />
+                                    <text-field-form v-if="edit && item.raw.konversi" label="Satuan Konversi" :model-value="item.raw.satuan_konversi" active="true" hide-details class="mb-3" readonly />
+                                    <text-field-form v-if="!edit && item.raw.konversi" label="Satuan Konversi" v-model="pembelian_input[index].satuan_konversi" active="true" class="mb-3" />
                                 </v-sheet>
                                 <v-divider class="mt-3 mb-5"></v-divider>
                                 <v-div v-if="!edit" class="d-flex me-5 ms-auto">

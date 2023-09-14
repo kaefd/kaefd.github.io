@@ -374,7 +374,8 @@ export default {
                           satuan: this.state.satuan,
                           satuan_konversi: kode.satuan_konversi,
                           no_urut: '',
-                          nilai: nilai
+                          konversi: kodekonversi == '' ? false : true
+                        //   nilai: nilai
                       })
                       this.dialog = false
                       this.dialogchild[i] = false
@@ -435,7 +436,9 @@ export default {
                           jumlah_blmterkirim: (kode.jumlah - kode.jumlah_terkirim),
                           satuan: this.state.satuan,
                           no_urut: '',
-                          nilai: nilai
+                          konversi: this.state.kode_konversi == '' ? false : true
+                        //   nilai: nilai
+
                       })
                       this.dialog = false
                       this.dialogchild[i] = false
@@ -484,20 +487,21 @@ export default {
                     for (let i = 0; i < this.pemasukan_item.length; i++) {
                         if (value.no_dokumen == this.pemasukan_item[i].no_dokumen) {
                             if (value.kode_group == this.pemasukan_item[i].kode_group) {
-                                if (value.kode_barang == this.pemasukan_item[i].kode_barang) {
-                                    if(!this.konversi) {
+                                if(!this.konversi) {
+                                    if (value.kode_barang == this.pemasukan_item[i].kode_barang) {
                                         if(this.pemasukan_item[i].kode_konversi == '') {
                                             this.res = false
                                             break
                                         } else this.res = true
-                                    } else if(this.konversi) {
-                                        if(this.state.kode_konversi == this.pemasukan_item[i].kode_konversi) {
-                                            this.res = false
-                                            break
-                                        } else this.res = true
-                                    }
+                                    } else this.res = true
+                                 }
+                                 if(this.konversi) {
+                                    if(this.state.kode_konversi == this.pemasukan_item[i].kode_konversi) {
+                                        this.res = false
+                                        break
+                                    } else this.res = true
                                 } else this.res = true
-                            } else this.res = true
+                            }
                         } else if (value.no_dokumen != this.pemasukan_item[i].no_dokumen) {
                             this.res = true
                         }
@@ -512,8 +516,10 @@ export default {
                         if (value.kode_group == this.pemasukan_item[i].kode_group) {
                             if(!this.konversi) {
                                 if (value.kode_barang == this.pemasukan_item[i].kode_barang) {
-                                    this.res = false
-                                    break
+                                    if(this.pemasukan_item[i].kode_konversi == '') {
+                                        this.res = false
+                                        break
+                                    } else this.res = true
                                 } else this.res = true
                             }
                             if(this.konversi) {
@@ -595,11 +601,8 @@ export default {
                 </v-list-item>
                 <v-dialog v-if="!bahanbaku" @update="dialogchild" :persistent="true" transition="dialog-bottom-transition" width="auto" v-model="dialogchild[b]">
                     <v-card class="py-5 mx-auto rounded-xl" min-width="300" max-width="375" width="35vw">
-                        <v-span class="text-button text-orange text-center font-weight-bold">{{
-                item.nama_barang
-              }}</v-span>
-                        <v-span v-if="!konversi" class="text-caption text-center">{{ item.kode_barang }} - {{ item.hs_code }}</v-span>
-                        <v-span v-if="konversi" class="text-caption text-center">{{ item.kode_konversi }}</v-span>
+                        <v-span class="text-button text-orange text-center font-weight-bold">{{item.nama_barang}}</v-span>
+                        <v-span class="text-caption text-center">{{ item.kode_barang }} - {{ item.hs_code }}</v-span>
                         <v-divider class="mt-3 mb-5"></v-divider>
                         <form @submit.prevent="submit" ref="form" class="mx-auto w-75 pt-2 bg-transparent">
                             <dialogSearch v-if="pengiriman && konversi" :button="false" label="Kode Konversi" :objectFilter="getKonversi" card-title="Barang Konversi" @pilihObjek="barangKonversi" />

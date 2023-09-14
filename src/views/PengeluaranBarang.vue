@@ -5,14 +5,13 @@
   import pengeluaran from '../service/page/pengeluaran';
   import pelanggan from '../service/page/pelanggan';
   // Component
-  import { VDataTable } from 'vuetify/labs/VDataTable'
   import PengeluaranDetail from './PengeluaranDetail.vue'
   import filterDrawer from '../components/drawer/filterDrawer.vue'
   import textField from '../components/form/textField.vue'
   import menuList from '../components/menu/menuList.vue'
   import checkBox from '../components/form/checkBox.vue'
   import dialogConfirm from '../components/dialog/dialogConfirm.vue';
-import DatePicker from '../components/datepicker/datePicker.vue';
+  import DatePicker from '../components/datepicker/datePicker.vue';
 
   // plugins
 import BtnFilter from '../components/button/btnFilter.vue';
@@ -24,24 +23,7 @@ import CircularLoader from '../components/animate/circularLoader.vue';
 </script>
 
 <script>
-
-
   export default {
-    components: {
-      dialogConfirm,
-      PengeluaranDetail,
-      VDataTable,
-      filterDrawer,
-      textField,
-      menuList,
-      checkBox,
-      BtnFilter,
-      DatePicker,
-      BtnCancel,
-      BtnOrange,
-        AlertVue,
-        CircularLoader
-    },
     props:['cetak', 'tema', 'user', 'window', 'windowH'],
     data () {
       return {
@@ -271,7 +253,7 @@ import CircularLoader from '../components/animate/circularLoader.vue';
       </v-row>
         <!-- EDIT DATA -->
         <v-sheet :height="window > 776 ? '94%' : '87%'">
-        <v-data-table
+        <v-data-table-virtual
             v-model:sort-by="sortBy"
             id="tbl_exporttable_to_xls" 
             items-per-page="10"
@@ -281,7 +263,7 @@ import CircularLoader from '../components/animate/circularLoader.vue';
             :hover="true"
             :fixed-header="true"
             density="compact"
-            class="text-caption pt-1 pb-12 border-sm rounded-lg h-100"
+            class="text-caption pt-1 border-sm rounded-lg h-100"
             :height="window > 776 ? '100%' : '92%'"
             >
           
@@ -310,7 +292,7 @@ import CircularLoader from '../components/animate/circularLoader.vue';
               :selectCategory="selectCategory"
               :disable="true"/>
             </template>
-          </v-data-table>
+          </v-data-table-virtual>
         </v-sheet>
         <dialogConfirm v-model="confirmdialog" :object="pageTitle" :item="head.no_penjualan" mess="Membatalkan">
         <template #yesButton>

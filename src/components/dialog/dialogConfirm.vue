@@ -10,19 +10,14 @@ export default {
     },
     computed : {
         message() {
-            if(this.item.kode_barang){
-                return this.item.kode_barang
-            } if(this.item.kode_pelanggan){
-                return this.item.kode_pelanggan
-            } if(this.item.no_penjualan){
-                return this.item.no_penjualan
-            } if(this.item.no_pengiriman){
-                return this.item.no_pengiriman
-            } if(this.item.no_produksi){
-                return this.item.no_produksi
-            } if(this.item.username){
-                return this.item.username
-            } else return this.item
+            if(this.item.hs_code){return this.item.kode_barang}
+            else if(this.item.kode_konversi){return this.item.kode_konversi}
+            else if(this.item.kode_pelanggan){return this.item.kode_pelanggan}
+            else if(this.item.no_penjualan){return this.item.no_penjualan}
+            else if(this.item.no_pengiriman){return this.item.no_pengiriman}
+            else if(this.item.no_produksi){return this.item.no_produksi}
+            else if(this.item.username){return this.item.username} 
+            else return this.item
         }
     }
 }
