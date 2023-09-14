@@ -10,7 +10,7 @@ import '@vuepic/vue-datepicker/dist/main.css'
 loadFonts();
 
 const app = createApp(App)
+app.component('VueDatePicker', VueDatePicker);
 app.use(router)
 app.use(vuetify)
-app.component('VueDatePicker', VueDatePicker);
 app.mount('#app')
