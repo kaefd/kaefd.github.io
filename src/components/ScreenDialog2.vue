@@ -353,9 +353,9 @@ export default {
                                     </template>
                                     <template #content>
                                         <v-sheet class="mx-auto mt-5 w-75 bg-transparent">
-                                            <text-field-form v-if="edit && !item.raw.konversi" :model-value="functions.numb(item.raw.jumlah)" label="Jumlah" readonly />
+                                            <text-field-form v-if="edit" :model-value="functions.numb(item.raw.jumlah, 2, true)" label="Jumlah" readonly />
                                             <currency-input v-if="!edit && !item.raw.konversi" v-model="item.raw.jumlah" label="Jumlah" :options="{ currency: 'EUR', currencyDisplay: 'hidden' }" />
-                                            <text-field-form v-if="edit && item.raw.konversi" :model-value="functions.numb(item.raw.jumlah_konversi)" label="Jumlah Konversi" readonly />
+                                            <text-field-form v-if="edit" :model-value="functions.numb(item.raw.jumlah_konversi)" label="Jumlah Konversi" readonly />
                                             <currency-input v-if="!edit && item.raw.konversi" v-model="item.raw.jumlah_konversi" label="Jumlah Konversi" :options="{ currency: 'EUR', currencyDisplay: 'hidden' }" />
                                         </v-sheet>
                                         <v-divider class="mt-3 mb-5"></v-divider>
