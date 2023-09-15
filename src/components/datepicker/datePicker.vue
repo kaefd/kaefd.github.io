@@ -1,5 +1,5 @@
 <script setup>
-import VueDatePicker from '@vuepic/vue-datepicker';
+import VueDatePicker from '~/@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css'
 import { id } from 'date-fns/locale';
 import textFieldForm from '../form/textFieldForm.vue';
