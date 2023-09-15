@@ -110,7 +110,7 @@ export default defineComponent({
           this.message = 'Data Berhasil Ditambahkan'
           setTimeout(() => {
             this.valert = false
-            this.fetchData()
+            this.$router.go()
           }, 2500)
         })
         .catch((error) => {
@@ -128,7 +128,7 @@ export default defineComponent({
           this.message = 'Data Berhasil Diubah'
           setTimeout(() => {
             this.valert = false
-            // this.fetchData();
+            // this.$router.go();
             this.fetchData()
           }, 2500)
         })
@@ -147,7 +147,7 @@ export default defineComponent({
           this.message = 'Data Berhasil Dihapus'
           setTimeout(() => {
             this.valert = false
-            this.fetchData()
+            this.$router.go()
           }, 2500)
         })
         .catch(function (error) {
@@ -183,7 +183,7 @@ export default defineComponent({
   <filterDrawer v-model="filter" @close="close" @reset="reset" @filterdata="filterdata">
     <template #default>
       <v-span class="text-caption text-weight-bold">Kode Barang</v-span>
-      <v-divider class="mb-6"></v-divider>
+      <v-divider class=""></v-divider>
       <!-- <checkBox
         v-for="(label, i) in barang.category"
         :key="i"
@@ -262,7 +262,7 @@ export default defineComponent({
       @del="del"
       id="tbl_exporttable_to_xls"
       :headers="headers"
-      :items="items"
+      :items="barang.konversi(items, pilihKodeBarang)"
       :search="search"
       :category="kodebarang"
       :selectCategory="pilihKodeBarang"

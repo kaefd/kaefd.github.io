@@ -1,5 +1,6 @@
 // service
 // import api from "../api"
+import { date } from "yup"
 import functions from "../functions"
       // item: '',
       const category = [
@@ -102,7 +103,20 @@ import functions from "../functions"
     
       return processedData;
     }
-
+    const konversi = (data, key) => {
+      let a = []
+      if (key.length === 0) {
+        return data;
+      } else {
+        for (let i = 0; i < key.length; i++) {
+          for (let j = 0; j < data.length; j++) {
+            if(key[i] == data[j].kode_barang) {
+              a.push(data[j])
+            }
+          }
+        }
+      } return a
+    }
     export default {
       category,
       headers,
@@ -112,5 +126,6 @@ import functions from "../functions"
       sumStok,
       barang,
       item,
-      kodebarang
+      kodebarang,
+      konversi
     }
