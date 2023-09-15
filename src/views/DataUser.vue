@@ -110,7 +110,7 @@ import UserDetail from './userDetail.vue';
               this.message = "Data Berhasil Ditambahkan"
               setTimeout(() => {
                 this.valert = false
-                this.$router.go();
+                this.fetchData()
               }, 2500);
             })
             .catch((error) => {
@@ -126,7 +126,7 @@ import UserDetail from './userDetail.vue';
               this.message = "Data Berhasil Diubah"
               setTimeout(() => {
                 this.valert = false
-                this.$router.go();
+                this.fetchData()
               }, 2500);
             })
             .catch((error) => {
@@ -142,7 +142,7 @@ import UserDetail from './userDetail.vue';
               this.message = "Data Berhasil Dihapus"
               setTimeout(() => {
                 this.valert = false
-                this.$router.go();
+                this.fetchData()
               }, 2500);
             })
             .catch((error) => {

@@ -331,13 +331,14 @@ export default {
                     <v-container class="border-sm rounded-lg mt-2">
                         <v-data-table :headers="edit ? headItem : headers" :items="edit ? detailbarang : inputbarang" :hover="true" :fixed-header="true" density="compact" class="text-body-2 pb-3 px-5 text-caption he" :height="heightSizing">
                             <template v-slot:bottom>
-                                <v-span v-if="edit" class="float-end me-5 text-caption font-weight-medium">Jumlah : {{ functions.numb(jumlahtotal(detailbarang)) }}</v-span>
+                                <v-span v-if="edit" class="float-end me-5 text-caption font-weight-medium">Jumlah : {{ functions.numb(jumlahtotal(detailbarang), 2, true) }}</v-span>
+                                <v-span v-if="edit" class="float-end me-5 text-caption font-weight-medium">Jumlah Konversi : {{ functions.numb(jumlahtotal(detailbarang, 'konversi')) }}</v-span>
+                                <v-span v-if="!edit" class="float-end me-5 text-caption font-weight-medium">Jumlah : {{ functions.numb(jumlahtotal(inputbarang), 2, true) }}</v-span>
                                 <v-span v-if="!edit" class="float-end me-5 text-caption font-weight-medium">Jumlah Konversi : {{ functions.numb(jumlahtotal(inputbarang, 'konversi')) }}</v-span>
-                                <v-span v-if="!edit" class="float-end me-5 text-caption font-weight-medium">Jumlah : {{ functions.numb(jumlahtotal(inputbarang)) }}</v-span>
                             </template>
                             <!-- eslint-disable-next-line vue/valid-v-slot -->
                             <template v-slot:item.jumlah="{ item }">
-                                {{ functions.numb(item.raw.jumlah) }}
+                                {{ functions.numb(item.raw.jumlah, 2, true) }}
                             </template>
                             <!-- eslint-disable-next-line vue/valid-v-slot -->
                             <template v-slot:item.actions="{ item, index }">

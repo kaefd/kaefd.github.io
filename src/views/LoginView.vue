@@ -2,12 +2,7 @@
 import api from '../service/api';
 import 'animate.css';
 import script from '../../package.json'
-// import AlertVue from '../components/dialog/alertVue.vue';
 import BtnOrange from '../components/button/btnOrange.vue';
-// import axios from 'axios'
-// import { mapActions } from 'vuex'
-// import { Form } from "vee-validate";
-// import * as yup from "yup";
 
 </script>
 
@@ -73,7 +68,7 @@ export default {
         <img src="../assets/img/logo_text.png" alt="brandlogo" style="min-width: 250px; width: 40vw;">
       </v-responsive>
       <v-responsive class="align-center" :class="window > 776 ? 'me-10' : ''" :min-width="window > 776 ? 375 : 267">
-        <v-card :class="window > 776 ? '' : 'bg-trans-blue mt-n7'" class="rounded-xl mx-auto elevation-3 px-2" :height="window > 776 ? 430 : 365" :max-width="window > 776 ? 350 : 300">
+        <v-card :class="window > 776 ? '' : 'bg-trans-blue mt-n7'" class="rounded-xl mx-auto elevation-3 px-2 animate__animated animate__fadeInUp" :height="window > 776 ? 430 : '55vh'" :max-width="window > 776 ? 350 : (window < 600 ? '90vw' : 320)">
           <v-form @submit.prevent="handleLogin" :validation-schema="schema" class="text-center w-75 mx-auto py-14 h-100 d-flex flex-column">
           <v-span class="text-blue-custom font-25 text-montserrat mx-auto">USER LOGIN</v-span>
           <v-spacer></v-spacer>

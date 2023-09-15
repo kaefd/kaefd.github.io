@@ -105,7 +105,7 @@ export default {
           <v-span class="me-2 space">: {{ functions.formatDate(items.tgl_pengiriman) }}
             <!-- <v-span contenteditable>/ {{ functions.getTime() }}</v-span> -->
           </v-span>
-          <v-span class="me-2 space">: {{ items.supir + "/" + items.no_polisi }}</v-span>
+          <v-span class="me-2 space" contenteditable>:</v-span>
           <v-span class="text-start me-2 space">
               : {{ functions.uppercase(items.namaplg) }} <br/>
               <!-- {{ uppercase(items.kabupaten) }} -->
@@ -114,7 +114,7 @@ export default {
       </v-div>
       <!-- TABEL DETAIL BARANG -->
       <!-- TABEL BARANG -->
-      <v-sheet height="60%" width="100%">
+      <v-sheet height="35vh" width="100%">
         <v-table density="compact" class="mt-10 w-100 preview">
             <thead>
               <tr>
@@ -130,7 +130,7 @@ export default {
             >
                 <td class="text-medium">{{ item.nama_konversi ? item.nama_konversi : item.nama_barang }}</td>
                 <td class="text-medium">{{ item.jumlah_konversi }}</td>
-                <td class="text-medium" ></td>
+                <td class="text-medium" contenteditable>{{ item.keterangan }}</td>
                 <td class="text-medium" contenteditable ></td>
             </tr>
             <tr>
@@ -142,7 +142,13 @@ export default {
             </tbody>
         </v-table>
       </v-sheet>
-      <v-span class="d-block text-right font-italic text-caption text-preview">Print Date : {{ functions.formatDateTime(new Date) }}</v-span>
+      <span class="d-block text-right font-italic text-caption text-preview text-grey-darken-3 float-bottom mb-2">Print Date : {{ functions.formatDateTime(new Date) }}</span>
+      <div class="w-100 d-flex justify-space-between text-caption text-preview">
+        <span>yang mengajukan</span>
+        <span>mengetahui</span>
+        <span>mengetahui</span>
+        <span>ekspedisi</span>
+      </div>
     </v-sheet>
   </v-card>
   </v-dialog>
@@ -157,6 +163,9 @@ export default {
   }
   .text-preview {
     font-size: 8px !important;
+  }
+  .h-preview {
+   margin-top: 10vh;
   }
   .page {
     width: 30vw;
@@ -192,6 +201,9 @@ export default {
   .preview {
     margin-top: 3rem !important;
     margin-bottom: 3rem !important;
+  }
+  .h-preview {
+    margin-top: 25vh;
   }
   .text-preview {
     font-size: 17px !important;

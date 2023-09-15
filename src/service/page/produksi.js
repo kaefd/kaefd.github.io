@@ -69,7 +69,7 @@ const items = (head, dbahan, dbarang) => {
             bahan_baku: detail_items(head[i].no_produksi, dbahan),
             jumlah: functions.numb(sum(head[i].no_produksi, dbahan)),
             barang_jadi: detail_items(head[i].no_produksi, dbarang),
-            jml_barang_jadi: functions.numb(sum(head[i].no_produksi, dbarang))
+            jml_barang_jadi: sum(head[i].no_produksi, dbarang)
           })
         }
       }

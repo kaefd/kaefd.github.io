@@ -79,7 +79,7 @@ import CircularLoader from '../components/animate/circularLoader.vue';
           this.message = "Data Berhasil Ditambahkan"
           setTimeout(() => {
             this.valert = false
-            this.$router.go();
+            this.fetchData();
           }, 2500);
         })
         .catch((error) => {
@@ -104,7 +104,7 @@ import CircularLoader from '../components/animate/circularLoader.vue';
           this.message = "Data Berhasil Diubah"
           setTimeout(() => {
             this.valert = false
-            // this.$router.go();
+            this.fetchData();
           }, 2500);
         })
         .catch(function (error) {
@@ -122,7 +122,7 @@ import CircularLoader from '../components/animate/circularLoader.vue';
           this.message = "Data Berhasil Dihapus"
           setTimeout(() => {
             this.valert = false
-            this.$router.go();
+            this.fetchData();
           }, 2500);
         })
         .catch(function (error) {

@@ -110,7 +110,7 @@ export default defineComponent({
           this.message = 'Data Berhasil Ditambahkan'
           setTimeout(() => {
             this.valert = false
-            this.$router.go()
+            this.fetchData()
           }, 2500)
         })
         .catch((error) => {
@@ -128,7 +128,7 @@ export default defineComponent({
           this.message = 'Data Berhasil Diubah'
           setTimeout(() => {
             this.valert = false
-            // this.$router.go();
+            // this.fetchData();
             this.fetchData()
           }, 2500)
         })
@@ -147,7 +147,7 @@ export default defineComponent({
           this.message = 'Data Berhasil Dihapus'
           setTimeout(() => {
             this.valert = false
-            this.$router.go()
+            this.fetchData()
           }, 2500)
         })
         .catch(function (error) {
