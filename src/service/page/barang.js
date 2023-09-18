@@ -1,6 +1,3 @@
-// service
-// import api from "../api"
-import { date } from "yup"
 import functions from "../functions"
       // item: '',
       const category = [

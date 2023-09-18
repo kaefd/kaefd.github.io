@@ -31,7 +31,7 @@ export default {
       if(value != '') {
         return date + ' ' + getHour
       } else return ''
-  },
+    },
     tglawal() {
       // set a month
       let d = new Date();
@@ -42,6 +42,20 @@ export default {
 
       // set a week
       d.setDate(d.getDate() - 7)
+
+      //tl_awal
+      return d.toJSON().slice(0, 10)
+    },
+    last_month() {
+      // set a month
+      let d = new Date();
+      let m = d.getMonth();
+      d.setMonth(d.getMonth() - 1);
+      
+      if (d.getMonth() == m) d.setDate(0)
+
+      // set a week
+      // d.setDate(d.getDate() - 7)
 
       //tl_awal
       return d.toJSON().slice(0, 10)

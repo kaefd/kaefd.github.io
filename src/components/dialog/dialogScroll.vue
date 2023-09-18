@@ -1,13 +1,7 @@
 <script>
-import {
-    reactive
-} from 'vue'
-import {
-    useVuelidate
-} from '@vuelidate/core'
-import {
-    required
-} from '@vuelidate/validators'
+import { reactive } from 'vue'
+import { useVuelidate } from '@vuelidate/core'
+import { required } from '@vuelidate/validators'
 import api from '../../service/api'
 import btnInfo from '../button/btnInfo.vue'
 import BtnCancel from '../button/btnCancel.vue'
@@ -265,25 +259,6 @@ export default {
         min(a, b) {
             let result = a - b
             return functions.numb2(result)
-        },
-        async api() {
-            return new Promise((resolve) => {
-                setTimeout(() => {
-                    resolve(Array.from({
-                        length: 10
-                    }, (k, v) => v + this.filteredItems.value.at(-1) + 1))
-                }, 1000)
-            })
-        },
-        async load({
-            done
-        }) {
-            // Perform API call
-            const res = await this.api()
-
-            this.filteredItems.push(...res)
-
-            done('ok')
         },
         barangKonversi(value) {
             this.state.kode_konversi = value.kode_konversi
@@ -567,7 +542,7 @@ export default {
             <text-field id="input" v-model="search" label="Search" class="mb-4"></text-field>
         </v-div>
         <v-list class="me-2">
-            <v-div v-for="(item, b) in filteredItems.slice(0, more)" :key="item">
+            <v-div v-for="(item, b) in filteredItems" :key="item" class="overflow-auto">
                 <v-list-item v-if="!blmkirim && konversi" class="text-caption" density="compact" @click=";(pro(item.kode_konversi, b)), (state.nama_konversi = item.nama_konversi)">
                     <v-div class="d-flex justify-space-between text-caption">
                         <v-span>{{ item.nama_konversi }}</v-span>
@@ -624,11 +599,11 @@ export default {
                 </v-dialog>
             </v-div>
             <!-- SHOW MORE BUTTON -->
-            <v-div v-if="filteredItems.length > more" class="d-flex justify-center align-center">
+            <!-- <v-div v-if="filteredItems.length > more" class="d-flex justify-center align-center">
                 <v-divider length="50"></v-divider>
                 <v-btn @click="lainnya()" variant="text" size="small" class="text-caption">lihat lainnya</v-btn>
                 <v-divider length="50"></v-divider>
-            </v-div>
+            </v-div> -->
         </v-list>
     </v-card>
     <alertVue v-model="valert" :status="status" :message="message" />

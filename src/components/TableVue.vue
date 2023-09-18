@@ -69,20 +69,18 @@ export default {
 }
 </script>
 <template>
-    <v-sheet :height="window > 776 ? '94%' : '87%'">
+    <v-sheet :height="window > 776 ? '93%' : '87%'">
       <!-- TABEL DATA -->
-      <VDataTableVirtual
+      <v-data-table-virtual
         v-model:sort-by="sorting"
-        :items-per-page="10"
-        :headers="headers"
-        :items="items"
-        :loading="loading"
-        :search="search"
-        :hover="true"
-        :fixed-header="true"
         density="compact"
-        class="text-caption pt-2  h-100  border-sm rounded-lg"
-        :height="window > 776 ? '100%' : '92%'"
+        fixed-header
+        :items="items"
+        :search="search"
+        :loading="loading"
+        :headers="headers"
+        height="100%"
+        class="text-caption h-100 border-sm rounded-lg"
       >
     <!-- ACTION DELETE & EDIT -->
    
@@ -154,6 +152,6 @@ export default {
             :selectCategory="selectCategory"
             :pageTitle="pageTitle"/>
       </template>
-    </VDataTableVirtual>
+    </v-data-table-virtual>
     </v-sheet>
 </template>

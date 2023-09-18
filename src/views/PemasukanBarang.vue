@@ -277,6 +277,7 @@ export default {
       :windowH="windowH"
       :sortby="pemasukan.sortBy"
       :hapus="otoritas.routes(authority, 'Batal Pembelian')"
+      :view_persentase="otoritas.routes(authority, 'Persentase')"
       id="tbl_exporttable_to_xls"
       :items="dataitems"
       :search="search"

@@ -14,25 +14,11 @@ import dialogVue from '../components/dialog/dialogVue.vue'
 import CurrencyInput from '../components/form/currencyInput.vue'
 import BtnInfo from '../components/button/btnInfo.vue'
 import pemasukan from '../service/page/pemasukan'
+import AlertVue from '../components/dialog/alertVue.vue'
 </script>
 
 <script>
 export default {
-  components: {
-    dialogScroll,
-    VDataTable,
-    datePicker,
-    textButton,
-    textFieldForm,
-    dialogSearch,
-    menuForm,
-    menuList,
-    BtnCancel,
-    BtnOrange,
-    dialogVue,
-    CurrencyInput,
-    BtnInfo
-  },
   props: [
     'tema',
     'window',
@@ -73,12 +59,14 @@ export default {
     'btn',
     'datatext',
     'itemDetail',
-    'category'
+    'category',
+    'view_persentase'
   ],
   data() {
     return {
       dialog: false,
       valid: false,
+      dial_alert: false,
       detaildial: [],
       tipe_dokumen: [
         { title: 'BC23', key: 'BC23' },
@@ -98,6 +86,7 @@ export default {
       nama_supplier: '',
       nama_pelanggan: '',
       tujuan_bongkar: '',
+      message: '',
       pembelian_input: [],
       inputdata: this.datainput,
       kurs: '',
@@ -107,8 +96,13 @@ export default {
       required: [
         (value) => {
           if (value) return true
-
-          return 'harus diisi !'
+          return this.message = 'kolom tidak boleh kosong !'
+        }
+      ],
+      max_10: [
+        (value) => {
+          if(value > 10 || value < 1)
+          return this.message = 'nilai persentase harus 1 - 10'
         }
       ]
     }
@@ -207,6 +201,8 @@ export default {
         }
         this.$emit('inputhead', this.inputdata, a)
         this.dialog = false
+      } else {
+        this.dial_alert = true
       }
     }
   }
@@ -260,7 +256,7 @@ export default {
             <textFieldForm label="Tipe Dokumen" :model-value="items.tipe_dokumen" readonly />
             <textFieldForm label="No Dokumen" :model-value="items.no_dokumen" readonly />
             <textFieldForm label="Tgl Dokumen" :model-value="items.tgl_dokumen" readonly />
-            <textFieldForm type="number" label="Persentase" :model-value="items.persentase" />
+            <textFieldForm v-if="view_persentase" label="Persentase" type="number" :model-value="items.persentase" readonly />
           </v-responsive>
           <v-responsive class="pt-2 mx-md-0 mx-3" width="250">
             <textFieldForm label="No Invoice" :model-value="items.no_invoice" readonly />
@@ -282,6 +278,7 @@ export default {
               <datePicker
                 label="Tgl Pemasukan"
                 v-model="inputdata.tgl_pembelian"
+                :min-date="functions.last_month()"
                 :max-date="new Date()"
                 :tema="tema"
                 :rules="required"
@@ -320,22 +317,18 @@ export default {
               <datePicker
                 label="Tgl Dokumen"
                 v-model="inputdata.tgl_dokumen"
+                :min-date="functions.last_month()"
                 :max-date="new Date()"
-                :tema="tema"
                 :rules="required"
+                :tema="tema"
               />
-              <textFieldForm type="number" label="Persentase" v-model="inputdata.persentase" />
+              <textFieldForm type="number" label="Persentase" v-model="inputdata.persentase" :rules="max_10" />
             </v-responsive>
             <v-responsive class="pt-2 mx-md-0 mx-3" width="250">
               <textFieldForm label="No Invoice" v-model="inputdata.no_invoice" :rules="required" />
               <textFieldForm label="No BL" v-model="inputdata.no_bl" :rules="required" />
               <textFieldForm label="Mata Uang" v-model="inputdata.mata_uang" :rules="required" />
-              <textFieldForm
-              type="number"
-              label="Kurs"
-              v-model="inputdata.kurs"
-              :rules="required"
-              />
+              <textFieldForm type="number" label="Kurs" v-model="inputdata.kurs" :rules="required" />
             </v-responsive>
           </v-row>
         </v-form>
@@ -486,6 +479,7 @@ export default {
         </v-div>
       </v-container>
     </v-card>
+    <AlertVue v-model="dial_alert" :message="message" status="warn" />
   </v-dialog>
 </template>
 

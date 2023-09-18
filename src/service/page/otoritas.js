@@ -26,6 +26,7 @@ const pembelian = [
     'Pembelian',
     'Batal Pembelian',
     'Tambah Pembelian Baru',
+    'Persentase'
 ]
 const produksi = [
     'Produksi',

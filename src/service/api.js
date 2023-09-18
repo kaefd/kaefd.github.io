@@ -154,6 +154,11 @@ export default {
       },
       {
         username: data.username,
+        jenis_otoritas: 'Persentase',
+        status: String(data.pembelian[3].status)
+      },
+      {
+        username: data.username,
         jenis_otoritas: 'Produksi',
         status: String(data.produksi[0].status)
       },
@@ -359,6 +364,11 @@ export default {
         username: data.username,
         jenis_otoritas: 'Batal Pembelian',
         status: String(data.pembelian[2].status)
+      },
+      {
+        username: data.username,
+        jenis_otoritas: 'Persentase',
+        status: String(data.pembelian[3].status)
       },
       {
         username: data.username,
