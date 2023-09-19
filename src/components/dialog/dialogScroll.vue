@@ -1,7 +1,13 @@
 <script>
-import { reactive } from 'vue'
-import { useVuelidate } from '@vuelidate/core'
-import { required } from '@vuelidate/validators'
+import {
+    reactive
+} from 'vue'
+import {
+    useVuelidate
+} from '@vuelidate/core'
+import {
+    required
+} from '@vuelidate/validators'
 import api from '../../service/api'
 import btnInfo from '../button/btnInfo.vue'
 import BtnCancel from '../button/btnCancel.vue'
@@ -208,12 +214,17 @@ export default {
                 }
             } else {
                 a = value.filter((item) => {
-                return item.kode_konversi.toLowerCase().includes(this.search.toLowerCase())
+                return item.nama_konversi.toLowerCase().includes(this.search.toLowerCase())
                 })
                 if (a == '') {
                     a = value.filter((item) => {
-                        return item.nama_konversi.toLowerCase().includes(this.search.toLowerCase())
+                        return item.kode_konversi.toLowerCase().includes(this.search.toLowerCase())
                     })
+                    if (a == '') {
+                        a = value.filter((item) => {
+                            return item.kode_barang.toLowerCase().includes(this.search.toLowerCase())
+                        })
+                    }
                 }
             }
             
@@ -259,6 +270,25 @@ export default {
         min(a, b) {
             let result = a - b
             return functions.numb2(result)
+        },
+        async api() {
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    resolve(Array.from({
+                        length: 10
+                    }, (k, v) => v + this.filteredItems.value.at(-1) + 1))
+                }, 1000)
+            })
+        },
+        async load({
+            done
+        }) {
+            // Perform API call
+            const res = await this.api()
+
+            this.filteredItems.push(...res)
+
+            done('ok')
         },
         barangKonversi(value) {
             this.state.kode_konversi = value.kode_konversi
@@ -515,6 +545,16 @@ export default {
                 this.kodebahan = value
                 this.$emit('pemasukanitem', this.kodebahan)
             }
+        },
+        filter_konversi(kode) {
+            let a = []
+            let data = this.getKonversi
+            for (let i = 0; i < data.length; i++) {
+                if(kode == data[i].kode_barang) {
+                    a.push(data[i])
+                }
+            }
+            return a
         }
     },
     async mounted() {
@@ -542,7 +582,7 @@ export default {
             <text-field id="input" v-model="search" label="Search" class="mb-4"></text-field>
         </v-div>
         <v-list class="me-2">
-            <v-div v-for="(item, b) in filteredItems" :key="item" class="overflow-auto">
+            <v-div v-for="(item, b) in filteredItems" :key="item">
                 <v-list-item v-if="!blmkirim && konversi" class="text-caption" density="compact" @click=";(pro(item.kode_konversi, b)), (state.nama_konversi = item.nama_konversi)">
                     <v-div class="d-flex justify-space-between text-caption">
                         <v-span>{{ item.nama_konversi }}</v-span>
@@ -576,11 +616,12 @@ export default {
                 </v-list-item>
                 <v-dialog v-if="!bahanbaku" @update="dialogchild" :persistent="true" transition="dialog-bottom-transition" width="auto" v-model="dialogchild[b]">
                     <v-card class="py-5 mx-auto rounded-xl" min-width="300" max-width="375" width="35vw">
-                        <v-span class="text-button text-orange text-center font-weight-bold">{{item.nama_barang}}</v-span>
-                        <v-span class="text-caption text-center">{{ item.kode_barang }} - {{ item.hs_code }}</v-span>
+                        <v-span class="text-button text-orange text-center font-weight-bold">{{item.nama_barang || item.nama_konversi}}</v-span>
+                        <v-span v-if="!konversi" class="text-caption text-center">{{ item.kode_barang +'-'+ item.hs_code }}</v-span>
+                        <v-span v-else-if="konversi" class="text-caption text-center">{{ item.kode_konversi }}</v-span>
                         <v-divider class="mt-3 mb-5"></v-divider>
                         <form @submit.prevent="submit" ref="form" class="mx-auto w-75 pt-2 bg-transparent">
-                            <dialogSearch v-if="pengiriman && konversi" :button="false" label="Kode Konversi" :objectFilter="getKonversi" card-title="Barang Konversi" @pilihObjek="barangKonversi" />
+                            <dialogSearch v-if="pengiriman && konversi" :button="false" label="Kode Konversi" :objectFilter="filter_konversi(item.kode_barang)" card-title="Barang Konversi" @pilihObjek="barangKonversi" />
                             <currency-input v-if="!pemasukan && !konversi" v-model="penjualan_detail.jumlah" label="Jumlah (KG)" :hide-details="true" :disabled="hiddenbtn" :options="{ currency: 'EUR', currencyDisplay: 'hidden' }" />
                             <currency-input v-if="!pemasukan && konversi" v-model="penjualan_detail.jumlah_konversi" label="Jumlah (konversi)" :hide-details="true" :disabled="hiddenbtn" :options="{ currency: 'EUR', currencyDisplay: 'hidden' }" />
                             <text-field-form v-if="pengiriman && konversi" v-model="state.satuan_konversi" label="Satuan konversi" readonly :hide-details="true" />

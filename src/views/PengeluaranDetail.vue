@@ -273,7 +273,7 @@ export default {
                 <v-row no-gutters v-if="!edit && pengeluaran" justify="center" justify-md="space-between" align="start" min-width="400">
                     <v-responsive class="pt-2 mx-md-0 mx-3 overflow-visible" width="250">
                         <text-field-form label="No Pengeluaran" v-model= "inputdata.no_penjualan" readonly class="bg-grey-lighten-4" />
-                        <datePickerVue label="Tgl Keluar" v-model="inputdata.tgl_penjualan" :rules="required" :tema="tema"/>
+                        <datePickerVue label="Tgl Keluar" :min-date="functions.last_month()" :max-date="new Date()" v-model="inputdata.tgl_penjualan" :rules="required" :tema="tema"/>
                     </v-responsive>
                     <v-responsive class="pt-2 mx-3" width="250">
                         <dialogSearch v-if="!edit" :window="window" label="Pelanggan" :objectFilter="pelanggan" @pilihObjek="pilihObjek" cardTitle="PELANGGAN" max-width="400" :rules="required"/>
@@ -300,7 +300,7 @@ export default {
                             </v-list>
                         </v-menu> -->
                         <text-field-form label="No Dokumen" v-model="inputdata.no_dokumen" :rules="required" />
-                        <datePickerVue label="Tgl Dokumen" v-model="inputdata.tgl_dokumen" :rules="required" :tema="tema"/>
+                        <datePickerVue label="Tgl Dokumen" v-model="inputdata.tgl_dokumen" :min-date="functions.last_month()" :max-date="new Date()" :rules="required" :tema="tema"/>
                     </v-responsive>
                 </v-row>
                 </v-form>

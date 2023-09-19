@@ -274,23 +274,6 @@ export default {
         </v-toolbar>
         <v-container class="mt-5">
             <v-form @submit.prevent ref="form">
-                <!-- <v-row no-gutters justify="center" justify-md="space-between" align="start" class="pb-3" min-width="400"> -->
-                    <!-- <v-responsive class="pt-2 me-3" width="250">
-                        <text-field-form v-if="edit" :model-value="item.no_produksi" label="No Produksi" readonly class="bg-grey-lighten-4" />
-                        <text-field-form v-if="!edit" label="No Produksi" readonly class="bg-grey-lighten-4" v-model="inputproduksi.no_produksi" />
-                        <date-picker v-if="!edit" :max-date="new Date()" label="Tgl Produksi" v-model="inputproduksi.tgl_produksi" :tema="tema" :rules="required" />
-                        <text-field-form v-if="edit" label="Tgl Produksi" :readonly="true" :rules="required" :model-value="functions.formatDate(item.tgl_produksi)" />
-                    </v-responsive> -->
-                    <!-- <v-responsive class="pt-2 mx-3 overflow-visible" width="250"> -->
-                        <!-- <date-picker v-if="!edit" :max-date="new Date()" label="Tgl Produksi" v-model="inputproduksi.tgl_produksi" :tema="tema" :rules="required" />
-                        <text-field-form v-if="edit" label="Tgl Produksi" :readonly="true" :rules="required" :model-value="functions.formatDate(item.tgl_produksi)" /> -->
-                    <!-- </v-responsive> -->
-                    <!-- <v-responsive class="pt-2" width="250">
-                        <text-field-form v-if="edit" label="Kode Group" :model-value="item.kode_group" readonly :rules="required" />
-                        <text-field-form v-if="!edit" label="Kode Group" readonly @click="dialog5 = true, more = 15" v-model="inputproduksi.kode_group" :rules="required" />
-                        <dialogScroll v-if="!edit" :window="window" dialog_title="stok barang" :group_detail="group_detail" :produksi="true" :btn="btn[0]" width="400" :barang="detailbahan" :tambah="true" :bahanbaku="true" :getbarang="select_kode" :kodegroup="inputproduksi.kode_group" @pemasukanitem="bahanmasuk" />
-                        <text-field-form v-if="edit" label="Bahan Baku" readonly class="bg-grey-lighten-4" :mode-value="item.kode_bahan" />
-                    </v-responsive> -->
                     <v-div class="w-100">
                         <v-div class="d-flex justify-space-between">
                             <v-row no-gutters>
@@ -298,7 +281,7 @@ export default {
                                 <text-field-form v-if="!edit" label="No Produksi" readonly class="bg-grey-lighten-4" v-model="inputproduksi.no_produksi" />
                             </v-row>
                             <v-row no-gutters class="mx-3">
-                                <date-picker v-if="!edit" :max-date="new Date()" label="Tgl Produksi" v-model="inputproduksi.tgl_produksi" :tema="tema" :rules="required" />
+                                <date-picker v-if="!edit" :max-date="new Date()" :min-date="functions.last_month()" label="Tgl Produksi" v-model="inputproduksi.tgl_produksi" :tema="tema" :rules="required" />
                                 <text-field-form v-if="edit" label="Tgl Produksi" :readonly="true" :rules="required" :model-value="functions.formatDate(item.tgl_produksi)" />
                             </v-row>
                             <v-row no-gutters>

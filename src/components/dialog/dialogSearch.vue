@@ -56,15 +56,15 @@ export default {
         <textField v-model="search" label="Search" class="mb-4"></textField>
         <v-list class="vh-100">
             <v-div>
-                <v-list-item v-for="(s, i) in functions.filterObject(objectFilter, search).slice(0, more)" :key="i" class="text-caption" density="compact" @click="result(s), (pilih = s.nama)">
+                <v-list-item v-for="(s, i) in functions.filterObject(objectFilter, search)" :key="i" class="text-caption" density="compact" @click="result(s), (pilih = s.nama)">
                     {{ s.nama }}
                 </v-list-item>
             </v-div>
-            <v-div v-if="functions.filterObject(objectFilter, search).length > more" class="d-flex justify-center align-center">
+            <!-- <v-div v-if="functions.filterObject(objectFilter, search).length > more" class="d-flex justify-center align-center">
                 <v-divider length="50"></v-divider>
                 <v-btn @click="lainnya()" variant="text" size="small" class="text-caption">lihat lainnya</v-btn>
                 <v-divider length="50"></v-divider>
-            </v-div>
+            </v-div> -->
         </v-list>
     </v-card>
 </v-dialog>

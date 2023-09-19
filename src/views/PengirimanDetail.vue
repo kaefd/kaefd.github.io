@@ -201,11 +201,12 @@ export default {
                         }
                     }
                 }
-                this.kirim_detail = data
+                const kirim_detail = [...new Set(data.map(JSON.stringify))].map(JSON.parse);
+                this.kirim_detail = kirim_detail
             }
         },
         lainnya() {
-            let a = this.more + 10
+            let a = this.more + 200
             this.more = a
         },
         checkStok(item, i) {
@@ -342,12 +343,12 @@ export default {
                 <v-row v-if="!edit" no-gutters justify="center" justify-md="space-between">
                     <v-responsive class="pt-2 mx-md-0 mx-3 overflow-visible" width="250">
                         <text-field-form label="No Pengiriman" v-model="inputdata.no_pengiriman" />
-                        <datePickerVue label="Tgl Pengiriman" v-model="inputdata.tgl_pengiriman" :rules="required" :tema="tema" />
+                        <datePickerVue label="Tgl Pengiriman" v-model="inputdata.tgl_pengiriman" :max-date="new Date()" :min-date="functions.last_month()" :rules="required" :tema="tema" />
                     </v-responsive>
                     <v-responsive class="pt-2 mx-3" width="250">
                         <text-field-form @click="dialog4 = true" label="Pelanggan" v-model="inputdata.nama" :rules="required" readonly>
                         </text-field-form>
-                        <text-field-form @click="dialogbongkar = true, more = 15" label="Tujuan Bongkar" v-model="inputdata.tujuan" :rules="required" readonly>
+                        <text-field-form @click="dialogbongkar = true, more = 100" label="Tujuan Bongkar" v-model="inputdata.tujuan" :rules="required" readonly>
                         </text-field-form>
                     </v-responsive>
                     <v-responsive class="pt-2 mx-md-0 mx-3" width="250">
