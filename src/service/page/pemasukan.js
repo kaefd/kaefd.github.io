@@ -8,8 +8,8 @@ const headers = [
   { title: 'No Dokumen', key: 'no_dokumen' },
   { title: 'Supplier', key: 'kode_supplier' },
   { title: 'Mata Uang', key: 'mata_uang' },
-  { title: 'Total Nilai', key: 'total_nilai' },
-  { title: 'Total Nilai(Rp)', key: 'rp' },
+  { title: 'Total Nilai', key: '_total_nilai' },
+  { title: 'Total Nilai(Rp)', key: 'total_nilai' },
   { key: 'actions'},
 ]
 const tipedokumen = [
@@ -89,7 +89,7 @@ const datatable = (item, supplier, detail, dtbarang) => {
           kode_supplier: supplier[k].nama,
           mata_uang: item[i].mata_uang,
           total_nilai: functions.numb(item[i].total_nilai, 2, true),
-          rp: functions.numb(item[i].total_nilai * item[i].kurs, 2, true),
+          _total_nilai: functions.numb(item[i].total_nilai / item[i].kurs, 2, true),
           no_invoice: item[i].no_invoice,
           no_bl: item[i].no_bl,
           kurs: item[i].kurs,
@@ -142,10 +142,10 @@ const dataTable = (value, params, supplier, detail) => {
   else if(params == 'total') {
     return functions.numb(value)
   }
-  else if(params == 'rp') {
+  else if(params == 'kurs') {
     let kurs = value.kurs
     let nilai = value.total_nilai
-    return functions.numb(kurs * nilai)
+    return functions.numb(nilai / kurs)
   }
 }
 const printdata = (item, supplier, detail) => {
@@ -160,8 +160,8 @@ const printdata = (item, supplier, detail) => {
       kode_group: item[i].kode_group,
       kurs: item[i].kurs,
       mata_uang: item[i].mata_uang,
-      total_nilai: this.dataTable(item[i].total_nilai, 'total', supplier, detail),
-      rp: this.dataTable(item[i], 'rp'),
+      total_nilai: this.dataTable(item[i], 'kurs'),
+      rp: this.dataTable(item[i].total_nilai, 'total', supplier, detail),
     })
   }
   return a

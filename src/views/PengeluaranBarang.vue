@@ -88,8 +88,8 @@ import CircularLoader from '../components/animate/circularLoader.vue';
       inputhead(value, detail) {
         api.postPengeluaran(value, detail)
         .then(() => {
-          this.status = this.valert = true
           this.message = "Data Berhasil Ditambahkan"
+          this.status = this.valert = true
           setTimeout(() => {
             this.valert = false
             this.$router.go();
@@ -105,8 +105,8 @@ import CircularLoader from '../components/animate/circularLoader.vue';
       del() {
         api.deletePengeluaran(this.head, this.detail)
         .then(() => {
-          this.status = this.valert = true
           this.message = "Data Berhasil Dibatalkan"
+          this.status = this.valert = true
           setTimeout(() => {
             this.valert = false
             // this.$router.go();
@@ -114,8 +114,8 @@ import CircularLoader from '../components/animate/circularLoader.vue';
         })
         .catch((error) => {
           this.status = false
-          this.valert = true
           this.message =  error.response.data
+          this.valert = true
         })
       },
       confirm(head, detail){

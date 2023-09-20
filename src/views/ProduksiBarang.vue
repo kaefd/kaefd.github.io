@@ -85,8 +85,8 @@ import CircularLoader from '../components/animate/circularLoader.vue';
       inputhead(value, detlbahan, detlbarang) {
         api.postProduksi(value, detlbahan, detlbarang)
         .then(() => {
-          this.status = this.valert = true
           this.message = "Data Berhasil Ditambahkan"
+          this.status = this.valert = true
           setTimeout(() => {
             this.valert = false
             this.$router.go();
@@ -94,16 +94,16 @@ import CircularLoader from '../components/animate/circularLoader.vue';
         })
         .catch((error) => {
           this.status = false
-          this.valert = true
           this.message =  error.response.data
+          this.valert = true
         })
       },
       // HAPUS DATA
       del() {
         api.deleteProduksi(this.head, this.detailbhn, this.detailbrg)
         .then(() => {
-          this.status = this.valert = true
           this.message = "Data Berhasil Dibatalkan"
+          this.status = this.valert = true
           setTimeout(() => {
             this.valert = false
             this.$router.go();
@@ -111,8 +111,8 @@ import CircularLoader from '../components/animate/circularLoader.vue';
         })
         .catch((error) => {
           this.status = false
-          this.valert = true
           this.message =  error.response.data
+          this.valert = true
         })
       },
       confirm(head, detailbrg, detailbhn){

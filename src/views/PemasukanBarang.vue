@@ -98,8 +98,8 @@ export default {
       api
         .postPemasukan(value, valuedetail)
         .then(() => {
-          this.status = this.valert = true
           this.message = 'Data Berhasil Ditambahkan'
+          this.status = this.valert = true
           setTimeout(() => {
             this.valert = false
             this.$router.go()
@@ -116,8 +116,8 @@ export default {
       api
         .deletePemasukan(this.pembelian_head, this.pdetail)
         .then(() => {
-          this.status = this.valert = true
           this.message = 'Data Berhasil Dibatalkan'
+          this.status = this.valert = true
           setTimeout(() => {
             this.valert = false
             this.$router.go()
@@ -125,8 +125,8 @@ export default {
         })
         .catch((error) => {
           this.status = false
-          this.valert = true
           this.message = error.response.data
+          this.valert = true
         })
     },
     confirm(head, detail) {

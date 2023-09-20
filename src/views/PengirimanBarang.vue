@@ -134,6 +134,7 @@ import CetakDo from './cetakDo.vue';
       inputhead(head, detail) {
         api.postPengiriman(head, detail)
         .then(() => {
+          this.message = ''
           this.status = this.valert = true
           setTimeout(() => {
             this.valert = false
@@ -150,6 +151,7 @@ import CetakDo from './cetakDo.vue';
       del() {
         api.deletePengiriman(this.head, this.detail)
         .then(() => {
+          this.message = "Data Berhasil Ditambahkan"
           this.status = this.valert = true
           setTimeout(() => {
             this.valert = false
@@ -158,8 +160,8 @@ import CetakDo from './cetakDo.vue';
         })
         .catch((error) => {
           this.status = false
-          this.valert = true
           this.message =  error.response.data
+          this.valert = true
         })
       },
       confirm(head, detail){
