@@ -256,7 +256,6 @@ import CircularLoader from '../components/animate/circularLoader.vue';
         <v-data-table
             v-model:sort-by="sortBy"
             id="tbl_exporttable_to_xls" 
-            items-per-page="10"
             :headers="pengeluaran.headers"
             :items="pengeluaran.checkstatus(selectdokumen, penjualan_head, checkStatus)"
             :search="search"
@@ -266,7 +265,7 @@ import CircularLoader from '../components/animate/circularLoader.vue';
             class="text-caption pt-1 border-sm rounded-lg h-100"
             :height="window > 776 ? '100%' : '92%'"
             >
-            
+            <template #bottom></template>
             <!-- eslint-disable-next-line vue/valid-v-slot -->
             <template v-slot:item.total_penjualan="{item}">{{ functions.numb(item.raw.total_penjualan, 2, true) }}</template>
             <!-- eslint-disable-next-line vue/valid-v-slot -->

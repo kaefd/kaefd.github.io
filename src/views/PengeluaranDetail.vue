@@ -319,7 +319,6 @@ export default {
                         class="text-caption py-1 mt-2 px-5 border-sm rounded-lg h-100"
                         :height="heightSizing"
                     >
-                    <!-- CUSTOM PAGINATION STYLE -->
                     <template v-slot:bottom>
                         <v-span v-if="edit" class="float-end me-5 text-caption font-weight-medium">Total Jumlah : {{ functions.numb(pemasukan.sum(penjualan)) }} / Total harga: {{ functions.numb(jumlahtotal(penjualan, 'nilai'), 2, true) }}</v-span>
                         <v-span v-if="!edit" class="float-end me-5 text-caption font-weight-medium">Total Jumlah : {{ functions.numb(jumlahtotal(pembelian_input, 'jumlah')) }} / Total harga: {{ functions.numb(jumlahtotal(pembelian_input, 'nilai'), 2, true) }}</v-span>

@@ -250,6 +250,7 @@ import CircularLoader from '../components/animate/circularLoader.vue';
             density="compact"
             class="text-caption pt-1 h-100 border-sm rounded-lg"
             :height="window > 776 ? '100%' : '92%'">
+            <template #bottom></template>
             <!-- eslint-disable-next-line vue/valid-v-slot -->
             <template v-slot:item.tgl_produksi="{ item }">{{ functions.formatDate(item.raw.tgl_produksi) }}</template>
             <!-- eslint-disable-next-line vue/valid-v-slot -->

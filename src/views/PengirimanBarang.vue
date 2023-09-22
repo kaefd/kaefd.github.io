@@ -238,7 +238,6 @@ import CetakDo from './cetakDo.vue';
         <v-data-table
             v-model:sort-by="sortBy"
             id="tbl_exporttable_to_xls" 
-            items-per-page="10"
             :headers="pengiriman.headers"
             :items="pengirimanHead"
             :search="search"
@@ -248,6 +247,7 @@ import CetakDo from './cetakDo.vue';
             class="text-caption pt-1 border-sm rounded-lg h-100"
             :height="window > 776 ? '100%' : '92%'"
             >
+            <template #bottom></template>
             <!-- eslint-disable-next-line vue/valid-v-slot -->
               <template v-slot:item.tgl_pengiriman="{item}">
                 {{ functions.formatDate(item.raw.tgl_pengiriman) }}
