@@ -117,7 +117,7 @@ export default {
                 >                                
                 </text-field-form>
                 <v-menu activator="#tambah" class="elevation-0">
-                    <v-list>
+                    <v-list class="h-dropdown">
                       <v-list-item
                         v-for="(item, index) in category.slice(this.alpha, category.length)"
                         :key="index"
@@ -130,7 +130,7 @@ export default {
                 <!-- FIELD SELECT (UNTUK EDIT DATA) -->
                 <text-field-form
                   v-if="item != null"
-                  id="tipe"
+                  :id="keyform[0] == 'kode_barang' ? '' : tipe"
                   :label="headers[0].title"
                   :model-value="item[keyform[0]]"
                   readonly
@@ -208,6 +208,9 @@ span.v-select__selection-text {
 input.v-field__input {
   font-size: 10pt !important;
 }
-
+.h-dropdown {
+  height: fit-content !important;
+  max-height: 260px !important;
+}
 
 </style>
