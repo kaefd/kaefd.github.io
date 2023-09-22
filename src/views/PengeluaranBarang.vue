@@ -253,7 +253,7 @@ import CircularLoader from '../components/animate/circularLoader.vue';
       </v-row>
         <!-- EDIT DATA -->
         <v-sheet :height="window > 776 ? '94%' : '87%'">
-        <v-data-table-virtual
+        <v-data-table
             v-model:sort-by="sortBy"
             id="tbl_exporttable_to_xls" 
             items-per-page="10"
@@ -266,7 +266,7 @@ import CircularLoader from '../components/animate/circularLoader.vue';
             class="text-caption pt-1 border-sm rounded-lg h-100"
             :height="window > 776 ? '100%' : '92%'"
             >
-          
+            
             <!-- eslint-disable-next-line vue/valid-v-slot -->
             <template v-slot:item.total_penjualan="{item}">{{ functions.numb(item.raw.total_penjualan, 2, true) }}</template>
             <!-- eslint-disable-next-line vue/valid-v-slot -->
@@ -292,7 +292,7 @@ import CircularLoader from '../components/animate/circularLoader.vue';
               :selectCategory="selectCategory"
               :disable="true"/>
             </template>
-          </v-data-table-virtual>
+          </v-data-table>
         </v-sheet>
         <dialogConfirm v-model="confirmdialog" :object="pageTitle" :item="head.no_penjualan" mess="Membatalkan">
         <template #yesButton>

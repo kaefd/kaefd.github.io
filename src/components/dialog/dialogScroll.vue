@@ -202,60 +202,36 @@ export default {
             }
         },
         searchBarang(value) {
-            let a = {}
             if(!this.konversi) {
-                a = value.filter((item) => {
-                    return item.kode_barang.toLowerCase().includes(this.search.toLowerCase())
+                return value.filter((item) => {
+                    let a = item.kode_barang.toLowerCase().includes(this.search.toLowerCase())
+                    let b = item.nama_barang.toLowerCase().includes(this.search.toLowerCase())
+                    return a || b
                 })
-                if (a == '') {
-                    a = value.filter((item) => {
-                        return item.nama_barang.toLowerCase().includes(this.search.toLowerCase())
-                    })
-                }
             } else {
-                a = value.filter((item) => {
-                return item.nama_konversi.toLowerCase().includes(this.search.toLowerCase())
+                return value.filter((item) => {
+                    let a = item.nama_konversi.toLowerCase().includes(this.search.toLowerCase())
+                    let b = item.kode_konversi.toLowerCase().includes(this.search.toLowerCase())
+                    let c = item.kode_barang.toLowerCase().includes(this.search.toLowerCase())
+                    let d = item.satuan_konversi.toLowerCase().includes(this.search.toLowerCase())
+                    return a || b || c || d
                 })
-                if (a == '') {
-                    a = value.filter((item) => {
-                        return item.kode_konversi.toLowerCase().includes(this.search.toLowerCase())
-                    })
-                    if (a == '') {
-                        a = value.filter((item) => {
-                            return item.kode_barang.toLowerCase().includes(this.search.toLowerCase())
-                        })
-                    }
-                }
             }
             
-            return a
         },
         searchObj(value) {
-            let a = {}
-            a = value.filter((item) => {
-                return item.no_dokumen.toLowerCase().includes(this.search.toLowerCase())
+            return value.filter((item) => {
+                let nopen = item.no_dokumen + ''
+                let a = nopen.toLowerCase().includes(this.search.toLowerCase())
+                let b = item.nama_barang.toLowerCase().includes(this.search.toLowerCase())
+                let c = item.no_penjualan.toLowerCase().includes(this.search.toLowerCase())
+                let kode = item.kode_group + ''
+                let d = kode.toLowerCase().includes(this.search.toLowerCase())
+                let tipe = item.tipe_dokumen + ''
+                let e = tipe.toLowerCase().includes(this.search.toLowerCase())
+                let f = item.kode_barang.toLowerCase().includes(this.search.toLowerCase())
+                return a || b || c || d || e || f
             })
-            if (a == '') {
-                a = value.filter((item) => {
-                    return item.nama_barang.toLowerCase().includes(this.search.toLowerCase())
-                })
-                if (a == '') {
-                    a = value.filter((item) => {
-                        return item.no_penjualan.toLowerCase().includes(this.search.toLowerCase())
-                    })
-                    if (a == '') {
-                        a = value.filter((item) => {
-                            return item.kode_group.toLowerCase().includes(this.search.toLowerCase())
-                        })
-                        if (a == '') {
-                            a = value.filter((item) => {
-                                return item.tipe_dokumen.toLowerCase().includes(this.search.toLowerCase())
-                            })
-                        }
-                    }
-                }
-            }
-            return a
         },
         stok(kodegroup, kodebrg) {
             for (let i = 0; i < this.groupbarang.length; i++) {

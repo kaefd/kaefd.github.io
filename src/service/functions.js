@@ -113,7 +113,11 @@ export default {
     // FILTER
     filterObject(target, search) {
       return target.filter(item => {
-              return item.nama.toLowerCase().includes(search.toLowerCase())
+              let a = item.nama.toLowerCase().includes(search.toLowerCase())
+              let c = item.kode_barang != null ? item.kode_barang.toLowerCase().includes(search.toLowerCase()) : ''
+              let d = item.kode_konversi != null ? item.kode_konversi.toLowerCase().includes(search.toLowerCase()) : ''
+              let e = item.satuan_konversi != null ? item.satuan_konversi.toLowerCase().includes(search.toLowerCase()) : ''
+              return a || c || d || e
           })
     },
     // DRAWER

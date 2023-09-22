@@ -3,7 +3,7 @@
 import api from '../service/api';
 import functions from '../service/functions';
 // components
-import { VDataTableVirtual } from 'vuetify/labs/VDataTable'
+import { VDataTable } from 'vuetify/labs/VDataTable'
 import ScreenDialog2 from '../components/ScreenDialog2.vue';
 import filterDrawer from '../components/drawer/filterDrawer.vue';
 import textField from '../components/form/textField.vue';
@@ -238,7 +238,7 @@ import CircularLoader from '../components/animate/circularLoader.vue';
       </v-row>
         <!-- EDIT DATA -->
         <v-sheet :height="window > 776 ? '95%' : '87%'">
-        <v-data-table-virtual
+        <v-data-table
             v-model:sort-by="sortBy"
             id="tbl_exporttable_to_xls"
             items-per-page="10"
@@ -272,7 +272,7 @@ import CircularLoader from '../components/animate/circularLoader.vue';
                 :headers="produksi.headers"
                 />
             </template>
-          </v-data-table-virtual>
+          </v-data-table>
           </v-sheet>
         <dialogConfirm v-model="confirmdialog" :object="pageTitle" :item="head.no_produksi" mess="Membatalkan">
           <template #yesButton>

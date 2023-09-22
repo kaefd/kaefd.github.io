@@ -274,7 +274,7 @@ import CircularLoader from '../components/animate/circularLoader.vue';
       </v-row>
       <!-- EDIT DATA -->
       <v-sheet :height="window > 776 ? '94%' : '87%'">
-      <v-data-table-virtual
+      <v-data-table
           id="tbl_exporttable_to_xls"
           items-per-page="10"
           :items="pilihtipe()"
@@ -322,7 +322,7 @@ import CircularLoader from '../components/animate/circularLoader.vue';
           <template v-slot:item.actions="{item}">
               <PengeluaranDetail :window="window" @confirm="confirm" batalbtn="Pengeluaran" :laporan="true" :namaPelanggan="namaPelanggan(item.raw.kode_pelanggan)" :penjualan="penjualan(item.raw.no_penjualan)" :edit="true" :pengeluaran="true" :pageTitle="pageTitle" :headDetails="headDetails" :items="item.raw" :details="details" :headers="headers" :search="search" :category="category" :selectCategory="selectCategory" :disable="true"/>
           </template>
-        </v-data-table-virtual>
+        </v-data-table>
       </v-sheet>
     </v-container>
   <circular-loader :loading="loading" />

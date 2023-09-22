@@ -35,7 +35,8 @@ export default {
                     }
                 }
             }
-            return data
+            const a = [...new Set(data.map(JSON.stringify))].map(JSON.parse);
+            return a
         },
         nama_brg() {
             let a = []
@@ -85,7 +86,8 @@ export default {
                 }, 0);
             }
             if(p == 'keterangan') {
-                return keterangan.toString()
+                const a = [...new Set(keterangan.map(JSON.stringify))].map(JSON.parse);
+                return a.toString()
             }
             if(p == 'satuan') {
                 return satuan

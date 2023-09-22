@@ -206,7 +206,7 @@ import CircularLoader from '../components/animate/circularLoader.vue';
       </v-row>
         <!-- EDIT DATA -->
         <v-sheet :height="window > 776 ? '94%' : '87%'">
-        <v-data-table-virtual
+        <v-data-table
             v-model:sort-by="sortBy"
             id="tbl_exporttable_to_xls" 
             items-per-page="10"
@@ -261,7 +261,7 @@ import CircularLoader from '../components/animate/circularLoader.vue';
                     </v-list>
                   </v-menu>
             </template>
-            </v-data-table-virtual>
+            </v-data-table>
         </v-sheet>
         <dialogConfirm v-model="confirmdialog" :object="pageTitle">
         <template #yesButton>

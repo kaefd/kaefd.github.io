@@ -15,7 +15,8 @@ export default {
         doDialog: null,
         kirim: this.pengiriman,
         detailpengiriman: '',
-        penjualanHead: ''
+        penjualanHead: '',
+        konversi: ''
       }
   },
   computed: {
@@ -42,7 +43,8 @@ export default {
                 }
             }
         }
-        return data
+        const a = [...new Set(data.map(JSON.stringify))].map(JSON.parse);
+        return a
     },
   },
   methods: {
@@ -52,9 +54,18 @@ export default {
             pjl.push(await api.getHeadPenjualan(this.nopjl[i]))
         }
         this.penjualanHead = pjl
+        this.konversi = await api.getKonversi()
     },     
     print() {
         window.print()
+    },
+    berat(kode, jumlah) {
+      let a = [] 
+      for (let i = 0; i < this.konversi.length; i++) {
+        if(kode == this.konversi[i].kode_konversi) {
+          return jumlah * this.konversi[i].berat
+        }
+      }
     }
     
   },
@@ -122,6 +133,7 @@ export default {
                 <th class="text-medium">Qty</th>
                 <th class="text-medium">Keterangan</th>
                 <th class="text-medium">Catatan</th>
+                <th class="text-medium">Berat total (Kg)</th>
               </tr>
             </thead>
             <tbody class="text-body-2">
@@ -132,6 +144,7 @@ export default {
                 <td class="text-medium">{{ item.jumlah_konversi }}</td>
                 <td class="text-medium" contenteditable>{{ item.keterangan }}</td>
                 <td class="text-medium" contenteditable ></td>
+                <td class="text-medium" contenteditable >{{ berat(item.kode_konversi, item.jumlah_konversi) }}</td>
             </tr>
             <tr>
                 <td></td>
@@ -142,12 +155,14 @@ export default {
             </tbody>
         </v-table>
       </v-sheet>
-      <span class="d-block text-right font-italic text-caption text-preview text-grey-darken-3 float-bottom mb-2">Print Date : {{ functions.formatDateTime(new Date) }}</span>
-      <div class="w-100 d-flex justify-space-between text-caption text-preview">
-        <span>yang mengajukan</span>
-        <span>mengetahui</span>
-        <span>mengetahui</span>
-        <span>ekspedisi</span>
+      <div class="d-flex flex-column justify-space-between h-100">
+        <div class="w-100 d-flex justify-space-between text-caption text-preview">
+          <span>yang mengajukan</span>
+          <span>mengetahui</span>
+          <span>mengetahui</span>
+          <span>ekspedisi</span>
+        </div>
+        <span class="d-block text-right font-italic text-caption text-preview text-grey-darken-3 float-bottom mb-2">Print Date : {{ functions.formatDateTime(new Date) }}</span>
       </div>
     </v-sheet>
   </v-card>
@@ -217,6 +232,8 @@ export default {
   #do {
     visibility: visible;
     position: absolute;
+    text-rendering: optimizeLegibility;
+    image-rendering: auto;
     width: 21cm;
     height: 29.7cm;
     left: 0;
@@ -230,15 +247,14 @@ export default {
   .text-medium {
     font-size: 17px !important;
     color: black !important;
-    font-weight: 400 !important;
   }
 }
 
 .v-table--density-compact > .v-table__wrapper > table > tbody > tr > th, .v-table--density-compact > .v-table__wrapper > table > thead > tr > th, .v-table--density-compact > .v-table__wrapper > table > tfoot > tr > th {
-    height: 20px !important;
+    height: 30px !important;
 }
 .v-table--density-compact > .v-table__wrapper > table > tbody > tr > td, .v-table--density-compact > .v-table__wrapper > table > thead > tr > td, .v-table--density-compact > .v-table__wrapper > table > tfoot > tr > td {
-    height: 20px !important;
+    height: 30px !important;
 }
 </style>
 <!-- yang mengajukan, mengetahui mengetahui ekspedisi -->

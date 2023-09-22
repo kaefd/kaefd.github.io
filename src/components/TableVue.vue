@@ -71,7 +71,7 @@ export default {
 <template>
     <v-sheet :height="window > 776 ? '93%' : '87%'">
       <!-- TABEL DATA -->
-      <v-data-table-virtual
+      <v-data-table
         v-model:sort-by="sorting"
         density="compact"
         fixed-header
@@ -79,11 +79,11 @@ export default {
         :search="search"
         :loading="loading"
         :headers="headers"
+        :items-per-page="totaldata"
         height="100%"
         class="text-caption h-100 border-sm rounded-lg"
       >
-    <!-- ACTION DELETE & EDIT -->
-   
+      <template #bottom></template>
     <!-- eslint-disable-next-line vue/valid-v-slot -->
       <template v-if="userdetail" v-slot:item.actions="{item, index}">
         <menuList :items="list" icon="mdi-dots-vertical" :submenu="true" @result="result2" :index="index" />
@@ -152,6 +152,6 @@ export default {
             :selectCategory="selectCategory"
             :pageTitle="pageTitle"/>
       </template>
-    </v-data-table-virtual>
+    </v-data-table>
     </v-sheet>
 </template>

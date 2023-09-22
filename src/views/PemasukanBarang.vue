@@ -72,6 +72,7 @@ export default {
   created() {
     this.periode = [functions.tglawal(), functions.day()]
     this.filtered.periode = [functions.tglawal(), functions.day()]
+    this.fetchData()
   },
   methods: {
     page() {
