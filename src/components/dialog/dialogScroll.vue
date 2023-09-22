@@ -65,7 +65,7 @@ export default {
             valert: false,
             konversi: null,
             status: '',
-            more: 15,
+            more: 100,
             split: 0,
             moretext: 'lihat lainnya',
             btnmore: false,
@@ -191,7 +191,7 @@ export default {
     },
     methods: {
         lainnya() {
-            let a = this.more + 10
+            let a = this.more + 100
             this.more = a
         },
         stok_detail(value) {
@@ -544,8 +544,8 @@ export default {
 <v-dialog v-model="dialog" transition="dialog-bottom-transition">
     <!-- BUTTON TAMBAH -->
     <template v-slot:activator="{ props }">
-        <btn-info v-if="!bahanbaku" v-bind="props" @click="more = 15, konversi = false" btn_title="Tambah Barang" class="me-3" />
-        <btn-info v-if="!bahanbaku && produksi || pengiriman" v-bind="props" @click="more = 15, konversi = true" btn_title="Tambah Konversi Barang" />
+        <btn-info v-if="!bahanbaku" v-bind="props" @click="more = 100, konversi = false" btn_title="Tambah Barang" class="me-3" />
+        <btn-info v-if="!bahanbaku && produksi || pengiriman" v-bind="props" @click="more = 100, konversi = true" btn_title="Tambah Konversi Barang" />
         <!-- <text-field-form v-if="bahanbaku" readonly v-bind="props" @click="more = 15" label="Bahan Baku" v-model="kodebahan" /> -->
     </template>
     <v-card class="py-5 px-7 rounded-xl vh-100" min-width="300" max-width="400">
@@ -558,7 +558,7 @@ export default {
             <text-field id="input" v-model="search" label="Search" class="mb-4"></text-field>
         </v-div>
         <v-list class="me-2">
-            <v-div v-for="(item, b) in filteredItems" :key="item">
+            <v-div v-for="(item, b) in filteredItems.slice(0, more)" :key="item">
                 <v-list-item v-if="!blmkirim && konversi" class="text-caption" density="compact" @click=";(pro(item.kode_konversi, b)), (state.nama_konversi = item.nama_konversi)">
                     <v-div class="d-flex justify-space-between text-caption">
                         <v-span>{{ item.nama_konversi }}</v-span>
@@ -616,11 +616,11 @@ export default {
                 </v-dialog>
             </v-div>
             <!-- SHOW MORE BUTTON -->
-            <!-- <v-div v-if="filteredItems.length > more" class="d-flex justify-center align-center">
+            <v-div v-if="filteredItems.length > more" class="d-flex justify-center align-center">
                 <v-divider length="50"></v-divider>
                 <v-btn @click="lainnya()" variant="text" size="small" class="text-caption">lihat lainnya</v-btn>
                 <v-divider length="50"></v-divider>
-            </v-div> -->
+            </v-div>
         </v-list>
     </v-card>
     <alertVue v-model="valert" :status="status" :message="message" />

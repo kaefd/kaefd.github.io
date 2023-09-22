@@ -33,13 +33,13 @@ const input = {
 }
 const detail_items = (no, detail) => {
   let nama = []
-  let res = ''
   for (let j = 0; j < detail.length; j++) {
     if (no == detail[j].no_produksi) {
       nama.push(detail[j].nama_barang)
     }
   }
-  return nama.toString()
+  let a = [...new Set(nama.map(JSON.stringify))].map(JSON.parse);
+  return a.toString()
 }
 const sum = (no, value) => {
   let arr = []

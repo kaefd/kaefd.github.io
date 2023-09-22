@@ -3,6 +3,7 @@ import api from '../service/api';
 import 'animate.css';
 import script from '../../package.json'
 import BtnOrange from '../components/button/btnOrange.vue';
+import functions from '../service/functions';
 
 </script>
 
@@ -48,7 +49,7 @@ export default {
           this.message =  error.response.data
           setTimeout(() => {
             this.valert = false
-          }, 2000);
+          }, 2000)
         })
     }
    
@@ -93,7 +94,7 @@ export default {
         </v-card>
       </v-responsive>
     </v-row>
-    <v-span class="text-caption text-center text-grey">AURI STEEL METALINDO <br />version.{{ script.version }}</v-span>
+    <v-span class="text-caption text-center text-grey">AURI STEEL METALINDO <br />version.{{ script.version }} <br /> last updated: {{functions.formatDate(functions.day())}}</v-span>
     <v-div class="absolute w-100 pe-8 text-caption mt-n3">
       <v-alert
         v-model="valert"
