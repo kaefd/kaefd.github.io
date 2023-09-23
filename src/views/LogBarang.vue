@@ -74,7 +74,7 @@ export default {
             <v-sheet class="ma-5" :height="window > 776 ? '94%' : '87%'">
                 <!-- TABEL DATA -->
                 <v-data-table
-                items-per-page="10"
+                :items-per-page="detail.length"
                 :headers="headers"
                 :items="detail"
                 :search="search"
@@ -108,7 +108,7 @@ export default {
                                 <v-sheet class="ma-5" :height="window > 776 ? '94%' : '87%'">
                                 <!-- TABEL DATA -->
                                 <v-data-table
-                                items-per-page="10"
+                                :items-per-page="laporan.log(item.raw.kode_group, item.raw.kode_barang, logbrg).length"
                                 :headers="subheaders"
                                 :items="laporan.log(item.raw.kode_group, item.raw.kode_barang, logbrg)"
                                 :search="search"

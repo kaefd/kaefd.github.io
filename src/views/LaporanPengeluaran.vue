@@ -276,7 +276,7 @@ import CircularLoader from '../components/animate/circularLoader.vue';
       <v-sheet :height="window > 776 ? '94%' : '87%'">
       <v-data-table
           id="tbl_exporttable_to_xls"
-          items-per-page="10"
+          :items-per-page="items.length"
           :items="pilihtipe()"
           :headers="headers"
           :search="search"
@@ -286,6 +286,7 @@ import CircularLoader from '../components/animate/circularLoader.vue';
           class="text-caption pt-1 rounded-lg border-sm h-100"
           :height="window > 776 ? '100%' : '92%'"
           >
+          <template #bottom></template>
           <!-- eslint-disable-next-line vue/valid-v-slot -->
           <template v-slot:item.tgl_penjualan="{item}">
               {{ functions.formatDate(item.raw.tgl_penjualan) }}
