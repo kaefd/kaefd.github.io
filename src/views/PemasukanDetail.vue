@@ -101,8 +101,8 @@ export default {
       ],
       max_10: [
         (value) => {
-          if(value > 10 || value < 1)
-          return this.message = 'nilai persentase harus 1 - 10'
+          if(value > 100 || value < 0)
+          return this.message = 'nilai persentase harus 0 - 100'
         }
       ]
     }

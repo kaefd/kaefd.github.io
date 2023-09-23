@@ -38,6 +38,8 @@ import CetakDo from './cetakDo.vue';
         status: '',
         pjl_terkirim: '',
         pjl_blmterkirm: '',
+        blm_kirim: '',
+        blm_kirim_detail: '',
         message: '',
         periode: [],
         checkStatus: 'menunggu',
@@ -49,7 +51,6 @@ import CetakDo from './cetakDo.vue';
         },
         sortBy: [{ key: 'no_pengiriman', order: 'desc' }],
         pengirimanHead: '',
-        penjualanHead: '',
         head: '',
         detail: '',
         kirim_detail: '',
@@ -79,10 +80,9 @@ import CetakDo from './cetakDo.vue';
           this.alamatBongkar = await api.alamatBongkar()
           this.pelanggan = await api.getPelanggan()
           this.kirim_detail = await api.getPengirimanDetail(this.periode)
-          this.penjualanHead = await api.getPenjualanHead(this.periode)
-          let blm_kirim = await api.getBelumTerkirim()
-          let blm_kirim_detail = await api.getBelumTerkirimDetail()
-          this.pjl_blmterkirm = pengeluaran.item_blmterikirim(blm_kirim, blm_kirim_detail)
+          this.blm_kirim = await api.getBelumTerkirim()
+          this.blm_kirim_detail = await api.getBelumTerkirimDetail()
+          this.pjl_blmterkirm = pengeluaran.item_blmterikirim(this.blm_kirim, this.blm_kirim_detail)
           this.pengirimanHead = pengiriman.items(item, this.pelanggan, this.alamatBongkar, this.kirim_detail, this.pjl_blmterkirm) 
           let konversi = await api.getKonversi()
           this.barangKonversi = pengiriman.konversi(konversi)
@@ -237,6 +237,7 @@ import CetakDo from './cetakDo.vue';
         <v-sheet :height="window > 776 ? '94%' : '87%'">
         <v-data-table
             v-model:sort-by="sortBy"
+            :items-per-page="pengirimanHead.length"
             id="tbl_exporttable_to_xls" 
             :headers="pengiriman.headers"
             :items="pengirimanHead"
@@ -288,6 +289,8 @@ import CetakDo from './cetakDo.vue';
                           :headers="pengiriman.headers"
                           :items="item.raw"
                           :disable="true"
+                          :belumkirim="blm_kirim"
+                          :belumkirim_detail="blm_kirim_detail"
                           />
                       </v-list-item>
                       <SuratJalan

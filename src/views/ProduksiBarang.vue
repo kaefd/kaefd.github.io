@@ -241,7 +241,7 @@ import CircularLoader from '../components/animate/circularLoader.vue';
         <v-data-table
             v-model:sort-by="sortBy"
             id="tbl_exporttable_to_xls"
-            items-per-page="10"
+            :items-per-page="items.length"
             :headers="produksi.headers"
             :items="items"
             :search="search"

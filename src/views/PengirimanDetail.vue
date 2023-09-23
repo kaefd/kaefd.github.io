@@ -78,7 +78,9 @@ export default {
         'datatext',
         'itemDetail',
         'category',
-        'barangKonversi'
+        'barangKonversi',
+        'belumkirim',
+        'belumkirim_detail'
     ],
     data() {
         return {
@@ -96,8 +98,6 @@ export default {
             tipe_dokumen: ['BC25', 'BC41'],
             searched: '',
             barang: '',
-            belumkirim: '',
-            belumkirim_detail: '',
             kirim_detail: '',
             item_blmterkirim: '',
             namasupplier: '',
@@ -170,13 +170,12 @@ export default {
     },
     methods: {
         async fetchData() {
-            this.belumkirim = await api.getBelumTerkirim()
-            this.belumkirim_detail = await api.getBelumTerkirimDetail()
             if (this.edit) {
                 let pjl = []
                 for (let i = 0; i < this.nopjl.length; i++) {
                     pjl.push(await api.getHeadPenjualan(this.nopjl[i]))
                 }
+                console.log(this.nopjl);
                 let data = []
                 for (let j = 0; j < this.pjl_detail.length; j++) {
                     for (let k = 0; k < pjl.length; k++) {

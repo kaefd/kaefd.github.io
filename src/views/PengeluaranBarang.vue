@@ -259,6 +259,7 @@ import CircularLoader from '../components/animate/circularLoader.vue';
             :headers="pengeluaran.headers"
             :items="pengeluaran.checkstatus(selectdokumen, penjualan_head, checkStatus)"
             :search="search"
+            :items-per-page="penjualan_head.length"
             :hover="true"
             :fixed-header="true"
             density="compact"
