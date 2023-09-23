@@ -275,19 +275,19 @@ export default {
             this.state.hs_code = kode.hs_code
             this.state.satuan = kode.satuan
             let nilai = ''
-            if (this.pengiriman) {
-                for (let i = 0; i < this.groupbarang.length; i++) {
-                    for (let j = 0; j < this.pjl_blmterkirm.length; j++) {
-                        if (this.groupbarang[i].kode_group == this.pjl_blmterkirm[j].kode_group) {
-                            for (let j = 0; j < this.belumkirim_detail.length; j++) {
-                                if (this.groupbarang[i].kode_barang == this.belumkirim_detail[j].kode_barang) {
-                                    nilai = this.groupbarang[i].nilai_akhir / this.groupbarang[i].stok_akhir
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+            // if (this.pengiriman) {
+            //     for (let i = 0; i < this.groupbarang.length; i++) {
+            //         for (let j = 0; j < this.pjl_blmterkirm.length; j++) {
+            //             if (this.groupbarang[i].kode_group == this.pjl_blmterkirm[j].kode_group) {
+            //                 for (let j = 0; j < this.belumkirim_detail.length; j++) {
+            //                     if (this.groupbarang[i].kode_barang == this.belumkirim_detail[j].kode_barang) {
+            //                         nilai = this.groupbarang[i].nilai_akhir / this.groupbarang[i].stok_akhir
+            //                     }
+            //                 }
+            //             }
+            //         }
+            //     }
+            // }
             // PEMASUKAN
             if (this.pemasukan) {
                 this.check(kode)

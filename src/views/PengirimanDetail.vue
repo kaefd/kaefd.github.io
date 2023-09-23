@@ -341,7 +341,7 @@ export default {
             <v-form @submit.prevent ref="form" class="mx-3">
                 <v-row v-if="!edit" no-gutters justify="center" justify-md="space-between">
                     <v-responsive class="pt-2 mx-md-0 mx-3 overflow-visible" width="250">
-                        <text-field-form label="No Pengiriman" v-model="inputdata.no_pengiriman" />
+                        <text-field-form label="No Pengiriman" v-model="inputdata.no_pengiriman" :rules="required"/>
                         <datePickerVue label="Tgl Pengiriman" v-model="inputdata.tgl_pengiriman" :max-date="new Date()" :min-date="functions.last_month()" :rules="required" :tema="tema" />
                     </v-responsive>
                     <v-responsive class="pt-2 mx-3" width="250">

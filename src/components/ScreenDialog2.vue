@@ -297,7 +297,7 @@ export default {
                                 <text-field-form v-if="edit" label="Bahan Baku" readonly :model-value="detailbahan.kode_barang + '-' + detailbahan.nama_barang" />
                             </v-row>
                             <v-row v-if="edit" no-gutters class="mx-3">
-                                <text-field-form label="Jumlah" readonly :model-value="detailbahan.jumlah" />
+                                <text-field-form label="Jumlah" readonly :model-value="functions.numb(detailbahan.jumlah, 2 , true)" />
                             </v-row>
                             <v-row v-if="edit" no-gutters>
                                 <text-field-form label="Satuan" readonly :model-value="detailbahan.satuan" />

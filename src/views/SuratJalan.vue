@@ -167,7 +167,7 @@ export default {
                         <!-- TGL PENGIRIMAN -->
                         <v-div class="d-flex flex-column">
                             <v-span class="text-start">: {{ items.no_pengiriman }}</v-span>
-                            <v-span class="text-start" contenteditable>: {{ functions.formatDate(items.tgl_pengiriman) }} <v-span contenteditable>/ {{ functions.getTime() }}</v-span></v-span>
+                            <v-span class="text-start">: {{ functions.formatDate(items.tgl_pengiriman) }} <v-span contenteditable>/ {{ functions.getTime() }}</v-span></v-span>
                             <v-span class="text-start">: {{ items.supir }}/{{ items.no_polisi }}</v-span>
                         </v-div>
                     </v-div>
@@ -191,8 +191,8 @@ export default {
                     >
                         <td class="text-left">{{ i+1 }}</td>
                         <td class="text-left">{{ item }}</td>
-                        <td class="text-left" contenteditable>{{ dataitems(item, 'qty') }}</td>
-                        <td class="text-left" contenteditable>{{ dataitems(item, 'satuan') }}</td>
+                        <td class="text-left">{{ dataitems(item, 'qty') }}</td>
+                        <td class="text-left">{{ dataitems(item, 'satuan') }}</td>
                         <td class="text-left">{{ functions.numb(dataitems(item, 'jumlah')) }}</td>
                         <td class="text-left">{{ dataitems(item, 'keterangan') }}</td>
                     </tr>

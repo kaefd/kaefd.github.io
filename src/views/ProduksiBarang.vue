@@ -254,9 +254,9 @@ import CircularLoader from '../components/animate/circularLoader.vue';
             <!-- eslint-disable-next-line vue/valid-v-slot -->
             <template v-slot:item.tgl_produksi="{ item }">{{ functions.formatDate(item.raw.tgl_produksi) }}</template>
             <!-- eslint-disable-next-line vue/valid-v-slot -->
-            <template v-slot:item.jumlah="{ item }">{{ functions.numb(item.raw.jumlah) }}</template>
-            <!-- eslint-disable-next-line vue/valid-v-slot -->
             <template v-slot:item.jml_barang_jadi="{ item }">{{ functions.numb(item.raw.jml_barang_jadi, 2, true) }}</template>
+            <!-- eslint-disable-next-line vue/valid-v-slot -->
+            <template v-slot:item.jumlah="{ item }">{{ functions.numb(item.raw.jumlah, 2, true) }}</template>
             <!-- eslint-disable-next-line vue/valid-v-slot -->
             <template v-slot:item.actions="{ item }">
                 <ScreenDialog2

@@ -67,7 +67,7 @@ const items = (head, dbahan, dbarang) => {
             tgl_input: head[i].tgl_input,
             kode_group: head[i].kode_group,
             bahan_baku: detail_items(head[i].no_produksi, dbahan),
-            jumlah: functions.numb(sum(head[i].no_produksi, dbahan)),
+            jumlah: sum(head[i].no_produksi, dbahan),
             barang_jadi: detail_items(head[i].no_produksi, dbarang),
             jml_barang_jadi: sum(head[i].no_produksi, dbarang)
           })
