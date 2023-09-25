@@ -252,7 +252,7 @@ import CircularLoader from '../components/animate/circularLoader.vue';
       </v-responsive>
       </v-row>
         <!-- EDIT DATA -->
-        <v-sheet :height="window > 776 ? '94%' : '87%'">
+        <v-sheet :height="window > 776 ? '92%' : '87%'">
         <v-data-table
             v-model:sort-by="sortBy"
             id="tbl_exporttable_to_xls" 
@@ -266,7 +266,9 @@ import CircularLoader from '../components/animate/circularLoader.vue';
             class="text-caption pt-1 border-sm rounded-lg h-100"
             :height="window > 776 ? '100%' : '92%'"
             >
-            <template #bottom></template>
+            <template #bottom>
+              <div class="text-caption font-weight-bold w-100 text-right pe-3">Total : {{ penjualan_head.length }} data</div>
+            </template>
             <!-- eslint-disable-next-line vue/valid-v-slot -->
             <template v-slot:item.total_penjualan="{item}">{{ functions.numb(item.raw.total_penjualan, 2, true) }}</template>
             <!-- eslint-disable-next-line vue/valid-v-slot -->

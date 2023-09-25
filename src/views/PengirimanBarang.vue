@@ -234,7 +234,7 @@ import CetakDo from './cetakDo.vue';
       </v-responsive>
       </v-row>
         <!-- EDIT DATA -->
-        <v-sheet :height="window > 776 ? '94%' : '87%'">
+        <v-sheet :height="window > 776 ? '92%' : '87%'">
         <v-data-table
             v-model:sort-by="sortBy"
             :items-per-page="pengirimanHead.length"
@@ -248,7 +248,9 @@ import CetakDo from './cetakDo.vue';
             class="text-caption pt-1 border-sm rounded-lg h-100"
             :height="window > 776 ? '100%' : '92%'"
             >
-            <template #bottom></template>
+            <template #bottom>
+              <div class="text-caption font-weight-bold w-100 text-right pe-3">Total : {{ pengirimanHead.length }} data</div>
+            </template>
             <!-- eslint-disable-next-line vue/valid-v-slot -->
               <template v-slot:item.tgl_pengiriman="{item}">
                 {{ functions.formatDate(item.raw.tgl_pengiriman) }}

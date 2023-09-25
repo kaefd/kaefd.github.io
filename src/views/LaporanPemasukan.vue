@@ -262,7 +262,7 @@ import CircularLoader from '../components/animate/circularLoader.vue';
       </v-responsive>
       </v-row>
       <!-- EDIT DATA -->
-      <v-sheet :height="window > 776 ? '94%' : '87%'">
+      <v-sheet :height="window > 776 ? '92%' : '87%'">
       <v-data-table
           id="tbl_exporttable_to_xls"
           :items-per-page="dataitems.length"
@@ -275,7 +275,9 @@ import CircularLoader from '../components/animate/circularLoader.vue';
           class="text-caption pt-1 rounded-lg border-sm h-100"
           :height="window > 776 ? '100%' : '92%'"
           >
-          <template #bottom></template>
+          <template #bottom>
+            <div class="text-caption font-weight-bold w-100 text-right pe-3">Total : {{ dataitems.length }} data</div>
+          </template>
           <!-- eslint-disable-next-line vue/valid-v-slot -->
           <template v-slot:item.tgl_pembelian="{item}">
               {{ functions.formatDate(item.raw.tgl_pembelian) }}

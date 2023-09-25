@@ -59,14 +59,16 @@ export default {
     print() {
         window.print()
     },
-    berat(kode, jumlah) {
-      let a = [] 
-      for (let i = 0; i < this.konversi.length; i++) {
-        if(kode == this.konversi[i].kode_konversi) {
-          return jumlah * this.konversi[i].berat
+    sum(param) {
+            let arr = []
+            for (let i = 0; i < this.kirim_detail.length; i++) {
+              if(param == 'qty') arr.push(this.kirim_detail[i].jumlah_konversi)
+              else if(param == 'jumlah') arr.push(this.kirim_detail[i].jumlah)
+            }
+            return arr.reduce((total, current) => {
+                return total + current;
+            }, 0);
         }
-      }
-    }
     
   },
   mounted() {
@@ -129,11 +131,11 @@ export default {
         <v-table density="compact" class="mt-10 w-100 preview">
             <thead>
               <tr>
-                <th class="text-medium">Barang</th>
-                <th class="text-medium">Qty</th>
-                <th class="text-medium">Keterangan</th>
-                <th class="text-medium">Catatan</th>
-                <th class="text-medium">Berat total (Kg)</th>
+                <th class="text-medium text-center">Barang</th>
+                <th class="text-medium text-center">Qty</th>
+                <th class="text-medium text-center">Keterangan</th>
+                <th class="text-medium text-center">Catatan</th>
+                <th class="text-medium text-center">Berat total (Kg)</th>
               </tr>
             </thead>
             <tbody class="text-body-2">
@@ -141,16 +143,17 @@ export default {
             v-for="item, i in kirim_detail" :key="i"
             >
                 <td class="text-medium">{{ item.nama_konversi ? item.nama_konversi : item.nama_barang }}</td>
-                <td class="text-medium">{{ item.jumlah_konversi }}</td>
+                <td class="text-medium" contenteditable="">{{ item.jumlah_konversi }}</td>
                 <td class="text-medium" contenteditable>{{ item.keterangan }}</td>
                 <td class="text-medium" contenteditable ></td>
-                <td class="text-medium" contenteditable >{{ berat(item.kode_konversi, item.jumlah_konversi) }}</td>
+                <td class="text-medium text-right" contenteditable >{{ item.jumlah }}</td>
             </tr>
             <tr>
                 <td></td>
+                <td class="text-medium font-weight-bold">{{ sum('qty') }}</td>
                 <td></td>
                 <td></td>
-                <td class="text-left font-weight-bold"></td>
+                <td class="text-right text-medium font-weight-bold">{{ sum('jumlah') }}</td>
             </tr>
             </tbody>
         </v-table>

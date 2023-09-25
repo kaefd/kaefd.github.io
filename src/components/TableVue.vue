@@ -83,7 +83,9 @@ export default {
         height="100%"
         class="text-caption h-100 border-sm rounded-lg"
       >
-      <template #bottom></template>
+      <template #bottom>
+        <div class="text-caption font-weight-bold w-100 text-right pe-3">Total : {{ functions.numb(items.length) }} data</div>
+      </template>
     <!-- eslint-disable-next-line vue/valid-v-slot -->
       <template v-if="userdetail" v-slot:item.actions="{item, index}">
         <menuList :items="list" icon="mdi-dots-vertical" :submenu="true" @result="result2" :index="index" />
