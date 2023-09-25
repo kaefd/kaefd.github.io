@@ -62,7 +62,6 @@ export default defineComponent({
         'nama_konversi',
         'satuan_konversi',
         'berat',
-        'status',
       ],
       tambah: {
         kode_barang: '',
@@ -70,7 +69,6 @@ export default defineComponent({
         nama_konversi: '',
         satuan_konversi: '',
         berat: '',
-        status: 'true'
       },
       filtered: {
         kode_barang: []

@@ -173,6 +173,7 @@ export default {
                     :label="h.title"
                     v-model="data[keyform[i+1]]"
                     :rules="required"
+                    :type="keyform[i+1] == 'berat' ? 'number' : text"
                   ></text-field-form> 
                   <text-field-form
                     v-if="this.item != null"
@@ -180,6 +181,7 @@ export default {
                     :model-value="item[keyform[i+1]]"
                     :readonly="headers[i+1].dis"
                     :rules="required"
+                    :type="keyform[i+1] == 'berat' ? 'number' : text"
                   ></text-field-form> 
                 </v-for>
             </v-container>

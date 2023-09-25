@@ -545,7 +545,7 @@ export default {
   /*********** DATA BARANG KONVERSI ***********/
   async getKonversi() {
     try {
-      const response = await instance.get('/konversi_barang')
+      const response = await instance.get('/konversi_barang?status=true')
       return response.data
     } catch (error) {
       return this.logout()
@@ -554,7 +554,7 @@ export default {
   postKonversi(value) {
     const jsonBarang = JSON.stringify(value)
     return instance.post('/konversi_barang', {
-      barang: jsonBarang
+      konversi_barang: jsonBarang,
     })
   },
   putKonversi(value) {
