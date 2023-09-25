@@ -146,11 +146,11 @@ export default {
                 <td class="text-medium" contenteditable="">{{ item.jumlah_konversi }}</td>
                 <td class="text-medium" contenteditable>{{ item.keterangan }}</td>
                 <td class="text-medium" contenteditable ></td>
-                <td class="text-medium text-right" contenteditable >{{ item.jumlah }}</td>
+                <td class="text-medium text-right" >{{ item.jumlah }}</td>
             </tr>
             <tr>
                 <td></td>
-                <td class="text-medium font-weight-bold">{{ sum('qty') }}</td>
+                <td class="text-medium font-weight-bold" contenteditable>{{ sum('qty') }}</td>
                 <td></td>
                 <td></td>
                 <td class="text-right text-medium font-weight-bold">{{ sum('jumlah') }}</td>
