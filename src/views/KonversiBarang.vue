@@ -182,13 +182,6 @@ export default defineComponent({
     <template #default>
       <v-span class="text-caption text-weight-bold">Kode Barang</v-span>
       <v-divider class=""></v-divider>
-      <!-- <checkBox
-        v-for="(label, i) in barang.category"
-        :key="i"
-        v-model="filtered.kategori_barang"
-        :label="label"
-        :value="label"
-      /> -->
       <v-combobox
         :items="kodebarang"
         v-model="filtered.kode_barang"

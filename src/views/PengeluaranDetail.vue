@@ -338,12 +338,13 @@ export default {
                         {{functions.numb(item.raw.harga_jual, 2, true)}}
                     </template>
                     <!-- eslint-disable-next-line vue/valid-v-slot -->
-                    <template v-slot:item.total_terjual="{item, index}">
+                    <template v-slot:item.total_terjual="{item}">
                         <v-if v-if="edit">
                             {{ functions.numb(item.raw.jumlah * item.raw.harga_jual, 2, true) }}
                         </v-if>
                         <v-if v-if="!edit">
-                            {{ functions.numb(pembelian_input[index].jumlah * pembelian_input[index].harga_jual, 2, true) }}
+                            <!-- {{ functions.numb(pembelian_input[index].jumlah * pembelian_input[index].harga_jual, 2, true) }} -->
+                            {{ functions.numb(item.raw.total_terjual, 2, true) }}
                         </v-if>
                     </template>
                     <!-- eslint-disable-next-line vue/valid-v-slot -->

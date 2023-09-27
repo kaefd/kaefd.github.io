@@ -96,21 +96,31 @@ export default {
     },
     // TAMBAH DATA
     inputhead(value, valuedetail) {
-      api
-        .postPemasukan(value, valuedetail)
-        .then(() => {
-          this.message = 'Data Berhasil Ditambahkan'
-          this.status = this.valert = true
-          setTimeout(() => {
-            this.valert = false
-            this.$router.go()
-          }, 2500)
-        })
-        .catch((error) => {
-          this.status = false
-          this.valert = true
-          this.message = error.response.data
-        })
+      let token = localStorage.getItem('token')
+      if(token) {
+        api
+          .postPemasukan(value, valuedetail)
+          .then(() => {
+            this.message = 'Data Berhasil Ditambahkan'
+            this.status = this.valert = true
+            setTimeout(() => {
+              this.valert = false
+              this.$router.go()
+            }, 2500)
+          })
+          .catch((error) => {
+            this.status = false
+            this.valert = true
+            this.message = error.response.data
+          })
+      } else {
+        this.status = false
+        this.valert = true
+        this.message = 'Sesi anda telah berakhir, silahkan login kembali'
+        setTimeout(() => {
+          api.logout()
+        }, 2500)
+      }
     },
     // HAPUS DATA
     del() {
