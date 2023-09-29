@@ -108,6 +108,10 @@ export default {
         <LogBarang :headers="headers" :logbrg="logbrg" :barang="groupbarang" :groupbarang="groupbarang" :detail="laporan.subDetail(stok, item.raw.kode_barang)" :kode_group="item.raw.kode_group" :kode_barang="item.raw.kode_barang"/>
       </template>
       <!-- eslint-disable-next-line vue/valid-v-slot -->
+      <template v-if="laporanstok" v-slot:item.stok_akhir="{item}">
+        {{ functions.numb(item.raw.stok_akhir, 1, true) }}
+      </template>
+      <!-- eslint-disable-next-line vue/valid-v-slot -->
       <template v-if="log" v-slot:item.tanggal="{ item }">
         {{ functions.formatDateTime(item.raw.tanggal) }}
       </template>

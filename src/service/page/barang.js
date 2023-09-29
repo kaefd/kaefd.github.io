@@ -1,4 +1,3 @@
-import functions from "../functions"
       // item: '',
       const category = [
         'Bahan Baku',
@@ -83,9 +82,9 @@ import functions from "../functions"
           sum.push(target[i].stok_akhir)
         }
       }
-      return functions.numb(sum.reduce((total, current) => {
+      return sum.reduce((total, current) => {
         return total + current
-      }, 0))
+      }, 0)
     }
     const barang = (data) => {
       // Lakukan pemrosesan data yang diperlukan
