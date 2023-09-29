@@ -335,10 +335,10 @@ export default {
                                 <DialogVue @update="dialogbrg" :persistent="edit ? false : true" v-model="dialogbrg[index]">
                                     <template #titlecard>
                                         <v-card-title class="text-center text-orange text-button font-weight-bold">{{
-                                          item.raw.konversi == '' ? item.raw.nama_barang : item.raw.nama_konversi
+                                          item.raw.kode_konversi == '' ? item.raw.nama_barang : item.raw.nama_konversi
                                         }}</v-card-title>
                                         <v-card-subtitle class="text-caption text-center mb-2 mt-n3">{{
-                                          item.raw.konversi == '' ? item.raw.kode_barang : item.raw.kode_konversi
+                                          item.raw.kode_konversi == '' ? item.raw.kode_barang : item.raw.kode_konversi
                                         }}</v-card-subtitle>
                                     </template>
                                     <template #content>
