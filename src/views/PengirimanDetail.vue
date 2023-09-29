@@ -387,11 +387,11 @@ export default {
                             </template>
                             <template #content>
                                 <v-sheet class="mx-auto mt-5 w-75">
-                                    <text-field-form v-if="edit && !item.raw.konversi" label="Jumlah (Tonase)" :model-value="functions.numb(item.raw.jumlah)" active="true" hide-details class="mb-3" readonly />
-                                    <currency-input v-if="!edit && !item.raw.konversi" label="Jumlah (Tonase)" v-model="pembelian_input[index].jumlah" active="true" class="mb-3" :options="{ currency: 'EUR', currencyDisplay: 'hidden' }" />
-                                    <text-field-form v-if="edit && item.raw.konversi" label="Qty" :model-value="item.raw.jumlah_konversi" active="true" hide-details class="mb-3" readonly />
-                                    <currency-input v-if="!edit && item.raw.konversi" label="Qty" v-model="pembelian_input[index].jumlah_konversi" active="true" class="mb-3" :options="{ currency: 'EUR', currencyDisplay: 'hidden' }" />
-                                    <text-field-form v-if="edit && item.raw.konversi" label="Satuan Konversi" :model-value="item.raw.satuan_konversi" active="true" hide-details class="mb-3" readonly />
+                                    <text-field-form v-if="edit" label="Jumlah (Kg)" :model-value="functions.numb(item.raw.jumlah)" active="true" hide-details class="mb-3" readonly />
+                                    <currency-input v-if="!edit && !item.raw.konversi" :label="'Jumlah ('+item.raw.satuan+')'" v-model="pembelian_input[index].jumlah" active="true" class="mb-3" :options="{ currency: 'EUR', currencyDisplay: 'hidden' }" />
+                                    <text-field-form v-if="edit && item.raw.jumlah_konversi" :label="'Jumlah ('+item.raw.satuan_konversi+')'" :model-value="item.raw.jumlah_konversi" active="true" hide-details class="mb-3" readonly />
+                                    <currency-input v-if="!edit && item.raw.konversi" label="Jumlah Konversi" v-model="pembelian_input[index].jumlah_konversi" active="true" class="mb-3" :options="{ currency: 'EUR', currencyDisplay: 'hidden' }" />
+                                    <!-- <text-field-form v-if="edit" label="Satuan Konversi" :model-value="item.raw.satuan_konversi" active="true" hide-details class="mb-3" readonly /> -->
                                     <text-field-form v-if="!edit && item.raw.konversi" label="Satuan Konversi" v-model="pembelian_input[index].satuan_konversi" active="true" class="mb-3" />
                                 </v-sheet>
                                 <v-divider class="mt-3 mb-5"></v-divider>

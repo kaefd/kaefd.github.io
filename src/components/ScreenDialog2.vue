@@ -243,6 +243,13 @@ export default {
                 // 1st = head, 2nd = detailbahan, 3rd = detailbarang
                 return this.$emit('inputhead', this.inputproduksi, dtlbahan, dtlbarang)
             }
+        },
+        check() {
+            if(this.inputproduksi.kode_group == '') {
+                this.valert = true
+                this.status = 'warn'
+                this.message = 'Kode group masih kosong!'
+            } else this.dialogBahan = true
         }
     },
     mounted() {}
@@ -292,7 +299,7 @@ export default {
                         <v-divider class="mb-3"></v-divider>
                         <v-div class="d-flex justify-space-between">
                             <v-row no-gutters>
-                                <text-field-form v-if="!edit" readonly @click="dialogBahan = true" label="Bahan Baku" :model-value="inputbahan" />
+                                <text-field-form v-if="!edit" readonly @click="check()" label="Bahan Baku" :model-value="inputbahan" />
                                 <dialogScroll v-model="dialogBahan" :window="window" dialog_title="stok barang" :group_detail="group_detail" :produksi="true" :btn="btn[0]" width="400" :barang="detailbahan" :tambah="true" :bahanbaku="true" :getbarang="select_kode" :kodegroup="inputproduksi.kode_group" @pemasukanitem="bahanmasuk" />
                                 <text-field-form v-if="edit" label="Bahan Baku" readonly :model-value="detailbahan.kode_barang + '-' + detailbahan.nama_barang" />
                             </v-row>
@@ -336,10 +343,10 @@ export default {
                                     </template>
                                     <template #content>
                                         <v-sheet class="mx-auto mt-5 w-75 bg-transparent">
-                                            <text-field-form v-if="edit" :model-value="functions.numb(item.raw.jumlah, 2, true)" label="Jumlah" readonly />
-                                            <currency-input v-if="!edit && !item.raw.konversi" v-model="item.raw.jumlah" label="Jumlah" :options="{ currency: 'EUR', currencyDisplay: 'hidden' }" />
-                                            <text-field-form v-if="edit" :model-value="functions.numb(item.raw.jumlah_konversi)" label="Jumlah Konversi" readonly />
-                                            <currency-input v-if="!edit && item.raw.konversi" v-model="item.raw.jumlah_konversi" label="Jumlah Konversi" :options="{ currency: 'EUR', currencyDisplay: 'hidden' }" />
+                                            <text-field-form v-if="edit" :model-value="functions.numb(item.raw.jumlah, 2, true)" :label="'Jumlah ('+item.raw.satuan+')'" readonly />
+                                            <currency-input v-if="!edit && !item.raw.konversi" v-model="item.raw.jumlah" :label="'Jumlah ('+item.raw.satuan+')'" :options="{ currency: 'EUR', currencyDisplay: 'hidden' }" />
+                                            <text-field-form v-if="edit && item.raw.jumlah_konversi" :model-value="functions.numb(item.raw.jumlah_konversi)" :label="'Jumlah ('+item.raw.satuan_konversi+')'" readonly />
+                                            <currency-input v-if="!edit && item.raw.konversi" v-model="item.raw.jumlah_konversi" :label="'Jumlah ('+item.raw.satuan_konversi+')'" :options="{ currency: 'EUR', currencyDisplay: 'hidden' }" />
                                         </v-sheet>
                                         <v-divider class="mt-3 mb-5"></v-divider>
                                         <v-div v-if="!edit" class="d-flex me-5 ms-auto">

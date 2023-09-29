@@ -266,10 +266,16 @@ export default {
 
             done('ok')
         },
-        barangKonversi(value) {
-            this.state.kode_konversi = value.kode_konversi
-            this.state.nama_konversi = value.nama
-            this.state.satuan_konversi = value.satuan_konversi
+        barangKonversi(value, i) {
+            if(value) {
+                this.state.kode_konversi = value.kode_konversi
+                this.state.nama_konversi = value.nama
+                this.state.satuan_konversi = value.satuan_konversi
+            } else {
+                setTimeout(() => {
+                    this.dialogchild[i] = false
+                }, 1000)
+            }
         },
         pemasukanItem(kode, i) {
             this.state.hs_code = kode.hs_code
@@ -597,7 +603,7 @@ export default {
                         <v-span v-else-if="konversi" class="text-caption text-center">{{ item.kode_konversi }}</v-span>
                         <v-divider class="mt-3 mb-5"></v-divider>
                         <form @submit.prevent="submit" ref="form" class="mx-auto w-75 pt-2 bg-transparent">
-                            <dialogSearch v-if="pengiriman && konversi" :button="false" label="Kode Konversi" :objectFilter="filter_konversi(item.kode_barang)" card-title="Barang Konversi" @pilihObjek="barangKonversi" />
+                            <dialogSearch v-if="pengiriman && konversi" :button="false" label="Kode Konversi" :objectFilter="filter_konversi(item.kode_barang)" :index="b" card-title="Barang Konversi" @pilihObjek="barangKonversi" />
                             <currency-input v-if="!pemasukan && !konversi" v-model="penjualan_detail.jumlah" label="Jumlah (KG)" :hide-details="true" :disabled="hiddenbtn" :options="{ currency: 'EUR', currencyDisplay: 'hidden' }" />
                             <currency-input v-if="!pemasukan && konversi" v-model="penjualan_detail.jumlah_konversi" label="Jumlah (konversi)" :hide-details="true" :disabled="hiddenbtn" :options="{ currency: 'EUR', currencyDisplay: 'hidden' }" />
                             <text-field-form v-if="pengiriman && konversi" v-model="state.satuan_konversi" label="Satuan konversi" readonly :hide-details="true" />

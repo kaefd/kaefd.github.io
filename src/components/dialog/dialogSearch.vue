@@ -3,8 +3,9 @@ import textField from '../form/textField.vue'
 import textFieldForm from '../form/textFieldForm.vue'
 import btnInfo from '../button/btnInfo.vue'
 import functions from '../../service/functions'
-functions
-</script><script>
+import AlertVue from './alertVue.vue'
+</script>
+<script>
 export default {
     components: {
         btnInfo
@@ -16,12 +17,16 @@ export default {
         'button',
         'btn_title',
         'cardTitle',
-        'rules'
+        'rules',
+        'index'
     ],
     data() {
         return {
             dialog: false,
             searchModel: '',
+            valert: null,
+            status: '',
+            message: '',
             search: '',
             pilih: '',
             more: 0
@@ -36,6 +41,15 @@ export default {
         lainnya() {
             let a = this.more + 10
             this.more = a
+        },
+        check() {
+            if(this.objectFilter == '') {
+                this.valert = true
+                this.message = 'Kode Konversi Belum Terdaftar'
+                this.status = 'warn'
+                this.dialog = false
+                this.$emit('pilihObjek', false, this.index)
+            }
         }
     },
     mounted() {}
@@ -45,7 +59,7 @@ export default {
 <template>
 <v-dialog v-model="dialog" transition="dialog-bottom-transition" width="auto">
     <template v-slot:activator="{ props }">
-        <textFieldForm v-bind="props" v-if="!button" :label="label" v-model="pilih" @click="more = 15" readonly :rules="rules" />
+        <textFieldForm v-bind="props" v-if="!button" :label="label" v-model="pilih" @click="more = 15, check()" readonly :rules="rules" />
         <btnInfo v-bind="props" v-if="button" icon="mdi-plus" :btn_title="btn_title" />
     </template>
     <v-card class="py-5 px-7 rounded-xl vh-100 mx-auto" min-width="300" width="400" max-width="400">
@@ -68,4 +82,5 @@ export default {
         </v-list>
     </v-card>
 </v-dialog>
+<AlertVue v-model="valert" :status="status" :message="message" />
 </template>

@@ -28,10 +28,9 @@ export default {
         </v-sheet>
         <v-span v-if="sukses === true" class="text-center text-button text-green">Berhasil!</v-span>
         <v-span v-if="sukses === false && !status" class="text-center text-button text-red">Gagal!</v-span>
-        <v-span v-if="status === 'warn'" class="text-center text-button text-orange-darken-2">Gagal!</v-span>
         <v-span v-if="sukses === true" class="text-center text-caption text-green-lighten-1">{{ message }}</v-span>
         <v-span v-if="sukses === false && !status" class="text-center text-caption text-red-lighten-1">{{ message }}</v-span>
-        <v-span v-if="status === 'warn'" class="text-center text-caption text-orange-darken-2">{{ message }}</v-span>
+        <v-span v-if="status === 'warn'" class="text-center text-caption text-orange-darken-2 mt-5">{{ message }}</v-span>
         <v-div class="d-flex w-50 mx-auto justify-space-between mb-3">
             <slot name="cancelButton"></slot>
             <slot name="yesButton"></slot>

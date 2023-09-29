@@ -305,6 +305,7 @@ import CetakDo from './cetakDo.vue';
                       />
                       <!-- CETAK DO -->
                       <CetakDo
+                        v-if="otoritas.routes(authority, 'Cetak DO')"
                         :pengiriman="Penjualandetl(item.raw.no_pengiriman)"
                         :items="item.raw"
                         :nokirim="item.raw.no_pengiriman"
