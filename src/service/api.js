@@ -560,7 +560,7 @@ export default {
   putKonversi(value) {
     const jsonBarang = JSON.stringify(value)
     return instance.patch('/konversi_barang', {
-      barang: jsonBarang
+      konversi_barang: jsonBarang
     })
   },
   deleteKonversi(v) {
