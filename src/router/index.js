@@ -16,6 +16,7 @@ import LaporanPemasukan from '../views/LaporanPemasukan.vue'
 import LaporanPengeluaran from '../views/LaporanPengeluaran.vue'
 import LaporanPengiriman from '../views/LaporanPengiriman.vue'
 import LogView from '../views/LaporanLog.vue'
+import Dashboard from '../views/DashboardPage.vue'
 import notPage from '../views/notPage.vue'
 const router = createRouter({
   history: createWebHashHistory(),
@@ -26,8 +27,16 @@ const router = createRouter({
         middleware: [middleware]
       },
       redirect: {
-        name: "DataBarang"
+        name: "Dashboard"
         }
+    },
+    {
+      path: '/dashboard',
+      name: 'Dashboard',
+      component: Dashboard,
+      meta: {
+        middleware: [middleware]
+      },
     },
     {
       path: '/login',

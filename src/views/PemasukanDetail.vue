@@ -125,7 +125,7 @@ export default {
         } else if (this.window < 1500) {
           if (this.windowH > 800) {
             h = '55vh'
-          } else h = '40vh'
+          } else h = '50vh'
         }
       } else if (!this.edit) {
         if (this.window > 1500) {
@@ -234,109 +234,150 @@ export default {
       </v-toolbar>
       <v-container class="h-100 d-flex flex-column mt-5">
         <!-- EDIT -->
-        <v-row
-          no-gutters
-          v-if="edit"
-          justify="center"
-          justify-md="space-between"
-          align="start"
-          min-width="400"
-          class="mx-3"
-        >
-          <v-responsive class="pt-2 mx-md-0 mx-3" width="250">
-            <textFieldForm label="No Pemasukan" :model-value="items.no_pembelian" readonly />
-            <textFieldForm
-              label="Tgl Pemasukan"
-              :model-value="functions.formatDate(items.tgl_pembelian)"
-              readonly
-            />
-            <textFieldForm label="Nama Supplier" :model-value="items.kode_supplier" readonly />
-          </v-responsive>
-          <v-responsive class="pt-2 mx-3" width="250">
-            <textFieldForm label="Tipe Dokumen" :model-value="items.tipe_dokumen" readonly />
-            <textFieldForm label="No Dokumen" :model-value="items.no_dokumen" readonly />
-            <textFieldForm label="Tgl Dokumen" :model-value="items.tgl_dokumen" readonly />
-            <textFieldForm v-if="view_persentase" label="Persentase" type="number" :model-value="items.persentase" readonly />
-          </v-responsive>
-          <v-responsive class="pt-2 mx-md-0 mx-3" width="250">
-            <textFieldForm label="No Invoice" :model-value="items.no_invoice" readonly />
-            <textFieldForm label="No BL" :model-value="items.no_bl" readonly />
-            <textFieldForm label="Mata Uang" :model-value="items.mata_uang" readonly />
-            <textFieldForm type="number" label="Kurs" :model-value="items.kurs" readonly />
-          </v-responsive>
-        </v-row>
-        <!-- TAMBAH PEMASUKAN -->
-        <v-form v-if="!edit && pemasukan" @submit.prevent ref="form" class="mx-3">
-          <v-row no-gutters justify="center" justify-md="space-between">
-            <v-responsive class="pt-2 mx-md-0 mx-3 overflow-visible" width="250">
+        <div v-if="edit" class="d-flex justify-space-between w-100 flex-wrap">
+          <div style="width: 300px;">
+            <div class="d-flex justify-space-between">
+              <span class="text-caption" style="width: 90px; max-width:90px;">No Pemasukan</span>
+              <textFieldForm label="No Pemasukan" :model-value="items.no_pembelian" readonly />
+            </div>
+            <div class="d-flex justify-space-between">
+              <span class="text-caption" style="width: 90px; max-width:90px;">Tgl Pemasukan</span>
               <textFieldForm
-                label="No Pemasukan"
-                v-model="inputdata.no_pembelian"
-                readonly
-                class="bg-grey-lighten-4"
-              />
-              <datePicker
                 label="Tgl Pemasukan"
-                v-model="inputdata.tgl_pembelian"
-                :min-date="functions.last_month()"
-                :max-date="new Date()"
-                :tema="tema"
-                :rules="required"
-              />
-              <dialogSearch
-                v-if="!edit"
-                :window="window"
-                label="Supplier"
-                :objectFilter="supplier"
-                @pilihObjek="pilihObjek"
-                cardTitle="SUPPLIER"
-                max-width="400"
-                :rules="required"
-              />
-            </v-responsive>
-            <v-responsive class="pt-2 mx-3 overflow-visible" width="250">
-              <textFieldForm
-                id="tipe"
-                label="Tipe Dokumen"
-                v-model="inputdata.tipe_dokumen"
+                :model-value="functions.formatDate(items.tgl_pembelian)"
                 readonly
-                :rules="required"
               />
-              <menuForm
-                activator="#tipe"
-                icon="mdi-dots-vertical"
-                :items="tipe_dokumen"
-                @result="pilihtipedokumen"
-              />
-              <textFieldForm
-                label="No Dokumen"
-                v-model="inputdata.no_dokumen"
-                required
-                :rules="required"
-              />
-              <datePicker
-                label="Tgl Dokumen"
-                v-model="inputdata.tgl_dokumen"
-                :min-date="functions.last_month()"
-                :max-date="new Date()"
-                :rules="required"
-                :tema="tema"
-              />
-              <textFieldForm type="number" label="Persentase" v-model="inputdata.persentase" :rules="max_10" />
-            </v-responsive>
-            <v-responsive class="pt-2 mx-md-0 mx-3" width="250">
-              <textFieldForm label="No Invoice" v-model="inputdata.no_invoice" :rules="required" />
-              <textFieldForm label="No BL" v-model="inputdata.no_bl" :rules="required" />
-              <textFieldForm label="Mata Uang" v-model="inputdata.mata_uang" :rules="required" />
-              <textFieldForm type="number" label="Kurs" v-model="inputdata.kurs" :rules="required" />
-            </v-responsive>
-          </v-row>
+            </div>
+            <div class="d-flex justify-space-between">
+              <span class="text-caption" style="width: 90px; max-width:90px;">Nama Supplier</span>
+              <textFieldForm label="Nama Supplier" :model-value="items.kode_supplier" readonly />
+            </div>
+          </div>
+          <div style="width: 300px;">
+            <div class="d-flex justify-space-between">
+              <span class="text-caption" style="width: 90px; max-width:90px;">Tipe Dokumen</span>
+              <textFieldForm label="Tipe Dokumen" :model-value="items.tipe_dokumen" readonly />
+            </div>
+            <div class="d-flex justify-space-between">
+              <span class="text-caption" style="width: 90px; max-width:90px;">No Dokumen</span>
+              <textFieldForm label="No Dokumen" :model-value="items.no_dokumen" readonly />
+            </div>
+            <div class="d-flex justify-space-between">
+              <span class="text-caption" style="width: 90px; max-width:90px;">Tgl Dokumen</span>
+              <textFieldForm label="Tgl Dokumen" :model-value="items.tgl_dokumen" readonly />
+            </div>
+            <div v-if="view_persentase" class="d-flex justify-space-between">
+              <span class="text-caption" style="width: 90px; max-width:90px;">Persentase</span>
+              <textFieldForm label="Persentase" type="number" :model-value="items.persentase" readonly />
+            </div>
+          </div>
+          <div style="width: 300px;">
+            <div class="d-flex justify-space-between">
+              <span class="text-caption" style="width: 90px; max-width:90px;">No Invoice</span>
+              <textFieldForm label="No Invoice" :model-value="items.no_invoice" readonly />
+            </div>
+            <div class="d-flex justify-space-between">
+              <span class="text-caption" style="width: 90px; max-width:90px;">No Bl</span>
+              <textFieldForm label="No BL" :model-value="items.no_bl" readonly />
+            </div>
+            <div class="d-flex justify-space-between">
+              <span class="text-caption" style="width: 90px; max-width:90px;">Mata Uang</span>
+              <textFieldForm label="Mata Uang" :model-value="items.mata_uang" readonly />
+            </div>
+            <div class="d-flex justify-space-between">
+              <span class="text-caption" style="width: 90px; max-width:90px;">Kurs</span>
+              <textFieldForm type="number" label="Kurs" :model-value="items.kurs" readonly />
+            </div>
+          </div>
+        </div>
+        <!-- TAMBAH PEMASUKAN -->
+        <v-form v-if="!edit && pemasukan" @submit.prevent ref="form">
+          <div class="d-flex justify-space-between w-100 flex-wrap">
+            <div style="width: 300px;">
+              <div class="d-flex justify-space-between">
+                <span class="text-caption" style="width: 90px; max-width:90px;">No Pemasukan</span>
+                <textFieldForm label="No Pemasukan" v-model="inputdata.no_pembelian" readonly class="bg-grey-lighten-4"/>
+              </div>
+              <div class="d-flex justify-space-between">
+                <span class="text-caption" style="width: 90px; max-width:90px;">Tgl Pemasukan</span>
+                <datePicker class="" label="Tgl Pemasukan" v-model="inputdata.tgl_pembelian" :min-date="functions.last_month()" :max-date="new Date()" :tema="tema" :rules="required" />
+              </div>
+              <div class="d-flex justify-space-between">
+                <span class="text-caption" style="width: 90px; max-width:90px;">Supplier</span>
+                <dialogSearch
+                  v-if="!edit"
+                  :window="window"
+                  label="Supplier"
+                  :objectFilter="supplier"
+                  @pilihObjek="pilihObjek"
+                  cardTitle="SUPPLIER"
+                  max-width="400"
+                  :rules="required"
+                />
+              </div>
+            </div>
+            <div style="width: 300px;">
+              <div class="d-flex justify-space-between">
+                <span class="text-caption" style="width: 90px; max-width:90px;">Tipe Dokumen</span>
+                <textFieldForm id="tipe" label="Tipe Dokumen" v-model="inputdata.tipe_dokumen" readonly :rules="required" />
+                <menuForm
+                  activator="#tipe"
+                  icon="mdi-dots-vertical"
+                  :items="tipe_dokumen"
+                  @result="pilihtipedokumen"
+                />
+              </div>
+              <div class="d-flex justify-space-between">
+                <span class="text-caption" style="width: 90px; max-width:90px;">No Dokumen</span>
+                <textFieldForm
+                  label="No Dokumen"
+                  v-model="inputdata.no_dokumen"
+                  required
+                  :rules="required"
+                />
+              </div>
+              <div class="d-flex justify-space-between">
+                <span class="text-caption" style="width: 90px; max-width:90px;">Tgl Dokumen</span>
+                <datePicker
+                  label="Tgl Dokumen"
+                  v-model="inputdata.tgl_dokumen"
+                  :min-date="functions.last_month()"
+                  :max-date="new Date()"
+                  :rules="required"
+                  :tema="tema"
+                
+                />
+              </div>
+              <div class="d-flex justify-space-between">
+                <span class="text-caption" style="width: 90px; max-width:90px;">Persentase</span>
+                <textFieldForm type="number" label="Persentase" v-model="inputdata.persentase" :rules="max_10" />
+              </div>
+            </div>
+            <div style="width: 300px;">
+              <div class="d-flex justify-space-between">
+                <span class="text-caption" style="width: 90px; max-width:90px;">No Invoice</span>
+                <textFieldForm label="No Invoice" v-model="inputdata.no_invoice" :rules="required" />
+              </div>
+              <div class="d-flex justify-space-between">
+                <span class="text-caption" style="width: 90px; max-width:90px;">No Bl</span>
+                <textFieldForm label="No BL" v-model="inputdata.no_bl" :rules="required" />
+              </div>
+              <div class="d-flex justify-space-between">
+                <span class="text-caption" style="width: 90px; max-width:90px;">Mata Uang</span>
+                <textFieldForm label="Mata Uang" v-model="inputdata.mata_uang" :rules="required" />
+              </div>
+              <div class="d-flex justify-space-between">
+                <span class="text-caption" style="width: 90px; max-width:90px;">Kurs</span>
+                <textFieldForm type="number" label="Kurs" v-model="inputdata.kurs" :rules="required" />
+              </div>
+            </div>
+          </div>
         </v-form>
-        <v-container
+        <div
           v-if="!edit"
           :pembelianbaru="pembelianbaru"
           :pembeliandetl="pembeliandetl"
-          class="text-sm-left text-center mb-n5"
+          class="text-sm-left text-center my-2"
         >
           <dialogScroll
             :window="window"
@@ -351,9 +392,9 @@ export default {
             :btn="btn"
             max-width="400"
           />
-        </v-container>
+        </div>
         <!-- TABEL EDIT/VIEW -->
-        <v-container>
+        <div>
           <v-data-table
             :headers="headDetails"
             :items="edit ? pembelian : pembelian_input"
@@ -387,7 +428,7 @@ export default {
             <template v-slot:item.actions="{ item, index }">
               <dialogVue v-model="detaildial[index]">
                 <template #titlecard>
-                  <v-card-title class="text-center text-button font-weight-bold text-orange">{{
+                  <v-card-title class="text-center text-button font-weight-bold text-grey-darken-3">{{
                     item.raw.nama_barang
                   }}</v-card-title>
                   <v-card-subtitle class="text-caption text-center mb-2 mt-n3">{{
@@ -396,54 +437,63 @@ export default {
                 </template>
                 <template #content>
                   <v-sheet class="mx-auto mt-5 w-75 bg-transparent">
-                    <text-field-form
-                      v-if="edit"
-                      label="Jumlah"
-                      :model-value="functions.numb(item.raw.jumlah)"
-                      active="true"
-                      readonly
-                      :hide-details="true"
-                      class="mb-3"
-                    />
-                    <CurrencyInput
-                      v-if="!edit"
-                      label="Jumlah"
-                      v-model="pembelian_input[index].jumlah"
-                      active="true"
-                      hide-details
-                      class="mb-3"
-                      :options="{ currency: 'EUR', currencyDisplay: 'hidden' }"
-                    />
-                    <CurrencyInput
-                      v-if="!edit"
-                      label="Jumlah diterima"
-                      v-model="pembelian_input[index].jumlah_diterima"
-                      hide-details
-                      class="mb-3"
-                      :options="{ currency: 'EUR', currencyDisplay: 'hidden' }"
-                    />
-                    <text-field-form
-                      v-if="edit"
-                      label="Jumlah diterima"
-                      :model-value="functions.numb(item.raw.jumlah_diterima)"
-                      readonly
-                      hide-details
-                      class="mb-3"
-                    />
-                    <CurrencyInput
-                      v-if="!edit"
-                      label="Total nilai"
-                      v-model="pembelian_input[index].nilai"
-                      hide-details
-                      :options="{ currency: 'EUR', currencyDisplay: 'hidden' }"
-                    />
-                    <text-field-form
-                      v-if="edit"
-                      label="Total nilai"
-                      :model-value="items.total_nilai"
-                      :readonly="true"
-                      hide-details
-                    />
+                    <div class="d-flex">
+                      <span class="text-caption" style="width: 90px; max-width:90px;">Jumlah</span>
+                      <text-field-form
+                        v-if="edit"
+                        label="Jumlah"
+                        :model-value="functions.numb(item.raw.jumlah)"
+                        active="true"
+                        readonly
+                        :hide-details="true"
+                        class="mb-3"
+                      />
+                      <CurrencyInput
+                        v-if="!edit"
+                        label="Jumlah"
+                        v-model="pembelian_input[index].jumlah"
+                        active="true"
+                        hide-details
+                        class="mb-3"
+                        :options="{ currency: 'EUR', currencyDisplay: 'hidden' }"
+                      />
+                    </div>
+                    <div class="d-flex">
+                      <span class="text-caption" style="width: 90px; max-width:90px;">Jumlah Diterima</span>
+                      <CurrencyInput
+                        v-if="!edit"
+                        label="Jumlah diterima"
+                        v-model="pembelian_input[index].jumlah_diterima"
+                        hide-details
+                        class="mb-3"
+                        :options="{ currency: 'EUR', currencyDisplay: 'hidden' }"
+                      />
+                      <text-field-form
+                        v-if="edit"
+                        label="Jumlah diterima"
+                        :model-value="functions.numb(item.raw.jumlah_diterima)"
+                        readonly
+                        hide-details
+                        class="mb-3"
+                      />
+                    </div>
+                    <div class="d-flex">
+                      <span class="text-caption" style="width: 90px; max-width:90px;">Total Nilai</span>
+                      <CurrencyInput
+                        v-if="!edit"
+                        label="Total nilai"
+                        v-model="pembelian_input[index].nilai"
+                        hide-details
+                        :options="{ currency: 'EUR', currencyDisplay: 'hidden' }"
+                      />
+                      <text-field-form
+                        v-if="edit"
+                        label="Total nilai"
+                        :model-value="items.total_nilai"
+                        :readonly="true"
+                        hide-details
+                      />
+                    </div>
                   </v-sheet>
                   <v-divider class="mt-3 mb-5"></v-divider>
                   <v-div v-if="!edit" class="d-flex me-5 ms-auto">
@@ -461,7 +511,7 @@ export default {
               </dialogVue>
             </template>
           </v-data-table>
-        </v-container>
+        </div>
         <v-div class="d-flex mb-0 mt-auto me-5 ms-auto">
           <btn-cancel
             class="mb-3 me-2"

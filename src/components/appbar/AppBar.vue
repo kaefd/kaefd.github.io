@@ -34,12 +34,12 @@ export default {
 </script>
 
 <template>
-    <v-app-bar class="elevation-0 py-1 border-b-sm" height="55">
+    <v-app-bar class="py-1 elevation-0 bg-transparent" height="60">
       <v-container class="d-flex align-center">
         <slot name="app-btn"></slot>
         <!-- TITLE -->
-        <v-toolbar class="bg-transparent pe-3 ms-n3">
-          <v-toolbar-title class="text-button font-weight-medium text-blue-custom">{{ pageTitle }}</v-toolbar-title> 
+        <v-toolbar class="bg-transparent pe-3 ms-n6">
+          <v-toolbar-title class="text-blue-custom font-weight-medium title text-capitalize">{{ pageTitle }}</v-toolbar-title> 
           <v-spacer></v-spacer>
           <v-div class="d-flex align-center">
           <!-- THEME BUTTON -->
@@ -49,7 +49,7 @@ export default {
             </v-btn>
             <v-divider vertical class="mx-2"></v-divider>
             <!-- USER -->
-            <v-sheet id="akun" class="d-flex align-center text-blue-custom clickable">
+            <v-div id="akun" class="d-flex align-center text-blue-custom clickable">
               <v-avatar class="bg-blue-custom me-2" size="small">
                 <v-icon size="25" color="white">mdi-account</v-icon>
               </v-avatar>
@@ -75,16 +75,18 @@ export default {
                   </v-btn>
                 </v-card>
               </v-menu>
-            </v-sheet>
+            </v-div>
           </v-div>
         </v-toolbar>
       </v-container>
-
-        </v-app-bar>
+    </v-app-bar>
 </template>
 
 <style scoped>
 .clickable {
   cursor: pointer;
+}
+.title {
+  font-size: 20px;
 }
 </style>

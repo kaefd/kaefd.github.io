@@ -31,7 +31,7 @@ import UserDetail from './userDetail.vue';
         drawer: false,
         detail: false,
         confirmdialog: false,
-        pageTitle: 'DATA USER',
+        pageTitle: 'data user',
         loading: true,
         tab: null,
         valert: false,

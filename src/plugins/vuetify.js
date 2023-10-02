@@ -13,7 +13,7 @@ const light = {
 	colors: {
 		background: '#fafafa',
 		dark: '#212121',
-		'blue-custom': '#3B7AA9',
+		'blue-custom': '#5fa0cb',
 		'white': '#fff',
 		'black': '#121212',
 		'grey-lighten-4': '#f5f5f5'

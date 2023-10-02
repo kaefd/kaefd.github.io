@@ -94,7 +94,7 @@ export default {
         </v-card>
       </v-responsive>
     </v-row>
-    <v-span class="text-caption text-center text-grey">AURI STEEL METALINDO <br />version.{{ script.version }} <br /> last updated: {{functions.formatDate(functions.day())}}</v-span>
+    <v-span class="text-caption text-center text-grey">AURI STEEL METALINDO <br />version.{{ script.version }}</v-span>
     <v-div class="absolute w-100 pe-8 text-caption mt-n3">
       <v-alert
         v-model="valert"

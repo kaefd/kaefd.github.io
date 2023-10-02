@@ -12,7 +12,7 @@ export default {
 
 <template>
 <v-toolbar class="bg-transparent">
-    <v-span class="text-button w-100 text-center font-weight-bold text-orange">
+    <v-span class="w-100 text-center text-button text-grey-darken-3 mt-4">
       {{ toolbar_title }}
     </v-span>
 </v-toolbar>

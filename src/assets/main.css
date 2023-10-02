@@ -4,7 +4,7 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 .v-theme--light > .v-data-table {
-  --v-theme-surface: #fafafa !important;
+  --v-theme-surface: #fff !important;
 }
 .v-theme--dark > .v-data-table {
   --v-theme-surface: #121212 !important;
@@ -94,10 +94,10 @@ th {
     border-radius: 0px 7px 7px 0px;
   }
   .bg-blue-custom {
-    background: #3B7AA9;
+    background: #5fa0cb;
   }
   .text-blue-custom {
-    color: #3B7AA9 !important;
+    color: #5fa0cb;
   }
   .dp__input {
     font-size: 10pt !important;

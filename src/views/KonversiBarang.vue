@@ -42,7 +42,7 @@ export default defineComponent({
       message: '',
       search: '',
       filter: false,
-      pageTitle: 'BARANG KONVERSI',
+      pageTitle: 'barang konversi',
       pilihKodeBarang: [],
       statusselect: false,
       items: '',
@@ -232,7 +232,7 @@ export default defineComponent({
           <btnFilter @click="filter = !filter" />
           <v-btn
             variant="text"
-            color="indigo"
+            color="blue-custom"
             icon="mdi-reload"
             size="small"
             class="rounded-circle"

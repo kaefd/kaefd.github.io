@@ -85,7 +85,7 @@ export default {
                 } else if (this.window < 1500) {
                     if (this.windowH > 800) {
                         h = '60vh'
-                    } else h = '55vh'
+                    } else h = '50vh'
                 }
             } else if (!this.edit) {
                 if (this.window > 1500) {
@@ -96,7 +96,7 @@ export default {
                     if (this.windowH > 800) {
                         h = '50vh'
                     } else if (this.windowH < 700) {
-                        h = '40vh'
+                        h = '45vh'
                     } else h = '50vh'
                 }
             }
@@ -280,37 +280,41 @@ export default {
             <v-spacer></v-spacer>
         </v-toolbar>
         <v-container class="mt-5">
-            <v-form @submit.prevent ref="form">
-                    <v-div class="w-100">
-                        <v-div class="d-flex justify-space-between">
-                            <v-row no-gutters>
-                                <text-field-form v-if="edit" :model-value="item.no_produksi" label="No Produksi" readonly />
-                                <text-field-form v-if="!edit" label="No Produksi" readonly class="bg-grey-lighten-4" v-model="inputproduksi.no_produksi" />
-                            </v-row>
-                            <v-row no-gutters class="mx-3">
-                                <date-picker v-if="!edit" :max-date="new Date()" :min-date="functions.last_month()" label="Tgl Produksi" v-model="inputproduksi.tgl_produksi" :tema="tema" :rules="required" />
-                                <text-field-form v-if="edit" label="Tgl Produksi" :readonly="true" :rules="required" :model-value="functions.formatDate(item.tgl_produksi)" />
-                            </v-row>
-                            <v-row no-gutters>
-                                <text-field-form v-if="edit" label="Kode Group" :model-value="item.kode_group" readonly :rules="required" />
-                                <text-field-form v-if="!edit" label="Kode Group" readonly @click="dialog5 = true, more = 15" v-model="inputproduksi.kode_group" :rules="required" />
-                            </v-row>
-                        </v-div>
-                        <v-divider class="mb-3"></v-divider>
-                        <v-div class="d-flex justify-space-between">
-                            <v-row no-gutters>
-                                <text-field-form v-if="!edit" readonly @click="check()" label="Bahan Baku" :model-value="inputbahan" />
+            <v-form @submit.prevent ref="form" class="mb-2">
+                    <div class="d-flex justify-space-between w-100 flex-wrap">
+                            <div class="d-flex justify-space-between">
+                                <span class="text-caption" style="width: 90px; max-width:90px;">No Produksi</span>
+                                <text-field-form v-if="edit" :model-value="item.no_produksi" label="No Produksi" readonly style="width: 250px !important; max-width: 250px !important;" />
+                                <text-field-form v-if="!edit" label="No Produksi" readonly class="bg-grey-lighten-4" v-model="inputproduksi.no_produksi" style="width: 250px !important; max-width: 250px !important;" />
+                            </div>
+                            <div class="d-flex justify-space-between">
+                                <span class="text-caption" style="width: 90px; max-width:90px;">Tgl Produksi</span>
+                                <date-picker v-if="!edit" :max-date="new Date()" :min-date="functions.last_month()" label="Tgl Produksi" v-model="inputproduksi.tgl_produksi" :tema="tema" :rules="required"/>
+                                <text-field-form v-if="edit" label="Tgl Produksi" :readonly="true" :rules="required" :model-value="functions.formatDate(item.tgl_produksi)" style="width: 250px !important; max-width: 250px !important;" />
+                            </div>
+                            <div class="d-flex justify-space-between">
+                                <span class="text-caption" style="width: 90px; max-width:90px;">Kode Group</span>
+                                <text-field-form v-if="edit" label="Kode Group" :model-value="item.kode_group" readonly :rules="required" style="width: 250px !important; max-width: 250px !important;"/>
+                                <text-field-form v-if="!edit" label="Kode Group" readonly @click="dialog5 = true, more = 15" v-model="inputproduksi.kode_group" :rules="required" style="width: 250px !important; max-width: 250px !important;" />
+                            </div>
+                    </div>
+                    <v-divider v-if="edit" class="mb-2"></v-divider>
+                    <div class="d-flex justify-space-between w-100 flex-wrap">
+                            <div class="d-flex justify-space-between">
+                                <span class="text-caption" style="width: 90px; max-width:90px;">Bahan Baku</span>
+                                <text-field-form v-if="!edit" readonly @click="check()" label="Bahan Baku" :model-value="inputbahan" style="width: 250px !important; max-width: 250px !important;" />
                                 <dialogScroll v-model="dialogBahan" :window="window" dialog_title="stok barang" :group_detail="group_detail" :produksi="true" :btn="btn[0]" width="400" :barang="detailbahan" :tambah="true" :bahanbaku="true" :getbarang="select_kode" :kodegroup="inputproduksi.kode_group" @pemasukanitem="bahanmasuk" />
-                                <text-field-form v-if="edit" label="Bahan Baku" readonly :model-value="detailbahan.kode_barang + '-' + detailbahan.nama_barang" />
-                            </v-row>
-                            <v-row v-if="edit" no-gutters class="mx-3">
-                                <text-field-form label="Jumlah" readonly :model-value="functions.numb(detailbahan.jumlah, 2 , true)" />
-                            </v-row>
-                            <v-row v-if="edit" no-gutters>
-                                <text-field-form label="Satuan" readonly :model-value="detailbahan.satuan" />
-                            </v-row>
-                        </v-div>
-                    </v-div>
+                                <text-field-form v-if="edit" label="Bahan Baku" readonly :model-value="detailbahan.kode_barang + '-' + detailbahan.nama_barang" style="width: 250px !important; max-width: 250px !important;" />
+                            </div>
+                            <div v-if="edit" class="d-flex justify-space-between">
+                                <span v-if="edit" class="text-caption" style="width: 90px; max-width:90px;">Jumlah</span>
+                                <text-field-form label="Jumlah" readonly :model-value="functions.numb(detailbahan.jumlah, 2 , true)" style="width: 250px !important; max-width: 250px !important;"/>
+                            </div>
+                            <div v-if="edit" class="d-flex justify-space-between">
+                                <span class="text-caption" style="width: 90px; max-width:90px;">Satuan</span>
+                                <text-field-form label="Satuan" readonly :model-value="detailbahan.satuan" style="width: 250px !important; max-width: 250px !important;"/>
+                            </div>
+                    </div>
                 <!-- </v-row> -->
             </v-form>
             <!-- TABLE -->
@@ -343,10 +347,22 @@ export default {
                                     </template>
                                     <template #content>
                                         <v-sheet class="mx-auto mt-5 w-75 bg-transparent">
-                                            <text-field-form v-if="edit" :model-value="functions.numb(item.raw.jumlah, 2, true)" :label="'Jumlah ('+item.raw.satuan+')'" readonly />
-                                            <currency-input v-if="!edit && !item.raw.konversi" v-model="item.raw.jumlah" :label="'Jumlah ('+item.raw.satuan+')'" :options="{ currency: 'EUR', currencyDisplay: 'hidden' }" />
-                                            <text-field-form v-if="edit && item.raw.jumlah_konversi" :model-value="functions.numb(item.raw.jumlah_konversi)" :label="'Jumlah ('+item.raw.satuan_konversi+')'" readonly />
-                                            <currency-input v-if="!edit && item.raw.konversi" v-model="item.raw.jumlah_konversi" :label="'Jumlah ('+item.raw.satuan_konversi+')'" :options="{ currency: 'EUR', currencyDisplay: 'hidden' }" />
+                                            <div v-if="edit" class="d-flex justify-space-between">
+                                                <span class="text-caption d-flex align-center" style="width: 90px; max-width:90px;">{{ 'Jumlah ('+item.raw.satuan+')' }}</span>
+                                                <text-field-form :model-value="functions.numb(item.raw.jumlah, 2, true)" :label="'Jumlah ('+item.raw.satuan+')'" readonly />
+                                            </div>
+                                            <div v-if="!edit && !item.raw.konversi" class="d-flex justify-space-between">
+                                                <span class="text-caption d-flex align-center" style="width: 90px; max-width:90px;">{{ 'Jumlah ('+item.raw.satuan+')' }}</span>
+                                                <currency-input v-model="item.raw.jumlah" :label="'Jumlah ('+item.raw.satuan+')'" :options="{ currency: 'EUR', currencyDisplay: 'hidden' }" />
+                                            </div>
+                                            <div v-if="edit && item.raw.jumlah_konversi" class="d-flex justify-space-between">
+                                                <span class="text-caption d-flex align-center" style="width: 90px; max-width:90px;">{{ 'Jumlah ('+item.raw.satuan_konversi+')' }}</span>
+                                                <text-field-form :model-value="functions.numb(item.raw.jumlah_konversi)" :label="'Jumlah ('+item.raw.satuan_konversi+')'" readonly />
+                                            </div>
+                                            <div v-if="!edit && item.raw.konversi" class="d-flex justify-space-between">
+                                                <span class="text-caption d-flex align-center" style="width: 90px; max-width:90px;">{{ 'Jumlah ('+item.raw.satuan_konversi+')' }}</span>
+                                                <currency-input v-model="item.raw.jumlah_konversi" :label="'Jumlah ('+item.raw.satuan_konversi+')'" :options="{ currency: 'EUR', currencyDisplay: 'hidden' }" />
+                                            </div>
                                         </v-sheet>
                                         <v-divider class="mt-3 mb-5"></v-divider>
                                         <v-div v-if="!edit" class="d-flex me-5 ms-auto">

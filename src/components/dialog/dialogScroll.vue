@@ -550,8 +550,8 @@ export default {
 <v-dialog v-model="dialog" transition="dialog-bottom-transition">
     <!-- BUTTON TAMBAH -->
     <template v-slot:activator="{ props }">
-        <btn-info v-if="!bahanbaku" v-bind="props" @click="more = 100, konversi = false" btn_title="Tambah Barang" class="me-3" />
-        <btn-info v-if="!bahanbaku && produksi || pengiriman" v-bind="props" @click="more = 100, konversi = true" btn_title="Tambah Konversi Barang" />
+        <v-btn v-if="!bahanbaku" v-bind="props" @click="more = 100, konversi = false" btn_title="Tambah Barang" class="me-3 rounded text-caption bg-blue-custom text-white" style="height:41px;" variant="text">Tambah Barang</v-btn>
+        <v-btn v-if="!bahanbaku && produksi || pengiriman" v-bind="props" @click="more = 100, konversi = true" btn_title="Tambah Konversi" class="rounded text-caption bg-blue-custom text-white" style="height:41px;" variant="text">Tambah Konversi</v-btn>
         <!-- <text-field-form v-if="bahanbaku" readonly v-bind="props" @click="more = 15" label="Bahan Baku" v-model="kodebahan" /> -->
     </template>
     <v-card class="py-5 px-7 rounded-xl vh-100" min-width="300" max-width="400">
@@ -603,15 +603,42 @@ export default {
                         <v-span v-else-if="konversi" class="text-caption text-center">{{ item.kode_konversi }}</v-span>
                         <v-divider class="mt-3 mb-5"></v-divider>
                         <form @submit.prevent="submit" ref="form" class="mx-auto w-75 pt-2 bg-transparent">
-                            <dialogSearch v-if="pengiriman && konversi" :button="false" label="Kode Konversi" :objectFilter="filter_konversi(item.kode_barang)" :index="b" card-title="Barang Konversi" @pilihObjek="barangKonversi" />
-                            <currency-input v-if="!pemasukan && !konversi" v-model="penjualan_detail.jumlah" label="Jumlah (KG)" :hide-details="true" :disabled="hiddenbtn" :options="{ currency: 'EUR', currencyDisplay: 'hidden' }" />
-                            <currency-input v-if="!pemasukan && konversi" v-model="penjualan_detail.jumlah_konversi" label="Jumlah (konversi)" :hide-details="true" :disabled="hiddenbtn" :options="{ currency: 'EUR', currencyDisplay: 'hidden' }" />
-                            <text-field-form v-if="pengiriman && konversi" v-model="state.satuan_konversi" label="Satuan konversi" readonly :hide-details="true" />
-                            <currency-input v-if="pemasukan" v-model="state.jumlah" label="Jumlah (KG)" :hide-details="true" :disabled="hiddenbtn" :options="{ currency: 'EUR', currencyDisplay: 'hidden' }" />
-                            <currency-input v-if="pemasukan" v-model="state.jumlah_diterima" label="Jumlah Diterima" :hide-details="true" :disabled="hiddenbtn" :options="{ currency: 'EUR', currencyDisplay: 'hidden' }" />
-                            <currency-input v-if="pemasukan" v-model="state.nilai" label="Nilai Total" :hide-details="true" :options="{ currency: 'EUR', currencyDisplay: 'hidden' }" />
-                            <currency-input v-if="!tambah && pengeluaran" v-model="penjualan_detail.harga_jual" label="Harga" :hide-details="true" :disabled="hiddenbtn" :options="{ currency: 'EUR', currencyDisplay: 'hidden' }" />
-                            <currency-input v-if="!tambah && pengeluaran" v-model="terjual" label="Total Harga" :hide-details="true" readonly :options="{ currency: 'EUR', currencyDisplay: 'hidden' }" />
+                            <div v-if="pengiriman && konversi" class="d-flex justify-space-between">
+                                <span class="text-caption d-flex align-center" style="width: 90px; max-width:90px;">Kode Konversi</span>
+                                <dialogSearch :button="false" label="Kode Konversi" :objectFilter="filter_konversi(item.kode_barang)" :index="b" card-title="Barang Konversi" @pilihObjek="barangKonversi" />
+                            </div>
+                            <div v-if="!pemasukan && !konversi" class="d-flex justify-space-between">
+                                <span class="text-caption d-flex align-center" style="width: 90px; max-width:90px;">Jumlah (KG)</span>
+                                <currency-input v-model="penjualan_detail.jumlah" label="Jumlah (KG)" :hide-details="true" :disabled="hiddenbtn" :options="{ currency: 'EUR', currencyDisplay: 'hidden' }" />
+                            </div>
+                            <div v-if="!pemasukan && konversi" class="d-flex justify-space-between">
+                                <span class="text-caption d-flex align-center" style="width: 90px; max-width:90px;">Jumlah (konversi)</span>
+                                <currency-input v-model="penjualan_detail.jumlah_konversi" label="Jumlah (konversi)" :hide-details="true" :disabled="hiddenbtn" :options="{ currency: 'EUR', currencyDisplay: 'hidden' }" />
+                            </div>
+                            <div v-if="pengiriman && konversi" class="d-flex justify-space-between">
+                                <span class="text-caption d-flex align-center" style="width: 90px; max-width:90px;">Satuan konversi</span>
+                                <text-field-form v-model="state.satuan_konversi" label="Satuan konversi" readonly :hide-details="true" />
+                            </div>
+                            <div v-if="pemasukan" class="d-flex justify-space-between">
+                                <span class="text-caption d-flex align-center" style="width: 90px; max-width:90px;">Jumlah (KG)</span>                            
+                                <currency-input v-model="state.jumlah" label="Jumlah (KG)" :hide-details="true" :disabled="hiddenbtn" :options="{ currency: 'EUR', currencyDisplay: 'hidden' }" />
+                            </div>
+                            <div v-if="pemasukan" class="d-flex justify-space-between">
+                                <span class="text-caption d-flex align-center" style="width: 90px; max-width:90px;">Jumlah Diterima</span>
+                                <currency-input v-if="pemasukan" v-model="state.jumlah_diterima" label="Jumlah Diterima" :hide-details="true" :disabled="hiddenbtn" :options="{ currency: 'EUR', currencyDisplay: 'hidden' }" />
+                            </div>
+                            <div v-if="pemasukan" class="d-flex justify-space-between">
+                                <span class="text-caption d-flex align-center" style="width: 90px; max-width:90px;">Nilai Total</span>
+                                <currency-input v-model="state.nilai" label="Nilai Total" :hide-details="true" :options="{ currency: 'EUR', currencyDisplay: 'hidden' }" />
+                            </div>
+                            <div v-if="!tambah && pengeluaran" class="d-flex justify-space-between">
+                                <span class="text-caption d-flex align-center" style="width: 90px; max-width:90px;">Harga</span>
+                                <currency-input v-model="penjualan_detail.harga_jual" label="Harga" :hide-details="true" :disabled="hiddenbtn" :options="{ currency: 'EUR', currencyDisplay: 'hidden' }" />
+                            </div>
+                            <div v-if="!tambah && pengeluaran" class="d-flex justify-space-between">
+                                <span class="text-caption d-flex align-center" style="width: 90px; max-width:90px;">Total Harga</span>
+                                <currency-input v-model="terjual" label="Total Harga" :hide-details="true" readonly :options="{ currency: 'EUR', currencyDisplay: 'hidden' }" />
+                            </div>
                         </form>
                         <v-divider class="mt-3"></v-divider>
                         <v-div class="d-inline me-5 ms-auto mt-5">

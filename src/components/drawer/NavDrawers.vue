@@ -37,20 +37,20 @@ import otoritas from '../../service/page/otoritas';
     methods: {
       page(){
         if(
-            this.pageTitle == 'DATA BARANG' ||
-            this.pageTitle == 'BARANG KONVERSI' ||
-            this.pageTitle == 'DATA PELANGGAN' ||
-            this.pageTitle == 'DATA SUPPLIER' ||
-            this.pageTitle == 'DATA USER'
+            this.pageTitle == 'Data Barang' ||
+            this.pageTitle == 'barang konversi' ||
+            this.pageTitle == 'data pelanggan' ||
+            this.pageTitle == 'data supplier' ||
+            this.pageTitle == 'data user'
           ){ return true }else return false
       },
       laporan(){
         if(
-          this.pageTitle == 'LAPORAN STOK BARANG' ||
-          this.pageTitle == 'LAPORAN PEMASUKAN BARANG' ||
-          this.pageTitle == 'LAPORAN PENGELUARAN BARANG' ||
-          this.pageTitle == 'LAPORAN PENGIRIMAN' ||
-          this.pageTitle == 'LAPORAN LOG USER'
+          this.pageTitle == 'laporan stok barang' ||
+          this.pageTitle == 'laporan pemasukan barang' ||
+          this.pageTitle == 'laporan pengeluaran barang' ||
+          this.pageTitle == 'laporan pengiriman' ||
+          this.pageTitle == 'laporan log user'
         ){
           return true
         } else return false
@@ -67,70 +67,79 @@ import otoritas from '../../service/page/otoritas';
 
 <template>
     <v-navigation-drawer
-    class="border-e-sm elevation-0"
+    class="elevation-0 border-0"
     >
-    <v-sheet fluid class="d-flex align-center mx-5 justify-start bg-transparent" height="63">
-      <v-avatar>
-      <img
-        src="../../assets/img/just_logo.png"
-        style="width:35px"
-      />
-      </v-avatar>
-      <v-span class="text-button ms-3 text-dark">IT Inventori</v-span>
+    <v-sheet fluid class="d-flex align-center justify-center bg-transparent" height="120">
+      <div class="d-flex flex-column align-center">
+        <div class="rounded-circle bg-blue-transparent d-flex align-center" style="width: 55px; height: 55px;">
+          <img
+            src="../../assets/img/just_logo.png"
+            style="width:60px"
+          />
+      </div>
+        <div class="d-flex flex-column text-center">
+          <v-span class="font-weight-medium text-uppercase text-caption">Inventori</v-span>
+          <!-- <v-span class="text-caption">PT. Auristeel Metalindo</v-span> -->
+        </div>
+      </div>
     </v-sheet>
-    <v-divider></v-divider>
-    <v-row class="px-3">
-    <v-list class="w-100">
+    <v-row class="mx-5">
+    <v-list class="w-100" active-color="blue-custom">
+    <RouterLink to="/dashboard">
+      <v-list-item prepend-icon="mdi-home" class="text-caption text-dark hover rounded-xl mt-3 " :active="pageTitle == 'Dashboard' ? true : false" @click="pageTitle='Dashboard'">
+        Dashboard
+      </v-list-item>
+    </RouterLink>
     <v-list-item
       id="master"
-      class="text-caption mt-3 text-dark"
+      class="text-caption text-dark hover rounded-xl"
       value="master"
-      @click="pageTitle = 'MASTER'"
+      @click="pageTitle = 'master'"
       :active="page()"
       prepend-icon="mdi-database"
       >
       Data Master
     </v-list-item>
     <v-menu :activator="otoritas.routes(aut, 'Data Barang') ? '#master' : null" location="end" width="200">
-      <v-list class="text-caption" density="compact" elevation="3" rounded="0">
+      <v-list class="text-caption" density="compact" elevation="3" rounded="lg">
         <router-link v-if="otoritas.routes(aut, 'Data Barang')" to="/data-barang">
-          <v-list-item class="text-dark">Data Barang</v-list-item>
+          <v-list-item class="text-dark hover">Data Barang</v-list-item>
         </router-link>
         <router-link v-if="otoritas.routes(aut, 'Barang Konversi')" to="/barang-konversi">
-          <v-list-item class="text-dark">Barang Konversi</v-list-item>
+          <v-list-item class="text-dark hover">Barang Konversi</v-list-item>
         </router-link>
         <router-link v-if="otoritas.routes(aut, 'Data Pelanggan')" to="/data-pelanggan">
-          <v-list-item class="text-dark">Data Pelanggan</v-list-item>
+          <v-list-item class="text-dark hover">Data Pelanggan </v-list-item>
         </router-link>
-        <router-link v-if="otoritas.routes(aut, 'Data Supplier')" to="/data-supplier">
-          <v-list-item class="text-dark">Data Supplier</v-list-item>
+        <router-link user-if="otoritas.routes(aut, 'Data Supplier')" to="/data-supplier">
+          <v-list-item class="text-dark hover">Data Supplier</v-list-item>
         </router-link>
         <router-link v-if="otoritas.routes(aut, 'Data User')" to="/data-user">
-          <v-list-item class="text-dark">Data User</v-list-item>
+          <v-list-item class="text-dark hover">Data User</v-list-item>
         </router-link>
       </v-list>
     </v-menu>
     <RouterLink v-if="otoritas.routes(aut, 'Pembelian')" to="/pemasukan">
-      <v-list-item prepend-icon="mdi-inbox-arrow-down" class="text-caption text-dark" :active="pageTitle == 'PEMASUKAN BARANG' ? true : false" @click="pageTitle='PEMASUKAN BARANG'">
+      <v-list-item prepend-icon="mdi-inbox-arrow-down" class="text-caption text-dark hover rounded-xl" :active="pageTitle == 'pemasukan barang' ? true : false" @click="pageTitle='pemasukan barang'">
       Pemasukan Barang
       </v-list-item>
     </RouterLink>
     <RouterLink v-if="otoritas.routes(aut, 'Produksi')" to="/produksi">
-      <v-list-item prepend-icon="mdi-chart-donut" class="text-caption text-dark" :active="pageTitle == 'PRODUKSI BARANG' ? true : false" @click="pageTitle='PRODUKSI BARANG'">
+      <v-list-item prepend-icon="mdi-chart-donut" class="text-caption text-dark hover rounded-xl" :active="pageTitle == 'produksi barang' ? true : false" @click="pageTitle='produksi barang'">
         Produksi Barang
       </v-list-item>
     </RouterLink>
     <RouterLink v-if="otoritas.routes(aut, 'Penjualan')" to="/pengeluaran">
-      <v-list-item prepend-icon="mdi-inbox-arrow-up" class="text-caption text-dark" :active="pageTitle == 'PENGELUARAN BARANG' ? true : false" @click="pageTitle='PENGELUARAN BARANG'">
+      <v-list-item prepend-icon="mdi-inbox-arrow-up" class="text-caption text-dark hover rounded-xl" :active="pageTitle == 'pengeluaran barang' ? true : false" @click="pageTitle='pengeluaran barang'">
         Pengeluaran Barang
       </v-list-item>
     </RouterLink>
     <RouterLink v-if="otoritas.routes(aut, 'Pengiriman')" to="/pengiriman">
-      <v-list-item prepend-icon="mdi-send-variant" class="text-caption text-dark" :active="pageTitle == 'PENGIRIMAN BARANG' ? true : false" @click="pageTitle='PENGIRIMAN BARANG'">
+      <v-list-item prepend-icon="mdi-send-variant" class="text-caption text-dark hover rounded-xl" :active="pageTitle == 'pengiriman barang' ? true : false" @click="pageTitle='pengiriman barang'">
         Pengiriman Barang
       </v-list-item>
     </RouterLink>
-    <v-list-item id="laporan" prepend-icon="mdi-folder-outline" class="text-caption text-dark" :active="laporan()" value="laporan" @click="pageTitle = 'LAPORAN'">
+    <v-list-item id="laporan" prepend-icon="mdi-folder-outline" class="text-caption text-dark hover rounded-xl" :active="laporan()" value="laporan" @click="pageTitle = 'laporan'">
       Laporan
     </v-list-item>
     <v-menu :activator="otoritas.routes(aut, 'Laporan') ? '#laporan' : null" location="end" width="200">
@@ -156,3 +165,21 @@ import otoritas from '../../service/page/otoritas';
     </v-row>
     </v-navigation-drawer>
 </template>
+<style scoped>
+.bg-blue-transparent {
+  background: rgba(126, 180, 201, 0.219);
+}
+.br {
+  border-right-width: 1px;
+  border-right-color: rgba(0, 0, 0, 0.178);
+}
+/* .hover:hover {
+  background: #3572a318 !important;
+  color: #5fa0cb !important;
+} */
+/* .text-active {
+  background: #5792c0;
+  color: white !important;
+  margin-bottom: 3px;
+} */
+</style>

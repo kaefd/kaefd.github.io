@@ -47,6 +47,7 @@ const customPosition = () => ({ top: 0, left: 0 });
         menu-class-name="dp-custom-menu"
         :enable-time-picker="false"
         v-model="data"
+        style="width: fit-content;"
     >
         <template v-if="!filter" #trigger>
             <textFieldForm readonly :label="label" :model-value="functions.formatDate(data)" :rules="rules" hideDetails/>
@@ -117,7 +118,7 @@ const customPosition = () => ({ top: 0, left: 0 });
    --dp-highlight-color: rgba(25, 118, 210, 0.1);
 }
 .dp__input_wrap .dp__input  {
-    height: 41px !important;
+    height: 35px !important;
 }
 .dp__outer_menu_wrap {
     position: absolute !important;

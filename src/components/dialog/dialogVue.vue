@@ -26,13 +26,13 @@ export default {
 </script>
 
 <template>
-        <v-dialog transition="dialog-bottom-transition" width="auto">
+        <v-dialog transition="dialog-bottom-transition">
     <!-- button dialog -->
         <template v-slot:activator="{ props }">
             <text-button v-if="!master" v-bind="props" icon="mdi-dots-vertical" />
             <btn-info v-if="master" v-bind="props" :icon="btn_title != '' ? '' : 'mdi-plus'" :btn_title="btn_title != '' ? btn_title : 'Tambah Data'" />
         </template>
-        <v-card class="bg-white mx-auto py-5 rounded-xl" min-width="300" max-width="375" width="35vw">
+        <v-card class="bg-white mx-auto py-5 rounded-xl" min-width="320" max-width="375" width="35vw">
             <slot name="titlecard"></slot>
             <v-divider></v-divider>
             <slot name="content"></slot>

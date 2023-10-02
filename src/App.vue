@@ -17,7 +17,7 @@ export default {
         return {
             windowWidth: window.innerWidth,
             windowHeight: window.innerHeight,
-            drawer: false,
+            drawer: null,
             aut: '',
             tema: null,
             databarang: '',
@@ -103,7 +103,7 @@ export default {
 </template>
 
 <style scoped>
-#menu_checkbox {
+/* #menu_checkbox {
     display: none;
 }
 
@@ -170,5 +170,48 @@ label div:nth-child(2) {
     left: -2.5px;
     transform: rotateZ(-45deg);
     background: #5995c2;
+} */
+#menu_checkbox {
+    display: none;
+}
+
+label {
+    margin-bottom: 2px;
+    display: block;
+    width: 30px;
+    height: 20px;
+    cursor: pointer;
+}
+
+label:before {
+    content: "";
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    transition: 1.2s cubic-bezier(0, 0.96, 1, 0.02) background-color;
+}
+
+label div {
+    position: relative;
+    top: 0;
+    height: 4px;
+    background-color: #5fa0cb;
+    margin-bottom: 4px;
+    /* transition: 0.3s ease transform, 0.3s ease top, 0.3s ease width,
+        0.3s ease right; */
+    border-radius: 50px;
+}
+
+label div:first-child {
+    width: 20px;
+}
+
+label div:nth-child(2) {
+    width: 17px;
+}
+label div:last-child {
+    width: 25px;
 }
 </style>

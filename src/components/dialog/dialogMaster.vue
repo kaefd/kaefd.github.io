@@ -103,71 +103,80 @@ export default {
       <v-card class="rounded-xl">
         <v-form  @submit.prevent ref="form">
           <toolbar-header :toolbar_title="toolbar_title" />
-            <v-container class="mt-5 w-75">
+            <v-container class="mt-5 d-flex flex-column align-center">
               <!-- SELECT FIELD -->
               <v-div v-if="!noselect">
                 <!-- FIELD SELECT (UNTUK TAMBAH DATA) -->
-                <text-field-form
-                    v-if="this.item == null"
-                    id="tambah"
+                <div v-if="this.item == null" class="d-flex align-center">
+                  <span class="text-caption" style="width:70px;">{{ headers[0].title }}</span>
+                  <text-field-form
+                      id="tambah"
+                      :label="headers[0].title"
+                      v-model="data[keyform[0]]"
+                      readonly
+                      :rules="required"
+                  >                                
+                  </text-field-form>
+                  <v-menu activator="#tambah" class="elevation-0">
+                      <v-list class="h-dropdown">
+                        <v-list-item
+                          v-for="(item, index) in category.slice(this.alpha, category.length)"
+                          :key="index"
+                          density="compact"
+                        >
+                          <v-list-item-title  @click="data[keyform[0]] = item" class="text-caption">{{ item }}</v-list-item-title>
+                        </v-list-item>
+                      </v-list>
+                  </v-menu>
+                </div>
+                <!-- FIELD SELECT (UNTUK EDIT DATA) -->
+                <div v-if="item != null" class="d-flex align-center">
+                  <span class="text-caption" style="width:70px;">{{ headers[0].title }}</span>
+                  <text-field-form
+                    :id="keyform[0] == 'kode_barang' ? '' : tipe"
                     :label="headers[0].title"
-                    v-model="data[keyform[0]]"
+                    :model-value="item[keyform[0]]"
                     readonly
                     :rules="required"
-                >                                
-                </text-field-form>
-                <v-menu activator="#tambah" class="elevation-0">
-                    <v-list class="h-dropdown">
-                      <v-list-item
-                        v-for="(item, index) in category.slice(this.alpha, category.length)"
-                        :key="index"
-                        density="compact"
-                      >
-                        <v-list-item-title  @click="data[keyform[0]] = item" class="text-caption">{{ item }}</v-list-item-title>
-                      </v-list-item>
-                    </v-list>
-                </v-menu>
-                <!-- FIELD SELECT (UNTUK EDIT DATA) -->
-                <text-field-form
-                  v-if="item != null"
-                  :id="keyform[0] == 'kode_barang' ? '' : tipe"
-                  :label="headers[0].title"
-                  :model-value="item[keyform[0]]"
-                  readonly
-                  :rules="required"
-                >                                
-                </text-field-form>
-                <v-menu activator="#tipe" class="elevation-0">
-                    <v-list>
-                      <v-list-item
-                        v-for="(i, index) in category.slice(this.alpha, category.length)"
-                        :key="index"
-                        density="compact"
-                      >
-                        <v-list-item-title @click="item[keyform[0]] = i" class="text-caption">{{ i }}</v-list-item-title>
-                      </v-list-item>
-                    </v-list>
-                </v-menu>
+                  >                                
+                  </text-field-form>
+                  <v-menu activator="#tipe" class="elevation-0">
+                      <v-list>
+                        <v-list-item
+                          v-for="(i, index) in category.slice(this.alpha, category.length)"
+                          :key="index"
+                          density="compact"
+                        >
+                          <v-list-item-title @click="item[keyform[0]] = i" class="text-caption">{{ i }}</v-list-item-title>
+                        </v-list-item>
+                      </v-list>
+                  </v-menu>
+                </div>
               </v-div>
               <!-- FIELD NON-SELECTABLE -->
               <v-div v-if="noselect">
                 <!-- TAMBAH DATA -->
-                <text-field-form
-                v-if="this.item == null"
-                :label="headers[0].title"
-                v-model="data[keyform[0]]"
-                :rules="required"
-                ></text-field-form>
-                <!-- EDIT DATA -->
-                <text-field-form
-                v-if="this.item != null"
-                :label="headers[0].title"
-                :model-value="item[keyform[0]]"
-                :readonly="headers[0].dis"
-                :rules="required"
-                ></text-field-form> 
+                <div v-if="item == null" class="d-flex align-center">
+                  <span class="text-caption" style="width:70px;">{{ headers[0].title }}</span>
+                  <text-field-form
+                  v-if="this.item == null"
+                  :label="headers[0].title"
+                  v-model="data[keyform[0]]"
+                  :rules="required"
+                  ></text-field-form>
+                  <!-- EDIT DATA -->
+                  <text-field-form
+                  v-if="this.item != null"
+                  :label="headers[0].title"
+                  :model-value="item[keyform[0]]"
+                  :readonly="headers[0].dis"
+                  :rules="required"
+                  ></text-field-form> 
+                </div>
               </v-div>
-                <v-for v-for="h, i in headers.slice(1, headers.length-1)" :key="i">
+              <div v-for="h, i in headers.slice(1, headers.length-1)" :key="i">
+                <div class="d-flex align-center">
+                  <span class="text-caption" style="width:70px;">{{ h.title }}</span>
                   <text-field-form
                     v-if="this.item == null"
                     :label="h.title"
@@ -182,8 +191,9 @@ export default {
                     :readonly="headers[i+1].dis"
                     :rules="required"
                     :type="keyform[i+1] == 'berat' ? 'number' : text"
-                  ></text-field-form> 
-                </v-for>
+                  ></text-field-form>
+                </div>
+              </div>
             </v-container>
             <v-divider></v-divider>
             <v-div v-if="!view" class="d-flex align-center float-end ma-5">

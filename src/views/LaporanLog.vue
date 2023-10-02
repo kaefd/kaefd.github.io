@@ -31,7 +31,7 @@ import otoritas from '../service/page/otoritas';
         filter: false,
         loading: true,
         akses: '',
-        pageTitle: 'LAPORAN LOG USER',
+        pageTitle: 'laporan log user',
         btnTitle: 'Tambah Data',
         cardTitle: 'Detail Barang',
         fullscreen: 'fullscreen',

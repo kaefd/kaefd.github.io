@@ -28,7 +28,7 @@ import CircularLoader from '../components/animate/circularLoader.vue';
     },
     data () {
       return {
-        pageTitle: 'DATA PELANGGAN',
+        pageTitle: 'data pelanggan',
         statusselect: true,
         loading: true,
         status: '',

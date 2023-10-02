@@ -35,7 +35,7 @@ import CircularLoader from '../components/animate/circularLoader.vue';
         filter: false,
         dialoggb: false,
         loading: true,
-        pageTitle: 'LAPORAN STOK BARANG',
+        pageTitle: 'laporan stok barang',
         selectCategory: [],
         btnTitle: 'Tambah Data',
         cardTitle: 'Detail Barang',
@@ -189,7 +189,7 @@ import CircularLoader from '../components/animate/circularLoader.vue';
             />
             <!-- BUTTON FILTER -->
             <btn-filter icon="mdi-tune-vertical" @click="filter = !filter" />
-            <v-btn variant="text" color="indigo" icon="mdi-reload" size="small" class="rounded-circle" @click="fetchData()"></v-btn>
+            <v-btn variant="text" color="blue-custom" icon="mdi-reload" size="small" class="rounded-circle" @click="fetchData()"></v-btn>
           </div>
         </v-responsive>
         </v-row>

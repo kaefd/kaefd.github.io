@@ -39,7 +39,7 @@ import CircularLoader from '../components/animate/circularLoader.vue';
         status: null,
         valert: false,
         message: '',
-        pageTitle: 'PENGELUARAN BARANG',
+        pageTitle: 'pengeluaran barang',
         selectdokumen: [],
         btnTitle: 'Tambah Data',
         btn: 'Tambah Barang',
@@ -247,12 +247,12 @@ import CircularLoader from '../components/animate/circularLoader.vue';
           />
           <!-- BUTTON FILTER -->
           <btn-filter @click="filter = !filter" />
-          <v-btn variant="text" color="indigo" icon="mdi-reload" size="small" class="rounded-circle" @click="fetchData()"></v-btn>
+          <v-btn variant="text" color="blue-custom" icon="mdi-reload" size="small" class="rounded-circle" @click="fetchData()"></v-btn>
         </div>
       </v-responsive>
       </v-row>
         <!-- EDIT DATA -->
-        <v-sheet :height="window > 776 ? '92%' : '87%'">
+        <v-sheet :height="window > 776 ? '94%' : '87%'" class="rounded-xl px-3 py-2">
         <v-data-table
             v-model:sort-by="sortBy"
             id="tbl_exporttable_to_xls" 
@@ -263,11 +263,11 @@ import CircularLoader from '../components/animate/circularLoader.vue';
             :hover="true"
             :fixed-header="true"
             density="compact"
-            class="text-caption pt-1 border-sm rounded-lg h-100"
+            class="text-caption pt-1 rounded-xl h-100"
             :height="window > 776 ? '100%' : '92%'"
             >
             <template #bottom>
-              <div class="text-caption font-weight-bold w-100 text-right pe-3">Total : {{ penjualan_head.length }} data</div>
+              <!-- <div class="text-caption font-weight-bold w-100 text-right pe-3">Total : {{ penjualan_head.length }} data</div> -->
             </template>
             <!-- eslint-disable-next-line vue/valid-v-slot -->
             <template v-slot:item.total_penjualan="{item}">{{ functions.numb(item.raw.total_penjualan, 2, true) }}</template>

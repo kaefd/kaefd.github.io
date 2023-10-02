@@ -48,7 +48,7 @@ export default {
       valert: false,
       authority: '',
       message: '',
-      pageTitle: 'PEMASUKAN BARANG',
+      pageTitle: 'pemasukan barang',
       btn: 'Tambah Barang',
       sortBy: [{ key: 'no_pembelian', order: 'desc' }],
       selectdokumen: [],
@@ -274,7 +274,7 @@ export default {
           <btn-filter @click="filter = !filter" />
           <v-btn
             variant="text"
-            color="indigo"
+            color="blue-custom"
             icon="mdi-reload"
             size="small"
             class="rounded-circle"

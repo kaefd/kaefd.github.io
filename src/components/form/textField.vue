@@ -14,8 +14,8 @@ export default {
 <v-text-field
   density="compact"
   variant="text"
-  class="text-blue-custom rounded border-sm text-caption"
-  prepend-inner-icon="mdi-magnify"
+  class="text-blue-custom text-caption rounded-xl bg-white"
+  :prepend-inner-icon="icon || 'mdi-magnify'"
   :placeholder="placeholder"
   single-line
   hide-details
@@ -23,3 +23,13 @@ export default {
 >
 </v-text-field>    
 </template>
+<style scoped>
+.border {
+    border-width: thin !important;
+    border-style: solid !important;
+}
+.border:focus-within {
+  border-width: 2px !important;
+  border-color: rgba(45, 123, 175, 0.589) !important;
+}
+</style>

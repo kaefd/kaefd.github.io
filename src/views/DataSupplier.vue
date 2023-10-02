@@ -25,7 +25,7 @@ import CircularLoader from '../components/animate/circularLoader.vue';
         loading: true,
         authority: '',
         akses: '',
-        pageTitle:'DATA SUPPLIER',
+        pageTitle:'data supplier',
         search: '',
         alpha: 0,
         items: '',

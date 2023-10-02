@@ -44,7 +44,7 @@ export default defineComponent({
       message: '',
       search: '',
       filter: false,
-      pageTitle: 'DATA BARANG',
+      pageTitle: 'Data Barang',
       selectCategory: [],
       statusselect: false,
       items: '',
@@ -211,7 +211,7 @@ export default defineComponent({
           <btnFilter @click="filter = !filter" />
           <v-btn
             variant="text"
-            color="indigo"
+            color="blue-custom"
             icon="mdi-reload"
             size="small"
             class="rounded-circle"

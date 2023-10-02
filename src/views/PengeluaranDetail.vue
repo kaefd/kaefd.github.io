@@ -81,7 +81,7 @@ export default {
                 } else if(this.window < 1500) {
                     if(this.windowH > 800) {
                         h = '60vh'
-                    } else h ='47vh'
+                    } else h ='55vh'
                 }
             } else if(!this.edit) {
                 if(this.window > 1500) {
@@ -91,7 +91,7 @@ export default {
                 } else if(this.window < 1500) {
                     if(this.windowH > 800) {
                         h = '40vh'
-                    } else h ='32vh'
+                    } else h ='37vh'
                 }
             }
             return h
@@ -253,40 +253,70 @@ export default {
                 </v-toolbar>
                 <v-container class="h-100 d-flex flex-column mt-5">
                 <!-- EDIT -->
-                <v-row no-gutters v-if="edit" justify="center" justify-md="space-between" align="start" min-width="400" class="mx-3">
-                    <v-responsive class="pt-2 mx-md-0 mx-3" width="250">
-                        <text-field-form label="No Penjualan" :model-value="items.no_penjualan" readonly />
-                        <text-field-form label="Tgl Penjualan" :model-value="functions.formatDate(items.tgl_penjualan)" readonly/>
-                    </v-responsive>
-                    <v-responsive class="pt-2 mx-3 pt-2" width="250">
-                        <text-field-form label="Pelanggan" :model-value="items.nama" readonly />
-                        <text-field-form label="Kode Group" :model-value="items.kode_group" readonly />
-                    </v-responsive>
-                    <v-responsive class="pt-2 mx-md-0 mx-3" width="250">
-                        <text-field-form label="Tipe Dokumen" :model-value="items.tipe_dokumen" readonly />
-                        <text-field-form label="No Dokumen" :model-value="items.no_dokumen" readonly />
-                        <text-field-form label="Tgl Dokumen" :model-value="functions.formatDate(items.tgl_dokumen)" readonly />
-                    </v-responsive>
-                </v-row>
+                <div v-if="edit" class="d-flex justify-space-between w-100 flex-wrap">
+                    <div style="width: 300px;">
+                        <div class="d-flex justify-space-between">
+                            <span class="text-caption" style="width: 90px; max-width:90px;">No Penjualan</span>
+                            <text-field-form label="No Penjualan" :model-value="items.no_penjualan" readonly />
+                        </div>
+                        <div class="d-flex justify-space-between">
+                            <span class="text-caption" style="width: 90px; max-width:90px;">Tgl Penjualan</span>
+                            <text-field-form label="Tgl Penjualan" :model-value="functions.formatDate(items.tgl_penjualan)" readonly/>
+                        </div>
+                    </div>
+                    <div style="width: 300px;">
+                        <div class="d-flex justify-space-between">
+                            <span class="text-caption" style="width: 90px; max-width:90px;">No Penjualan</span>
+                            <text-field-form label="Pelanggan" :model-value="items.nama" readonly />
+                        </div>
+                        <div class="d-flex justify-space-between">
+                            <span class="text-caption" style="width: 90px; max-width:90px;">Kode Group</span>
+                            <text-field-form label="Kode Group" :model-value="items.kode_group" readonly />
+                        </div>
+                    </div>
+                    <div style="width: 300px;">
+                        <div class="d-flex justify-space-between">
+                            <span class="text-caption" style="width: 90px; max-width:90px;">Tipe Dokumen</span>
+                            <text-field-form label="Tipe Dokumen" :model-value="items.tipe_dokumen" readonly />
+                        </div>
+                        <div class="d-flex justify-space-between">
+                            <span class="text-caption" style="width: 90px; max-width:90px;">No Dokumen</span>
+                            <text-field-form label="No Dokumen" :model-value="items.no_dokumen" readonly />
+                        </div>
+                        <div class="d-flex justify-space-between">
+                            <span class="text-caption" style="width: 90px; max-width:90px;">Tgl Dokumen</span>
+                            <text-field-form label="Tgl Dokumen" :model-value="functions.formatDate(items.tgl_dokumen)" readonly />
+                        </div>
+                    </div>
+                </div>
                 <!-- TAMBAH PENGELUARAN -->
                 <v-form  @submit.prevent ref="form" class="mx-3">
-                <v-row no-gutters v-if="!edit && pengeluaran" justify="center" justify-md="space-between" align="start" min-width="400">
-                    <v-responsive class="pt-2 mx-md-0 mx-3 overflow-visible" width="250">
-                        <text-field-form label="No Pengeluaran" v-model= "inputdata.no_penjualan" readonly class="bg-grey-lighten-4" />
-                        <datePickerVue label="Tgl Keluar" :min-date="functions.last_month()" :max-date="new Date()" v-model="inputdata.tgl_penjualan" :rules="required" :tema="tema"/>
-                    </v-responsive>
-                    <v-responsive class="pt-2 mx-3" width="250">
-                        <dialogSearch v-if="!edit" :window="window" label="Pelanggan" :objectFilter="pelanggan" @pilihObjek="pilihObjek" cardTitle="PELANGGAN" max-width="400" :rules="required"/>
-                        <text-field-form
-                        label="Kode Group"
-                        @click="dialogkodeg = true, more = 15"
-                        v-model="inputdata.kode_group"
-                        readonly
-                        :rules="required"
-                        />
-                    </v-responsive>
-                    <v-responsive class="pt-2 mx-md-0 mx-3 overflow-visible" width="250">
-                        <text-field-form id="tipe" label="Tipe Dokumen" v-model="inputdata.tipe_dokumen" :rules="required" readonly />                                
+                <div v-if="!edit && pengeluaran" class="d-flex justify-space-between w-100 flex-wrap">
+                    <div style="width: 300px;">
+                        <div class="d-flex justify-space-between">
+                            <span class="text-caption" style="width: 90px; max-width:90px;">No Penjualan</span>
+                            <text-field-form label="No Pengeluaran" v-model= "inputdata.no_penjualan" readonly class="bg-grey-lighten-4" />
+                        </div>
+                        <div class="d-flex justify-space-between">
+                            <span class="text-caption" style="width: 90px; max-width:90px;">Tgl Keluar</span>
+                            <datePickerVue label="Tgl Keluar" :min-date="functions.last_month()" :max-date="new Date()" v-model="inputdata.tgl_penjualan" :rules="required" :tema="tema"/>
+                        </div>
+                    </div>
+                    <div style="width: 300px;">
+                        <div class="d-flex justify-space-between">
+                            <span class="text-caption" style="width: 90px; max-width:90px;">Pelanggan</span>
+                            <dialogSearch v-if="!edit" :window="window" label="Pelanggan" :objectFilter="pelanggan" @pilihObjek="pilihObjek" cardTitle="PELANGGAN" max-width="400" :rules="required"/>
+                        </div>
+                        <div class="d-flex justify-space-between">
+                            <span class="text-caption" style="width: 90px; max-width:90px;">Kode Group</span>
+                            <text-field-form label="Kode Group" @click="dialogkodeg = true, more = 15" v-model="inputdata.kode_group" readonly :rules="required" />
+                        </div>
+                    </div>
+                    <div style="width: 300px;">
+                        <div class="d-flex justify-space-between">
+                            <span class="text-caption" style="width: 90px; max-width:90px;">Tipe Dokumen</span>
+                            <text-field-form id="tipe" label="Tipe Dokumen" v-model="inputdata.tipe_dokumen" :rules="required" readonly />                                
+                        </div>
                         <!-- <v-menu activator="#tipe" class="elevation-0">
                             <v-list>
                               <v-list-item
@@ -299,24 +329,30 @@ export default {
                               </v-list-item>
                             </v-list>
                         </v-menu> -->
-                        <text-field-form label="No Dokumen" v-model="inputdata.no_dokumen" :rules="required" />
-                        <datePickerVue label="Tgl Dokumen" v-model="inputdata.tgl_dokumen" :min-date="functions.last_month()" :max-date="new Date()" :rules="required" :tema="tema"/>
-                    </v-responsive>
-                </v-row>
+                        <div class="d-flex justify-space-between">
+                            <span class="text-caption" style="width: 90px; max-width:90px;">No Dokumen</span>
+                            <text-field-form label="No Dokumen" v-model="inputdata.no_dokumen" :rules="required" />
+                        </div>
+                        <div class="d-flex justify-space-between">
+                            <span class="text-caption" style="width: 90px; max-width:90px;">Tgl Dokumen</span>
+                            <datePickerVue label="Tgl Dokumen" v-model="inputdata.tgl_dokumen" :min-date="functions.last_month()" :max-date="new Date()" :rules="required" :tema="tema"/>
+                        </div>
+                    </div>
+                </div>
                 </v-form>
                 <!-- BUTTON TAMBAH BARANG -->
-                <v-container v-if="!edit" :pembelianbaru="pembelianbaru" :pembeliandetl="pembeliandetl" class="text-sm-left text-center mb-n5">
+                <div v-if="!edit" :pembelianbaru="pembelianbaru" :pembeliandetl="pembeliandetl" class="text-sm-left text-center my-2">
                     <dialogScroll :window="window" dialog_title="Data Barang" @reset="reset" :pengeluaran="true" :inptbarang="true"  :barang="barang" :itemDetail="itemDetail" @pemasukanitem="itemmasuk" :btn="btn" width="400" />
-                </v-container>
+                </div>
                 <!-- TABEL EDIT/VIEW -->
-                <v-container>
+                <div>
                     <v-data-table
                         :headers="headDetails"
                         :items="edit ? penjualan : pembelian_input"
                         :hover="true"
                         :fixed-header="true"
                         density="compact"
-                        class="text-caption py-1 mt-2 px-5 border-sm rounded-lg h-100"
+                        class="text-caption py-1 mt-2 border-sm rounded-lg h-100"
                         :height="heightSizing"
                     >
                     <template v-slot:bottom>
@@ -364,47 +400,58 @@ export default {
                             </template>
                             <template #content>
                                 <v-div class="mx-auto mt-5 w-75">
-                                <text-field-form
-                                    v-if="edit"
-                                    label="Jumlah"
-                                    :model-value="functions.numb(item.raw.jumlah)"
-                                    active="true"
-                                    readonly
-                                    hide-details
-                                    class="mb-3"
-                                />
-                                <currency-input
-                                    v-if="!edit"
-                                    label="Jumlah"
-                                    v-model="pembelian_input[index].jumlah"
-                                    active="true"
-                                    hide-details
-                                    class="mb-3"
-                                    :options="{ currency: 'EUR', currencyDisplay: 'hidden' }"
-                                />
-                                <text-field-form
-                                    v-if="edit"
-                                    label="Harga"
-                                    :model-value="functions.numb(item.raw.harga_jual, 2, true)"
-                                    readonly
-                                    hide-details
-                                    class="mb-3"
-                                />
-                                <currency-input
-                                    v-if="!edit"
-                                    label="Harga"
-                                    v-model="pembelian_input[index].harga_jual"
-                                    hide-details
-                                    class="mb-3"
-                                    :options="{ currency: 'EUR', currencyDisplay: 'hidden' }"
-                                />
-                                <text-field-form
-                                    label="Total Harga"
-                                    :model-value="edit ? functions.numb(item.raw.harga_jual * item.raw.jumlah) : pembelian_input[index].harga_jual * pembelian_input[index].jumlah"
-                                    readonly
-                                    hide-details
-                                    class="mb-3"
-                                />
+                                    <div v-if="edit" class="d-flex justify-space-between">
+                                        <span class="text-caption d-flex align-center" style="width: 90px; max-width:90px;">Jumlah</span> 
+                                        <text-field-form
+                                            label="Jumlah"
+                                            :model-value="functions.numb(item.raw.jumlah)"
+                                            active="true"
+                                            readonly
+                                            hide-details
+                                            class="mb-3"
+                                        />
+                                    </div>
+                                    <div v-if="!edit" class="d-flex justify-space-between">
+                                        <span class="text-caption d-flex align-center" style="width: 90px; max-width:90px;">Jumlah</span> 
+                                        <currency-input
+                                            label="Jumlah"
+                                            v-model="pembelian_input[index].jumlah"
+                                            active="true"
+                                            hide-details
+                                            class="mb-3"
+                                            :options="{ currency: 'EUR', currencyDisplay: 'hidden' }"
+                                        />
+                                    </div>
+                                    <div v-if="edit" class="d-flex justify-space-between">
+                                        <span class="text-caption d-flex align-center" style="width: 90px; max-width:90px;">Harga</span> 
+                                        <text-field-form
+                                            label="Harga"
+                                            :model-value="functions.numb(item.raw.harga_jual, 2, true)"
+                                            readonly
+                                            hide-details
+                                            class="mb-3"
+                                        />
+                                    </div>
+                                    <div v-if="!edit" class="d-flex justify-space-between">
+                                        <span class="text-caption d-flex align-center" style="width: 90px; max-width:90px;">Harga</span> 
+                                        <currency-input
+                                            label="Harga"
+                                            v-model="pembelian_input[index].harga_jual"
+                                            hide-details
+                                            class="mb-3"
+                                            :options="{ currency: 'EUR', currencyDisplay: 'hidden' }"
+                                        />
+                                    </div>
+                                    <div class="d-flex justify-space-between">
+                                        <span class="text-caption d-flex align-center" style="width: 90px; max-width:90px;">Total Harga</span> 
+                                        <text-field-form
+                                            label="Total Harga"
+                                            :model-value="edit ? functions.numb(item.raw.harga_jual * item.raw.jumlah) : pembelian_input[index].harga_jual * pembelian_input[index].jumlah"
+                                            readonly
+                                            hide-details
+                                            class="mb-3"
+                                        />
+                                    </div>
                                 </v-div>
                                 <v-divider class="mb-5"></v-divider>
                                 <v-div v-if="!edit" class="d-flex me-5 ms-auto">
@@ -415,7 +462,7 @@ export default {
                         </dialog-vue>
                     </template>
                     </v-data-table>
-                </v-container>
+                </div>
                 <v-div class="d-flex mb-0 mt-auto me-5 ms-auto">
                     <btn-cancel v-if="!edit" @click="dialog = false, inputdata= {}, pembelian_input=[]" btn_title="Batal" class="mb-3"/>
                     <btn-orange v-if="!edit" @click="validate" :hidden="disable" btn_title="Simpan" class="ms-2 mb-3" />
