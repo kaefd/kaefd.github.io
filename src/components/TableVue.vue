@@ -69,7 +69,7 @@ export default {
 }
 </script>
 <template>
-    <v-sheet :height="window > 776 ? '93%' : '87%'" class="rounded-xl">
+    <v-sheet :height="window > 776 ? '93%' : '87%'" class="bg-transparent">
       <!-- TABEL DATA -->
       <v-data-table
         v-model:sort-by="sorting"
@@ -81,7 +81,7 @@ export default {
         :headers="headers"
         :items-per-page="totaldata"
         height="100%"
-        class="text-caption h-100 rounded-xl bg-white pa-3"
+        class="text-caption h-100 rounded-lg border pa-2"
       >
       <template #bottom>
         <!-- <div class="text-caption font-weight-bold w-100 text-right pe-3">Total : {{ functions.numb(items.length) }} data</div> -->

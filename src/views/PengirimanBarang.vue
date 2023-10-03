@@ -234,7 +234,7 @@ import CetakDo from './cetakDo.vue';
       </v-responsive>
       </v-row>
         <!-- EDIT DATA -->
-        <v-sheet :height="window > 776 ? '94%' : '87%'" class="rounded-xl px-3 py-1">
+        <v-sheet :height="window > 776 ? '94%' : '87%'" class="bg-transparent">
         <v-data-table
             v-model:sort-by="sortBy"
             :items-per-page="pengirimanHead.length"
@@ -245,7 +245,7 @@ import CetakDo from './cetakDo.vue';
             :hover="true"
             :fixed-header="true"
             density="compact"
-            class="text-caption pt-1 rounded-xl h-100"
+            class="text-caption rounded-lg border pa-2 h-100"
             :height="window > 776 ? '100%' : '92%'"
             >
             <template #bottom>

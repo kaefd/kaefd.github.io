@@ -214,7 +214,7 @@ import CircularLoader from '../components/animate/circularLoader.vue';
             :hover="true"
             :fixed-header="true"
             density="compact"
-            class="text-caption pt-1 border-sm rounded-lg h-100"
+            class="text-caption pa-2 border rounded-lg h-100"
             :height="window > 776 ? '100%' : '92%'"
             >
             <template #bottom>

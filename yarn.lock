@@ -703,7 +703,7 @@ anymatch@~3.1.2:
     normalize-path "^3.0.0"
     picomatch "^2.0.4"
 
-apexcharts@^3.43.0:
+apexcharts@^3.43.0, "apexcharts@> 3.0.0":
   version "3.43.0"
   resolved "https://registry.npmjs.org/apexcharts/-/apexcharts-3.43.0.tgz"
   integrity sha512-YPw1aLatPQMUqVLMp5d+LDaXFi4QrRQND72/XO7/2NJdg+R5MjE9sifJ0GzOfgoZM7ltBUTjwfSxIvwR/9V8yw==
@@ -4133,7 +4133,7 @@ vue-sweetalert@^0.1.18:
     sweetalert2 "^6.6.6"
     vue "^2.2.1"
 
-"vue@^2.0.0 || >=3.0.0", "vue@^2.7 || ^3.0.0", vue@^3.0.0, "vue@^3.0.0-0 || ^2.6.0", vue@^3.2.0, vue@^3.2.25, vue@^3.2.47, vue@>=3.2.0, vue@3.2.47:
+"vue@^2.0.0 || >=3.0.0", "vue@^2.7 || ^3.0.0", vue@^3.0.0, "vue@^3.0.0-0 || ^2.6.0", vue@^3.2.0, vue@^3.2.25, vue@^3.2.47, "vue@> 3.0.0", vue@>=3.2.0, vue@3.2.47:
   version "3.2.47"
   resolved "https://registry.npmjs.org/vue/-/vue-3.2.47.tgz"
   integrity sha512-60188y/9Dc9WVrAZeUVSDxRQOZ+z+y5nO2ts9jWXSTkMvayiWxCWOWtBQoYjLeccfXkiiPZWAHcV+WTPhkqJHQ==
@@ -4159,6 +4159,11 @@ vue@^2.3.3:
   dependencies:
     "@vue/compiler-sfc" "2.7.14"
     csstype "^3.1.0"
+
+vue3-apexcharts@^1.4.4:
+  version "1.4.4"
+  resolved "https://registry.npmjs.org/vue3-apexcharts/-/vue3-apexcharts-1.4.4.tgz"
+  integrity sha512-TH89uZrxGjaDvkaYAISvj8+k6Bf1rUKFillc8oJirs5XZEPiwM1ELKZQ786wz0rfPqkSHHny2lqqUCK7Rw+LcQ==
 
 vuetify@^3.0.0-beta.4, vuetify@^3.1.13:
   version "3.1.13"

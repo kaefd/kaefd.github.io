@@ -4,6 +4,7 @@ import '@vuepic/vue-datepicker/dist/main.css'
 import { id } from 'date-fns/locale';
 import textFieldForm from '../form/textFieldForm.vue';
 import functions from '../../service/functions';
+import TextField from '../form/textField.vue';
 </script>
 <script>
 
@@ -11,7 +12,7 @@ export default {
     components: {
         textFieldForm
   },
-    props:['label', 'validated', 'rules', 'filter', 'tema'],
+    props:['label', 'validated', 'rules', 'filter', 'tema', 'variant', 'month'],
     data () {
         return {
             data: ''
@@ -23,6 +24,14 @@ export default {
         }
     },
     methods: {
+        formatd(data) {
+            const m = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"]
+            let month = m[data.month]
+            let year = data.year
+            if(data == '') {
+                return this.label
+            } else return month+' '+year || ''
+        }
     },
     mounted () {
         this.def
@@ -38,6 +47,7 @@ const customPosition = () => ({ top: 0, left: 0 });
         :alt-position="customPosition"
         :clearable="false"
         :format-locale="id"
+        :month-picker="month"
         required
         locale="id"
         cancelText="batal"
@@ -50,7 +60,8 @@ const customPosition = () => ({ top: 0, left: 0 });
         style="width: fit-content;"
     >
         <template v-if="!filter" #trigger>
-            <textFieldForm readonly :label="label" :model-value="functions.formatDate(data)" :rules="rules" hideDetails/>
+            <textFieldForm v-if="variant == ''" readonly :label="label" :model-value="functions.formatDate(data)" :rules="rules" hideDetails/>
+            <textField v-if="variant != ''" readonly :label="label" :model-value="formatd(data)" :variant="variant" :rules="rules" hideDetails/>
         </template>
     </VueDatePicker>
 </template>

@@ -550,8 +550,8 @@ export default {
 <v-dialog v-model="dialog" transition="dialog-bottom-transition">
     <!-- BUTTON TAMBAH -->
     <template v-slot:activator="{ props }">
-        <v-btn v-if="!bahanbaku" v-bind="props" @click="more = 100, konversi = false" btn_title="Tambah Barang" class="me-3 rounded text-caption bg-blue-custom text-white" style="height:41px;" variant="text">Tambah Barang</v-btn>
-        <v-btn v-if="!bahanbaku && produksi || pengiriman" v-bind="props" @click="more = 100, konversi = true" btn_title="Tambah Konversi" class="rounded text-caption bg-blue-custom text-white" style="height:41px;" variant="text">Tambah Konversi</v-btn>
+        <btn-info v-if="!bahanbaku" v-bind="props" @click="more = 100, konversi = false" btn_title="Tambah Barang" class="me-3"></btn-info>
+        <btn-info v-if="!bahanbaku && produksi || pengiriman" v-bind="props" @click="more = 100, konversi = true" btn_title="Tambah Konversi"></btn-info>
         <!-- <text-field-form v-if="bahanbaku" readonly v-bind="props" @click="more = 15" label="Bahan Baku" v-model="kodebahan" /> -->
     </template>
     <v-card class="py-5 px-7 rounded-xl vh-100" min-width="300" max-width="400">

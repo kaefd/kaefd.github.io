@@ -34,7 +34,7 @@ export default {
 </script>
 
 <template>
-    <v-app-bar class="py-1 elevation-0 bg-transparent" height="60">
+    <v-app-bar class="py-1 elevation-0 bg-transparent" height="53">
       <v-container class="d-flex align-center">
         <slot name="app-btn"></slot>
         <!-- TITLE -->
@@ -85,6 +85,9 @@ export default {
 <style scoped>
 .clickable {
   cursor: pointer;
+}
+.bg-inherit {
+  background: #fafafa !important;
 }
 .title {
   font-size: 20px;

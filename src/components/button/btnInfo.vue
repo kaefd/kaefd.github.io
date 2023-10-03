@@ -12,7 +12,7 @@ export default {
 
 <template>
     <v-btn
-        class="elevation-0 text-caption rounded-xl"
+        class="elevation-0 text-caption rounded"
         color="blue-custom"
         height="42"
         width="137"
