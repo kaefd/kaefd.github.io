@@ -14,6 +14,7 @@ import barang from '../service/page/barang';
 import laporan from '../service/page/laporan';
 import functions from '../service/functions';
 import CircularLoader from '../components/animate/circularLoader.vue';
+import DatePicker from '../components/datepicker/datePicker.vue';
   export default {
     components: {
       TableVue,
@@ -30,6 +31,7 @@ import CircularLoader from '../components/animate/circularLoader.vue';
         drawer: null,
         search: '',
         searched: '',
+        periode: [],
         group_barang: [],
         kode_barang: [],
         filter: false,
@@ -44,6 +46,7 @@ import CircularLoader from '../components/animate/circularLoader.vue';
         logbrg: '',
         databarang: '',
         filtered: {
+        periode: [],
         kategori_barang: [],
         group_barang: [],
         kode_barang: []
@@ -51,7 +54,9 @@ import CircularLoader from '../components/animate/circularLoader.vue';
       }
     },
     computed: {
-      selected(){        
+      selected(){
+        this.periode = [functions.tglawal(), functions.day()]
+        this.filtered.periode = [functions.tglawal(), functions.day()]
         if (this.selectCategory.length === 0) {
           return laporan.stokBarang(this.databarang, this.items)
         } else {
@@ -101,7 +106,7 @@ import CircularLoader from '../components/animate/circularLoader.vue';
           this.loading = true
           this.items = await api.getGroupBarang()
           this.databarang = await api.getBarang()
-          this.logbrg = await api.getLogBarang()
+          this.logbrg = await api.getLogBarang(this.periode)
           this.loading = false
         } else return  await api.logout()
       },
@@ -118,7 +123,12 @@ import CircularLoader from '../components/animate/circularLoader.vue';
         functions.print(key, title, header, item)
       },
       filterdata() {
+        let awal = this.filtered.periode[0]
+        let akhir = this.filtered.periode[1]
+        this.periode[0] = new Date(awal).toJSON().slice(0, 10)
+        this.periode[1] = new Date(akhir).toJSON().slice(0, 10)
         this.selectCategory = this.filtered.kategori_barang
+        this.fetchData()
         if(!this.selectCategory) {
           this.selectCategory = []
         } else if (this.selectCategory == []) {
@@ -128,6 +138,8 @@ import CircularLoader from '../components/animate/circularLoader.vue';
         this.kode_barang = this.filtered.kode_barang
       },
       reset() {
+        this.periode = [this.tglawal(), functions.day()]
+        this.filtered.periode = [this.tglawal(), functions.day()]
         this.filtered.group_barang = []
         this.filtered.kode_barang = []
         this.filtered.kategori_barang = []
@@ -145,6 +157,12 @@ import CircularLoader from '../components/animate/circularLoader.vue';
 <template>
   <filterDrawer v-model="filter" @close="close" @reset="reset" @filterdata="filterdata">
     <template #default>
+      <v-span class="text-caption text-weight-bold">Periode</v-span>
+      <v-divider></v-divider>
+      <v-label class="text-small mt-4">Tgl Awal</v-label>
+      <DatePicker teleport-center v-model="filtered.periode[0]" :max-date="new Date()" :filter="true" :tema="tema"/>
+      <v-label class="text-small mt-1">Tgl Akhir</v-label>
+      <DatePicker teleport-center v-model="filtered.periode[1]" class="mb-4" :min-date="filtered.periode[0]" :filter="true" :tema="tema"/>
       <!-- KATEGORI BARANG -->
       <v-span class="text-caption text-weight-bold">Kategori Barang</v-span>
       <v-divider class="mb-6"></v-divider>

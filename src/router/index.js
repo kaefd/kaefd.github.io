@@ -18,6 +18,7 @@ import LaporanPengiriman from '../views/LaporanPengiriman.vue'
 import LogView from '../views/LaporanLog.vue'
 import Dashboard from '../views/DashboardPage.vue'
 import notPage from '../views/notPage.vue'
+import UbahPassword from '../views/UbahPassword.vue'
 const router = createRouter({
   history: createWebHashHistory(),
   routes: [
@@ -87,6 +88,14 @@ const router = createRouter({
         middleware: [middleware]
       },
       component: DataUser,
+    },
+    {
+      path: '/set',
+      name: 'UbahPassword',
+      meta: {
+        middleware: [middleware]
+      },
+      component: UbahPassword,
     },
     {
       path: '/pemasukan',

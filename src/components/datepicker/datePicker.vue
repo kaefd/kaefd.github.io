@@ -60,8 +60,8 @@ const customPosition = () => ({ top: 0, left: 0 });
         style="width: fit-content;"
     >
         <template v-if="!filter" #trigger>
-            <textFieldForm v-if="variant == ''" readonly :label="label" :model-value="functions.formatDate(data)" :rules="rules" hideDetails/>
-            <textField v-if="variant != ''" readonly :label="label" :model-value="formatd(data)" :variant="variant" :rules="rules" hideDetails/>
+            <textFieldForm v-if="!month" readonly :label="label" :model-value="functions.formatDate(data)" :rules="rules" hideDetails/>
+            <textField v-if="variant != '' && month" readonly :label="label" :model-value="formatd(data)" :variant="variant" :rules="rules" hideDetails/>
         </template>
     </VueDatePicker>
 </template>
@@ -136,5 +136,13 @@ const customPosition = () => ({ top: 0, left: 0 });
 }
 .false .dp__input_wrap .dp__input {
     border-color: rgb(192, 1, 1) !important;
+}
+.dp__selection_preview {
+    display: none;
+    color: var(--dp-text-color);
+    font-size: var(--dp-preview-font-size);
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 </style>

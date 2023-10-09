@@ -57,7 +57,7 @@ export default {
   },
   async getOtoritas(value) {
     try {
-      const response = await instance.get('/user_otoritas/' + value)
+      const response = await instance.get('/user_otoritas', {params: {username: value}})
       return response.data
     } catch (error) {
       return this.logout()
@@ -608,12 +608,12 @@ export default {
   /***********  PEMASUKAN ***********/
   async getPemasukanHead(param) {
     try {
-      const apiUrl = '/pembelian_head?'
-      const params = {
+      const apiUrl = '/pembelian_head'
+      const periode = {
         tgl_awal: param[0],
         tgl_akhir: param[1]
       }
-      const response = await instance.get(apiUrl, { params })
+      const response = await instance.get(apiUrl, { params: periode })
       return response.data
     } catch (error) {
       return this.logout()
@@ -633,10 +633,8 @@ export default {
     }
   },
   postPemasukan(head, detail) {
-    const h = JSON.stringify(head)
     const d = JSON.stringify(detail)
-    
-    return instance.post('/pembelian_head?', {
+    const post = {
       tgl_pembelian: head.tgl_pembelian,
       tipe_dokumen: head.tipe_dokumen,
       no_dokumen: head.no_dokumen,
@@ -648,7 +646,8 @@ export default {
       mata_uang: head.mata_uang,
       kurs: head.kurs,
       pembelian_detail: d
-    })
+    }
+    return instance.post('/pembelian_head?', {post})
   },
   deletePemasukan(head, detail) {
     const h = {
@@ -713,9 +712,13 @@ export default {
       return this.logout()
     }
   },
-  async getLogBarang() {
+  async getLogBarang (param) {
     try {
-      const response = await instance.get('/log_barang?')
+      const periode = {
+        tgl_awal: param[0],
+        tgl_akhir: param[1]
+      }
+      const response = await instance.get('/log_barang', {params: periode})
       return response.data
     } catch (error) {
       return this.logout()
@@ -861,9 +864,14 @@ export default {
   },
   async getHeadPenjualan(param) {
     try {
-      const apiUrl = '/penjualan_head/' + param
+      const p = {
+        tgl_awal: '2023-01-01',
+        tgl_akhir: '2023-12-31',
+        no_penjualan: param
+      }
+      const apiUrl = '/penjualan_head'
 
-      const response = await instance.get(apiUrl)
+      const response = await instance.get(apiUrl, {params: p})
       return response.data
     } catch (error) {
       console.log(error)

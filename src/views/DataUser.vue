@@ -74,8 +74,8 @@ import UserDetail from './userDetail.vue';
             // data user
             this.loading = true
             this.items = await api.getUser()
-            this.otority = await api.getOtoritas(this.userselect)
-            this.user_otoritas = otoritas.otoritas(this.otority)
+            // this.otority = await api.getOtoritas(this.userselect)
+            // this.user_otoritas = otoritas.otoritas(this.otority)
             this.loading = false
           } else await api.logout()
         },

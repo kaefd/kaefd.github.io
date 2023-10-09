@@ -6,6 +6,7 @@ import NavDrawers from './components/drawer/NavDrawers.vue';
 import AppBar from './components/appbar/AppBar.vue';
 import otoritas from './service/page/otoritas';
 import api from './service/api';
+import AkunDrawer from './components/drawer/akunDrawer.vue';
 </script>
 <script>
 export default {
@@ -18,6 +19,8 @@ export default {
             windowWidth: window.innerWidth,
             windowHeight: window.innerHeight,
             drawer: null,
+            akun: false,
+            user: '',
             aut: '',
             tema: null,
             databarang: '',
@@ -60,6 +63,7 @@ export default {
             if (token != null && token != false && user != null) {
                 let data = await api.getOtoritas(user)
                 this.aut = otoritas.otoritas(data)
+                this.user = user
             } else return await api.logout()
         },
 
@@ -80,6 +84,7 @@ export default {
     <v-layout>
         <!-- DRAWER -->
         <NavDrawers v-model="drawer" v-if="pageTitle != null" :pageTitle="pageTitle" :aut="aut" :pemasukan="pemasukan" :produksi="produksi" :pengeluaran="pengeluaran" :kirim="kirim" />
+        <AkunDrawer v-model="akun" :user="user" v-if="pageTitle != null"/>
         <!-- APP BAR -->
         <AppBar v-if="pageTitle != null" :pageTitle="pageTitle" @dark="theme">
             <template #app-btn>
@@ -92,6 +97,11 @@ export default {
                         <div></div>
                     </label>
                 </v-div>
+            </template>
+            <template #user>
+                <v-span @click="akun = !akun" class="text-caption d-flex me-3">
+                    {{ user }}
+                </v-span>
             </template>
         </AppBar>
         <!-- MAIN VIEW -->

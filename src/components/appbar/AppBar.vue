@@ -53,11 +53,8 @@ export default {
               <v-avatar class="bg-blue-custom me-2" size="small">
                 <v-icon size="25" color="white">mdi-account</v-icon>
               </v-avatar>
-              <v-span class="text-caption d-flex">
-                {{ user }}
-                <v-icon size="20">mdi-chevron-down</v-icon>
-              </v-span>
-              <v-menu activator="#akun">
+              <slot name="user"></slot>
+              <!-- <v-menu activator="#akun">
                 <v-card width="300"  class="rounded-xl pa-2 border">
                   <v-div class="d-flex flex-column align-center rounded-xl border">
                     <v-avatar class="bg-blue-custom mt-3 mb-2" size="100">
@@ -74,7 +71,7 @@ export default {
                     <v-span>Log out</v-span>
                   </v-btn>
                 </v-card>
-              </v-menu>
+              </v-menu> -->
             </v-div>
           </v-div>
         </v-toolbar>

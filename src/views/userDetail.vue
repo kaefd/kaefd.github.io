@@ -1,13 +1,14 @@
 <script setup>
 import BtnOrange from '../components/button/btnOrange.vue';
 import textFieldForm from '../components/form/textFieldForm.vue';
+import api from '../service/api';
 import otoritas from '../service/page/otoritas';
 </script>
 
 <script>
 export default {
   components: { textFieldForm, BtnOrange },
-    props: ['editdata', 'otority', 'tambahUser', 'user_otoritas', 'j_otoritas', 'userselect'],
+    props: ['editdata', 'tambahUser', 'userselect'],
     data() {
         return {
             confirmdialog: false,
@@ -164,11 +165,15 @@ export default {
         }
     },
     methods: {
+        async fetch () {
+            this.otority = await api.getOtoritas(this.userselect)
+        },
         submit() {
             return this.$emit('submitUser', this.ds)
         }
     },
     mounted() {
+        this.fetch()
     }
 }
 </script>

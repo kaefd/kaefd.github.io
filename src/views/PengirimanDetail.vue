@@ -18,9 +18,7 @@ import AlertVue from '../components/dialog/alertVue.vue'
 
 <script>
 export default {
-    components: {
-        
-    },
+
     props: [
         'tema',
         'window',

@@ -1,7 +1,5 @@
 <script setup>
 import functions from '../service/functions';
-</script>
-<script>
 import { VDataTable } from 'vuetify/labs/VDataTable'
 import dialogScroll from '../components/dialog/dialogScroll.vue';
 import datePickerVue from '../components/datepicker/datePicker.vue';
@@ -14,20 +12,9 @@ import TextField from '../components/form/textField.vue';
 import DialogVue from '../components/dialog/dialogVue.vue';
 import CurrencyInput from '../components/form/currencyInput.vue';
 import pemasukan from '../service/page/pemasukan';
+</script>
+<script>
 export default {
-    components: {
-        dialogScroll,
-        VDataTable,
-        datePickerVue,
-        BtnInfo,
-        textFieldForm,
-        BtnCancel,
-        BtnOrange,
-        dialogSearch,
-        TextField,
-        DialogVue,
-        CurrencyInput
-    },
     props:[ 'tema', 'window', 'windowH', 'hapus', 'pembelianbaru', 'namaPelanggan', 'laporan', 'groupbarang', 'barang', 'batalbtn', 'penjualan', 'pemasukan', 'alamatBongkar', 'namaTujuan', 'datainput', 'pageTitle', 'pengeluaran', 'dokumenpjl', 'namaSupplier', 'pengirimanDetail', 'pembelian', 'pelanggan', 'supplier', 'pembeliandetl', 'edit', 'kirim', 'headers', 'items', 'actIcon', 'icon', 'btncolor', 'search', 'iVariant', 'headDetails', 'details','disable', 'btn', 'datatext', 'itemDetail', 'category'],
     data () {
       return {
@@ -266,8 +253,8 @@ export default {
                     </div>
                     <div style="width: 300px;">
                         <div class="d-flex justify-space-between">
-                            <span class="text-caption" style="width: 90px; max-width:90px;">No Penjualan</span>
-                            <text-field-form label="Pelanggan" :model-value="items.nama" readonly />
+                            <span class="text-caption" style="width: 90px; max-width:90px;">Pelanggan</span>
+                            <text-field-form label="Pelanggan" :model-value="items.nama || namaPelanggan" readonly />
                         </div>
                         <div class="d-flex justify-space-between">
                             <span class="text-caption" style="width: 90px; max-width:90px;">Kode Group</span>
