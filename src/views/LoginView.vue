@@ -110,7 +110,7 @@ export default {
   </v-container>
 </v-responsive> -->
 
-<div class="vw-100 vh-100 overflow-hidden">
+<div class="w-100 h-100 overflow-hidden">
   <div class="relative">
     <div class="rounded-circle absolute mt-n16" style="width: 25vw; height: 25vw; background: rgba(5, 84, 136, 0.048);"></div>
   </div>
