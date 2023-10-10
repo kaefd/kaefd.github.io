@@ -141,7 +141,7 @@ label.v-label {
 
 /* COLOR */
 .bg-trans-blue {
-  background: hsla(0, 0%, 100%, 0.927) !important
+  background: hsla(0, 0%, 100%, 0.356) !important
 }
 .ms-n15p {
   margin-left: -15%;
@@ -160,8 +160,8 @@ label.v-label {
   height: 65vh;
 }
 .icon-small {
-  width: 15px;
-  height: 20px;
+  width: 7%;
+  height: auto;
 }
 /* FONT */
 .text-montserrat {
