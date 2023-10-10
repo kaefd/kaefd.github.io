@@ -12,6 +12,7 @@ const light = {
 	dark: false,
 	colors: {
 		background: '#fafafa',
+		'light': '#fafafa',
 		dark: '#212121',
 		'blue-custom': '#5fa0cb',
 		'white': '#fff',
@@ -23,6 +24,7 @@ const dark = {
 	dark: true,
 	colors: {
 		background: '#121212',
+		light: '#121212',
 		dark: '#e8e8e8',
 		'blue-custom': '#6699bf',
 		'black': '#fff',

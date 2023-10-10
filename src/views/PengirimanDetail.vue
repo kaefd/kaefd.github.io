@@ -163,7 +163,6 @@ export default {
                 for (let i = 0; i < this.nopjl.length; i++) {
                     pjl.push(await api.getHeadPenjualan(this.nopjl[i]))
                 }
-                console.log(this.nopjl);
                 let data = []
                 for (let j = 0; j < this.pjl_detail.length; j++) {
                     for (let k = 0; k < pjl.length; k++) {

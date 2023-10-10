@@ -101,6 +101,7 @@ export default {
       </template>
       <!-- CONTENT DIALOG EDIT/TAMBAH -->
       <v-card class="rounded-xl">
+        {{ item }}
         <v-form  @submit.prevent ref="form">
           <toolbar-header :toolbar_title="toolbar_title" />
             <v-container class="mt-5 d-flex flex-column align-center">
@@ -133,9 +134,9 @@ export default {
                 <div v-if="item != null" class="d-flex align-center">
                   <span class="text-caption" style="width:70px;">{{ headers[0].title }}</span>
                   <text-field-form
-                    :id="keyform[0] == 'kode_barang' ? '' : tipe"
+                    id="tipe"
                     :label="headers[0].title"
-                    :model-value="item[keyform[0]]"
+                    v-model="item[keyform[0]]"
                     readonly
                     :rules="required"
                   >                                
@@ -168,7 +169,7 @@ export default {
                   <text-field-form
                   v-if="this.item != null"
                   :label="headers[0].title"
-                  :model-value="item[keyform[0]]"
+                  v-model="item[keyform[0]]"
                   :readonly="headers[0].dis"
                   :rules="required"
                   ></text-field-form> 
@@ -187,7 +188,7 @@ export default {
                   <text-field-form
                     v-if="this.item != null"
                     :label="h.title"
-                    :model-value="item[keyform[i+1]]"
+                    v-model="item[keyform[i+1]]"
                     :readonly="headers[i+1].dis"
                     :rules="required"
                     :type="keyform[i+1] == 'berat' ? 'number' : text"

@@ -525,16 +525,12 @@ export default {
     }
   },
   postBarang(value) {
-    const jsonBarang = JSON.stringify(value)
-    return instance.post('/barang', {
-      barang: jsonBarang
-    })
+    // const jsonBarang = JSON.stringify(value)
+    return instance.post('/barang', value)
   },
   putBarang(value) {
     const jsonBarang = JSON.stringify(value)
-    return instance.patch('/barang', {
-      barang: jsonBarang
-    })
+    return instance.patch('/barang', value)
   },
   deleteBarang(v) {
     let input = {
@@ -552,16 +548,12 @@ export default {
     }
   },
   postKonversi(value) {
-    const jsonBarang = JSON.stringify(value)
-    return instance.post('/konversi_barang', {
-      konversi_barang: jsonBarang,
-    })
+    // const jsonBarang = JSON.stringify(value)
+    return instance.post('/konversi_barang', value)
   },
   putKonversi(value) {
     const jsonBarang = JSON.stringify(value)
-    return instance.patch('/konversi_barang', {
-      konversi_barang: jsonBarang
-    })
+    return instance.patch('/konversi_barang', value)
   },
   deleteKonversi(v) {
     let input = {
@@ -579,16 +571,12 @@ export default {
     }
   },
   postPelanggan(value) {
-    const myJSON = JSON.stringify(value)
-    return instance.post('/pelanggan', {
-      pelanggan: myJSON
-    })
+    // const myJSON = JSON.stringify(value)
+    return instance.post('/pelanggan', value)
   },
   putPelanggan(value) {
     const myJSON = JSON.stringify(value)
-    return instance.patch('/pelanggan', {
-      pelanggan: myJSON
-    })
+    return instance.patch('/pelanggan', value)
   },
   deletePelanggan(value) {
     let input = {
@@ -647,7 +635,7 @@ export default {
       kurs: head.kurs,
       pembelian_detail: d
     }
-    return instance.post('/pembelian_head?', {post})
+    return instance.post('/pembelian_head?', post)
   },
   deletePemasukan(head, detail) {
     const h = {
@@ -865,11 +853,9 @@ export default {
   async getHeadPenjualan(param) {
     try {
       const p = {
-        tgl_awal: '2023-01-01',
-        tgl_akhir: '2023-12-31',
         no_penjualan: param
       }
-      const apiUrl = '/penjualan_head'
+      const apiUrl = '/penjualan_head/no_penjualan'
 
       const response = await instance.get(apiUrl, {params: p})
       return response.data
