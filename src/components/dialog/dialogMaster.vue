@@ -101,7 +101,6 @@ export default {
       </template>
       <!-- CONTENT DIALOG EDIT/TAMBAH -->
       <v-card class="rounded-xl">
-        {{ item }}
         <v-form  @submit.prevent ref="form">
           <toolbar-header :toolbar_title="toolbar_title" />
             <v-container class="mt-5 d-flex flex-column align-center">
