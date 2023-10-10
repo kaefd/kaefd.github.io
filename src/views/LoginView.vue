@@ -110,12 +110,18 @@ export default {
   </v-container>
 </v-responsive> -->
 
-<div class="w-100 h-100 overflow-hidden">
+<div class="vw-100 vh-100 overflow-hidden">
+  <div class="relative">
     <div class="rounded-circle absolute mt-n16" style="width: 25vw; height: 25vw; background: rgba(5, 84, 136, 0.048);"></div>
-    <div class="absolute" style="top: 10%; left: 5%; z-index: 2; width: 30vw">
-        <img src="../assets/img/logo_text.png" alt="" style="width:100%;">
+  </div>
+    <div v-if="!mobile" class="relative" style="top: 10%; left: 5%; z-index: 2; width: 30vw">
+      <div class="absolute">
+          <img src="../assets/img/logo_text.png" alt="" style="width:100%;">
+      </div>
     </div>
-    <div class="rounded-circle absolute" style="width: 30vw; height: 30vw; right: -10%; top:5%; background: rgba(4, 98, 160, 0.075);">
+    <div class="relative">
+      <div class="rounded-circle absolute" style="width: 30vw; height: 30vw; top:5%; right: -10%; background: rgba(4, 98, 160, 0.075);">
+    </div>
     </div>
     <div class="d-flex justify-space-between h-100 align-center w-100">
       <div class="h-100 d-flex flex-column justify-end align-center w-100" style="z-index: 1;">
