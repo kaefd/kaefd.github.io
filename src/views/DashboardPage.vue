@@ -42,6 +42,12 @@ export default {
                 //     }
                 // },
             },
+            cardData: [
+                {title: 'Pemasukan', value: 0, img: "./src/assets/img/masuk.png"},
+                {title: 'Produksi', value: 0, img: "./src/assets/img/produksi.png"},
+                {title: 'Pengeluaran', value: 0, img: "./src/assets/img/export.png"},
+                {title: 'Pengiriman', value: 0, img: "./src/assets/img/deliv.png"}
+            ]
         }
     },
     created() {
@@ -49,14 +55,6 @@ export default {
         this.actived(0)
     },
     computed: {
-        cardData () {
-            return [
-                {title: 'Pemasukan', value: 0, img: 'src/assets/img/masuk.png'},
-                {title: 'Produksi', value: 0, img: 'src/assets/img/produksi.png'},
-                {title: 'Pengeluaran', value: 0, img: 'src/assets/img/export.png'},
-                {title: 'Pengiriman', value: 0, img: 'src/assets/img/deliv.png'}
-            ]
-        },
         dash_periode() {
             let m = this.periode.month
             let y = this.periode.year
