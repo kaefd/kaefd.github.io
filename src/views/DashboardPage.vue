@@ -264,7 +264,7 @@ export default {
                             <span class="text-body-2 font-weight-medium text-grey-darken-2">Total {{ card.title }}</span>
                             <h1 :class="c % 2 ? 'text-orange' : 'text-blue-custom'">{{card.value}}</h1>
                         </div>
-                        <img :src="'/src/assets/img/'+card.img" alt="logo" style="width: 25%; height: auto" />
+                        <img :src="'./src/assets/img/'+card.img" alt="logo" style="width: 25%; height: auto" />
                     </div>
                 </v-card>
             </div>
