@@ -23,22 +23,22 @@ export default {
                 stroke: {
                     show: true,
                     curve: 'smooth',
-                    width: 1
+                    width: 2
                 },
-                dataLabels: {
-                    enabled: false
-                },
-                plotOptions: {
-                    bar: {
-                        // borderRadius: 10,
-                    }
-                },
+                // dataLabels: {
+                //     enabled: false
+                // },
+                // plotOptions: {
+                //     bar: {
+                //         // borderRadius: 10,
+                //     }
+                // },
             },
             cardData: [
-                {title: 'Pemasukan', value: 0},
-                {title: 'Produksi', value: 0},
-                {title: 'Pengeluaran', value: 0},
-                {title: 'Pengiriman', value: 0}
+                {title: 'Pemasukan', value: 0, img: 'src/assets/img/masuk.png'},
+                {title: 'Produksi', value: 0, img: 'src/assets/img/produksi.png'},
+                {title: 'Pengeluaran', value: 0, img: 'src/assets/img/export.png'},
+                {title: 'Pengiriman', value: 0, img: 'src/assets/img/deliv.png'}
             ]
         }
     },
@@ -63,13 +63,20 @@ export default {
         },
         tablet () {
             return this.window > 700 && this.window < 1255
-        }
+        },
     },
     methods: {
         page() {
             return this.$emit('page', this.pageTitle)
         },
-        actived(index) {
+        avg (data) {
+            let sum = data.reduce((total, current) => {
+                return total + current;
+            }, 0)
+            let avg = sum/data.length
+            return avg*1
+        },
+        actived (index) {
             let a = ''
             for (let i = 0; i < this.grafik.length; i++) {
                 if(i == index) {
@@ -124,7 +131,7 @@ export default {
                 all.push(functions.numb(data[i].total_nilai))
                 b.push(data[i].tgl_pembelian)
             }
-            this.chartLine.xaxis = ' '
+            this.chartLine.xaxis = b
             this.chartLine.series = [
                 {name: 'BC23', type: 'column', color: '#FFD89D', data: bc2},
                 {name: 'BC40', type: 'column', color: '#245F86', data: bc4},
@@ -148,7 +155,7 @@ export default {
                 }
             }
             this.chartLine.stroke.show = true
-            this.chartLine.xaxis = ' '
+            this.chartLine.xaxis = b
             this.chartLine.series = [
                 {name: 'area', type: 'area', color: '#cbe1eb', data: a},
                 {name: 'column', type: 'column', color: '#245F86', data: a},
@@ -180,11 +187,11 @@ export default {
                             open.push(functions.numb(data[i].total_penjualan))
                         }
                         all.push(functions.numb(data[i].total_penjualan))
-                        b.push(data[i].tgl_pembelian)
+                        b.push(data[i].tgl_penjualan)
                     }
                 }
             }
-            this.chartLine.xaxis = ' '
+            this.chartLine.xaxis = b
             this.chartLine.series = [
                 {name: 'BC23', type: 'column', color: '#FFD89D', data: bc2},
                 {name: 'BC40', type: 'column', color: '#245F86', data: bc4},
@@ -208,7 +215,7 @@ export default {
                 }
             }
             this.chartLine.stroke.show = true
-            this.chartLine.xaxis = ' '
+            this.chartLine.xaxis = b
             this.chartLine.series = [
             {name: 'column', type: 'column', color: '#FF9800', data: a},
             ]
@@ -234,10 +241,7 @@ export default {
                             <span class="text-body-2 font-weight-medium text-grey-darken-2">Total {{ card.title }}</span>
                             <h1 :class="c % 2 ? 'text-orange' : 'text-blue-custom'">{{card.value}}</h1>
                         </div>
-                        <div class="d-flex">
-                            <img v-if="c % 2" src="../assets/img/masuk.png" alt="logo" style="width: 55px; height: 50px" />
-                            <img v-else src="../assets/img/blue.png" alt="logo" style="width: 55px; height: 50px" />
-                        </div>
+                        <img :src="card.img" alt="logo" style="width: 25%; height: auto" />
                     </div>
                 </v-card>
             </div>
@@ -250,7 +254,11 @@ export default {
                     </v-list>
                     <!-- <apexchart class="text-black" width="500" type="line" :options="options" :series="series" :stroke="stroke"></apexchart> -->
                     <div class="d-flex justify-start">
-                        <LineChart :chart="chartLine" :height="window < 700 ? 320 : 400" :width="window > 700 ? 900 : '100%'"/>
+                        <div>
+                            <span class="ms-3 text-caption font-weight-bold">(Juta)</span>
+                            <LineChart :charts="chartLine" :height="window < 700 ? 320 : 400" :width="window > 700 ? 950 : '100%'"/>
+                            <span class="d-block font-weight-bold text-center">Total Pemasukan Bulan September 2023</span>
+                        </div>
                         <v-btn v-if="!mobile" @click="full = !full" variant="text" icon="mdi-fullscreen" color="blue-custom" class="text-h5"></v-btn>
                     </div>
                 </div>
@@ -260,11 +268,11 @@ export default {
             </v-card> -->
         </div>
     </v-container>
-    <v-dialog fullscreen="" v-model="full" width="auto" transition="dialog-bottom-transition">
+    <v-dialog fullscreen v-model="full" width="auto" transition="dialog-bottom-transition">
         <v-card class="h-100 vw-100 ma-auto px-10 py-3">
             <v-btn @click="full = false" icon="mdi-close" variant="text" class="me-0 ms-auto"></v-btn>
             <div class="ma-auto">
-                <LineChart :chart="chartLine" width="1200" height="500" />
+                <LineChart :charts="chartLine" width="1200" height="500" />
             </div>
         </v-card>
     </v-dialog>

@@ -142,5 +142,11 @@ export default {
       })
       return uniqueChars
     },
-    
+    avg (data) {
+      let sum = data.reduce((total, current) => {
+          return total + current;
+      }, 0)
+      let avg = sum/data.length
+      return this.numb(avg)
+    }
   } 
