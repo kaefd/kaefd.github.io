@@ -43,10 +43,10 @@ export default {
                 // },
             },
             cardData: [
-                {title: 'Pemasukan', value: 0, img: "./src/assets/img/masuk.png"},
-                {title: 'Produksi', value: 0, img: "./src/assets/img/produksi.png"},
-                {title: 'Pengeluaran', value: 0, img: "./src/assets/img/export.png"},
-                {title: 'Pengiriman', value: 0, img: "./src/assets/img/deliv.png"}
+                {title: 'Pemasukan', value: 0, img: "src/assets/img/masuk.png"},
+                {title: 'Produksi', value: 0, img: "src/assets/img/produksi.png"},
+                {title: 'Pengeluaran', value: 0, img: "src/assets/img/export.png"},
+                {title: 'Pengiriman', value: 0, img: "src/assets/img/deliv.png"}
             ]
         }
     },
