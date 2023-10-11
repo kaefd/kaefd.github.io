@@ -42,12 +42,6 @@ export default {
                 //     }
                 // },
             },
-            cardData: [
-                {title: 'Pemasukan', value: 0, img: 'masuk.png'},
-                {title: 'Produksi', value: 0, img: 'produksi.png'},
-                {title: 'Pengeluaran', value: 0, img: 'export.png'},
-                {title: 'Pengiriman', value: 0, img: 'deliv.png'}
-            ]
         }
     },
     created() {
@@ -55,6 +49,14 @@ export default {
         this.actived(0)
     },
     computed: {
+        cardData () {
+            return [
+                {title: 'Pemasukan', value: 0, img: 'src/assets/img/masuk.png'},
+                {title: 'Produksi', value: 0, img: 'src/assets/img/produksi.png'},
+                {title: 'Pengeluaran', value: 0, img: 'src/assets/img/export.png'},
+                {title: 'Pengiriman', value: 0, img: 'src/assets/img/deliv.png'}
+            ]
+        },
         dash_periode() {
             let m = this.periode.month
             let y = this.periode.year
@@ -264,7 +266,7 @@ export default {
                             <span class="text-body-2 font-weight-medium text-grey-darken-2">Total {{ card.title }}</span>
                             <h1 :class="c % 2 ? 'text-orange' : 'text-blue-custom'">{{card.value}}</h1>
                         </div>
-                        <img :src="'./src/assets/img/'+card.img" alt="logo" style="width: 25%; height: auto" />
+                        <img :src="card.img" alt="logo" style="width: 25%; height: auto" />
                     </div>
                 </v-card>
             </div>
