@@ -141,18 +141,18 @@ export default {
             let data = this.dataPemasukan
             for (let i = 0; i < data.length; i++) {
                 if(data[i].tipe_dokumen == 'BC23') {
-                    bc2.push(functions.numb(data[i].total_nilai))
+                    bc2.push(functions.numb(data[i].total_nilai/1000000))
                 }
                 if(data[i].tipe_dokumen == 'BC40') {
-                    bc4.push(functions.numb(data[i].total_nilai))
+                    bc4.push(functions.numb(data[i].total_nilai/1000000))
                 }
                 if(data[i].tipe_dokumen == 'PPKEK-LDP') {
-                    ldp.push(functions.numb(data[i].total_nilai))
+                    ldp.push(functions.numb(data[i].total_nilai/1000000))
                 }
                 if(data[i].tipe_dokumen == 'PPKEK-TLDDP') {
-                    tld.push(functions.numb(data[i].total_nilai))
+                    tld.push(functions.numb(data[i].total_nilai/1000000))
                 }
-                all.push(functions.numb(data[i].total_nilai))
+                all.push(functions.numb(data[i].total_nilai/1000000))
                 b.push(data[i].tgl_pembelian)
             }
             this.chartLine.xaxis = b
@@ -173,7 +173,7 @@ export default {
             for (let i = 0; i < head.length; i++) {
                 for (let j = 0; j < barang.length; j++) {
                     if(head[i].no_produksi == barang[j].no_produksi) {
-                        a.push(functions.numb(barang[i].jumlah, 1, true))
+                        a.push(functions.numb(barang[i].nilai/1000000))
                         b.push(head[i].tgl_produksi)
                     }
                 }
@@ -198,18 +198,18 @@ export default {
                 for (let j = 0; j < detail.length; j++) {
                     if(data[i].no_penjualan == detail[j].no_penjualan) {
                         if(data[i].tipe_dokumen == 'BC25') {
-                            bc2.push(functions.numb(data[i].total_penjualan))
+                            bc2.push(functions.numb(data[i].total_penjualan/1000000))
                         }
                         if(data[i].tipe_dokumen == 'BC41') {
-                            bc4.push(functions.numb(data[i].total_penjualan))
+                            bc4.push(functions.numb(data[i].total_penjualan/1000000))
                         }
                         if(detail[j].jumlah_terkirim == detail[j].jumlah) {
-                            close.push(functions.numb(data[i].total_penjualan))
+                            close.push(functions.numb(data[i].total_penjualan/1000000))
                         }
                         if(detail[j].jumlah_terkirim != detail[j].jumlah) {
-                            open.push(functions.numb(data[i].total_penjualan))
+                            open.push(functions.numb(data[i].total_penjualan/1000000))
                         }
-                        all.push(functions.numb(data[i].total_penjualan))
+                        all.push(functions.numb(data[i].total_penjualan/1000000))
                         b.push(data[i].tgl_penjualan)
                     }
                 }
@@ -232,7 +232,7 @@ export default {
             for (let i = 0; i < head.length; i++) {
                 for (let j = 0; j < detail.length; j++) {
                     if(head[i].no_pengiriman == detail[j].no_pengiriman) {
-                        a.push(functions.numb(detail[j].jumlah, 1, true))
+                        a.push(functions.numb(detail[j].nilai/1000000))
                         b.push(head[i].tgl_pengiriman)
                     }
                 }
@@ -264,10 +264,10 @@ export default {
                             <span class="text-body-2 font-weight-medium text-grey-darken-2">Total {{ card.title }}</span>
                             <h1 :class="c % 2 ? 'text-orange' : 'text-blue-custom'">{{card.value}}</h1>
                         </div>
-                        <img v-if="card.title == 'Pemasukan'" src="../assets/img/masuk.png" alt="logo" style="width: 25%; height: auto" />
-                        <img v-if="card.title == 'Produksi'" src="../assets/img/produksi.png" alt="logo" style="width: 25%; height: auto" />
-                        <img v-if="card.title == 'Pengeluaran'" src="../assets/img/export.png" alt="logo" style="width: 25%; height: auto" />
-                        <img v-if="card.title == 'Pengiriman'" src="../assets/img/deliv.png" alt="logo" style="width: 25%; height: auto" />
+                        <img v-if="card.title == 'Pemasukan'" src="../assets/img/masuk.png" alt="logo" style="width: 25%; max-width: 100px; height: auto" />
+                        <img v-if="card.title == 'Produksi'" src="../assets/img/produksi.png" alt="logo" style="width: 25%; max-width: 100px; height: auto" />
+                        <img v-if="card.title == 'Pengeluaran'" src="../assets/img/export.png" alt="logo" style="width: 25%; max-width: 100px; height: auto" />
+                        <img v-if="card.title == 'Pengiriman'" src="../assets/img/deliv.png" alt="logo" style="width: 25%; max-width: 100px; height: auto" />
                     </div>
                 </v-card>
             </div>
