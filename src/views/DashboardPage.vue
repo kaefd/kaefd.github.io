@@ -14,6 +14,14 @@ export default {
             pageTitle: 'Dashboard',
             periode: '',
             newperiode: '',
+            dataPemasukan: '',
+            dataProduksi: '',
+            dataProDetail: '',
+            dataPengeluaran: '',
+            dataPjlDetail: '',
+            dataPengiriman: '',
+            dataPgmDetail: '',
+            title: '',
             full: false,
             grafik: ['Pemasukan', 'Produksi', 'Pengeluaran', 'Pengiriman'],
             active:[],
@@ -35,16 +43,16 @@ export default {
                 // },
             },
             cardData: [
-                {title: 'Pemasukan', value: 0, img: 'src/assets/img/masuk.png'},
-                {title: 'Produksi', value: 0, img: 'src/assets/img/produksi.png'},
-                {title: 'Pengeluaran', value: 0, img: 'src/assets/img/export.png'},
-                {title: 'Pengiriman', value: 0, img: 'src/assets/img/deliv.png'}
+                {title: 'Pemasukan', value: 0, img: '/src/assets/img/masuk.png'},
+                {title: 'Produksi', value: 0, img: '/src/assets/img/produksi.png'},
+                {title: 'Pengeluaran', value: 0, img: '/src/assets/img/export.png'},
+                {title: 'Pengiriman', value: 0, img: '/src/assets/img/deliv.png'}
             ]
         }
     },
     created() {
-        this.active[0] = true
         this.dash_periode
+        this.actived(0)
     },
     computed: {
         dash_periode() {
@@ -57,6 +65,11 @@ export default {
             if(this.periode == '') {
                 return ['2023-09-01', '2023-10-01']
             } else return [awal, akhir]
+        },
+        getMonth() {
+            let m = new Date(this.dash_periode[0])
+            let name = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember']
+            return name[m.getMonth()] + ' ' + m.getFullYear()
         },
         mobile () {
             return this.window < 700
@@ -83,38 +96,49 @@ export default {
                     if(this.grafik[i] == 'Pemasukan') {
                         this.active[i] = true
                         a = this.pemasukan()
+                        this.title = 'Pemasukan'
                     }
                     else if(this.grafik[i] == 'Produksi') {
                         this.active[i] = true
                         a = this.produksi()
+                        this.title = 'Produksi'
                     }
                     else if(this.grafik[i] == 'Pengeluaran') {
                         this.active[i] = true
                         a = this.pengeluaran()
+                        this.title = 'Pengeluaran'
                     }
                     else if(this.grafik[i] == 'Pengiriman') {
                         this.active[i] = true
                         a = this.pengiriman()
+                        this.title = 'Pengiriman'
                     }
                 }
                 else this.active[i] = false
             }
             return a
         },
-        fetch() {
-            this.pemasukan(),
-            this.produksi(),
-            this.pengeluaran()
+        async fetch() {
+            this.dataPemasukan = await api.getPemasukanHead(this.dash_periode)
+            this.dataProduksi = await api.getProduksiHead(this.dash_periode)
+            this.dataPengeluaran = await api.getPenjualanHead(this.dash_periode)
+            this.dataPjlDetail = await api.getPenjualanDetail(this.dash_periode)
+            this.dataPengiriman = await api.getPengirimanHead(this.dash_periode)
+            this.dataPgmDetail = await api.getPengirimanDetail(this.dash_periode)
+            this.dataProDetail = await api.getProDBahan(this.dash_periode)
             this.pengiriman()
+            this.pengeluaran()
+            this.produksi()
+            this.pemasukan()
         },
-        async pemasukan() {
+        pemasukan() {
             let ldp = []
             let tld = []
             let bc2 = []
             let bc4 = []
             let all = []
             let b = []
-            let data = await api.getPemasukanHead(this.dash_periode)
+            let data = this.dataPemasukan
             for (let i = 0; i < data.length; i++) {
                 if(data[i].tipe_dokumen == 'BC23') {
                     bc2.push(functions.numb(data[i].total_nilai))
@@ -141,11 +165,11 @@ export default {
             ]
             this.cardData[0].value = data.length
         },
-        async produksi() {
+        produksi() {
             let a = []
             let b = []
-            let head = await api.getProduksiHead(this.dash_periode)
-            let barang = await api.getProDBahan(this.dash_periode)
+            let head = this.dataProduksi
+            let barang = this.dataProDetail
             for (let i = 0; i < head.length; i++) {
                 for (let j = 0; j < barang.length; j++) {
                     if(head[i].no_produksi == barang[j].no_produksi) {
@@ -157,20 +181,19 @@ export default {
             this.chartLine.stroke.show = true
             this.chartLine.xaxis = b
             this.chartLine.series = [
-                {name: 'area', type: 'area', color: '#cbe1eb', data: a},
-                {name: 'column', type: 'column', color: '#245F86', data: a},
+                {name: 'data', type: 'column', color: '#245F86', data: a},
             ]
             this.cardData[1].value = head.length
         },
-        async pengeluaran() {
+        pengeluaran() {
             let open = []
             let close = []
             let bc2 = []
             let bc4 = []
             let all = []
             let b = []
-            let data = await api.getPenjualanHead(this.dash_periode)
-            let detail = await api.getPenjualanDetail(this.dash_periode)
+            let data = this.dataPengeluaran
+            let detail = this.dataPjlDetail
             for (let i = 0; i < data.length; i++) {
                 for (let j = 0; j < detail.length; j++) {
                     if(data[i].no_penjualan == detail[j].no_penjualan) {
@@ -195,17 +218,17 @@ export default {
             this.chartLine.series = [
                 {name: 'BC23', type: 'column', color: '#FFD89D', data: bc2},
                 {name: 'BC40', type: 'column', color: '#245F86', data: bc4},
-                {name: 'open', type: 'column', color: '#ff9800', data: open},
-                {name: 'close', type: 'column', color: '#5fa0cb', data: close},
+                {name: 'Menunggu', type: 'column', color: '#ff9800', data: open},
+                {name: 'Terkirim', type: 'column', color: '#5fa0cb', data: close},
                 {name: 'Semua', type: 'area', color: '#cbe1eb', data: all},
             ]
             this.cardData[2].value = data.length
         },
-        async pengiriman() {
+        pengiriman() {
             let a = []
             let b = []
-            let head = await api.getPengirimanHead(this.dash_periode)
-            let detail = await api.getPengirimanDetail(this.dash_periode)
+            let head = this.dataPengiriman
+            let detail = this.dataPgmDetail
             for (let i = 0; i < head.length; i++) {
                 for (let j = 0; j < detail.length; j++) {
                     if(head[i].no_pengiriman == detail[j].no_pengiriman) {
@@ -217,7 +240,7 @@ export default {
             this.chartLine.stroke.show = true
             this.chartLine.xaxis = b
             this.chartLine.series = [
-            {name: 'column', type: 'column', color: '#FF9800', data: a},
+            {name: 'data', type: 'column', color: '#FF9800', data: a},
             ]
             this.cardData[3].value = head.length
         },
@@ -231,7 +254,7 @@ export default {
 
 <template>
     <v-container class="s-100 bg-light">
-        <DatePicker v-model="periode" :on-vnode-mounted="actived(0)"  variant="sas" :month="true" label="Periode" class="mb-4 w-100" />
+        <DatePicker v-model="periode" :on-vnode-mounted="fetch()"  variant="sas" :month="true" :label="getMonth" class="mb-4 w-100" />
         <div class="d-flex justify-space-between flex-wrap">
             <div v-for="card, c in cardData" :key="c" class="card-wrapper d-flex justify-center mb-3 mb-lg-0" :class="mobile ? 'card-wrapper-min' : (tablet ? 'card-wrapper-med' : 'card-wrapper')">
                 <div class="absolute preview-card"></div>
@@ -257,7 +280,7 @@ export default {
                         <div>
                             <span class="ms-3 text-caption font-weight-bold">(Juta)</span>
                             <LineChart :charts="chartLine" :height="window < 700 ? 320 : 400" :width="window > 700 ? 950 : '100%'"/>
-                            <span class="d-block font-weight-bold text-center">Total Pemasukan Bulan September 2023</span>
+                            <span class="d-block font-weight-bold text-center">Total {{ title }} Bulan {{ getMonth }}</span>
                         </div>
                         <v-btn v-if="!mobile" @click="full = !full" variant="text" icon="mdi-fullscreen" color="blue-custom" class="text-h5"></v-btn>
                     </div>
