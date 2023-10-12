@@ -389,6 +389,8 @@ export default {
                         <v-span v-if="edit" class="float-end me-5 text-caption font-weight-medium">Total Jumlah : {{ functions.numb(jumlahtotal(kirim_detail), 2, true) }}</v-span>
                         <v-span v-if="!edit" class="float-end me-5 text-caption font-weight-medium">Total Jumlah : {{ functions.numb(jumlahtotal(pembelian_input)) }}</v-span>
                     </template>
+                    <!-- eslint-disable-next-line vue/valid-v-slot -->
+                    <template v-slot:item.jumlah="{ item }">{{ functions.numb(item.raw.jumlah, 1, true) }}</template>
                     <!-- dialog actions -->
                     <!-- CUSTOM KOLOM -->
                     <!-- eslint-disable-next-line vue/valid-v-slot -->

@@ -32,7 +32,7 @@ export default {
 <template>
 <v-navigation-drawer class="border-0 elevation-0" location="right" width="300" temporary>
     <v-sheet class="pt-5 w-100 h-100">
-        <div class="absolute px-3 border-start bg-orange-lighten-3 w-75 py-2 rounded-right">Profil Pengguna</div>
+        <div class="absolute px-3 border-start bg-grey-lighten-3 w-75 py-2 rounded-right text-grey-darken-3">Profil Pengguna</div>
             <div class="d-flex align-center justify-center w-100 h-100">
                 <div class="d-flex flex-column align-center w-100 h-100 pt-16">
                     <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="photo" class="rounded-circle" style="width: 100px;">

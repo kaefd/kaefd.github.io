@@ -277,7 +277,7 @@ export default {
                 }, 1000)
             }
         },
-        pemasukanItem(kode, i) {
+        async pemasukanItem(kode, i) {
             this.state.hs_code = kode.hs_code
             this.state.satuan = kode.satuan
             let nilai = ''
@@ -342,8 +342,12 @@ export default {
                       let kodekonversi = ''
                       let jml = 0
                       if(this.konversi) {
+                        let berat = await this.hitungBerat(kode)
+                        let brg = await api.getBarang({kode_barang: kode.kode_barang})
                         kodekonversi = kode.kode_konversi
-                        jml = 0
+                        jml = berat * this.penjualan_detail.jumlah_konversi
+                        this.state.nama_barang = brg[0].nama_barang
+                        this.state.satuan = brg[0].satuan
                       } else {
                         kodekonversi = this.state.kode_konversi
                         jml = this.penjualan_detail.jumlah
@@ -405,16 +409,31 @@ export default {
                 this.check(kode)
                 if(this.penjualan_detail.jumlah <= (kode.jumlah - kode.jumlah_terkirim)) {
                   if (this.res) {
+                    let jml = 0
+                    let nama = ''
+                    if (this.konversi) {
+                        let berat = await this.hitungBerat(kode)
+                        let brg = await api.getBarang({kode_barang: kode.kode_barang})
+    
+                        jml = berat * this.penjualan_detail.jumlah_konversi
+    
+                        nama = brg[0].nama_barang
+                        this.state.satuan = brg[0].satuan
+                    } else {
+                        jml = this.penjualan_detail.jumlah
+                        nama = kode.nama_barang
+                    }
+
                       this.pemasukan_item.push({
                           no_penjualan: kode.no_penjualan,
                           no_pengiriman: this.nokirim,
                           kode_barang: kode.kode_barang,
-                          nama_barang: kode.nama_barang,
+                          nama_barang: nama,
                           kode_group: kode.kode_group,
                           tipe_dokumen: kode.tipe_dokumen,
                           no_dokumen: kode.no_dokumen,
                           hs_code: this.state.hs_code,
-                          jumlah: this.penjualan_detail.jumlah,
+                          jumlah: jml,
                           kode_konversi: this.state.kode_konversi,
                           nama_konversi: this.state.nama_konversi,
                           jumlah_konversi: this.penjualan_detail.jumlah_konversi,
@@ -519,6 +538,21 @@ export default {
                     }
                 }
             }
+        },
+        async hitungBerat(kode) {
+            let param = ''
+            if(this.kodegroup) {
+                param = {
+                    kode_konversi: kode.kode_konversi,
+                    kode_group: this.kodegroup
+                }
+            } else {
+                param = {
+                    kode_konversi: this.state.kode_konversi,
+                    kode_group: kode.kode_group,
+                }
+            }
+            return await api.getBerat(param)
         },
         pro(value, b) {
             if(!this.bahanbaku) {

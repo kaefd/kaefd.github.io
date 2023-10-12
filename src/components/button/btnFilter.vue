@@ -17,6 +17,6 @@ export default {
         variant="text"
         icon
     >
-        <v-icon size="20" color="blue-custom">mdi-table-filter</v-icon>
+        <v-icon size="20" color="blue-custom">mdi-filter</v-icon>
     </v-btn>
 </template>

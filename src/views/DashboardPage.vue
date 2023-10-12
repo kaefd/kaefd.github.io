@@ -309,8 +309,8 @@ export default {
     width: 100% !important;
 }
 .preview-card {
-    height: 120px;
-    width: 150px;
+    height: 20vh;
+    width: 10%;
     box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.075) !important;
 }
 .card-wrapper{

@@ -50,8 +50,8 @@ export default {
             <v-divider vertical class="mx-2"></v-divider>
             <!-- USER -->
             <v-div id="akun" class="d-flex align-center text-blue-custom clickable">
-              <v-avatar class="bg-blue-custom me-2" size="small">
-                <v-icon size="25" color="white">mdi-account</v-icon>
+              <v-avatar class="bg-blue-lighten-1 me-2" size="small">
+                <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" style="width: 28px;" alt="">
               </v-avatar>
               <slot name="user"></slot>
               <!-- <v-menu activator="#akun">

@@ -516,9 +516,9 @@ export default {
     }
   },
   /*********** DATA BARANG ***********/
-  async getBarang() {
+  async getBarang(param) {
     try {
-      const response = await instance.get('/barang?status=true')
+      const response = await instance.get('/barang?status=true', {params: param})
       return response.data
     } catch (error) {
       return this.logout()
@@ -542,6 +542,14 @@ export default {
   async getKonversi() {
     try {
       const response = await instance.get('/konversi_barang?status=true')
+      return response.data
+    } catch (error) {
+      return this.logout()
+    }
+  },
+  async getBerat(param) {
+    try {
+      const response = await instance.get('/konversi_barang/berat', {params: param})
       return response.data
     } catch (error) {
       return this.logout()
