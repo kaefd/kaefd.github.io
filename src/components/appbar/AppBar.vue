@@ -41,7 +41,7 @@ export default {
         <v-toolbar class="bg-transparent pe-3 ms-n6">
           <v-toolbar-title class="text-blue-custom font-weight-medium title text-capitalize">{{ pageTitle }}</v-toolbar-title> 
           <v-spacer></v-spacer>
-          <v-div class="d-flex align-center">
+          <div class="d-flex align-center">
           <!-- THEME BUTTON -->
             <v-btn icon size="small" color="blue-custom" @click="theme()">
               <v-span v-if="dark" class="material-symbols-outlined">dark_mode</v-span>
@@ -49,14 +49,11 @@ export default {
             </v-btn>
             <v-divider vertical class="mx-2"></v-divider>
             <!-- USER -->
-            <v-div id="akun" class="d-flex align-center text-blue-custom clickable">
-              <v-avatar class="bg-blue-lighten-1 me-2" size="small">
-                <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" style="width: 28px;" alt="">
-              </v-avatar>
+            <div id="akun" class="d-flex align-center text-blue-custom clickable ms-2">
               <slot name="user"></slot>
               <!-- <v-menu activator="#akun">
                 <v-card width="300"  class="rounded-xl pa-2 border">
-                  <v-div class="d-flex flex-column align-center rounded-xl border">
+                  <div class="d-flex flex-column align-center rounded-xl border">
                     <v-avatar class="bg-blue-custom mt-3 mb-2" size="100">
                       <v-icon size="80">mdi-account</v-icon>
                     </v-avatar>
@@ -65,15 +62,15 @@ export default {
                       <v-icon color="mt-n1 ms-6" size="19">mdi-key</v-icon>
                       <v-span class="ms-2 text-body-2">Ganti Password</v-span>
                     </v-btn>
-                  </v-div>
+                  </div>
                   <v-btn @click="logout()" variant="text" class="d-flex justify-start align-left rounded-xl elevation-0 text-body-2" block size="60">
                     <v-icon size="20" class="me-2 ms-6">mdi-logout</v-icon>
                     <v-span>Log out</v-span>
                   </v-btn>
                 </v-card>
               </v-menu> -->
-            </v-div>
-          </v-div>
+            </div>
+          </div>
         </v-toolbar>
       </v-container>
     </v-app-bar>

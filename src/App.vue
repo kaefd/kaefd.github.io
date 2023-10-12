@@ -99,9 +99,12 @@ export default {
                 </v-div>
             </template>
             <template #user>
-                <v-span @click="akun = !akun" class="text-caption d-flex me-3">
+                <!-- <v-span @click="akun = !akun" class="text-caption d-flex me-3">
                     {{ user }}
-                </v-span>
+                </v-span> -->
+                <v-avatar @click="akun = !akun" class="bg-blue-lighten-1 me-2" size="small">
+                    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" style="width: 28px;" alt="">
+                </v-avatar>
             </template>
         </AppBar>
         <!-- MAIN VIEW -->
