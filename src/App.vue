@@ -215,13 +215,13 @@ label div {
 }
 
 label div:first-child {
-    width: 17px;
+    width: 14px;
 }
 
 label div:nth-child(2) {
-    width: 15px;
+    width: 12px;
 }
 label div:last-child {
-    width: 19px;
+    width: 17px;
 }
 </style>
