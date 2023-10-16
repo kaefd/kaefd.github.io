@@ -2,9 +2,10 @@
 export default {
     components: {
   },
-    props:['icon', 'btn_title', 'placeholder', 'variant'],
+    props:['icon', 'btn_title', 'placeholder'],
     data () {
         return {
+          variant: 'text'
         }
     }
 }

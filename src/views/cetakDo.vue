@@ -108,13 +108,13 @@ export default {
     <v-sheet class="page mx-auto pa-7">
       <v-span class="text-h5 font-weight-bold d-flex justify-center">DELIVERY ORDER</v-span>
       <!-- TUJUAN KIRIM -->
-      <v-div class="d-flex text-body-2 text-regular my-10 preview">
-        <v-div class="d-flex flex-column">
+      <div class="d-flex text-body-2 text-regular my-10 preview">
+        <div class="d-flex flex-column">
           <v-span class="me-2 space">Tgl Pengiriman</v-span>
           <v-span class="me-2 space">Supir/No Polisi</v-span>
           <v-span class="me-2 space">Tujuan Kirim</v-span>
-        </v-div>
-        <v-div class="d-flex flex-column">
+        </div>
+        <div class="d-flex flex-column">
           <v-span class="me-2 space">: {{ functions.formatDate(items.tgl_pengiriman) }}
             <!-- <v-span contenteditable>/ {{ functions.getTime() }}</v-span> -->
           </v-span>
@@ -123,8 +123,8 @@ export default {
               : {{ functions.uppercase(items.namaplg) }} <br/>
               <!-- {{ uppercase(items.kabupaten) }} -->
           </v-span>
-        </v-div>
-      </v-div>
+        </div>
+      </div>
       <!-- TABEL DETAIL BARANG -->
       <!-- TABEL BARANG -->
       <v-sheet height="35vh" width="100%">

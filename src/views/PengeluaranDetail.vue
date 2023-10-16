@@ -382,11 +382,11 @@ export default {
                     <template v-slot:item.actions="{ item, index }">
                         <dialog-vue v-model="detaildial[index]">
                             <template #titlecard>
-                                <v-card-title class="text-center text-orange text-button font-weight-bold">{{ item.raw.nama_barang }}</v-card-title>
+                                <v-card-title class="text-center text-grey-darken-3 text-button font-weight-bold">{{ item.raw.nama_barang }}</v-card-title>
                                 <v-card-subtitle class="text-caption text-center mb-2 mt-n3">{{ item.raw.hs_code }}</v-card-subtitle>
                             </template>
                             <template #content>
-                                <v-div class="mx-auto mt-5 w-75">
+                                <div class="mx-auto mt-5 w-75">
                                     <div v-if="edit" class="d-flex justify-space-between">
                                         <span class="text-caption d-flex align-center" style="width: 90px; max-width:90px;">Jumlah</span> 
                                         <text-field-form
@@ -439,32 +439,32 @@ export default {
                                             class="mb-3"
                                         />
                                     </div>
-                                </v-div>
+                                </div>
                                 <v-divider class="mb-5"></v-divider>
-                                <v-div v-if="!edit" class="d-flex me-5 ms-auto">
+                                <div v-if="!edit" class="d-flex me-5 ms-auto">
                                     <btn-cancel btn_title="Hapus" @click="deleteditem(item.raw), detaildial[index] = false" :hidden="disable" class="me-2">Hapus</btn-cancel>
                                     <btn-orange btn_title="Simpan" :hidden="disable" @click="detaildial[index] = false">Simpan</btn-orange>
-                                </v-div>
+                                </div>
                             </template>
                         </dialog-vue>
                     </template>
                     </v-data-table>
                 </div>
-                <v-div class="d-flex mb-0 mt-auto me-5 ms-auto">
+                <div class="d-flex mb-0 mt-auto me-5 ms-auto">
                     <btn-cancel v-if="!edit" @click="dialog = false, inputdata= {}, pembelian_input=[]" btn_title="Batal" class="mb-3"/>
                     <btn-orange v-if="!edit" @click="validate" :hidden="disable" btn_title="Simpan" class="ms-2 mb-3" />
-                </v-div>
+                </div>
             </v-container>
         </v-card>
         <v-dialog v-model="dialogkodeg" transition="dialog-bottom-transition" width="auto">
-            <v-card class="py-5 px-7 rounded-xl mx-auto" min-width="300" :width="window < 600 ? '87vw' : '50vw'" height="90vh" max-width="400">
+            <v-card class="py-5 px-7 rounded-xl mx-auto bg-light" min-width="300" :width="window < 600 ? '87vw' : '50vw'" height="90vh" max-width="400">
                 <v-btn v-if="window < 500" icon="mdi-close" class="absolute" variant="text" @click="dialogkodeg = false"></v-btn>
-                <v-card-title class="text-center text-orange mb-3 text-button font-weight-bold">KODE GROUP</v-card-title>
+                <v-card-title class="text-center text-grey-darken-3 mb-3 text-button font-weight-bold">KODE GROUP</v-card-title>
                 <v-div>
                     <text-field v-model="searched" label="Search" class="mb-4"/>
                 </v-div>
-                <v-list>
-                    <v-div v-for="kode, i in filterkodegroup.slice(0, more)" :key="i">
+                <v-list class="bg-light">
+                    <div v-for="kode, i in filterkodegroup.slice(0, more)" :key="i">
                         <v-list-item
                         style="cursor: pointer;"
                         class="text-caption"
@@ -473,13 +473,13 @@ export default {
                         >
                             {{ kode }}
                         </v-list-item>
-                    </v-div>
+                    </div>
                     <!-- SHOW MORE BUTTON -->
-                    <v-div v-if="filterkodegroup.length > more" class="d-flex justify-center align-center">
+                    <div v-if="filterkodegroup.length > more" class="d-flex justify-center align-center">
                     <v-divider length="50"></v-divider>
                     <v-btn @click="lainnya()" variant="text" size="small" class="text-caption">lihat lainnya</v-btn>
                     <v-divider length="50"></v-divider>
-                    </v-div>
+                    </div>
                 </v-list>
             </v-card>
         </v-dialog>

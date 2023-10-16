@@ -186,12 +186,12 @@ export default {
                 <v-avatar class="bg-blue-custom" size="70">
                 <v-icon size="50">mdi-account</v-icon>
                 </v-avatar>
-                <v-div class="w-100">
+                <div class="w-100">
                     <text-field-form label="Username" :model-value="userselect" v-model="ds.username" :readonly="edit ? true : false" :disabled="edit ? true : false " class="w-75 my-3 mx-auto"/>
                     <text-field-form label="Password" v-model="ds.password" class="w-75 mx-auto"/>
-                </v-div>
+                </div>
                 <v-span class="text-grey mx-auto text-button">OTORITAS</v-span>
-                <v-div class="overflow-auto vh-30 w-100">
+                <div class="overflow-auto vh-30 w-100">
                     <!-- DATA BARANG -->
                     <v-list v-model:opened="open[0]" density="compact" class="w-100 pa-0">
                         <v-list-group value="Data Barang" class="text-caption">
@@ -335,12 +335,12 @@ export default {
                             </v-list-item>
                         </v-list-group>
                     </v-list>
-                </v-div>
+                </div>
                 <v-spacer></v-spacer>
-                <v-div class="d-flex ms-auto pb-3">
+                <div class="d-flex ms-auto pb-3">
                     <slot name="cancel"></slot>
                     <btn-orange @click="submit()" btn_title="Simpan" />
-                </v-div>
+                </div>
             </v-sheet>
         </v-card>
       </v-dialog>

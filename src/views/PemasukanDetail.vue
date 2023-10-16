@@ -496,7 +496,7 @@ export default {
                     </div>
                   </v-sheet>
                   <v-divider class="mt-3 mb-5"></v-divider>
-                  <v-div v-if="!edit" class="d-flex me-5 ms-auto">
+                  <div v-if="!edit" class="d-flex me-5 ms-auto">
                     <btn-cancel
                       btn_title="Hapus"
                       @click="deleteditem(item.raw), (detaildial[index] = false)"
@@ -506,13 +506,13 @@ export default {
                     <btn-orange btn_title="Simpan" @click="detaildial[index] = false"
                       >Simpan</btn-orange
                     >
-                  </v-div>
+                  </div>
                 </template>
               </dialogVue>
             </template>
           </v-data-table>
         </div>
-        <v-div class="d-flex mb-0 mt-auto me-5 ms-auto">
+        <div class="d-flex mb-0 mt-auto me-5 ms-auto">
           <btn-cancel
             class="mb-3 me-2"
             btn_title="Batal"
@@ -526,7 +526,7 @@ export default {
             v-if="!edit"
             @click="validate"
           />
-        </v-div>
+        </div>
       </v-container>
     </v-card>
     <AlertVue v-model="dial_alert" :message="message" status="warn" />

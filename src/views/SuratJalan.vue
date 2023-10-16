@@ -145,33 +145,33 @@ export default {
                 <v-span class="text-h6 font-weight-bold">PT. AURI STEEL METALINDO</v-span>
                 <v-divider thickness="3" color="black" class="border-opacity-100 mt-3 mb-1"></v-divider>
                 <v-span class="text-h6 font-weight-bold">SURAT JALAN</v-span>
-                <v-div class="d-flex mt-3">
+                <div class="d-flex mt-3">
                     <!-- PENERIMA -->
-                    <v-div class="d-flex text-body-2">
+                    <div class="d-flex text-body-2">
                         <v-span class="me-2">PENERIMA: </v-span>
                         <v-span class="text-start w-75">
                             {{ functions.uppercase(items.nama) }} <br/>
                             {{ functions.uppercase(items.alamat) }} <br/>
                             {{ functions.uppercase(items.kabupaten) }}
                         </v-span>
-                    </v-div>
+                    </div>
                     <v-spacer></v-spacer>
                     <!-- TUJUAN -->
-                    <v-div class="d-flex text-body-2">
+                    <div class="d-flex text-body-2">
                         <!-- NO SURAT JALAN -->
-                        <v-div class="d-flex flex-column">
+                        <div class="d-flex flex-column">
                             <v-span class="me-2 text-start">No Surat Jalan</v-span>
                             <v-span class="me-2 text-start">Tgl Pengiriman</v-span>
                             <v-span class="me-2 text-start">Supir/No Polisi</v-span>
-                        </v-div>
+                        </div>
                         <!-- TGL PENGIRIMAN -->
-                        <v-div class="d-flex flex-column">
+                        <div class="d-flex flex-column">
                             <v-span class="text-start">: {{ items.no_pengiriman }}</v-span>
                             <v-span class="text-start">: {{ functions.formatDate(items.tgl_pengiriman) }} <v-span contenteditable>/ {{ functions.getTime() }}</v-span></v-span>
                             <v-span class="text-start">: {{ items.supir }}/{{ items.no_polisi }}</v-span>
-                        </v-div>
-                    </v-div>
-                </v-div>
+                        </div>
+                    </div>
+                </div>
                 <!-- TABEL BARANG -->
                 <v-table density="compact" class="text-body-2 mt-2">
                     <thead>
@@ -205,20 +205,20 @@ export default {
                     </tr>
                     </tbody>
                 </v-table>
-                <v-div class="d-flex flex-column align-start justify-space-between text-body-2">
+                <div class="d-flex flex-column align-start justify-space-between text-body-2">
                     <v-text class="d-flex flex-column align-start">
                         Keterangan
                         <v-span class="ms-3">1. Surat Jalan ini merupakan bukti penerimaan barang</v-span>
                         <v-span class="ms-3">2. Surat Jalan ini bukan bukti penjualan (Faktur/Invoice)</v-span>
                         Barang sudah diterima dalam keadaan Baik dan Cukup oleh :
                     </v-text>
-                    <v-div class="d-flex justify-space-between w-100 mt-15">
+                    <div class="d-flex justify-space-between w-100 mt-15">
                         <v-div>(Penerima)</v-div>
                         <v-div>(Supir)</v-div>
                         <v-div>(Bag. Gudang)</v-div>
                         <v-div>(Bag. Exim)</v-div>
-                    </v-div>
-                </v-div>
+                    </div>
+                </div>
             </v-sheet>
         </v-card>
     </v-dialog>

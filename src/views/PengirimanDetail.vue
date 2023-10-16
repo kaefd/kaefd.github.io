@@ -405,7 +405,7 @@ export default {
                     <template v-slot:item.actions="{ item, index }">
                         <dialog-vue v-model="detaildial[index]" :persistent="edit ? false : true">
                             <template #titlecard>
-                                <v-card-title class="text-center text-orange text-button font-weight-bold">{{!item.raw.konversi ? item.raw.nama_barang : item.raw.nama_konversi}}</v-card-title>
+                                <v-card-title class="text-center text-grey-darken-3 text-button font-weight-bold">{{!item.raw.konversi ? item.raw.nama_barang : item.raw.nama_konversi}}</v-card-title>
                                 <v-card-subtitle class="text-caption text-center mb-2 mt-n3">{{!item.raw.konversi ? item.raw.hs_code : item.raw.kode_konversi}}</v-card-subtitle>
                             </template>
                             <template #content>
@@ -433,29 +433,29 @@ export default {
                                     </div>
                                 </v-sheet>
                                 <v-divider class="mt-3 mb-5"></v-divider>
-                                <v-div v-if="!edit" class="d-flex me-5 ms-auto">
+                                <div v-if="!edit" class="d-flex me-5 ms-auto">
                                     <btn-cancel btn_title="Hapus" @click="deleteditem(item.raw), (detaildial[index] = false)" class="me-2">Hapus</btn-cancel>
                                     <btn-orange btn_title="Simpan" @click="checkStok(item.raw, index)">Simpan</btn-orange>
-                                </v-div>
+                                </div>
                             </template>
                         </dialog-vue>
                     </template>
                 </v-data-table>
             </div>
-            <v-div v-if="!edit" class="d-flex mb-0 mt-auto me-5 ms-auto">
+            <div v-if="!edit" class="d-flex mb-0 mt-auto me-5 ms-auto">
                 <btn-cancel @click=";(pembelian_input = []), (inputdata = []), (dialog = false)" btn_title="Batal" class="mb-3" />
                 <btn-orange @click="validate" btn_title="Simpan" class="ms-2 mb-3" />
-            </v-div>
+            </div>
         </v-container>
     </v-card>
     <v-dialog v-model="dialog4" transition="dialog-bottom-transition" width="auto">
-        <v-card class="py-5 px-7 rounded-xl mx-auto" min-width="300" :width="window < 600 ? '87vw' : '50vw'" height="90vh" max-width="400">
+        <v-card class="py-5 px-7 rounded-xl mx-auto bg-light" min-width="300" :width="window < 600 ? '87vw' : '50vw'" height="90vh" max-width="400">
             <v-div>
                 <v-btn v-if="window < 500" icon="mdi-close" class="absolute" variant="text" @click="dialog4 = false"></v-btn>
-                <v-card-title class="text-center text-orange mb-3 text-button font-weight-bold">PELANGGAN</v-card-title>
+                <v-card-title class="text-center text-grey-darken-3 mb-3 text-button font-weight-bold">PELANGGAN</v-card-title>
                 <text-field v-model="searched" label="Search"></text-field>
             </v-div>
-            <v-list>
+            <v-list class="bg-light">
                 <v-for v-for="(s, i) in filtersupplier" :key="i">
                     <v-list-item density="compact" style="cursor: pointer" class="text-caption" @click="
                 ;(inputdata.kode_pelanggan = s.kode_pelanggan),
@@ -469,14 +469,14 @@ export default {
         </v-card>
     </v-dialog>
     <v-dialog v-model="dialogbongkar" transition="dialog-bottom-transition" width="auto">
-        <v-card class="py-5 px-7 rounded-xl mx-auto" min-width="300" height="90vh" max-width="400">
+        <v-card class="py-5 px-7 rounded-xl mx-auto bg-light" min-width="300" height="90vh" max-width="400">
             <v-btn v-if="window < 500" icon="mdi-close" class="absolute" variant="text" @click="dialogbongkar = false"></v-btn>
-            <v-card-title class="text-center text-orange mb-3 text-button font-weight-bold">ALAMAT BONGKAR</v-card-title>
-            <v-div>
+            <v-card-title class="text-center text-grey-darken-3 mb-3 text-button font-weight-bold">ALAMAT BONGKAR</v-card-title>
+            <div>
                 <text-field v-model="searched" label="Search"></text-field>
-            </v-div>
-            <v-list class="my-4">
-                <v-div class="vh-100">
+            </div>
+            <v-list class="my-4 bg-light">
+                <div class="vh-100">
                     <v-list-item v-for="(s, i) in filteralamat.slice(0, more)" :key="i" density="compact" style="cursor: pointer" class="text-caption" @click="
                 ;(inputdata.kode_alamat_bongkar = s.kode_pelanggan),
                   (inputdata.tujuan = s.nama),
@@ -489,13 +489,13 @@ export default {
                         </v-span>
                         <v-divider></v-divider>
                     </v-list-item>
-                </v-div>
+                </div>
                 <!-- SHOW MORE BUTTON -->
-                <v-div v-if="filteralamat.length > more" class="d-flex justify-center align-center">
+                <div v-if="filteralamat.length > more" class="d-flex justify-center align-center">
                     <v-divider length="50"></v-divider>
                     <v-btn @click="lainnya()" variant="text" size="small" class="text-caption">lihat lainnya</v-btn>
                     <v-divider length="50"></v-divider>
-                </v-div>
+                </div>
               </v-list>
         </v-card>
       </v-dialog>

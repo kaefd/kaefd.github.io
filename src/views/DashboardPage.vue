@@ -8,7 +8,7 @@ import functions from '../service/functions';
 
 <script>
 export default {
-    props: ['window'],
+    props: ['window', 'tema'],
     data () {
         return {
             pageTitle: 'Dashboard',
@@ -253,47 +253,49 @@ export default {
 </script>
 
 <template>
-    <v-container class="s-100 bg-light">
-        <DatePicker v-model="periode" :on-vnode-mounted="fetch()"  variant="sas" :month="true" :label="getMonth" class="mb-4 w-100" />
-        <div class="d-flex justify-space-between flex-wrap">
-            <div v-for="card, c in cardData" :key="c" class="card-wrapper d-flex justify-center mb-3 mb-lg-0" :class="mobile ? 'card-wrapper-min' : (tablet ? 'card-wrapper-med' : 'card-wrapper')">
-                <div class="absolute preview-card"></div>
-                <v-card class="w-100 h-100 card elevation-0 px-5 d-flex align-center">
-                    <div class="w-100 d-flex justify-space-around align-center">
-                        <div class="d-flex flex-column">
-                            <span class="text-body-2 font-weight-medium text-grey-darken-2">Total {{ card.title }}</span>
-                            <h1 :class="c % 2 ? 'text-orange' : 'text-blue-custom'">{{card.value}}</h1>
+    <div class="w-100 bg-light">
+        <v-container class="s-100 bg-light">
+            <DatePicker :tema="tema" v-model="periode" :on-vnode-mounted="fetch()"  variant="sas" :month="true" :label="getMonth" class="mb-4 w-100" />
+            <div class="d-flex justify-space-between flex-wrap">
+                <div v-for="card, c in cardData" :key="c" class="card-wrapper d-flex justify-center mb-3 mb-lg-0" :class="mobile ? 'card-wrapper-min' : (tablet ? 'card-wrapper-med' : 'card-wrapper')">
+                    <div class="absolute preview-card"></div>
+                    <v-card class="w-100 h-100 card elevation-0 px-5 d-flex align-center">
+                        <div class="w-100 d-flex justify-space-around align-center">
+                            <div class="d-flex flex-column">
+                                <span class="text-body-2 font-weight-medium text-grey-darken-2">Total {{ card.title }}</span>
+                                <h1 :class="c % 2 ? 'text-orange' : 'text-blue-custom'">{{card.value}}</h1>
+                            </div>
+                            <img v-if="card.title == 'Pemasukan'" src="../assets/img/masuk.png" alt="logo" style="width: 25%; max-width: 100px; height: auto" />
+                            <img v-if="card.title == 'Produksi'" src="../assets/img/produksi.png" alt="logo" style="width: 25%; max-width: 100px; height: auto" />
+                            <img v-if="card.title == 'Pengeluaran'" src="../assets/img/export.png" alt="logo" style="width: 25%; max-width: 100px; height: auto" />
+                            <img v-if="card.title == 'Pengiriman'" src="../assets/img/deliv.png" alt="logo" style="width: 25%; max-width: 100px; height: auto" />
                         </div>
-                        <img v-if="card.title == 'Pemasukan'" src="../assets/img/masuk.png" alt="logo" style="width: 25%; max-width: 100px; height: auto" />
-                        <img v-if="card.title == 'Produksi'" src="../assets/img/produksi.png" alt="logo" style="width: 25%; max-width: 100px; height: auto" />
-                        <img v-if="card.title == 'Pengeluaran'" src="../assets/img/export.png" alt="logo" style="width: 25%; max-width: 100px; height: auto" />
-                        <img v-if="card.title == 'Pengiriman'" src="../assets/img/deliv.png" alt="logo" style="width: 25%; max-width: 100px; height: auto" />
+                    </v-card>
+                </div>
+            </div>
+            <div class="d-flex justify-space-between mt-5 w-100">
+                <v-card class="table h-100 py-2 elevation-0 w-100">
+                    <div class="d-flex flex-column justify-space-around h-100 w-100">
+                        <v-list class="d-flex text-caption rounded-s-xl h-100 ms-5" active-color="orange">
+                            <v-list-item v-for="list, i in grafik" :key="i" density="compact" class="me-1 rounded-lg" @click="actived(i)" :active="active[i]" :class="{'active-list':active[i]}">{{ list }}</v-list-item>
+                        </v-list>
+                        <!-- <apexchart class="text-black" width="500" type="line" :options="options" :series="series" :stroke="stroke"></apexchart> -->
+                        <div class="d-flex justify-start">
+                            <div>
+                                <span class="ms-3 text-caption font-weight-bold">(Juta)</span>
+                                <LineChart :charts="chartLine" :height="window < 700 ? 320 : 400" :width="window > 700 ? 950 : '100%'"/>
+                                <span class="d-block font-weight-bold text-center">Total {{ title }} Bulan {{ getMonth }}</span>
+                            </div>
+                            <v-btn v-if="!mobile" @click="full = !full" variant="text" icon="mdi-fullscreen" color="blue-custom" class="text-h5"></v-btn>
+                        </div>
                     </div>
                 </v-card>
+                <!-- <v-card class="elevation-0 card2 h-100 pa-5">
+    
+                </v-card> -->
             </div>
-        </div>
-        <div class="d-flex justify-space-between mt-5 w-100">
-            <v-card class="table h-100 py-2 elevation-0 w-100">
-                <div class="d-flex flex-column justify-space-around h-100 w-100">
-                    <v-list class="d-flex text-caption rounded-s-xl h-100 ms-5" active-color="orange">
-                        <v-list-item v-for="list, i in grafik" :key="i" density="compact" class="me-1 rounded-lg" @click="actived(i)" :active="active[i]" :class="{'active-list':active[i]}">{{ list }}</v-list-item>
-                    </v-list>
-                    <!-- <apexchart class="text-black" width="500" type="line" :options="options" :series="series" :stroke="stroke"></apexchart> -->
-                    <div class="d-flex justify-start">
-                        <div>
-                            <span class="ms-3 text-caption font-weight-bold">(Juta)</span>
-                            <LineChart :charts="chartLine" :height="window < 700 ? 320 : 400" :width="window > 700 ? 950 : '100%'"/>
-                            <span class="d-block font-weight-bold text-center">Total {{ title }} Bulan {{ getMonth }}</span>
-                        </div>
-                        <v-btn v-if="!mobile" @click="full = !full" variant="text" icon="mdi-fullscreen" color="blue-custom" class="text-h5"></v-btn>
-                    </div>
-                </div>
-            </v-card>
-            <!-- <v-card class="elevation-0 card2 h-100 pa-5">
-
-            </v-card> -->
-        </div>
-    </v-container>
+        </v-container>
+    </div>
     <v-dialog fullscreen v-model="full" width="auto" transition="dialog-bottom-transition">
         <v-card class="h-100 vw-100 ma-auto px-10 py-3">
             <v-btn @click="full = false" icon="mdi-close" variant="text" class="me-0 ms-auto"></v-btn>

@@ -338,7 +338,7 @@ export default {
                             <template v-slot:item.actions="{ item, index }">
                                 <DialogVue @update="dialogbrg" :persistent="edit ? false : true" v-model="dialogbrg[index]">
                                     <template #titlecard>
-                                        <v-card-title class="text-center text-orange text-button font-weight-bold">{{
+                                        <v-card-title class="text-center text-grey-darken-3 text-button font-weight-bold">{{
                                           item.raw.kode_konversi == '' ? item.raw.nama_barang : item.raw.nama_konversi
                                         }}</v-card-title>
                                         <v-card-subtitle class="text-caption text-center mb-2 mt-n3">{{
@@ -386,7 +386,7 @@ export default {
     <v-dialog v-model="dialog5" transition="dialog-bottom-transition" width="auto">
         <v-card class="py-5 px-7 rounded-xl mx-auto" min-width="300" :width="window < 600 ? '87vw' : '50vw'" height="90vh" max-width="400">
             <v-btn v-if="window < 500" icon="mdi-close" class="absolute" variant="text" @click="dialog5 = false"></v-btn>
-            <v-card-title class="text-center text-orange mb-3 text-button font-weight-bold">KODE GROUP</v-card-title>
+            <v-card-title class="text-center text-grey-darken-3 mb-3 text-button font-weight-bold">KODE GROUP</v-card-title>
             <v-div>
                 <text-field v-model="searched" label="Search" class="mb-4" />
             </v-div>

@@ -4,7 +4,7 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 .v-theme--light > .v-data-table {
-  --v-theme-surface: #fafafa !important;
+  --v-theme-surface: #fff !important;
 }
 .v-theme--dark > .v-data-table {
   --v-theme-surface: #121212 !important;

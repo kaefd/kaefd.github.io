@@ -200,7 +200,7 @@ import CircularLoader from '../components/animate/circularLoader.vue';
     <v-container class="pt-9 h-100">
       <v-row no-gutters class="mt-n4 mb-2">
         <v-responsive class="d-flex align-center mb-sm-0 mb-1 me-sm-2 me-0" width="200" max-width="350">
-        <v-div class="d-flex align-center w-100">
+        <div class="d-flex align-center w-100">
           <!-- TAMBAH DATA -->
           <ScreenDialog2
           v-if="otoritas.routes(authority, 'Tambah Produksi Baru')"
@@ -215,7 +215,7 @@ import CircularLoader from '../components/animate/circularLoader.vue';
           @input_kodegroup="input_kodegroup"
           @inputhead="inputhead"
           :select_kode="temp"/>
-        </v-div>
+        </div>
         <!-- <v-chip class="mt-1 me-1" color="orange" size="small">{{ periode[0] }} - {{ periode[1] }}</v-chip> -->
       </v-responsive>
       <v-responsive class="me-sm-0 ms-sm-auto ms-0 me-auto" width="200" max-width="450">
@@ -237,7 +237,7 @@ import CircularLoader from '../components/animate/circularLoader.vue';
       </v-responsive>
       </v-row>
         <!-- EDIT DATA -->
-        <v-sheet :height="window > 776 ? '94%' : '87%'" class="bg-transparent">
+        <v-sheet :height="window > 776 ? '94%' : '87%'" class="bg-white rounded-xl">
         <v-data-table
             v-model:sort-by="sortBy"
             id="tbl_exporttable_to_xls"
@@ -248,7 +248,7 @@ import CircularLoader from '../components/animate/circularLoader.vue';
             :hover="true"
             :fixed-header="true"
             density="compact"
-            class="text-caption h-100 pa-2 rounded-lg border"
+            class="text-caption h-100 pa-2 rounded-xl bg-white"
             :height="window > 776 ? '100%' : '92%'">
             <template #bottom>
               <!-- <div class="text-caption font-weight-bold w-100 text-right pe-3">Total : {{ items.length }} data</div> -->

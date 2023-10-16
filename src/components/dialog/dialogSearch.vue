@@ -62,18 +62,18 @@ export default {
         <textFieldForm v-bind="props" v-if="!button" :label="label" v-model="pilih" @click="more = 15, check()" readonly :rules="rules" />
         <btnInfo v-bind="props" v-if="button" icon="mdi-plus" :btn_title="btn_title" />
     </template>
-    <v-card class="py-5 px-7 rounded-xl vh-100 mx-auto" min-width="300" width="400" max-width="400">
+    <v-card class="py-5 px-7 rounded-xl vh-100 mx-auto bg-light" min-width="300" width="400" max-width="400">
         <v-btn v-if="window < 500" icon="mdi-close" class="absolute" variant="text" @click="dialog = false"></v-btn>
         <v-card-title class="text-center text-orange mb-3 text-button font-weight-bold">{{
         cardTitle
       }}</v-card-title>
         <textField v-model="search" label="Search" class="mb-4"></textField>
-        <v-list class="vh-100">
-            <v-div>
+        <v-list class="vh-100 bg-light">
+            <div>
                 <v-list-item v-for="(s, i) in functions.filterObject(objectFilter, search)" :key="i" class="text-caption" density="compact" @click="result(s), (pilih = s.nama)">
                     {{ s.nama }}
                 </v-list-item>
-            </v-div>
+            </div>
             <!-- <v-div v-if="functions.filterObject(objectFilter, search).length > more" class="d-flex justify-center align-center">
                 <v-divider length="50"></v-divider>
                 <v-btn @click="lainnya()" variant="text" size="small" class="text-caption">lihat lainnya</v-btn>

@@ -1,13 +1,7 @@
 <script>
-import {
-    reactive
-} from 'vue'
-import {
-    useVuelidate
-} from '@vuelidate/core'
-import {
-    required
-} from '@vuelidate/validators'
+import { reactive } from 'vue'
+import { useVuelidate } from '@vuelidate/core'
+import { required } from '@vuelidate/validators'
 import api from '../../service/api'
 import btnInfo from '../button/btnInfo.vue'
 import BtnCancel from '../button/btnCancel.vue'
@@ -571,6 +565,19 @@ export default {
                 }
             }
             return a
+        },
+        valid (p) {
+            if (p == 'group') {
+                if (this.kodegroup != '' || this.pengiriman) {
+                    this.dialog = true
+                    this.valert = false
+                } else {
+                    this.valert = true
+                    this.message = 'Kode Group Masih Kosong !'
+                    this.status = 'warn'
+                    this.dialog = false
+                }
+            }
         }
     },
     async mounted() {
@@ -581,24 +588,24 @@ export default {
 </script>
 
 <template>
-<v-dialog v-model="dialog" transition="dialog-bottom-transition">
+<btn-info v-if="!bahanbaku" @click="more = 100, konversi = false, valid('group')" btn_title="Tambah Barang" class="me-3"></btn-info>
+<btn-info v-if="!bahanbaku && produksi || pengiriman" @click="more = 100, konversi = true, valid('group')" btn_title="Tambah Konversi"></btn-info>
+<v-dialog v-model="dialog" transition="dialog-bottom-transition" width="auto">
     <!-- BUTTON TAMBAH -->
-    <template v-slot:activator="{ props }">
-        <btn-info v-if="!bahanbaku" v-bind="props" @click="more = 100, konversi = false" btn_title="Tambah Barang" class="me-3"></btn-info>
-        <btn-info v-if="!bahanbaku && produksi || pengiriman" v-bind="props" @click="more = 100, konversi = true" btn_title="Tambah Konversi"></btn-info>
+    <!-- <template v-slot:activator="{ props }"> -->
         <!-- <text-field-form v-if="bahanbaku" readonly v-bind="props" @click="more = 15" label="Bahan Baku" v-model="kodebahan" /> -->
-    </template>
-    <v-card class="py-5 px-7 rounded-xl vh-100" min-width="300" max-width="400">
+    <!-- </template> -->
+    <v-card class="py-5 px-7 rounded-xl vh-100 mx-auto bg-light" min-width="300" width="30vw" max-width="400">
         <v-btn v-if="window < 500" icon="mdi-close" class="absolute" variant="text" @click="dialog = false">
         </v-btn>
-        <v-card-title class="text-center text-orange text-button font-weight-bold mb-3 px-12">{{
+        <v-card-title class="text-center text-grey-darken-3 text-button font-weight-bold mb-3 px-12">{{
         dialog_title
         }}</v-card-title>
         <v-div>
             <text-field id="input" v-model="search" label="Search" class="mb-4"></text-field>
         </v-div>
-        <v-list class="me-2">
-            <v-div v-for="(item, b) in filteredItems.slice(0, more)" :key="item">
+        <v-list class="me-2 bg-light">
+            <div v-for="(item, b) in filteredItems.slice(0, more)" :key="item">
                 <v-list-item v-if="!blmkirim && konversi" class="text-caption" density="compact" @click=";(pro(item.kode_konversi, b)), (state.nama_konversi = item.nama_konversi)">
                     <v-div class="d-flex justify-space-between text-caption">
                         <v-span>{{ item.nama_konversi }}</v-span>
@@ -632,7 +639,7 @@ export default {
                 </v-list-item>
                 <v-dialog v-if="!bahanbaku" @update="dialogchild" :persistent="true" transition="dialog-bottom-transition" width="auto" v-model="dialogchild[b]">
                     <v-card class="py-5 mx-auto rounded-xl" min-width="300" max-width="375" width="35vw">
-                        <v-span class="text-button text-orange text-center font-weight-bold">{{item.nama_barang || item.nama_konversi}}</v-span>
+                        <v-span class="text-button text-grey-darken-3 text-center font-weight-bold">{{item.nama_barang || item.nama_konversi}}</v-span>
                         <v-span v-if="!konversi" class="text-caption text-center">{{ item.kode_barang +'-'+ item.hs_code }}</v-span>
                         <v-span v-else-if="konversi" class="text-caption text-center">{{ item.kode_konversi }}</v-span>
                         <v-divider class="mt-3 mb-5"></v-divider>
@@ -681,7 +688,7 @@ export default {
                         </v-div>
                     </v-card>
                 </v-dialog>
-            </v-div>
+            </div>
             <!-- SHOW MORE BUTTON -->
             <v-div v-if="filteredItems.length > more" class="d-flex justify-center align-center">
                 <v-divider length="50"></v-divider>
@@ -690,6 +697,6 @@ export default {
             </v-div>
         </v-list>
     </v-card>
-    <alertVue v-model="valert" :status="status" :message="message" />
 </v-dialog>
+<alertVue v-model="valert" :status="status" :message="message" />
 </template>

@@ -203,7 +203,7 @@ import CircularLoader from '../components/animate/circularLoader.vue';
       </v-responsive>
       </v-row>
         <!-- EDIT DATA -->
-        <v-sheet :height="window > 776 ? '92%' : '87%'">
+        <v-sheet :height="window > 776 ? '92%' : '87%'" class="bg-white rounded-xl">
         <v-data-table
             v-model:sort-by="sortBy"
             id="tbl_exporttable_to_xls" 
@@ -214,7 +214,7 @@ import CircularLoader from '../components/animate/circularLoader.vue';
             :hover="true"
             :fixed-header="true"
             density="compact"
-            class="text-caption pa-2 border rounded-lg h-100"
+            class="text-caption pa-3 bg-white rounded-xl h-100"
             :height="window > 776 ? '100%' : '92%'"
             >
             <template #bottom>
