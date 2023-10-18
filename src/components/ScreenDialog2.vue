@@ -13,24 +13,12 @@ import TextFieldForm from './form/textFieldForm.vue'
 import DialogVue from './dialog/dialogVue.vue'
 import TextButton from './button/textButton.vue'
 import CurrencyInput from './form/currencyInput.vue'
-// import api from '../api';
-</script><script>
-import produksi from '../service/page/produksi'
 import AlertVue from './dialog/alertVue.vue'
+import produksi from '../service/page/produksi'
+// import api from '../api';
+</script>
+<script>
 export default {
-    components: {
-        VDataTable,
-        dialogScroll,
-        btnInfoVue,
-        btnCancel,
-        btnOrange,
-        DatePicker,
-        TextFieldForm,
-        TextField,
-        DialogVue,
-        TextButton,
-        CurrencyInput
-    },
     props: [
         'window',
         'windowH',
@@ -135,7 +123,6 @@ export default {
         },
         bahanmasuk(value) {
             this.inputbahan = value
-            this.dialogBahan = false
         },
         barangmasuk(value) {
             this.inputbarang = value

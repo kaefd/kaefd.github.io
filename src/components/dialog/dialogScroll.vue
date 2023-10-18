@@ -1,7 +1,13 @@
 <script>
-import { reactive } from 'vue'
-import { useVuelidate } from '@vuelidate/core'
-import { required } from '@vuelidate/validators'
+import {
+    reactive
+} from 'vue'
+import {
+    useVuelidate
+} from '@vuelidate/core'
+import {
+    required
+} from '@vuelidate/validators'
 import api from '../../service/api'
 import btnInfo from '../button/btnInfo.vue'
 import BtnCancel from '../button/btnCancel.vue'
@@ -55,7 +61,7 @@ export default {
     data() {
         return {
             search: '',
-            dialog: false,
+            dialog: null,
             valert: false,
             konversi: null,
             status: '',
@@ -196,7 +202,7 @@ export default {
             }
         },
         searchBarang(value) {
-            if(!this.konversi) {
+            if (!this.konversi) {
                 return value.filter((item) => {
                     let a = item.kode_barang.toLowerCase().includes(this.search.toLowerCase())
                     let b = item.nama_barang.toLowerCase().includes(this.search.toLowerCase())
@@ -211,7 +217,7 @@ export default {
                     return a || b || c || d
                 })
             }
-            
+
         },
         searchObj(value) {
             return value.filter((item) => {
@@ -261,7 +267,7 @@ export default {
             done('ok')
         },
         barangKonversi(value, i) {
-            if(value) {
+            if (value) {
                 this.state.kode_konversi = value.kode_konversi
                 this.state.nama_konversi = value.nama
                 this.state.satuan_konversi = value.satuan_konversi
@@ -320,62 +326,64 @@ export default {
                     this.message = 'Barang sudah pernah diinput'
                     this.valert = true
                 }
-          } else if (this.produksi) {
+            } else if (this.produksi) {
                 this.check(kode)
-                if(this.inptbarang || this.penjualan_detail.jumlah <= this.stok_detail(kode.kode_barang)) {
-                  if (this.res) {
-                      for (let i = 0; i < this.groupbarang.length; i++) {
-                          if (
-                              this.groupbarang[i].kode_group == this.kodegroup &&
-                              this.groupbarang[i].kode_barang == kode.kode_barang
-                          ) {
-                              nilai = this.groupbarang[i].nilai_akhir / this.groupbarang[i].stok_akhir
-                          }
-                      }
-                      this.kodebahan = kode.kode_barang
-                      let kodekonversi = ''
-                      let jml = 0
-                      if(this.konversi) {
-                        let berat = await this.hitungBerat(kode)
-                        let brg = await api.getBarang({kode_barang: kode.kode_barang})
-                        kodekonversi = kode.kode_konversi
-                        jml = berat * this.penjualan_detail.jumlah_konversi
-                        this.state.nama_barang = brg[0].nama_barang
-                        this.state.satuan = brg[0].satuan
-                      } else {
-                        kodekonversi = this.state.kode_konversi
-                        jml = this.penjualan_detail.jumlah
-                      }
-                      this.pemasukan_item.push({
-                          no_produksi: '',
-                          kode_group: kode.kode_group,
-                          kode_barang: kode.kode_barang,
-                          kode_konversi: kodekonversi,
-                          nama_barang: this.state.nama_barang,
-                          nama_konversi: this.state.nama_konversi,
-                          hs_code: this.state.hs_code,
-                          jumlah: jml,
-                          jumlah_konversi: this.penjualan_detail.jumlah_konversi,
-                          satuan: this.state.satuan,
-                          satuan_konversi: kode.satuan_konversi,
-                          no_urut: '',
-                          konversi: kodekonversi == '' ? false : true
-                        //   nilai: nilai
-                      })
-                      this.dialog = false
-                      this.dialogchild[i] = false
-                  } else {
-                      this.dialogchild[i] = false
-                      this.status = 'warn'
-                      this.message = 'Barang sudah pernah diinput'
-                      this.valert = true
-                  }
+                if (this.inptbarang || this.penjualan_detail.jumlah <= this.stok_detail(kode.kode_barang)) {
+                    if (this.res) {
+                        for (let i = 0; i < this.groupbarang.length; i++) {
+                            if (
+                                this.groupbarang[i].kode_group == this.kodegroup &&
+                                this.groupbarang[i].kode_barang == kode.kode_barang
+                            ) {
+                                nilai = this.groupbarang[i].nilai_akhir / this.groupbarang[i].stok_akhir
+                            }
+                        }
+                        this.kodebahan = kode.kode_barang
+                        let kodekonversi = ''
+                        let jml = 0
+                        if (this.konversi) {
+                            let berat = await this.hitungBerat(kode)
+                            let brg = await api.getBarang({
+                                kode_barang: kode.kode_barang
+                            })
+                            kodekonversi = kode.kode_konversi
+                            jml = berat * this.penjualan_detail.jumlah_konversi
+                            this.state.nama_barang = brg[0].nama_barang
+                            this.state.satuan = brg[0].satuan
+                        } else {
+                            kodekonversi = this.state.kode_konversi
+                            jml = this.penjualan_detail.jumlah
+                        }
+                        this.pemasukan_item.push({
+                            no_produksi: '',
+                            kode_group: kode.kode_group,
+                            kode_barang: kode.kode_barang,
+                            kode_konversi: kodekonversi,
+                            nama_barang: this.state.nama_barang,
+                            nama_konversi: this.state.nama_konversi,
+                            hs_code: this.state.hs_code,
+                            jumlah: jml,
+                            jumlah_konversi: this.penjualan_detail.jumlah_konversi,
+                            satuan: this.state.satuan,
+                            satuan_konversi: kode.satuan_konversi,
+                            no_urut: '',
+                            konversi: kodekonversi == '' ? false : true
+                            //   nilai: nilai
+                        })
+                        this.dialog = false
+                        this.dialogchild[i] = false
+                    } else {
+                        this.dialogchild[i] = false
+                        this.status = 'warn'
+                        this.message = 'Barang sudah pernah diinput'
+                        this.valert = true
+                    }
                 } else {
-                      this.dialogchild[i] = true
-                      this.status = 'warn'
-                      this.message = 'Jumlah melebihi stok'
-                      this.valert = true
-                  }
+                    this.dialogchild[i] = true
+                    this.status = 'warn'
+                    this.message = 'Jumlah melebihi stok'
+                    this.valert = true
+                }
             } else if (this.pengeluaran) {
                 this.check(kode)
                 if (this.res) {
@@ -401,59 +409,61 @@ export default {
                 }
             } else if (this.pengiriman) {
                 this.check(kode)
-                if(this.penjualan_detail.jumlah <= (kode.jumlah - kode.jumlah_terkirim)) {
-                  if (this.res) {
-                    let jml = 0
-                    let nama = ''
-                    if (this.konversi) {
-                        let berat = await this.hitungBerat(kode)
-                        let brg = await api.getBarang({kode_barang: kode.kode_barang})
-    
-                        jml = berat * this.penjualan_detail.jumlah_konversi
-    
-                        nama = brg[0].nama_barang
-                        this.state.satuan = brg[0].satuan
+                if (this.penjualan_detail.jumlah <= (kode.jumlah - kode.jumlah_terkirim)) {
+                    if (this.res) {
+                        let jml = 0
+                        let nama = ''
+                        if (this.konversi) {
+                            let berat = await this.hitungBerat(kode)
+                            let brg = await api.getBarang({
+                                kode_barang: kode.kode_barang
+                            })
+
+                            jml = berat * this.penjualan_detail.jumlah_konversi
+
+                            nama = brg[0].nama_barang
+                            this.state.satuan = brg[0].satuan
+                        } else {
+                            jml = this.penjualan_detail.jumlah
+                            nama = kode.nama_barang
+                        }
+
+                        this.pemasukan_item.push({
+                            no_penjualan: kode.no_penjualan,
+                            no_pengiriman: this.nokirim,
+                            kode_barang: kode.kode_barang,
+                            nama_barang: nama,
+                            kode_group: kode.kode_group,
+                            tipe_dokumen: kode.tipe_dokumen,
+                            no_dokumen: kode.no_dokumen,
+                            hs_code: this.state.hs_code,
+                            jumlah: jml,
+                            kode_konversi: this.state.kode_konversi,
+                            nama_konversi: this.state.nama_konversi,
+                            jumlah_konversi: this.penjualan_detail.jumlah_konversi,
+                            satuan_konversi: this.state.satuan_konversi,
+                            jumlah_terkirim: this.penjualan_detail.jumlah_terkirim,
+                            jumlah_blmterkirim: (kode.jumlah - kode.jumlah_terkirim),
+                            satuan: this.state.satuan,
+                            no_urut: '',
+                            konversi: this.state.kode_konversi == '' ? false : true
+                            //   nilai: nilai
+
+                        })
+                        this.dialog = false
+                        this.dialogchild[i] = false
                     } else {
-                        jml = this.penjualan_detail.jumlah
-                        nama = kode.nama_barang
+                        this.dialogchild[i] = false
+                        this.status = 'warn'
+                        this.message = 'Barang sudah pernah diinput'
+                        this.valert = true
                     }
-
-                      this.pemasukan_item.push({
-                          no_penjualan: kode.no_penjualan,
-                          no_pengiriman: this.nokirim,
-                          kode_barang: kode.kode_barang,
-                          nama_barang: nama,
-                          kode_group: kode.kode_group,
-                          tipe_dokumen: kode.tipe_dokumen,
-                          no_dokumen: kode.no_dokumen,
-                          hs_code: this.state.hs_code,
-                          jumlah: jml,
-                          kode_konversi: this.state.kode_konversi,
-                          nama_konversi: this.state.nama_konversi,
-                          jumlah_konversi: this.penjualan_detail.jumlah_konversi,
-                          satuan_konversi: this.state.satuan_konversi,
-                          jumlah_terkirim: this.penjualan_detail.jumlah_terkirim,
-                          jumlah_blmterkirim: (kode.jumlah - kode.jumlah_terkirim),
-                          satuan: this.state.satuan,
-                          no_urut: '',
-                          konversi: this.state.kode_konversi == '' ? false : true
-                        //   nilai: nilai
-
-                      })
-                      this.dialog = false
-                      this.dialogchild[i] = false
-                  } else {
-                      this.dialogchild[i] = false
-                      this.status = 'warn'
-                      this.message = 'Barang sudah pernah diinput'
-                      this.valert = true
-                  }
                 } else {
-                      this.dialogchild[i] = true
-                      this.status = 'warn'
-                      this.message = 'Jumlah melebihi sisa penjualan'
-                      this.valert = true
-                  }
+                    this.dialogchild[i] = true
+                    this.status = 'warn'
+                    this.message = 'Jumlah melebihi sisa penjualan'
+                    this.valert = true
+                }
             }
             this.check(kode)
             this.$emit('pemasukanitem', this.pemasukan_item, this.total)
@@ -487,16 +497,16 @@ export default {
                     for (let i = 0; i < this.pemasukan_item.length; i++) {
                         if (value.no_dokumen == this.pemasukan_item[i].no_dokumen) {
                             if (value.kode_group == this.pemasukan_item[i].kode_group) {
-                                if(!this.konversi) {
+                                if (!this.konversi) {
                                     if (value.kode_barang == this.pemasukan_item[i].kode_barang) {
-                                        if(this.pemasukan_item[i].kode_konversi == '') {
+                                        if (this.pemasukan_item[i].kode_konversi == '') {
                                             this.res = false
                                             break
                                         } else this.res = true
                                     } else this.res = true
-                                 }
-                                 if(this.konversi) {
-                                    if(this.state.kode_konversi == this.pemasukan_item[i].kode_konversi) {
+                                }
+                                if (this.konversi) {
+                                    if (this.state.kode_konversi == this.pemasukan_item[i].kode_konversi) {
                                         this.res = false
                                         break
                                     } else this.res = true
@@ -507,22 +517,21 @@ export default {
                         }
                     }
                 }
-            }
-            else if (this.produksi && !this.bahanbaku) {
+            } else if (this.produksi && !this.bahanbaku) {
                 if (this.pemasukan_item == '') {
                     this.res = true
                 } else if (this.pemasukan_item != '') {
                     for (let i = 0; i < this.pemasukan_item.length; i++) {
                         if (value.kode_group == this.pemasukan_item[i].kode_group) {
-                            if(!this.konversi) {
+                            if (!this.konversi) {
                                 if (value.kode_barang == this.pemasukan_item[i].kode_barang) {
-                                    if(this.pemasukan_item[i].kode_konversi == '') {
+                                    if (this.pemasukan_item[i].kode_konversi == '') {
                                         this.res = false
                                         break
                                     } else this.res = true
                                 } else this.res = true
                             }
-                            if(this.konversi) {
+                            if (this.konversi) {
                                 if (value.kode_konversi == this.pemasukan_item[i].kode_konversi) {
                                     this.res = false
                                     break
@@ -535,12 +544,12 @@ export default {
         },
         async hitungBerat(kode) {
             let param = ''
-            if(this.kodegroup) {
+            if (this.kodegroup && !this.bahanbaku) {
                 param = {
                     kode_konversi: kode.kode_konversi,
                     kode_group: this.kodegroup
                 }
-            } else {
+            } else if (!this.kodegroup && !this.bahanbaku) {
                 param = {
                     kode_konversi: this.state.kode_konversi,
                     kode_group: kode.kode_group,
@@ -549,35 +558,36 @@ export default {
             return await api.getBerat(param)
         },
         pro(value, b) {
-            if(!this.bahanbaku) {
+            if (!this.bahanbaku) {
                 this.dialogchild[b] = true
             } else {
                 this.kodebahan = value
-                this.$emit('pemasukanitem', this.kodebahan)
+                this.$emit('pemasukanitem', value)
+                this.dialog = false
             }
         },
         filter_konversi(kode) {
             let a = []
             let data = this.getKonversi
             for (let i = 0; i < data.length; i++) {
-                if(kode == data[i].kode_barang) {
+                if (kode == data[i].kode_barang) {
                     a.push(data[i])
                 }
             }
             return a
         },
-        valid (p) {
+        valid(p) {
             if (p == 'group') {
                 if (this.kodegroup != '' || this.pengiriman) {
-                    this.dialog = true
                     this.valert = false
+                    this.dialog = true
                 } else {
                     this.valert = true
                     this.message = 'Kode Group Masih Kosong !'
                     this.status = 'warn'
                     this.dialog = false
                 }
-            }
+            } else this.dialog = true
         }
     },
     async mounted() {
@@ -588,12 +598,12 @@ export default {
 </script>
 
 <template>
-<btn-info v-if="!bahanbaku" @click="more = 100, konversi = false, valid('group')" btn_title="Tambah Barang" class="me-3"></btn-info>
-<btn-info v-if="!bahanbaku && produksi || pengiriman" @click="more = 100, konversi = true, valid('group')" btn_title="Tambah Konversi"></btn-info>
 <v-dialog v-model="dialog" transition="dialog-bottom-transition" width="auto">
     <!-- BUTTON TAMBAH -->
-    <template v-slot:activator="{ props }">
-        <text-field-form v-if="bahanbaku" readonly v-bind="props" @click="more = 15" label="Bahan Baku" v-model="kodebahan" />
+    <template v-slot:activator>
+        <btn-info v-if="!bahanbaku" @click="more = 100, konversi = false, valid('group')" btn_title="Tambah Barang" class="me-3"></btn-info>
+        <btn-info v-if="!bahanbaku && produksi || pengiriman" @click="more = 100, konversi = true, valid('group')" btn_title="Tambah Konversi"></btn-info>
+        <text-field-form v-if="bahanbaku" readonly @click="more = 15, valid('group')" label="Bahan Baku" v-model="kodebahan" />
     </template>
     <v-card class="py-5 px-7 rounded-xl vh-100 mx-auto bg-light" min-width="300" width="30vw" max-width="400">
         <v-btn v-if="window < 500" icon="mdi-close" class="absolute" variant="text" @click="dialog = false">
@@ -661,7 +671,7 @@ export default {
                                 <text-field-form v-model="state.satuan_konversi" label="Satuan konversi" readonly :hide-details="true" />
                             </div>
                             <div v-if="pemasukan" class="d-flex justify-space-between">
-                                <span class="text-caption d-flex align-center" style="width: 90px; max-width:90px;">Jumlah (KG)</span>                            
+                                <span class="text-caption d-flex align-center" style="width: 90px; max-width:90px;">Jumlah (KG)</span>
                                 <currency-input v-model="state.jumlah" label="Jumlah (KG)" :hide-details="true" :disabled="hiddenbtn" :options="{ currency: 'EUR', currencyDisplay: 'hidden' }" />
                             </div>
                             <div v-if="pemasukan" class="d-flex justify-space-between">
