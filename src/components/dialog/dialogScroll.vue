@@ -592,9 +592,9 @@ export default {
 <btn-info v-if="!bahanbaku && produksi || pengiriman" @click="more = 100, konversi = true, valid('group')" btn_title="Tambah Konversi"></btn-info>
 <v-dialog v-model="dialog" transition="dialog-bottom-transition" width="auto">
     <!-- BUTTON TAMBAH -->
-    <!-- <template v-slot:activator="{ props }"> -->
-        <!-- <text-field-form v-if="bahanbaku" readonly v-bind="props" @click="more = 15" label="Bahan Baku" v-model="kodebahan" /> -->
-    <!-- </template> -->
+    <template v-slot:activator="{ props }">
+        <text-field-form v-if="bahanbaku" readonly v-bind="props" @click="more = 15" label="Bahan Baku" v-model="kodebahan" />
+    </template>
     <v-card class="py-5 px-7 rounded-xl vh-100 mx-auto bg-light" min-width="300" width="30vw" max-width="400">
         <v-btn v-if="window < 500" icon="mdi-close" class="absolute" variant="text" @click="dialog = false">
         </v-btn>

@@ -284,35 +284,35 @@ export default {
                     <div class="d-flex justify-space-between w-100 flex-wrap">
                             <div class="d-flex justify-space-between">
                                 <span class="text-caption" style="width: 90px; max-width:90px;">No Produksi</span>
-                                <text-field-form v-if="edit" :model-value="item.no_produksi" label="No Produksi" readonly style="width: 250px !important; max-width: 250px !important;" />
-                                <text-field-form v-if="!edit" label="No Produksi" readonly class="bg-grey-lighten-4" v-model="inputproduksi.no_produksi" style="width: 250px !important; max-width: 250px !important;" />
+                                <text-field-form v-if="edit" :model-value="item.no_produksi" label="No Produksi" readonly />
+                                <text-field-form v-if="!edit" label="No Produksi" readonly class="bg-grey-lighten-4" v-model="inputproduksi.no_produksi" />
                             </div>
                             <div class="d-flex justify-space-between">
                                 <span class="text-caption" style="width: 90px; max-width:90px;">Tgl Produksi</span>
                                 <date-picker v-if="!edit" :max-date="new Date()" :min-date="functions.last_month()" label="Tgl Produksi" v-model="inputproduksi.tgl_produksi" :tema="tema" :rules="required"/>
-                                <text-field-form v-if="edit" label="Tgl Produksi" :readonly="true" :rules="required" :model-value="functions.formatDate(item.tgl_produksi)" style="width: 250px !important; max-width: 250px !important;" />
+                                <text-field-form v-if="edit" label="Tgl Produksi" :readonly="true" :rules="required" :model-value="functions.formatDate(item.tgl_produksi)" />
                             </div>
                             <div class="d-flex justify-space-between">
                                 <span class="text-caption" style="width: 90px; max-width:90px;">Kode Group</span>
-                                <text-field-form v-if="edit" label="Kode Group" :model-value="item.kode_group" readonly :rules="required" style="width: 250px !important; max-width: 250px !important;"/>
-                                <text-field-form v-if="!edit" label="Kode Group" readonly @click="dialog5 = true, more = 15" v-model="inputproduksi.kode_group" :rules="required" style="width: 250px !important; max-width: 250px !important;" />
+                                <text-field-form v-if="edit" label="Kode Group" :model-value="item.kode_group" readonly :rules="required"/>
+                                <text-field-form v-if="!edit" label="Kode Group" readonly @click="dialog5 = true, more = 15" v-model="inputproduksi.kode_group" :rules="required" />
                             </div>
                     </div>
                     <v-divider v-if="edit" class="mb-2"></v-divider>
                     <div class="d-flex justify-space-between w-100 flex-wrap">
                             <div class="d-flex justify-space-between">
                                 <span class="text-caption" style="width: 90px; max-width:90px;">Bahan Baku</span>
-                                <text-field-form v-if="!edit" readonly @click="check()" label="Bahan Baku" :model-value="inputbahan" style="width: 250px !important; max-width: 250px !important;" />
-                                <dialogScroll v-model="dialogBahan" :window="window" dialog_title="stok barang" :group_detail="group_detail" :produksi="true" :btn="btn[0]" width="400" :barang="detailbahan" :tambah="true" :bahanbaku="true" :getbarang="select_kode" :kodegroup="inputproduksi.kode_group" @pemasukanitem="bahanmasuk" />
-                                <text-field-form v-if="edit" label="Bahan Baku" readonly :model-value="detailbahan.kode_barang + '-' + detailbahan.nama_barang" style="width: 250px !important; max-width: 250px !important;" />
+                                <!-- <text-field-form v-if="!edit" readonly @click="check()" label="Bahan Baku" :model-value="inputbahan" /> -->
+                                <dialogScroll v-if="!edit" v-model="dialogBahan" :window="window" dialog_title="stok barang" :group_detail="group_detail" :produksi="true" :btn="btn[0]" width="400" :barang="detailbahan" :tambah="true" :bahanbaku="true" :getbarang="select_kode" :kodegroup="inputproduksi.kode_group" @pemasukanitem="bahanmasuk" />
+                                <text-field-form v-if="edit" label="Bahan Baku" readonly :model-value="detailbahan.kode_barang + '-' + detailbahan.nama_barang" />
                             </div>
                             <div v-if="edit" class="d-flex justify-space-between">
                                 <span v-if="edit" class="text-caption" style="width: 90px; max-width:90px;">Jumlah</span>
-                                <text-field-form label="Jumlah" readonly :model-value="functions.numb(detailbahan.jumlah, 2 , true)" style="width: 250px !important; max-width: 250px !important;"/>
+                                <text-field-form label="Jumlah" readonly :model-value="functions.numb(detailbahan.jumlah, 2 , true)"/>
                             </div>
                             <div v-if="edit" class="d-flex justify-space-between">
                                 <span class="text-caption" style="width: 90px; max-width:90px;">Satuan</span>
-                                <text-field-form label="Satuan" readonly :model-value="detailbahan.satuan" style="width: 250px !important; max-width: 250px !important;"/>
+                                <text-field-form label="Satuan" readonly :model-value="detailbahan.satuan"/>
                             </div>
                     </div>
                 <!-- </v-row> -->
