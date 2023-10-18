@@ -92,9 +92,9 @@ export default {
                 <v-div class="me-5 mt-1">
                     <input type="checkbox" id="menu_checkbox" @click="drawer = !drawer" :checked="drawer">
                     <label for="menu_checkbox">
-                        <div></div>
-                        <div></div>
-                        <div></div>
+                        <div class="bg-dark"></div>
+                        <div class="bg-dark"></div>
+                        <div class="bg-dark"></div>
                     </label>
                 </v-div>
             </template>
@@ -102,8 +102,8 @@ export default {
                 <!-- <v-span @click="akun = !akun" class="text-caption d-flex me-3">
                     {{ user }}
                 </v-span> -->
-                <v-avatar @click="akun = !akun" class="bg-blue-lighten-1 me-2" size="small">
-                    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" style="width: 28px;" alt="">
+                <v-avatar @click="akun = !akun" class="me-2" size="small">
+                    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" style="width: 30px;" alt="">
                 </v-avatar>
             </template>
         </AppBar>
@@ -116,74 +116,6 @@ export default {
 </template>
 
 <style scoped>
-/* #menu_checkbox {
-    display: none;
-}
-
-label {
-    margin-bottom: 2px;
-    display: block;
-    width: 15px;
-    height: 15px;
-    cursor: pointer;
-}
-
-label:before {
-    content: "";
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    transition: 1.2s cubic-bezier(0, 0.96, 1, 0.02) background-color;
-}
-
-label div {
-    position: relative;
-    top: 0;
-    height: 3px;
-    background-color: #5995c2;
-    margin-bottom: 4px;
-    transition: 0.3s ease transform, 0.3s ease top, 0.3s ease width,
-        0.3s ease right;
-    border-radius: 2px;
-}
-
-label div:first-child {
-    transform-origin: 0;
-}
-
-label div:last-child {
-    margin-bottom: 0;
-    transform-origin: 31.7px;
-}
-
-label div:nth-child(2) {
-    right: 0;
-    width: 15px;
-}
-
-#menu_checkbox:checked+label div:first-child {
-    left: 0.5px;
-    top: -1.3px;
-    transform: rotateZ(45deg);
-    background: #5995c2;
-}
-
-#menu_checkbox:checked+label div:last-child {
-    top: 11px;
-    left: -5px;
-    transform: rotateZ(45deg);
-    background: #5995c2;
-}
-
-#menu_checkbox:checked+label div:nth-child(2) {
-    width: 20px;
-    top: -1px;
-    left: -2.5px;
-    transform: rotateZ(-45deg);
-    background: #5995c2;
-} */
 #menu_checkbox {
     display: none;
 }
@@ -210,7 +142,7 @@ label div {
     position: relative;
     top: 0;
     height: 2px;
-    background-color: #5fa0cb;
+    /* background-color: ; */
     margin-bottom: 4px;
     /* transition: 0.3s ease transform, 0.3s ease top, 0.3s ease width,
         0.3s ease right; */

@@ -38,12 +38,12 @@ export default {
       <v-container class="w-100 d-flex align-center">
         <slot name="app-btn"></slot>
         <!-- TITLE -->
-        <v-toolbar class="bg-transparent pe-3 ms-n6">
-          <v-toolbar-title class="text-blue-custom font-weight-medium title text-capitalize">{{ pageTitle }}</v-toolbar-title> 
+        <v-toolbar class="bg-transparent pe-3 ms-n5">
+          <v-toolbar-title class="  title text-uppercase">{{ pageTitle }}</v-toolbar-title> 
           <v-spacer></v-spacer>
           <div class="d-flex align-center">
           <!-- THEME BUTTON -->
-            <v-btn icon size="small" color="blue-custom" @click="theme()">
+            <v-btn icon size="small" color="black" @click="theme()">
               <v-span v-if="dark" class="material-symbols-outlined">dark_mode</v-span>
               <v-span v-if="!dark" class="material-symbols-outlined">light_mode</v-span>
             </v-btn>
@@ -84,6 +84,6 @@ export default {
   background: #fafafa !important;
 }
 .title {
-  font-size: 20px;
+  font-size: 17px;
 }
 </style>

@@ -240,7 +240,7 @@ export default {
             this.chartLine.stroke.show = true
             this.chartLine.xaxis = b
             this.chartLine.series = [
-            {name: 'data', type: 'column', color: '#FF9800', data: a},
+            {name: 'data', type: 'line', color: '#FF9800', data: a},
             ]
             this.cardData[3].value = head.length
         },
