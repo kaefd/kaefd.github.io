@@ -1,7 +1,13 @@
 {
-  "appId": "com.example.app",
+  "appId": "com.fd.inventori",
   "appName": "inventori",
+  "bundledWebRuntime": false,
   "webDir": "dist",
+"plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 0
+    }
+  },
   "server": {
     "androidScheme": "https"
   }

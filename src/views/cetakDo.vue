@@ -150,10 +150,10 @@ export default {
             </tr>
             <tr>
                 <td></td>
-                <td class="text-medium font-weight-bold" contenteditable>{{ sum('qty') }}</td>
+                <td class="text-medium total" contenteditable>{{ sum('qty') }}</td>
                 <td></td>
                 <td></td>
-                <td class="text-right text-medium font-weight-bold">{{ sum('jumlah') }}</td>
+                <td class="text-right text-medium total">{{ sum('jumlah') }}</td>
             </tr>
             </tbody>
         </v-table>
@@ -250,6 +250,9 @@ export default {
   .text-medium {
     font-size: 17px !important;
     color: black !important;
+  }
+  .total {
+    font-weight: 700 !important;
   }
 }
 
