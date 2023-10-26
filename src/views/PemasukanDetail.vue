@@ -125,17 +125,17 @@ export default {
         } else if (this.window < 1500) {
           if (this.windowH > 800) {
             h = '55vh'
-          } else h = '50vh'
+          } else h = '47vh'
         }
       } else if (!this.edit) {
         if (this.window > 1500) {
           if (this.windowH > 800) {
-            h = '40vh'
-          } else h = '23vh'
+            h = '53vh'
+          } else h = '40vh'
         } else if (this.window < 1500) {
           if (this.windowH > 800) {
             h = '40vh'
-          } else h = '23vh'
+          } else h = '30vh'
         }
       }
       return h
@@ -222,8 +222,8 @@ export default {
       />
     </template>
     <!-- dialog content -->
-    <v-card>
-      <v-toolbar class="bg-blue-custom text-white" height="50">
+    <v-card class="bg-light">
+      <v-toolbar class="bg-blue-custom text-white fixed" height="50">
         <textButton
           icon="mdi-close"
           @click=";(pembelian_input = []), (inputdata = []), (dialog = false)"
@@ -232,78 +232,78 @@ export default {
         <v-toolbar-title class="text-button mt-1">{{ 'DETAIL ' + pageTitle }}</v-toolbar-title>
         <v-spacer></v-spacer>
       </v-toolbar>
-      <v-container class="h-100 d-flex flex-column mt-5">
+      <v-container class="h-100 d-flex flex-column mt-1">
         <!-- EDIT -->
-        <div v-if="edit" class="d-flex justify-space-between w-100 flex-wrap">
+        <div v-if="edit" class="d-flex justify-space-between w-100 rounded-lg bg-white py-5 px-3 mb-2 flex-wrap">
           <div style="width: 300px;">
-            <div class="d-flex justify-space-between">
-              <span class="text-caption" style="width: 90px; max-width:90px;">No Pemasukan</span>
+            <div class="d-flex justify-space-between align-center">
+              <span class="text-caption mt-n2" style="width: 90px; max-width:90px;">No Pemasukan</span>
               <textFieldForm label="No Pemasukan" :model-value="items.no_pembelian" readonly />
             </div>
-            <div class="d-flex justify-space-between">
-              <span class="text-caption" style="width: 90px; max-width:90px;">Tgl Pemasukan</span>
+            <div class="d-flex justify-space-between align-center">
+              <span class="text-caption mt-n2" style="width: 90px; max-width:90px;">Tgl Pemasukan</span>
               <textFieldForm
                 label="Tgl Pemasukan"
                 :model-value="functions.formatDate(items.tgl_pembelian)"
                 readonly
               />
             </div>
-            <div class="d-flex justify-space-between">
-              <span class="text-caption" style="width: 90px; max-width:90px;">Nama Supplier</span>
+            <div class="d-flex justify-space-between align-center">
+              <span class="text-caption mt-n2" style="width: 90px; max-width:90px;">Nama Supplier</span>
               <textFieldForm label="Nama Supplier" :model-value="items.kode_supplier" readonly />
             </div>
           </div>
           <div style="width: 300px;">
-            <div class="d-flex justify-space-between">
-              <span class="text-caption" style="width: 90px; max-width:90px;">Tipe Dokumen</span>
+            <div class="d-flex justify-space-between align-center">
+              <span class="text-caption mt-n2" style="width: 90px; max-width:90px;">Tipe Dokumen</span>
               <textFieldForm label="Tipe Dokumen" :model-value="items.tipe_dokumen" readonly />
             </div>
-            <div class="d-flex justify-space-between">
-              <span class="text-caption" style="width: 90px; max-width:90px;">No Dokumen</span>
+            <div class="d-flex justify-space-between align-center">
+              <span class="text-caption mt-n2" style="width: 90px; max-width:90px;">No Dokumen</span>
               <textFieldForm label="No Dokumen" :model-value="items.no_dokumen" readonly />
             </div>
-            <div class="d-flex justify-space-between">
-              <span class="text-caption" style="width: 90px; max-width:90px;">Tgl Dokumen</span>
+            <div class="d-flex justify-space-between align-center">
+              <span class="text-caption mt-n2" style="width: 90px; max-width:90px;">Tgl Dokumen</span>
               <textFieldForm label="Tgl Dokumen" :model-value="items.tgl_dokumen" readonly />
             </div>
-            <div v-if="view_persentase" class="d-flex justify-space-between">
-              <span class="text-caption" style="width: 90px; max-width:90px;">Persentase</span>
+            <div v-if="view_persentase" class="d-flex justify-space-between align-center">
+              <span class="text-caption mt-n2" style="width: 90px; max-width:90px;">Persentase</span>
               <textFieldForm label="Persentase" type="number" :model-value="items.persentase" readonly />
             </div>
           </div>
           <div style="width: 300px;">
-            <div class="d-flex justify-space-between">
-              <span class="text-caption" style="width: 90px; max-width:90px;">No Invoice</span>
+            <div class="d-flex justify-space-between align-center">
+              <span class="text-caption mt-n2" style="width: 90px; max-width:90px;">No Invoice</span>
               <textFieldForm label="No Invoice" :model-value="items.no_invoice" readonly />
             </div>
-            <div class="d-flex justify-space-between">
-              <span class="text-caption" style="width: 90px; max-width:90px;">No Bl</span>
+            <div class="d-flex justify-space-between align-center">
+              <span class="text-caption mt-n2" style="width: 90px; max-width:90px;">No Bl</span>
               <textFieldForm label="No BL" :model-value="items.no_bl" readonly />
             </div>
-            <div class="d-flex justify-space-between">
-              <span class="text-caption" style="width: 90px; max-width:90px;">Mata Uang</span>
+            <div class="d-flex justify-space-between align-center">
+              <span class="text-caption mt-n2" style="width: 90px; max-width:90px;">Mata Uang</span>
               <textFieldForm label="Mata Uang" :model-value="items.mata_uang" readonly />
             </div>
-            <div class="d-flex justify-space-between">
-              <span class="text-caption" style="width: 90px; max-width:90px;">Kurs</span>
+            <div class="d-flex justify-space-between align-center">
+              <span class="text-caption mt-n2" style="width: 90px; max-width:90px;">Kurs</span>
               <textFieldForm type="number" label="Kurs" :model-value="items.kurs" readonly />
             </div>
           </div>
         </div>
         <!-- TAMBAH PEMASUKAN -->
         <v-form v-if="!edit && pemasukan" @submit.prevent ref="form">
-          <div class="d-flex justify-space-between w-100 flex-wrap">
+          <div class="d-flex justify-space-between w-100 flex-wrap bg-white px-3 py-5 rounded-lg mb-2">
             <div style="width: 300px;">
-              <div class="d-flex justify-space-between">
-                <span class="text-caption" style="width: 90px; max-width:90px;">No Pemasukan</span>
+              <div class="d-flex justify-space-between align-center">
+                <span class="text-caption mt-n2" style="width: 90px; max-width:90px;">No Pemasukan</span>
                 <textFieldForm label="No Pemasukan" v-model="inputdata.no_pembelian" readonly class="bg-grey-lighten-4"/>
               </div>
-              <div class="d-flex justify-space-between">
-                <span class="text-caption" style="width: 90px; max-width:90px;">Tgl Pemasukan</span>
+              <div class="d-flex justify-space-between align-center">
+                <span class="text-caption mt-n2" style="width: 90px; max-width:90px;">Tgl Pemasukan</span>
                 <datePicker class="" label="Tgl Pemasukan" v-model="inputdata.tgl_pembelian" :min-date="functions.last_month()" :max-date="new Date()" :tema="tema" :rules="required" />
               </div>
-              <div class="d-flex justify-space-between">
-                <span class="text-caption" style="width: 90px; max-width:90px;">Supplier</span>
+              <div class="d-flex justify-space-between align-center">
+                <span class="text-caption mt-n2" style="width: 90px; max-width:90px;">Supplier</span>
                 <dialogSearch
                   v-if="!edit"
                   :window="window"
@@ -317,8 +317,8 @@ export default {
               </div>
             </div>
             <div style="width: 300px;">
-              <div class="d-flex justify-space-between">
-                <span class="text-caption" style="width: 90px; max-width:90px;">Tipe Dokumen</span>
+              <div class="d-flex justify-space-between align-center">
+                <span class="text-caption mt-n2" style="width: 90px; max-width:90px;">Tipe Dokumen</span>
                 <textFieldForm id="tipe" label="Tipe Dokumen" v-model="inputdata.tipe_dokumen" readonly :rules="required" />
                 <menuForm
                   activator="#tipe"
@@ -327,8 +327,8 @@ export default {
                   @result="pilihtipedokumen"
                 />
               </div>
-              <div class="d-flex justify-space-between">
-                <span class="text-caption" style="width: 90px; max-width:90px;">No Dokumen</span>
+              <div class="d-flex justify-space-between align-center">
+                <span class="text-caption mt-n2" style="width: 90px; max-width:90px;">No Dokumen</span>
                 <textFieldForm
                   label="No Dokumen"
                   v-model="inputdata.no_dokumen"
@@ -336,8 +336,8 @@ export default {
                   :rules="required"
                 />
               </div>
-              <div class="d-flex justify-space-between">
-                <span class="text-caption" style="width: 90px; max-width:90px;">Tgl Dokumen</span>
+              <div class="d-flex justify-space-between align-center">
+                <span class="text-caption mt-n2" style="width: 90px; max-width:90px;">Tgl Dokumen</span>
                 <datePicker
                   label="Tgl Dokumen"
                   v-model="inputdata.tgl_dokumen"
@@ -348,60 +348,59 @@ export default {
                 
                 />
               </div>
-              <div class="d-flex justify-space-between">
-                <span class="text-caption" style="width: 90px; max-width:90px;">Persentase</span>
+              <div class="d-flex justify-space-between align-center">
+                <span class="text-caption mt-n2" style="width: 90px; max-width:90px;">Persentase</span>
                 <textFieldForm type="number" label="Persentase" v-model="inputdata.persentase" :rules="max_10" />
               </div>
             </div>
             <div style="width: 300px;">
-              <div class="d-flex justify-space-between">
-                <span class="text-caption" style="width: 90px; max-width:90px;">No Invoice</span>
+              <div class="d-flex justify-space-between align-center">
+                <span class="text-caption mt-n2" style="width: 90px; max-width:90px;">No Invoice</span>
                 <textFieldForm label="No Invoice" v-model="inputdata.no_invoice" :rules="required" />
               </div>
-              <div class="d-flex justify-space-between">
-                <span class="text-caption" style="width: 90px; max-width:90px;">No Bl</span>
+              <div class="d-flex justify-space-between align-center">
+                <span class="text-caption mt-n2" style="width: 90px; max-width:90px;">No Bl</span>
                 <textFieldForm label="No BL" v-model="inputdata.no_bl" :rules="required" />
               </div>
-              <div class="d-flex justify-space-between">
-                <span class="text-caption" style="width: 90px; max-width:90px;">Mata Uang</span>
+              <div class="d-flex justify-space-between align-center">
+                <span class="text-caption mt-n2" style="width: 90px; max-width:90px;">Mata Uang</span>
                 <textFieldForm label="Mata Uang" v-model="inputdata.mata_uang" :rules="required" />
               </div>
-              <div class="d-flex justify-space-between">
-                <span class="text-caption" style="width: 90px; max-width:90px;">Kurs</span>
+              <div class="d-flex justify-space-between align-center">
+                <span class="text-caption mt-n2" style="width: 90px; max-width:90px;">Kurs</span>
                 <textFieldForm type="number" label="Kurs" v-model="inputdata.kurs" :rules="required" />
               </div>
             </div>
           </div>
         </v-form>
-        <div
-          v-if="!edit"
-          :pembelianbaru="pembelianbaru"
-          :pembeliandetl="pembeliandetl"
-          class="text-sm-left text-center my-2"
-        >
-          <dialogScroll
-            :window="window"
-            @reset="reset"
-            :inptbarang="true"
-            :kurs="inputdata.kurs"
-            :barang="barang"
-            :itemDetail="itemDetail"
-            @pemasukanitem="itemmasuk"
-            :pemasukan="true"
-            dialog_title="Data Barang"
-            :btn="btn"
-            max-width="400"
-          />
-        </div>
         <!-- TABEL EDIT/VIEW -->
-        <div>
+        <div class="bg-white rounded-lg">
+          <div
+            v-if="!edit"
+            :pembelianbaru="pembelianbaru"
+            :pembeliandetl="pembeliandetl"
+            class="text-sm-left text-center ma-3"
+          >
+            <dialogScroll
+              :window="window"
+              @reset="reset"
+              :inptbarang="true"
+              :kurs="inputdata.kurs"
+              :barang="barang"
+              :itemDetail="itemDetail"
+              @pemasukanitem="itemmasuk"
+              :pemasukan="true"
+              dialog_title="Data Barang"
+              :btn="btn"
+            />
+          </div>
           <v-data-table
             :headers="headDetails"
             :items="edit ? pembelian : pembelian_input"
             :hover="true"
             :fixed-header="true"
             density="compact"
-            class="text-caption pt-1 border-sm rounded-lg my-3 h-100"
+            class="text-caption pa-2 h-100"
             :height="heightSizing"
           >
             <template v-slot:bottom>
@@ -495,8 +494,7 @@ export default {
                       />
                     </div>
                   </v-sheet>
-                  <v-divider class="mt-3 mb-5"></v-divider>
-                  <div v-if="!edit" class="d-flex me-5 ms-auto">
+                  <div v-if="!edit" class="d-flex me-5 mt-5 ms-auto">
                     <btn-cancel
                       btn_title="Hapus"
                       @click="deleteditem(item.raw), (detaildial[index] = false)"
@@ -512,7 +510,7 @@ export default {
             </template>
           </v-data-table>
         </div>
-        <div class="d-flex mb-0 mt-auto me-5 ms-auto">
+        <div class="d-flex mt-2 me-5 ms-auto">
           <btn-cancel
             class="mb-3 me-2"
             btn_title="Batal"

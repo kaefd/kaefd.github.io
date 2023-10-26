@@ -63,22 +63,22 @@ export default {
             if(this.edit) {
                 if(this.window > 1500) {
                     if(this.windowH > 800) {
-                        h = '60vh'
+                        h = '65vh'
                     } else h ='50vh'
                 } else if(this.window < 1500) {
                     if(this.windowH > 800) {
                         h = '60vh'
-                    } else h ='55vh'
+                    } else h ='53vh'
                 }
             } else if(!this.edit) {
                 if(this.window > 1500) {
                     if(this.windowH > 800) {
-                        h = '40vh'
+                        h = '50vh'
                     } else h ='32vh'
                 } else if(this.window < 1500) {
                     if(this.windowH > 800) {
                         h = '40vh'
-                    } else h ='37vh'
+                    } else h ='35vh'
                 }
             }
             return h
@@ -225,7 +225,7 @@ export default {
             </v-menu>
           </template>
           <!-- dialog content -->
-            <v-card>
+            <v-card class="bg-light">
                 <v-toolbar class="bg-blue-custom text-white" height="50">
                     <v-btn
                         icon
@@ -238,9 +238,9 @@ export default {
                 <v-toolbar-title class="text-button mt-1">{{ 'DETAIL '+ pageTitle }}</v-toolbar-title>
                 <v-spacer></v-spacer>
                 </v-toolbar>
-                <v-container class="h-100 d-flex flex-column mt-5">
+                <v-container class="h-100 d-flex flex-column mt-1">
                 <!-- EDIT -->
-                <div v-if="edit" class="d-flex justify-space-between w-100 flex-wrap">
+                <div v-if="edit" class="d-flex justify-space-between w-100 flex-wrap rounded-lg bg-white py-5 px-3 mb-2">
                     <div style="width: 300px;">
                         <div class="d-flex justify-space-between">
                             <span class="text-caption" style="width: 90px; max-width:90px;">No Penjualan</span>
@@ -277,8 +277,8 @@ export default {
                     </div>
                 </div>
                 <!-- TAMBAH PENGELUARAN -->
-                <v-form  @submit.prevent ref="form" class="mx-3">
-                <div v-if="!edit && pengeluaran" class="d-flex justify-space-between w-100 flex-wrap">
+                <v-form  @submit.prevent ref="form">
+                <div v-if="!edit && pengeluaran" class="d-flex justify-space-between w-100 flex-wrap bg-white px-3 py-5 rounded-lg mb-2">
                     <div style="width: 300px;">
                         <div class="d-flex justify-space-between">
                             <span class="text-caption" style="width: 90px; max-width:90px;">No Penjualan</span>
@@ -327,19 +327,19 @@ export default {
                     </div>
                 </div>
                 </v-form>
-                <!-- BUTTON TAMBAH BARANG -->
-                <div v-if="!edit" :pembelianbaru="pembelianbaru" :pembeliandetl="pembeliandetl" class="text-sm-left text-center my-2">
-                    <dialogScroll :window="window" dialog_title="Data Barang" @reset="reset" :pengeluaran="true" :inptbarang="true"  :barang="barang" :itemDetail="itemDetail" @pemasukanitem="itemmasuk" :btn="btn" width="400" />
-                </div>
                 <!-- TABEL EDIT/VIEW -->
-                <div>
+                <div class="bg-white rounded-lg py-3">
+                    <!-- BUTTON TAMBAH BARANG -->
+                    <div v-if="!edit" :pembelianbaru="pembelianbaru" :pembeliandetl="pembeliandetl" class="text-sm-left text-center ma-3">
+                        <dialogScroll :window="window" dialog_title="Data Barang" @reset="reset" :pengeluaran="true" :inptbarang="true"  :barang="barang" :itemDetail="itemDetail" @pemasukanitem="itemmasuk" :btn="btn" width="400" />
+                    </div>
                     <v-data-table
                         :headers="headDetails"
                         :items="edit ? penjualan : pembelian_input"
                         :hover="true"
                         :fixed-header="true"
                         density="compact"
-                        class="text-caption py-1 mt-2 border-sm rounded-lg h-100"
+                        class="text-caption px-3 h-100"
                         :height="heightSizing"
                     >
                     <template v-slot:bottom>
@@ -440,8 +440,7 @@ export default {
                                         />
                                     </div>
                                 </div>
-                                <v-divider class="mb-5"></v-divider>
-                                <div v-if="!edit" class="d-flex me-5 ms-auto">
+                                <div v-if="!edit" class="d-flex me-5 mt-5 ms-auto">
                                     <btn-cancel btn_title="Hapus" @click="deleteditem(item.raw), detaildial[index] = false" :hidden="disable" class="me-2">Hapus</btn-cancel>
                                     <btn-orange btn_title="Simpan" :hidden="disable" @click="detaildial[index] = false">Simpan</btn-orange>
                                 </div>
@@ -457,11 +456,11 @@ export default {
             </v-container>
         </v-card>
         <v-dialog v-model="dialogkodeg" transition="dialog-bottom-transition" width="auto">
-            <v-card class="py-5 px-7 rounded-xl mx-auto bg-light" min-width="300" :width="window < 600 ? '87vw' : '50vw'" height="90vh" max-width="400">
+            <v-card class="py-5 px-7 rounded-xl mx-auto bg-light dialog-width">
                 <v-btn v-if="window < 500" icon="mdi-close" class="absolute" variant="text" @click="dialogkodeg = false"></v-btn>
                 <v-card-title class="text-center text-grey-darken-3 mb-3 text-button font-weight-bold">KODE GROUP</v-card-title>
                 <v-div>
-                    <text-field v-model="searched" label="Search" class="mb-4"/>
+                    <text-field v-model="searched" label="Search" class="mb-4" color="grey-lighten-1"/>
                 </v-div>
                 <v-list class="bg-light">
                     <div v-for="kode, i in filterkodegroup.slice(0, more)" :key="i">

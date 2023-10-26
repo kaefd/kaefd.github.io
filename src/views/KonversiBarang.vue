@@ -126,7 +126,7 @@ export default defineComponent({
           this.message = 'Data Berhasil Diubah'
           setTimeout(() => {
             this.valert = false
-            // this.$router.go();
+            this.$router.go();
             this.fetchData()
           }, 2500)
         })

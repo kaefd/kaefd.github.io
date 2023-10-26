@@ -7,7 +7,7 @@ input::-webkit-inner-spin-button {
   --v-theme-surface: #fff !important;
 }
 .v-theme--dark > .v-data-table {
-  --v-theme-surface: #121212 !important;
+  --v-theme-surface: #212121 !important;
   
 }
 .v-data-table-header__content {
@@ -111,6 +111,10 @@ th {
   }
   .bg-blue-custom {
     background: #5fa0cb;
+  }
+  .dialog-width {
+    min-width: 320px;
+    width: 29vw;
   }
   .text-blue-custom {
     color: #5fa0cb;

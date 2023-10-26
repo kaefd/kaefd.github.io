@@ -2,7 +2,7 @@
 export default {
     components: {
   },
-    props:['icon', 'btn_title', 'placeholder'],
+    props:['icon', 'btn_title', 'placeholder', 'color'],
     data () {
         return {
           variant: 'text'
@@ -15,8 +15,8 @@ export default {
 <v-text-field
   density="compact"
   :variant="variant || 'text'"
-  class="text-blue-custom text-caption rounded"
-  :class="{'border' : !variant, 'bg-white rounded-xl' : variant}"
+  class="text-caption rounded"
+  :class="{'border' : !variant, 'bg-white rounded-xl' : variant, 'text-blue-custom' : !color, color : color}"
   :prepend-inner-icon="icon || 'mdi-magnify'"
   :placeholder="placeholder"
   single-line

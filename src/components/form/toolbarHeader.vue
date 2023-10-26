@@ -16,5 +16,4 @@ export default {
       {{ toolbar_title }}
     </v-span>
 </v-toolbar>
-<v-divider></v-divider>
 </template>

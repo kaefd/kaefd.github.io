@@ -73,7 +73,7 @@ export default {
                 } else if (this.window < 1500) {
                     if (this.windowH > 800) {
                         h = '60vh'
-                    } else h = '50vh'
+                    } else h = '43vh'
                 }
             } else if (!this.edit) {
                 if (this.window > 1500) {
@@ -84,7 +84,7 @@ export default {
                     if (this.windowH > 800) {
                         h = '50vh'
                     } else if (this.windowH < 700) {
-                        h = '45vh'
+                        h = '37vh'
                     } else h = '50vh'
                 }
             }
@@ -118,7 +118,7 @@ export default {
     },
     methods: {
         lainnya() {
-            let a = this.more + 10
+            let a = this.more + 600
             this.more = a
         },
         bahanmasuk(value) {
@@ -173,7 +173,7 @@ export default {
             let arr = []
             if(param == 'konversi') {
                 for (let i = 0; i < p.length; i++) {
-                arr.push(p[i].jumlah_konversi)
+                    arr.push(p[i].jumlah_konversi)
                 }
                 return arr.reduce((total, current) => {
                     return total + current
@@ -260,14 +260,14 @@ export default {
         </v-menu>
     </template>
     <!-- dialog content -->
-    <v-card>
+    <v-card class="bg-light">
         <v-toolbar class="bg-blue-custom text-white" height="50">
             <text-button icon="mdi-close" color="white" @click=";(dialog = false), (inputproduksi = inputbahan = inputbarang = [])" />
             <v-toolbar-title class="text-button">DETAIL PRODUKSI</v-toolbar-title>
             <v-spacer></v-spacer>
         </v-toolbar>
-        <v-container class="mt-5">
-            <v-form @submit.prevent ref="form" class="mb-2">
+        <v-container class="h-100 d-flex flex-column mt-1">
+            <v-form @submit.prevent ref="form" class="bg-white px-3 py-5 rounded-lg mb-2">
                     <div class="d-flex justify-space-between w-100 flex-wrap">
                             <div class="d-flex justify-space-between">
                                 <span class="text-caption" style="width: 90px; max-width:90px;">No Produksi</span>
@@ -285,7 +285,6 @@ export default {
                                 <text-field-form v-if="!edit" label="Kode Group" readonly @click="dialog5 = true, more = 15" v-model="inputproduksi.kode_group" :rules="required" />
                             </div>
                     </div>
-                    <v-divider v-if="edit" class="mb-2"></v-divider>
                     <div class="d-flex justify-space-between w-100 flex-wrap">
                             <div class="d-flex justify-space-between">
                                 <span class="text-caption" style="width: 90px; max-width:90px;">Bahan Baku</span>
@@ -305,12 +304,12 @@ export default {
                 <!-- </v-row> -->
             </v-form>
             <!-- TABLE -->
-            <v-row no-gutters justify="center" justify-md="space-between" align="start" class="mx-sm-0 mx-3" min-width="400">
+            <v-row no-gutters justify="center" justify-md="space-between" align="start" class="mx-sm-0 mx-3 bg-white px-3 py-5 rounded-lg mb-2" min-width="400">
                 <v-responsive class="mt-md-0 mt-1 text-sm-left text-center" width="400">
                     <dialogScroll v-if="!edit" dialog_title="data barang" :produksi="true" :inptbarang="true" :kodegroup="inputproduksi.kode_group" :btn="btn[1]" width="400" :barang="detailbarang" :getbarang="getbarang" :getKonversi="getKonversi" :inputbahan="inputbahan" :tambah="true" @pemasukanitem="barangmasuk" />
                     <v-row v-if="edit" no-gutters class="justify-center py-1 text-button rounded border">detail barang</v-row>
-                    <v-container class="border-sm rounded-lg mt-2">
-                        <v-data-table :headers="edit ? headItem : headers" :items="edit ? detailbarang : inputbarang" :hover="true" :fixed-header="true" density="compact" class="text-body-2 pb-3 px-5 text-caption he" :height="heightSizing">
+                    <v-container class="rounded-lg">
+                        <v-data-table :headers="edit ? headItem : headers" :items="edit ? detailbarang : inputbarang" :hover="true" :fixed-header="true" density="compact" class="text-body-2 pb-3 text-caption" :height="heightSizing">
                             <template v-slot:bottom>
                                 <v-span v-if="edit" class="float-end me-5 text-caption font-weight-medium">Jumlah : {{ functions.numb(jumlahtotal(detailbarang), 2, true) }}</v-span>
                                 <v-span v-if="edit" class="float-end me-5 text-caption font-weight-medium">Jumlah Konversi : {{ functions.numb(jumlahtotal(detailbarang, 'konversi')) }}</v-span>
@@ -351,8 +350,7 @@ export default {
                                                 <currency-input v-model="item.raw.jumlah_konversi" :label="'Jumlah ('+item.raw.satuan_konversi+')'" :options="{ currency: 'EUR', currencyDisplay: 'hidden' }" />
                                             </div>
                                         </v-sheet>
-                                        <v-divider class="mt-3 mb-5"></v-divider>
-                                        <v-div v-if="!edit" class="d-flex me-5 ms-auto">
+                                        <v-div v-if="!edit" class="d-flex me-5 mt-5 ms-auto">
                                             <btn-cancel btn_title="Hapus" @click="deleteditem(item.raw, 'barang'), (dialogbrg[index] = false)" class="me-2"></btn-cancel>
                                             <btn-orange btn_title="Simpan" type="submit" @click="dialogbrg[index] = false"></btn-orange>
                                         </v-div>
@@ -364,25 +362,25 @@ export default {
                 </v-responsive>
             </v-row>
             <!-- edit data -->
-            <v-row no-gutters class="float-end mt-3">
+            <v-row no-gutters class="mt-3 me-0 ms-auto">
                 <btnCancel v-if="!edit" @click=";(dialog = false), (inputproduksi = inputbahan = inputbarang = [])" btn_title="Batal" />
                 <btnOrange v-if="!edit" @click="validate" btn_title="Simpan" class="ms-2" />
             </v-row>
         </v-container>
     </v-card>
     <v-dialog v-model="dialog5" transition="dialog-bottom-transition" width="auto">
-        <v-card class="py-5 px-7 rounded-xl mx-auto" min-width="300" :width="window < 600 ? '87vw' : '50vw'" height="90vh" max-width="400">
+        <v-card class="py-5 px-7 rounded-xl mx-auto dialog-width bg-light">
             <v-btn v-if="window < 500" icon="mdi-close" class="absolute" variant="text" @click="dialog5 = false"></v-btn>
             <v-card-title class="text-center text-grey-darken-3 mb-3 text-button font-weight-bold">KODE GROUP</v-card-title>
-            <v-div>
-                <text-field v-model="searched" label="Search" class="mb-4" />
-            </v-div>
-            <v-list>
-                <v-div v-for="(kode, i) in filterkodegroup.slice(0, more)" :key="i">
+            <div>
+                <text-field v-model="searched" label="Search" class="mb-4" color="grey-lighten-1" />
+            </div>
+            <v-list class="bg-light">
+                <div v-for="(kode, i) in filterkodegroup.slice(0, more)" :key="i">
                     <v-list-item style="cursor: pointer" class="text-caption" density="compact" @click="input_kodegroup(kode), (dialog5 = false)">
                         <v-span class="text-caption">{{ kode }}</v-span>
                     </v-list-item>
-                </v-div>
+                </div>
                 <v-div v-if="filterkodegroup.length > more" class="d-flex justify-center align-center">
                     <v-divider length="50"></v-divider>
                     <v-btn @click="lainnya()" variant="text" size="small" class="text-caption">lihat lainnya</v-btn>

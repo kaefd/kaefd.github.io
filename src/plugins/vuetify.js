@@ -11,8 +11,8 @@ import { createVuetify } from "vuetify";
 const light = {
 	dark: false,
 	colors: {
-		background: '#fafafa',
-		'light': '#fafafa',
+		background: '#F4F4F4',
+		'light': '#F4F4F4',
 		dark: '#212121',
 		'blue-custom': '#5fa0cb',
 		'white': '#fff',
@@ -28,7 +28,7 @@ const dark = {
 		dark: '#e8e8e8',
 		'blue-custom': '#6699bf',
 		'black': '#fff',
-		'white': '#121212',
+		'white': '#212121',
 		'grey-lighten-4': '#2b2b2b'
 		
 	}

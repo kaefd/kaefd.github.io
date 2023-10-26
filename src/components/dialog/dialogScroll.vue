@@ -191,7 +191,7 @@ export default {
     },
     methods: {
         lainnya() {
-            let a = this.more + 100
+            let a = this.more + 600
             this.more = a
         },
         stok_detail(value) {
@@ -605,14 +605,14 @@ export default {
         <btn-info v-if="!bahanbaku && produksi || pengiriman" @click="more = 100, konversi = true, valid('group')" btn_title="Tambah Konversi"></btn-info>
         <text-field-form v-if="bahanbaku" readonly @click="more = 15, valid('group')" label="Bahan Baku" v-model="kodebahan" />
     </template>
-    <v-card class="py-5 px-7 rounded-xl vh-100 mx-auto bg-light" min-width="300" width="30vw" max-width="400">
+    <v-card class="py-5 px-7 rounded-xl vh-100 mx-auto bg-light dialog-width">
         <v-btn v-if="window < 500" icon="mdi-close" class="absolute" variant="text" @click="dialog = false">
         </v-btn>
         <v-card-title class="text-center text-grey-darken-3 text-button font-weight-bold mb-3 px-12">{{
         dialog_title
         }}</v-card-title>
         <v-div>
-            <text-field id="input" v-model="search" label="Search" class="mb-4"></text-field>
+            <text-field id="input" v-model="search" label="Search" class="mb-4" color="grey-lightern-1"></text-field>
         </v-div>
         <v-list class="me-2 bg-light">
             <div v-for="(item, b) in filteredItems.slice(0, more)" :key="item">
@@ -648,12 +648,12 @@ export default {
                     <v-divider></v-divider>
                 </v-list-item>
                 <v-dialog v-if="!bahanbaku" @update="dialogchild" :persistent="true" transition="dialog-bottom-transition" width="auto" v-model="dialogchild[b]">
-                    <v-card class="py-5 mx-auto rounded-xl" min-width="300" max-width="375" width="35vw">
+                    <v-card class="py-5 mx-auto rounded-xl dialog-width bg-light">
                         <v-span class="text-button text-grey-darken-3 text-center font-weight-bold">{{item.nama_barang || item.nama_konversi}}</v-span>
                         <v-span v-if="!konversi" class="text-caption text-center">{{ item.kode_barang +'-'+ item.hs_code }}</v-span>
                         <v-span v-else-if="konversi" class="text-caption text-center">{{ item.kode_konversi }}</v-span>
-                        <v-divider class="mt-3 mb-5"></v-divider>
-                        <form @submit.prevent="submit" ref="form" class="mx-auto w-75 pt-2 bg-transparent">
+                        <!-- <v-divider class="mt-3 mb-5"></v-divider> -->
+                        <form @submit.prevent="submit" ref="form" class="mx-auto w-75 mt-5 pt-2 bg-transparent">
                             <div v-if="pengiriman && konversi" class="d-flex justify-space-between">
                                 <span class="text-caption d-flex align-center" style="width: 90px; max-width:90px;">Kode Konversi</span>
                                 <dialogSearch :button="false" label="Kode Konversi" :objectFilter="filter_konversi(item.kode_barang)" :index="b" card-title="Barang Konversi" @pilihObjek="barangKonversi" />
@@ -691,7 +691,7 @@ export default {
                                 <currency-input v-model="terjual" label="Total Harga" :hide-details="true" readonly :options="{ currency: 'EUR', currencyDisplay: 'hidden' }" />
                             </div>
                         </form>
-                        <v-divider class="mt-3"></v-divider>
+                        <!-- <v-divider class="mt-3"></v-divider> -->
                         <v-div class="d-inline me-5 ms-auto mt-5">
                             <btn-cancel @click="dialogchild[b] = false" btn_title="batal" />
                             <btn-orange type="submit" @click="pemasukanItem(item, b)" btn_title="Simpan" class="ms-2" />
