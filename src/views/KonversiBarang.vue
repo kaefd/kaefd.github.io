@@ -13,22 +13,13 @@ import filterDrawer from '../components/drawer/filterDrawer.vue'
 import alertVue from '../components/dialog/alertVue.vue'
 import dialogMaster from '../components/dialog/dialogMaster.vue'
 import circularLoader from '../components/animate/circularLoader.vue'
+import checkbox from '../components/form/checkbox.vue'
 // plugin
 import { defineComponent } from 'vue'
 </script>
 
 <script>
 export default defineComponent({
-  components: {
-    dialogMaster,
-    TableVue,
-    btnFilter,
-    menuList,
-    textField,
-    filterDrawer,
-    alertVue,
-    circularLoader
-  },
   name: 'BarangKonversi',
   props: ['cetak', 'tema', 'window'],
   data() {
@@ -181,20 +172,16 @@ export default defineComponent({
   <filterDrawer v-model="filter" @close="close" @reset="reset" @filterdata="filterdata">
     <template #default>
       <v-span class="text-caption text-weight-bold">Kode Barang</v-span>
-      <v-divider class=""></v-divider>
-      <v-combobox
-        :items="kodebarang"
-        v-model="filtered.kode_barang"
-        multiple
-        variant="underlined"
-        density="compact"
-        class="overflow-auto"
-        hide-details
-        single-line
-        hide-selected
-        chips
-        closable-chips
-      ></v-combobox>
+      <v-divide></v-divide>
+      <div class="overflow-auto mt-3 py-2" style="height: 60vh;">
+        <checkbox
+          v-for="(label, i) in kodebarang"
+          :key="i"
+          v-model="filtered.kode_barang"
+          :label="label"
+          :value="label"
+        />
+      </div>
     </template>
   </filterDrawer>
   <v-container class="pt-9 h-100">
@@ -265,3 +252,17 @@ export default defineComponent({
   <alertVue v-model="valert" :sukses="status" :message="message" />
   <circular-loader :loading="loading" />
 </template>
+<style scoped>
+.v-input--density-compact.customdense {
+    --v-input-control-height: 10px;
+    --v-input-padding-top: 8px;
+}
+.check-small {
+  display:  block !important;
+  font-size: 10px !important;
+  text-align: center !important;
+}
+.v-table.v-table--fixed-header > .v-table__wrapper > table > thead > tr > th {
+  background: inherit !important;
+}
+</style>

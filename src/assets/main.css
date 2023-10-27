@@ -115,6 +115,8 @@ th {
   .dialog-width {
     min-width: 320px;
     width: 29vw;
+    min-height: 200px;
+    padding-bottom: 20px !important;
   }
   .text-blue-custom {
     color: #5fa0cb;

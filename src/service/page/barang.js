@@ -9,7 +9,7 @@
       ]
       const headers = [
         { title: 'Kategori Barang', key: 'kategori_barang'},
-        { title: 'Kode Barang', key: 'kode_barang' },
+        { title: 'Kode Barang', key: 'kode_barang', dis: true },
         { title: 'Nama Barang', key: 'nama_barang' },
         { title: 'HS Kode', key: 'hs_code' },
         { title: 'Satuan', key: 'satuan' },

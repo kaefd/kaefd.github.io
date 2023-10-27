@@ -28,6 +28,7 @@ export default {
     
     data () {
       return {
+        dataTable: '',
         dialog: [],
         detail: [],
         paginate: '',
@@ -64,8 +65,7 @@ export default {
         return alert(i)
       }
     },
-    mounted() {
-    }
+   
 }
 </script>
 <template>

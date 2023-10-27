@@ -79,7 +79,7 @@ import CircularLoader from '../components/animate/circularLoader.vue';
           this.message = "Data Berhasil Ditambahkan"
           setTimeout(() => {
             this.valert = false
-            this.fetchData();
+            this.$router.go()
           }, 2500);
         })
         .catch((error) => {
@@ -89,14 +89,7 @@ import CircularLoader from '../components/animate/circularLoader.vue';
         })
       },
       // EDIT DATA
-      editForm() {
-        let data = {
-          "kode_pelanggan": "ASMT",
-          "nama": "Auristeel Metalindo Terboyo",
-          "alamat": "Semarang",
-          "npwp": "0.0.0.0",
-          "status": "true"
-        }
+      editForm(data) {
         api.putPelanggan(data)
         .then(() => {
           this.status = true
@@ -104,7 +97,7 @@ import CircularLoader from '../components/animate/circularLoader.vue';
           this.message = "Data Berhasil Diubah"
           setTimeout(() => {
             this.valert = false
-            this.fetchData();
+            this.$router.go()
           }, 2500);
         })
         .catch(function (error) {
@@ -122,7 +115,7 @@ import CircularLoader from '../components/animate/circularLoader.vue';
           this.message = "Data Berhasil Dihapus"
           setTimeout(() => {
             this.valert = false
-            this.fetchData();
+            this.$router.go()
           }, 2500);
         })
         .catch(function (error) {

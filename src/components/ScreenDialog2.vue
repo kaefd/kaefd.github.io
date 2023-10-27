@@ -15,6 +15,7 @@ import TextButton from './button/textButton.vue'
 import CurrencyInput from './form/currencyInput.vue'
 import AlertVue from './dialog/alertVue.vue'
 import produksi from '../service/page/produksi'
+import api from '../service/api'
 // import api from '../api';
 </script>
 <script>
@@ -114,7 +115,7 @@ export default {
                 }
                 return a
             } else return null
-        }
+        },
     },
     methods: {
         lainnya() {
@@ -139,6 +140,17 @@ export default {
             }
             this.inputproduksi.kode_group = value
             this.$emit('input_kodegroup', this.inputproduksi.kode_group)
+        },
+        async editData (value) {
+           if (value.raw.kode_konversi != '') {
+            let param = {
+                    kode_konversi: value.raw.kode_konversi,
+                    kode_group: this.inputproduksi.kode_group,
+                }
+            let berat = await api.getBerat(param)
+            let hitung = berat * value.raw.jumlah_konversi
+            value.raw.jumlah = hitung
+           }
         },
         // stok_detail(value) {
         //     for (let i = 0; i < this.group_detail.length; i++) {
@@ -352,7 +364,7 @@ export default {
                                         </v-sheet>
                                         <v-div v-if="!edit" class="d-flex me-5 mt-5 ms-auto">
                                             <btn-cancel btn_title="Hapus" @click="deleteditem(item.raw, 'barang'), (dialogbrg[index] = false)" class="me-2"></btn-cancel>
-                                            <btn-orange btn_title="Simpan" type="submit" @click="dialogbrg[index] = false"></btn-orange>
+                                            <btn-orange btn_title="Simpan" type="submit" @click="dialogbrg[index] = false, editData(item)"></btn-orange>
                                         </v-div>
                                     </template>
                                 </DialogVue>

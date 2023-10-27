@@ -24,6 +24,7 @@ export default {
     data () {
       
       return {
+        dataTable: {},
         dialog: false,
         edit: {},
         data: this.tambah,
@@ -41,9 +42,14 @@ export default {
         ],
       }
     },
-    computed: {
+    created() {
+      this.dataTable = Object.assign({}, this.item)
     },
     methods: {
+      // updateData() {
+      //   const newData = Object.assign({}, this.item)
+
+      // },
       menuAksi(v) {
             v == 'edit' ? this.dialog = true : false
         },
@@ -66,7 +72,7 @@ export default {
           if(this.item == null) {
             data = this.data
           } else {
-            data = this.item
+            data = this.dataTable
           }
             return this.submit(data)
         }
@@ -82,7 +88,6 @@ export default {
 <template>
     <v-dialog
       v-model="dialog"
-      :scrim="false"
       transition="dialog-bottom-transition"
       width="370"
       max-width="400"
@@ -100,7 +105,8 @@ export default {
         /> -->
       </template>
       <!-- CONTENT DIALOG EDIT/TAMBAH -->
-      <v-card class="rounded-xl">
+      <v-card class="rounded-xl dialog-width bg-light">
+        {{ dataTable }}
         <v-form  @submit.prevent ref="form">
           <toolbar-header :toolbar_title="toolbar_title" />
             <v-container class="mt-5 d-flex flex-column align-center">
@@ -135,7 +141,7 @@ export default {
                   <text-field-form
                     id="tipe"
                     :label="headers[0].title"
-                    v-model="item[keyform[0]]"
+                    v-model="dataTable[keyform[0]]"
                     readonly
                     :rules="required"
                   >                                
@@ -147,7 +153,7 @@ export default {
                           :key="index"
                           density="compact"
                         >
-                          <v-list-item-title @click="item[keyform[0]] = i" class="text-caption">{{ i }}</v-list-item-title>
+                          <v-list-item-title @click="dataTable[keyform[0]] = i" class="text-caption">{{ i }}</v-list-item-title>
                         </v-list-item>
                       </v-list>
                   </v-menu>
@@ -168,7 +174,7 @@ export default {
                   <text-field-form
                   v-if="this.item != null"
                   :label="headers[0].title"
-                  v-model="item[keyform[0]]"
+                  v-model="dataTable[keyform[0]]"
                   :readonly="headers[0].dis"
                   :rules="required"
                   ></text-field-form> 
@@ -187,7 +193,7 @@ export default {
                   <text-field-form
                     v-if="this.item != null"
                     :label="h.title"
-                    v-model="item[keyform[i+1]]"
+                    v-model="dataTable[keyform[i+1]]"
                     :readonly="headers[i+1].dis"
                     :rules="required"
                     :type="keyform[i+1] == 'berat' ? 'number' : text"
@@ -195,7 +201,6 @@ export default {
                 </div>
               </div>
             </v-container>
-            <v-divider></v-divider>
             <v-div v-if="!view" class="d-flex align-center float-end ma-5">
                 <btn-cancel v-if="!edit" @click="data = '', dialog = false" btn_title="Batal" />
                 <slot name="cancel"></slot>
