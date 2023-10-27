@@ -13,13 +13,11 @@ import filterDrawer from '../components/drawer/filterDrawer.vue'
 import alertVue from '../components/dialog/alertVue.vue'
 import dialogMaster from '../components/dialog/dialogMaster.vue'
 import circularLoader from '../components/animate/circularLoader.vue'
-import checkbox from '../components/form/checkbox.vue'
-// plugin
-import { defineComponent } from 'vue'
+import checkBox from '../components/form/checkBox.vue'
 </script>
 
 <script>
-export default defineComponent({
+export default {
   name: 'BarangKonversi',
   props: ['cetak', 'tema', 'window'],
   data() {
@@ -166,7 +164,7 @@ export default defineComponent({
     this.fetchData()
     this.cetak
   }
-})
+}
 </script>
 <template>
   <filterDrawer v-model="filter" @close="close" @reset="reset" @filterdata="filterdata">
@@ -174,7 +172,7 @@ export default defineComponent({
       <v-span class="text-caption text-weight-bold">Kode Barang</v-span>
       <v-divide></v-divide>
       <div class="overflow-auto mt-3 py-2" style="height: 60vh;">
-        <checkbox
+        <checkBox
           v-for="(label, i) in kodebarang"
           :key="i"
           v-model="filtered.kode_barang"
