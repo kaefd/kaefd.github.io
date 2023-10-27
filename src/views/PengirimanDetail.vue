@@ -202,6 +202,18 @@ export default {
             this.valert = true
             this.detaildial[i] = true
           } else this.detaildial[i] = false
+            this.editData(item);
+        },
+        async editData(value) {
+            if (value.kode_konversi != '') {
+            let param = {
+                    kode_konversi: value.kode_konversi,
+                    kode_group: value.kode_group,
+                }
+            let berat = await api.getBerat(param)
+            let hitung = berat * value.jumlah_konversi
+            value.jumlah = hitung
+           }
         },
         searchObj(value) {
             let a = {}
