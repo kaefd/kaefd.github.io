@@ -32,7 +32,7 @@ export default {
             <text-button v-if="!master" v-bind="props" icon="mdi-dots-vertical" />
             <btn-info v-if="master" v-bind="props" :icon="btn_title != '' ? '' : 'mdi-plus'" :btn_title="btn_title != '' ? btn_title : 'Tambah Data'" />
         </template>
-        <v-card class="bg-light mx-auto py-5 rounded-xl dialog-width">
+        <v-card class="bg-light mx-auto py-5 rounded-xl dialog-child">
             <slot name="titlecard"></slot>
             <slot name="content"></slot>
         </v-card>

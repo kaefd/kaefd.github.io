@@ -118,6 +118,13 @@ th {
     min-height: 200px;
     padding-bottom: 20px !important;
   }
+  .dialog-child {
+    min-width: 320px;
+    width: 27vw;
+    max-width: 450px;
+    min-height: 200px;
+    padding-bottom: 20px !important;
+  }
   .text-blue-custom {
     color: #5fa0cb;
   }

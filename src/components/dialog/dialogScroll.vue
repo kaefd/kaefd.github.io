@@ -648,7 +648,7 @@ export default {
                     <v-divider></v-divider>
                 </v-list-item>
                 <v-dialog v-if="!bahanbaku" @update="dialogchild" :persistent="true" transition="dialog-bottom-transition" width="auto" v-model="dialogchild[b]">
-                    <v-card class="py-5 mx-auto rounded-xl dialog-width bg-light">
+                    <v-card class="py-5 mx-auto rounded-xl dialog-child bg-light">
                         <v-span class="text-button text-grey-darken-3 text-center font-weight-bold">{{item.nama_barang || item.nama_konversi}}</v-span>
                         <v-span v-if="!konversi" class="text-caption text-center">{{ item.kode_barang +'-'+ item.hs_code }}</v-span>
                         <v-span v-else-if="konversi" class="text-caption text-center">{{ item.kode_konversi }}</v-span>

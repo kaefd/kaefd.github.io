@@ -84,9 +84,3 @@ export default {
 </v-dialog>
 <AlertVue v-model="valert" :status="status" :message="message" />
 </template>
-<style>
-.dialog-width {
-    min-width: 320px;
-    width: 29vw;
-}
-</style>

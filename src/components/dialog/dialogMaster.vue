@@ -89,8 +89,7 @@ export default {
     <v-dialog
       v-model="dialog"
       transition="dialog-bottom-transition"
-      width="370"
-      max-width="400"
+      width="auto"
     >
     
       <template v-slot:activator="{ props }">
@@ -105,8 +104,7 @@ export default {
         /> -->
       </template>
       <!-- CONTENT DIALOG EDIT/TAMBAH -->
-      <v-card class="rounded-xl dialog-width bg-light">
-        {{ dataTable }}
+      <v-card class="rounded-xl dialog-child bg-light">
         <v-form  @submit.prevent ref="form">
           <toolbar-header :toolbar_title="toolbar_title" />
             <v-container class="mt-5 d-flex flex-column align-center">
