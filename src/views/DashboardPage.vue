@@ -120,6 +120,7 @@ export default {
         },
         async fetch() {
             this.dataPemasukan = await api.getPemasukanHead(this.dash_periode)
+            this.detailPemasukan = await api.getPemasukanDetail(this.dash_periode)
             this.dataProduksi = await api.getProduksiHead(this.dash_periode)
             this.dataPengeluaran = await api.getPenjualanHead(this.dash_periode)
             this.dataPjlDetail = await api.getPenjualanDetail(this.dash_periode)
@@ -139,21 +140,26 @@ export default {
             let all = []
             let b = []
             let data = this.dataPemasukan
+            let detail = this.detailPemasukan
             for (let i = 0; i < data.length; i++) {
-                if(data[i].tipe_dokumen == 'BC23') {
-                    bc2.push(functions.numb(data[i].total_nilai/1000000))
+                for (let j = 0; j < detail.length; j++) {
+                    if(data[i].no_pembelian == detail[j].no_pembelian) {
+                        if(data[i].tipe_dokumen == 'BC23') {
+                            bc2.push(functions.numb(detail[j].jumlah/1000))
+                        }
+                        if(data[i].tipe_dokumen == 'BC40') {
+                            bc4.push(functions.numb(detail[j].jumlah/1000))
+                        }
+                        if(data[i].tipe_dokumen == 'PPKEK-LDP') {
+                            ldp.push(functions.numb(detail[j].jumlah/1000))
+                        }
+                        if(data[i].tipe_dokumen == 'PPKEK-TLDDP') {
+                            tld.push(functions.numb(detail[j].jumlah/1000))
+                        }
+                        all.push(functions.numb(detail[j].jumlah/1000))
+                        b.push(data[i].tgl_pembelian)
+                    }
                 }
-                if(data[i].tipe_dokumen == 'BC40') {
-                    bc4.push(functions.numb(data[i].total_nilai/1000000))
-                }
-                if(data[i].tipe_dokumen == 'PPKEK-LDP') {
-                    ldp.push(functions.numb(data[i].total_nilai/1000000))
-                }
-                if(data[i].tipe_dokumen == 'PPKEK-TLDDP') {
-                    tld.push(functions.numb(data[i].total_nilai/1000000))
-                }
-                all.push(functions.numb(data[i].total_nilai/1000000))
-                b.push(data[i].tgl_pembelian)
             }
             this.chartLine.xaxis = b
             this.chartLine.series = [
@@ -173,7 +179,7 @@ export default {
             for (let i = 0; i < head.length; i++) {
                 for (let j = 0; j < barang.length; j++) {
                     if(head[i].no_produksi == barang[j].no_produksi) {
-                        a.push(functions.numb(barang[i].nilai/1000000))
+                        a.push(functions.numb(barang[i].jumlah/1000))
                         b.push(head[i].tgl_produksi)
                     }
                 }
@@ -198,18 +204,18 @@ export default {
                 for (let j = 0; j < detail.length; j++) {
                     if(data[i].no_penjualan == detail[j].no_penjualan) {
                         if(data[i].tipe_dokumen == 'BC25') {
-                            bc2.push(functions.numb(data[i].total_penjualan/1000000))
+                            bc2.push(functions.numb(detail[j].jumlah/1000))
                         }
                         if(data[i].tipe_dokumen == 'BC41') {
-                            bc4.push(functions.numb(data[i].total_penjualan/1000000))
+                            bc4.push(functions.numb(detail[j].jumlah/1000))
                         }
                         if(detail[j].jumlah_terkirim == detail[j].jumlah) {
-                            close.push(functions.numb(data[i].total_penjualan/1000000))
+                            close.push(functions.numb(detail[j].jumlah/1000))
                         }
                         if(detail[j].jumlah_terkirim != detail[j].jumlah) {
-                            open.push(functions.numb(data[i].total_penjualan/1000000))
+                            open.push(functions.numb(detail[j].jumlah/1000))
                         }
-                        all.push(functions.numb(data[i].total_penjualan/1000000))
+                        all.push(functions.numb(detail[j].jumlah/1000))
                         b.push(data[i].tgl_penjualan)
                     }
                 }
@@ -232,7 +238,7 @@ export default {
             for (let i = 0; i < head.length; i++) {
                 for (let j = 0; j < detail.length; j++) {
                     if(head[i].no_pengiriman == detail[j].no_pengiriman) {
-                        a.push(functions.numb(detail[j].nilai/1000000))
+                        a.push(functions.numb(detail[j].jumlah/1000))
                         b.push(head[i].tgl_pengiriman)
                     }
                 }
@@ -282,7 +288,7 @@ export default {
                         <!-- <apexchart class="text-black" width="500" type="line" :options="options" :series="series" :stroke="stroke"></apexchart> -->
                         <div class="d-flex justify-start">
                             <div>
-                                <span class="ms-3 text-caption font-weight-bold">(Juta)</span>
+                                <span class="ms-3 text-caption font-weight-bold">(Ton)</span>
                                 <LineChart :charts="chartLine" :height="window < 700 ? 320 : 400" :width="window > 700 ? 950 : '100%'"/>
                                 <span class="d-block font-weight-bold text-center">Total {{ title }} Bulan {{ getMonth }}</span>
                             </div>
