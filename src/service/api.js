@@ -3,7 +3,7 @@ import axios from 'axios'
 import functions from './functions'
 
 const instance = axios.create({
-  baseURL: 'https://auristeel.com/api-test',
+  baseURL: 'https://auristeel.com/api',
   headers: {
     // 'Permissions-Policy': 'interest-cohort=()',
     csrf: localStorage.getItem('token'),
@@ -840,7 +840,8 @@ export default {
     let data = {
       // pengiriman_head: ph,
       // pengiriman_detail: pd,
-      no_pengiriman: head.no_pengiriman
+      // no_pengiriman: head.no_pengiriman
+      no_pengiriman: head
     }
     return instance.delete('/pengiriman_head', { data: data })
   },

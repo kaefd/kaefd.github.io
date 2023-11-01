@@ -488,7 +488,7 @@ export default {
                       <text-field-form
                         v-if="edit"
                         label="Total nilai"
-                        :model-value="items.total_nilai"
+                        :model-value="items.nilai"
                         :readonly="true"
                         hide-details
                       />
