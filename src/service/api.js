@@ -3,7 +3,7 @@ import axios from 'axios'
 import functions from './functions'
 
 const instance = axios.create({
-  baseURL: 'https://auristeel.com/api',
+  baseURL: 'https://auristeel.com/api-test',
   headers: {
     // 'Permissions-Policy': 'interest-cohort=()',
     csrf: localStorage.getItem('token'),
