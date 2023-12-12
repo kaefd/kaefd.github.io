@@ -1,5 +1,5 @@
 <template>
-    <button class="h-[45px] min-h-max px-7 rounded-full capitalize">{{ label }}</button>
+    <button class="h-[45px] min-w-[90px] rounded capitalize px-5">{{ label }}</button>
 </template>
 <script lang="ts">
 export default {

@@ -1,0 +1,80 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* width */
+::-webkit-scrollbar {
+	width: 0.75vw;
+	height: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+	background: rgba(87, 127, 186, 0.123);
+	border-radius: 30px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+	background: var(--color-primary);
+}
+/* html {
+	background: #eff1f5;
+} */
+.dark {
+	background: var(--color-dark);
+	color: var(--color-light);
+}
+.bg-dark-base {
+	background: var(--color-dark-base);
+	color: var(--color-light);
+}
+body {
+	color: #4b5563;
+	background-color: var(--color-base);
+}
+.bg-scrim-lighten {
+	background: #fcfcfc77;
+}
+.bg-scrim {
+	background: #00000025;
+}
+.bg-primary {
+	background: var(--color-primary);
+	color: white;
+}
+.bg-danger {
+	color: white;
+}
+.bg-danger-hover {
+	color: var(--color-danger-tint)
+}
+.bg-secondary {
+	background: var(--color-secondary);
+	color: black;
+}
+.text-secondary {
+	color: var(--color-secondary);
+}
+.bg-secondary-hover {
+	background: var(--color-secondary-hover);
+	color: black
+}
+.bg-primary-hover {
+	background: var(--color-primary-hover);
+	color: var(--color-primary);
+}
+.bg-white-hover {
+	background: rgba(255, 255, 255, 0.541);
+}
+input:focus-within {
+	outline-color: var(--color-primary);
+}
+a {
+	color: unset !important;
+}

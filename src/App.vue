@@ -1,162 +1,54 @@
-<script setup>
-import {
-    RouterView
-} from 'vue-router'
-import NavDrawers from './components/drawer/NavDrawers.vue';
-import AppBar from './components/appbar/AppBar.vue';
-import otoritas from './service/page/otoritas';
-import api from './service/api';
-import AkunDrawer from './components/drawer/akunDrawer.vue';
-</script>
-<script>
-export default {
-    components: {
-        NavDrawers,
-        AppBar,
-    },
-    data() {
-        return {
-            windowWidth: window.innerWidth,
-            windowHeight: window.innerHeight,
-            drawer: null,
-            akun: false,
-            user: '',
-            aut: '',
-            tema: null,
-            databarang: '',
-            cetak: [{
-                    title: 'Export xlsx',
-                    icon: 'mdi-download',
-                    key: 'xlsx'
-                },
-                {
-                    title: 'Export pdf',
-                    icon: 'mdi-file-pdf-box',
-                    key: 'pdf'
-                },
-            ],
-
-            pageTitle: '',
-            pemasukan: '',
-            produksi: '',
-            pengeluaran: '',
-            kirim: '',
-            user_otoritas: ''
-        }
+<template>
+  <k-provider theme="ios">
+    <div class="flex justify-center w-screen h-full overflow-hidden">
+      <div class="flex w-full max-w-[3840px]" :class="store().theme == 'dark' ? 'bg-dark-base' : 'bg-base'">
+        <!-- APP BAR -->
+        <TopBar v-if="$router.currentRoute.value.path != '/login' && !store().suratjalan && !store().do"/>
+        <AppBar v-if="$router.currentRoute.value.path != '/login' && !store().suratjalan && !store().do"/>
+        <router-view class="w-full duration-300" :class="store().nav ? 'translate-x-0 md:translate-x-72 max-w-max md:max-w-[78%]' : '-translate-x-0'"></router-view>
+        <div v-if="store().nav" @click="close()" class="absolute z-[0] md:z-[-1] h-full w-full"></div>
+        <base-loader v-if="store().loading && $router.currentRoute.value.path != '/login'"></base-loader>
+      </div>
+    </div>
+  </k-provider>
+  </template>
+  
+  <script setup lang="ts">
+    import AppBar from './layout/AppBar.vue'
+    import TopBar from './layout/TopBar.vue'
+    import { store } from '@/utils/store'
+    import api from '@/utils/api'
+    import { kProvider } from 'konsta/vue';
+  </script>
+  <script lang="ts">
+  export default {
+    computed: {
+      auth() {
+        let token = localStorage.getItem('token')
+        return token ? true : false
+      },
+      // dark() {
+      //   let dark = store().theme
+      //   if(dark == 'dark') return true
+      //   else return false
+      // }
     },
     methods: {
-        onResize() {
-            this.windowWidth = window.innerWidth
-            this.windowHeight = window.innerHeight
-        },
-        page(value) {
-            this.pageTitle = value
-        },
-        theme(v) {
-            if (v) {
-                this.tema = 'dark'
-            } else this.tema = 'light'
-        },
-        async fetchData() {
-            let token = localStorage.getItem('token')
-            let user = localStorage.getItem('user')
-            if (token != null && token != false && user != null) {
-                let data = await api.getOtoritas(user)
-                this.aut = otoritas.otoritas(data)
-                this.user = user
-            } else return await api.logout()
-        },
-
+      async allow() {
+        const user = localStorage.getItem('user')
+        let data = await api.getData('user_otoritas', {username: user, status: 'true'})
+        store().$patch((state) => state.otoritas = data)
+        // this.otoritas = data
+      },
+      close() {
+        let stores = store()
+        stores.$patch((state: { nav: boolean; }) => {
+          state.nav = false
+        })
+      },
     },
     mounted() {
-        this.$nextTick(() => {
-            window.addEventListener('resize', this.onResize)
-        })
-        this.page()
-        this.fetchData()
-        
-    }
-}
-</script>
-
-<template>
-<v-theme-provider :theme="tema" with-background>
-    <v-layout>
-        <!-- DRAWER -->
-        <NavDrawers v-model="drawer" v-if="pageTitle != null" :pageTitle="pageTitle" :aut="aut" :pemasukan="pemasukan" :produksi="produksi" :pengeluaran="pengeluaran" :kirim="kirim" />
-        <AkunDrawer v-model="akun" :user="user" v-if="pageTitle != null"/>
-        <!-- APP BAR -->
-        <AppBar v-if="pageTitle != null" :pageTitle="pageTitle" @dark="theme">
-            <template #app-btn>
-                <!-- APP BAR ICON -->
-                <v-div class="me-5 mt-1">
-                    <input type="checkbox" id="menu_checkbox" @click="drawer = !drawer" :checked="drawer">
-                    <label for="menu_checkbox">
-                        <div class="bg-dark"></div>
-                        <div class="bg-dark"></div>
-                        <div class="bg-dark"></div>
-                    </label>
-                </v-div>
-            </template>
-            <template #user>
-                <!-- <v-span @click="akun = !akun" class="text-caption d-flex me-3">
-                    {{ user }}
-                </v-span> -->
-                <v-avatar @click="akun = !akun" class="me-2" size="small">
-                    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" style="width: 30px;" alt="">
-                </v-avatar>
-            </template>
-        </AppBar>
-        <!-- MAIN VIEW -->
-        <v-main class="vh-100 vw-100">
-            <RouterView :cetak="cetak" @page="page" @pages="page" :window="windowWidth" :windowH="windowHeight" :tema="tema" />
-        </v-main>
-    </v-layout>
-</v-theme-provider>
-</template>
-
-<style scoped>
-#menu_checkbox {
-    display: none;
-}
-
-label {
-    /* margin-bottom: 2px; */
-    display: block;
-    width: auto;
-    height: auto;
-    cursor: pointer;
-}
-
-label:before {
-    content: "";
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    transition: 1.2s cubic-bezier(0, 0.96, 1, 0.02) background-color;
-}
-
-label div {
-    position: relative;
-    top: 0;
-    height: 2px;
-    /* background-color: ; */
-    margin-bottom: 4px;
-    /* transition: 0.3s ease transform, 0.3s ease top, 0.3s ease width,
-        0.3s ease right; */
-    border-radius: 50px;
-}
-
-label div:first-child {
-    width: 14px;
-}
-
-label div:nth-child(2) {
-    width: 12px;
-}
-label div:last-child {
-    width: 17px;
-}
-</style>
+        this.allow()
+    },
+  }
+  </script>

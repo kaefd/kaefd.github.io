@@ -1,0 +1,45 @@
+<template>
+    <base-table :fields="config.fields" :items="store().detail" :master="false" :dialog_field="config.dialog_field"></base-table>
+</template>
+<script setup lang="ts">
+import { store } from '@/utils/store'
+</script>
+<script lang="ts">
+export default {
+    data() {
+        return {
+            config: {
+                title: 'Detail Pengiriman Barang',
+                permission: [
+                    {title: 'Tambah Data', key: 'tambah', value: true},
+                    {title: 'Detail Pengiriman', key: 'lihat', value: true},
+                    {title: 'Batal Pengiriman', key: 'batal', value: false},
+                ],
+                fields: [
+                        {title: 'No Penjualan', key: 'no_penjualan', type: 'text', show: true},
+                        {title: 'Tipe Dokumen', key: 'tipe_dokumen', type: 'text', show: true},
+                        {title: 'No Dokumen', key: 'no_dokumen', type: 'text', show: true},
+                        {title: 'Kode Group', key: 'kode_group', type: 'text', show: true},
+                        {title: 'Kode Barang', key: 'kode_barang', type: 'text', show: true},
+                        {title: 'Nama Barang', key: 'nama_barang', type: 'text', show: true},
+                        {title: 'Jumlah', key: 'jumlah', type: 'number', show: true},
+                        {title: 'Satuan', key: 'satuan', type: 'text', show: true},
+                        {title: 'Kode Konversi', key: 'kode_konversi', type: 'text', show: true},
+                        {title: 'Nama Konversi', key: 'nama_konversi', type: 'text', show: true},
+                        {title: 'Jumlah Konversi', key: 'jumlah_konversi', type: 'text', show: true},
+                        {title: 'Satuan Konversi', key: 'satuan_konversi', type: 'text', show: true},
+                ],
+                dialog_field: [
+                    {title: 'Kode Barang', key: 'kode_barang', type: 'text', show: true},
+                    {title: 'Nama Barang', key: 'nama_barang', type: 'text', show: true},
+                    {title: 'Jumlah', key: 'jumlah', type: 'number', show: true},
+                    {title: 'Jumlah Konversi', key: 'jumlah_konversi', type: 'number', show: true},
+                ],
+                field_detail: false,
+                filter: false,
+                items: ''
+            }
+        }
+    },
+}
+</script>
