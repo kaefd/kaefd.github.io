@@ -252,7 +252,6 @@ export default {
                 }
             }
             this.$emit("input", val)
-            console.log(val);
         },
         open_id() {
             let a = store().validate(this.rules, null, store().detailDump)
