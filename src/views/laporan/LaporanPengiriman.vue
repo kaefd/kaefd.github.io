@@ -9,6 +9,7 @@
 import pengiriman from '@/views/pengiriman/pengiriman'
 import PengirimanDetail from '@/views/pengiriman/PengirimanDetail.vue'
 import { store } from '@/utils/store'
+import otoritas from '@/router/otoritas';
 </script>
 <script>
 export default {
@@ -58,13 +59,16 @@ export default {
     },
     methods: {
         async get () {
-            store().loader('on')
-            let data = await pengiriman.pengiriman()
-            if(data) store().loader('off')
-            store().$patch((state) => {
-                state.items = data
-                state.state = this.config
-            })
+            let a = otoritas.Cakses('Laporan Pengiriman')
+            if(a) {
+                store().loader('on')
+                let data = await pengiriman.pengiriman()
+                if(data) store().loader('off')
+                store().$patch((state) => {
+                    state.items = data
+                    state.state = this.config
+                })
+            } else this.$router.push('/')
         }
     },
     beforeMount() {

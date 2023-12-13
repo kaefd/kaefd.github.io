@@ -4,6 +4,7 @@
 <script setup>
 import pelanggan from './pelanggan'
 import { store } from '@/utils/store'
+import otoritas from '@/router/otoritas';
 </script>
 <script>
 export default {
@@ -35,20 +36,23 @@ export default {
     },
     methods: {
         async get () {
-            let data = await pelanggan.pelanggan()
-            // let perm = store().otoritas
-            // for (let i = 0; i < perm.length; i++) {
-            //     if(perm[i].jenis_otoritas == 'Tambah Pelanggan Baru') this.config.permission.push({title: 'Tambah Data', key: 'tambah'})
-            //     this.config.permission.push({title: 'Detail Data', key: 'lihat'})
-            //     if(perm[i].jenis_otoritas == 'Ubah Pelanggan') this.config.permission.push({title: 'Ubah Data', key: 'edit'})
-            //     if(perm[i].jenis_otoritas == 'Hapus Pelanggan') this.config.permission.push({title: 'Hapus Data', key: 'hapus'})
-            //     if(perm[i].jenis_otoritas == 'Export pdf') this.config.permission.push({title: 'Export pdf', key: 'pdf'})
-            //     if(perm[i].jenis_otoritas == 'Export xlsx') this.config.permission.push({title: 'Export xlsx', key: 'xlsx'})
-            // }
-            store().$patch((state) => {
-                state.items = data
-                state.state = this.config
-            })
+            let a = otoritas.Cakses('Data Pelanggan')
+            if(a) {
+                let data = await pelanggan.pelanggan()
+                // let perm = store().otoritas
+                // for (let i = 0; i < perm.length; i++) {
+                //     if(perm[i].jenis_otoritas == 'Tambah Pelanggan Baru') this.config.permission.push({title: 'Tambah Data', key: 'tambah'})
+                //     this.config.permission.push({title: 'Detail Data', key: 'lihat'})
+                //     if(perm[i].jenis_otoritas == 'Ubah Pelanggan') this.config.permission.push({title: 'Ubah Data', key: 'edit'})
+                //     if(perm[i].jenis_otoritas == 'Hapus Pelanggan') this.config.permission.push({title: 'Hapus Data', key: 'hapus'})
+                //     if(perm[i].jenis_otoritas == 'Export pdf') this.config.permission.push({title: 'Export pdf', key: 'pdf'})
+                //     if(perm[i].jenis_otoritas == 'Export xlsx') this.config.permission.push({title: 'Export xlsx', key: 'xlsx'})
+                // }
+                store().$patch((state) => {
+                    state.items = data
+                    state.state = this.config
+                })
+            } else this.$router.push('/')
         }
     },
     beforeMount() {

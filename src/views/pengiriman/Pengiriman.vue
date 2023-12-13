@@ -14,6 +14,7 @@
     </base-page>
 </template>
 <script setup>
+import otoritas from '@/router/otoritas'
 import pengiriman from './pengiriman'
 import PengirimanDetail from './PengirimanDetail.vue'
 import { store } from '@/utils/store'
@@ -67,13 +68,16 @@ export default {
     },
     methods: {
         async get () {
-            let data = await pengiriman.pengiriman()
-            let blmTerkirim = await pengiriman.blmTerkirim()
-            this.config.permission[0].item.item = blmTerkirim
-            store().$patch((state) => {
-                state.items = data
-                state.state = this.config
-            })
+            let a = otoritas.akses('Pengiriman Barang')
+            if(a) {
+                let data = await pengiriman.pengiriman()
+                let blmTerkirim = await pengiriman.blmTerkirim()
+                this.config.permission[0].item.item = blmTerkirim
+                store().$patch((state) => {
+                    state.items = data
+                    state.state = this.config
+                })
+            } else this.$router.push('/')
         }
     },
     beforeMount() {

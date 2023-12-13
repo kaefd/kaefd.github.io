@@ -9,6 +9,7 @@
 import pengeluaran from '@/views/pengeluaran/pengeluaran'
 import PengeluaranDetail from '@/views/pengeluaran/PengeluaranDetail.vue'
 import { store } from '@/utils/store'
+import otoritas from '@/router/otoritas';
 </script>
 <script>
 export default {
@@ -69,13 +70,16 @@ export default {
     },
     methods: {
         async get () {
-            store().loader('on')
-            let data = await pengeluaran.pengeluaran()
-            if(data) store().loader('off')
-            store().$patch((state) => {
-                state.items = data
-                state.state = this.config
-            })
+            let a = otoritas.Cakses('Laporan Pengeluaran')
+            if(a) {
+                store().loader('on')
+                let data = await pengeluaran.pengeluaran()
+                if(data) store().loader('off')
+                store().$patch((state) => {
+                    state.items = data
+                    state.state = this.config
+                })
+            } else this.$router.push('/')
         }
     },
     beforeMount() {

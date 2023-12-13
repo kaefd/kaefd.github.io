@@ -4,6 +4,7 @@
 <script setup>
 import konversi from './konversi'
 import { store } from '@/utils/store'
+import otoritas from '@/router/otoritas';
 </script>
 <script>
 export default {
@@ -39,27 +40,30 @@ export default {
     },
     methods: {
         async get () {
-            let data = await konversi.konversi()
-            let a = []
-            let b = []
-            for (let i = 0; i < data.length; i++) {
-                a.push({
-                    title: data[i].head.kode_barang,
-                    key: data[i].head.kode_barang,
-                    show: true
+            let a = otoritas.Cakses('Konversi Barang')
+            if(a) {
+                let data = await konversi.konversi()
+                let a = []
+                let b = []
+                for (let i = 0; i < data.length; i++) {
+                    a.push({
+                        title: data[i].head.kode_barang,
+                        key: data[i].head.kode_barang,
+                        show: true
+                    })
+                    b.push(data[i].head.kode_barang)
+                }
+                let kode = Array.from(new Set(a.map(obj => JSON.stringify(obj)))).map(str => JSON.parse(str))
+                let onlyCode =  [...new Set(b)];
+                console.log(store().state.filter);
+                
+                this.config.filter[0].item = kode
+                this.config.field_detail[0].item = onlyCode
+                store().$patch((state) => {
+                    state.items = data
+                    state.state = this.config
                 })
-                b.push(data[i].head.kode_barang)
-            }
-            let kode = Array.from(new Set(a.map(obj => JSON.stringify(obj)))).map(str => JSON.parse(str))
-            let onlyCode =  [...new Set(b)];
-            console.log(store().state.filter);
-            
-            this.config.filter[0].item = kode
-            this.config.field_detail[0].item = onlyCode
-            store().$patch((state) => {
-                state.items = data
-                state.state = this.config
-            })
+            } else this.$router.push('/')
             
         }
     },

@@ -9,6 +9,7 @@
 import pemasukan from '@/views/pemasukan/pemasukan'
 import PemasukanDetail from '@/views/pemasukan/PemasukanDetail.vue'
 import { store } from '@/utils/store'
+import otoritas from '@/router/otoritas';
 </script>
 <script>
 export default {
@@ -70,17 +71,20 @@ export default {
     },
     methods: {
         async get () {
-            store().loader('on')
-            let data = await pemasukan.pemasukan()
-            if(data) store().loader('off')
-            store().$patch((state) => {
-                state.items = data
-                state.state = this.config
-                // state.menu.option = ''
-                // state.detail_dialog = false
-                // state.filter = false
-                // state.column = false
-            })
+            let a = otoritas.Cakses('Laporan Pemasukan')
+            if(a) {
+                store().loader('on')
+                let data = await pemasukan.pemasukan()
+                if(data) store().loader('off')
+                store().$patch((state) => {
+                    state.items = data
+                    state.state = this.config
+                    // state.menu.option = ''
+                    // state.detail_dialog = false
+                    // state.filter = false
+                    // state.column = false
+                })
+            } else this.$router.push('/')
         },
     },
     beforeMount() {

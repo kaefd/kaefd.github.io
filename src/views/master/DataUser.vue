@@ -5,6 +5,7 @@
         </template></base-page>
 </template>
 <script setup>
+import otoritas from '@/router/otoritas';
 import DetailUser from './DetailUser.vue';
 import user from './user'
 import { store } from '@/utils/store'
@@ -36,32 +37,35 @@ export default {
     },
     methods: {
         async get () {
-            let mdl = []
-            let data = ''
-            await user.user().then((res) => {
-                let detail = res[0].detail
-                for (let i = 0; i < detail.length; i++) {
-                    mdl.push({
-                        title: detail[i].title,
-                        key: detail[i].key,
-                        value: 'false',
-                        active: false,
-                        item: detail[i].item != undefined ? detail[i].item.map(it => {
-                            return {
-                                title: it.title,
-                                key: it.key,
-                                value: 'false',
-                            }
-                        }) : null
-                    })
-                }
-                this.model = mdl
-                data = res
-            })
-            store().$patch((state) => {
-                state.items = data
-                state.state = this.config
-            })
+            let a = otoritas.Cakses('Data User')
+            if(a) {
+                let mdl = []
+                let data = ''
+                await user.user().then((res) => {
+                    let detail = res[0].detail
+                    for (let i = 0; i < detail.length; i++) {
+                        mdl.push({
+                            title: detail[i].title,
+                            key: detail[i].key,
+                            value: 'false',
+                            active: false,
+                            item: detail[i].item != undefined ? detail[i].item.map(it => {
+                                return {
+                                    title: it.title,
+                                    key: it.key,
+                                    value: 'false',
+                                }
+                            }) : null
+                        })
+                    }
+                    this.model = mdl
+                    data = res
+                })
+                store().$patch((state) => {
+                    state.items = data
+                    state.state = this.config
+                })
+            } else this.$router.push('/')
         },
     },
     beforeMount() {

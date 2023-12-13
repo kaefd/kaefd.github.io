@@ -51,11 +51,14 @@ export default {
     },
     methods: {
         async get () {
-            let data = await barang.barang()
-            store().$patch((state) => {
-                state.items = data
-                state.state = this.config
-            })
+            let a = otoritas.Cakses('Data Barang')
+            if(a) {
+                let data = await barang.barang()
+                store().$patch((state) => {
+                    state.items = data
+                    state.state = this.config
+                })
+            } else this.$router.push('/')
         },
     },
     beforeMount() {

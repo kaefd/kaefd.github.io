@@ -6,6 +6,7 @@
     </base-page>
 </template>
 <script setup>
+import otoritas from '@/router/otoritas'
 import pengeluaran from './pengeluaran'
 import PengeluaranDetail from './PengeluaranDetail.vue'
 import { store } from '@/utils/store'
@@ -73,13 +74,16 @@ export default {
     },
     methods: {
         async get () {
-            let data = await pengeluaran.pengeluaran()
-            let kode = await pengeluaran.kodegroup()
-            this.config.field_detail[4].item.item = kode
-            store().$patch((state) => {
-                state.items = data
-                state.state = this.config
-            })
+            let a = otoritas.akses('Pengeluaran Barang')
+            if(a) {
+                let data = await pengeluaran.pengeluaran()
+                let kode = await pengeluaran.kodegroup()
+                this.config.field_detail[4].item.item = kode
+                store().$patch((state) => {
+                    state.items = data
+                    state.state = this.config
+                })
+            } else this.$router.push('/')
         }
     },
     beforeMount() {

@@ -4,6 +4,7 @@
 <script setup>
 import { store } from '@/utils/store'
 import loguser from './loguser'
+import otoritas from '@/router/otoritas';
 </script>
 <script>
 export default {
@@ -31,13 +32,16 @@ export default {
     },
     methods: {
         async get () {
-            store().loader('on')
-            let data = await loguser.log(this.user)
-            if(data) store().loader('off')
-            store().$patch((state) => {
-                state.items = data
-                state.state = this.config
-            })
+            let a = otoritas.Cakses('Laporan Log User')
+            if(a) {
+                store().loader('on')
+                let data = await loguser.log(this.user)
+                if(data) store().loader('off')
+                store().$patch((state) => {
+                    state.items = data
+                    state.state = this.config
+                })
+            } else this.$router.push('/')
         },
     },
     beforeMount() {

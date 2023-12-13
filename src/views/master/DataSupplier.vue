@@ -6,6 +6,7 @@
     </base-page>
 </template>
 <script setup>
+import otoritas from '@/router/otoritas';
 import supplier from './supplier'
 // import PemasukanDetail from './PemasukanDetail.vue'
 import { store } from '@/utils/store'
@@ -39,13 +40,16 @@ export default {
     },
     methods: {
         async get () {
-            store().loader('on')
-            let data = await supplier.supplier()
-            if(data) store().loader('off')
-            store().$patch((state) => {
-                state.items = data
-                state.state = this.config
-            })
+            let a = otoritas.Cakses('Data Supplier')
+            if(a) {
+                store().loader('on')
+                let data = await supplier.supplier()
+                if(data) store().loader('off')
+                store().$patch((state) => {
+                    state.items = data
+                    state.state = this.config
+                })
+            } else this.$router.push('/')
         }
     },
     beforeMount() {

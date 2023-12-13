@@ -6,6 +6,7 @@
     </base-page>
 </template>
 <script setup>
+import otoritas from '@/router/otoritas'
 import produksi from './produksi'
 import ProduksiDetail from './ProduksiDetail.vue'
 import { store } from '@/utils/store'
@@ -56,14 +57,15 @@ export default {
     },
     methods: {
         async get () {
-            let data = await produksi.produksi()
-            this.config.field_detail[2].item.item = await produksi.kodegroup()
-            store().$patch((state) => {
-                state.items = data
-                state.state = this.config
-            })
-            console.log(store().state);
-            
+            let a = otoritas.akses('Produksi Barang')
+            if(a) {
+                let data = await produksi.produksi()
+                this.config.field_detail[2].item.item = await produksi.kodegroup()
+                store().$patch((state) => {
+                    state.items = data
+                    state.state = this.config
+                })
+            } else this.$router.push('/')
         }
     },
     beforeMount() {
