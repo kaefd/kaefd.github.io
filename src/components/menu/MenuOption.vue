@@ -29,7 +29,10 @@ export default {
             ]
             if(store().menu.option.key == 'lihat') return menu.slice(0, 1)
             else if(store().menu.option.key == 'tambah') return menu
-            else return store().state.permission.filter(item => item.key != 'tambah' && (otoritas.check(item.key) == true || otoritas.Cakses('Data User') == true))
+            else {
+                if(store().state.title == 'Data User') return store().state.permission.filter(item => item.key != 'tambah' && otoritas.Cakses('Data User') == true)
+                else return store().state.permission.filter(item => item.key != 'tambah' && otoritas.check(item.key) == true)
+            }
         }
     },
     methods: {

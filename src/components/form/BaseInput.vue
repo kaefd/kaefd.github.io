@@ -126,10 +126,10 @@ export default {
         },
         autoData() {
             if(store().detailDump) {
-                if(store().detailDump[this.default.key][[this.default.key]].slice(0, 4) == 'BC23') this.auto = 'BC25'
-                if(store().detailDump[this.default.key][[this.default.key]].slice(0, 4) == 'BC40') this.auto = 'BC41'
-                if(store().detailDump[this.default.key][[this.default.key]].slice(0, 4) == 'PPKEK LDP') this.auto = 'BC25'
-                if(store().detailDump[this.default.key][[this.default.key]].slice(0, 4) == 'PPKEK TLDDP') this.auto = 'BC41'
+                if(store().detailDump[this.default.key][this.default.key].slice(0, 4) == 'BC23') this.auto = 'BC25'
+                if(store().detailDump[this.default.key][this.default.key].slice(0, 4) == 'BC40') this.auto = 'BC41'
+                if(store().detailDump[this.default.key][this.default.key].slice(0, 9) == 'PPKEK-LDP') this.auto = 'BC25'
+                if(store().detailDump[this.default.key][this.default.key].slice(0, 11) == 'PPKEK-TLDDP') this.auto = 'BC41'
                     let val = {
                         title: this.label,
                         value: this.auto

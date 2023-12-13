@@ -45,6 +45,8 @@ export default {
                         set: [
                             {input: 'BC23', value: 'BC25'},
                             {input: 'BC40', value: 'BC41'},
+                            {input: 'PPKEK-LDP', value: 'BC25'},
+                            {input: 'PPKEK-TLDDP', value: 'BC41'},
                         ],
                     }, show: true, rules: ['required']},
                     {title: 'No Dokumen', key: 'no_dokumen', type: 'text', show: true, rules: ['required']},
