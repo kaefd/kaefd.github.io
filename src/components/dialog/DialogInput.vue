@@ -2,7 +2,7 @@
     <div class="fixed top-0 left-0 w-full flex justify-center overflow-hidden" :class="open ? 'z-[2] h-full' : 'z-[-2] h-0'">
         <div v-if="open" @click="close('parent')" class="fixed top-0 left-0 h-full w-full z-[0] bg-scrim"></div>
         <div v-if="child" @click="close('child')" class="fixed top-0 left-0 h-full w-full z-[1] bg-scrim"></div>
-        <div class="fixed bottom-0 rounded-3xl h-[88vh] md:h-[95vh] w-[28%] min-w-[350px] max-w-[450px] mb-15 md:mb-0 p-7 duration-300" :class="!open ? '' : (store().theme == 'dark' ? 'dark animate__animated animate__fadeInUp animate__faster mb-4 duration-400' : 'bg-white animate__animated animate__fadeInUp animate__faster mb-4 duration-400')">
+        <div class="fixed bottom-0 rounded-3xl h-[88vh] md:h-[95vh] w-[28%] min-w-[350px] max-w-[450px] mb-15 md:mb-5 p-7 duration-300" :class="!open ? '' : (store().theme == 'dark' ? 'dark animate__animated animate__fadeInUp animate__faster mb-4 duration-400' : 'bg-white animate__animated animate__fadeInUp animate__faster mb-4 duration-400')">
             <div class="relative h-full w-full flex flex-col space-y-3 items-center">
                 <div class="relative flex flex-col gap-y-5 text-center w-full">
                     <span class="font-semibold text-xl text-center">{{ item.title }}</span>
