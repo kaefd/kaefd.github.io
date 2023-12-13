@@ -40,12 +40,12 @@
         </input-dialog>
     </div>
 </template>
-<script setup lang="ts">
+<script setup>
 import { store } from '@/utils/store'
 import alert from '@/utils/alert'
 import utils from '@/utils/utils'
 </script>
-<script lang="ts">
+<script>
 export default {
     props: {field: {type: Object},child: {type: Boolean}, param: {type: Object}},
     data(){
@@ -67,7 +67,7 @@ export default {
                 state.menu.option = ''
             })
         },
-        sumTotalN(prm: string | number) {
+        sumTotalN(prm) {
             let arr = []
             let data = store().detail
             if(data) {
@@ -89,12 +89,12 @@ export default {
         },
         dialogI(value) {
             this.tmp.push(value)
-            store().$patch((state: { detail: any; }) => { state.detail = this.tmp })
+            store().$patch((state) => { state.detail = this.tmp })
         },
         close_d(v) {
             this.input_d = v
         },
-        input(value: any) {
+        input(value) {
             let a = []
             a.push(value)
             for (let i = 0; i < a.length; i++) {

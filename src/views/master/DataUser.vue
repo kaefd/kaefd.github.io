@@ -4,12 +4,12 @@
             <DetailUser :model="model" :field="config.field_detail"></DetailUser>
         </template></base-page>
 </template>
-<script setup lang="ts">
+<script setup>
 import DetailUser from './DetailUser.vue';
 import user from './user'
 import { store } from '@/utils/store'
 </script>
-<script lang="ts">
+<script>
 export default {
     data() {
         return {
@@ -36,9 +36,9 @@ export default {
     },
     methods: {
         async get () {
-            let mdl: never | { title: any; key: any; value: any; active: boolean; item: any; }[] = []
+            let mdl = []
             let data = ''
-            await user.user().then((res: string | any[]) => {
+            await user.user().then((res) => {
                 let detail = res[0].detail
                 for (let i = 0; i < detail.length; i++) {
                     mdl.push({

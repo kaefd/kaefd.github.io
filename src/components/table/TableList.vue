@@ -82,12 +82,12 @@
     </div>
     <fd-confirm-dialog />
 </template>
-<script setup lang="ts">
+<script setup>
 // import { store } from '@/utils/store'
 // import utils from '@/utils/utils'
 import alert from '@/utils/alert'
 </script>
-<script lang="ts">
+<script>
 export default {
     props: {
         fields: {type: Object},

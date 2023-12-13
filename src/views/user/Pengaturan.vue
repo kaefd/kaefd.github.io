@@ -27,11 +27,11 @@
         </div>
     </div>        
 </template>
-<script setup lang="ts">
+<script setup>
 import { store } from '@/utils/store'
-import { kRange } from 'konsta/vue';
+import { kRange } from 'konsta/vue'
 </script>
-<script lang="ts">
+<script>
 export default {
     data() {
         return { 

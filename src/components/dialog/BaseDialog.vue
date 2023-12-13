@@ -24,11 +24,11 @@
         </div>
     </div>
 </template>
-<script lang="ts" setup>
+<script setup>
 import { store } from '@/utils/store'
 import utils from '@/utils/utils'
 </script>
-<script lang="ts">
+<script>
 export default {
     props: {
         fields: {type: Object},

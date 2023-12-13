@@ -32,12 +32,12 @@
         </div>
     </div>
 </template>
-<script setup lang="ts">
+<script setup>
 import dashboard from './dashboard'
 import utils from '@/utils/utils'
 import {store} from '@/utils/store'
 </script>
-<script lang="ts">
+<script>
 export default {
     data() {
         return {

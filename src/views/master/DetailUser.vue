@@ -54,10 +54,10 @@
         </div>
     </div>
 </template>
-<script setup lang="ts">
+<script setup>
 import { store } from '@/utils/store'
 </script>
-<script lang="ts">
+<script>
 export default {
     props: {model: {type: Object}, field: {type: Object}},
     data() {

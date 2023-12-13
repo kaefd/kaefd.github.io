@@ -75,13 +75,13 @@
         <input-dialog v-if="open" :open="open" :fl_item="fl_item" @close="close" @input_i="dialogInput"></input-dialog>
     </template>
 </template>
-<script setup lang="ts">
+<script setup>
 import { id } from 'date-fns/locale';
 import { store } from '@/utils/store'
 import utils from '@/utils/utils'
 import { ref } from 'vue';
 </script>
-<script lang="ts">
+<script>
 const month = ref({
   month: new Date().getMonth(),
   year: new Date().getFullYear()
@@ -225,7 +225,7 @@ export default {
             this.$emit("input", dt);
             this.selectOpt = false
         },
-        formatNmbr(v: { replace: (arg0: RegExp, arg1: string) => { (): any; new(): any; toString: { (): any; new(): any; }; }; }) {
+        formatNmbr(v) {
             let number_string = v.replace(/[^.\d]/g, '').toString(),
             split    = number_string.split('.'),
             sisa     = split[0].length % 3,

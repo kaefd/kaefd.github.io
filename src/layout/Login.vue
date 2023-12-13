@@ -164,14 +164,14 @@
     </div>
 </div>
 </template>
-<script setup lang="ts">
+<script setup>
 // import config from '@/config'
-import routing from '@/router/routing'
-import { store } from '@/utils/store'
+// import routing from '@/router/routing'
+// import { store } from '@/utils/store'
 import api from '@/utils/api'
 import alert from '@/utils/alert'
 </script>
-<script lang="ts">
+<script>
 export default {
     data() {
         return {
@@ -205,12 +205,12 @@ export default {
                     username: this.username,
                     password: this.password
                 })
-                .then((response: { data: string; }) => {
+                .then((response) => {
                     localStorage.setItem('token', response.data)
                     localStorage.setItem('user', this.username)
                     window.location.href = '/'
                 })
-                .catch((error: { response: { data: string; }; }) => {
+                .catch((error) => {
                     if(error.response) alert.failed(error.response.data)
                     else alert.failed(null, 'periksa koneksi internet')
                     return this.load = false
@@ -231,12 +231,12 @@ export default {
                     expiry: now.getTime() + 86400000,
                 }
                 localStorage.setItem('account', JSON.stringify(item))
-                localStorage.setItem('remember', true)
+                localStorage.setItem('remember', 'true')
             } else {
                 this.remember = false
-                localStorage.removeItem('username', this.username)
-                localStorage.removeItem('password', this.password)
-                localStorage.removeItem('remember', true)
+                localStorage.removeItem('username')
+                localStorage.removeItem('password')
+                localStorage.removeItem('remember')
             }
         },
         forget() {

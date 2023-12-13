@@ -22,11 +22,11 @@
         </div>
     </div>
 </template>
-<script setup lang="ts">
+<script setup>
 import {store} from '@/utils/store'
 import stokbarang from '@/views/laporan/stokbarang'
 </script>
-<script lang="ts">
+<script>
 export default {
     props: {config: {type: Object}, items: {type: Array}},
     data() {

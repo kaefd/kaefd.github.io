@@ -55,11 +55,11 @@
         </div>
     </div>
 </template>
-<script lang="ts" setup>
+<script setup>
 import { store } from '@/utils/store'
 import api from '@/utils/api'
 </script>
-<script lang="ts">
+<script>
 export default {
     props: {
         open: {type: Boolean},

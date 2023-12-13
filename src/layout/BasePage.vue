@@ -52,14 +52,14 @@
     </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import ExportOption from '@/components/menu/ExportOption.vue';
 import { store } from '@/utils/store'
 import otoritas from '@/router/otoritas'
 import SuratJalan from '@/views/pengiriman/SuratJalan.vue';
 import CetakDo from '@/views/pengiriman/CetakDo.vue';
 </script>
-<script lang="ts">
+<script>
 export default {
     props: {
         config: {
@@ -80,20 +80,16 @@ export default {
         }
     },
     methods: {
-        active(param: string) {
+        active(param) {
             if (param == 'filter') {
-                store().$patch((state: {
-                    filter: boolean; column: boolean;
-                }) => {
+                store().$patch((state) => {
                     state.filter = !state.filter
                     state.column = false
                 })
                 this.drawer = store().state.filter
                 this.column = false
             } else if (param == 'col') {
-                store().$patch((state: {
-                    column: boolean; filter: boolean;
-                }) => {
+                store().$patch((state) => {
                     state.column = !state.column
                     state.filter = false
                 })
@@ -101,8 +97,8 @@ export default {
                 this.column = true
             }
         },
-        option(value: any) {
-            store().$patch((state: { menu: { option: any; }; }) => { state.menu.option = value })
+        option(value) {
+            store().$patch((state) => { state.menu.option = value })
             if (value.key == 'lihat') {
                 store().$patch((state) => { state.detail_dialog = true })
             } else if (value.key == 'tambah') {

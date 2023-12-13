@@ -1,10 +1,10 @@
 <template>
     <base-table :fields="config.fields" :items="store().detail" :master="false" :dialog_field="config.dialog_field"></base-table>
 </template>
-<script setup lang="ts">
+<script setup>
 import { store } from '@/utils/store'
 </script>
-<script lang="ts">
+<script>
 export default {
     data() {
         return {

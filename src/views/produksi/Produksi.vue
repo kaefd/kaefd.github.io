@@ -5,13 +5,13 @@
         </template>
     </base-page>
 </template>
-<script setup lang="ts">
+<script setup>
 import produksi from './produksi'
 import ProduksiDetail from './ProduksiDetail.vue'
 import { store } from '@/utils/store'
 import utils from '@/utils/utils'
 </script>
-<script lang="ts">
+<script>
 export default {
     data() {
         return {

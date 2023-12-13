@@ -32,12 +32,12 @@
     </div>
     <Pengaturan v-if="setting" @close="close"/>
 </template>
-<script setup lang="ts">
+<script setup>
 import api from '@/utils/api'
 import {store} from '@/utils/store'
 import Pengaturan from '@/views/user/Pengaturan.vue'
 </script>
-<script lang="ts">
+<script>
 export default {
     data() {
         return {

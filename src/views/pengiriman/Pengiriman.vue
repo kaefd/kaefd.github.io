@@ -13,13 +13,13 @@
         </template>
     </base-page>
 </template>
-<script setup lang="ts">
+<script setup>
 import pengiriman from './pengiriman'
 import PengirimanDetail from './PengirimanDetail.vue'
 import { store } from '@/utils/store'
 import utils from '@/utils/utils'
 </script>
-<script lang="ts">
+<script>
 export default {
     data() {
         return {

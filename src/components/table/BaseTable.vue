@@ -36,13 +36,13 @@
     </slot>
     <MenuOption v-if="store().menu.show" />
 </template>
-<script setup lang="ts">
+<script setup>
 import utils from '@/utils/utils'
 import {store} from '@/utils/store'
 import pengiriman from '@/views/pengiriman/pengiriman'
 import MenuOption from '@/components/menu/MenuOption.vue'
 </script>
-<script lang="ts">
+<script>
 export default {
   props: { 
     fields: {type: Array},

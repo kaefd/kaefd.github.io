@@ -5,12 +5,12 @@
         </template>
     </base-table>
 </template>
-<script setup lang="ts">
+<script setup>
 import LogBarang from './LogBarang.vue';
 import stokbarang from './stokbarang'
 import { store } from '@/utils/store'
 </script>
-<script lang="ts">
+<script>
 export default {
     // props: {config: {type: Object}},
     data() {

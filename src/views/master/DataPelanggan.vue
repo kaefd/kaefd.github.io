@@ -1,11 +1,11 @@
 <template>
     <base-page :config="config"></base-page>
 </template>
-<script setup lang="ts">
+<script setup>
 import pelanggan from './pelanggan'
 import { store } from '@/utils/store'
 </script>
-<script lang="ts">
+<script>
 export default {
     data() {
         return {

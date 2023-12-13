@@ -13,14 +13,14 @@
   </k-provider>
   </template>
   
-  <script setup lang="ts">
+  <script setup>
     import AppBar from './layout/AppBar.vue'
     import TopBar from './layout/TopBar.vue'
     import { store } from '@/utils/store'
     import api from '@/utils/api'
     import { kProvider } from 'konsta/vue';
   </script>
-  <script lang="ts">
+  <script>
   export default {
     computed: {
       auth() {
@@ -42,7 +42,7 @@
       },
       close() {
         let stores = store()
-        stores.$patch((state: { nav: boolean; }) => {
+        stores.$patch((state) => {
           state.nav = false
         })
       },

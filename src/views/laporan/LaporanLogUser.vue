@@ -1,11 +1,11 @@
 <template>
     <base-page :config="config"></base-page>
 </template>
-<script setup lang="ts">
+<script setup>
 import { store } from '@/utils/store'
 import loguser from './loguser'
 </script>
-<script lang="ts">
+<script>
 export default {
     props: {user: {type: Object}},
     data() {

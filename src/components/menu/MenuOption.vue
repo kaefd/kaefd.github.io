@@ -8,11 +8,11 @@
         </div>
     <div v-if="store().menu.show" @click="close()" class="fixed top-0 left-0 h-full w-full z-[-2]"></div>
 </template>
-<script setup lang="ts">
+<script setup>
 import {store} from '@/utils/store'
 import otoritas from '@/router/otoritas'
 </script>
-<script lang="ts">
+<script>
 export default {
     computed: {
         elementStyle() {
@@ -33,11 +33,11 @@ export default {
         }
     },
     methods: {
-        option(value: any) {
-            let same = store().state.permission.filter((item: { key: any; }) => item.key == value.key)
+        option(value) {
+            let same = store().state.permission.filter((item) => item.key == value.key)
             console.log(same);
             
-            if(same != '') store().$patch((state: { menu: { option: any; }; }) => { state.menu.option = value })
+            if(same != '') store().$patch((state) => { state.menu.option = value })
             if (value.key == 'lihat') {
                 store().$patch((state) => { 
                     state.detail_dialog = true
@@ -69,7 +69,7 @@ export default {
                 let data = store().detail.filter(item => item != store().s_detail)
                 store().detail.splice(0, store().detail.length, ...data)
             }
-            store().$patch((state: { menu: { show: any; }; }) => { state.menu.show = false })
+            store().$patch((state) => { state.menu.show = false })
         },
         close() {
             store().$patch((state) => {

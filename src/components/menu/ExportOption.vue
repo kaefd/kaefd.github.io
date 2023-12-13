@@ -14,13 +14,13 @@
     </div>
     <div v-if="active" @click="active = false" class="h-screen w-screen bottom-0 left-0 z-[1] absolute"></div>
 </template>
-<script setup lang="ts">
+<script setup>
 import { store } from '@/utils/store'
 import jsPDF from 'jspdf'
 import autoTable from 'jspdf-autotable'
 import otoritas from '@/router/otoritas'
 </script>
-<script lang="ts">
+<script>
 export default {
     data() {
         return {

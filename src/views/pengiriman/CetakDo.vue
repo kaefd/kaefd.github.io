@@ -80,11 +80,11 @@
         </div>
     </div>
 </template>
-<script setup lang="ts">
+<script setup>
 import {store} from '@/utils/store'
 import utils from '@/utils/utils'
 </script>
-<script lang="ts">
+<script>
 export default {
     methods: {
         close() {

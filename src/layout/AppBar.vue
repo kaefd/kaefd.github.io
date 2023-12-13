@@ -73,12 +73,12 @@
     </div>
   </div>
 </template>
-<script setup lang="ts">
+<script setup>
 import { kLink, kTabbar, kTabbarLink } from 'konsta/vue'
 import { store } from '@/utils/store'
 import otoritas from '@/router/otoritas'
 </script>
-<script lang="ts">
+<script>
 export default {
   // props: {otority: {type: Object}},
   data () {
@@ -97,12 +97,12 @@ export default {
         this.parent = value.path
         this.detail = value
         this.children = child
-        stores.$patch((state: { nav: boolean; }) => {
+        stores.$patch((state) => {
           state.nav = !state.nav
         })
       } else {
         this.$router.push(value.path).then(()=>{
-          stores.$patch((state: { nav: boolean; }) => {
+          stores.$patch((state) => {
             state.nav = false
           })
         })
@@ -125,7 +125,7 @@ export default {
     nav () {
       let stores = store()
       if(this.children != '') {
-        stores.$patch((state: { nav: boolean; }) => {
+        stores.$patch((state) => {
           state.nav = !state.nav
         })
       }

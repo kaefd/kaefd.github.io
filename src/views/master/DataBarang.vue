@@ -1,12 +1,12 @@
 <template>
     <base-page :config="config"></base-page>
 </template>
-<script setup lang="ts">
+<script setup>
 import barang from './barang'
 import otoritas from '@/router/otoritas'
 import { store } from '@/utils/store'
 </script>
-<script lang="ts">
+<script>
 export default {
     props: {
         otority: {type: Object}

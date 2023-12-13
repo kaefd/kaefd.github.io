@@ -5,12 +5,12 @@
         </template>
     </base-page>
 </template>
-<script setup lang="ts">
+<script setup>
 import DetailBarang from './DetailBarang.vue';
 import stokbarang from './stokbarang'
 import { store } from '@/utils/store'
 </script>
-<script lang="ts">
+<script>
 export default {
     data() {
         return {

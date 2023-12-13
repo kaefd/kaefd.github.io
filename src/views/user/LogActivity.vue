@@ -1,10 +1,10 @@
 <template>
     <LaporanLogUser :user="user"/>
 </template>
-<script lang="ts" setup>
-import LaporanLogUser from '../laporan/LaporanLogUser.Vue';
+<script setup>
+import LaporanLogUser from '../laporan/LaporanLogUser.vue';
 </script>
-<script lang="ts">
+<script>
 export default {
     data() {
         return {

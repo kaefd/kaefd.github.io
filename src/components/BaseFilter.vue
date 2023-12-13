@@ -25,10 +25,10 @@
     </div>
 </div>
 </template>
-<script setup lang="ts">
+<script setup>
 import { store } from '@/utils/store'
 </script>
-<script lang="ts">
+<script>
 export default {
     props: {fields: {type: Array}, title: {type: String}, column: {type: Boolean}, items: {type: Object}},
     data () {
@@ -41,7 +41,7 @@ export default {
     },
     methods: {
         active() {
-            store().$patch((state: { filter: boolean; }) => { state.filter = !state.filter })
+            store().$patch((state) => { state.filter = !state.filter })
         },
         input(val) {
             if(val.title == 'tgl_awal') store().$patch((state) => { state.periode[0] = val.value})

@@ -67,7 +67,7 @@ export default {
           },
           tooltip: {
             y: {
-              formatter: function (val) {
+              formatter: function (val: any) {
                 return utils.numb(val) + " Ton"
               }
             }

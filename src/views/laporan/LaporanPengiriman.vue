@@ -5,12 +5,12 @@
         </template>
     </base-page>
 </template>
-<script setup lang="ts">
+<script setup>
 import pengiriman from '@/views/pengiriman/pengiriman'
 import PengirimanDetail from '@/views/pengiriman/PengirimanDetail.vue'
 import { store } from '@/utils/store'
 </script>
-<script lang="ts">
+<script>
 export default {
     data() {
         return {
