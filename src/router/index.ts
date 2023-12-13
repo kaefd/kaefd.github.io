@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from '@ionic/vue-router';
+import { createRouter, createWebHistory, createWebHashHistory } from '@ionic/vue-router';
 import { RouteLocationNormalized, RouteRecordRaw, Router } from 'vue-router';
 import middleware from '@/router/middleware'
 
@@ -185,7 +185,8 @@ const routes = [
 ]
 
 const router = createRouter({
-  history: createWebHistory('/inventori'),
+  // history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHashHistory(),
   routes
 })
 
