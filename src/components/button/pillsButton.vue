@@ -1,7 +1,7 @@
 <template>
     <button class="h-[45px] min-h-max px-7 rounded-full capitalize">{{ label }}</button>
 </template>
-<script lang="ts">
+<script>
 export default {
     props: {label: {type: String, required: true}}
 }

@@ -20,6 +20,6 @@
   "types": [
     "vue-sweetalert2"
   ],
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "src/router/middleware.js"],
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "src/router/middleware.js", "src/main.js"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
