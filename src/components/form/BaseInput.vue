@@ -1,7 +1,6 @@
 <template>
     <VueDatePicker v-if="type == 'date' && !variant"
         :dark="store().theme == 'dark' ? true : false"
-        placeholder="periode"
         :clearable="false"
         :format-locale="id"
         teleport-center
