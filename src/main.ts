@@ -33,7 +33,7 @@ import 'animate.css';
 // Custom Components
 import BaseTable from './components/table/BaseTable.vue'
 import BasePage from './layout/BasePage.vue'
-import PillsButton from './components/button/PillsButton.vue'
+import PillsBtn from './components/button/PillsBtn.vue'
 import BaseButton from './components/button/BaseButton.vue'
 import TableList from './components/table/TableList.vue';
 import BaseInput from './components/form/BaseInput.vue';
@@ -60,7 +60,7 @@ const app = createApp(App)
   .component('input-dialog', DialogInput)
   .component('base-table-list', TableList)
   .component('base-input', BaseInput)
-  .component('pills-button', PillsButton)
+  .component('pills-button', PillsBtn)
   .component('base-button', BaseButton)
   .component('base-chart', BaseChart)
   .component('base-filter', BaseFilter)
