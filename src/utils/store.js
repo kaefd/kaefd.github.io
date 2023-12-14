@@ -62,6 +62,7 @@ export const store = defineStore('store', {
       this.column = false
       this.suratjalan = false
       this.do = false
+      this.detailDump = '',
       this.periode = [utils.last_month(), utils.today()],
       this.i_dialog= {
         show: false,

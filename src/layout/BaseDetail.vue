@@ -11,7 +11,7 @@
                     </div>
                     <!-- HEAD -->
                     <slot name="header-content">
-                        <div class="h-max md:h-[10rem] flex flex-col md:flex-row lg:flex-col flex-wrap gap-y-2 gap-x-2 pt-1">
+                        <div class="h-max md:h-[100%] flex flex-col md:flex-row flex-wrap gap-y-2 gap-x-2 pt-1">
                             <div v-for="fl in field">
                                 <div class="flex justify-between items-center md:w-72">
                                     <label class="w-[24%] break-normal">{{ fl.title }}</label>
@@ -22,10 +22,10 @@
                     </slot>
                 </div>
                 <!-- DETAIL -->
-                <div v-if="child" class="rounded-lg mx-5 h-full overflow-visible md:overflow-hidden animate__animated animate__fadeIn animate__slow" :class="store().theme == 'dark' ? 'dark' : 'bg-white'">
+                <div v-if="child" class="rounded-lg mx-5 h-full pb-5 overflow-visible md:overflow-hidden animate__animated animate__fadeIn animate__slow" :class="store().theme == 'dark' ? 'dark' : 'bg-white'">
                     <base-button v-if="store().menu.option.key == 'tambah'" @click="addDetail()" class="bg-primary ms-4 mt-3" label="Tambah Barang"></base-button>
                     <slot name="detail"></slot>
-                    <span v-for="p in param" class="absolute right-5 bottom-2 font-bold capitalize">{{ 'Total ' + p + ': ' }} {{ sumTotalN(p) }}</span>
+                    <!-- <span v-for="p in param" class="block me-5 mt-2 border-t  text-right font-bold capitalize">{{ 'Total ' + p + ': ' }} {{ sumTotalN(p) }}</span> -->
                 </div>
             </slot>
             <div v-if="store().menu.option.key == 'tambah' || store().menu.option.key == 'edit'" class="mx-5 flex justify-end space-x-2 mb-3 z-10">

@@ -66,7 +66,6 @@ export default {
             let detail = await api.getData(value.detail, param[i])
             for (let k = 0; k < head.length; k++) {
                 for (let j = 0; j < detail.length; j++) {
-                    console.log(head[k]);
                     if(detail[j]['no_'+value.key] == head[k]['no_'+value.key]) {
                         if(head[k].tipe_dokumen == 'BC23') c23.push(detail[j].jumlah)
                         if(head[k].tipe_dokumen == 'BC25') c25.push(detail[j].jumlah)
@@ -96,7 +95,6 @@ export default {
             else if(value.series[i] == 'PPKEK-TLDDP') data.push({name: 'PPKEK-TLDDP', sum: jumlah.tld.reduce((accumulator, currentValue) => {return accumulator + currentValue}, 0), data: jumlah.tld})
             else data.push({name: value.series[i], sum: jumlah.other.reduce((accumulator, currentValue) => {return accumulator + currentValue}, 0), data: jumlah.other})
         }
-    console.log(data);
         return data
     }
 }

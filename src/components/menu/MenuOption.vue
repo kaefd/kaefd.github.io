@@ -38,8 +38,6 @@ export default {
     methods: {
         option(value) {
             let same = store().state.permission.filter((item) => item.key == value.key)
-            console.log(same);
-            
             if(same != '') store().$patch((state) => { state.menu.option = value })
             if (value.key == 'lihat') {
                 store().$patch((state) => { 

@@ -121,7 +121,7 @@
     <div class="w-full absolute bottom-0">
         <img src="../assets/img/bgAuri.jpg" alt="">
     </div>
-    <div class="absolute w-[28%] min-w-[350px] h-[80%] rounded-[20px] shadow-2xl flex flex-col justify-between py-[4%] items-center mb-15 bg-white">
+    <div class="absolute w-[28%] min-w-[350px] h-[80%] rounded-[20px] shadow-2xl flex flex-col justify-between py-13 md:py-[4%] items-center mb-15 bg-white">
         <div class="flex flex-col items-center gap-y-4">
             <img src="../assets/img/just_logo.png" class="w-15" alt="">
             <span class="text-[27px] text-primary-tint">IT INVENTORY</span>
@@ -155,7 +155,7 @@
             <pills-button type="submit" label="login" class="bg-primary-tint text-white w-3/4 shadow-xl focus-within:shadow" :class="load ? 'cursor-wait' : ''"></pills-button>
         </form>
         <div class="text-center">
-            <button @click="forget()" :class="load ? 'cursor-wait' : ''">forgot password</button>
+            <button @click="forget()" class="underline" :class="load ? 'cursor-wait' : ''">forgot password</button>
         </div>
     </div>
     <div class="absolute flex flex-col text-center bottom-5">

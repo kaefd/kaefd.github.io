@@ -121,6 +121,9 @@ export default {
                 }, 2500)
             )
         })
+        .catch(error => {
+            alert.failed(null, error.response.data)
+        })
     },
     delete(data) {
         alert.confirm('Apakah anda yakin ?', 'Anda akan menghapus '+data.no_produksi).then((result) => {

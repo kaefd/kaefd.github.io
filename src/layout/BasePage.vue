@@ -22,9 +22,9 @@
             </div>
             <base-filter :fields="drawer" :column="column" :items="store().items"></base-filter>
             <!-- content -->
-            <div class="w-full h-max duration-500"
+            <div class="w-full duration-500"
                 :class="store().filter || store().column ? 'translate-y-0' : '-translate-y-[450px] md:-translate-y-[250px]'">
-                <div class="w-full h-full flex flex-col md:flex-row justify-between items-start mb-48 md:mb-0">
+                <div class="w-full flex flex-col md:flex-row justify-between items-start mb-48 md:mb-0">
                     <slot name="base-content">
                         <base-table :fields="config.fields" :items="datatable" :master="true" :permission="config" :s_table="config.permission != '' ? false : true"></base-table>
                     </slot>
@@ -39,7 +39,9 @@
                     <slot name="dt-full-content"></slot>
                 </template>
                 <template #detail>
-                    <slot name="base-detail"></slot>
+                    <div class="h-[90%] overflow-auto">
+                        <slot name="base-detail"></slot>
+                    </div>
                 </template>
                 <template #d-left="data_left">
                     <slot name="left" :data_left="data_left.data_left"></slot>

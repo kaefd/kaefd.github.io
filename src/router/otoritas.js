@@ -113,7 +113,7 @@ export default {
         if(o != undefined && p != undefined) return true
         else return false
       }
-      if(page == 'Data Konversi') {
+      if(page == 'Konversi Barang') {
         let o = otoritas.find(item => item.jenis_otoritas == 'Ubah Konversi')
         let p = store().state.permission.find(item => item.key == value)
         if(o != undefined && p != undefined) return true
@@ -139,7 +139,7 @@ export default {
         if(o != undefined && p != undefined) return true
         else return false
       }
-      if(page == 'Data Konversi') {
+      if(page == 'Konversi Barang') {
         let o = otoritas.find(item => item.jenis_otoritas == 'Hapus Konversi')
         let p = store().state.permission.find(item => item.key == value)
         if(o != undefined && p != undefined) return true

@@ -44,7 +44,7 @@
                 <div class="flex flex-col gap-y-2">
                     <div v-for="fl in store().state.dialog_field.slice(2)" class="flex justify-between items-center w-80">
                         <label>{{ fl.title }}</label>
-                        <base-input v-if="open" :type="fl.type" :label="fl.key" :rules="fl.rules ? fl.rules : false" :disabled="disabled" @input="datainput"></base-input>
+                        <base-input v-if="open" :type="fl.type" :default="fl.default" :label="fl.key" :rules="fl.rules ? fl.rules : false" :disabled="disabled" @input="datainput"></base-input>
                     </div>
                 </div>
                 <div class="flex space-x-2 me-0 ms-auto">
@@ -136,12 +136,13 @@ export default {
         },
         datainput(value) {
             if(value != '') {
+                store().$patch((state) => { state.s_detail = value })
+
                 let a = []
                 a.push(value)
                 for (let i = 0; i < a.length; i++) {
                     this.dataitem[a[i].title] = a[i].value
                 }
-                // store().$patch((state) => { state.temp = this.dataitem })
             }
         },
         save() {
