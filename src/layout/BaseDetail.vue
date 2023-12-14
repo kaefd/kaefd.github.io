@@ -11,7 +11,7 @@
                     </div>
                     <!-- HEAD -->
                     <slot name="header-content">
-                        <div class="h-max mt-5 flex flex-col md:flex-row flex-wrap gap-y-2 gap-x-10 pt-1">
+                        <div class="h-max mt-5 flex flex-col md:flex-row flex-wrap gap-y-2 gap-x-32 pt-1">
                             <div v-for="fl in field">
                                 <div class="flex justify-between items-center md:w-72">
                                     <label class="w-[24%] break-normal">{{ fl.title }}</label>
