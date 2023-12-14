@@ -2,7 +2,7 @@
     <div v-if="store().detail_dialog" class="absolute top-0 right-0 w-full h-full overflow-auto z-[2] ps-0 md:ps-18" :class="store().theme == 'dark' ? 'bg-dark-base' : 'bg-base'">
         <div class=" flex flex-col gap-y-3 h-full pb-12 md:pb-0 overflow-auto md:overflow-hidden">
             <slot name="full-content">
-                <div class="overflow-visible mx-5 mt-5 p-5 rounded-lg flex flex-col gap-y-5 animate__animated animate__fadeIn animate__faster"  :class="store().dialog ? 'z-[0]' : (store().theme == 'dark' ? 'dark z-[2]' : 'bg-white z-[2]')">
+                <div class="overflow-visible h-full mx-5 mt-5 p-5 rounded-lg flex flex-col gap-y-5 animate__animated animate__fadeIn animate__faster"  :class="store().dialog ? 'z-[0]' : (store().theme == 'dark' ? 'dark z-[2]' : 'bg-white z-[2]')">
                     <div class=" flex items-center space-x-3 text-xl">
                         <button @click="close()">
                             <i class="ri-arrow-left-line"></i>
@@ -11,7 +11,7 @@
                     </div>
                     <!-- HEAD -->
                     <slot name="header-content">
-                        <div class="h-max md:h-[100%] flex flex-col md:flex-row flex-wrap gap-y-2 gap-x-2 pt-1">
+                        <div class="h-max mt-5 flex flex-col md:flex-row flex-wrap gap-y-2 gap-x-10 pt-1">
                             <div v-for="fl in field">
                                 <div class="flex justify-between items-center md:w-72">
                                     <label class="w-[24%] break-normal">{{ fl.title }}</label>
