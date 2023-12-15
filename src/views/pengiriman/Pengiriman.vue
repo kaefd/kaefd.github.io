@@ -54,15 +54,21 @@ export default {
                     {title: 'No Polisi', key: 'no_polisi', type: 'text', show: true, rules: ['required']},
                 ],
                 dialog_field: [
-                    {title: 'Kode Barang', key: 'kode_barang', type: 'text', show: true, rules: ['unique']},
-                    {title: 'Nama Barang', key: 'nama_barang', type: 'text', show: true},
+                    {title: 'No Penjualan', key: 'no_penjualan', type: 'text', show: false, rules: ['unique']},
+                    {title: 'Kode Barang', key: 'kode_barang', type: 'text', show: false},
+                    {title: 'Nama Barang', key: 'nama_barang', type: 'text', show: false},
                     {title: 'Jumlah', key: 'jumlah', type: 'number', show: true},
                     {title: 'Jumlah Konversi', key: 'jumlah_konversi', type: 'number', show: true},
+                    {title: 'Satuan Konversi', key: 'satuan_konversi', type: 'text', show: true},
                 ],
                 filter: [
                     {title: 'Tanggal Awal', key: 'tgl_awal', type: 'date', rules: ['date:max tgl_akhir']},
                     {title: 'Tanggal Akhir', key: 'tgl_akhir', type: 'date', rules: ['date:min tgl_awal', 'date:max tgl_akhir']},
                 ],
+                param: [
+                    {title: 'Jumlah', key: 'jumlah'},
+                    {title: 'Jumlah konversi', key: 'jumlah_konversi'},
+                ]
             }
         }
     },

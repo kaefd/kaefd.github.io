@@ -24,9 +24,9 @@ export default {
                         {title: 'Nama Barang', key: 'nama_barang', type: 'text', show: true},
                         {title: 'Jumlah', key: 'jumlah', type: 'number', show: true},
                         {title: 'Satuan', key: 'satuan', type: 'text', show: true},
-                        {title: 'Kode Konversi', key: 'kode_konversi', type: 'text', show: true},
-                        {title: 'Nama Konversi', key: 'nama_konversi', type: 'text', show: true},
-                        {title: 'Jumlah Konversi', key: 'jumlah_konversi', type: 'text', show: true},
+                        // {title: 'Kode Konversi', key: 'kode_konversi', type: 'text', show: true},
+                        // {title: 'Nama Konversi', key: 'nama_konversi', type: 'text', show: true},
+                        {title: 'Jumlah Konversi', key: 'jumlah_konversi', type: 'number', show: true},
                         {title: 'Satuan Konversi', key: 'satuan_konversi', type: 'text', show: true},
                 ],
                 dialog_field: [
@@ -34,10 +34,10 @@ export default {
                     {title: 'Nama Barang', key: 'nama_barang', type: 'text', show: true},
                     {title: 'Jumlah', key: 'jumlah', type: 'number', show: true},
                     {title: 'Jumlah Konversi', key: 'jumlah_konversi', type: 'number', show: true},
+                    {title: 'Satuan Konversi', key: 'satuan_konversi', type: 'text', show: true},
                 ],
                 field_detail: false,
                 filter: false,
-                items: ''
             }
         }
     },

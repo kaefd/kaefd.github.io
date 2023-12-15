@@ -158,7 +158,7 @@ export default {
         alert.confirm('Apakah anda yakin ?', 'Anda akan menghapus '+data.no_pembelian).then((result) => {
             if(result.isConfirmed) {
                 api.delete('pembelian_head', {no_pembelian: data.no_pembelian}).then(result => {
-                    alert.success(null, 'Data Berhasil Dihapus').then(
+                    alert.success(null, 'Data Berhasil Dibatalkan').then(
                         setTimeout(() => {
                             location.reload()
                         }, 2500))

@@ -2,7 +2,7 @@
     <div v-if="store().detail_dialog" class="absolute top-0 right-0 w-full h-full overflow-auto z-[2] ps-0 md:ps-18" :class="store().theme == 'dark' ? 'bg-dark-base' : 'bg-base'">
         <div class=" flex flex-col gap-y-3 h-full pb-12 md:pb-0 overflow-auto md:overflow-hidden">
             <slot name="full-content">
-                <div class="overflow-visible h-max md:h-[45vh] mx-5 mt-5 p-5 rounded-lg flex flex-col gap-y-5 animate__animated animate__fadeIn animate__faster"  :class="store().dialog ? 'z-[0]' : (store().theme == 'dark' ? 'dark z-[2]' : 'bg-white z-[2]')">
+                <div class="overflow-visible h-max md:h-full mx-5 mt-5 p-5 rounded-lg flex flex-col gap-y-5 animate__animated animate__fadeIn animate__faster"  :class="store().dialog ? 'z-[0]' : (store().theme == 'dark' ? 'dark z-[2]' : 'bg-white z-[2]')">
                     <div class=" flex items-center space-x-3 text-xl">
                         <button @click="close()">
                             <i class="ri-arrow-left-line"></i>
@@ -25,11 +25,13 @@
                 <div v-if="child && store().menu.option.key == 'tambah'" class="mx-1">
                     <base-button @click="addDetail()" class="bg-primary ms-4" label="Tambah Barang"></base-button>
                 </div>
-                <div v-if="child" class="rounded-lg mx-5 h-full md:h-[47%] mb-5 md:mb-0 animate__animated animate__fadeIn animate__slow" :class="store().theme == 'dark' ? 'dark' : 'bg-white'">
-                    <div class="w-full h-full">
+                <div v-if="child" class="rounded-lg mx-5 h-full mb-5 md:mb-0 animate__animated animate__fadeIn animate__slow" :class="store().theme == 'dark' ? 'dark' : 'bg-white'">
+                    <div class="w-full h-max md:h-[87%]">
                         <slot name="detail"></slot>
+                        <div class="flex justify-start border-t mx-5 py-1 gap-x-5">
+                            <span v-for="p in param" class="font-bold capitalize">{{ 'Total ' + p.title + ': ' }} {{ sumTotalN(p) }}</span>
+                        </div>
                     </div>
-                    <!-- <span v-for="p in param" class="block me-5 mt-2 border-t  text-right font-bold capitalize">{{ 'Total ' + p + ': ' }} {{ sumTotalN(p) }}</span> -->
                 </div>
             </slot>
             <div v-if="store().menu.option.key == 'tambah' || store().menu.option.key == 'edit'" class="mx-5 flex justify-end space-x-2 mb-3 z-10">
@@ -76,11 +78,11 @@ export default {
             let data = store().detail
             if(data) {
                 for (let i = 0; i < data.length; i++) {
-                    arr.push(data[i][prm])
+                    arr.push(data[i][prm.key])
                 }
                 let res =  arr.reduce((total, current) => {
                     return total + current;
-                }, 0)
+                }, 0) || 0
                 return utils.numb(res)
             }
         },
@@ -113,8 +115,7 @@ export default {
             // let detail = store().state.dialog_field.filter(item => item.rules != undefined).slice(1)
             // let fl = [...head, ...detail]
             // let input = [...[this.dataitem], ...store().detail]
-            let a = store().validate(head, this.dataitem, head)
-            console.log(a);
+            let a = head != '' ? store().validate(head, this.dataitem, head) : true
             
             if(a && a != undefined && (store().detail  || store().master)) {
                 if(opt == 'tambah') store().create(this.dataitem)

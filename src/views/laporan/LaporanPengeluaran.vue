@@ -64,7 +64,10 @@ export default {
                         {title: 'Selesai', key: 'close', show: true},
                     ]},
                 ],
-                param: ['harga']
+                param: [
+                    {title: 'Jumlah', key: 'jumlah'},
+                    {title: 'harga', key: 'total_harga'},
+                ]
             }
         }
     },

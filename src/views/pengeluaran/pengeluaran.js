@@ -151,7 +151,7 @@ export default {
         alert.confirm('Apakah anda yakin ?', 'Anda akan menghapus '+data.no_penjualan).then((result) => {
             if(result.isConfirmed) {
                 api.delete('penjualan_head', {no_penjualan: data.no_penjualan}).then(result => {
-                    alert.success(null, 'Data Berhasil Dihapus').then(
+                    alert.success(null, 'Data Berhasil Dibatalkan').then(
                         setTimeout(() => {
                             location.reload()
                         }, 2500))

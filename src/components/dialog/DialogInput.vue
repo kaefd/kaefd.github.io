@@ -42,7 +42,7 @@
             </div>
             <div class="flex flex-col gap-y-5 mt-5">
                 <div class="flex flex-col gap-y-2">
-                    <div v-for="fl in store().state.dialog_field.slice(2)" class="flex justify-between items-center w-80">
+                    <div v-for="fl in store().state.dialog_field.filter(item => item.show == true)" class="flex justify-between items-center w-80">
                         <label>{{ fl.title }}</label>
                         <base-input v-if="open" :type="fl.type" :default="fl.default" :label="fl.key" :rules="fl.rules ? fl.rules : false" :disabled="disabled" @input="datainput"></base-input>
                     </div>
@@ -126,8 +126,9 @@ export default {
                 this.$emit('input_i', value)
             }
             else {
-                let a = store().validate(store().state.dialog_field, value, store().detail)
-                if(a == true) {
+                let rules = store().state.dialog_field.filter(it => it.rules != undefined)
+                let a = rules != '' ? store().validate(store().state.dialog_field, value, store().detail) : true
+                if(a) {
                     this.child = true,
                     this.child_item = value
                     this.dataitem = value
@@ -135,6 +136,7 @@ export default {
             }
         },
         datainput(value) {
+            console.log(value);
             if(value != '') {
                 store().$patch((state) => { state.s_detail = value })
 

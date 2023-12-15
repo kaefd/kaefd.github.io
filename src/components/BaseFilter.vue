@@ -62,7 +62,10 @@ export default {
             this.close()
         },
         close() {
-            store().$patch((state) => { state.filter = false})
+            store().$patch((state) => { 
+                state.filter = false
+                state.column = false
+             })
         }
     }
 }

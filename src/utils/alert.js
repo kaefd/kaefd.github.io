@@ -23,11 +23,14 @@ export default {
             icon: 'question',
             showCancelButton: true,
             showConfirmButton: true,
+            confirmButtonColor: '#5fa0cb',
+            confirmButtonText: 'Ya',
+            cancelButtonText: 'Batal',
             customClass: {
                 icon: 'text-xs',
                 title: 'text-lg',
                 text: 'text-sm',
-                popup: 'w-full md:w-[25%] min-w-[350px]'
+                popup: 'w-full md:w-[25%] min-w-[350px]',
             }
           })
     },

@@ -65,7 +65,10 @@ export default {
                         {title: 'PPKEK-TLDDP', key: 'PPKEKTLDDP', show: true}
                     ]},
                 ],
-                param: ['nilai']
+                param: [
+                    {title: 'Jumlah', key: 'jumlah'},
+                    {title: 'Nilai', key: 'nilai'}
+                ]
             }
         }
     },

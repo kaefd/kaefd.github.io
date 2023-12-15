@@ -1,7 +1,7 @@
 <template>
     <div class="h-full w-full ps-0 md:ps-18 absolute overflow-hidden flex justify-center top-0 left-0">
         <div class="relative rounded-xl w-full h-full mx-5 mt-5 p-5" :class="store().theme == 'dark' ? 'dark' : 'bg-white'">
-            <div class=" flex items-center space-x-3 text-xl">
+            <div class="flex items-center space-x-3 text-xl mb-5">
                 <button @click="close()">
                     <i class="ri-arrow-left-line"></i>
                 </button>

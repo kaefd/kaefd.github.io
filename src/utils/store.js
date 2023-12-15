@@ -168,6 +168,7 @@ export const store = defineStore('store', {
       
     },
     validate(rules, input, data) {
+      console.log(rules);
       let fl = ''
       let res = []
       let mess = []

@@ -187,7 +187,7 @@ export default {
         alert.confirm('Apakah anda yakin ?', 'Anda akan menghapus '+data.no_pengiriman).then((result) => {
             if(result.isConfirmed) {
                 api.delete('pengiriman_head', {no_pengiriman: data.no_pengiriman}).then(result => {
-                    alert.success(null, 'Data Berhasil Dihapus').then(
+                    alert.success(null, 'Data Berhasil Dibatalkan').then(
                         setTimeout(() => {
                             location.reload()
                         }, 2500))
