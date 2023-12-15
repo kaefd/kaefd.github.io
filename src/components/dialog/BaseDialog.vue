@@ -10,7 +10,7 @@
                 </div>
                 <div class="flex flex-col gap-y-2">
                     <div class="flex flex-col gap-y-2">
-                        <div v-for="fl in dialog_field?.slice(2, dialog_field.length)" class="flex justify-between items-center w-80">
+                        <div v-for="fl in dialog_field?.filter(item => item.show == true)" class="flex justify-between items-center w-80">
                             <label>{{ fl.title }}</label>
                             <base-input :type="fl.type" :value="store().s_detail[fl.key]" :label="fl.key" @input="input" :disabled="disabled"></base-input>
                         </div>

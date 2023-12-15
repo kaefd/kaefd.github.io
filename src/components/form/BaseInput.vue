@@ -47,7 +47,7 @@
         <input type="text" variant="tonal" placeholder="search" v-model="search" v-on:input="$emit('search', search)" class="h-[45px] px-4 rounded-full focus-within:outline-none w-full min-w-[150px]" :class="store().theme == 'dark' ? 'bg-dark-base' : 'bg-disabled-color'"/>
         <i class="ri-search-line absolute me-4 text-base text-primary"></i>
     </div>
-    <input v-if="type == 'text'" type="text" v-model="text" @update:model-value="inputData" :disabled="disabled" class="h-[40px] w-[60%] min-w-[200px] rounded px-3" :class="store().theme == 'dark' ? 'bg-dark-base' : 'bg-disabled-color'"/>
+    <input v-if="type == 'text'" type="text" v-model="dataitem.text" @update:model-value="inputData" :disabled="disabled" class="h-[40px] w-[60%] min-w-[200px] rounded px-3" :class="store().theme == 'dark' ? 'bg-dark-base' : 'bg-disabled-color'"/>
     <input v-if="type == 'password'" type="password" v-model="text" @update:model-value="inputData" :disabled="disabled" class="h-[40px] w-[60%] min-w-[200px] rounded px-3" :class="store().theme == 'dark' ? 'bg-dark-base' : 'bg-disabled-color'"/>
     <template v-if="type == 'number'">
         <input v-if="value != undefined && store().menu.option.key != 'lihat'" type="text" v-model="dataNumbs.numb" @update:model-value="inputData" :disabled="disabled" class="h-[40px] w-[60%] min-w-[200px] rounded px-3" :class="store().theme == 'dark' ? 'bg-dark-base' : 'bg-disabled-color'"/>
@@ -114,7 +114,7 @@ export default {
     computed: {
         dataitem() {
             return {
-                text: this.value,
+                text: this.value ,
                 numbs: this.value ? utils.numb(this.value) : 0,
                 check: this.value,
             }
@@ -248,7 +248,7 @@ export default {
             } else {
                 val = {
                     title: this.label,
-                    value: this.type == 'number' ? Number(this.numbs.split(',').join('')) : this.text
+                    value: this.type == 'number' ? Number(this.numbs.split(',').join('')) : this.dataitem.text
                 }
             }
             this.$emit("input", val)
