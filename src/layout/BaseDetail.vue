@@ -11,7 +11,7 @@
                     </div>
                     <!-- HEAD -->
                     <slot name="header-content">
-                        <div class="h-max mt-5 flex flex-col md:flex-row flex-wrap gap-y-2 gap-x-32 pt-1">
+                        <div class="h-max mt-5 flex flex-col md:flex-row flex-wrap gap-y-2 gap-x-32 pt-1 w-full 2xl:w-4/5">
                             <div v-for="fl in field">
                                 <div class="flex justify-between items-center md:w-72">
                                     <label class="w-[24%] break-normal">{{ fl.title }}</label>
@@ -25,7 +25,7 @@
                 <div v-if="child && store().menu.option.key == 'tambah'" class="mx-1">
                     <base-button @click="addDetail()" class="bg-primary ms-4" label="Tambah Barang"></base-button>
                 </div>
-                <div v-if="child" class="rounded-lg mx-5 h-full mb-5 md:mb-0 animate__animated animate__fadeIn animate__slow" :class="store().theme == 'dark' ? 'dark' : 'bg-white'">
+                <div v-if="child" class="rounded-lg mx-5 min-h-[350px] 2xl:min-h-[500px] h-full mb-5 md:mb-0 animate__animated animate__fadeIn animate__slow" :class="store().theme == 'dark' ? 'dark' : 'bg-white'">
                     <div class="w-full h-max md:h-[87%]">
                         <slot name="detail"></slot>
                         <div class="flex justify-start border-t mx-5 py-1 gap-x-5">
