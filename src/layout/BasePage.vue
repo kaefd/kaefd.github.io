@@ -1,6 +1,6 @@
 <template>
-    <div class="h-screen overflow-hidden w-full ps-0 md:ps-18 py-16 text-sm">
-        <div class="pt-5 mx-5 h-max rounded-xl animate__animated animate__fadeIn animate__slow" :class="store().theme == 'dark' ? 'dark' : 'bg-white'">
+    <div class="h-screen overflow-hidden w-full ps-0 md:ps-18 pt-16 pb-3 text-sm">
+        <div class="pt-5 mx-5 h-full overflow-auto md:overflow-hidden rounded-xl animate__animated animate__fadeIn animate__slow" :class="store().theme == 'dark' ? 'dark' : 'bg-white'">
             <div class="flex flex-wrap justify-between items-end space-y-2 px-4">
                 <div class="flex flex-col space-y-3 w-max">
                     <!-- <span class="text-xl font-semibold">{{ $router.currentRoute.value.name }}</span> -->
@@ -22,13 +22,13 @@
             </div>
             <base-filter :fields="drawer" :column="column" :items="store().items"></base-filter>
             <!-- content -->
-            <div class="w-full duration-500"
+            <div class="w-full h-[92%] duration-500"
                 :class="store().filter || store().column ? 'translate-y-0' : '-translate-y-[450px] md:-translate-y-[250px]'">
-                <div class="w-full flex flex-col md:flex-row justify-between items-start mb-48 md:mb-0">
-                    <slot name="base-content">
-                        <base-table :fields="config.fields" :items="datatable" :master="true" :permission="config" :s_table="config.permission != '' ? false : true"></base-table>
-                    </slot>
-                </div>
+                <!-- <div class="w-full h-full bg-red-500 mb-48 md:mb-0"> -->
+                <slot name="base-content">
+                    <base-table :fields="config.fields" :items="datatable" :master="true" :permission="config" :s_table="config.permission != '' ? false : true"></base-table>
+                </slot>
+                <!-- </div> -->
             </div>
         </div>
         <SuratJalan />
@@ -39,9 +39,7 @@
                     <slot name="dt-full-content"></slot>
                 </template>
                 <template #detail>
-                    <div class="h-[90%] overflow-auto">
-                        <slot name="base-detail"></slot>
-                    </div>
+                    <slot name="base-detail"></slot>
                 </template>
                 <template #d-left="data_left">
                     <slot name="left" :data_left="data_left.data_left"></slot>

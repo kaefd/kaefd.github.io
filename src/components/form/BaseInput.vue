@@ -3,7 +3,7 @@
         :dark="store().theme == 'dark' ? true : false"
         :clearable="false"
         :format-locale="id"
-        teleport-center
+        teleport
         :min-date="rangedate.min"
         :max-date="rangedate.max"
         required
@@ -43,7 +43,7 @@
         <input type="text" variant="underlined" placeholder="search" v-model="search" v-on:input="$emit('search', search)" class="h-[45px] border-b border-primary px-4 bg-white-hover focus-within:outline-none w-full min-w-[250px]" />
         <i class="ri-search-line absolute me-4 text-base text-primary"></i>
     </div>
-    <div v-if="type == 'search'&& variant == 'tonal'" class="flex items-center justify-end">
+    <div v-if="type == 'search'&& variant == 'tonal'" class="relative flex items-center justify-end">
         <input type="text" variant="tonal" placeholder="search" v-model="search" v-on:input="$emit('search', search)" class="h-[45px] px-4 rounded-full focus-within:outline-none w-full min-w-[150px]" :class="store().theme == 'dark' ? 'bg-dark-base' : 'bg-disabled-color'"/>
         <i class="ri-search-line absolute me-4 text-base text-primary"></i>
     </div>
@@ -333,12 +333,12 @@ export default {
 }
 .dp-custom-menu {
     box-shadow: 1px 1px 20px rgba(0, 0, 0, 0.385);
-    height: 400px;
-    width: 300px;
+    /* height: 400px; */
+    /* width: 300px; */
     border-color: rgba(255, 255, 255, 0.223);
-    left: 0 !important;
-    margin-top: 200px;
-    z-index: 100;
+    /* left: 0 !important; */
+    /* margin-top: 200px; */
+    /* z-index: 100; */
 }
 .dp__theme_dark {
    --dp-background-color: #212121;

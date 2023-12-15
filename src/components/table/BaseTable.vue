@@ -1,7 +1,7 @@
 <template>
-    <div class="relative p-3 h-full rounded-lg w-full">
-        <div class="relative rounded-lg overflow-auto" :class="store().theme == 'dark' ? 'dark' : 'bg-white'">
-            <table id="table" class="w-full text-xs text-left">
+    <div class="p-3 h-full rounded-lg w-full">
+        <div class="h-full rounded-lg overflow-x-auto overflow-y-hidden" :class="store().theme == 'dark' ? 'dark' : 'bg-white'">
+            <table id="table" class="w-full h-full text-xs text-left">
                 <thead class="w-full flex bg-primary-hover text-center text-sm">
                     <tr class="w-full flex items-center justify-between">
                         <th v-for="field in fieldCol" scope="col" class="w-[15%] min-w-[100px] px-5 py-3">
@@ -16,7 +16,7 @@
                         </th>
                     </tr>
                 </thead>
-                <tbody class="h-[68vh] w-full flex flex-col items-center overflow-auto">
+                <tbody class="w-full flex flex-col items-center overflow-auto" :class="store().menu.option.key == 'tambah' || store().menu.option.key == 'lihat' ? 'h-max md:h-[80%]' : 'h-max md:h-[90%]'">
                     <tr v-if="master" v-for="item in items" @click="menu($event, item.head, item.detail)" class="w-full flex justify-between items-center cursor-pointer break-words" :class="store().theme == 'dark' ? 'hover:bg-dark-hover' : 'hover:bg-gray-100'">
                         <td v-for="field, f in fieldCol" scope="row" class="px-6 py-3 w-[15%] min-w-[100px] whitespace-pre-wrap">
                             {{ field.type == 'number' ? (item.head[field.key] > 0 ? utils.numb(item.head[field.key]) : 0) : (field.type == 'date' ? utils.formatDate(item.head[field.key]) : item.head[field.key]) }}
