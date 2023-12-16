@@ -1,5 +1,5 @@
 <template>
-    <div class="h-screen overflow-auto md:overflow-hidden w-full ps-0 md:ps-18 pt-16 pb-3 text-sm">
+    <div class="h-screen w-full ps-0 md:ps-18 pt-16 pb-3 text-sm" :class="store().menu.option.key == undefined ? 'overflow-auto md:overflow-hidden' : 'overflow-hidden'">
         <div class="pt-5 mx-5 h-[90%] md:h-full overflow-visible md:overflow-hidden rounded-xl animate__animated animate__fadeIn animate__slow" :class="store().theme == 'dark' ? 'dark' : 'bg-white'">
             <div class="flex flex-wrap justify-between items-end space-y-2 px-4">
                 <div class="flex flex-col space-y-3 w-max">

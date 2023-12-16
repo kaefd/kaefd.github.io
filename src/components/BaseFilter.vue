@@ -1,5 +1,5 @@
 <template>
-<div class="w-full h-[450px] md:h-[250px] flex flex-col justify-between mt-1 pt-3 pb-10 md:pb-3 px-5 border-primary-hover" :class="column ? 'overflow-auto md:overflow-visible' : 'overflow-visible'">
+<div class="w-full h-[450px] md:h-[250px] flex flex-col justify-between mt-1 pt-3 pb-15 md:pb-3 px-5 border-primary-hover" :class="column ? 'overflow-auto md:overflow-visible' : 'overflow-visible'">
     <div class="h-max w-full">
         <div class="mb-3">
             <span class="font-semibold">{{ column ? 'Tamplikan Kolom' : 'Filter Data' }}</span>
