@@ -30,7 +30,15 @@ export default {
                     {title: 'Nama Barang', key: 'nama_barang', type: 'text', show: false},
                     {title: 'Jumlah', key: 'jumlah', type: 'number', show: true},
                     {title: 'Harga', key: 'harga_jual', type: 'number', show: true},
-                    {title: 'Total Harga', key: 'total_harga', type: 'number', show: true}
+                    // {title: 'Total Harga', key: 'total_harga', type: 'number', show: true}
+                    {title: 'Total Harga', key: 'total_harga', type: 'auto', default: {
+                        key: 'total_harga',
+                        f: '*',
+                        set: [
+                            {input: 'jumlah', value: 'jumlah'},
+                            {input: 'harga_jual', value: 'harga_jual'},
+                        ]
+                    }, show: true}
                 ],
                 field_detail: false,
                 filter: false,

@@ -94,7 +94,7 @@ export default {
         disabled: {type: Boolean},
         rules: {type: Array},
         fl_item: {type: Array},
-        default: {type: Array},
+        default: {type: Object},
     },
     data() {
         return {
@@ -124,7 +124,7 @@ export default {
             }
         },
         autoData() {
-            if(store().detailDump) {
+            if(store().detailDump && this.default != undefined && this.default.f == undefined) {
                 if(store().detailDump[this.default.key][this.default.key].slice(0, 4) == 'BC23') this.auto = 'BC25'
                 if(store().detailDump[this.default.key][this.default.key].slice(0, 4) == 'BC40') this.auto = 'BC41'
                 if(store().detailDump[this.default.key][this.default.key].slice(0, 9) == 'PPKEK-LDP') this.auto = 'BC25'
@@ -135,14 +135,28 @@ export default {
                     }
                 this.$emit("input", val)
                 return this.auto
-            } else if (this.value) {
+            } else if (this.value && this.default == undefined) {
                 let val = {
                         title: this.label,
                         value: this.value
                     }
                 this.$emit("input", val)
                 return this.value
+            } else if(this.default != undefined && this.default.f != undefined) {
+                console.log(store().detailDump);
+                let dt = store().s_detail
+                let res = dt[this.default.set[0].input] * dt[this.default.set[1].input]
+                this.auto = res || 0
+                if(this.auto) dt[this.default.key] = this.auto
+                return utils.numb(this.auto)
             }
+            // if(this.default.f != undefined) {
+            //     let val = {
+            //             title: this.default.key,
+            //             value: this.auto
+            //         }
+            //     this.$emit("input", val)
+            // }
         },
         rangedate() {
             if(this.type == 'date') {

@@ -58,6 +58,7 @@ export const store = defineStore('store', {
       this.nav = false
       this.loading = false
       this.detail_dialog = false
+      this.s_detail = false
       this.filter = false
       this.column = false
       this.suratjalan = false
@@ -168,7 +169,6 @@ export const store = defineStore('store', {
       
     },
     validate(rules, input, data) {
-      console.log(rules);
       let fl = ''
       let res = []
       let mess = []

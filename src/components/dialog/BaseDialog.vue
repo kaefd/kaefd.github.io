@@ -12,7 +12,7 @@
                     <div class="flex flex-col gap-y-2">
                         <div v-for="fl in dialog_field?.filter(item => item.show == true)" class="flex justify-between items-center w-80">
                             <label>{{ fl.title }}</label>
-                            <base-input :type="fl.type" :value="store().s_detail[fl.key]" :label="fl.key" @input="input" :disabled="disabled"></base-input>
+                            <base-input :type="fl.type" :value="store().s_detail[fl.key]" :default="fl.default" :label="fl.key" @input="input" :disabled="disabled"></base-input>
                         </div>
                     </div>
                 </div>
@@ -46,17 +46,21 @@ export default {
     },
     methods: {
         input(value) {
-            this.datainput = store().s_detail
             let a = []
+            this.datainput = store().s_detail
             a.push(value)
             
             for (let i = 0; i < a.length; i++) {
                 this.datainput[a[i].title] = a[i].value
             }
+            store().$patch((state) => {
+                state.s_detail = this.datainput
+            })
         },
         close() {
             store().$patch((state) => {
                 state.dialog = false
+                state.s_detail = ''
             })
         },
         submited() {

@@ -25,8 +25,8 @@
                 <div v-if="child && store().menu.option.key == 'tambah'" class="mx-1">
                     <base-button @click="addDetail()" class="bg-primary ms-4" label="Tambah Barang"></base-button>
                 </div>
-                <div v-if="child" class="rounded-lg mx-5 min-h-[200px] 2xl:min-h-[500px] h-full mb-5 md:mb-0 animate__animated animate__fadeIn animate__slow" :class="store().theme == 'dark' ? 'dark' : 'bg-white'">
-                    <div class="w-full h-fit md:h-[87%]" :class="store().theme == 'dark' ? 'dark' : 'bg-white'">
+                <div v-if="child" class="rounded-lg mx-5 min-h-[200px] 2xl:min-h-[300px] h-full mb-5 md:mb-0 animate__animated animate__fadeIn animate__slow" :class="store().theme == 'dark' ? 'dark' : 'bg-white'">
+                    <div class="w-full h-fit md:h-[87%] rounded-lg" :class="store().theme == 'dark' ? 'dark' : 'bg-white'">
                         <slot name="detail"></slot>
                         <div class="flex justify-start border-t mx-5 py-1 gap-x-5">
                             <span v-for="p in param" class="">{{ 'Total ' + p.title + ': ' }} {{ sumTotalN(p) }}</span>
@@ -34,7 +34,7 @@
                     </div>
                 </div>
             </slot>
-            <div v-if="store().menu.option.key == 'tambah' || store().menu.option.key == 'edit'" class="mx-5 flex justify-end space-x-2 mb-3 z-10">
+            <div v-if="store().menu.option.key == 'tambah' || store().menu.option.key == 'edit'" class="mx-5 mt-7 md:mt-0 flex justify-end space-x-2 mb-3 z-[1]">
                 <base-button @click="close()" class="bg-primary-hover" label="Batal"></base-button>
                 <base-button @click="submited()" class="bg-primary" label="Simpan"></base-button>
             </div>
@@ -107,7 +107,6 @@ export default {
                 this.dataitem[a[i].title] = a[i].value
             }
             store().$patch((state) => { state.detailDump = this.dataitem})
-            
         },
         submited() {
             let opt = store().menu.option.key

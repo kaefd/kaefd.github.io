@@ -101,6 +101,7 @@ export default {
                 store().$patch((state) => {
                     // state.i_dialog.show = false
                     state.i_dialog.item = ''
+                    state.s_detail = ''
                 })
                 this.$emit('close', false)
             }
@@ -136,15 +137,15 @@ export default {
             }
         },
         datainput(value) {
-            console.log(value);
             if(value != '') {
-                store().$patch((state) => { state.s_detail = value })
-
+                
                 let a = []
                 a.push(value)
                 for (let i = 0; i < a.length; i++) {
                     this.dataitem[a[i].title] = a[i].value
                 }
+                store().$patch((state) => { state.s_detail = this.dataitem })
+
             }
         },
         save() {
