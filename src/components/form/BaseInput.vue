@@ -3,7 +3,6 @@
         :dark="store().theme == 'dark' ? true : false"
         :clearable="false"
         :format-locale="id"
-        teleport
         :min-date="rangedate.min"
         :max-date="rangedate.max"
         required
@@ -340,6 +339,7 @@ export default {
     border-color: rgba(255, 255, 255, 0.223);
     /* left: 0 !important; */
     /* margin-top: 200px; */
+    margin-left: 20px;
     /* z-index: 100; */
 }
 .dp__theme_dark {
