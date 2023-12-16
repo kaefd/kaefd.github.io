@@ -1,6 +1,6 @@
 <template>
     <div v-if="store().detail_dialog" class="absolute top-0 right-0 w-full h-full overflow-auto z-[2] ps-0 md:ps-18" :class="store().theme == 'dark' ? 'bg-dark-base' : 'bg-base'">
-        <div class=" flex flex-col gap-y-3 h-full pb-12 md:pb-0 overflow-auto md:overflow-hidden">
+        <div class=" flex flex-col gap-y-3 h-full pb-12 md:pb-0 overflow-auto md:overflow-auto">
             <slot name="full-content">
                 <div class="overflow-visible h-max md:h-full mx-5 mt-5 p-5 rounded-lg flex flex-col gap-y-5 animate__animated animate__fadeIn animate__faster"  :class="store().dialog ? 'z-[0]' : (store().theme == 'dark' ? 'dark z-[2]' : 'bg-white z-[2]')">
                     <div class=" flex items-center space-x-3 text-xl">
@@ -26,10 +26,10 @@
                     <base-button @click="addDetail()" class="bg-primary ms-4" label="Tambah Barang"></base-button>
                 </div>
                 <div v-if="child" class="rounded-lg mx-5 min-h-[200px] 2xl:min-h-[500px] h-full mb-5 md:mb-0 animate__animated animate__fadeIn animate__slow" :class="store().theme == 'dark' ? 'dark' : 'bg-white'">
-                    <div class="w-full h-max md:h-[87%]">
+                    <div class="w-full h-fit md:h-[87%]" :class="store().theme == 'dark' ? 'dark' : 'bg-white'">
                         <slot name="detail"></slot>
                         <div class="flex justify-start border-t mx-5 py-1 gap-x-5">
-                            <span v-for="p in param" class="font-bold capitalize">{{ 'Total ' + p.title + ': ' }} {{ sumTotalN(p) }}</span>
+                            <span v-for="p in param" class="">{{ 'Total ' + p.title + ': ' }} {{ sumTotalN(p) }}</span>
                         </div>
                     </div>
                 </div>

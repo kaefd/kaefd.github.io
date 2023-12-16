@@ -225,18 +225,20 @@ export default {
             this.selectOpt = false
         },
         formatNmbr(v) {
-            let number_string = v.replace(/[^.\d]/g, '').toString(),
-            split    = number_string.split('.'),
-            sisa     = split[0].length % 3,
-            res   = split[0].substr(0, sisa),
-            ribuan   = split[0].substr(sisa).match(/\d{3}/gi)
-
-            if (ribuan) {
-                let separator = sisa ? ',' : ''
-                res += separator + ribuan.join(',')
+            if(v) {
+                let number_string = v.replace(/[^.\d]/g, '').toString(),
+                split    = number_string.split('.'),
+                sisa     = split[0].length % 3,
+                res   = split[0].substr(0, sisa),
+                ribuan   = split[0].substr(sisa).match(/\d{3}/gi)
+    
+                if (ribuan) {
+                    let separator = sisa ? ',' : ''
+                    res += separator + ribuan.join(',')
+                }
+                    res = split[1] != undefined ? res + '.' + split[1] : res
+                    return res
             }
-                res = split[1] != undefined ? res + '.' + split[1] : res
-                return res
         },
         inputData() {
             let val = {}

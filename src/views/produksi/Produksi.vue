@@ -43,8 +43,8 @@ export default {
                     {title: 'Jumlah', key: 'jumlah_bahan', type: 'number', rules: ['max kode_group.stok_akhir', 'required'], show: true},
                 ],
                 dialog_field: [
-                    {title: 'Kode Barang', key: 'kode_barang', type: 'text', show: true, rules: ['unique']},
-                    {title: 'Nama Barang', key: 'nama_barang', type: 'text', show: true},
+                    {title: 'Kode Barang', key: 'kode_barang', type: 'text', show: false, rules: ['unique']},
+                    {title: 'Nama Barang', key: 'nama_barang', type: 'text', show: false},
                     {title: 'Jumlah', key: 'jumlah', type: 'number', show: true},
                 ],
                 filter: [

@@ -52,8 +52,8 @@ export default {
                     {title: 'No Dokumen', key: 'no_dokumen', type: 'text', show: true, rules: ['required']},
                 ],
                 dialog_field: [
-                    {title: 'Kode Barang', key: 'kode_barang', type: 'text', rules: ['unique'], show: true},
-                    {title: 'Nama Barang', key: 'nama_barang', type: 'text', show: true},
+                    {title: 'Kode Barang', key: 'kode_barang', type: 'text', rules: ['unique'], show: false},
+                    {title: 'Nama Barang', key: 'nama_barang', type: 'text', show: false},
                     {title: 'Jumlah', key: 'jumlah', type: 'number', show: true},
                     {title: 'Harga Jual', key: 'harga_jual', type: 'number', show: true},
                     {title: 'Total Harga', key: 'total_harga', type: 'number', show: true}
