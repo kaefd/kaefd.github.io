@@ -1,6 +1,6 @@
 <template>
-    <div class="h-screen overflow-hidden w-full ps-0 md:ps-18 pt-16 pb-3 text-sm">
-        <div class="pt-5 mx-5 h-full overflow-auto md:overflow-hidden rounded-xl animate__animated animate__fadeIn animate__slow" :class="store().theme == 'dark' ? 'dark' : 'bg-white'">
+    <div class="h-screen overflow-auto md:overflow-hidden w-full ps-0 md:ps-18 pt-16 pb-3 text-sm">
+        <div class="pt-5 mx-5 h-[90%] md:h-full overflow-visible md:overflow-hidden rounded-xl animate__animated animate__fadeIn animate__slow" :class="store().theme == 'dark' ? 'dark' : 'bg-white'">
             <div class="flex flex-wrap justify-between items-end space-y-2 px-4">
                 <div class="flex flex-col space-y-3 w-max">
                     <!-- <span class="text-xl font-semibold">{{ $router.currentRoute.value.name }}</span> -->
@@ -23,7 +23,7 @@
             <base-filter :fields="drawer" :column="column" :items="store().items"></base-filter>
             <!-- content -->
             <div class="w-full h-[92%] duration-500"
-                :class="store().filter || store().column ? 'translate-y-0' : '-translate-y-[450px] md:-translate-y-[250px]'">
+                :class="store().filter || store().column ? '-translate-y-10 md:translate-y-0' : '-translate-y-[450px] md:-translate-y-[250px]'">
                 <!-- <div class="w-full h-full bg-red-500 mb-48 md:mb-0"> -->
                 <slot name="base-content">
                     <base-table :fields="config.fields" :items="datatable" :master="true" :permission="config" :s_table="config.permission != '' ? false : true"></base-table>

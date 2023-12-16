@@ -51,7 +51,7 @@
     <div class="sm:sr-only flex text-sm  justify-center">
       <kTabbar class="fixed left-0 bottom-0 h-13 flex items-center" bgClass="bg-white">
         <template v-for="go in $router.options.routes.slice(2)">
-          <kTabbarLink v-if="go.icon != false" @click="current(go)">
+          <kTabbarLink v-if="go.icon != false && otoritas.akses(go.name) == true" @click="current(go)">
             <div class="mx-auto rounded-full flex justify-center items-center w-10 h-10">
               <i v-if="active(go)" :class="go.icon" class="text-xl text-primary-tint"></i>
               <i v-else :class="go.icon" class="text-xl"></i>
@@ -63,7 +63,7 @@
         <div class="bg-gradient-to-t from-gray-500 to-transparent w-full h-4 bottom-0 fixed mb-12 opacity-15"></div>
         <div class="flex flex-col space-y-1 px-8 pt-3 h-48 overflow-auto">
           <div v-for="child in children">
-            <router-link :to="parent+'/'+child.path" class="w-full">
+            <router-link v-if="otoritas.Cakses(child.name) == true" :to="parent+'/'+child.path" class="w-full">
               <div class="p-3 rounded-xl" :class="$router.currentRoute.value.path == child.path ? (store().theme == 'dark' ? 'dark bg-primary shadow-xl' : '') : (store().theme == 'dark' ? 'hover:bg-dark-hover' : 'hover:bg-slate-100')">{{ child.name }}</div>
             </router-link>
           </div>

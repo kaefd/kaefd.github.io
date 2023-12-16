@@ -47,9 +47,9 @@
         <i class="ri-search-line absolute me-4 text-base text-primary"></i>
     </div>
     <input v-if="type == 'text'" type="text" v-model="dataitem.text" @update:model-value="inputData" :disabled="disabled" class="h-[40px] w-[60%] min-w-[200px] rounded px-3" :class="store().theme == 'dark' ? 'bg-dark-base' : 'bg-disabled-color'"/>
-    <input v-if="type == 'password'" type="password" v-model="text" @update:model-value="inputData" :disabled="disabled" class="h-[40px] w-[60%] min-w-[200px] rounded px-3" :class="store().theme == 'dark' ? 'bg-dark-base' : 'bg-disabled-color'"/>
+    <input v-if="type == 'password'" type="password" v-model="dataitem.text" @update:model-value="inputData" :disabled="disabled" class="h-[40px] w-[60%] min-w-[200px] rounded px-3" :class="store().theme == 'dark' ? 'bg-dark-base' : 'bg-disabled-color'"/>
     <template v-if="type == 'number'">
-        <input v-if="value != undefined && store().menu.option.key != 'lihat'" type="text" v-model="dataNumbs.numb" @update:model-value="inputData" :disabled="disabled" class="h-[40px] w-[60%] min-w-[200px] rounded px-3" :class="store().theme == 'dark' ? 'bg-dark-base' : 'bg-disabled-color'"/>
+        <input v-if="value != undefined && store().menu.option.key != 'lihat'" type="text" v-model="numbs" @update:model-value="inputData" :disabled="disabled" class="h-[40px] w-[60%] min-w-[200px] rounded px-3" :class="store().theme == 'dark' ? 'bg-dark-base' : 'bg-disabled-color'"/>
         <input v-if="value == undefined && store().menu.option.key != 'lihat'" type="text" v-model="numbs" @update:model-value="inputData" :disabled="disabled" class="h-[40px] w-[60%] min-w-[200px] rounded px-3" :class="store().theme == 'dark' ? 'bg-dark-base' : 'bg-disabled-color'"/>
         <input v-if="store().menu.option.key == 'lihat'" type="text" v-model="dataitem.numbs" :disabled="disabled" class="h-[40px] w-[60%] min-w-[200px] rounded px-3" :class="store().theme == 'dark' ? 'bg-dark-base' : 'bg-disabled-color'"/>
         <!-- <input v-else type="text" v-model="numbs" @update:model-value="inputData" :disabled="disabled" class="h-[40px] w-[60%] min-w-[200px] rounded px-3" :class="store().theme == 'dark' ? 'bg-dark-base' : 'bg-disabled-color'"/> -->
@@ -104,7 +104,7 @@ export default {
             search: '',
             text: this.value,
             data_dialog: this.value,
-            numbs: '',
+            numbs: this.value,
             fNumber: 0,
             auto: '',
             
@@ -118,11 +118,9 @@ export default {
                 check: this.value,
             }
         },
-        dataNumbs() {
-            return {
-                numb: this.value?.toString()
-            }
-        },
+        // dataNumbs() {
+        //     return this.value?.toString()
+        // },
         autoData() {
             if(store().detailDump && this.default != undefined && this.default.f == undefined) {
                 if(store().detailDump[this.default.key][this.default.key].slice(0, 4) == 'BC23') this.auto = 'BC25'
@@ -143,7 +141,6 @@ export default {
                 this.$emit("input", val)
                 return this.value
             } else if(this.default != undefined && this.default.f != undefined) {
-                console.log(store().detailDump);
                 let dt = store().s_detail
                 let res = dt[this.default.set[0].input] * dt[this.default.set[1].input]
                 this.auto = res || 0
@@ -194,10 +191,9 @@ export default {
             if(store().menu.option.key != 'lihat') this.numbs = this.formatNmbr(v)
             
         },
-        dataNumbs(v) {
-            if(store().menu.option.key != 'lihat') this.dataNumbs.numb = this.formatNmbr(v.numb)
-            
-        }
+        // dataNumbs(v) {
+        //     if(store().menu.option.key != 'lihat') this.dataNumbs = this.formatNmbr(v.numb)
+        // }
     },
     methods: {
         checked() {
@@ -255,17 +251,17 @@ export default {
         },
         inputData() {
             let val = {}
-            if(this.dataNumbs.numb) {
-                val = {
-                    title: this.label,
-                    value: Number(this.dataNumbs.numb.split(',').join(''))
-                }
-            } else {
-                val = {
-                    title: this.label,
-                    value: this.type == 'number' ? Number(this.numbs.split(',').join('')) : this.dataitem.text
-                }
+            // if(this.dataNumbs) {
+            //     val = {
+            //         title: this.label,
+            //         value: Number(this.dataNumbs.split(',').join(''))
+            //     }
+            // } else {
+            val = {
+                title: this.label,
+                value: this.type == 'number' ? Number(this.numbs.split(',').join('')) : this.dataitem.text
             }
+            // }
             this.$emit("input", val)
         },
         open_id() {

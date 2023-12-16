@@ -1,5 +1,5 @@
 <template>
-    <div class="h-screen w-screen top-0 left-0 absolute flex justify-center items-center" :class="store().detail_dialog ? 'z-[1]' : 'z-[-1]'">
+    <div class="h-screen w-screen top-0 left-0 absolute flex justify-center items-center" :class="store().detail_dialog ? 'z-[1] translate-y-0' : 'z-[-1] translate-y-full'">
         <div v-if="store().detail_dialog" @click="close()" class="fixed top-0 left-0 h-full w-full z-[0] bg-scrim"></div>
         <div class="bottom-0 rounded-3xl h-[86vh] md:h-[95vh] w-[28%] min-w-[350px] max-w-[450px] mb-16 md:mb-5 p-7 flex flex-col items-center duration-300" :class="store().detail_dialog ? (store().theme == 'dark' ? 'z-[1] animate__animated animate__fadeInUp animate__faster duration-400 dark' : 'z-[1] animate__animated animate__fadeInUp animate__faster duration-400 bg-white') : (store().theme == 'dark' ? 'z-[-1] dark' : 'z-[-1] bg-white')">
             <span class="font-semibold text-lg">Detail User</span>
@@ -119,8 +119,8 @@ export default {
                 
             }
         },
-        account(value) {
-            this.dataitem[value.title] = value.value
+        account(v) {
+            this.dataitem[v.title] = v.value
         },
         close() {
             store().$patch((state) => {

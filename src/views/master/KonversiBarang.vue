@@ -55,7 +55,6 @@ export default {
                 }
                 let kode = Array.from(new Set(a.map(obj => JSON.stringify(obj)))).map(str => JSON.parse(str))
                 let onlyCode =  [...new Set(b)];
-                console.log(store().state.filter);
                 
                 this.config.filter[0].item = kode
                 this.config.field_detail[0].item = onlyCode
