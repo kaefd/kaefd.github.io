@@ -5,14 +5,14 @@
             <div class="h-full flex flex-col space-y-6 items-center">
                 <div class="flex flex-col gap-y-1 text-center w-full">
                     <div class="flex flex-col-reverse space-y-1">
-                        <span v-for="field in dialog_field?.slice(0, 2)" class="first:text-sm last:text-lg">{{ store().s_detail[field.key] }}</span>
+                        <span v-for="field in dialog_field?.slice(0, 2)" class="first:text-sm last:text-lg">{{ s_detail[field.key] }}</span>
                     </div>
                 </div>
                 <div class="flex flex-col gap-y-2">
                     <div class="flex flex-col gap-y-2">
                         <div v-for="fl in dialog_field?.filter(item => item.show == true)" class="flex justify-between items-center w-80">
                             <label>{{ fl.title }}</label>
-                            <base-input :type="fl.type" :value="store().s_detail[fl.key]" :default="fl.default" :label="fl.key" @input="input" :disabled="disabled"></base-input>
+                            <base-input :type="fl.type" :value="s_detail[fl.key]" :default="fl.default" :label="fl.key" @input="input" :disabled="disabled"></base-input>
                         </div>
                     </div>
                 </div>
@@ -42,6 +42,9 @@ export default {
     computed: {
         disabled() {
             return store().menu.option.key == 'lihat' ? true : false
+        },
+        s_detail() {
+            return store().s_detail
         }
     },
     methods: {
