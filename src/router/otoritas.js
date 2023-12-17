@@ -146,7 +146,7 @@ export default {
         else return false
       }
       if(page == 'Pemasukan') {
-        let o = otoritas.find(item => item.jenis_otoritas == 'Batal pembelian')
+        let o = otoritas.find(item => item.jenis_otoritas == 'Batal Pembelian')
         let p = store().state.permission.find(item => item.key == value)
         if(o != undefined && p != undefined) return true
         else return false

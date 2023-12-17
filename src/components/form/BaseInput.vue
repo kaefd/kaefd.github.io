@@ -47,7 +47,7 @@
         <i class="ri-search-line absolute me-4 text-base text-primary"></i>
     </div>
     <input v-if="type == 'text'" type="text" v-model="dataitem.text" @update:model-value="inputData" :disabled="disabled" class="h-[40px] w-[60%] min-w-[200px] rounded px-3" :class="store().theme == 'dark' ? 'bg-dark-base' : 'bg-disabled-color'"/>
-    <input v-if="type == 'password'" type="password" v-model="text" @update:model-value="inputData" :disabled="disabled" class="h-[40px] w-[60%] min-w-[200px] rounded px-3" :class="store().theme == 'dark' ? 'bg-dark-base' : 'bg-disabled-color'"/>
+    <input v-if="type == 'password'" type="password" v-model="dataitem.text" @update:model-value="inputData" :disabled="disabled" class="h-[40px] w-[60%] min-w-[200px] rounded px-3" :class="store().theme == 'dark' ? 'bg-dark-base' : 'bg-disabled-color'"/>
     <template v-if="type == 'number'">
         <input v-if="value != undefined && store().menu.option.key != 'lihat'" type="text" v-model="dataNumbs.numb" @update:model-value="inputData" :disabled="disabled" class="h-[40px] w-[60%] min-w-[200px] rounded px-3" :class="store().theme == 'dark' ? 'bg-dark-base' : 'bg-disabled-color'"/>
         <input v-if="value == undefined && store().menu.option.key != 'lihat'" type="text" v-model="numbs" @update:model-value="inputData" :disabled="disabled" class="h-[40px] w-[60%] min-w-[200px] rounded px-3" :class="store().theme == 'dark' ? 'bg-dark-base' : 'bg-disabled-color'"/>

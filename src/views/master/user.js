@@ -85,7 +85,7 @@ export default {
                             active: false,
                             item: [
                                 {title: 'Tambah Pembelian Baru', key: 'tambah_pembelian_baru', value: detail.find(it => it.jenis_otoritas == 'Tambah Pembelian Baru' && it.username == head[i].username) == undefined ? 'false' : detail.find(it => it.jenis_otoritas == 'Tambah Pembelian Baru' && it.username == head[i].username).status},
-                                {title: 'Batal pembelian', key: 'batal_pembelian', value: detail.find(it => it.jenis_otoritas == 'Batal Pembelian' && it.username == head[i].username) == undefined ? 'false' : detail.find(it => it.jenis_otoritas == 'Batal Pembelian' && it.username == head[i].username).status},
+                                {title: 'Batal Pembelian', key: 'batal_pembelian', value: detail.find(it => it.jenis_otoritas == 'Batal Pembelian' && it.username == head[i].username) == undefined ? 'false' : detail.find(it => it.jenis_otoritas == 'Batal Pembelian' && it.username == head[i].username).status},
                                 {title: 'Persentase', key: 'persentase', value: detail.find(it => it.jenis_otoritas == 'Persentase' && it.username == head[i].username) != undefined ? detail.find(it => it.jenis_otoritas == 'Persentase' && it.username == head[i].username).status : 'false'},
                             ]
                         },

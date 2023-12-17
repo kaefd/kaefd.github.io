@@ -13,7 +13,7 @@
                 </div>
                 <div class="w-[270px] h-fit flex items-center justify-between">
                     <span>Password</span>
-                    <base-input type="password" label="password" @input="account" :disabled="disabled"></base-input>
+                    <base-input type="password" label="password" :value="store().master.password" @input="account" :disabled="disabled"></base-input>
                 </div>
             </div>
             <span class="text-center uppercase my-3">otoritas</span>
