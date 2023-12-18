@@ -22,7 +22,7 @@
             </div>
             <base-filter :fields="drawer" :column="column" :items="store().items"></base-filter>
             <!-- content -->
-            <div class="w-full h-full duration-500"
+            <div class="w-full h-[94%] duration-500"
                 :class="store().filter || store().column ? '-translate-y-10 md:translate-y-0' : '-translate-y-[500px] md:-translate-y-[250px]'">
                 <!-- <div class="w-full h-full bg-red-500 mb-48 md:mb-0"> -->
                 <slot name="base-content">

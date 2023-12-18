@@ -25,8 +25,8 @@
                 <div v-if="child && store().menu.option.key == 'tambah'" class="mx-1">
                     <base-button @click="addDetail()" class="bg-primary ms-4" label="Tambah Barang"></base-button>
                 </div>
-                <div v-if="child" class="rounded-lg mx-3 md:mx-5 min-h-[250px] 2xl:min-h-[300px] h-full flex flex-col justify-between mb-2 md:mb-0 animate__animated animate__fadeIn animate__slow" :class="store().theme == 'dark' ? 'dark' : 'bg-white'">
-                    <div class="w-full h-[80%] md:h-full rounded-lg" :class="store().theme == 'dark' ? 'dark' : 'bg-white'">
+                <div v-if="child" class="rounded-lg mx-3 md:mx-5 min-h-[250px] 2xl:min-h-[300px] h-full flex flex-col justify-between mb-4 md:mb-0 animate__animated animate__fadeIn animate__slow" :class="store().theme == 'dark' ? 'dark' : 'bg-white'">
+                    <div class="w-full h-full rounded-lg" :class="store().theme == 'dark' ? 'dark' : 'bg-white'">
                         <slot name="detail"></slot>
                     </div>
                     <div class="flex justify-start border-t mx-5 py-1 gap-x-5">
