@@ -1,4 +1,5 @@
 import Swal from 'sweetalert2'
+import { store } from '@/utils/store'
 
 export default {
     success (title, message) {
@@ -8,6 +9,8 @@ export default {
             icon: 'success',
             timer: 2500,
             showConfirmButton: false,
+            background: store().theme == 'dark' ? '#212121' : '#dfdfdf',
+            color: store().theme == 'dark' ? '#dfdfdf' : '#212121',
             customClass: {
                 icon: 'text-xs',
                 title: 'text-lg',
@@ -26,6 +29,8 @@ export default {
             confirmButtonColor: '#5fa0cb',
             confirmButtonText: 'Ya',
             cancelButtonText: 'Batal',
+            background: store().theme == 'dark' ? '#212121' : '#dfdfdf',
+            color: store().theme == 'dark' ? '#dfdfdf' : '#212121',
             customClass: {
                 icon: 'text-xs',
                 title: 'text-lg',
@@ -40,6 +45,8 @@ export default {
             text: message,
             icon: 'error',
             showConfirmButton: false,
+            background: store().theme == 'dark' ? '#212121' : '#dfdfdf',
+            color: store().theme == 'dark' ? '#dfdfdf' : '#212121',
             customClass: {
                 icon: 'text-xs',
                 title: 'text-lg',
@@ -54,6 +61,8 @@ export default {
             text: message,
             icon: 'warning',
             showConfirmButton: false,
+            background: store().theme == 'dark' ? '#212121' : '#dfdfdf',
+            color: store().theme == 'dark' ? '#dfdfdf' : '#212121',
             customClass: {
                 icon: 'text-xs',
                 title: 'text-lg',

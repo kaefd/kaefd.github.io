@@ -49,7 +49,7 @@
     </div>
     <!-- MOBILE -->
     <div class="sm:sr-only flex text-sm  justify-center">
-      <kTabbar class="fixed left-0 bottom-0 h-13 flex items-center" bgClass="bg-white">
+      <kTabbar class="fixed left-0 bottom-0 h-16 flex items-center" :bgClass="store().theme == 'dark' ? 'dark' : 'bg-white'">
         <template v-for="go in $router.options.routes.slice(2)">
           <kTabbarLink v-if="go.icon != false && otoritas.akses(go.name) == true" @click="current(go)">
             <div class="mx-auto rounded-full flex justify-center items-center w-10 h-10">
@@ -69,7 +69,7 @@
           </div>
         </div>
       </div>
-      <div class="fixed bg-slate-300"></div>
+      <div class="fixed"></div>
     </div>
   </div>
 </template>

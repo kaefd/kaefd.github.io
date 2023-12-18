@@ -1,9 +1,11 @@
 <template>
-    <base-table :fields="config.fields" :items="items" :master="true">
-        <template #tb-detail>
-            <LogBarang v-if="store().dialog" :config="config" :items="items" />
-        </template>
-    </base-table>
+    <div class="h-full -mx-5 md:mx-0">
+        <base-table :fields="config.fields" :items="items" :master="true">
+            <template #tb-detail>
+                <LogBarang v-if="store().dialog" :config="config" :items="items" />
+            </template>
+        </base-table>
+    </div>
 </template>
 <script setup>
 import LogBarang from './LogBarang.vue';

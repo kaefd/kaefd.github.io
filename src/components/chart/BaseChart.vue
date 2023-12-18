@@ -15,7 +15,7 @@ export default {
         return {
           chart: {
             type: 'bar',
-            height: 350
+            height: 350,
           },
           // colors: ['#d4526e', '#5fa0cb', '#ffa726', '#77D4A3'],
           fill: {
@@ -33,6 +33,9 @@ export default {
             enabled: false
           },
           legend: {
+            labels: {
+              colors: store().theme == 'dark' ? '#dfdfdf' : 'dark'
+            },
             markers: {
               fillColors: ['#d4526e', '#ffa726','#5fa0cb', '#77D4A3'],
             }
@@ -66,6 +69,7 @@ export default {
             },
           },
           tooltip: {
+            theme: store().theme == 'dark' ? 'dark' : 'light',
             y: {
               formatter: function (val: any) {
                 return utils.numb(val) + " Ton"

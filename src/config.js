@@ -5,7 +5,7 @@ const config = {
         development: 'https://auristeel.com/api-test',
         production: 'https://auristeel.com/api'
     },
-    mode: 'development'
+    mode: 'production'
 }
 
 export default config

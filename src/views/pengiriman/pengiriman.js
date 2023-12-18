@@ -162,6 +162,7 @@ export default {
                 jumlah:detail[i].jumlah,
                 kode_konversi:detail[i].kode_konversi || '',
                 jumlah_konversi:detail[i].jumlah_konversi || 0,
+                satuan_konversi:detail[i].satuan_konversi || '',
             })
         }
         let json = JSON.stringify(newDetail)

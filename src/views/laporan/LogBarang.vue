@@ -1,7 +1,7 @@
 <template>
-    <div class="h-full w-full ps-0 md:ps-18 absolute overflow-hidden flex justify-center top-0 left-0">
-        <div class="relative rounded-xl w-full h-full mx-5 mt-5 p-5" :class="store().theme == 'dark' ? 'dark' : 'bg-white'">
-            <div class="flex items-center space-x-3 text-xl mb-5">
+    <div class="h-full w-full ps-3 md:ps-18 pe-3 md:pe-0 top-0 left-0 absolute overflow-hidden">
+        <div class="rounded-xl w-full h-full mt-5 p-5" :class="store().theme == 'dark' ? 'dark' : 'bg-white'">
+            <div class="flex items-center space-x-3 text-lg md:text-xl mb-5">
                 <button @click="close()">
                     <i class="ri-arrow-left-line"></i>
                 </button>
@@ -14,11 +14,13 @@
                 </div>
             </div>
             <base-filter :fields="store().state.filter" :column="false" :items="store().items"></base-filter> -->
-            <base-table :fields="config.fields" :items="items" :master="true" :s_table="s_table">
-                <template #tb-detail>
-                    <span></span>
-                </template>
-            </base-table>
+            <div class="h-[95%] md:h-full -mx-5">
+                <base-table :fields="config.fields" :items="items" :master="true" :s_table="s_table">
+                    <template #tb-detail>
+                        <span></span>
+                    </template>
+                </base-table>
+            </div>
         </div>
     </div>
 </template>

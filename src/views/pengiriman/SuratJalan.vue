@@ -1,7 +1,7 @@
 <template>
-    <div v-if="store().suratjalan" class="w-full h-full absolute top-0 left-0 z-10" :class="store().theme == 'dark' ? 'bg-dark-base' : 'bg-base'">
-        <div id="bodyp" class="rounded-xl h-full m-5 animate__animated animate__fadeIn animate__faster" :class="store().theme == 'dark' ? 'dark' : 'bg-white'">
-            <div id="titlebar" class="p-5 flex items-center justify-between text-xl">
+    <div v-if="store().suratjalan" class="hddn w-full h-full absolute top-0 left-0 z-10" :class="store().theme == 'dark' ? 'bg-dark-base' : 'bg-base'">
+        <div class="hddn rounded-xl h-full m-5 animate__animated animate__fadeIn animate__faster">
+            <div class="bodyp hddn px-5 pb-3 mx-0 md:mx-64 flex items-center justify-between text-lg md:text-xl">
                 <div class="flex space-x-3">
                     <button @click="close()">
                         <i class="ri-arrow-left-line"></i>
@@ -12,8 +12,8 @@
                     <i class="ri-printer-line"></i>
                 </button>
             </div>
-            <div id="suratjalan" class="w-full flex justify-center">
-                <div class="page w-full mx-5 h-[85%] border rounded-xl p-5 flex flex-col items-center gap-y-5 overflow-scroll">
+            <div id="suratjalan" class="w-full h-full flex justify-center overflow-auto">
+                <div class="page bg-white text-black hover:shadow-2xl hover:border-0 w-full mx-5 h-[85%] p-5 flex flex-col items-center gap-y-5">
                     <!-- title -->
                     <div class="w-full flex flex-col items-center">
                         <span class="font-semibold text-xl uppercase">pt. auri steel metalindo</span>
@@ -36,7 +36,7 @@
                                 </div>
                                 <div class="flex flex-col">
                                     <span>: {{store().master.no_pengiriman}}</span>
-                                    <span contenteditable>: {{store().master.tgl_pengiriman + '/' + utils.TimeNow().slice(0, 5)}}</span>
+                                    <span contenteditable>: {{utils.formatDate(store().master.tgl_pengiriman) + '/' + utils.TimeNow().slice(0, 5)}}</span>
                                     <span>: {{store().master.supir + '/' + store().master.no_polisi}}</span>
                                 </div>
                             </div>
@@ -163,15 +163,26 @@ export default {
 }
 </script>
 <style scoped>
-
+.page {
+    width: 20cm;
+    height: 11cm;
+}
 @media print {
-#titlebar {
-  visibility: hidden;
+body {
+    visibility: hidden;
+}
+.hddn {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+.bodyp {
+    visibility: hidden;
 }
 .page {
-    width: 21cm;
-    height: 12cm;
+    width: 20cm;
+    height: 11cm;
     border: none;
+    box-shadow: none !important;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
   #suratjalan {

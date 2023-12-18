@@ -5,6 +5,11 @@
         <div class="fixed bottom-0 rounded-3xl h-[85vh] md:h-[95vh] w-[28%] min-w-[350px] max-w-[450px] mb-18 md:mb-5 p-7 duration-300" :class="!open ? '' : (store().theme == 'dark' ? 'dark animate__animated animate__fadeInUp animate__faster duration-400' : 'bg-white animate__animated animate__fadeInUp animate__faster duration-400')">
             <div class="relative h-full w-full flex flex-col space-y-3 items-center">
                 <div class="relative flex flex-col gap-y-5 text-center w-full">
+                    <div class="not-sr-only md:sr-only absolute text-xl right-0">
+                        <button  @click="close('parent')">
+                            <i class="ri-close-line"></i>
+                        </button>
+                    </div>
                     <span class="font-semibold text-xl text-center">{{ item.title }}</span>
                     <base-input type="search" variant="tonal" @search="searched"></base-input>
                 </div>
