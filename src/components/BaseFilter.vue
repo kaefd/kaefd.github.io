@@ -1,13 +1,13 @@
 <template>
-<div class="w-full h-[473px] md:h-[250px] flex flex-col justify-between mt-1 pt-3 pb-15 md:pb-3 px-5 border-primary-hover" :class="store().theme == 'dark' ? 'dark' : 'bg-white'">
+<div class="w-full h-[473px] md:h-[250px] flex flex-col justify-between mt-1 pt-3 pb-15 md:pb-3 px-3 md:px-5 border-primary-hover" :class="store().theme == 'dark' ? 'dark' : 'bg-white'">
     <div class="h-max w-full">
         <div class="mb-3">
             <span class="font-semibold">{{ column ? 'Tamplikan Kolom' : 'Filter Data' }}</span>
         </div>
-        <div class="flex flex-wrap items-start h-full overflow-visible w-full gap-x-5">
+        <div class="w-full flex flex-wrap items-start h-full overflow-visible gap-x-5">
             <div v-if="!column" v-for="field in fields" class="flex flex-col space-y-1">
                 <span class="font-semibold">{{ field.title }}</span>
-                <div v-if="field.type == 'checkbox'" class="h-20 w-full flex flex-col flex-wrap overflow-auto gap-x-3 gap-y-1">
+                <div v-if="field.type == 'checkbox'" class="h-[5.1rem] w-full flex flex-col flex-wrap overflow-auto md:overflow-visible gap-x-2 gap-y-1">
                     <base-input v-for="item in field.item" :value="item.show" :type="field.type" @input="input" :label="item.title"></base-input>
                 </div>
                 <div v-else class="w-full">
