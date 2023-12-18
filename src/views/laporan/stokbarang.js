@@ -63,7 +63,6 @@ export default {
         for (let i = 0; i < group.length; i++) {
             kode.push(group[i].kode_group)
         }
-        console.log([...new Set(kode)]);
         return [...new Set(kode)]
     },
     async logBarang() {
