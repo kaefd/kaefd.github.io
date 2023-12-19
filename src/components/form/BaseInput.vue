@@ -135,19 +135,19 @@ export default {
                     }
                 this.$emit("input", val)
                 return this.auto
-            } else if (this.value) {
-                let val = {
-                        title: this.label,
-                        value: this.value
-                    }
-                this.$emit("input", val)
-                return this.value
             } else if(this.default != undefined && this.default.f != undefined) {
                 let dt = store().s_detail
                 let res = dt[this.default.set[0].input] * dt[this.default.set[1].input]
                 this.auto = res || 0
                 if(this.auto) dt[this.default.key] = this.auto
                 return utils.numb(this.auto)
+            } else {
+                let val = {
+                        title: this.label,
+                        value: this.value
+                    }
+                this.$emit("input", val)
+                return this.value
             }
             // if(this.default.f != undefined) {
             //     let val = {
