@@ -135,7 +135,7 @@ export default {
                     }
                 this.$emit("input", val)
                 return this.auto
-            } else if (this.value && this.default == undefined) {
+            } else if (this.value) {
                 let val = {
                         title: this.label,
                         value: this.value
