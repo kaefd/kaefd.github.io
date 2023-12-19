@@ -1,5 +1,5 @@
 <template>
-    <div v-if="store().menu.show" @click="close()" class="absolute top-0 left-0 h-screen w-screen"></div>
+    <!-- <div v-if="store().menu.show" @click="close()" class="absolute top-0 left-0 h-screen w-screen"></div> -->
     <div class="absolute border rounded w-40 max-h-min min-h-12 space-y-1" :class="store().theme == 'dark' ? 'dark' : 'bg-white'"
         :style="elementStyle">
         <div v-for="menu in menuOpt" @click="option(menu)"
