@@ -31,7 +31,12 @@
                 <!-- </div> -->
             </div>
         </div>
-        <CetakDokumen />
+        <CetakDokumen v-if="store().print">
+            <template #dokumen>
+                <SuratJalan v-if="store().suratjalan" />
+                <CetakDo v-if="store().do" />
+            </template>
+        </CetakDokumen>
         <slot name="detail-page">
             <base-detail :field="config.field_detail" :child="config.child" :param="config.param">
                 <template #full-content>
@@ -58,6 +63,8 @@ import ExportOption from '@/components/menu/ExportOption.vue';
 import { store } from '@/utils/store'
 import otoritas from '@/router/otoritas'
 import CetakDokumen from '@/components/print/CetakDokumen.vue'
+import SuratJalan from '@/views/pengiriman/SuratJalan.vue'
+import CetakDo from '@/views/pengiriman/CetakDo.vue'
 </script>
 <script>
 export default {

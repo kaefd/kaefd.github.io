@@ -56,10 +56,12 @@ export default {
                 })
             } else if (value.key == 'suratjalan') {
                 store().$patch((state) => {
+                    state.print = true
                     state.suratjalan = true
                 })
             } else if (value.key == 'do') {
                 store().$patch((state) => {
+                    state.print = true
                     state.do = true
                 })
             } else if (value.key == 'hapus') {

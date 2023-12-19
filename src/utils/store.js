@@ -23,6 +23,7 @@ export const store = defineStore('store', {
       dialog: false,
       suratjalan: false,
       do: false,
+      print: false,
       temp: '',
       otoritas: '',
       addDetail: [],
