@@ -16,7 +16,7 @@
                         </th>
                     </tr>
                 </thead>
-                <tbody class="w-full h-[50vh] md:h-[87%] flex flex-col pb-3 items-center overflow-scroll" :class="store().menu.option.key == 'tambah' || store().menu.option.key == 'lihat' ? 'h-max md:h-[80%]' : 'h-max md:h-[90%]'">
+                <tbody class="w-full h-[79%] md:h-[87%] flex flex-col pb-3 items-center overflow-scroll" :class="store().menu.option.key == 'tambah' || store().menu.option.key == 'lihat' ? 'h-max md:h-[80%]' : 'h-max md:h-[90%]'">
                     <tr v-if="master" v-for="item in items" @click="menu($event, item.head, item.detail)" class="w-full flex justify-between items-center cursor-pointer break-words" :class="store().theme == 'dark' ? 'hover:bg-dark-hover' : 'hover:bg-gray-100'">
                         <td v-for="field, f in fieldCol" scope="row" class="px-6 py-3 w-[15%] min-w-[100px] whitespace-pre-wrap">
                             {{ field.type == 'number' ? (item.head[field.key] > 0 ? utils.numb(item.head[field.key]) : 0) : (field.type == 'date' ? utils.formatDate(item.head[field.key]) : item.head[field.key]) }}
