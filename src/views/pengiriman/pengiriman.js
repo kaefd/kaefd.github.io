@@ -139,10 +139,10 @@ export default {
         )
         // const periode = [filtered.tgl_awal, filtered.tgl_akhir]
         let x = ''
-        store().$patch((state) => { 
-            state.periode[0] = periode.tgl_awal || state.periode[0]
-            state.periode[1] = periode.tgl_akhir || state.periode[1]
-        })
+        
+        if(periode.tgl_awal != undefined) {store().$patch((state) => { state.periode[0] = periode.tgl_awal })}
+        if(periode.tgl_akhir != undefined) {store().$patch((state) => { state.periode[1] = periode.tgl_akhir })}
+
         let p = {
             tgl_awal: store().periode[0],
             tgl_akhir: store().periode[1]

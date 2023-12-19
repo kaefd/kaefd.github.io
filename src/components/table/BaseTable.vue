@@ -62,13 +62,13 @@ export default {
     fieldCol() {
         return this.fields.filter(it => it.show == true)
     },
-    elementStyle() {
-        return {
-            position: 'fixed',
-            left: store().menu.screenX + 'px',
-            top: store().menu.screenY + 'px',
-        }
-    },
+    // elementStyle() {
+    //     return {
+    //         position: 'fixed',
+    //         left: store().menu.screenX + 'px',
+    //         top: store().menu.screenY + 'px',
+    //     }
+    // },
   },
   methods: {
     sorts(data) {

@@ -1,12 +1,12 @@
 <template>
-        <div class="absolute border rounded w-40 max-h-min min-h-12 space-y-1" :class="store().theme == 'dark' ? 'dark' : 'bg-white'"
-            :style="elementStyle">
-            <div v-for="menu in menuOpt" @click="option(menu)"
-                class="p-3 w-full cursor-pointer" :class="store().theme == 'dark' ? 'hover:bg-dark-hover' : 'hover:bg-gray-100'">
-                <span>{{ menu.title }}</span>
-            </div>
+    <div v-if="store().menu.show" @click="close()" class="absolute top-0 left-0 h-screen w-screen"></div>
+    <div class="absolute border rounded w-40 max-h-min min-h-12 space-y-1" :class="store().theme == 'dark' ? 'dark' : 'bg-white'"
+        :style="elementStyle">
+        <div v-for="menu in menuOpt" @click="option(menu)"
+            class="p-3 w-full cursor-pointer" :class="store().theme == 'dark' ? 'hover:bg-dark-hover' : 'hover:bg-gray-100'">
+            <span>{{ menu.title }}</span>
         </div>
-    <div v-if="store().menu.show" @click="close()" class="fixed top-0 left-0 h-full w-full z-[-2]"></div>
+    </div>
 </template>
 <script setup>
 import {store} from '@/utils/store'
@@ -18,8 +18,8 @@ export default {
         elementStyle() {
             return {
                 position: 'absolute',
-                left: store().menu.screenX + 'px',
-                top: store().menu.screenY-100 + 'px',
+                left: store().menu.screenX/screen.width*100 + '%',
+                top: (store().menu.screenY+30)/screen.height * 100 + '%',
             }
         },
         menuOpt () {

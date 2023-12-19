@@ -9,6 +9,7 @@
 import pengeluaran from '@/views/pengeluaran/pengeluaran'
 import PengeluaranDetail from '@/views/pengeluaran/PengeluaranDetail.vue'
 import { store } from '@/utils/store'
+import utils from '@/utils/utils';
 import otoritas from '@/router/otoritas';
 </script>
 <script>
@@ -54,7 +55,7 @@ export default {
                 ],
                 filter: [
                     {title: 'Tanggal Awal', key: 'tgl_awal', type: 'date', rules: ['date:max tgl_akhir']},
-                    {title: 'Tanggal Akhir', key: 'tgl_akhir', type: 'date', rules: ['date:min tgl_awal', 'date:max tgl_akhir']},
+                    {title: 'Tanggal Akhir', key: 'tgl_akhir', type: 'date', rules: ['date:min tgl_awal', 'date:max '+ utils.today()]},
                     {title: 'Tipe Dokumen', key: 'tipe_dokumen', type: 'checkbox', item: [
                         {title: 'BC25', key: 'BC25', show: true},
                         {title: 'BC41', key: 'BC41', show: true},

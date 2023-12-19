@@ -47,7 +47,7 @@ export default {
         },
         input(val) {
             if(val.title == 'tgl_awal') store().$patch((state) => { state.periode[0] = val.value})
-            if(val.title == 'tgl_akhir') store().$patch((state) => { state.periode[0] = val.value})
+            if(val.title == 'tgl_akhir') store().$patch((state) => { state.periode[1] = val.value})
             
             this.filter.push(val)
             let a = store().filterdata(this.filter, this.fields)

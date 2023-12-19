@@ -63,7 +63,7 @@ export default {
                 ],
                 filter: [
                     {title: 'Tanggal Awal', key: 'tgl_awal', type: 'date', rules: ['date:max tgl_akhir']},
-                    {title: 'Tanggal Akhir', key: 'tgl_akhir', type: 'date', rules: ['date:min tgl_awal', 'date:max tgl_akhir']},
+                    {title: 'Tanggal Akhir', key: 'tgl_akhir', type: 'date', rules: ['date:min tgl_awal', 'date:max ' +utils.today()]},
                 ],
                 param: [
                     {title: 'Jumlah', key: 'jumlah'},

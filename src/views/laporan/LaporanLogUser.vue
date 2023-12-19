@@ -4,6 +4,7 @@
 <script setup>
 import { store } from '@/utils/store'
 import loguser from './loguser'
+import utils from '@/utils/utils';
 import otoritas from '@/router/otoritas';
 </script>
 <script>
@@ -24,8 +25,8 @@ export default {
                 field_detail: false,
                 dialog_field: false,
                 filter: [
-                    {title: 'Tanggal Awal', key: 'tgl_awal', type: 'date'},
-                    {title: 'Tanggal Akhir', key: 'tgl_akhir', type: 'date'},
+                    {title: 'Tanggal Awal', key: 'tgl_awal', type: 'date', rules: ['date:max tgl_akhir']},
+                    {title: 'Tanggal Akhir', key: 'tgl_akhir', type: 'date', rules: ['date:min tgl_awal', 'date:max ' +utils.today()]},
                 ]
             }
         }

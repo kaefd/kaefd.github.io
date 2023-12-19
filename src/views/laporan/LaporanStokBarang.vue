@@ -9,6 +9,7 @@
 import DetailBarang from './DetailBarang.vue';
 import stokbarang from './stokbarang'
 import { store } from '@/utils/store'
+import utils from '@/utils/utils';
 </script>
 <script>
 export default {
@@ -39,7 +40,7 @@ export default {
                 ],
                 filter: [
                     {title: 'Tanggal Awal', key: 'tgl_awal', type: 'date', rules: ['date:max tgl_akhir']},
-                    {title: 'Tanggal Akhir', key: 'tgl_akhir', type: 'date', rules: ['date:min tgl_awal', 'date:max tgl_akhir']},
+                    {title: 'Tanggal Akhir', key: 'tgl_akhir', type: 'date', rules: ['date:min tgl_awal', 'date:max '+ utils.today()]},
                     {title: 'Kategori Barang', key: 'kategori_barang', type: 'checkbox', item: [
                         {title: 'Bahan Baku', key: 'bahan_baku', show: true},
                         {title: 'Bahan Penolong', key: 'bahan_penolong', show: true},

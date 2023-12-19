@@ -51,12 +51,12 @@ export default {
                     {title: 'Kode Barang', key: 'kode_barang', type: 'text', show: false, rules: ['unique']},
                     {title: 'Nama Barang', key: 'nama_barang', type: 'text', show: false},
                     {title: 'Jumlah', key: 'jumlah', type: 'number', show: true},
-                    {title: 'Jumlah Diterima', key: 'jumlah_diterima', type: 'number', show: false},
+                    {title: 'Jumlah Diterima', key: 'jumlah_diterima', type: 'number', show: true},
                     {title: 'Total Nilai', key: 'nilai', type: 'number', show: true}
                 ],
                 filter: [
                     {title: 'Tanggal Awal', key: 'tgl_awal', type: 'date', rules: ['date:max tgl_akhir']},
-                    {title: 'Tanggal Akhir', key: 'tgl_akhir', type: 'date', rules: ['date:min tgl_awal', 'date:max tgl_akhir']},
+                    {title: 'Tanggal Akhir', key: 'tgl_akhir', type: 'date', rules: ['date:min tgl_awal', 'date:max '+utils.today()]},
                     {title: 'Tipe Dokumen', key: 'tipe_dokumen', type: 'checkbox', item: [
                         {title: 'BC20', key: 'BC20', show: true},
                         {title: 'BC23', key: 'BC23', show: true},
