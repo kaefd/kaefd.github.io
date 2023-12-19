@@ -19,7 +19,7 @@ export default {
             return {
                 position: 'absolute',
                 left: store().menu.screenX/screen.width*100 + '%',
-                top: (store().menu.screenY+30)/screen.height * 100 + '%',
+                bottom: ((screen.height - store().menu.screenY-100)/screen.height * 100) + '%',
             }
         },
         menuOpt () {
