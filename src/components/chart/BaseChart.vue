@@ -1,21 +1,42 @@
 <template>
     <div id="chart">
-      <apexchart type="bar" height="350" :options="chartOptions" :series="chart"></apexchart>
+      <apexchart type="line" height="350" :options="chartOptions" :series="series"></apexchart>
     </div>
 </template>
-<script setup lang="ts">
+<script setup>
 import utils from '@/utils/utils'
-import {store} from '@/utils/store'
+import { store } from '@/utils/store'
 </script>
-<script lang="ts">
+<script>
 export default {
-    props: {chart: {type: Array}},
+    props: {series: {type: Array}},
     computed: {
       chartOptions() {
         return {
           chart: {
-            type: 'bar',
+            type: 'line',
             height: 350,
+            toolbar: {
+              show: true,
+              tools: {
+                download: false,
+                selection: true,
+                zoom: true,
+                zoomin: true,
+                zoomout: true,
+                pan: true,
+                reset: true,
+                customIcons: []
+              },
+            },
+            dropShadow: {
+                enabled: true,
+                color: '#000',
+                top: 15,
+                left: 3,
+                blur: 5,
+                opacity: 0.09
+            },
           },
           // colors: ['#d4526e', '#5fa0cb', '#ffa726', '#77D4A3'],
           fill: {
@@ -42,12 +63,14 @@ export default {
           },
           stroke: {
             show: true,
-            width: 2,
-            colors: ['transparent']
+            width: 3,
+            colors: ['#5fa0cb'],
+            curve: 'smooth'
           },
           xaxis: {
-            categories: ['minggu 1', 'minggu 2', 'minggu 3', 'minggu 4'],
+            categories: store().cpr,
             labels: {
+              show: false,
               style: {
                   colors: store().theme == 'dark' ? ['#dfdfdf', '#dfdfdf', '#dfdfdf', '#dfdfdf'] : ['#212121', '#212121', '#212121', '#212121'],
               },
@@ -71,13 +94,13 @@ export default {
           tooltip: {
             theme: store().theme == 'dark' ? 'dark' : 'light',
             y: {
-              formatter: function (val: any) {
+              formatter: function (val) {
                 return utils.numb(val) + " Ton"
               }
             }
           }
         }
       },
-    }
+    },
 }
 </script>

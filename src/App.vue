@@ -1,7 +1,7 @@
 <template>
   <k-provider theme="ios">
     <div class="flex justify-center w-screen h-full overflow-hidden">
-      <div class="flex w-full max-w-[3840px]" :class="store().theme == 'dark' ? 'bg-dark-base' : 'bg-base'">
+      <div class="flex w-full max-w-[3840px] h-full" :class="store().theme == 'dark' ? 'bg-dark-base' : 'bg-base'">
         <!-- APP BAR -->
         <TopBar v-if="$router.currentRoute.value.path != '/login' && !store().suratjalan && !store().do"/>
         <AppBar v-if="$router.currentRoute.value.path != '/login' && !store().suratjalan && !store().do"/>

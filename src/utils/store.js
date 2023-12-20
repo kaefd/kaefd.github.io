@@ -38,6 +38,7 @@ export const store = defineStore('store', {
       child_detail: false,
       detail_dialog: false,
       periode: [utils.last_month(), utils.today()],
+      cpr: '',
       items: '',
       master: '',
       detail: '',
@@ -56,6 +57,7 @@ export const store = defineStore('store', {
       this.profile = {
         log: false
       }
+      this.cpr = ''
       this.nav = false
       this.loading = false
       this.detail_dialog = false

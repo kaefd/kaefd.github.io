@@ -27,7 +27,7 @@
         <div class="w-full px-0 md:px-8">
             <div class=" w-full rounded-0 md:rounded-xl p-5 capitalize" :class="store().theme == 'dark' ? 'dark' : 'bg-white'">
                 <p class="font-bold text-center">statistik data {{ activeData.key }} bulan {{ utils.formatMonth(periode[1]) }}</p>
-                <base-chart :chart="chart"/>
+                <base-chart :series="chart"/>
             </div>
         </div>
     </div>
@@ -69,8 +69,6 @@ export default {
             if(item) store().loader('off')
         },
         dateInput (val) {
-            console.log(val);
-            
             const m = val.value.month + 1
             const mt = m < 10 ? '0' + m : m
             const y = val.value.year
@@ -82,8 +80,25 @@ export default {
         }
     },
     beforeMount() {
-        this.periode = store().periode
-        this.mth = this.periode[1]
+        const pr = new Date(store().periode[1])
+        const mnt = pr.getMonth()
+        const yr = pr.getFullYear()
+        const p = {
+            title: 'periode',
+            value: {
+                month: mnt,
+                year: yr
+            }
+        }
+        const m = p.value.month + 1
+        const mt = m < 10 ? '0' + m : m
+        const y = p.value.year
+        const awal = y + '-' + mt + '-01'
+        const akhir = y + '-' + mt + '-31'
+
+        this.periode = [awal, akhir]
+        // this.periode = store().periode
+        this.mth = awal
         this.active(this.cards[0])
         this.chartData()
     },
