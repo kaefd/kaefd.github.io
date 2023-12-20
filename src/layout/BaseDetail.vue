@@ -12,7 +12,7 @@
                     <!-- HEAD -->
                     <slot name="header-content">
                         <div class="h-max my-5 flex flex-col md:flex-row flex-wrap gap-y-2 gap-x-32 pt-1 w-full 2xl:w-4/5">
-                            <div v-for="fl in field">
+                            <div v-for="fl in field.filter(it => it.show == true)">
                                 <div class="flex justify-between items-center md:w-72">
                                     <label class="w-[24%] break-normal">{{ fl.title }}</label>
                                     <base-input :type="fl.type" :value="store().master[fl.key]" :option="fl.item" :fl_item="fl.item" :default="fl.default" :rules="fl.rules" :label="fl.key" @input="input" :disabled="fl.disabled || disabled"></base-input>
@@ -104,9 +104,15 @@ export default {
             let a = []
             a.push(value)
             for (let i = 0; i < a.length; i++) {
-                this.dataitem[a[i].title] = a[i].value
+                if(store().menu.option.key != 'edit') {
+                    this.dataitem[a[i].title] = a[i].value
+                }
+                else {
+                    store().master[a[i].title] = a[i].value
+                }
             }
-            store().$patch((state) => { state.detailDump = this.dataitem})
+            if(store().menu.option.key != 'edit') store().$patch((state) => { state.detailDump = this.dataitem})
+            else store().$patch((state) => { state.detailDump = state.master })
         },
         submited() {
             let opt = store().menu.option.key
@@ -114,12 +120,18 @@ export default {
             // let detail = store().state.dialog_field.filter(item => item.rules != undefined).slice(1)
             // let fl = [...head, ...detail]
             // let input = [...[this.dataitem], ...store().detail]
-            let a = head != '' ? store().validate(head, this.dataitem, head) : true
-            
-            if(a && a != undefined && (store().detail  || store().master)) {
-                if(opt == 'tambah') store().create(this.dataitem)
-                else if(opt == 'edit') store().update(this.dataitem)
-            } else if (store().detail == '') alert.warning(null, 'detail masih kosong')
+            let a = ''
+            if(opt == 'edit') a = head != '' ? store().validate(head, store().master, head) : true
+            else a = head != '' ? store().validate(head, this.dataitem, head) : true
+            if(a && a != undefined) {
+                if(this.child == false) {
+                    if(opt == 'tambah') store().create(this.dataitem)
+                    else if(opt == 'edit') store().update(store().master)
+                } else if (this.child && store().detail != '') {
+                    if(opt == 'tambah') store().create(this.dataitem)
+                    else if(opt == 'edit') store().update(store().master)
+                } else if (store().detail == '') alert.warning(null, 'detail masih kosong') 
+            }
         }
     }
 }

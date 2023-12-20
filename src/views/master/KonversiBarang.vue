@@ -12,6 +12,7 @@ export default {
         return {
             config: {
                 title: 'Konversi Barang',
+                child: false,
                 permission: [
                     {title: 'Tambah Data', key: 'tambah', value: true},
                     {title: 'Detail Data', key: 'lihat', value: true},
@@ -26,11 +27,11 @@ export default {
                     {title: 'Berat', key: 'berat', type: 'number', show: true, sort: 'desc'},
                 ],
                 field_detail: [
-                    {title: 'Kode Barang', key: 'kode_barang', type: 'option', item: [], show: true},
-                    {title: 'Kode Konversi', key: 'kode_konversi', type: 'text', show: true},
-                    {title: 'Nama Konversi', key: 'nama_konversi', type: 'text', show: true},
-                    {title: 'Satuan Konversi', key: 'satuan_konversi', type: 'text', show: true},
-                    {title: 'Berat', key: 'berat', type: 'number', show: true},
+                    {title: 'Kode Barang', key: 'kode_barang', type: 'option', item: [], show: true, rules: ['required']},
+                    {title: 'Kode Konversi', key: 'kode_konversi', type: 'text', show: true, rules: ['required']},
+                    {title: 'Nama Konversi', key: 'nama_konversi', type: 'text', show: true, rules: ['required']},
+                    {title: 'Satuan Konversi', key: 'satuan_konversi', type: 'text', show: true, rules: ['required']},
+                    {title: 'Berat', key: 'berat', type: 'number', show: true, rules: ['required']},
                 ],
                 filter: [
                     {title: 'Kode Barang', key: 'kode_barang', type: 'checkbox', item: []},

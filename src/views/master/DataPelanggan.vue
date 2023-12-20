@@ -12,6 +12,7 @@ export default {
         return {
             config: {
                 title: 'Data Pelanggan',
+                child: false,
                 permission: [
                     {title: 'Tambah Data', key: 'tambah'},
                     {title: 'Detail Data', key: 'lihat'},

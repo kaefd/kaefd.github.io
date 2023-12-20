@@ -104,7 +104,7 @@ export default {
             search: '',
             text: this.value,
             data_dialog: this.value,
-            numbs: '',
+            numbs: this.value,
             fNumber: 0,
             auto: '',
             
@@ -124,31 +124,34 @@ export default {
             }
         },
         autoData() {
-            if(store().detailDump && this.default != undefined && this.default.f == undefined) {
-                if(store().detailDump[this.default.key][this.default.key].slice(0, 4) == 'BC23') this.auto = 'BC25'
-                if(store().detailDump[this.default.key][this.default.key].slice(0, 4) == 'BC40') this.auto = 'BC41'
-                if(store().detailDump[this.default.key][this.default.key].slice(0, 9) == 'PPKEK-LDP') this.auto = 'BC25'
-                if(store().detailDump[this.default.key][this.default.key].slice(0, 11) == 'PPKEK-TLDDP') this.auto = 'BC41'
+            console.log(store().detailDump);
+                if(store().detailDump && this.default != undefined && this.default.f == undefined) {
+                    if(store().detailDump[this.default.key] != undefined) {
+                        if(store().detailDump[this.default.key][this.default.key].slice(0, 4) == 'BC23') this.auto = 'BC25'
+                        if(store().detailDump[this.default.key][this.default.key].slice(0, 4) == 'BC40') this.auto = 'BC41'
+                        if(store().detailDump[this.default.key][this.default.key].slice(0, 9) == 'PPKEK-LDP') this.auto = 'BC25'
+                        if(store().detailDump[this.default.key][this.default.key].slice(0, 11) == 'PPKEK-TLDDP') this.auto = 'BC41'
+                            let val = {
+                                title: this.label,
+                                value: this.auto
+                            }
+                        this.$emit("input", val)
+                        return this.auto
+                    }
+                } else if(this.default != undefined && this.default.f != undefined) {
+                    let dt = store().s_detail
+                    let res = dt[this.default.set[0].input] * dt[this.default.set[1].input]
+                    this.auto = res || 0
+                    if(this.auto) dt[this.default.key] = this.auto
+                    return utils.numb(this.auto)
+                } else if(this.value){
                     let val = {
-                        title: this.label,
-                        value: this.auto
-                    }
-                this.$emit("input", val)
-                return this.auto
-            } else if(this.default != undefined && this.default.f != undefined) {
-                let dt = store().s_detail
-                let res = dt[this.default.set[0].input] * dt[this.default.set[1].input]
-                this.auto = res || 0
-                if(this.auto) dt[this.default.key] = this.auto
-                return utils.numb(this.auto)
-            } else {
-                let val = {
-                        title: this.label,
-                        value: this.value
-                    }
-                this.$emit("input", val)
-                return this.value
-            }
+                            title: this.label,
+                            value: this.value
+                        }
+                    this.$emit("input", val)
+                    return this.value
+                }
             // if(this.default.f != undefined) {
             //     let val = {
             //             title: this.default.key,
@@ -190,11 +193,11 @@ export default {
     },
     watch: {
         numbs(v) {
-            if(store().menu.option.key != 'lihat') this.numbs = this.formatNmbr(v)
+            if(store().menu.option.key != 'lihat' && this.type == 'number') this.numbs = this.formatNmbr(v)
             
         },
         dataNumbs(v) {
-            if(store().menu.option.key != 'lihat') this.dataNumbs.numb = this.formatNmbr(v.numb)
+            if(store().menu.option.key != 'lihat' && this.type == 'number') this.dataNumbs.numb = this.formatNmbr(v.numb)
             
         }
     },
@@ -254,7 +257,7 @@ export default {
         },
         inputData() {
             let val = {}
-            if(this.dataNumbs.numb) {
+            if(this.type == 'number' && this.dataNumbs.numb) {
                 val = {
                     title: this.label,
                     value: Number(this.dataNumbs.numb.split(',').join(''))

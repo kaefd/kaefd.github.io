@@ -34,7 +34,6 @@ export default {
         return data
     },
     async chart(value, periode) {
-        console.log(periode);
         let w = periode[0]
         let k = periode[1]
         // let awal = w.slice(0, 7)

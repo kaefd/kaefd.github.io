@@ -30,11 +30,11 @@ export default {
                     {title: 'Satuan', key: 'satuan', type: 'text', show: true, sort: 'desc'},
                 ],
                 field_detail: [
-                    {title: 'Kategori Barang', key: 'kategori_barang', type: 'option', show: true, item: ['Bahan Baku', 'Bahan Penolong', 'Barang Setengah Jadi', 'Barang Jadi', 'Barang Sisa (Scrap)', 'Mesin & Peralatan']},
-                    {title: 'Kode Barang', key: 'kode_barang', type: 'text', show: true},
-                    {title: 'Nama Barang', key: 'nama_barang', type: 'text', show: true},
-                    {title: 'HS Kode', key: 'hs_code', type: 'text', show: true},
-                    {title: 'Satuan', key: 'satuan', type: 'text', show: true},
+                    {title: 'Kategori Barang', key: 'kategori_barang', type: 'option', show: true, rules:['required'], item: ['Bahan Baku', 'Bahan Penolong', 'Barang Setengah Jadi', 'Barang Jadi', 'Barang Sisa (Scrap)', 'Mesin & Peralatan']},
+                    {title: 'Kode Barang', key: 'kode_barang', type: 'text', show: true, rules:['required']},
+                    {title: 'Nama Barang', key: 'nama_barang', type: 'text', show: true, rules:['required']},
+                    {title: 'HS Kode', key: 'hs_code', type: 'text', show: true, rules:['required']},
+                    {title: 'Satuan', key: 'satuan', type: 'text', show: true, rules:['required']},
                 ],
                 filter: [
                     {title: 'Kategori Barang', key: 'kategori_barang', type: 'checkbox', item: [

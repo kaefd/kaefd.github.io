@@ -143,14 +143,12 @@ export default {
         },
         datainput(value) {
             if(value != '') {
-                
                 let a = []
                 a.push(value)
                 for (let i = 0; i < a.length; i++) {
                     this.dataitem[a[i].title] = a[i].value
                 }
                 store().$patch((state) => { state.s_detail = this.dataitem })
-
             }
         },
         save() {

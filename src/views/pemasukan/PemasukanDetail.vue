@@ -28,7 +28,7 @@ export default {
                     {title: 'Kode Barang', key: 'kode_barang', type: 'text', show: false},
                     {title: 'Nama Barang', key: 'nama_barang', type: 'text', show: false},
                     {title: 'Jumlah', key: 'jumlah', type: 'number', show: true},
-                    {title: 'Jumlah Diterima', key: 'jumlah_diterima', type: 'number', show: false},
+                    {title: 'Jumlah Diterima', key: 'jumlah_diterima', type: 'number', show: true},
                     {title: 'Total Nilai', key: 'nilai', type: 'number', show: true}
                 ],
                 field_detail: false,

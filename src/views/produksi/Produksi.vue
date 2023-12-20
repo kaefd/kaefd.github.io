@@ -40,7 +40,7 @@ export default {
                     // {title: 'Kode Group', key: 'kode_group', type: 'dialog', rules: ['absolute'], item: [], show: true, rules: ['required']},
                     {title: 'Kode Bahan', key: 'kode_bahan', type: 'dialog', rules: ['required kode_group', 'required'], item: {point: 'kode_barang', endpoint: 'group_barang?kode_group=', param: 'kode_group', title: 'Stok Barang', child: false, left: ['kode_barang'], right: ['stok_akhir']}, show: true},
                     // {title: 'Nama Bahan', key: 'nama_barang', type: 'text', show: true, rules: ['required']},
-                    {title: 'Jumlah', key: 'jumlah_bahan', type: 'number', rules: ['max kode_group.stok_akhir', 'required'], show: true},
+                    {title: 'Jumlah', key: 'jumlah_bahan', type: 'number', show: false},
                 ],
                 dialog_field: [
                     {title: 'Kode Barang', key: 'kode_barang', type: 'text', show: false, rules: ['unique']},
