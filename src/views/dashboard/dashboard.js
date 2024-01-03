@@ -39,21 +39,23 @@ export default {
 		let data = [];
 		for (let i = 0; i < url.length; i++) {
 			let h = await api.getData(url[i].head, param);
-			let d = await api.getData(url[i].detail, param);
-			for (let j = 0; j < h.length; j++) {
-				for (let k = 0; k < d.length; k++) {
-					if (h[j][url[i].key] == d[k][url[i].key])
-						sum[url[i].name].push(d[k].jumlah);
+			if(h) {
+				let d = await api.getData(url[i].detail, param);
+				for (let j = 0; j < h.length; j++) {
+					for (let k = 0; k < d.length; k++) {
+						if (h[j][url[i].key] == d[k][url[i].key])
+							sum[url[i].name].push(d[k].jumlah);
+					}
 				}
+				data.push({
+					name: url[i].name,
+					data: sum[url[i].name],
+					sum:
+						sum[url[i].name].reduce((accumulator, currentValue) => {
+							return accumulator + currentValue;
+						}, 0) / 1000,
+				});
 			}
-			data.push({
-				name: url[i].name,
-				data: sum[url[i].name],
-				sum:
-					sum[url[i].name].reduce((accumulator, currentValue) => {
-						return accumulator + currentValue;
-					}, 0) / 1000,
-			});
 		}
 		return data;
 	},
