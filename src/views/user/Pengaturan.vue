@@ -1,5 +1,5 @@
 <template>
-    <div class="h-screen w-screen top-0 left-0 ps-18 py-5 absolute flex justify-center items-center" :class="store().theme == 'dark' ? 'bg-dark-base' : 'bg-base'">
+    <div class="h-screen w-screen top-0 left-0 ps-24 py-5 absolute flex justify-center items-center" :class="store().theme == 'dark' ? 'bg-dark-base' : 'bg-base'">
         <div class="w-full h-full mx-5 md:mx-8 p-5 rounded-xl animate__animated animate__fadeIn animate__faster" :class="store().theme == 'dark' ? 'dark' : 'bg-white'">
             <div class=" flex items-center space-x-3 text-xl">
                 <button @click="close()">

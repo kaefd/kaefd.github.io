@@ -22,6 +22,7 @@ import otoritas from '@/router/otoritas'
 </script>
 <script>
 export default {
+    props: {fields: {type: Object}},
     data() {
         return {
             active: false,
@@ -67,7 +68,7 @@ export default {
                 headStyles: { fillColor: [95,160,203], cellPadding: 3},
                 margin: { top: 10 },
                 body: items,
-                columns: store().state.fields,
+                columns: this.fields,
 
             })
             doc.save(`${title}.pdf`);

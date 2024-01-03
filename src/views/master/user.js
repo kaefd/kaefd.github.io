@@ -113,6 +113,7 @@ export default {
                             item: [
                                 {title: 'Tambah Penjualan Baru', key: 'tambah_penjualan_baru', value: detail.find(it => it.jenis_otoritas == 'Tambah Penjualan Baru' && it.username == head[i].username) == undefined ? 'false' : detail.find(it => it.jenis_otoritas == 'Tambah Penjualan Baru' && it.username == head[i].username).status},
                                 {title: 'Batal Penjualan', key: 'batal_penjualan', value: detail.find(it => it.jenis_otoritas == 'Batal Penjualan' && it.username == head[i].username) == undefined ? 'false' : detail.find(it => it.jenis_otoritas == 'Batal Penjualan' && it.username == head[i].username).status},
+                                {title: 'Status Penjualan', key: 'status_penjualan', value: detail.find(it => it.jenis_otoritas == 'Status Penjualan' && it.username == head[i].username) == undefined ? 'false' : detail.find(it => it.jenis_otoritas == 'Status Penjualan' && it.username == head[i].username).status},
                             ]
                         },
                     // }
@@ -170,6 +171,7 @@ export default {
             })
             
         }
+        store().$patch((state) => { state.items = data })
         store().loader('off')
         return data
     },
@@ -226,6 +228,7 @@ export default {
 
     },
     create(input, fl) {
+        store().loader('on')
         let detail = []
         
         for (let i = 0; i < fl.length; i++) {
@@ -249,16 +252,24 @@ export default {
             password: input.password,
             otoritas: JSON.stringify(detail)
         }
-        store().loader('on')
         api.create('/user', data).then(res => {
-            alert.success(null, res.data).then(
-                setTimeout(() => {
-                    location.reload()
-                }, 2500)
-            )
+            if(res.status == 200) {
+				alert.success(null, res.data)
+				store().resetState()
+			} else alert.success(null, 'Data Berhasil Disimpan')
+            this.user()
         })
+        .catch(error => {
+			if(error.response.status == 500) {
+				alert.failed(null, error.response.data)
+			} else alert.failed(null)
+		})
+        setTimeout(() => {
+			store().loader('off')
+		}, 2500)
     },
     update(input) {
+        store().loader('on')
         let fl = store().detail
         let master = store().master
         let detail = []
@@ -285,26 +296,39 @@ export default {
             otoritas: JSON.stringify(detail)
         }
         
-        store().loader('on')
         api.update('/user', data).then(res => {
-            alert.success(null, res.data).then(
-                setTimeout(() => {
-                    location.reload()
-                }, 2500)
-            )
+            if(res.status == 200) {
+				alert.success(null, res.data)
+				store().resetState()
+			} else alert.success(null, 'Data Berhasil Diupdate')
+            this.user()
         })
+        .catch(error => {
+			if(error.response.status == 500) {
+				alert.failed(null, error.response.data)
+			} else alert.failed(null)
+		})
+        setTimeout(() => {
+			store().loader('off')
+		}, 2500)
     },
     delete(data) {
         alert.confirm('Apakah anda yakin ?', 'Anda akan menghapus '+data.username).then((result) => {
             if(result.isConfirmed) {
-                api.delete('user', {username: data.username}).then(result => {
-                    alert.success(null, 'Data Berhasil Dihapus').then(
-                        setTimeout(() => {
-                            location.reload()
-                        }, 2500))
+                store().loader('on')
+                api.delete('user', {username: data.username}).then(res => {
+                    if(res.status == 200) {
+                        alert.success(null, res.data)
+                    } else alert.success(null, 'Data Berhasil Dihapus')
+                    this.user()
                 }).catch((error) => {
-                    alert.failed('Gagal !', error.response.data)
+                    if(error.response.status == 500) {
+                        alert.failed(null, error.response.data)
+                    } else alert.failed(null)
                 })
+                setTimeout(() => {
+                    store().loader('off')
+                }, 2500)
             }
         })
     },

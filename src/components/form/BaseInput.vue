@@ -70,7 +70,7 @@
     <input v-if="type == 'auto'" type="text" :value="autoData" @update:model-value="autoData" readonly class="h-[40px] w-[60%] min-w-[200px] rounded px-3" :class="store().theme == 'dark' ? 'bg-dark-base' : 'bg-disabled-color'"/>
     <template v-if="type == 'dialog'">
         <input @click="open_id()" type="text" :value="data_dialog" @update:model-value="dialogInput" readonly class="h-[40px] w-[60%] min-w-[200px] rounded px-3 cursor-pointer" :class="store().theme == 'dark' ? 'bg-dark-base' : 'bg-disabled-color'"/>
-        <input-dialog v-if="open" :open="open" :fl_item="fl_item" @close="close" @input_i="dialogInput"></input-dialog>
+        <input-dialog v-if="open" :open="open" :fl_item="fl_item" :dialog_field="dialog_field" @close="close" @input_i="dialogInput"></input-dialog>
     </template>
 </template>
 <script setup>
@@ -95,6 +95,7 @@ export default {
         rules: {type: Array},
         fl_item: {type: Array},
         default: {type: Object},
+        dialog_field: {type: Object}
     },
     data() {
         return {

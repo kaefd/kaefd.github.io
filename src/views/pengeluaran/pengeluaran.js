@@ -51,6 +51,7 @@ export default {
             })
             
         }
+        store().$patch((state) => { state.items = data })
         store().loader('off')
         return data
     },
@@ -62,7 +63,6 @@ export default {
         return head
     },
     filterData(input, fl) {
-        console.log(input);
         let data = {}
         for (let i = 0; i < input.length; i++) {
             for (let j = 0; j < fl.length; j++) {
@@ -109,17 +109,23 @@ export default {
             tgl_awal: store().periode[0],
             tgl_akhir: store().periode[1]
         }
-            await this.pengeluaran(p).then(response => x = response)
-            const filterData = x.filter(it => {
-                let a = filtered.some(k => it.head.tipe_dokumen.includes(k.key))
-                let b = filtered.some(k => it.head.status.includes(k.key))
-                return a && b
-            })
-            store().$patch((state) => { state.items = filterData})
+        await this.pengeluaran(p).then(response => {
+            if(filtered.find(f => f.key == 'close') != undefined && filtered.find(f => f.key == 'close') != undefined) x = response
+            else if(filtered.find(f => f.key == 'close') != undefined) x = response.filter(res => res.detail[0].jumlah_terkirim == res.detail[0].jumlah)
+            else if(filtered.find(f => f.key == 'open') != undefined) x = response.filter(res => res.detail[0].jumlah_terkirim != res.detail[0].jumlah)
+            else x = response
+        })
+        const filterData = x.filter(it => {
+            let a = filtered.some(k => it.head.tipe_dokumen.includes(k.key))
+            // let b = filtered.some(k => it.head.status.includes(k.key))
+            return a
+        })
+        store().$patch((state) => { state.items = filterData})
         // else store().$patch((state) => { state.items = x})
 
     },
     create(data) {
+        store().loader('on')
         let detail = store().detail
         let newDetail = []
         for (let i = 0; i < detail.length; i++) {
@@ -140,24 +146,39 @@ export default {
             penjualan_detail: json
         }
         api.create('/penjualan_head', payload).then(res => {
-            alert.success(null, res.data).then(
-                setTimeout(() => {
-                    location.reload()
-                }, 2500)
-            )
-        })
+            if(res.status == 200) {
+				alert.success(null, res.data)
+				store().resetState()
+			} else alert.success(null, 'Data Berhasil Disimpan')
+            this.pengeluaran()
+		})
+		.catch(error => {
+			if(error.response.status == 500) {
+				alert.failed(null, error.response.data)
+			} else alert.failed(null)
+		})
+        setTimeout(() => {
+			store().loader('off')
+		}, 2500)
     },
     delete(data) {
         alert.confirm('Apakah anda yakin ?', 'Anda akan menghapus '+data.no_penjualan).then((result) => {
             if(result.isConfirmed) {
-                api.delete('penjualan_head', {no_penjualan: data.no_penjualan}).then(result => {
-                    alert.success(null, 'Data Berhasil Dibatalkan').then(
-                        setTimeout(() => {
-                            location.reload()
-                        }, 2500))
-                }).catch((error) => {
-                    alert.failed('Gagal !', error.response.data)
+                store().loader('on')
+                api.delete('penjualan_head', {no_penjualan: data.no_penjualan}).then(res => {
+                    if(res.status == 200) {
+                        alert.success(null, res.data)
+                    } else alert.success(null, 'Data Berhasil Dibatalkan')
+                    this.pengeluaran()
                 })
+                .catch((error) => {
+                    if(error.response.status == 500) {
+                        alert.failed(null, error.response.data)
+                    } else alert.failed(null)
+                });
+                setTimeout(() => {
+                    store().loader('off')
+                }, 2500)
             }
         })
     },

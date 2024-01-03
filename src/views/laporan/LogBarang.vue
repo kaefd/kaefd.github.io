@@ -1,5 +1,5 @@
 <template>
-    <div class="h-full w-full ps-3 md:ps-18 pe-3 md:pe-0 top-0 left-0 absolute overflow-hidden">
+    <div class="h-full w-full ps-3 md:ps-24 pe-3 md:pe-0 top-0 left-0 absolute overflow-hidden">
         <div class="rounded-xl w-full h-full mt-5 p-5" :class="store().theme == 'dark' ? 'dark' : 'bg-white'">
             <div class="flex items-center space-x-3 text-lg md:text-xl mb-5">
                 <button @click="close()">

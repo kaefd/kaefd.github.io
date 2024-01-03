@@ -24,7 +24,7 @@
                                 <div class="flex gap-x-2">
                                     <span class="uppercase">penerima : </span>
                                     <div class="flex flex-col gap-y-0">
-                                        <span class="uppercase">{{ store().master.tujuan_bongkar }}</span>
+                                        <span class="uppercase">{{ store().master.pelanggan }}</span>
                                         <span class="uppercase">{{ store().master.alamat }}</span>
                                         <span class="uppercase">{{ store().master.kabupaten }}</span>
                                     </div>
@@ -51,7 +51,7 @@
                                         <th class="w-max whitespace-pre-wrap px-3 font-medium text-left">nama barang</th>
                                         <th class="w-max whitespace-pre-wrap px-3 font-medium text-left">qty</th>
                                         <th class="w-max whitespace-pre-wrap px-3 font-medium text-left">satuan</th>
-                                        <th class="w-max whitespace-pre-wrap px-3 font-medium text-left">berat</th>
+                                        <th class="w-max whitespace-pre-wrap px-3 font-medium text-left">berat(Kg)</th>
                                         <th class="w-max whitespace-pre-wrap px-3 font-medium text-left">keterangan(Ex.BC)</th>
                                     </tr>
                                 </thead>
@@ -60,7 +60,7 @@
                                         <td class="w-max whitespace-pre-wrap px-3 text-left">{{ i+1 }}</td>
                                         <td class="w-max whitespace-pre-wrap px-3 text-left">{{ item.nama_barang }}</td>
                                         <td contenteditable class="w-max whitespace-pre-wrap px-3 text-left">{{ utils.numb(item.jumlah_konversi) }}</td>
-                                        <td class="w-max whitespace-pre-wrap px-3 text-left">{{ item.satuan }}</td>
+                                        <td contenteditable class="w-max whitespace-pre-wrap px-3 text-left">{{ item.satuan }}</td>
                                         <td class="w-max whitespace-pre-wrap px-3 text-left">{{ utils.numb(item.jumlah) }}</td>
                                         <td class="w-max whitespace-pre-wrap px-3 text-left">{{ item.nopen }}</td>
                                     </tr>

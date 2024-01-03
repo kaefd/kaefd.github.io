@@ -1,5 +1,5 @@
 <template>
-    <div v-if="store().detail_dialog" class="absolute top-0 right-0 w-full h-full overflow-auto z-[2] ps-0 md:ps-18" :class="store().theme == 'dark' ? 'bg-dark-base' : 'bg-base'">
+    <div v-if="store().detail_dialog" class="absolute top-0 right-0 w-full h-full overflow-auto z-[2] ps-0 md:ps-24" :class="store().theme == 'dark' ? 'bg-dark-base' : 'bg-base'">
         <div class="flex flex-col gap-y-3 h-full pb-12 md:pb-0 overflow-auto md:overflow-auto">
             <slot name="full-content">
                 <div class="overflow-visible h-full mx-3 md:mx-5 mt-5 p-5 rounded-lg flex flex-col gap-y-5 animate__animated animate__fadeIn animate__faster"  :class="store().dialog ? 'z-[0]' : (store().theme == 'dark' ? 'dark z-[2]' : 'bg-white z-[2]')">
@@ -11,11 +11,11 @@
                     </div>
                     <!-- HEAD -->
                     <slot name="header-content">
-                        <div class="h-max my-5 flex flex-col md:flex-row flex-wrap gap-y-2 gap-x-32 pt-1 w-full 2xl:w-4/5">
+                        <div class="h-max md:h-[50vh] xl:h-[35vh] flex flex-col flex-wrap gap-y-2 gap-x-32 pt-1 w-full">
                             <div v-for="fl in field.filter(it => it.show == true)">
                                 <div class="flex justify-between items-center md:w-72">
                                     <label class="w-[24%] break-normal">{{ fl.title }}</label>
-                                    <base-input :type="fl.type" :value="store().master[fl.key]" :option="fl.item" :fl_item="fl.item" :default="fl.default" :rules="fl.rules" :label="fl.key" @input="input" :disabled="fl.disabled || disabled"></base-input>
+                                    <base-input :type="fl.type" :value="store().master[fl.key]" :option="fl.item" :fl_item="fl.item" :default="fl.default" :rules="fl.rules" :label="fl.key" @input="input" :disabled="fl.disabled || disabled || (store().menu.option.key == 'edit' && fl.edit == false)"></base-input>
                                 </div>
                             </div>
                         </div>

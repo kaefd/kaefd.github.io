@@ -1,12 +1,12 @@
 <template>
-    <div class="py-16 ps-0 md:ps-18 w-full h-screen overflow-auto">
+    <div class="py-16 ps-0 md:ps-24 w-full h-screen overflow-auto">
         <div class="mb-5 w-full px-5 md:px-8">
             <div class="w-[35vw]">
                 <base-input type="date" variant="pills" label="periode" :value="mth" @input="dateInput"></base-input>
             </div>
         </div>
         <div class="px-5 md:px-8 flex flex-wrap items-center justify-center md:justify-start lg:justify-between gap-x-2 xl:gap-x-5 gap-y-5">
-            <div v-for="card in cards" class=" flex flex-grow justify-center items-center rounded-2xl shadow-2xl overflow-hidden w-[20vw] min-w-[250px] h-36" :class="store().theme == 'dark' ? 'dark shadow-black' : 'bg-white shadow-slate-300'">
+            <div v-for="card in cards" class=" flex flex-grow justify-center items-center rounded-2xl overflow-hidden w-[20vw] min-w-[250px] h-36" :class="store().theme == 'dark' ? 'dark shadow-black' : 'bg-white shadow-slate-300'">
                 <!-- <div class="absolute w-[20%]"> -->
                     <div class="h-full w-full flex justify-between px-5 items-center relative">
                         <div class="flex flex-col h-full justify-center space-y-1">
@@ -57,7 +57,7 @@ export default {
         active(value) {
             this.cards.map(item => item.active = item == value ? true : false)
             this.activeData = value
-            this.chartData()
+            this.updateChart()
         },
         async chartData() {
             store().loader('on')
@@ -67,6 +67,9 @@ export default {
                 this.cards[i].content = utils.numb(item[i].sum)
             }
             if(item) store().loader('off')
+        },
+        async updateChart() {
+            this.chart = await dashboard.chart(this.activeData.chart, this.periode)
         },
         dateInput (val) {
             const m = val.value.month + 1
@@ -100,7 +103,12 @@ export default {
         // this.periode = store().periode
         this.mth = awal
         this.active(this.cards[0])
-        this.chartData()
+        this.updateChart()
     },
+    mounted() {
+        store().loader('on')
+        this.chartData()
+        store().loader('off')
+    }
 }
 </script>

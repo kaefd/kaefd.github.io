@@ -42,7 +42,7 @@ export default {
     failed (title, message) {
         return Swal.fire({
             title: title || 'Gagal !',
-            text: message,
+            text: message || '',
             icon: 'error',
             showConfirmButton: false,
             background: store().theme == 'dark' ? '#212121' : '#fff',

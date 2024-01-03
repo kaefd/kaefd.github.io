@@ -73,7 +73,7 @@ export default {
                         {title: 'BC25', key: 'BC25', show: true},
                         {title: 'BC41', key: 'BC41', show: true},
                     ]},
-                    {title: 'Status', key: 'status', type: 'checkbox', item: [
+                    {title: 'Status', key: 'status', type: 'checkbox', auth: 'Status Penjualan', item: [
                         {title: 'Menunggu', key: 'open', show: true},
                         {title: 'Selesai', key: 'close', show: true},
                     ]},

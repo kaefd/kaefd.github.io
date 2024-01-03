@@ -2,9 +2,11 @@ import axios from 'axios'
 import mode from '@/mode'
 import router from '@/router'
 import {store} from '@/utils/store'
+import config from '@/config'
+import alert from './alert'
 
 const instance = axios.create({
-  baseURL: mode,
+  baseURL: config.server[mode.server] ,
   headers: {
     csrf: localStorage.getItem('token'),
     'Content-Type': 'application/json',
@@ -20,6 +22,9 @@ export default {
       const response = await instance.get(url, { params: param })
       return response.data
     } catch (error) {
+      if(error.response.status == 401) {
+        alert.warning(null, 'Silakan login lagi')
+      }
       return this.logout()
     }
   },

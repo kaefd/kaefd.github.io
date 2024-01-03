@@ -5,7 +5,14 @@ const config = {
         development: 'https://auristeel.com/api-test',
         production: 'https://auristeel.com/api'
     },
-    mode: 'development'
+    routeMode: {
+        webHistory: {
+            base: '/inventori'
+        },
+        webHash: {
+            base: '/'
+        }
+    },
 }
 
 export default config

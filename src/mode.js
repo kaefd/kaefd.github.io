@@ -1,9 +1,9 @@
-import config from '@/config'
-
-const which = () => {
-    if (config.mode == 'production') return config.server.production
-    else return config.server.development
+// UBAH MODE DI SINI
+// SEE CONFIG.JS
+const mode = {
+    // SERVER
+    server: 'development',
+    // BASE
+    routeMode: 'webHash'
 }
-const mode = which()
-
 export default mode

@@ -1,5 +1,5 @@
 <template>
-    <div v-if="!store().detail_dialog" class="w-full h-15 ps-0 md:ps-18 absolute z-[1]" :class="store().theme == 'dark' ? 'bg-dark-base' : 'bg-base'">
+    <div v-if="!store().detail_dialog" class="w-full h-15 ps-0 md:ps-24 absolute z-[1]" :class="store().theme == 'dark' ? 'bg-dark-base' : 'bg-base'">
         <div class="w-full h-full flex justify-between items-center px-4 md:px-8">
             <div class="duration-300" :class="store().nav ? 'translate-x-0 md:translate-x-72 max-w-max md:max-w-[78%]' : '-translate-x-0'">
                 <span class="text-lg md:text-xl font-semibold">{{ $router.currentRoute.value.name }}</span>

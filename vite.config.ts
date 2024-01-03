@@ -4,11 +4,12 @@ import path from 'path'
 import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vite'
 import { splitVendorChunkPlugin } from 'vite'
+import config from './src/config'
+import mode from './src/config'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  // base: '/inventori',
-  base: '/',
+  base: config.server[mode.routeMode.base],
   plugins: [
     vue(),
     legacy(),

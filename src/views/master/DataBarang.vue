@@ -31,7 +31,7 @@ export default {
                 ],
                 field_detail: [
                     {title: 'Kategori Barang', key: 'kategori_barang', type: 'option', show: true, rules:['required'], item: ['Bahan Baku', 'Bahan Penolong', 'Barang Setengah Jadi', 'Barang Jadi', 'Barang Sisa (Scrap)', 'Mesin & Peralatan']},
-                    {title: 'Kode Barang', key: 'kode_barang', type: 'text', show: true, rules:['required']},
+                    {title: 'Kode Barang', key: 'kode_barang', type: 'text', show: true, edit: false, rules:['required']},
                     {title: 'Nama Barang', key: 'nama_barang', type: 'text', show: true, rules:['required']},
                     {title: 'HS Kode', key: 'hs_code', type: 'text', show: true, rules:['required']},
                     {title: 'Satuan', key: 'satuan', type: 'text', show: true, rules:['required']},
@@ -55,7 +55,6 @@ export default {
             if(a) {
                 let data = await barang.barang()
                 store().$patch((state) => {
-                    state.items = data
                     state.state = this.config
                 })
             } else this.$router.push('/')

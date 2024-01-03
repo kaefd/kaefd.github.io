@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory, createWebHashHistory } from '@ionic/vue-router';
 import { RouteLocationNormalized, RouteRecordRaw, Router } from 'vue-router';
 import middleware from '@/router/middleware'
+import mode from '@/mode';
 
 const routes = [
   {
@@ -182,11 +183,21 @@ const routes = [
     },
     component: () => import('@/views/user/LogActivity.vue'),
   },
+  {
+    name: 'Log Aktivitas Barang',
+    subname: 'log aktivitas barang',
+    path: '/track',
+    icon: false,
+    meta: {
+      middleware: [middleware]
+    },
+    // component: () => import('@/views/tools/track/TrackBarang.vue'),
+    component: () => import('@/views/TestPage.vue'),
+  },
 ]
 
 const router = createRouter({
-  // history: createWebHistory(import.meta.env.BASE_URL),
-  history: createWebHashHistory(),
+  history: mode.routeMode == 'webHistory' ? createWebHistory(import.meta.env.BASE_URL) : createWebHashHistory(),
   routes
 })
 

@@ -2,12 +2,13 @@
   <div class="fixed w-max z-10">
     <div class="sr-only sm:not-sr-only flex text-sm">
       <!-- RAIL MENU -->
-      <div class="w-18 h-screen flex flex-col justify-center items-center border-e" :class="store().theme == 'dark' ? 'dark border-dark-hover' : 'bg-white'">
+      <div class="w-24 h-screen flex flex-col justify-center items-center border-e" :class="store().theme == 'dark' ? 'dark border-dark-hover' : 'bg-white'">
         <div class="flex flex-col space-y-5">
           <template v-for="go in $router.options.routes">
-            <div v-if="go.icon != false && otoritas.akses(go.name) == true" @click="current(go)" class="w-12 h-12 flex justify-center items-center rounded-full" :class="active(go) ? 'bg-primary shadow-xl' : store().theme == 'dark' ? 'hover:bg-dark-hover' : 'hover:bg-slate-100'">
-              <i v-if="active(go)" :class="go.icon" class="text-xl"></i>
-              <i v-else :class="go.icon" class="text-xl"></i>
+            <div v-if="go.icon != false && otoritas.akses(go.name) == true" @click="current(go)" class="w-18 h-18 flex flex-col justify-center items-center rounded" :class="active(go) ? 'bg-primary-hover' : store().theme == 'dark' ? 'hover:bg-dark-hover' : 'hover:bg-slate-100'">
+              <i v-if="active(go)" :class="go.icon" class="text-2xl"></i>
+              <i v-else :class="go.icon" class="text-2xl"></i>
+              <span class="text-center text-xs capitalize">{{ go.path.slice(1) }}</span>
             </div>
           </template>
         </div>
@@ -40,12 +41,12 @@
         </div>
       </div>
       <!-- EXPAND BUTTON -->
-      <div class="relative">
+      <!-- <div class="relative">
         <button @click="nav()" class="w-8 h-8 bg-primary bottom-11 -ms-4 rounded-full opacity-80 fixed flex justify-center items-center">
           <svg v-if="store().nav" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3.5" stroke="currentColor" class="w-4 h-4 text-white"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg>
           <svg v-if="!store().nav" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3.5" stroke="currentColor" class="w-4 h-4 text-white"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
         </button>
-      </div>
+      </div> -->
     </div>
     <!-- MOBILE -->
     <div class="sm:sr-only flex text-sm  justify-center">
@@ -86,6 +87,19 @@ export default {
       parent: '',
       children: '',
       detail: '',
+      // menu: [
+      //   {key: 'dashboard', name: 'dashboard'},
+      //   {key: 'master', name: 'master'},
+      //   {key: 'transaksi', name: 'transaksi', child: [
+      //     {key: 'pemasukan', name: 'pemasukan'},
+      //     {key: 'produksi', name: 'produksi'},
+      //     {key: 'pengeluaran', name: 'pengeluaran'},
+      //     {key: 'pengiriman', name: 'pengiriman'},
+      //   ]},
+      //   {key: 'laporan', name: 'laporan', child: [
+      //     {}
+      //   ]},
+      // ]
     }
   },
   methods: {

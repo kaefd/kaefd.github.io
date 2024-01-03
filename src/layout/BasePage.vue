@@ -1,5 +1,5 @@
 <template>
-    <div class="h-screen w-full ps-0 md:ps-18 pt-16 pb-3 text-sm" :class="store().menu.option.key == undefined ? 'overflow-auto md:overflow-hidden' : 'overflow-hidden'">
+    <div class="h-screen w-full ps-0 md:ps-24 pt-16 pb-3 text-sm" :class="store().menu.option.key == undefined ? 'overflow-auto md:overflow-hidden' : 'overflow-hidden'">
         <div class="pt-5 mx-3 md:mx-5 h-[90%] md:h-full overflow-visible md:overflow-hidden rounded-xl animate__animated animate__fadeIn animate__slow" :class="store().theme == 'dark' ? 'dark' : 'bg-white'">
             <div class="flex flex-wrap justify-between items-end space-y-2 px-3 ms:px-4">
                 <div class="flex flex-col space-y-3 w-max">
@@ -12,11 +12,12 @@
                         <button @click="active('col')" class="h-[40px] w-[40px] rounded-full hover:bg-primary-hover">
                             <i class="ri-layout-5-line text-primary text-base"></i>
                         </button>
-                        <!-- <button class="h-[40px] w-[40px] rounded-full hover:bg-primary-hover">
-                            <i class="ri-download-line text-primary text-base"></i>
-                        </button> -->
-                        <ExportOption v-if="otoritas.check('pdf') || otoritas.check('xlsx')"/>
-                        <button v-if="config.filter != false" @click="active('filter')" class="h-[40px] w-[40px] rounded-full hover:bg-primary-hover"><i class="ri-filter-line text-primary text-base"></i></button>
+                        <div>
+                            <ExportOption v-if="otoritas.check('pdf') || otoritas.check('xlsx')"/>
+                        </div>
+                        <div>
+                            <button v-if="config.filter != false" @click="active('filter')" class="h-[40px] w-[40px] rounded-full hover:bg-primary-hover"><i class="ri-filter-line text-primary text-base"></i></button>
+                        </div>
                     </div>
                 </div>
             </div>

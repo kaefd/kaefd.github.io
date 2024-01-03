@@ -27,8 +27,8 @@ export default {
                     {title: 'Berat', key: 'berat', type: 'number', show: true, sort: 'desc'},
                 ],
                 field_detail: [
-                    {title: 'Kode Barang', key: 'kode_barang', type: 'option', item: [], show: true, rules: ['required']},
-                    {title: 'Kode Konversi', key: 'kode_konversi', type: 'text', show: true, rules: ['required']},
+                    {title: 'Kode Barang', key: 'kode_barang', type: 'option', item: [], show: true, edit: false, rules: ['required']},
+                    {title: 'Kode Konversi', key: 'kode_konversi', type: 'text', show: true, edit: false, rules: ['required']},
                     {title: 'Nama Konversi', key: 'nama_konversi', type: 'text', show: true, rules: ['required']},
                     {title: 'Satuan Konversi', key: 'satuan_konversi', type: 'text', show: true, rules: ['required']},
                     {title: 'Berat', key: 'berat', type: 'number', show: true, rules: ['required']},
