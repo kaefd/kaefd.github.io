@@ -29,8 +29,8 @@
                     <div class="w-full h-full rounded-lg" :class="store().theme == 'dark' ? 'dark' : 'bg-white'">
                         <slot name="detail"></slot>
                     </div>
-                    <div class="flex justify-start border-t mx-5 py-1 gap-x-5">
-                        <span v-for="p in param" class="">{{ 'Total ' + p.title + ': ' }} {{ sumTotalN(p) }}</span>
+                    <div class="flex justify-start border-t mx-5 py-2 gap-x-5">
+                        <span v-for="p in param" class="font-bold capitalize">{{ 'Total ' + p.title + ': ' }} {{ sumTotalN(p) }}</span>
                     </div>
                 </div>
             </slot>

@@ -5,7 +5,7 @@
       <div class="w-24 h-screen flex flex-col justify-center items-center border-e" :class="store().theme == 'dark' ? 'dark border-dark-hover' : 'bg-white'">
         <div class="flex flex-col space-y-5">
           <template v-for="go in $router.options.routes">
-            <div v-if="go.icon != false && otoritas.akses(go.name) == true" @click="current(go)" class="w-16 h-16 flex flex-col justify-center items-center rounded" :class="active(go) ? 'text-primary' : store().theme == 'dark' ? 'hover:bg-dark-hover' : 'hover:bg-slate-100'">
+            <div v-if="go.icon != false && otoritas.akses(go.name) == true" @click="current(go)" class="w-16 h-16 flex flex-col justify-center cursor-pointer items-center rounded" :class="active(go) ? 'text-primary' : store().theme == 'dark' ? 'hover:bg-dark-hover' : 'hover:bg-slate-100'">
               <i v-if="active(go)" :class="go.icon" class="text-2xl"></i>
               <i v-else :class="go.icon" class="text-2xl"></i>
               <span class="text-center text-xs capitalize">{{ go.path.slice(1) }}</span>
