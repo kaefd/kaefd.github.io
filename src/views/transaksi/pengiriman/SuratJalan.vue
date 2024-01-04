@@ -60,7 +60,7 @@
                                         <td class="w-max whitespace-pre-wrap px-3 text-left">{{ i+1 }}</td>
                                         <td class="w-max whitespace-pre-wrap px-3 text-left">{{ item.nama_barang }}</td>
                                         <td contenteditable class="w-max whitespace-pre-wrap px-3 text-left">{{ utils.numb(item.jumlah_konversi) }}</td>
-                                        <td contenteditable class="w-max whitespace-pre-wrap px-3 text-left">{{ item.satuan }}</td>
+                                        <td contenteditable class="w-max whitespace-pre-wrap px-3 text-left">{{ item.satuan_konversi }}</td>
                                         <td class="w-max whitespace-pre-wrap px-3 text-left">{{ utils.numb(item.jumlah) }}</td>
                                         <td class="w-max whitespace-pre-wrap px-3 text-left">{{ item.nopen }}</td>
                                     </tr>
