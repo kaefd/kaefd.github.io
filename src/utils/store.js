@@ -167,10 +167,10 @@ export const store = defineStore('store', {
       else if(state == 'master/konversi-barang' && data != '') return konversi.delete(data)
       else if(state == 'master/data-pelanggan' && data != '') return pelanggan.delete(data)
       else if(state == 'master/data-user' && data != '') return user.delete(data)
-      else if(state == 'pemasukan' && data != '') return pemasukan.delete(data)
-      else if(state == 'produksi' && data != '') return produksi.delete(data)
-      else if(state == 'pengeluaran' && data != '') return pengeluaran.delete(data)
-      else if(state == 'pengiriman' && data != '') return pengiriman.delete(data)
+      else if(state == 'transaksi/pemasukan' && data != '') return pemasukan.delete(data)
+      else if(state == 'transaksi/produksi' && data != '') return produksi.delete(data)
+      else if(state == 'transaksi/pengeluaran' && data != '') return pengeluaran.delete(data)
+      else if(state == 'transaksi/pengiriman' && data != '') return pengiriman.delete(data)
       
     },
     validate(rules, input, data) {
