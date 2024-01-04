@@ -72,7 +72,7 @@ export default {
   },
   methods: {
     sorts(data) {
-        let item = store().items
+        let item = this.items
         if(data.sort == 'desc') { 
             this.desc = true
             this.fields.map(it => it.sort = it.key == data.key ? 'asc' : it.sort)
