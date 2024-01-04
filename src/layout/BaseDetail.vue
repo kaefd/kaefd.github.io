@@ -11,7 +11,7 @@
                     </div>
                     <!-- HEAD -->
                     <slot name="header-content">
-                        <div class="h-max md:h-[50vh] xl:h-[35vh] flex flex-col flex-wrap gap-y-2 gap-x-32 pt-1 w-full">
+                        <div class="h-max md:h-max lg:h-[45vh] xl:h-[35vh] 2xl:h-[25vh] flex flex-col flex-wrap gap-y-2 gap-x-32 pt-1 w-full">
                             <div v-for="fl in field.filter(it => it.show == true)">
                                 <div class="flex justify-between items-center md:w-72">
                                     <label class="w-[24%] break-normal">{{ fl.title }}</label>

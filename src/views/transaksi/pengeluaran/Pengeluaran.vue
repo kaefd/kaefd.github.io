@@ -32,6 +32,7 @@ export default {
                     {title: 'Pelanggan', key: 'pelanggan', type: 'text', show: true, sort: 'desc'},
                     {title: 'Kode Group', key: 'kode_group', type: 'text', show: true, sort: 'desc'},
                     {title: 'Total Penjualan', key: 'total_penjualan', type: 'number', show: true, sort: 'desc'},
+                    {title: 'Status', key: 'status', type: 'text', show: true, sort: 'desc'},
                 ],
                 field_detail: [
                     {title: 'No Pengeluaran', key: 'no_penjualan', type: 'text', show: true, disabled: true},
@@ -74,8 +75,9 @@ export default {
                         {title: 'BC41', key: 'BC41', show: true},
                     ]},
                     {title: 'Status', key: 'status', type: 'checkbox', auth: 'Status Penjualan', item: [
-                        {title: 'Menunggu', key: 'open', show: true},
-                        {title: 'Selesai', key: 'close', show: true},
+                        {title: 'menunggu', key: 'open', show: true},
+                        {title: 'selesai', key: 'close', show: true},
+                        {title: 'semua', key: 'semua', show: true},
                     ]},
                 ],
                 param: [
@@ -87,15 +89,12 @@ export default {
     },
     methods: {
         async get () {
-            let a = otoritas.akses('Pengeluaran Barang')
+            let a = otoritas.Cakses('Pengeluaran Barang')
             if(a) {
                 let data = await pengeluaran.pengeluaran()
                 let kode = await pengeluaran.kodegroup()
                 this.config.field_detail[4].item.item = kode
-                store().$patch((state) => {
-                    state.items = data
-                    state.state = this.config
-                })
+                store().$patch((state) => {state.state = this.config })
             } else this.$router.push('/')
         }
     },

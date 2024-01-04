@@ -81,44 +81,57 @@ const routes = [
     ]
   },
   {
-    name: 'Pemasukan Barang',
-    subname: 'Data pemasukan barang',
-    path: '/pemasukan',
-    icon: 'ri-inbox-archive-line',
+    name: 'Transaksi',
+    subname: 'Transaksi Barang',
+    path: '/transaksi',
+    icon: 'ri-flow-chart',
     meta: {
       middleware: [middleware]
     },
-    component: () => import('@/views/pemasukan/Pemasukan.vue'),
-  },
-  {
-    name: 'Produksi Barang',
-    subname: 'Data Produksi barang',
-    path: '/produksi',
-    icon: 'ri-donut-chart-fill',
-    meta: {
-      middleware: [middleware]
-    },
-    component: () => import('@/views/produksi/Produksi.vue'),
-  },
-  {
-    name: 'Pengeluaran Barang',
-    subname: 'Data Pengeluaran barang',
-    path: '/pengeluaran',
-    icon: 'ri-inbox-unarchive-line',
-    meta: {
-      middleware: [middleware]
-    },
-    component: () => import('@/views/pengeluaran/Pengeluaran.vue'),
-  },
-  {
-    name: 'Pengiriman Barang',
-    subname: 'Data Pengiriman barang',
-    path: '/pengiriman',
-    icon: 'ri-send-plane-line',
-    meta: {
-      middleware: [middleware]
-    },
-    component: () => import('@/views/pengiriman/Pengiriman.vue'),
+    // redirect: '/master/data-barang',
+    component: () => import('@/views/transaksi/Transaksi.vue'),
+    children: [
+      {
+        name: 'Pemasukan Barang',
+        subname: 'Data pemasukan barang',
+        path: 'pemasukan',
+        // icon: 'ri-inbox-archive-line',
+        meta: {
+          middleware: [middleware]
+        },
+        component: () => import('@/views/transaksi/pemasukan/Pemasukan.vue'),
+      },
+      {
+        name: 'Produksi Barang',
+        subname: 'Data Produksi barang',
+        path: 'produksi',
+        // icon: 'ri-donut-chart-fill',
+        meta: {
+          middleware: [middleware]
+        },
+        component: () => import('@/views/transaksi/produksi/Produksi.vue'),
+      },
+      {
+        name: 'Pengeluaran Barang',
+        subname: 'Data Pengeluaran barang',
+        path: 'pengeluaran',
+        // icon: 'ri-inbox-unarchive-line',
+        meta: {
+          middleware: [middleware]
+        },
+        component: () => import('@/views/transaksi/pengeluaran/Pengeluaran.vue'),
+      },
+      {
+        name: 'Pengiriman Barang',
+        subname: 'Data Pengiriman barang',
+        path: 'pengiriman',
+        // icon: 'ri-send-plane-line',
+        meta: {
+          middleware: [middleware]
+        },
+        component: () => import('@/views/transaksi/pengiriman/Pengiriman.vue'),
+      },
+    ]
   },
   {
     name: 'Laporan',

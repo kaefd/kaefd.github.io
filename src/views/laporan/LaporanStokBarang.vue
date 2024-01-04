@@ -39,8 +39,7 @@ export default {
                     {title: 'Stok Akhir', key: 'stok_akhir', type: 'number', show: true},
                 ],
                 filter: [
-                    {title: 'Tanggal Awal', key: 'tgl_awal', type: 'date', rules: ['date:max tgl_akhir']},
-                    {title: 'Tanggal Akhir', key: 'tgl_akhir', type: 'date', rules: ['date:min tgl_awal', 'date:max '+ utils.today()]},
+                    {title: 'Periode', key: 'periode', type: 'date', rules: ['date:max '+ utils.today()]},
                     {title: 'Kategori Barang', key: 'kategori_barang', type: 'checkbox', item: [
                         {title: 'Bahan Baku', key: 'bahan_baku', show: true},
                         {title: 'Bahan Penolong', key: 'bahan_penolong', show: true},
@@ -59,12 +58,9 @@ export default {
             store().loader('on')
             let data = await stokbarang.barang()
             let kode_group = await stokbarang.kode_group()
+            this.config.filter[2].item = kode_group
             if(data) store().loader('off')
-            store().$patch((state) => {
-                state.items = data
-                state.state = this.config
-                state.state.filter[3].item = kode_group
-            })
+            store().$patch((state) => { state.state = this.config })
         },
     },
     beforeMount() {

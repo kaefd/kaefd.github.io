@@ -8,18 +8,21 @@ export default {
       else if(o == 'Master') {
           if(otoritas[i].jenis_otoritas == 'Data Barang' || otoritas[i].jenis_otoritas == 'Data Pelanggan' || otoritas[i].jenis_otoritas == 'Data Supplier' || otoritas[i].jenis_otoritas == 'Data Konversi Barang' || otoritas[i].jenis_otoritas == 'Data User') return true
       }
-      else if(o == 'Pemasukan Barang') {
-          if(otoritas[i].jenis_otoritas == 'Pembelian') return true
+      else if(o == 'Transaksi') {
+        if(otoritas[i].jenis_otoritas == 'Pembelian' || otoritas[i].jenis_otoritas == 'Produksi' || otoritas[i].jenis_otoritas == 'Penjualan' || otoritas[i].jenis_otoritas == 'Pengiriman') return true
       }
-      else if(o == 'Produksi Barang') {
-          if(otoritas[i].jenis_otoritas == 'Produksi') return true
-      }
-      else if(o == 'Pengeluaran Barang') {
-          if(otoritas[i].jenis_otoritas == 'Penjualan') return true
-      }
-      else if(o == 'Pengiriman Barang') {
-          if(otoritas[i].jenis_otoritas == 'Pengiriman') return true
-      }
+      // else if(o == 'Pemasukan Barang') {
+      //     if(otoritas[i].jenis_otoritas == 'Pembelian') return true
+      // }
+      // else if(o == 'Produksi Barang') {
+      //     if(otoritas[i].jenis_otoritas == 'Produksi') return true
+      // }
+      // else if(o == 'Pengeluaran Barang') {
+      //     if(otoritas[i].jenis_otoritas == 'Penjualan') return true
+      // }
+      // else if(o == 'Pengiriman Barang') {
+      //     if(otoritas[i].jenis_otoritas == 'Pengiriman') return true
+      // }
       else if(o == 'Laporan') {
           if(otoritas[i].jenis_otoritas == 'Laporan' || otoritas[i].jenis_otoritas == 'Laporan Stok Barang' || otoritas[i].jenis_otoritas == 'Laporan Pembelian' || otoritas[i].jenis_otoritas == 'Laporan Pengeluaran' || otoritas[i].jenis_otoritas == 'Laporan Pengiriman' || otoritas[i].jenis_otoritas == 'Laporan Log User') return true
       }
@@ -33,6 +36,10 @@ export default {
       else if(o == 'Data Pelanggan') {if(otoritas[i].jenis_otoritas == 'Data Pelanggan') return true}
       else if(o == 'Data Supplier') {if(otoritas[i].jenis_otoritas == 'Data Supplier') return true}
       else if(o == 'Data User') {if(otoritas[i].jenis_otoritas == 'Data User') return true}
+      else if(o == 'Pemasukan Barang') {if(otoritas[i].jenis_otoritas == 'Pembelian') return true}
+      else if(o == 'Produksi Barang') {if(otoritas[i].jenis_otoritas == 'Produksi') return true}
+      else if(o == 'Pengeluaran Barang') {if(otoritas[i].jenis_otoritas == 'Penjualan') return true}
+      else if(o == 'Pengiriman Barang') {if(otoritas[i].jenis_otoritas == 'Pengiriman') return true}
       else if(o == 'Laporan Stok Barang') {if(otoritas[i].jenis_otoritas == 'Laporan Stok Barang') return true}
       else if(o == 'Laporan Pemasukan') {if(otoritas[i].jenis_otoritas == 'Laporan Pembelian') return true}
       else if(o == 'Laporan Pengeluaran') {if(otoritas[i].jenis_otoritas == 'Laporan Penjualan') return true}

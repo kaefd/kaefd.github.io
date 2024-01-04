@@ -59,7 +59,7 @@ export default {
     },
     methods: {
         async get () {
-            let a = otoritas.akses('Produksi Barang')
+            let a = otoritas.Cakses('Produksi Barang')
             if(a) {
                 let data = await produksi.produksi()
                 this.config.field_detail[2].item.item = await produksi.kodegroup()

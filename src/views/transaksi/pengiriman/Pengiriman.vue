@@ -74,7 +74,7 @@ export default {
     },
     methods: {
         async get () {
-            let a = otoritas.akses('Pengiriman Barang')
+            let a = otoritas.Cakses('Pengiriman Barang')
             if(a) {
                 let data = await pengiriman.pengiriman()
                 let blmTerkirim = await pengiriman.blmTerkirim()

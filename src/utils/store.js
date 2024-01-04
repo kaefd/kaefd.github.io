@@ -4,10 +4,10 @@ import barang from '@/views/master/barang'
 import konversi from '../views/master/konversi'
 import pelanggan from '../views/master/pelanggan'
 import user from '../views/master/user'
-import pemasukan from '@/views/pemasukan/pemasukan'
-import produksi from '@/views/produksi/produksi'
-import pengeluaran from '../views/pengeluaran/pengeluaran'
-import pengiriman from '../views/pengiriman/pengiriman'
+import pemasukan from '@/views/transaksi/pemasukan/pemasukan'
+import produksi from '@/views/transaksi/produksi/produksi'
+import pengeluaran from '../views/transaksi/pengeluaran/pengeluaran'
+import pengiriman from '../views/transaksi/pengiriman/pengiriman'
 import stokbarang from '@/views/laporan/stokbarang'
 import alert from './alert'
 import utils from './utils'
@@ -23,6 +23,7 @@ export const store = defineStore('store', {
       dialog: false,
       suratjalan: false,
       do: false,
+      kodegroup: '',
       print: false,
       temp: '',
       otoritas: '',
@@ -60,7 +61,8 @@ export const store = defineStore('store', {
       this.cpr = ''
       this.nav = false
       this.loading = false
-      this.detail_dialog = false
+      this.dialog = false,
+      this.detail_dialog = false,
       this.s_detail = false
       this.filter = false
       this.column = false
@@ -96,10 +98,10 @@ export const store = defineStore('store', {
       let state = router.currentRoute.value.path.slice(1)
       if(state == 'master/data-barang') return barang.filterData(input, fl)
       else if(state == 'master/konversi-barang') return konversi.filterData(input, fl)
-      else if(state == 'pemasukan') return pemasukan.filterData(input, fl)
-      else if(state == 'produksi') return produksi.filterData(input, fl)
-      else if(state == 'pengeluaran') return pengeluaran.filterData(input, fl)
-      else if(state == 'pengiriman') return pengiriman.filterData(input, fl)
+      else if(state == 'transaksi/pemasukan') return pemasukan.filterData(input, fl)
+      else if(state == 'transaksi/produksi') return produksi.filterData(input, fl)
+      else if(state == 'transaksi/pengeluaran') return pengeluaran.filterData(input, fl)
+      else if(state == 'transaksi/pengiriman') return pengiriman.filterData(input, fl)
       else if(state == 'laporan/laporan-stok') return stokbarang.filterData(input, fl)
       else if(state == 'laporan/laporan-pemasukan') return pemasukan.filterData(input, fl)
       else if(state == 'laporan/laporan-pengeluaran') return pengeluaran.filterData(input, fl)
@@ -110,10 +112,10 @@ export const store = defineStore('store', {
       let state = router.currentRoute.value.path.slice(1)
       if(state == 'master/data-barang' && input != '') return barang.filtered(input)
       else if(state == 'master/konversi-barang' && input != '') return konversi.filtered(input)
-      else if(state == 'pemasukan' && input != '') return pemasukan.filtered(input)
-      else if(state == 'produksi' && input != '') return produksi.filtered(input)
-      else if(state == 'pengeluaran' && input != '') return pengeluaran.filtered(input)
-      else if(state == 'pengiriman' && input != '') return pengiriman.filtered(input)
+      else if(state == 'transaksi/pemasukan' && input != '') return pemasukan.filtered(input)
+      else if(state == 'transaksi/produksi' && input != '') return produksi.filtered(input)
+      else if(state == 'transaksi/pengeluaran' && input != '') return pengeluaran.filtered(input)
+      else if(state == 'transaksi/pengiriman' && input != '') return pengiriman.filtered(input)
       else if(state == 'laporan/laporan-stok' && input != '') return stokbarang.filtered(input)
       else if(state == 'laporan/laporan-pemasukan') return pemasukan.filtered(input)
       else if(state == 'laporan/laporan-pengeluaran') return pengeluaran.filtered(input)

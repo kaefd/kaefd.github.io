@@ -74,7 +74,7 @@ export default {
     },
     methods: {
         async get () {
-            let a = otoritas.akses('Pemasukan Barang')
+            let a = otoritas.Cakses('Pemasukan Barang')
             if(a) {
                 let data = await pemasukan.pemasukan()
                 store().$patch((state) => {

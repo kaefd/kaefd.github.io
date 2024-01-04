@@ -6,8 +6,8 @@
     </base-page>
 </template>
 <script setup>
-import pemasukan from '@/views/pemasukan/pemasukan'
-import PemasukanDetail from '@/views/pemasukan/PemasukanDetail.vue'
+import pemasukan from '@/views/transaksi/pemasukan/pemasukan'
+import PemasukanDetail from '@/views/transaksi/pemasukan/PemasukanDetail.vue'
 import { store } from '@/utils/store'
 import otoritas from '@/router/otoritas';
 import utils from '@/utils/utils';
@@ -98,4 +98,4 @@ export default {
         this.get()
     }
 }
-</script>
+</script>@/views/transaksi/pemasukan/pemasukan

@@ -1,6 +1,6 @@
 <template>
     <div class="p-3 h-[90%] md:h-full rounded-lg w-full" :class="store().theme == 'dark' ? 'dark' : 'bg-white'">
-        <div class="w-full h-full rounded-lg overflow-x-auto md:overflow-y-hidden">
+        <div class="w-full h-full overflow-x-auto md:overflow-y-hidden">
             <table id="table" class="w-full h-full text-xs text-left">
                 <thead class="w-full flex bg-primary-hover text-center text-sm">
                     <tr class="w-full flex items-center justify-between">
@@ -16,14 +16,14 @@
                         </th>
                     </tr>
                 </thead>
-                <tbody class="w-full h-[79%] md:h-[87%] flex flex-col pb-3 items-center overflow-auto" :class="store().menu.option.key == 'tambah' || store().menu.option.key == 'lihat' ? 'h-max md:h-[80%]' : 'h-max md:h-[90%]'">
+                <tbody class="w-full h-[79%] md:h-[87%] flex flex-col pb-6 items-center overflow-auto" :class="store().menu.option.key == 'tambah' || store().menu.option.key == 'lihat' ? 'h-max md:h-[80%]' : 'h-max md:h-[90%]'">
                     <tr v-if="master" v-for="item in items" @click="menu($event, item.head, item.detail)" class="w-full flex justify-between items-center cursor-pointer break-words" :class="store().theme == 'dark' ? 'hover:bg-dark-hover' : 'hover:bg-gray-100'">
-                        <td v-for="field, f in fieldCol" scope="row" class="px-6 py-3 w-[15%] min-w-[100px] whitespace-pre-wrap">
+                        <td v-for="field, f in fieldCol" scope="row" class="px-6 py-3 w-[15%] min-w-[100px] whitespace-pre-wrap capitalize">
                             {{ field.type == 'number' ? (item.head[field.key] > 0 ? utils.numb(item.head[field.key]) : 0) : (field.type == 'date' ? utils.formatDate(item.head[field.key]) : item.head[field.key]) }}
                         </td>
                     </tr>
                     <tr v-if="!master" v-for="item in items" @click="menu($event, item, item)" class="w-full flex justify-between items-center cursor-pointer break-words" :class="store().theme == 'dark' ? 'hover:bg-dark-hover' : 'hover:bg-gray-100'">
-                        <td v-for="field, f in fieldCol" scope="row" class="px-6 py-3 w-[15%] min-w-[100px] whitespace-pre-wrap">
+                        <td v-for="field, f in fieldCol" scope="row" class="px-6 py-3 w-[15%] min-w-[100px] whitespace-pre-wrap capitalize">
                             {{ field.type == 'number' ? (item[field.key] > 0 ? utils.numb(item[field.key]) : 0) : (field.type == 'date' ? utils.formatDate(item[field.key]) : item[field.key]) }}
                         </td>
                     </tr>
@@ -39,7 +39,7 @@
 <script setup>
 import utils from '@/utils/utils'
 import {store} from '@/utils/store'
-import pengiriman from '@/views/pengiriman/pengiriman'
+import pengiriman from '@/views/transaksi/pengiriman/pengiriman'
 import MenuOption from '@/components/menu/MenuOption.vue'
 </script>
 <script>
@@ -75,10 +75,10 @@ export default {
         let item = store().items
         if(data.sort == 'desc') { 
             this.desc = true
-            store().state.fields.map(it => it.sort = it.key == data.key ? 'asc' : it.sort)
+            this.fields.map(it => it.sort = it.key == data.key ? 'asc' : it.sort)
         } else {
             this.desc = false
-            store().state.fields.map(it => it.sort = it.key == data.key ? 'desc' : it.sort)
+            this.fields.map(it => it.sort = it.key == data.key ? 'desc' : it.sort)
         }
         if(data.type != 'number') {
             if(this.desc) item.sort((a, b) => b.head[data.key].localeCompare(a.head[data.key]))

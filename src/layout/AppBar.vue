@@ -5,21 +5,29 @@
       <div class="w-24 h-screen flex flex-col justify-center items-center border-e" :class="store().theme == 'dark' ? 'dark border-dark-hover' : 'bg-white'">
         <div class="flex flex-col space-y-5">
           <template v-for="go in $router.options.routes">
-            <div v-if="go.icon != false && otoritas.akses(go.name) == true" @click="current(go)" class="w-18 h-18 flex flex-col justify-center items-center rounded" :class="active(go) ? 'bg-primary-hover' : store().theme == 'dark' ? 'hover:bg-dark-hover' : 'hover:bg-slate-100'">
+            <div v-if="go.icon != false && otoritas.akses(go.name) == true" @click="current(go)" class="w-16 h-16 flex flex-col justify-center items-center rounded" :class="active(go) ? 'text-primary' : store().theme == 'dark' ? 'hover:bg-dark-hover' : 'hover:bg-slate-100'">
               <i v-if="active(go)" :class="go.icon" class="text-2xl"></i>
               <i v-else :class="go.icon" class="text-2xl"></i>
               <span class="text-center text-xs capitalize">{{ go.path.slice(1) }}</span>
             </div>
           </template>
+          <!-- <div @click="current()" class="w-18 h-18 flex flex-col justify-center items-center rounded">
+              <i :class="$router.options.routes.find(r => r.path == '/dashboard').icon" class="text-xl"></i>
+              <span class="text-center text-xs capitalize">dashboard</span>
+          </div>
+          <div class="w-18 h-18 flex flex-col justify-center items-center rounded">
+              <i :class="$router.options.routes.find(r => r.path == '/master').icon" class="text-xl"></i>
+              <span class="text-center text-xs capitalize">master</span>
+          </div>
+          <div class="w-18 h-18 flex flex-col justify-center items-center rounded">
+              <i class="ri-flow-chart text-xl"></i>
+              <span class="text-center text-xs capitalize">transaksi</span>
+          </div>
+          <div class="w-18 h-18 flex flex-col justify-center items-center rounded">
+              <i :class="$router.options.routes.find(r => r.path == '/laporan').icon" class="text-xl"></i>
+              <span class="text-center text-xs capitalize">laporan</span>
+          </div> -->
         </div>
-        <!-- <div class="flex flex-col space-y-5">
-          <div class="p-3 mx-auto rounded-full hover:bg-slate-100" :class="!active ? 'bg-primary shadow-xl' : ''">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" /></svg>
-          </div>
-          <div class="p-3 mx-auto rounded-full hover:bg-slate-100" :class="!active ? 'bg-primary shadow-xl' : ''">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9" /></svg>
-          </div>
-        </div> -->
       </div>
       <!-- DETAIL MENU -->
       <div class="h-screen flex flex-col justify-between pt-12 pb-10 items-start border-e rounded-e-3xl duration-300 overflow-hidden" :class="!store().nav ? 'w-0 ps-0' : (store().theme == 'dark' ? 'dark border-dark-hover w-72 ps-4' : 'bg-white w-72 ps-4')">
@@ -33,8 +41,8 @@
           <div v-for="child in children">
             <router-link v-if="otoritas.Cakses(child.name) == true" :to="parent+'/'+child.path" class="w-full">
               <div class="p-3 w-60 rounded-s rounded-e-3xl flex space-x-4 items-center" :class="$router.currentRoute.value.name == child.name ? 'bg-primary-hover' : (store().theme == 'dark' ? 'hover:bg-dark-hover' : 'hover:bg-slate-100')">
-                <i :class="child.icon" class="text-base"></i>
-                  <span>{{ child.name }}</span>
+                <i :class="child.icon"></i>
+                <span>{{ child.name }}</span>
               </div>
             </router-link>
           </div> 
@@ -53,9 +61,10 @@
       <kTabbar class="fixed left-0 bottom-0 h-16 flex items-center" :bgClass="store().theme == 'dark' ? 'dark' : 'bg-white'">
         <template v-for="go in $router.options.routes.slice(2)">
           <kTabbarLink v-if="go.icon != false && otoritas.akses(go.name) == true" @click="current(go)">
-            <div class="mx-auto rounded-full flex justify-center items-center w-10 h-10">
-              <i v-if="active(go)" :class="go.icon" class="text-xl text-primary-tint"></i>
+            <div class="mx-auto rounded-full flex flex-col justify-center items-center w-10 h-10">
+              <i v-if="active(go)" :class="go.icon" class="text-xl text-primary"></i>
               <i v-else :class="go.icon" class="text-xl"></i>
+              <span>{{ go.name }}</span>
             </div>
           </kTabbarLink>
         </template>
@@ -75,7 +84,7 @@
   </div>
 </template>
 <script setup>
-import { kLink, kTabbar, kTabbarLink } from 'konsta/vue'
+import { kTabbar, kTabbarLink } from 'konsta/vue'
 import { store } from '@/utils/store'
 import otoritas from '@/router/otoritas'
 </script>
@@ -87,19 +96,6 @@ export default {
       parent: '',
       children: '',
       detail: '',
-      // menu: [
-      //   {key: 'dashboard', name: 'dashboard'},
-      //   {key: 'master', name: 'master'},
-      //   {key: 'transaksi', name: 'transaksi', child: [
-      //     {key: 'pemasukan', name: 'pemasukan'},
-      //     {key: 'produksi', name: 'produksi'},
-      //     {key: 'pengeluaran', name: 'pengeluaran'},
-      //     {key: 'pengiriman', name: 'pengiriman'},
-      //   ]},
-      //   {key: 'laporan', name: 'laporan', child: [
-      //     {}
-      //   ]},
-      // ]
     }
   },
   methods: {

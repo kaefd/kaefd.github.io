@@ -42,6 +42,7 @@ export default {
             item.hs_code = [...new Set(hsc)].toString()
             item.satuan = [...new Set(satuan)].toString()
             item.jumlah = jumlah.reduce((accumulator, currentValue) => {return accumulator + currentValue}, 0)
+            item.status = item.status == 'open' ? 'menunggu' : 'selesai'
         })
         detail.map(item => item.total_harga = item.harga_jual * item.jumlah)
         for (let i = 0; i < head.length; i++) {
@@ -110,18 +111,18 @@ export default {
             tgl_akhir: store().periode[1]
         }
         await this.pengeluaran(p).then(response => {
-            if(filtered.find(f => f.key == 'close') != undefined && filtered.find(f => f.key == 'close') != undefined) x = response
-            else if(filtered.find(f => f.key == 'close') != undefined) x = response.filter(res => res.detail[0].jumlah_terkirim == res.detail[0].jumlah)
-            else if(filtered.find(f => f.key == 'open') != undefined) x = response.filter(res => res.detail[0].jumlah_terkirim != res.detail[0].jumlah)
-            else x = response
+            x = response
         })
         const filterData = x.filter(it => {
             let a = filtered.some(k => it.head.tipe_dokumen.includes(k.key))
-            // let b = filtered.some(k => it.head.status.includes(k.key))
-            return a
+            let b = ''
+            let all = filtered.find(f => f.key == 'semua')
+            if(all == undefined) {
+                b = filtered.some(k => it.head.status.includes(k.title))
+                return a && b
+            } else return a
         })
         store().$patch((state) => { state.items = filterData})
-        // else store().$patch((state) => { state.items = x})
 
     },
     create(data) {

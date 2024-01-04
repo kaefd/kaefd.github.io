@@ -9,10 +9,13 @@ export default {
     //         tgl_akhir: store().periode[1]
     //     }
     // },
+    kodeg(v) {
+        return v
+    },
     async barang (param) {
         store().loader('on')
         let barang = await api.getData('/barang?status=true')
-        let group = await api.getData('/group_barang')
+        let group = await api.getData('/group_barang', param)
         let data = []
         barang.map(item => {
             let stok = group.filter(it => it.kode_barang == item.kode_barang)
@@ -33,6 +36,7 @@ export default {
             })
             
         }
+        store().$patch((state) => { state.items = data})
         store().loader('off')
         return data
     },
@@ -40,7 +44,8 @@ export default {
         let group = await api.getData('group_barang')
         let barang = await api.getData('/barang?status=true')
         let data = store().master
-        let newG = group.filter(item => item.kode_barang == data.kode_barang)
+        let newG = store().kodegroup != '' ? group.filter(it => it.kode_group == store().kodegroup && it.kode_barang == data.kode_barang) : group.filter(it => it.kode_barang == data.kode_barang)
+        
         newG.map(item => {
             let brg = barang.find(it => it.kode_barang == item.kode_barang)
             item.kategori_barang = brg.kategori_barang
@@ -107,12 +112,13 @@ export default {
         return data
     },
     async filtered(input) {
+        if(input.kode_group != undefined) store().$patch((state) => state.kodegroup = input.kode_group)
         const periode = Object.fromEntries(
             Object.entries(input).filter(([key, value]) => value !== false && value !== true)
         )
         // store().$patch((state) => { state.periode = [periode.tgl_awal, periode.tgl_akhir]})
 
-        let ft_kategori = store().state.filter[2].item
+        let ft_kategori = store().state.filter[1].item
         let ft_kode = input.kode_group
         
         if(input != '') {
@@ -123,24 +129,17 @@ export default {
             })
         }
         store().$patch((state) => { 
-            state.state.filter[2].item = ft_kategori
+            state.state.filter[1].item = ft_kategori
         })
         const filtered = ft_kategori.filter(item => item.show === true)
        
         let x = ''
         
-        if(periode.tgl_awal != undefined) {store().$patch((state) => { state.periode[0] = periode.tgl_awal })}
-        if(periode.tgl_akhir != undefined) {store().$patch((state) => { state.periode[1] = periode.tgl_akhir })}
-
-        let p = {
-            tgl_awal: store().periode[0],
-            tgl_akhir: store().periode[1]
-        }
-        await this.barang().then(response => x = response)
+        await this.barang({kode_group: store().kodegroup}).then(response => x = response)
         const filterData = x.filter(it => {
                 let a = filtered.some(k => it.head.kategori_barang.includes(k.title))
                 let b = it.head.kode_group.find(k => k == input.kode_group) != undefined
-                return a || b
+                return a && b
             }
         )
         if(filtered != '') store().$patch((state) => { state.items = filterData})

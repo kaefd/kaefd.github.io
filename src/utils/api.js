@@ -22,9 +22,6 @@ export default {
       const response = await instance.get(url, { params: param })
       return response.data
     } catch (error) {
-      if(error.response.status == 401) {
-        alert.warning(null, 'Silakan login lagi')
-      }
       return this.logout()
     }
   },

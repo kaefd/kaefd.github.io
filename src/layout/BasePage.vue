@@ -64,8 +64,8 @@ import ExportOption from '@/components/menu/ExportOption.vue';
 import { store } from '@/utils/store'
 import otoritas from '@/router/otoritas'
 import CetakDokumen from '@/components/print/CetakDokumen.vue'
-import SuratJalan from '@/views/pengiriman/SuratJalan.vue'
-import CetakDo from '@/views/pengiriman/CetakDo.vue'
+import SuratJalan from '@/views/transaksi/pengiriman/SuratJalan.vue'
+import CetakDo from '@/views/transaksi/pengiriman/CetakDo.vue'
 </script>
 <script>
 export default {

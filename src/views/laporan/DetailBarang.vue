@@ -1,8 +1,8 @@
 <template>
-    <div class="h-full -mx-5 md:mx-0">
+    <div class="-mx-5 h-full">
         <base-table :fields="config.fields" :items="items" :master="true">
             <template #tb-detail>
-                <LogBarang v-if="store().dialog" :config="config" :items="items" />
+                <LogBarang v-if="store().dialog" :config="config"/>
             </template>
         </base-table>
     </div>
@@ -25,13 +25,13 @@ export default {
                     {title: 'Detail Data', key: 'lihat', value: true},
                 ],
                 fields: [
-                    {title: 'Kode Group', key: 'kode_group', type: 'text', show: true, sort: 'desc'},
-                    {title: 'Kategori Barang', key: 'kategori_barang', type: 'text', show: true, sort: 'desc'},
-                    {title: 'Kode Barang', key: 'kode_barang', type: 'text', show: true, sort: 'desc'},
-                    {title: 'Nama Barang', key: 'nama_barang', type: 'text', show: true, sort: 'desc'},
-                    {title: 'HS Kode', key: 'hs_code', type: 'text', show: true, sort: 'desc'},
-                    {title: 'Satuan', key: 'satuan', type: 'text', show: true, sort: 'desc'},
-                    {title: 'Stok Akhir', key: 'stok_akhir', type: 'number', show: true, sort: 'desc'},
+                    {title: 'Kode Group', key: 'kode_group', type: 'text', show: true},
+                    {title: 'Kategori Barang', key: 'kategori_barang', type: 'text', show: true},
+                    {title: 'Kode Barang', key: 'kode_barang', type: 'text', show: true},
+                    {title: 'Nama Barang', key: 'nama_barang', type: 'text', show: true},
+                    {title: 'HS Kode', key: 'hs_code', type: 'text', show: true},
+                    {title: 'Satuan', key: 'satuan', type: 'text', show: true},
+                    {title: 'Stok Akhir', key: 'stok_akhir', type: 'number', show: true},
                 ],
                 filter: [
                         {title: 'Kategori Barang', key: 'kategori_barang', type: 'checkbox', item: [
