@@ -11,6 +11,7 @@ import pengiriman from '../views/transaksi/pengiriman/pengiriman'
 import stokbarang from '@/views/laporan/stokbarang'
 import alert from './alert'
 import utils from './utils'
+import loguser from '@/views/laporan/loguser'
 
 export const store = defineStore('store', {
   state: () => {
@@ -106,7 +107,7 @@ export const store = defineStore('store', {
       else if(state == 'laporan/laporan-pemasukan') return pemasukan.filterData(input, fl)
       else if(state == 'laporan/laporan-pengeluaran') return pengeluaran.filterData(input, fl)
       else if(state == 'laporan/laporan-pengiriman') return pengiriman.filterData(input, fl)
-      else if(state == 'laporan/log-user') return user.filterData(input, fl)
+      else if(state == 'laporan/log-user' || 'log-activity') return loguser.filterData(input, fl)
     },
     filtered(input) {
       let state = router.currentRoute.value.path.slice(1)
@@ -120,7 +121,7 @@ export const store = defineStore('store', {
       else if(state == 'laporan/laporan-pemasukan') return pemasukan.filtered(input)
       else if(state == 'laporan/laporan-pengeluaran') return pengeluaran.filtered(input)
       else if(state == 'laporan/laporan-pengiriman') return pengiriman.filtered(input)
-      else if(state == 'laporan/log-user') return user.filtered(input)
+      else if(state == 'laporan/log-user' || 'log-activity') return loguser.filtered(input)
     },
     scol(input, fl) {
       let data = {}
@@ -148,10 +149,10 @@ export const store = defineStore('store', {
       if(state == 'master/konversi-barang' && data != '') return konversi.create(data)
       if(state == 'master/data-pelanggan' && data != '') return pelanggan.create(data)
       if(state == 'master/data-user') return user.create(data, fl)
-      if(state == 'pemasukan' && data != '') return pemasukan.create(data)
-      if(state == 'produksi' && data != '') return produksi.create(data)
-      if(state == 'pengeluaran' && data != '') return pengeluaran.create(data)
-      if(state == 'pengiriman' && data != '') return pengiriman.create(data)
+      if(state == 'transaksi/pemasukan' && data != '') return pemasukan.create(data)
+      if(state == 'transaksi/produksi' && data != '') return produksi.create(data)
+      if(state == 'transaksi/pengeluaran' && data != '') return pengeluaran.create(data)
+      if(state == 'transaksi/pengiriman' && data != '') return pengiriman.create(data)
     },
     update(data, fl) {
       let state = router.currentRoute.value.path.slice(1)

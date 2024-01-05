@@ -17,7 +17,7 @@ export default {
                 child: true,
                 permission: [],
                 fields: [
-                    {title: 'Tanggal', key: 'tanggal', type: 'date', show: true, sort: 'desc'},
+                    {title: 'Tanggal', key: 'tanggal', type: 'date', show: true, sort: 'asc'},
                     {title: 'Username', key: 'username', type: 'text', show: true, sort: 'desc'},
                     {title: 'Kategori', key: 'kategori', type: 'text', show: true, sort: 'desc'},
                     {title: 'Keterangan', key: 'keterangan', type: 'text', show: true, sort: 'desc'},
@@ -36,10 +36,14 @@ export default {
             let a = otoritas.Cakses('Laporan Log User')
             if(a) {
                 store().loader('on')
-                let data = await loguser.log(this.user)
+                let param = {
+                    username: this.user,
+                    tgl_awal: store().periode[0],
+                    tgl_akhir: store().periode[1],
+                }
+                let data = await loguser.log(param, this.config.fields[0])
                 if(data) store().loader('off')
                 store().$patch((state) => {
-                    state.items = data
                     state.state = this.config
                 })
             } else this.$router.push('/')

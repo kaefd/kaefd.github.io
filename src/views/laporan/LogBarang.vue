@@ -68,17 +68,6 @@ export default {
     },
     methods: {
         async get() {
-            // store().loader('on')
-            // let data = await stokbarang.logBarang()
-            // if(data) store().loader('off')
-            // store().$patch((state) => {
-            //     state.items = data
-            //     state.state = this.config
-            //     // state.menu.option = ''
-            //     // state.detail_dialog = false
-            //     // state.filter = false
-            //     // state.column = false
-            // })
             this.items = await stokbarang.logBarang()
         },
         input(v) {
@@ -87,7 +76,10 @@ export default {
             this.get()
         },
         close() {
-            store().$patch((state) => state.dialog = false)
+            store().$patch((state) => {
+                state.dialog = false
+                state.periode = [utils.last_month(), utils.today()]
+            })
         }
     },
     mounted() {

@@ -9,7 +9,7 @@ export default {
 	//         tgl_akhir: store().periode[1],
 	//     }
 	// },
-	async produksi(param) {
+	async produksi(param, fl) {
 		let parameters = "";
 		if (param) parameters = param;
 		else
@@ -52,9 +52,11 @@ export default {
 				detail: barang.filter((item) => a[i].no_produksi == item.no_produksi),
 			});
 		}
-		store().$patch((state) => { state.items = data })
+		let field = fl || store().state.fields[0]
+		let newdata = data.sort((a, b) => b.head[field.key].localeCompare(a.head[field.key]))
+		store().$patch((state) => { state.items = newdata })
 		store().loader("off");
-		return data;
+		return newdata;
 	},
 	async kodegroup() {
 		let array = await api.getData("group_barang");

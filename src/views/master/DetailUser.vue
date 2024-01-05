@@ -119,8 +119,6 @@ export default {
             if(store().menu.option.key != 'tambah') store().detail.map(item => item.active = val.title != item.title ? false : (item.active == true ? false : true) )
             else if(store().menu.option.key == 'tambah') {
                 this.model.map(item => item.active = val.title == item.title ? !item.active : false)
-                this.$nextTick(() =>  this.model)
-                console.log(this.model);
                 
             }
         },
@@ -134,6 +132,7 @@ export default {
             })
         },
         input(value) {
+            console.log(value);
             let a = []
             a.push(value)
             for (let i = 0; i < a.length; i++) {

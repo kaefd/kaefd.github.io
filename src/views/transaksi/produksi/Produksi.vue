@@ -25,7 +25,7 @@ export default {
                     {title: 'Batal Produksi', key: 'hapus', value: true},
                 ],
                 fields: [
-                    {title: 'No Produksi', key: 'no_produksi', type: 'text', show: true, sort: 'desc'},
+                    {title: 'No Produksi', key: 'no_produksi', type: 'text', show: true, sort: 'asc'},
                     {title: 'Tgl Produksi', key: 'tgl_produksi', type: 'date', show: true, sort: 'desc'},
                     {title: 'Kode Group', key: 'kode_group', type: 'text', show: true, sort: 'desc'},
                     {title: 'Bahan Baku', key: 'kode_bahan', type: 'text', show: true, sort: 'desc'},
@@ -61,7 +61,7 @@ export default {
         async get () {
             let a = otoritas.Cakses('Produksi Barang')
             if(a) {
-                let data = await produksi.produksi()
+                let data = await produksi.produksi(null, this.config.fields[0])
                 this.config.field_detail[2].item.item = await produksi.kodegroup()
                 store().$patch((state) => {
                     state.items = data

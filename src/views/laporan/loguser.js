@@ -1,17 +1,9 @@
 import api from '@/utils/api'
 import {store} from '@/utils/store'
 export default {
-    parameters(user, value) {
-        if(value && !user) return  value
-        else return {
-            tgl_awal: store().periode[0],
-            tgl_akhir: store().periode[1],
-            username: user
-        }
-    },
-    async log (user, param) {
-        let head = await api.getData('/log_user', this.parameters(user, param))
-        if(!head) api.logout()
+    async log (param, fl) {
+        store().loader('on')
+        let head = await api.getData('/log_user', param)
         let data = []
         for (let i = 0; i < head.length; i++) {
             data.push({
@@ -19,7 +11,11 @@ export default {
             })
             
         }
-        return data
+        let field = fl || store().state.fields[0]
+        let newdata = data.sort((a, b) => b.head[field.key].localeCompare(a.head[field.key]))
+        store().$patch((state) => state.items = newdata)
+        store().loader('off')
+        return newdata
     },
     filterData(input, fl) {
         let data = {}
@@ -39,12 +35,21 @@ export default {
         return data
     },
     async filtered(input) {
-        const filtered = Object.fromEntries(
+        const periode = Object.fromEntries(
             Object.entries(input).filter(([key, value]) => value !== false)
         )
-        const periode = [filtered.tgl_awal, filtered.tgl_akhir]
+        if (periode.tgl_awal != undefined) {
+			store().$patch((state) => {
+				state.periode[0] = periode.tgl_awal;
+			});
+		}
+		if (periode.tgl_akhir != undefined) {
+			store().$patch((state) => {
+				state.periode[1] = periode.tgl_akhir;
+			});
+		}
         let x = ''
-        await this.log($user, {tgl_awal: periode[0], tgl_akhir: periode[1]}).then(response => x = response)
+        await this.log({tgl_awal: store().periode[0], tgl_akhir: store().periode[1]}).then(response => x = response)
         store().$patch((state) => { state.items = x})
     },
 }

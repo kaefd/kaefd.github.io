@@ -9,7 +9,7 @@ export default {
 	//         tgl_akhir: store().periode[1],
 	//     }
 	// },
-	async pengiriman(param) {
+	async pengiriman(param, fl) {
 		let parameters = "";
 		if (param) parameters = param;
 		else
@@ -70,9 +70,11 @@ export default {
 				),
 			});
 		}
-		store().$patch((state) => { state.items = data })
+		let field = fl || store().state.fields[0]
+		let newdata = data.sort((a, b) => b.head[field.key].localeCompare(a.head[field.key]))
+		store().$patch((state) => { state.items = newdata })
 		store().loader("off");
-		return data;
+		return newdata;
 	},
 	detail(data) {
 		data.map(async (item) => {
@@ -208,9 +210,7 @@ export default {
 			.then((res) => {
 				if (res.status == 200) {
 					alert.success(null, res.data);
-					store().$patch((state) => {
-						state.detail_dialog = false;
-					});
+					store().resetState()
 				} else alert.success(null, "Data Berhasil Disimpan");
 				this.pengiriman();
 			})

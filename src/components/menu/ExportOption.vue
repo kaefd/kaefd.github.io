@@ -11,8 +11,8 @@
                 </div>
             </template>
         </div>
+        <div v-if="active" @click="active = false" class="absolute h-screen w-screen top-0 right-0 -me-15 z-[1]"></div>
     </div>
-    <div v-if="active" @click="active = false" class="h-screen w-screen bottom-0 left-0 z-[1] absolute"></div>
 </template>
 <script setup>
 import { store } from '@/utils/store'
@@ -36,7 +36,7 @@ export default {
         exp(value) {
             const title = this.$router.currentRoute.value.name
             const type = 'xlsx'
-           if(value.key == 'excel') this.exportExcel(title, type)
+           if(value.key == 'xlsx') this.exportExcel(title, type)
            else if(value.key == 'pdf') this.exportPdf(title)
         },
         async exportExcel(title, type, fn, dl) {
@@ -68,7 +68,7 @@ export default {
                 headStyles: { fillColor: [95,160,203], cellPadding: 3},
                 margin: { top: 10 },
                 body: items,
-                columns: this.fields,
+                columns: this.fields.filter(item => item.show == true),
 
             })
             doc.save(`${title}.pdf`);

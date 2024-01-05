@@ -9,7 +9,7 @@ export default {
 	//         tgl_akhir: store().periode[1],
 	//     }
 	// },
-	async pemasukan(param) {
+	async pemasukan(param, fl) {
 		store().loader("on");
 		let parameters = "";
 		if (param) parameters = param;
@@ -22,7 +22,6 @@ export default {
 		let detail = await api.getData("/pembelian_detail", parameters);
 		let supplier = await api.getData("/supplier");
 		let data = [];
-		if (!head) api.logout();
 		head.map((item) => {
 			let sp = supplier.filter((it) => it.kode_supplier == item.kode_supplier);
 			let dtl = detail.filter((it) => it.no_pembelian == item.no_pembelian);
@@ -48,9 +47,11 @@ export default {
 				),
 			});
 		}
-		store().$patch((state) => { state.items = data })
+		let field = fl || store().state.fields[0]
+		let newdata = data.sort((a, b) => b.head[field.key].localeCompare(a.head[field.key]))
+		store().$patch((state) => { state.items = newdata })
 		store().loader("off");
-		return data;
+		return newdata;
 	},
 	filterData(input, fl) {
 		let data = {};
@@ -180,7 +181,6 @@ export default {
 				this.pemasukan();
 			})
 			.catch((error) => {
-				console.log(error);
 				if (error.response.status == 500) {
 					alert.failed(null, error.response.data);
 				} else alert.failed(null);

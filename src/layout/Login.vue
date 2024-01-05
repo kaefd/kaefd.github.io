@@ -32,12 +32,12 @@
                 </div>
             </div>
             <div class="w-3/4 ms-10">
-                <base-input type="checkbox" label="Remember me" @input="input" :class="load ? 'cursor-wait' : ''"/>
+                <base-input type="checkbox" label="Ingat saya" @input="input" :value="remember" :class="load ? 'cursor-wait' : ''"/>
             </div>
             <pills-button type="submit" label="login" class="bg-primary-tint text-white w-3/4 shadow-xl focus-within:shadow" :class="load ? 'cursor-wait' : ''"></pills-button>
         </form>
         <div class="text-center">
-            <button @click="forget()" class="underline" :class="load ? 'cursor-wait' : ''">forgot password</button>
+            <button @click="forget()" class="underline" :class="load ? 'cursor-wait' : ''">lupa password</button>
         </div>
     </div>
     <div class="absolute flex flex-col text-center bottom-5">

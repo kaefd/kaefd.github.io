@@ -75,7 +75,8 @@ export default {
         const params = {
             tgl_awal: store().periode[0],
             tgl_akhir: store().periode[1],
-            kode_group: store().master.kode_group
+            kode_group: store().master.kode_group,
+            kode_barang: store().master.kode_barang
         }
         const log = await api.getData('/log_barang?', params)
         // let data = store().master

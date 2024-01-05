@@ -125,7 +125,7 @@ export default {
                             value: detail.find(it => it.username == head[i].username && it.jenis_otoritas == 'Pengiriman') == undefined ? 'false' : detail.find(it => it.username == head[i].username && it.jenis_otoritas == 'Pengiriman').status,
                             active: false,
                             item: [
-                                {title: 'Tambah Pengiriman Baru', key: 'tambah_pengiriman_baru', value: detail.find(it => it.jenis_otoritas == 'Tambah Pengiriman Baru' && it.username == head[i].username) == 'true' ? 'true' : (detail.find(it => it.jenis_otoritas == 'Tambah Pengiriman Baru' && it.username == head[i].username) == undefined ? 'false' : 'true')},
+                                {title: 'Tambah Pengiriman Baru', key: 'tambah_pengiriman_baru', value: detail.find(it => it.jenis_otoritas == 'Tambah Pengiriman Baru' && it.username == head[i].username) == undefined ? 'false' : detail.find(it => it.jenis_otoritas == 'Tambah Pengiriman Baru' && it.username == head[i].username).status},
                                 {title: 'Cetak Surat Jalan', key: 'cetak_surat_jalan', value: detail.find(it => it.jenis_otoritas == 'Cetak Surat Jalan' && it.username == head[i].username) == undefined ? 'false' : detail.find(it => it.jenis_otoritas == 'Cetak Surat Jalan' && it.username == head[i].username).status},
                                 {title: 'Cetak DO', key: 'cetak_do', value: detail.find(it => it.jenis_otoritas == 'Cetak DO' && it.username == head[i].username) == undefined ? 'false' : detail.find(it => it.jenis_otoritas == 'Cetak DO' && it.username == head[i].username).status},
                                 {title: 'Batal Pengiriman', key: 'batal_pengiriman', value: detail.find(it => it.jenis_otoritas == 'Batal Pengiriman' && it.username == head[i].username) == undefined ? 'false' : detail.find(it => it.jenis_otoritas == 'Batal Pengiriman' && it.username == head[i].username).status},
@@ -143,7 +143,7 @@ export default {
                                 {title: 'Laporan Stok Barang', key: 'laporan_stok_barang', value: detail.find(it => it.jenis_otoritas == 'Laporan Stok Barang' && it.username == head[i].username) == undefined ? 'false' : detail.find(it => it.jenis_otoritas == 'Laporan Stok Barang' && it.username == head[i].username).status},
                                 {title: 'Laporan Pembelian', key: 'laporan_pembelian', value: detail.find(it => it.jenis_otoritas == 'Laporan Pembelian' && it.username == head[i].username) == undefined ? 'false' : detail.find(it => it.jenis_otoritas == 'Laporan Pembelian' && it.username == head[i].username).status},
                                 {title: 'Laporan Penjualan', key: 'laporan_penjualan', value: detail.find(it => it.jenis_otoritas == 'Laporan Penjualan' && it.username == head[i].username) == undefined ? 'false' : detail.find(it => it.jenis_otoritas == 'Laporan Penjualan' && it.username == head[i].username).status},
-                                {title: 'Laporan Pengiriman', key: 'laporan_pengiriman', value: detail.find(it => it.jenis_otoritas == 'Laporan Pengiriman' && it.username == head[i].username) == 'true' ? 'true' : (detail.find(it => it.jenis_otoritas == 'Laporan Pengiriman' && it.username == head[i].username) == undefined ? 'false' : 'true')},
+                                {title: 'Laporan Pengiriman', key: 'laporan_pengiriman', value: detail.find(it => it.jenis_otoritas == 'Laporan Pengiriman' && it.username == head[i].username) == undefined ? 'false' : detail.find(it => it.jenis_otoritas == 'Laporan Pengiriman' && it.username == head[i].username).status},
                                 {title: 'Laporan Log User', key: 'laporan_log_user', value: detail.find(it => it.jenis_otoritas == 'Laporan Log User' && it.username == head[i].username) == undefined ? 'false' : detail.find(it => it.jenis_otoritas == 'Laporan Log User' && it.username == head[i].username).status},
                             ]
                         },
@@ -278,14 +278,14 @@ export default {
             detail.push({
                 username: master.username,
                 jenis_otoritas: fl[i].title,
-                status: input[fl[i].title] != undefined ? String(input[fl[i].title]) : (fl[i].value != 'undefined' ? String(fl[i].value) : 'false')
+                status: input[fl[i].title] != undefined ? String(input[fl[i].title]) : (fl[i].value != undefined ? String(fl[i].value) : 'false')
             })
             if(fl[i].item) {
                 for (let j = 0; j < fl[i].item.length; j++) {
                     detail.push({
                         username: master.username,
                         jenis_otoritas: fl[i].item[j].title,
-                        status: input[fl[i].item[j].title] != undefined ? String(input[fl[i].item[j].title]) : (fl[i].item[j].value != 'undefined' ? String(fl[i].item[j].value) : 'false')
+                        status: input[fl[i].item[j].title] != undefined ? String(input[fl[i].item[j].title]) : (fl[i].item[j].value != undefined ? String(fl[i].item[j].value) : 'false')
                     })
                 }
             }
@@ -295,7 +295,6 @@ export default {
             password: input.password,
             otoritas: JSON.stringify(detail)
         }
-        
         api.update('/user', data).then(res => {
             if(res.status == 200) {
 				alert.success(null, res.data)

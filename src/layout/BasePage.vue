@@ -9,14 +9,22 @@
                 <div class="flex items-center justify-center md:justify-end space-x-2 w-max">
                     <base-input type="search" variant="tonal" @search="input"></base-input>
                     <div class="flex gap-x-0 md:gap-x-2 items-center">
-                        <button @click="active('col')" class="h-[40px] w-[40px] rounded-full hover:bg-primary-hover">
-                            <i class="ri-layout-5-line text-primary text-base"></i>
-                        </button>
-                        <div>
-                            <ExportOption v-if="otoritas.check('pdf') || otoritas.check('xlsx')"/>
+                        <div class="group flex relative">
+                            <button @click="active('col')" class="h-[40px] w-[40px] rounded-full hover:bg-primary-hover">
+                                <i class="ri-layout-5-line text-primary text-base"></i>
+                            </button>
+                            <span class="z-[1] w-max group-hover:opacity-100 transition-opacity bg-gray-500 p-2 text-xs text-gray-100 rounded-md absolute left-1/2 
+                            -translate-x-1/2 translate-y-full opacity-0 mt-2 mx-auto capitalize">pilih kolom</span>
                         </div>
-                        <div>
+                        <div class="group flex relative">
+                            <ExportOption v-if="otoritas.check('pdf') || otoritas.check('xlsx')" :fields="store().state.fields"/>
+                            <span class="z-[1] w-max group-hover:opacity-100 transition-opacity bg-gray-500 p-2 text-xs text-gray-100 rounded-md absolute left-1/2 
+                            -translate-x-1/2 translate-y-full opacity-0 mt-2 mx-auto capitalize">export data</span>
+                        </div>
+                        <div class="group flex relative">
                             <button v-if="config.filter != false" @click="active('filter')" class="h-[40px] w-[40px] rounded-full hover:bg-primary-hover"><i class="ri-filter-line text-primary text-base"></i></button>
+                            <span class="z-[1] w-max group-hover:opacity-100 transition-opacity bg-gray-500 p-2 text-xs text-gray-100 rounded-md absolute left-1/2 
+                            -translate-x-1/2 translate-y-full opacity-0 mt-2 mx-auto capitalize">filter data</span>
                         </div>
                     </div>
                 </div>

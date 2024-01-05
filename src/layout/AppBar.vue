@@ -102,32 +102,28 @@ export default {
     current(value) {
       let stores = store()
       let child = value.children
-      let before = this.$router.currentRoute.value.matched[0].path
+      let before = this.$router.currentRoute.value.matched
       if(value.children) {
         this.parent = value.path
         this.detail = value
         this.children = child
-        stores.$patch((state) => {
-          state.nav = !state.nav
-        })
+        // jika before punya child dan current punya child dan before == current maka jikan nav true maka false jika false maka true
+        // jika before punya child dan current punya child maka true dan before != current maka true
+        // jka before tidak punya child dan current punya child maka true
+        // jika before punya child dan current tidak maka false
+        if(before.length > 1 && before[0].path == value.path && !store().nav) store().$patch((state) => {state.nav = true})
+        else if(before.length > 1 && before[0].path != value.path && !store().nav) store().$patch((state) => {state.nav = true})
+        else if(before.length > 1 && before[0].path == value.path && !store().nav) store().$patch((state) => {state.nav = false})
+        else if(before.length > 1 && before[0].path == value.path && store().nav) store().$patch((state) => {state.nav = false})
+        else if(before.length == 1 && before[0].path != value.path && !store().nav) store().$patch((state) => {state.nav = true})
+
       } else {
-        this.$router.push(value.path).then(()=>{
+        this.$router.push(value.path).then(() => {
           stores.$patch((state) => {
             state.nav = false
           })
         })
       }
-      // this.$router.push(value.path).then(()=>{
-      //   if(child) { 
-      //     this.children = child
-      //     let stat = stores.nav
-      //     if(before == this.$router.currentRoute.value.matched[0].path && stat) stores.$patch((state: { nav: boolean; }) => { state.nav = false })
-      //     else stores.$patch((state: { nav: boolean; }) => { state.nav = true })
-      //   } else {
-      //     this.children = ''
-      //     stores.$patch((state: { nav: boolean; }) => { state.nav = false })
-      //   }
-      // })
     },
     active(value) {
       return this.$router.currentRoute.value.path == value.path || this.$router.currentRoute.value.matched[0].path == value.path ? true : false

@@ -51,6 +51,7 @@ export default {
             if(param == 'out') api.logout()
             if(param == 'log') this.$router.push({path: '/log-aktivitas'})
             if(param == 'setting') this.setting = true
+            this.active = false
         },
         close(v) {
             this.setting = v

@@ -18,7 +18,7 @@
                         <!-- title -->
                         <div class="w-full flex flex-col items-center">
                             <span class="font-semibold text-lg uppercase">pt. auri steel metalindo</span>
-                            <div class="w-full border border-black"></div>
+                            <div class="w-full border border-black my-1"></div>
                             <span class="font-semibold text-lg uppercase">surat jalan</span>
                             <div class="w-full flex justify-between text-[10.5pt]">
                                 <div class="flex gap-x-2">

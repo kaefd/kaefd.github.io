@@ -23,7 +23,7 @@ export default {
                     {title: 'Detail Pemasukan', key: 'lihat', value: true},
                 ],
                 fields: [
-                    {title: 'No Pemasukan', key: 'no_pembelian', type: 'text', show: true, sort: 'desc'},
+                    {title: 'No Pemasukan', key: 'no_pembelian', type: 'text', show: true, sort: 'asc'},
                     {title: 'Tgl Masuk', key: 'tgl_pembelian', type: 'date', show: true, sort: 'desc'},
                     {title: 'Tipe Dokumen', key: 'tipe_dokumen', type: 'text', show: true, sort: 'desc'},
                     {title: 'No Dokumen', key: 'no_dokumen', type: 'text', show: true, sort: 'desc'},
@@ -78,7 +78,7 @@ export default {
             let a = otoritas.Cakses('Laporan Pemasukan')
             if(a) {
                 store().loader('on')
-                let data = await pemasukan.pemasukan()
+                let data = await pemasukan.pemasukan(null, this.config.fields[0])
                 if(data) store().loader('off')
                 store().$patch((state) => {
                     state.items = data

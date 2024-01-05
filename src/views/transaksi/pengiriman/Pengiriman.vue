@@ -35,7 +35,7 @@ export default {
                     {title: 'Batal Pengiriman', key: 'hapus', value: true},
                 ],
                 fields: [
-                    {title: 'No Pengiriman', key: 'no_pengiriman', type: 'text', show: true, sort: 'desc'},
+                    {title: 'No Pengiriman', key: 'no_pengiriman', type: 'text', show: true, sort: 'asc'},
                     {title: 'Tgl Pengiriman', key: 'tgl_pengiriman', type: 'date', show: true, sort: 'desc'},
                     {title: 'Pelanggan', key: 'pelanggan', type: 'text', show: true, sort: 'desc'},
                     {title: 'Tujuan Bongkar', key: 'tujuan_bongkar', type: 'text', show: true, sort: 'desc'},
@@ -76,7 +76,7 @@ export default {
         async get () {
             let a = otoritas.Cakses('Pengiriman Barang')
             if(a) {
-                let data = await pengiriman.pengiriman()
+                let data = await pengiriman.pengiriman(null, this.config.fields[0])
                 let blmTerkirim = await pengiriman.blmTerkirim()
                 this.config.permission[0].item.item = blmTerkirim
                 store().$patch((state) => {

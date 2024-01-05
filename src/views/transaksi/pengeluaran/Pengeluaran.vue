@@ -91,7 +91,7 @@ export default {
         async get () {
             let a = otoritas.Cakses('Pengeluaran Barang')
             if(a) {
-                let data = await pengeluaran.pengeluaran()
+                let data = await pengeluaran.pengeluaran(null, this.config.fields[0])
                 let kode = await pengeluaran.kodegroup()
                 this.config.field_detail[4].item.item = kode
                 store().$patch((state) => {state.state = this.config })
