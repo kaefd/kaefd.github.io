@@ -61,8 +61,8 @@ export default {
         },
         async chartData() {
             store().loader('on')
-            this.chart = await dashboard.chart(this.activeData.chart, this.periode)
             let item = await dashboard.items(this.periode)
+            this.chart = await dashboard.chart(this.activeData.chart, this.periode)
             for (let i = 0; i < this.cards.length; i++) {
                 this.cards[i].content = utils.numb(item[i].sum)
             }

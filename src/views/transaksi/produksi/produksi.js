@@ -21,7 +21,6 @@ export default {
 		let head = await api.getData("/produksi_head", parameters);
 		let bahan = await api.getData("/produksi_detail_bahan", parameters);
 		let barang = await api.getData("/produksi_detail_barang", parameters);
-		if (!head) api.logout();
 		let data = [];
 		let a = [];
 		for (let i = 0; i < head.length; i++) {

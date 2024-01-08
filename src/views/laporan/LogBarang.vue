@@ -14,14 +14,14 @@
                 </div>
             </div>
             <base-filter :fields="store().state.filter" :column="false" :items="store().items"></base-filter> -->
-            <div class="h-[95%] md:h-full w-full mx-0 md:-mx-5">
-                <div class="w-full flex flex-wrap justify-end mx-3">
+            <div class="h-[95%] md:h-full w-full">
+                <div class="w-full flex flex-wrap justify-end">
                     <div v-for="(fl, i) in config.filter" class="w-full md:w-fit flex flex-col flex-wrap">
                         <span class="capitalize">{{ fl.title }}</span>
                         <base-input :type="fl.type" :rules="fl.rules" :label="fl.key" :value="store().periode[i]" @input="input"></base-input>
                     </div>
                 </div>
-                <div class="h-[73%] md:h-full w-full">
+                <div class="h-[73%] md:h-[85%] w-full">
                     <base-table :fields="config.fields" :permission="config" :items="items" :master="true" :s_table="true">
                         <template #tb-detail>
                             <span></span>

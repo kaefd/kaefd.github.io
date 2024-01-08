@@ -68,10 +68,8 @@ export default {
     },
     methods: {
         close() {
-            store().$patch((state) => {
-                state.detail_dialog = false
-                state.menu.option = ''
-            })
+           store().resetState()
+           this.tmp = []
         },
         sumTotalN(prm) {
             let arr = []
@@ -91,6 +89,7 @@ export default {
             store().$patch((state) => { 
                 // state.i_dialog.show = !state.i_dialog.show
                 state.i_dialog.item = state.state.permission[0].item
+                state.s_detail = ''
             })
         },
         dialogI(value) {
@@ -114,7 +113,7 @@ export default {
             if(store().menu.option.key != 'edit') store().$patch((state) => { state.detailDump = this.dataitem})
             else store().$patch((state) => { state.detailDump = state.master })
         },
-        submited() {
+        async submited() {
             let opt = store().menu.option.key
             let head = store().state.field_detail.filter(item => item.rules != undefined)
             // let detail = store().state.dialog_field.filter(item => item.rules != undefined).slice(1)
@@ -128,11 +127,14 @@ export default {
                     if(opt == 'tambah') store().create(this.dataitem)
                     else if(opt == 'edit') store().update(store().master)
                 } else if (this.child && store().detail != '') {
-                    if(opt == 'tambah') store().create(this.dataitem)
+                    if(opt == 'tambah') { 
+                        let a = await store().create(this.dataitem)
+                        if(a == 'success') this.tmp = []
+                    }
                     else if(opt == 'edit') store().update(store().master)
                 } else if (store().detail == '') alert.warning(null, 'detail masih kosong') 
             }
         }
-    }
+    },
 }
 </script>

@@ -162,23 +162,5 @@ export default {
     mounted() {
         if(this.open) this.get()
     },
-    // updated() {
-    //     this.items = this.item
-    // },
-    // unmounted() {
-    //     this.get()
-    // },
-    // destroyed() {
-    //     // this.get()
-    //     this.dataitem = ''
-    //     this.saved = []
-    //     // this.items = ''
-    //     // store().resetState()
-    //     store().$patch((state) => {
-    //         state.i_dialog.show = false
-    //         state.i_dialog.item = ''
-    //         }
-    //     )
-    // },
 }
 </script>

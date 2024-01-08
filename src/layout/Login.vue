@@ -32,7 +32,7 @@
                 </div>
             </div>
             <div class="w-3/4 ms-10">
-                <base-input type="checkbox" label="Ingat saya" @input="input" :value="remember" :class="load ? 'cursor-wait' : ''"/>
+                <base-input type="checkbox" label="Ingat saya" @input="input" :value="remember" :disabled="load" :class="load ? 'cursor-wait' : ''"/>
             </div>
             <pills-button type="submit" label="login" class="bg-primary-tint text-white w-3/4 shadow-xl focus-within:shadow" :class="load ? 'cursor-wait' : ''"></pills-button>
         </form>
@@ -49,6 +49,7 @@
 <script setup>
 import api from '@/utils/api'
 import alert from '@/utils/alert'
+import { store } from '@/utils/store'
 </script>
 <script>
 export default {
@@ -80,6 +81,7 @@ export default {
     methods: {
         handleLogin() {
             this.load = true
+            store().loader('on')
             api.postLogin({
                     username: this.username,
                     password: this.password
@@ -94,6 +96,7 @@ export default {
                     else alert.failed(null, 'periksa koneksi internet')
                     return this.load = false
                 })
+            store().loader('off')
         },
         input(v) {
             if(v.value) {

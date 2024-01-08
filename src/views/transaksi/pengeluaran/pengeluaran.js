@@ -148,12 +148,13 @@ export default {
             kode_group: data.kode_group.kode_group,
             penjualan_detail: json
         }
-        api.create('/penjualan_head', payload).then(res => {
+        let result = api.create('/penjualan_head', payload).then(res => {
             if(res.status == 200) {
 				alert.success(null, res.data)
 				store().resetState()
 			} else alert.success(null, 'Data Berhasil Disimpan')
             this.pengeluaran()
+            return 'success'
 		})
 		.catch(error => {
 			if(error.response.status == 500) {
@@ -163,6 +164,7 @@ export default {
         setTimeout(() => {
 			store().loader('off')
 		}, 2500)
+        return result
     },
     delete(data) {
         alert.confirm('Apakah anda yakin ?', 'Anda akan menghapus '+data.no_penjualan).then((result) => {

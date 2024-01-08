@@ -3,7 +3,9 @@
 const mode = {
     // SERVER
     server: 'development',
-    // BASE
+    // ROUTER MODE
+    // webHash => '#/'
+    // webHistory => '/'
     routeMode: 'webHash'
 }
 export default mode

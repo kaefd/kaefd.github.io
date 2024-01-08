@@ -64,6 +64,8 @@ export const store = defineStore('store', {
       this.loading = false
       this.dialog = false,
       this.detail_dialog = false,
+      this.detail = ''
+      this.tmp = ''
       this.s_detail = false
       this.filter = false
       this.column = false
@@ -193,7 +195,6 @@ export const store = defineStore('store', {
               }
             } else if (rules[0] == 'absolute') {
               this.detailDump = ''
-              console.log(this.detailDump);
               res.push(true)
             }
           }

@@ -125,7 +125,6 @@ export default {
             }
         },
         autoData() {
-            console.log(store().detailDump);
                 if(store().detailDump && this.default != undefined && this.default.f == undefined) {
                     if(store().detailDump[this.default.key] != undefined) {
                         if(store().detailDump[this.default.key][this.default.key].slice(0, 4) == 'BC23') this.auto = 'BC25'
@@ -272,6 +271,21 @@ export default {
             this.$emit("input", val)
         },
         open_id() {
+            // if(this.rules.find(item => item == 'absolute')) {
+            //     if(store().detailDump != '' && store().detailDump[this.label] != '') {
+            //         store().$patch((state) => {
+            //             state.detailDump[this.label] = ''
+            //             state.detailDump.kode_bahan = ''
+            //             state.detail = ''
+            //         })
+            //         this.data_dialog = ''
+            //     }
+            // }
+            // if(this.rules.find(item => item == 'required kode_group' && store().detailDump != '')) {
+            //     if(store().detailDump.kode_group == '') {
+            //         this.data_dialog = ''
+            //     }
+            // }
             let a = store().validate(this.rules, null, store().detailDump)
             if(store().menu.option.key != 'lihat' && a == true) this.open = true
             if(!this.disabled) store().$patch((state) => { 
