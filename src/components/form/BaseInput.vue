@@ -59,12 +59,15 @@
         <label>{{ label }}</label>
     </div>
     <div v-if="type == 'option'" class="w-[60%] min-w-[200px]">
-        <input @click="selectOpt = !selectOpt" type="text" v-model="text" readonly class="h-[40px] w-full rounded px-3 cursor-pointer" :class="store().theme == 'dark' ? 'bg-dark-base' : 'bg-disabled-color'"/>
-            <div v-if="!disabled" class="rounded-lg shadow-xl absolute flex flex-col duration-300 overflow-auto z-[2]" :class="!selectOpt ? 'h-0 p-0 w-0' : store().theme == 'dark' ? 'dark h-max max-h-[200px] py-3 w-[200px]' : 'bg-white h-max max-h-[200px] py-3 w-[200px]' ">
-                <div class="h-max py-1">
-                    <span v-for="opt in option" @click="dt_options(opt)" class="px-3 flex items-center hover:bg-primary-hover cursor-pointer duration-300 overflow-hidden" :class="selectOpt ? 'h-9 ' : 'h-0' ">{{ opt }}</span>
-                </div>
+        <div class="w-full flex justify-end items-center">
+            <input @click="selectOpt = !selectOpt" type="text" v-model="text" readonly class="h-[40px] w-full rounded px-3 cursor-pointer" :class="store().theme == 'dark' ? 'bg-dark-base' : 'bg-disabled-color'"/>
+            <button @click="clearOption()" class="w-5 h-5 rounded-full bg-gray-200 absolute me-2" type="button"><i class="ri-close-line"></i></button>
+        </div>
+        <div v-if="!disabled" class="rounded-lg shadow-xl absolute flex flex-col duration-300 overflow-auto z-[2]" :class="!selectOpt ? 'h-0 p-0 w-0' : store().theme == 'dark' ? 'dark h-max max-h-[200px] py-3 w-[200px]' : 'bg-white h-max max-h-[200px] py-3 w-[200px]' ">
+            <div class="h-max py-1">
+                <span v-for="opt in option" @click="dt_options(opt)" class="px-3 flex items-center hover:bg-primary-hover cursor-pointer duration-300 overflow-hidden" :class="selectOpt ? 'h-9 ' : 'h-0' ">{{ opt }}</span>
             </div>
+        </div>
         <div v-if="selectOpt" @click="selectOpt = false" class="fixed w-full h-full top-0 left-0 z-[1]"></div>
     </div>
     <input v-if="type == 'auto'" type="text" :value="autoData" @update:model-value="autoData" readonly class="h-[40px] w-[60%] min-w-[200px] rounded px-3" :class="store().theme == 'dark' ? 'bg-dark-base' : 'bg-disabled-color'"/>
@@ -269,6 +272,9 @@ export default {
                 }
             }
             this.$emit("input", val)
+        },
+        clearOption() {
+            if(!this.disabled) this.text = ''
         },
         open_id() {
             // if(this.rules.find(item => item == 'absolute')) {
