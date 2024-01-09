@@ -19,7 +19,7 @@
                     <i class="ri-history-line text-xl"></i>
                     <span>Log Aktivitas</span>
                 </div>
-                <div class="flex items-center gap-x-3 px-3 rounded-full border h-12 hover:bg-primary-hover cursor-pointer">
+                <div @click="fun('change-pass')" class="flex items-center gap-x-3 px-3 rounded-full border h-12 hover:bg-primary-hover cursor-pointer">
                     <i class="ri-key-line text-xl"></i>
                     <span>Ubah Password</span>
                 </div>
@@ -50,6 +50,7 @@ export default {
         fun(param) {
             if(param == 'out') api.logout()
             if(param == 'log') this.$router.push({path: '/log-aktivitas'})
+            if(param == 'change-pass') this.$router.push({path: '/ubah-password'})
             if(param == 'setting') this.setting = true
             this.active = false
         },

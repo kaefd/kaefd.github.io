@@ -207,6 +207,17 @@ const routes = [
     // component: () => import('@/views/tools/track/TrackBarang.vue'),
     component: () => import('@/views/TestPage.vue'),
   },
+  {
+    name: 'Ubah Password',
+    subname: 'ubah password',
+    path: '/ubah-password',
+    icon: false,
+    meta: {
+      middleware: [middleware]
+    },
+    // component: () => import('@/views/tools/track/TrackBarang.vue'),
+    component: () => import('@/layout/ChangePassword.vue'),
+  },
 ]
 
 const router = createRouter({
