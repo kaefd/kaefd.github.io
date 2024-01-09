@@ -61,7 +61,7 @@
     <div v-if="type == 'option'" class="w-[60%] min-w-[200px]">
         <div class="w-full flex justify-end items-center">
             <input @click="selectOpt = !selectOpt" type="text" v-model="text" readonly class="h-[40px] w-full rounded px-3 cursor-pointer" :class="store().theme == 'dark' ? 'bg-dark-base' : 'bg-disabled-color'"/>
-            <button @click="clearOption()" class="w-5 h-5 rounded-full bg-gray-200 absolute me-2" type="button"><i class="ri-close-line"></i></button>
+            <button v-if="!disabled" @click="clearOption()" class="w-5 h-5 rounded-full absolute me-2" type="button"><i class="ri-close-line"></i></button>
         </div>
         <div v-if="!disabled" class="rounded-lg shadow-xl absolute flex flex-col duration-300 overflow-auto z-[2]" :class="!selectOpt ? 'h-0 p-0 w-0' : store().theme == 'dark' ? 'dark h-max max-h-[200px] py-3 w-[200px]' : 'bg-white h-max max-h-[200px] py-3 w-[200px]' ">
             <div class="h-max py-1">
