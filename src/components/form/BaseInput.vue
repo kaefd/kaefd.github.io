@@ -292,12 +292,15 @@ export default {
             //         this.data_dialog = ''
             //     }
             // }
-            let a = store().validate(this.rules, null, store().detailDump)
-            if(store().menu.option.key != 'lihat' && a == true) this.open = true
-            if(!this.disabled) store().$patch((state) => { 
-                // state.i_dialog.show = !state.i_dialog.show
-                state.i_dialog.item = this.option
-            })
+            if(store().menu.option.key != 'lihat') {
+                let a = store().validate(this.rules, null, store().detailDump)
+                if(a == true) this.open = true
+                if(!this.disabled) store().$patch((state) => { 
+                    // state.i_dialog.show = !state.i_dialog.show
+                    state.i_dialog.item = this.option
+                })
+            }
+            
         },
         close(v) {
             this.open = v
