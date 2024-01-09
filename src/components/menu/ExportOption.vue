@@ -19,6 +19,7 @@ import { store } from '@/utils/store'
 import jsPDF from 'jspdf'
 import autoTable from 'jspdf-autotable'
 import otoritas from '@/router/otoritas'
+import utils from '@/utils/utils'
 </script>
 <script>
 export default {
@@ -64,12 +65,24 @@ export default {
             //     body: items,
             //     margin: { left: 0.5, top: 1.25 }
             // })
+            const addFooter = function (doc) {
+                // Set font size for the footer
+                doc.setFontSize(9);
+
+                // Add custom footer content
+                const footerText = utils.today();
+                const footerX = doc.internal.pageSize.width / 2;
+                const footerY = doc.internal.pageSize.height - 10;
+                doc.text(footerText, footerX, footerY);
+            };
             autoTable(doc, {
                 headStyles: { fillColor: [95,160,203], cellPadding: 3},
                 margin: { top: 10 },
                 body: items,
                 columns: this.fields.filter(item => item.show == true),
-
+                didDrawPage: function (data) {
+                    addFooter(doc);
+                }
             })
             doc.save(`${title}.pdf`);
         }
