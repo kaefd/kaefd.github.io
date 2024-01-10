@@ -2,13 +2,6 @@ import api from "@/utils/api";
 import alert from "@/utils/alert";
 import { store } from "@/utils/store";
 export default {
-	// parameters(value) {
-	//     if(value) return  value
-	//     else return {
-	//         tgl_awal: store().periode[0],
-	//         tgl_akhir: store().periode[1],
-	//     }
-	// },
 	async produksi(param, fl) {
 		let parameters = "";
 		if (param) parameters = param;
@@ -130,23 +123,26 @@ export default {
 			kode_bahan: data.kode_bahan.kode_barang,
 			produksi_detail_barang: json,
 		};
-		api
+		let result = api
 			.create("/produksi_head", payload)
 			.then((res) => {
 				if (res.status == 200) {
 					alert.success(null, res.data);
-					store().resetState()
 				} else alert.success(null, "Data Berhasil Disimpan");
+				store().resetState()
 				this.produksi();
+				return 'success'
 			})
 			.catch((error) => {
 				if (error.response.status == 500) {
 					alert.failed(null, error.response.data);
 				} else alert.failed(null);
+				return 'success'
 			})
 			setTimeout(() => {
 				store().loader('off')
 			}, 2500)
+			return result
 	},
 	delete(data) {
 		alert

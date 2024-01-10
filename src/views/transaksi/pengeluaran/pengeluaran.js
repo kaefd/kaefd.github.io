@@ -151,8 +151,8 @@ export default {
         let result = api.create('/penjualan_head', payload).then(res => {
             if(res.status == 200) {
 				alert.success(null, res.data)
-				store().resetState()
 			} else alert.success(null, 'Data Berhasil Disimpan')
+            store().resetState()
             this.pengeluaran()
             return 'success'
 		})
@@ -160,6 +160,7 @@ export default {
 			if(error.response.status == 500) {
 				alert.failed(null, error.response.data)
 			} else alert.failed(null)
+            return 'failed'
 		})
         setTimeout(() => {
 			store().loader('off')

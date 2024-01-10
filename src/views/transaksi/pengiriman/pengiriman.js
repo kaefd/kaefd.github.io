@@ -2,13 +2,6 @@ import api from "@/utils/api";
 import alert from "@/utils/alert";
 import { store } from "@/utils/store";
 export default {
-	// parameters(value) {
-	//     if(value) return  value
-	//     else return {
-	//         tgl_awal: store().periode[0],
-	//         tgl_akhir: store().periode[1],
-	//     }
-	// },
 	async pengiriman(param, fl) {
 		let parameters = "";
 		if (param) parameters = param;
@@ -205,23 +198,28 @@ export default {
 			no_polisi: data.no_polisi,
 			pengiriman_detail: json,
 		};
-		api
+		let result = api
 			.create("/pengiriman_head", payload)
 			.then((res) => {
 				if (res.status == 200) {
 					alert.success(null, res.data);
-					store().resetState()
 				} else alert.success(null, "Data Berhasil Disimpan");
+				store().resetState()
 				this.pengiriman();
+				let a = this.blmTerkirim();
+				store().$patch((state) => { state.state.permission[0].item.item = a})
+				return 'success'
 			})
 			.catch((error) => {
 				if (error.response.status == 500) {
 					alert.failed(null, error.response.data);
 				} else alert.failed(null);
+				return 'failed'
 			})
 			setTimeout(() => {
 				store().loader('off')
 			}, 2500)
+			return result
 	},
 	delete(data) {
 		alert

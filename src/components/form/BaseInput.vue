@@ -59,7 +59,7 @@
         <label>{{ label }}</label>
     </div>
     <div v-if="type == 'option'" class="w-[60%] min-w-[200px]">
-        <div class="w-full flex justify-end items-center">
+        <div class="relative w-full flex justify-end items-center">
             <input @click="selectOpt = !selectOpt" type="text" v-model="text" readonly class="h-[40px] w-full rounded px-3 cursor-pointer" :class="store().theme == 'dark' ? 'bg-dark-base' : 'bg-disabled-color'"/>
             <button v-if="!disabled" @click="clearOption()" class="w-5 h-5 rounded-full absolute me-2" type="button"><i class="ri-close-line"></i></button>
         </div>

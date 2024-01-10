@@ -252,21 +252,24 @@ export default {
             password: input.password,
             otoritas: JSON.stringify(detail)
         }
-        api.create('/user', data).then(res => {
+        let result = api.create('/user', data).then(res => {
             if(res.status == 200) {
 				alert.success(null, res.data)
-				store().resetState()
 			} else alert.success(null, 'Data Berhasil Disimpan')
             this.user()
+            store().resetState()
+            return 'success'
         })
         .catch(error => {
 			if(error.response.status == 500) {
 				alert.failed(null, error.response.data)
 			} else alert.failed(null)
+            return 'failed'
 		})
         setTimeout(() => {
 			store().loader('off')
 		}, 2500)
+        return result
     },
     update(input) {
         store().loader('on')
@@ -295,21 +298,24 @@ export default {
             password: input.password,
             otoritas: JSON.stringify(detail)
         }
-        api.update('/user', data).then(res => {
+        let result = api.update('/user', data).then(res => {
             if(res.status == 200) {
 				alert.success(null, res.data)
-				store().resetState()
 			} else alert.success(null, 'Data Berhasil Diupdate')
+            store().resetState()
             this.user()
+            return 'success'
         })
         .catch(error => {
 			if(error.response.status == 500) {
 				alert.failed(null, error.response.data)
 			} else alert.failed(null)
+            return 'failed'
 		})
         setTimeout(() => {
 			store().loader('off')
 		}, 2500)
+        return result
     },
     delete(data) {
         alert.confirm('Apakah anda yakin ?', 'Anda akan menghapus '+data.username).then((result) => {

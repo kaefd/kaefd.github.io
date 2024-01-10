@@ -85,21 +85,24 @@ export default {
 	},
 	create(data) {
 		store().loader('on');
-		api.create("/barang", data).then((res) => {
+		let result = api.create("/barang", data).then((res) => {
 			if(res.status == 200) {
 				alert.success(null, res.data)
 				store().resetState()
 			} else alert.success(null, 'Data Berhasil Disimpan')
 			this.barang()
+			return 'success'
 		})
 		.catch(error => {
 			if(error.response.status == 500) {
 				alert.failed(null, error.response.data)
 			} else alert.failed(null)
+			return 'failed'
 		})
 		setTimeout(() => {
 			store().loader('off')
 		}, 2500)
+		return result
 	},
 	update(data) {
 		store().loader("on");
@@ -115,21 +118,24 @@ export default {
 			}
 		})
 		
-		api.update("/barang", master[0]).then((res) => {
+		let result = api.update("/barang", master[0]).then((res) => {
 			if(res.status == 200) {
 				alert.success(null, res.data)
 				store().resetState()
 			} else alert.success(null, 'Data Berhasil Diupdate')
 			this.barang()
+			return 'success'
 		})
 		.catch(error => {
 			if(error.response.status == 500) {
 				alert.failed(null, error.response.data)
 			} else alert.failed(null)
+			return 'failed'
 		})
 		setTimeout(() => {
 			store().loader('off')
 		}, 2500)
+		return result
 	},
 	// error message di resp
 	delete(data) {

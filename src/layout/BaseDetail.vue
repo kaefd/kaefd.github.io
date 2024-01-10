@@ -70,6 +70,7 @@ export default {
         close() {
            store().resetState()
            this.tmp = []
+           this.dataitem = {}
         },
         sumTotalN(prm) {
             let arr = []
@@ -91,6 +92,7 @@ export default {
                 state.i_dialog.item = state.state.permission[0].item
                 state.s_detail = ''
             })
+            console.log(store().temp);
         },
         dialogI(value) {
             this.tmp.push(value)
@@ -124,14 +126,23 @@ export default {
             else a = head != '' ? store().validate(head, this.dataitem, head) : true
             if(a && a != undefined) {
                 if(this.child == false) {
-                    if(opt == 'tambah') store().create(this.dataitem)
-                    else if(opt == 'edit') store().update(store().master)
+                    if(opt == 'tambah') { 
+                        let a = await store().create(this.dataitem)
+                        if(a == 'success') this.dataitem = {}
+                        console.log(a);
+                    }
+                    else if(opt == 'edit') {
+                        store().update(store().master)
+                    }
                 } else if (this.child && store().detail != '') {
                     if(opt == 'tambah') { 
                         let a = await store().create(this.dataitem)
-                        if(a == 'success') this.tmp = []
+                        if(a == 'success') {
+                            this.tmp = []
+                            this.dataitem = {}
+                        }
                     }
-                    else if(opt == 'edit') store().update(store().master)
+                    // else if(opt == 'edit') store().update(store().master)
                 } else if (store().detail == '') alert.warning(null, 'detail masih kosong') 
             }
         }

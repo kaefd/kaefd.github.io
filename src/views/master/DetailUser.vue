@@ -140,13 +140,20 @@ export default {
             }
             // store().$patch((state) => { state.detailDump = this.dataitem})
         },
-        submited() {
+        async submited() {
             let opt = store().menu.option.key
             if(opt == 'edit') this.dataitem.username = store().master.username
             let a = store().validate(this.field, this.dataitem, this.field)
             if(a) {
-                if(opt == 'tambah') store().create(this.dataitem, this.model)
-                else if(opt == 'edit') store().update(this.dataitem, this.model)
+                if(opt == 'tambah') {
+                    let r = await store().create(this.dataitem, this.model)
+                    if(r == 'success') this.dataitem = {}
+                }
+                else if(opt == 'edit') {
+                    let r = await store().update(this.dataitem, this.model)
+                    if(r == 'success') this.dataitem = {}
+                    console.log(r);
+                }
             }
         }
     },

@@ -26,8 +26,8 @@ export default {
                     {title: 'NPWP', key: 'npwp', type: 'text', show: true, sort: 'desc'},
                 ],
                 field_detail: [
-                    {title: 'Kode Pelanggan', key: 'kode_pelanggan', type: 'text', show: true},
-                    {title: 'Nama', key: 'nama', type: 'text', show: true},
+                    {title: 'Kode Pelanggan', key: 'kode_pelanggan', type: 'text', show: true, edit: false, rules: ['required']},
+                    {title: 'Nama', key: 'nama', type: 'text', show: true, rules: ['required']},
                     {title: 'Alamat', key: 'alamat', type: 'text', show: true},
                     {title: 'NPWP', key: 'npwp', type: 'text', show: true},
                 ],

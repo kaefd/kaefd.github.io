@@ -2,13 +2,6 @@ import api from "@/utils/api";
 import { store } from "@/utils/store";
 import alert from "@/utils/alert";
 export default {
-	// parameters(value) {
-	//     if(value) return  value
-	//     else return {
-	//         tgl_awal: store().periode[0],
-	//         tgl_akhir: store().periode[1],
-	//     }
-	// },
 	async pemasukan(param, fl) {
 		store().loader("on");
 		let parameters = "";
@@ -170,24 +163,27 @@ export default {
 			kurs: data.kurs,
 			pembelian_detail: json,
 		};
-		api
+		let result = api
 			.create("/pembelian_head", payload)
 			.then((res) => {
 				if (res.status == 200) {
 					alert.success(null, res.data);
 					store().loader("off");
-					store().resetState()
 				} else alert.success(null, "Data Berhasil Disimpan");
+				store().resetState()
 				this.pemasukan();
+				return 'success'
 			})
 			.catch((error) => {
 				if (error.response.status == 500) {
 					alert.failed(null, error.response.data);
 				} else alert.failed(null);
+				return 'failed'
 			})
 			setTimeout(() => {
 				store().loader('off')
 			}, 2500)
+			return result
 	},
 	delete(data) {
 		alert

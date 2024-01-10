@@ -70,21 +70,24 @@ export default {
 	},
 	create(data) {
 		store().loader("on");
-		api.create("/konversi_barang", data).then((res) => {
+		let result = api.create("/konversi_barang", data).then((res) => {
 			if(res.status == 200) {
 				alert.success(null, res.data)
 				store().resetState()
 			} else alert.success(null, 'Data Berhasil Disimpan')
 			this.konversi()
+			return 'success'
 		})
         .catch(error => {
 			if(error.response.status == 500) {
 				alert.failed(null, error.response.data)
 			} else alert.failed(null)
+			return 'failed'
 		})
 		setTimeout(() => {
 			store().loader('off')
 		}, 2500)
+		return result
 	},
 	update(data) {
 		store().loader('on')
@@ -99,21 +102,24 @@ export default {
 						: item[field[i].key];
 			}
 		});
-		api.update("/konversi_barang", master[0]).then((res) => {
+		let result = api.update("/konversi_barang", master[0]).then((res) => {
 			if(res.status == 200) {
 				alert.success(null, res.data)
 				store().resetState()
 			} else alert.success(null, 'Data Berhasil Diupdate')
 			this.konversi()
+			return 'success'
 		})
         .catch(error => {
 			if(error.response.status == 500) {
 				alert.failed(null, error.response.data)
 			} else alert.failed(null)
+			return 'failed'
 		})
 		setTimeout(() => {
 			store().loader('off')
 		}, 2500)
+		return result
 	},
 	delete(data) {
 		alert
