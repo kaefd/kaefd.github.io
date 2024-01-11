@@ -92,7 +92,6 @@ export default {
                 state.i_dialog.item = state.state.permission[0].item
                 state.s_detail = ''
             })
-            console.log(store().temp);
         },
         dialogI(value) {
             this.tmp.push(value)

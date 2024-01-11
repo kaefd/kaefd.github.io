@@ -98,7 +98,7 @@ export default {
 body {
     visibility: hidden;
 }
-.hddn {
+/* .hddn {
   visibility: hidden !important;
   padding: 0 !important;
   margin: 0 !important;
@@ -107,7 +107,7 @@ body {
     visibility: hidden;
     padding: 0 !important;
     margin: 0 !important;
-}
+} */
 .page {
     /* width: 20cm;
     height: 11cm; */

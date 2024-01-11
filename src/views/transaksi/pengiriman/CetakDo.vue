@@ -25,7 +25,7 @@
 			</div>
 			<div class="w-full min-h-max mt-5">
 				<table class="w-full">
-					<thead class="border-b border-black">
+					<thead class="border-b border-t border-black">
 						<tr class="w-full capitalize">
 							<th class="w-max whitespace-pre-wrap px-3 font-medium text-left">
 								barang
@@ -61,14 +61,18 @@
 								contenteditable
 								class="w-max whitespace-pre-wrap px-3 text-left"></td>
 							<td class="w-max whitespace-pre-wrap px-3 text-left">
-								{{ item.jumlah }}
+								{{ utils.numb(item.jumlah) }}
 							</td>
 						</tr>
-						<tr>
+						<tr :class="store().detail.length < 3 ? 'h-24' : ''"></tr>
+						<tr class="border-t border-b border-black">
 							<td></td>
+							<td
+								contenteditable
+								class="w-max whitespace-pre-wrap px-3 text-left font-semibold">
+								{{ utils.numb(sum("konversi")) }}
+							</td>
 							<td></td>
-							<td></td>
-							<!-- <td class="w-max whitespace-pre-wrap px-3 text-left font-semibold">{{ utils.numb(sum('konversi')) }}</td> -->
 							<td></td>
 							<td
 								class="w-max whitespace-pre-wrap px-3 text-left font-semibold">
@@ -80,15 +84,15 @@
 				</table>
 			</div>
 		</div>
-		<div class="w-full flex justify-between items-end mb-[25vh]">
+		<div class="w-full flex justify-between items-end mb-[25vh] capitalize">
 			<span>yang mengajukan</span>
 			<span>mengetahui</span>
 			<span>mengetahui</span>
 			<span>ekspedisi</span>
 		</div>
 		<div class="relative bottom-[10vh] left-[30%]">
-			<span class="italic"
-				>print date: {{ utils.formatDate(utils.today()) }}</span
+			<span class="italic capitalize"
+				>print date: {{ utils.today() }}</span
 			>
 		</div>
 	</div>
@@ -111,12 +115,7 @@
 			sum(p) {
 				if (p == "konversi") {
 					let key = this.dataitem.map((item) => item.jumlah_konversi);
-					let head = Array.from(
-						new Set(key.map((obj) => obj.jumlah_konversi))
-					).map((jumlah_konversi) => {
-						return key.find((obj) => obj.jumlah_konversi === jumlah_konversi);
-					});
-					let konversi = head.reduce(
+					let konversi = key.reduce(
 						(accumulator, currentValue) => accumulator + currentValue,
 						0
 					);
@@ -124,12 +123,7 @@
 				}
 				if (p == "jumlah") {
 					let key = this.dataitem.map((item) => item.jumlah);
-					let head = Array.from(new Set(key.map((obj) => obj.jumlah))).map(
-						(jumlah) => {
-							return key.find((obj) => obj.jumlah === jumlah);
-						}
-					);
-					let jumlah = head.reduce(
+					let jumlah = key.reduce(
 						(accumulator, currentValue) => accumulator + currentValue,
 						0
 					);
@@ -141,11 +135,12 @@
 			dataitem() {
 				let k = [];
 				let key = store().detail.map((item) => item.nama_barang);
-				let head = Array.from(new Set(key.map((obj) => obj.nama_barang))).map(
-					(nama_barang) => {
-						return key.find((obj) => obj.nama_barang === nama_barang);
-					}
-				);
+				// let head = Array.from(new Set(key.map((obj) => obj.nama_barang))).map(
+				// 	(nama_barang) => {
+				// 		return key.find((obj) => obj.nama_barang === nama_barang);
+				// 	}
+				// );
+				let head = [...new Set(key)]
 
 				for (let i = 0; i < head.length; i++) {
 					let kode = [];
