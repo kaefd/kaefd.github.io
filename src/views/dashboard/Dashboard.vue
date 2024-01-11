@@ -1,5 +1,5 @@
 <template>
-    <div class="py-16 ps-0 md:ps-24 w-full h-screen overflow-auto">
+    <div class="pt-16 pb-5 ps-0 md:ps-24 w-full h-screen overflow-auto">
         <div class="mb-5 w-full px-5 md:px-8">
             <div class="w-[35vw]">
                 <base-input type="date" variant="pills" label="periode" :value="mth" @input="dateInput"></base-input>
@@ -24,10 +24,18 @@
         <div class="px-0 md:px-8 w-full flex justify-center md:justify-start space-x-2 mt-8 mb-3">
             <div v-for="card in cards" @click="active(card)" class="h-10 w-20 rounded-lg flex items-center justify-center text-xs capitalize hover:bg-primary-hover cursor-pointer" :class="card.active ? 'bg-primary-hover' : ''">{{ card.key }}</div>
         </div>
-        <div class="w-full px-0 md:px-8">
-            <div class=" w-full rounded-0 md:rounded-xl p-5 capitalize" :class="store().theme == 'dark' ? 'dark' : 'bg-white'">
-                <p class="font-bold text-center">statistik data {{ activeData.key }} bulan {{ utils.formatMonth(periode[1]) }}</p>
+        <div class="w-full px-0 md:px-8 mb-3">
+            <div class="w-full rounded-0 md:rounded-xl px-3 md:px-5 pt-5 capitalize" :class="store().theme == 'dark' ? 'dark' : 'bg-white'">
+                <p class="mx-3">statistik data {{ activeData.key }}</p>
+                <p class="mx-3 mb-5 text-sm">bulan {{ utils.formatMonth(periode[0]) }}</p>
                 <base-chart :series="chart"/>
+            </div>
+        </div>
+        <div class="w-full px-0 md:px-8 ">
+            <div class="w-full h-[600px] px-3 md:px-5 pt-5 pb-0 md:pb-12 rounded-0 md:rounded-xl" :class="store().theme == 'dark' ? 'dark' : 'bg-white'">
+                <p class="mx-3">{{ config.title }}</p>
+                <p class="mx-3 mb-5 text-sm">Bulan {{utils.formatMonth(new Date())}}</p>
+                <base-table :fields="config.fields" :items="items" :master="true" :permission="config" :s_table="config.permission != '' ? false : true"></base-table>
             </div>
         </div>
     </div>
@@ -36,6 +44,7 @@
 import dashboard from './dashboard'
 import utils from '@/utils/utils'
 import {store} from '@/utils/store'
+import stokbarang from '@/views/laporan/stokbarang'
 </script>
 <script>
 export default {
@@ -46,11 +55,24 @@ export default {
             mth: '',
             chart: '',
             cards: [
-                {title: 'Total Pemasukan', key: 'pembelian', chart: {head: 'pembelian_head', key: 'pembelian', detail: 'pembelian_detail', series: ['BC23', 'BC40', 'PPKEK-LDP', 'PPKEK-TLDDP']}, content: 0, icon: 'ri-inbox-archive-line', class: 'primary', active: true},
+                {title: 'Total Pemasukan', key: 'pemasukan', chart: {head: 'pembelian_head', key: 'pembelian', detail: 'pembelian_detail', series: ['BC23', 'BC40', 'PPKEK-LDP', 'PPKEK-TLDDP']}, content: 0, icon: 'ri-inbox-archive-line', class: 'primary', active: true},
                 {title: 'Total Produksi', key: 'produksi', chart: {head: 'produksi_head', key: 'produksi', detail: 'produksi_detail_bahan', series: ['Produksi']}, content: 0, icon: 'ri-donut-chart-fill', class: 'secondary', active: false},
-                {title: 'Total Pengeluaran', key: 'penjualan', chart: {head: 'penjualan_head', key: 'penjualan', detail: 'penjualan_detail', series: ['BC25', 'BC41']}, content: 0, icon: 'ri-inbox-unarchive-line', class: 'primary', active: false},
+                {title: 'Total Pengeluaran', key: 'pengeluaran', chart: {head: 'penjualan_head', key: 'penjualan', detail: 'penjualan_detail', series: ['BC25', 'BC41']}, content: 0, icon: 'ri-inbox-unarchive-line', class: 'primary', active: false},
                 {title: 'Total Pengiriman', key: 'pengiriman', chart: {head: 'pengiriman_head', key: 'pengiriman', detail: 'pengiriman_detail', series: ['pengiriman']}, content: 0, icon: 'ri-send-plane-line', class: 'secondary', active: false},
-            ]
+            ],
+            items: '',
+            config: {
+                title: 'Data Stok Barang',
+                child: false,
+                permission: [],
+                fields: [
+                    {title: 'Kategori Barang', key: 'kategori_barang', type: 'text', show: true, sort: 'desc'},
+                    {title: 'Kode Barang', key: 'kode_barang', type: 'text', show: true, sort: 'desc'},
+                    {title: 'Nama Barang', key: 'nama_barang', type: 'text', show: true, sort: 'desc'},
+                    {title: 'Stok Akhir', key: 'stok_akhir', type: 'text', show: true, sort: 'desc'},
+                ],
+                filter: [],
+            }
         }
     },
     methods: {
@@ -58,6 +80,12 @@ export default {
             this.cards.map(item => item.active = item == value ? true : false)
             this.activeData = value
             this.updateChart()
+        },
+        async get () {
+            store().loader('on')
+            this.items = await stokbarang.barang()
+            if(this.items) store().loader('off')
+            // store().$patch((state) => { state.state = this.config })
         },
         async chartData() {
             store().loader('on')
@@ -108,6 +136,7 @@ export default {
     mounted() {
         store().loader('on')
         this.chartData()
+        this.get()
         store().loader('off')
     }
 }
