@@ -97,22 +97,6 @@ export default {
         disabled() {
             return store().menu.option.key == 'lihat'
         },
-        // detail_fl() {
-        //     if(store().menu.option.key == 'tambah') {
-        //         let items = store().items[0].detail
-        //         let data = []
-        //         for (let i = 0; i < items.length; i++) {
-        //             data.push({
-        //                 title: items[i].title,
-        //                 key: items[i].key,
-        //                 value: false,
-        //                 active: false,
-        //                 // item: items[i].item != undefined ? items[i].item : null
-        //             })
-        //         }
-        //         return data
-        //     }
-        // }
     },
     methods: {
         open(val) {
@@ -129,10 +113,11 @@ export default {
             store().$patch((state) => {
                 state.detail_dialog = false
                 state.menu.option = ''
+                state.s_detail = ''
             })
+            this.dataitem = {}
         },
         input(value) {
-            console.log(value);
             let a = []
             a.push(value)
             for (let i = 0; i < a.length; i++) {
@@ -147,12 +132,15 @@ export default {
             if(a) {
                 if(opt == 'tambah') {
                     let r = await store().create(this.dataitem, this.model)
-                    if(r == 'success') this.dataitem = {}
+                    if(r == 'success') {
+                        this.close()
+                    }
                 }
                 else if(opt == 'edit') {
                     let r = await store().update(this.dataitem, this.model)
-                    if(r == 'success') this.dataitem = {}
-                    console.log(r);
+                    if(r == 'success') {
+                        this.close()
+                    }
                 }
             }
         }
