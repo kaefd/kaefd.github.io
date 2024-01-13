@@ -45,7 +45,7 @@ export default {
                 dialog_field: [
                     {title: 'Kode Barang', key: 'kode_barang', type: 'text', show: false, rules: ['unique']},
                     {title: 'Nama Barang', key: 'nama_barang', type: 'text', show: false},
-                    {title: 'Jumlah', key: 'jumlah', type: 'number', show: true},
+                    {title: 'Jumlah', key: 'jumlah', type: 'number', show: true, rules: ['required']},
                 ],
                 filter: [
                     {title: 'Tanggal Awal', key: 'tgl_awal', type: 'date', rules: ['date:max tgl_akhir']},

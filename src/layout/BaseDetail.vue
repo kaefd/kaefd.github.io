@@ -1,8 +1,8 @@
 <template>
     <div v-if="store().detail_dialog" class="absolute top-0 right-0 w-full h-full overflow-auto z-[2] ps-0 md:ps-24" :class="store().theme == 'dark' ? 'bg-dark-base' : 'bg-base'">
-        <div class="flex flex-col gap-y-3 h-full pb-12 md:pb-0 overflow-auto md:overflow-auto">
+        <div class="flex flex-col gap-y-3 h-full pb-20 md:pb-3 overflow-auto md:overflow-auto">
             <slot name="full-content">
-                <div class="overflow-visible h-full mx-3 md:mx-5 mt-5 p-5 rounded-lg flex flex-col gap-y-5 animate__animated animate__fadeIn animate__faster"  :class="store().dialog ? 'z-[0]' : (store().theme == 'dark' ? 'dark z-[2]' : 'bg-white z-[2]')">
+                <div class="overflow-visible h-max md:h-full mx-0 md:mx-5 mt-5 p-5 rounded-0 md:rounded-lg flex flex-col gap-y-5 animate__animated animate__fadeIn animate__faster"  :class="store().dialog ? 'z-[0]' : (store().theme == 'dark' ? 'dark z-[2]' : 'bg-white z-[2]')">
                     <div class="flex items-center space-x-3 text-lg md:text-xl">
                         <button @click="close()">
                             <i class="ri-arrow-left-line"></i>
@@ -22,21 +22,27 @@
                     </slot>
                 </div>
                 <!-- DETAIL -->
-                <div v-if="child && store().menu.option.key == 'tambah'" class="mx-1">
-                    <base-button @click="addDetail()" class="bg-primary ms-4" label="Tambah Barang"></base-button>
+                <div v-if="child && store().menu.option.key == 'tambah'" class="px-3 md:px-5">
+                    <base-button @click="addDetail()" class="bg-primary w-full md:w-max" label="Tambah Barang"></base-button>
                 </div>
-                <div v-if="child" class="rounded-lg mx-3 md:mx-5 min-h-[250px] 2xl:min-h-[300px] h-full flex flex-col justify-between mb-4 md:mb-0 animate__animated animate__fadeIn animate__slow" :class="store().theme == 'dark' ? 'dark' : 'bg-white'">
-                    <div class="w-full h-full rounded-lg" :class="store().theme == 'dark' ? 'dark' : 'bg-white'">
+                <div v-if="child" class="rounded-lg mx-0 md:mx-5 min-h-[255px] 2xl:min-h-[300px] h-full flex flex-col justify-between animate__animated animate__fadeIn animate__slow" :class="store().theme == 'dark' ? 'dark' : 'bg-white'">
+                    <div class="w-full h-full rounded-0 md:rounded-lg" :class="store().theme == 'dark' ? 'dark' : 'bg-white'">
                         <slot name="detail"></slot>
                     </div>
-                    <div class="flex justify-start border-t mx-5 py-2 gap-x-5">
-                        <span v-for="p in param" class="font-bold capitalize">{{ 'Total ' + p.title + ': ' }} {{ sumTotalN(p) }}</span>
+                    <div class="pt-1 pb-3 px-3 gap-x-5 rounded-b-0 md:rounded-b-lg" :class="store().theme == 'dark' ? 'dark' : 'bg-white'">
+                        <!-- <span v-for="p in param" class="font-bold capitalize">{{ 'Total ' + p.title + ': ' }} {{ sumTotalN(p) }}</span> -->
+                        <div class="w-full flex flex-col md:flex-row justify-between gap-y-1">
+                            <div v-for="p in param" class="flex gap-x-1">
+                                <div class="flex flex-col w-28 justify-center p-2" :class="store().theme == 'dark' ? 'bg-dark-base' : 'bg-base'">{{ p.title }}</div>
+                                <div class="flex flex-col break-words w-full md:w-44 justify-center p-2" :class="store().theme == 'dark' ? 'bg-dark-base' : 'bg-base'">{{ sumTotalN(p) }}</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </slot>
-            <div v-if="store().menu.option.key == 'tambah' || store().menu.option.key == 'edit'" class="mx-5 flex justify-end space-x-2 mb-3 z-[1]">
-                <base-button @click="close()" class="bg-primary-hover" label="Batal"></base-button>
-                <base-button @click="submited()" class="bg-primary" label="Simpan"></base-button>
+            <div v-if="store().menu.option.key == 'tambah' || store().menu.option.key == 'edit'" class="w-full px-3 md:px-5 flex justify-end space-x-2 z-[1]" :class="store().detail != '' && store().detail.length > 1 ? 'mt-24 md:mt-0' : ''">
+                <base-button @click="close()" class="bg-primary-hover w-full md:w-max" label="Batal"></base-button>
+                <base-button @click="submited()" class="bg-primary w-full md:w-max" label="Simpan"></base-button>
             </div>
         </div>
         <input-dialog v-if="input_d" :open="input_d" @close="close_d" @input_="dialogI">
@@ -68,16 +74,16 @@ export default {
     },
     methods: {
         close() {
-           store().resetState()
-           this.tmp = []
-           this.dataitem = {}
+            this.tmp = []
+            this.dataitem = {}
+            store().resetState()
         },
         sumTotalN(prm) {
             let arr = []
             let data = store().detail
             if(data) {
                 for (let i = 0; i < data.length; i++) {
-                    arr.push(data[i][prm.key])
+                    arr.push((data[i][prm.key] == undefined ? 0 : data[i][prm.key]))
                 }
                 let res =  arr.reduce((total, current) => {
                     return total + current;

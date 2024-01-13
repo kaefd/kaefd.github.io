@@ -144,9 +144,9 @@ export default {
 		for (let i = 0; i < detail.length; i++) {
 			newDetail.push({
 				kode_barang: detail[i].kode_barang,
-				jumlah: detail[i].jumlah,
-				jumlah_diterima: detail[i].jumlah_diterima,
-				nilai: detail[i].nilai,
+				jumlah: detail[i].jumlah || 0,
+				jumlah_diterima: detail[i].jumlah_diterima || 0,
+				nilai: detail[i].nilai || 0,
 			});
 		}
 		let json = JSON.stringify(newDetail);

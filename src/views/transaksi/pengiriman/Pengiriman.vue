@@ -57,7 +57,7 @@ export default {
                     {title: 'No Penjualan', key: 'no_penjualan', type: 'text', show: false, rules: ['unique']},
                     {title: 'Kode Barang', key: 'kode_barang', type: 'text', show: false},
                     {title: 'Nama Barang', key: 'nama_barang', type: 'text', show: false},
-                    {title: 'Jumlah', key: 'jumlah', type: 'number', show: true},
+                    {title: 'Jumlah', key: 'jumlah', type: 'number', show: true, rules: ['required']},
                     {title: 'Jumlah Konversi', key: 'jumlah_konversi', type: 'number', show: true},
                     {title: 'Satuan Konversi', key: 'satuan_konversi', type: 'text', show: true},
                 ],

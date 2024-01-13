@@ -1,5 +1,5 @@
 <template>
-    <base-table :fields="config.fields" :items="store().detail" :master="false" :dialog_field="config.dialog_field"></base-table>
+    <base-table :fields="config.fields" :items="store().detail" :master="false" :dialog_field="store().state.dialog_field"></base-table>
 </template>
 <script setup>
 import { store } from '@/utils/store'
@@ -19,12 +19,6 @@ export default {
                         // {title: 'Kode Konversi', key: 'kode_konversi', type: 'text', show: true},
                         // {title: 'Jumlah Konversi', key: 'jumlah_konversi', type: 'text', show: true},
                         // {title: 'Satuan Konversi', key: 'satuan_konversi', type: 'text', show: true},
-                ],
-                dialog_field: [
-                    {title: 'Kode Barang', key: 'kode_barang', type: 'text', show: false},
-                    {title: 'Nama Barang', key: 'nama_barang', type: 'text', show: false},
-                    {title: 'Jumlah', key: 'jumlah', type: 'number', show: true},
-                    {title: 'Jumlah Konversi', key: 'jumlah_konversi', type: 'number', show: false},
                 ],
                 field_detail: false,
                 filter: false,

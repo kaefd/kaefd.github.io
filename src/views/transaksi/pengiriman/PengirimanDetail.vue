@@ -1,5 +1,5 @@
 <template>
-    <base-table :fields="config.fields" :items="store().detail" :master="false" :dialog_field="config.dialog_field"></base-table>
+    <base-table :fields="config.fields" :items="store().detail" :master="false" :dialog_field="store().state.dialog_field"></base-table>
 </template>
 <script setup>
 import { store } from '@/utils/store'
@@ -10,11 +10,6 @@ export default {
         return {
             config: {
                 title: 'Detail Pengiriman Barang',
-                permission: [
-                    {title: 'Tambah Data', key: 'tambah', value: true},
-                    {title: 'Detail Pengiriman', key: 'lihat', value: true},
-                    {title: 'Batal Pengiriman', key: 'batal', value: false},
-                ],
                 fields: [
                         {title: 'No Penjualan', key: 'no_penjualan', type: 'text', show: true},
                         {title: 'Tipe Dokumen', key: 'tipe_dokumen', type: 'text', show: true},
@@ -28,13 +23,6 @@ export default {
                         // {title: 'Nama Konversi', key: 'nama_konversi', type: 'text', show: true},
                         {title: 'Jumlah Konversi', key: 'jumlah_konversi', type: 'number', show: true},
                         {title: 'Satuan Konversi', key: 'satuan_konversi', type: 'text', show: true},
-                ],
-                dialog_field: [
-                    {title: 'Kode Barang', key: 'kode_barang', type: 'text', show: false},
-                    {title: 'Nama Barang', key: 'nama_barang', type: 'text', show: false},
-                    {title: 'Jumlah', key: 'jumlah', type: 'number', show: true},
-                    {title: 'Jumlah Konversi', key: 'jumlah_konversi', type: 'number', show: true},
-                    {title: 'Satuan Konversi', key: 'satuan_konversi', type: 'text', show: true},
                 ],
                 field_detail: false,
                 filter: false,

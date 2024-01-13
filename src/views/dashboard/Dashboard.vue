@@ -34,7 +34,7 @@
         <div class="w-full px-0 md:px-8 ">
             <div class="w-full h-[600px] px-3 md:px-5 pt-5 pb-0 md:pb-12 rounded-0 md:rounded-xl" :class="store().theme == 'dark' ? 'dark' : 'bg-white'">
                 <p class="mx-3">{{ config.title }}</p>
-                <p class="mx-3 mb-5 text-sm">Bulan {{utils.formatMonth(new Date())}}</p>
+                <p class="mx-3 text-sm">Bulan {{utils.formatMonth(new Date())}}</p>
                 <base-table :fields="config.fields" :items="items" :master="true" :permission="config" :s_table="config.permission != '' ? false : true"></base-table>
             </div>
         </div>
@@ -111,6 +111,7 @@ export default {
         }
     },
     beforeMount() {
+        store().resetState()
         const pr = new Date(store().periode[1])
         const mnt = pr.getMonth()
         const yr = pr.getFullYear()

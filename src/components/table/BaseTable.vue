@@ -17,12 +17,12 @@
                     </tr>
                 </thead>
                 <tbody class="w-full h-[79%] md:h-[87%] flex flex-col pb-6 items-center overflow-auto" :class="store().menu.option.key == 'tambah' || store().menu.option.key == 'lihat' ? 'h-max md:h-[80%]' : 'h-max md:h-[90%]'">
-                    <tr v-if="master" v-for="item in items" @click="menu($event, item.head, item.detail)" class="w-full flex items-center cursor-pointer break-words" :class="(store().theme == 'dark' ? 'hover:bg-dark-hover' : 'hover:bg-gray-100'), (fields.length > 1 ? 'justify-around' : 'justify-between')">
+                    <tr v-if="master" v-for="item in items" @click="menu($event, item.head, item.detail)" class="w-full flex items-center break-words" :class="(store().theme == 'dark' ? 'hover:bg-dark-hover' : 'hover:bg-gray-100'), (fields.length > 1 ? 'justify-around' : 'justify-between'), s_table ? '' : 'cursor-pointer'">
                         <td v-for="field, f in fieldCol" scope="row" class="px-6 py-3 w-[15%] min-w-[100px] whitespace-pre-wrap capitalize">
                             {{ field.type == 'number' ? (item.head[field.key] > 0 ? utils.numb(item.head[field.key]) : 0) : (field.type == 'date' ? utils.formatDate(item.head[field.key]) : item.head[field.key]) }}
                         </td>
                     </tr>
-                    <tr v-if="!master" v-for="item in items" @click="menu($event, item, item)" class="w-full flex justify-between items-center cursor-pointer break-words" :class="(store().theme == 'dark' ? 'hover:bg-dark-hover' : 'hover:bg-gray-100'), (fields.length > 1 ? 'justify-around' : 'justify-between')">
+                    <tr v-if="!master" v-for="item in items" @click="menu($event, item, item)" class="w-full flex justify-between items-center break-words" :class="(store().theme == 'dark' ? 'hover:bg-dark-hover' : 'hover:bg-gray-100'), (fields.length > 1 ? 'justify-around' : 'justify-between'), s_table ? '' : 'cursor-pointer'">
                         <td v-for="field, f in fieldCol" scope="row" class="px-6 py-3 w-[15%] min-w-[100px] whitespace-pre-wrap capitalize">
                             {{ field.type == 'number' ? (item[field.key] > 0 ? utils.numb(item[field.key]) : 0) : (field.type == 'date' ? utils.formatDate(item[field.key]) : item[field.key]) }}
                         </td>
