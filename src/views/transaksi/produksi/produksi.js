@@ -137,7 +137,7 @@ export default {
 				if (error.response.status == 500) {
 					alert.failed(null, error.response.data);
 				} else alert.failed(null);
-				return 'success'
+				return 'failed'
 			})
 			setTimeout(() => {
 				store().loader('off')

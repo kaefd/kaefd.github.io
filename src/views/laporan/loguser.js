@@ -2,8 +2,15 @@ import api from '@/utils/api'
 import {store} from '@/utils/store'
 export default {
     async log (param, fl) {
+        let parameters = "";
+		if (param) parameters = param;
+		else
+			parameters = {
+				tgl_awal: store().periode[0],
+				tgl_akhir: store().periode[1],
+			};
         store().loader('on')
-        let head = await api.getData('/log_user', param)
+        let head = await api.getData('/log_user', parameters)
         let data = []
         for (let i = 0; i < head.length; i++) {
             data.push({

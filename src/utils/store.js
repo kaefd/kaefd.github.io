@@ -3,6 +3,7 @@ import router from '@/router'
 import barang from '@/views/master/barang'
 import konversi from '../views/master/konversi'
 import pelanggan from '../views/master/pelanggan'
+import supplier from '../views/master/supplier'
 import user from '../views/master/user'
 import pemasukan from '@/views/transaksi/pemasukan/pemasukan'
 import produksi from '@/views/transaksi/produksi/produksi'
@@ -45,6 +46,11 @@ export const store = defineStore('store', {
       master: '',
       detail: '',
       s_detail: '',
+      Rmenu: {
+        show: false,
+        screenX: 0,
+        screenY: 0
+      },
       menu: {
         show: false,
         option: '',
@@ -77,12 +83,34 @@ export const store = defineStore('store', {
         show: false,
         item: ''
       },
+      this.Rmenu = {
+        show: false,
+        screenX: 0,
+        screenY: 0
+      },
       this.menu= {
         show: false,
         option: '',
         screenX: 0,
         screenY: 0,
       }
+    },
+    refreshData() {
+      let state = router.currentRoute.value.path.slice(1)
+      if(state == 'master/data-barang') return barang.barang()
+      else if(state == 'master/konversi-barang') return konversi.konversi()
+      else if(state == 'master/data-pelanggan') return pelanggan.pelanggan()
+      else if(state == 'master/data-supplier') return supplier.supplier()
+      else if(state == 'master/data-user') return user.user()
+      else if(state == 'transaksi/pemasukan') return pemasukan.pemasukan()
+      else if(state == 'transaksi/produksi') return produksi.produksi()
+      else if(state == 'transaksi/pengeluaran') return pengeluaran.pengeluaran()
+      else if(state == 'transaksi/pengiriman') return pengiriman.pengiriman()
+      else if(state == 'laporan/laporan-stok') return stokbarang.barang()
+      else if(state == 'laporan/laporan-pemasukan') return pemasukan.pemasukan()
+      else if(state == 'laporan/laporan-pengeluaran') return pengeluaran.pengeluaran()
+      else if(state == 'laporan/laporan-pengiriman') return pengiriman.pengiriman()
+      else if(state == 'laporan/log-user' || 'log-activity') return loguser.log()
     },
     openDialog () {
       this.$state.dialog = !this.$state.dialog

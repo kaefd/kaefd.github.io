@@ -5,7 +5,7 @@
         <!-- APP BAR -->
         <TopBar v-if="$router.currentRoute.value.path != '/login' && !store().suratjalan && !store().do && $router.currentRoute.value.path != '/ubah-password'"/>
         <AppBar v-if="$router.currentRoute.value.path != '/login' && !store().suratjalan && !store().do && $router.currentRoute.value.path != '/ubah-password'"/>
-        <router-view class="w-full duration-300" :class="store().nav ? 'translate-x-0 md:translate-x-72 max-w-max md:max-w-[78%]' : '-translate-x-0'"></router-view>
+        <router-view class="duration-300" :class="store().nav ? 'translate-x-0 md:translate-x-72 max-w-max md:max-w-[78%] lg:max-w-[78%] xl:max-w-[79%] 2xl:max-w-[84%]' : '-translate-x-0 w-full'"></router-view>
         <div v-if="store().nav" @click="close()" class="absolute z-[0] md:z-[-1] h-full w-full"></div>
         <base-loader v-if="store().loading && $router.currentRoute.value.path != '/login'"></base-loader>
       </div>

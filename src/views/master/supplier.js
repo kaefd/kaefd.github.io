@@ -6,6 +6,7 @@ export default {
         else return ''
     },
     async supplier (param) {
+        store().loader('on')
         let head = await api.getData('/supplier?status=true', this.parameters(param))
         let data = []
         for (let i = 0; i < head.length; i++) {
@@ -14,6 +15,7 @@ export default {
             })
             
         }
+        store().loader('off')
         return data
     },
 }

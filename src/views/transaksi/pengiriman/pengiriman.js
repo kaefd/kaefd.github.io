@@ -225,7 +225,7 @@ export default {
 		alert
 			.confirm(
 				"Apakah anda yakin ?",
-				"Anda akan menghapus " + data.no_pengiriman
+				"Anda akan membatalkan " + data.no_pengiriman
 			)
 			.then((result) => {
 				if (result.isConfirmed) {
