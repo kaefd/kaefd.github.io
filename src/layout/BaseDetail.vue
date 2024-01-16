@@ -2,7 +2,7 @@
     <div v-if="store().detail_dialog" class="absolute top-0 right-0 w-full h-full overflow-auto z-[2] ps-0 md:ps-24" :class="store().theme == 'dark' ? 'bg-dark-base' : 'bg-base'">
         <div class="flex flex-col gap-y-3 h-full pb-20 md:pb-3 overflow-auto md:overflow-auto">
             <slot name="full-content">
-                <div class="overflow-visible h-max md:h-full mx-0 md:mx-5 mt-5 p-5 rounded-0 md:rounded-lg flex flex-col flex-wrap gap-y-5 animate__animated animate__fadeIn animate__faster"  :class="store().dialog ? 'bg-white z-[0]' : (store().theme == 'dark' ? 'dark z-[2]' : 'bg-white z-[2]')">
+                <div class="overflow-visible h-max md:h-full mx-0 md:mx-5 mt-5 p-5 rounded-0 md:rounded-lg flex flex-col flex-wrap gap-y-5 animate__animated animate__fadeIn animate__faster"  :class="store().dialog ? (store().theme == 'dark' ? 'dark z-[0]' : 'bg-white z-[0]') : (store().theme == 'dark' ? 'dark z-[2]' : 'bg-white z-[2]')">
                     <div class="flex items-center space-x-3 text-lg md:text-xl">
                         <button @click="close()">
                             <i class="ri-arrow-left-line"></i>
