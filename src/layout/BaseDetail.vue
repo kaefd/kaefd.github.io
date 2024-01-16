@@ -11,7 +11,7 @@
                     </div>
                     <!-- HEAD -->
                     <slot name="header-content">
-                        <div class="flex flex-col flex-wrap gap-y-2 gap-x-32 pt-1 w-full" :class="store().nav ? 'h-max lg:h-[50vh] xl:h-[45vh] 2xl:h-[25vh]' : 'h-max md:h-max lg:h-[45vh] xl:h-[35vh] 2xl:h-[25vh]'">
+                        <div class="flex flex-col flex-wrap gap-y-2 gap-x-32 pt-1 w-full" :class="store().nav ? 'h-max lg:h-[50vh] xl:h-[45vh] 2xl:h-[25vh]' : 'h-max md:h-max lg:h-[40vh] xl:h-[35vh] 2xl:h-[25vh]'">
                             <div v-for="fl in field.filter(it => it.show == true)">
                                 <div class="flex justify-between items-center md:w-72">
                                     <label class="w-[24%] break-normal">{{ fl.title }}</label>
@@ -25,7 +25,7 @@
                 <div v-if="child && store().menu.option.key == 'tambah'" class="px-3 md:px-5">
                     <base-button @click="addDetail()" class="bg-primary w-full md:w-max" label="Tambah Barang"></base-button>
                 </div>
-                <div v-if="child" class="rounded-lg mx-0 md:mx-5 min-h-[255px] 2xl:min-h-[300px] h-full flex flex-col justify-between animate__animated animate__fadeIn animate__slow" :class="store().theme == 'dark' ? 'dark' : 'bg-white'">
+                <div v-if="child" class="rounded-lg mx-0 md:mx-5 min-h-[350px] h-full flex flex-col justify-between animate__animated animate__fadeIn animate__slow" :class="store().theme == 'dark' ? 'dark' : 'bg-white'">
                     <div class="w-full h-full rounded-0 md:rounded-lg" :class="store().theme == 'dark' ? 'dark' : 'bg-white'">
                         <slot name="detail"></slot>
                     </div>
