@@ -213,9 +213,17 @@ export default {
             this.$emit("input", val);
         },
         selectDate() {
-            let val = {
-                title: this.label,
-                value: this.date.toJSON().slice(0, 10)
+            let val = ''
+            if(!this.variant) {
+                val = {
+                    title: this.label,
+                    value: this.date.toJSON().slice(0, 10)
+                }
+            } else {
+                val = {
+                    title: this.label,
+                    value: this.date
+                }
             }
             this.$emit("input", val);
         },
