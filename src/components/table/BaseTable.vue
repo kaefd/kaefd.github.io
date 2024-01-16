@@ -98,13 +98,13 @@ methods: {
                     state.menu.screenY = state.menu.option.key == 'lihat' ? event.clientY - 50 : event.clientY - 120
                     state.menu.show = !state.menu.show
                 })
-                if(this.master && this.$router.currentRoute.value.path != '/transaksi/pengiriman') {
+                if(this.master && this.$router.currentRoute.value.path != '/transaksi/pengiriman' && this.$router.currentRoute.value.path != '/laporan/laporan-pengiriman') {
                     store().$patch((state) => {
                         state.master = item
                         state.detail = detail
                     })
                 }
-                else if(this.master && this.$router.currentRoute.value.path == '/transaksi/pengiriman') {
+                else if(this.master && (this.$router.currentRoute.value.path == '/transaksi/pengiriman' || this.$router.currentRoute.value.path == '/laporan/laporan-pengiriman')) {
                     store().$patch((state) => {
                         state.master = item
                     })

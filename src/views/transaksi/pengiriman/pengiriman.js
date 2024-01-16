@@ -70,8 +70,7 @@ export default {
 		return newdata;
 	},
 	detail(data) {
-		console.log(data);
-		data.map(async (item) => {
+		data?.map(async (item) => {
 			let p = {
 				no_penjualan: item.no_penjualan,
 			};
