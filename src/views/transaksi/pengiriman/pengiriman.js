@@ -44,16 +44,16 @@ export default {
 			item.nama_barang = [...new Set(nama)].toString();
 			item.satuan = [...new Set(satuan)].toString();
 		});
-		detail.map(async item => {
-		    let p = {
-		        tgl_awal: store().periode[0],
-		        tgl_akhir: store().periode[1],
-		        no_penjualan: item.no_penjualan
-		    }
-		    let pjl = await api.getData('/penjualan_head?', p)
-		    item.no_dokumen = pjl[0].no_dokumen
-		    item.tipe_dokumen = pjl[0].tipe_dokumen
-		})
+		// detail.map(async item => {
+		//     let p = {
+		//         tgl_awal: store().periode[0],
+		//         tgl_akhir: store().periode[1],
+		//         // no_penjualan: item.no_penjualan
+		//     }
+		//     let pjl = await api.getData('/penjualan_head?', p)
+		//     // item.no_dokumen = pjl[0].no_dokumen
+		//     // item.tipe_dokumen = pjl[0].tipe_dokumen
+		// })
 		let data = [];
 		for (let i = 0; i < head.length; i++) {
 			data.push({
@@ -70,15 +70,17 @@ export default {
 		return newdata;
 	},
 	detail(data) {
+		console.log(data);
 		data.map(async (item) => {
 			let p = {
-				tgl_awal: "2023-09-01",
-				tgl_akhir: "2023-11-30",
+				tgl_awal: store().periode[0],
+				tgl_akhir: store().periode[1],
 				no_penjualan: item.no_penjualan,
 			};
 			let pjl = await api.getData("/penjualan_head?", p);
-			item.no_dokumen = pjl[0].no_dokumen;
-			item.tipe_dokumen = pjl[0].tipe_dokumen;
+			let nopjl = pjl.find(pj => pj.no_penjualan == item.no_penjualan)
+			item.no_dokumen = nopjl?.no_dokumen;
+			item.tipe_dokumen = nopjl?.tipe_dokumen;
 		});
 		store().$patch((state) => {
 			state.detail = data;

@@ -40,7 +40,7 @@
                     </div>
                 </div>
             </slot>
-            <div v-if="store().menu.option.key == 'tambah' || store().menu.option.key == 'edit'" class="w-full px-3 md:px-5 flex justify-end space-x-2 z-[1]" :class="store().detail != '' && store().detail.length > 1 ? 'mt-24 md:mt-0' : ''">
+            <div v-if="store().menu.option.key == 'tambah' || store().menu.option.key == 'edit'" class="w-full px-3 md:px-5 flex justify-end space-x-2 z-[1]" :class="store().detail != '' && store().detail?.length > 1 ? 'mt-24 md:mt-0' : ''">
                 <base-button @click="close()" class="bg-primary-hover w-full md:w-max" label="Batal"></base-button>
                 <base-button @click="submited()" class="bg-primary w-full md:w-max" label="Simpan"></base-button>
             </div>

@@ -1,7 +1,9 @@
 <template>
     <base-page :config="config">
         <template #header-content>
-            <DetailBarang/>    
+            <div class="flex flex-col flex-wrap gap-y-2 gap-x-32 pt-1 w-full">
+                <DetailBarang/>
+            </div>
         </template>
     </base-page>
 </template>

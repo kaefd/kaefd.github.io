@@ -98,13 +98,13 @@ methods: {
                     state.menu.screenY = state.menu.option.key == 'lihat' ? event.clientY - 50 : event.clientY - 120
                     state.menu.show = !state.menu.show
                 })
-                if(this.master && this.$router.currentRoute.value.path != '/pengiriman') {
+                if(this.master && this.$router.currentRoute.value.path != '/transaksi/pengiriman') {
                     store().$patch((state) => {
                         state.master = item
                         state.detail = detail
                     })
                 }
-                else if(this.master && this.$router.currentRoute.value.path == '/pengiriman') {
+                else if(this.master && this.$router.currentRoute.value.path == '/transaksi/pengiriman') {
                     store().$patch((state) => {
                         state.master = item
                     })
