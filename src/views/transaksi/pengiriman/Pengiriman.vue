@@ -66,8 +66,8 @@ export default {
                     {title: 'Tanggal Akhir', key: 'tgl_akhir', type: 'date', rules: ['date:min tgl_awal', 'date:max ' +utils.today()]},
                 ],
                 param: [
-                    {title: 'Jumlah', key: 'jumlah'},
                     {title: 'Jumlah konversi', key: 'jumlah_konversi'},
+                    {title: 'Jumlah', key: 'jumlah'},
                 ]
             }
         }

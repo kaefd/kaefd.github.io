@@ -49,7 +49,9 @@
                             utils.numb(item.jumlah_konversi) }}</td>
                         <td contenteditable class="w-max whitespace-pre-wrap px-3 text-left">{{ item.satuan_konversi }}</td>
                         <td class="w-max whitespace-pre-wrap px-3 text-left">{{ utils.numb(item.jumlah) }}</td>
-                        <td class="w-max whitespace-pre-wrap px-3 text-left">{{ item.nopen }}</td>
+                        <td class="max-w-[400px] whitespace-pre-wrap px-3 text-left">
+                            <span>{{ item.nopen }}</span>
+                        </td>
                     </tr>
                     <tr>
                         <td></td>
@@ -110,32 +112,48 @@ export default {
     },
     computed: {
         dataitem() {
-            let k = []
-            let key = store().detail.map(item => item.nama_barang)
+				let k = [];
+				let key = store().detail.map((item) => item.nama_barang);
+				// let head = Array.from(new Set(key.map((obj) => obj.nama_barang))).map(
+				// 	(nama_barang) => {
+				// 		return key.find((obj) => obj.nama_barang === nama_barang);
+				// 	}
+				// );
+				let head = [...new Set(key)]
 
-            for (let i = 0; i < key.length; i++) {
-                let kode = []
-                let jumlah = []
-                let konversi = []
-                let nama = ''
-                for (let j = 0; j < store().detail.length; j++) {
-                    if (store().detail[j].nama_barang == key[i]) {
-                        nama = store().detail[j].nama_barang
-                        kode.push(store().detail[j].no_dokumen + '/' + store().detail[j].kode_group.slice(2, 4))
-                        jumlah.push(store().detail[j].jumlah)
-                        konversi.push(store().detail[j].jumlah_konversi)
-                    }
-                }
-                k.push({
-                    nama_barang: nama,
-                    jumlah_konversi: konversi.reduce((accumulator, currentValue) => accumulator + currentValue, 0),
-                    satuan: store().detail[i].satuan,
-                    jumlah: jumlah.reduce((accumulator, currentValue) => accumulator + currentValue, 0),
-                    nopen: [...new Set(kode)].toString(),
-                })
-            }
-            return k
-        }
+				for (let i = 0; i < head.length; i++) {
+					let kode = [];
+					let jumlah = [];
+					let konversi = [];
+					let nama = "";
+					for (let j = 0; j < store().detail.length; j++) {
+						if (store().detail[j].nama_barang == head[i]) {
+							nama = store().detail[j].nama_barang;
+							kode.push(
+								store().detail[j].no_dokumen +
+									"/" +
+									store().detail[j].kode_group.slice(2, 4) + ' '
+							);
+							jumlah.push(store().detail[j].jumlah);
+							konversi.push(store().detail[j].jumlah_konversi);
+						}
+					}
+					k.push({
+						nama_barang: nama,
+						jumlah_konversi: konversi.reduce(
+							(accumulator, currentValue) => accumulator + currentValue,
+							0
+						),
+						satuan: store().detail[i].satuan,
+						jumlah: jumlah.reduce(
+							(accumulator, currentValue) => accumulator + currentValue,
+							0
+						),
+						nopen: [...new Set(kode)].toString(),
+					});
+				}
+				return k;
+			},
     }
 }
 </script>
