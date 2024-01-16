@@ -215,7 +215,7 @@ export default {
         selectDate() {
             let val = {
                 title: this.label,
-                value: this.date
+                value: this.date.toJSON().slice(0, 10)
             }
             this.$emit("input", val);
         },
