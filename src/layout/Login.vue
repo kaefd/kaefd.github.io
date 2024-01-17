@@ -102,9 +102,6 @@ export default {
             if(v.value) {
                 this.remember = true
                 const now = new Date()
-
-                // `item` is an object which contains the original value
-                // as well as the time when it's supposed to expire
                 const item = {
                     value: {
                         username: this.username,

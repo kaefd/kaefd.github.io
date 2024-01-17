@@ -1,5 +1,5 @@
 <template>
-    <div class="w-screen h-screen flex flex-col items-center justify-center" :class="load ? 'cursor-wait' : ''">
+    <div class="w-screen h-screen flex flex-col items-center justify-center bg-white" :class="load ? 'cursor-wait' : ''">
         <div class="w-full absolute bottom-0">
             <img src="../assets/img/bgAuri.jpg" alt="bg">
         </div>

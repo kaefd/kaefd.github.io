@@ -2,7 +2,7 @@
     <div v-if="store().detail_dialog" class="absolute top-0 right-0 w-full h-full overflow-auto z-[2] ps-0 md:ps-24" :class="store().theme == 'dark' ? 'bg-dark-base' : 'bg-base'">
         <div class="flex flex-col gap-y-3 h-full pb-20 md:pb-3 overflow-auto md:overflow-auto">
             <slot name="full-content">
-                <div class="overflow-visible h-max md:h-full mx-0 md:mx-5 mt-5 p-5 rounded-0 md:rounded-lg flex flex-col flex-wrap gap-y-5 animate__animated animate__fadeIn animate__faster"  :class="store().dialog ? (store().theme == 'dark' ? 'dark z-[0]' : 'bg-white z-[0]') : (store().theme == 'dark' ? 'dark z-[2]' : 'bg-white z-[2]')">
+                <div class="overflow-visible h-full md:h-full mx-0 md:mx-5 mt-5 p-5 rounded-0 md:rounded-lg flex flex-col flex-wrap gap-y-5 animate__animated animate__fadeIn animate__faster"  :class="store().dialog ? (store().theme == 'dark' ? 'dark z-[0]' : 'bg-white z-[0]') : (store().theme == 'dark' ? 'dark z-[2]' : 'bg-white z-[2]')">
                     <div class="flex items-center space-x-3 text-lg md:text-xl">
                         <button @click="close()">
                             <i class="ri-arrow-left-line"></i>
@@ -11,7 +11,7 @@
                     </div>
                     <!-- HEAD -->
                     <slot name="header-content">
-                        <div class="flex flex-col flex-wrap gap-y-2 gap-x-32 pt-1 w-full" :class="store().nav ? 'h-max lg:h-[50vh] xl:h-[45vh] 2xl:h-[25vh]' : 'h-max md:h-max lg:h-[40vh] xl:h-[35vh] 2xl:h-[25vh]'">
+                        <div class="flex flex-col flex-wrap gap-y-2 gap-x-32 pt-1 w-full" :class="store().nav ? 'h-max md:h-max lg:h-[50vh] xl:h-[45vh] 2xl:h-[28vh]' : 'h-max md:h-max lg:h-[40vh] xl:h-[35vh] 2xl:h-[28vh]'">
                             <div v-for="fl in field.filter(it => it.show == true)">
                                 <div class="flex justify-between items-center md:w-72">
                                     <label class="w-[24%] break-normal">{{ fl.title }}</label>
@@ -56,6 +56,7 @@
 import { store } from '@/utils/store'
 import alert from '@/utils/alert'
 import utils from '@/utils/utils'
+import pengiriman from '@/views/transaksi/pengiriman/pengiriman';
 </script>
 <script>
 export default {
@@ -92,6 +93,10 @@ export default {
             }
         },
         addDetail() {
+            if(this.$router.currentRoute.value.path == '/transaksi/pengiriman') {
+                const data = pengiriman.blmTerkirim()
+                store().$patch((state) => state.state.permission[0].item.item = data)
+            }
             this.input_d = true
             store().$patch((state) => { 
                 // state.i_dialog.show = !state.i_dialog.show

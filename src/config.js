@@ -7,7 +7,7 @@ const config = {
     },
     routeMode: {
         webHistory: {
-            base: '/inventori'
+            base: '/'
         },
         webHash: {
             base: '/'

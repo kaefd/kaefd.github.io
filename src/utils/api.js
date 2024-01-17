@@ -11,7 +11,7 @@ const instance = axios.create({
     csrf: localStorage.getItem('token'),
     'Content-Type': 'application/json',
     'Access-Control-Allow-Origin': '*',
-    'Cache-Control': 'no-cache',
+    'Cache-Control': 'no-cache; no-store; must-revalidate',
   },
 })
 export default {
