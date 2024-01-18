@@ -4,8 +4,6 @@
     </div>
 </template>
 <script setup>
-import stokbarang from './stokbarang'
-import { store } from '@/utils/store'
 </script>
 <script>
 export default {

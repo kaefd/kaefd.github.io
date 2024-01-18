@@ -8,11 +8,11 @@
     </base-page>
 </template>
 <script setup>
-import pengeluaran from '@/views/transaksi/pengeluaran/pengeluaran'
 import { store } from '@/utils/store'
 import utils from '@/utils/utils';
 import otoritas from '@/router/otoritas';
 import DetailBc from './DetailBc.vue';
+import lapbc from './lapbc';
 </script>
 <script>
 export default {
@@ -25,7 +25,7 @@ export default {
                     {title: 'Detail Bc', key: 'lihat', value: true},
                 ],
                 fields: [
-                    {title: 'No Pengeluaran', key: 'no_penjualan', type: 'text', show: true, sort: 'asc'},
+                    {title: 'No Pengeluaran', key: 'no_penjualan', type: 'text', show: true, sort: 'desc'},
                     {title: 'Tgl Keluar', key: 'tgl_penjualan', type: 'date', show: true, sort: 'desc'},
                     {title: 'Tipe Dokumen', key: 'tipe_dokumen', type: 'text', show: true, sort: 'desc'},
                     {title: 'No Dokumen', key: 'no_dokumen', type: 'text', show: true, sort: 'desc'},
@@ -37,14 +37,6 @@ export default {
                 filter: [
                     {title: 'Tanggal Awal', key: 'tgl_awal', type: 'date', rules: ['date:max tgl_akhir']},
                     {title: 'Tanggal Akhir', key: 'tgl_akhir', type: 'date', rules: ['date:min tgl_awal', 'date:max '+ utils.today()]},
-                    {title: 'Tipe Dokumen', key: 'tipe_dokumen', type: 'checkbox', item: [
-                        {title: 'BC25', key: 'BC25', show: true},
-                        {title: 'BC41', key: 'BC41', show: true},
-                    ]},
-                    {title: 'Status', key: 'status', type: 'checkbox', item: [
-                        {title: 'Menunggu', key: 'open', show: true},
-                        {title: 'Selesai', key: 'close', show: true},
-                    ]},
                 ],
                 param: [
                     {title: 'Jumlah', key: 'jumlah'},
@@ -55,14 +47,10 @@ export default {
     },
     methods: {
         async get () {
-            let a = otoritas.Cakses('Laporan Pengeluaran')
+            let a = otoritas.Cakses('Laporan Bc')
             if(a) {
-                store().loader('on')
-                let data = await pengeluaran.pengeluaran(null, this.config.fields[0])
-                if(data) store().loader('off')
-                store().$patch((state) => {
-                    state.state = this.config
-                })
+                store().$patch((state) => {state.state = this.config})
+                await lapbc.pengeluaran(null, this.config.fields[0])
             } else this.$router.push('/')
         }
     },

@@ -13,6 +13,7 @@ import stokbarang from '@/views/laporan/stokbarang'
 import alert from './alert'
 import utils from './utils'
 import loguser from '@/views/laporan/loguser'
+import lapbc from '@/views/laporan/lapbc'
 
 export const store = defineStore('store', {
   state: () => {
@@ -110,6 +111,7 @@ export const store = defineStore('store', {
       else if(state == 'laporan/laporan-pemasukan') return pemasukan.pemasukan()
       else if(state == 'laporan/laporan-pengeluaran') return pengeluaran.pengeluaran()
       else if(state == 'laporan/laporan-pengiriman') return pengiriman.pengiriman()
+      else if(state == 'laporan/laporan-bc') return lapbc.pengeluaran()
       else if(state == 'laporan/log-user' || 'log-activity') return loguser.log()
     },
     openDialog () {
@@ -137,6 +139,7 @@ export const store = defineStore('store', {
       else if(state == 'laporan/laporan-pemasukan') return pemasukan.filterData(input, fl)
       else if(state == 'laporan/laporan-pengeluaran') return pengeluaran.filterData(input, fl)
       else if(state == 'laporan/laporan-pengiriman') return pengiriman.filterData(input, fl)
+      else if(state == 'laporan/laporan-bc') return lapbc.filterData(input, fl)
       else if(state == 'laporan/log-user' || 'log-activity') return loguser.filterData(input, fl)
     },
     filtered(input) {
@@ -151,6 +154,7 @@ export const store = defineStore('store', {
       else if(state == 'laporan/laporan-pemasukan') return pemasukan.filtered(input)
       else if(state == 'laporan/laporan-pengeluaran') return pengeluaran.filtered(input)
       else if(state == 'laporan/laporan-pengiriman') return pengiriman.filtered(input)
+      else if(state == 'laporan/laporan-bc') return lapbc.filtered(input)
       else if(state == 'laporan/log-user' || 'log-activity') return loguser.filtered(input)
     },
     scol(input, fl) {

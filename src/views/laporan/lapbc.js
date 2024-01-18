@@ -40,7 +40,7 @@ export default {
 			item.jumlah = jumlah.reduce((accumulator, currentValue) => {
 				return accumulator + currentValue;
 			}, 0);
-			item.status = item.status == "open" ? "menunggu" : "selesai";
+			// item.status = item.status == "open" ? "menunggu" : "selesai";
 		});
 		detail.map((item) => (item.total_harga = item.harga_jual * item.jumlah));
 		for (let i = 0; i < head.length; i++) {
@@ -92,30 +92,7 @@ export default {
 				([key, value]) => value !== false && value !== true
 			)
 		);
-		// store().$patch((state) => { state.periode = [periode.tgl_awal, periode.tgl_akhir]})
-		// let ft_kategori = store().state.filter[2].item
-		let filters = store().state.filter;
-		let filterCheck = filters.filter((item) => item.type == "checkbox");
-		if (input != "") {
-			for (let i = 0; i < filterCheck.length; i++) {
-				filterCheck[i].item.map((item) => {
-					let same = Object.fromEntries(
-						Object.entries(input).filter(([key]) => key == item.key)
-					);
-					if (same[Object.keys(same)] != undefined)
-						item.show = same[Object.keys(same)];
-					else item.show = true;
-				});
-			}
-		}
-		// store().$patch((state) => { state.state.filter[2].item = ft_kategori})
-		let filtered = [];
-		for (let i = 0; i < filterCheck.length; i++) {
-			filtered = [
-				...filtered,
-				...filterCheck[i].item.filter((item) => item.show === true),
-			];
-		}
+		
 		let x = "";
 
 		if (periode.tgl_awal != undefined) {
@@ -136,19 +113,20 @@ export default {
 		await this.pengeluaran(p).then((response) => {
 			x = response;
 		});
-		const filterData = x.filter((it) => {
-			let a = filtered.some((k) => it.head.tipe_dokumen.includes(k.key));
-			let b = "";
-			let all = filtered.find((f) => f.key == "semua");
-			if (all == undefined) {
-				b = filtered.some((k) => it.head.status.includes(k.title));
-				return a && b;
-			} else return a;
-		});
+		// const filterData = x.filter((it) => {
+		// 	let a = filtered.some((k) => it.head.tipe_dokumen.includes(k.key));
+		// 	let b = "";
+		// 	let all = filtered.find((f) => f.key == "semua");
+		// 	if (all == undefined) {
+		// 		b = filtered.some((k) => it.head.status.includes(k.title));
+		// 		return a && b;
+		// 	} else return a;
+		// });
 		store().$patch((state) => {
-			state.items = filterData;
+			state.items = x;
 		});
-		console.log(filterData);
+        console.log(x);
+        return x
 	},
 	create(data) {
 		store().loader("on");
