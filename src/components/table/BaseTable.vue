@@ -1,5 +1,5 @@
 <template>
-    <div class="p-3 h-[90%] md:h-full rounded-lg w-full" :class="store().theme == 'dark' ? 'dark' : 'bg-white'">
+    <div class="h-[90%] md:h-full rounded-lg w-full" :class="store().theme == 'dark' ? 'dark' : 'bg-white'">
         <div class="w-full h-full overflow-x-auto md:overflow-y-hidden">
             <table id="table" class="w-full h-full text-xs text-left">
                 <thead class="w-full flex bg-primary-hover text-center text-sm">

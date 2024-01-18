@@ -35,7 +35,9 @@
                 :class="store().filter || store().column ? '-translate-y-10 md:translate-y-0' : '-translate-y-[473px] md:-translate-y-[250px]'">
                 <!-- <div class="w-full h-full bg-red-500 mb-48 md:mb-0"> -->
                 <slot name="base-content">
-                    <base-table :fields="config.fields" :items="datatable" :master="true" :permission="config" :s_table="config.permission != '' ? false : true"></base-table>
+                    <div class="w-full h-full p-3" :class="store().theme == 'dark' ? 'dark' : 'bg-white'">
+                        <base-table :fields="config.fields" :items="datatable" :master="true" :permission="config" :s_table="config.permission != '' ? false : true"></base-table>
+                    </div>
                 </slot>
                 <!-- </div> -->
             </div>

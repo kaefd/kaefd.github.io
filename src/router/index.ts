@@ -177,11 +177,19 @@ const routes = [
             component: () => import('@/views/laporan/LaporanPengiriman.vue')
       },
       {
+        name: 'Laporan Bc',
+        path: 'laporan-bc',
+        meta: {
+          middleware: [middleware]
+        },
+        component: () => import('@/views/laporan/LaporanBc.vue')
+      },
+      {
         name: 'Laporan Log User',
         path: 'log-user',
         meta: {
-      middleware: [middleware]
-    },
+          middleware: [middleware]
+        },
         component: () => import('@/views/laporan/LaporanLogUser.vue')
       },
     ],

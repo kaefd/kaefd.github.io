@@ -1,7 +1,7 @@
 <template>
     <base-page :config="config">
         <template #header-content>
-            <div class="flex flex-col flex-wrap gap-y-2 gap-x-32 pt-1 w-full">
+            <div class="h-[90%] w-full">
                 <DetailBarang/>
             </div>
         </template>

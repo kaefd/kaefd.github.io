@@ -24,7 +24,7 @@ export default {
       //     if(otoritas[i].jenis_otoritas == 'Pengiriman') return true
       // }
       else if(o == 'Laporan') {
-          if(otoritas[i].jenis_otoritas == 'Laporan' || otoritas[i].jenis_otoritas == 'Laporan Stok Barang' || otoritas[i].jenis_otoritas == 'Laporan Pembelian' || otoritas[i].jenis_otoritas == 'Laporan Pengeluaran' || otoritas[i].jenis_otoritas == 'Laporan Pengiriman' || otoritas[i].jenis_otoritas == 'Laporan Log User') return true
+          if(otoritas[i].jenis_otoritas == 'Laporan' || otoritas[i].jenis_otoritas == 'Laporan Stok Barang' || otoritas[i].jenis_otoritas == 'Laporan Pembelian' || otoritas[i].jenis_otoritas == 'Laporan Pengeluaran' || otoritas[i].jenis_otoritas == 'Laporan Pengiriman' || otoritas[i].jenis_otoritas == 'Laporan Bc' || otoritas[i].jenis_otoritas == 'Laporan Log User') return true
       }
     }
   },
@@ -44,6 +44,7 @@ export default {
       else if(o == 'Laporan Pemasukan') {if(otoritas[i].jenis_otoritas == 'Laporan Pembelian') return true}
       else if(o == 'Laporan Pengeluaran') {if(otoritas[i].jenis_otoritas == 'Laporan Penjualan') return true}
       else if(o == 'Laporan Pengiriman') {if(otoritas[i].jenis_otoritas == 'Laporan Pengiriman') return true}
+      else if(o == 'Laporan Bc') {if(otoritas[i].jenis_otoritas == 'Laporan Bc') return true}
       else if(o == 'Laporan Log User') {if(otoritas[i].jenis_otoritas == 'Laporan Log User') return true}
     }
   },

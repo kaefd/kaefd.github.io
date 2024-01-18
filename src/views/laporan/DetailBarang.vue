@@ -1,5 +1,5 @@
 <template>
-    <div class="-mx-5 h-full">
+    <div class="h-full w-full">
         <base-table :fields="config.fields" :items="items" :master="true">
             <template #tb-detail>
                 <LogBarang v-if="store().dialog" :config="config"/>
