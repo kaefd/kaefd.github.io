@@ -70,6 +70,30 @@ export default {
 		);
 		return head;
 	},
+	async detailPgm (no_pjl) {
+		const param = { no_penjualan: no_pjl }
+		let detail = await api.getData('/pengiriman_detail/no_penjualan', param)
+		let data = []
+		for (let i = 0; i < detail.length; i++) {
+			data.push({
+				head: detail[i]
+			})
+		}
+		return data
+	},
+	async content_detail (no_pgm) {
+		let param = {
+			no_pengiriman: no_pgm
+		}
+		console.log(param);
+		const h = await api.getData('pengiriman_head/no_pengiriman', param)
+		const d = await api.getData('pengiriman_detail/no_pengiriman', param)
+
+		return {
+			head: h,
+			detail: d
+		}
+	},
 	filterData(input, fl) {
 		let data = {};
 		for (let i = 0; i < input.length; i++) {

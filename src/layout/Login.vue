@@ -32,7 +32,7 @@
                 </div>
             </div>
             <div class="w-3/4 ms-10">
-                <base-input type="checkbox" label="Ingat saya" @input="input" :value="remember" :disabled="load" :class="load ? 'cursor-wait' : ''"/>
+                <base-input type="checkbox" label="Remember me" @input="input" :value="remember" :disabled="load" :class="load ? 'cursor-wait' : ''"/>
             </div>
             <pills-button type="submit" label="login" class="bg-primary-tint text-white w-3/4 shadow-xl focus-within:shadow" :class="load ? 'cursor-wait' : ''"></pills-button>
         </form>

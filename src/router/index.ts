@@ -46,14 +46,14 @@ const routes = [
     },
         component: () => import('@/views/master/DataBarang.vue')
       },
-      {
-        name: 'Konversi Barang',
-        path: 'konversi-barang',
-        meta: {
-      middleware: [middleware]
-    },
-        component: () => import('@/views/master/KonversiBarang.vue')
-      },
+    //   {
+    //     name: 'Konversi Barang',
+    //     path: 'konversi-barang',
+    //     meta: {
+    //   middleware: [middleware]
+    // },
+    //     component: () => import('@/views/master/KonversiBarang.vue')
+    //   },
       {
         name: 'Data Pelanggan',
         path: 'data-pelanggan',

@@ -27,7 +27,7 @@
                 </div>
                 <div v-if="child" class="rounded-lg mx-0 md:mx-5 min-h-[350px] h-full flex flex-col justify-between animate__animated animate__fadeIn animate__slow" :class="store().theme == 'dark' ? 'dark' : 'bg-white'">
                     <div class="w-full h-full rounded-0 md:rounded-lg p-3" :class="store().theme == 'dark' ? 'dark' : 'bg-white'">
-                        <slot name="detail"></slot>
+                        <slot name="detail" :passItem="store().master"></slot>
                     </div>
                     <div class="pt-1 pb-3 px-3 gap-x-5 rounded-b-0 md:rounded-b-lg" :class="store().theme == 'dark' ? 'dark' : 'bg-white'">
                         <!-- <span v-for="p in param" class="font-bold capitalize">{{ 'Total ' + p.title + ': ' }} {{ sumTotalN(p) }}</span> -->
@@ -75,9 +75,15 @@ export default {
     },
     methods: {
         close() {
-            this.tmp = []
-            this.dataitem = {}
-            store().resetState()
+            if(store().dialog) {
+                store().$patch((state) => {
+                    state.dialog = false
+                })
+            } else {
+                this.tmp = []
+                this.dataitem = {}
+                store().resetState()
+            }
         },
         sumTotalN(prm) {
             let arr = []

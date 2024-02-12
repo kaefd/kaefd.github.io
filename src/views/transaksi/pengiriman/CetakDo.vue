@@ -17,7 +17,7 @@
 							<span class="capitalize"
 								>: {{ utils.formatDate(store().master.tgl_pengiriman) }}</span
 							>
-							<span contenteditable class="capitalize">: </span>
+							<span contenteditable="" class="capitalize">: </span>
 							<span class="capitalize">: {{ store().master.pelanggan }}</span>
 						</div>
 					</div>
@@ -50,7 +50,7 @@
 								{{ item.nama_konversi || item.nama_barang }}
 							</td>
 							<td
-								contenteditable
+							
 								class="w-max whitespace-pre-wrap px-3 text-left">
 								{{ utils.numb(item.jumlah_konversi) }}
 							</td>
@@ -58,7 +58,7 @@
 								{{ item.keterangan }}
 							</td>
 							<td
-								contenteditable
+							
 								class="w-max whitespace-pre-wrap px-3 text-left"></td>
 							<td class="w-max whitespace-pre-wrap px-3 text-left">
 								{{ utils.numb(item.jumlah) }}
@@ -68,7 +68,7 @@
 						<tr class="border-t border-b border-black">
 							<td></td>
 							<td
-								contenteditable
+							
 								class="w-max whitespace-pre-wrap px-3 text-left font-semibold">
 								{{ utils.numb(sum("konversi")) }}
 							</td>
@@ -91,8 +91,8 @@
 			<span>ekspedisi</span>
 		</div>
 		<div class="relative bottom-[10vh] left-[30%]">
-			<span class="italic capitalize"
-				>print date: {{ utils.today() }}</span
+			<span class="onlyPrinted italic"
+				>Print by: {{ `${user} / ${utils.today()}` }}</span
 			>
 		</div>
 	</div>
@@ -103,6 +103,11 @@
 </script>
 <script>
 	export default {
+		data() {
+			return {
+				user: localStorage.getItem('user')
+			}
+		},
 		methods: {
 			close() {
 				store().$patch((state) => {
@@ -183,6 +188,9 @@
 		width: 20cm;
 		height: 28cm;
 	}
+	.onlyPrinted {
+		visibility: hidden;
+	}
 	@media print {
 		body {
 			visibility: hidden;
@@ -194,6 +202,9 @@
 		.bodyp {
 			visibility: hidden;
 		} */
+		.onlyPrinted {
+			visibility: visible;
+		}
 		.page {
 			width: 21cm;
 			height: 29cm;

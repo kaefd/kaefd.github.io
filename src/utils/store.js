@@ -1,7 +1,7 @@
 import { defineStore, acceptHMRUpdate  } from 'pinia'
 import router from '@/router'
 import barang from '@/views/master/barang'
-import konversi from '../views/master/konversi'
+// import konversi from '../views/master/trash/konversi'
 import pelanggan from '../views/master/pelanggan'
 import supplier from '../views/master/supplier'
 import user from '../views/master/user'
@@ -99,7 +99,7 @@ export const store = defineStore('store', {
     refreshData() {
       let state = router.currentRoute.value.path.slice(1)
       if(state == 'master/data-barang') return barang.barang()
-      else if(state == 'master/konversi-barang') return konversi.konversi()
+      // // // else if(state == 'master/konversi-barang') return konversi.konversi()
       else if(state == 'master/data-pelanggan') return pelanggan.pelanggan()
       else if(state == 'master/data-supplier') return supplier.supplier()
       else if(state == 'master/data-user') return user.user()
@@ -130,7 +130,7 @@ export const store = defineStore('store', {
     filterdata(input, fl) {
       let state = router.currentRoute.value.path.slice(1)
       if(state == 'master/data-barang') return barang.filterData(input, fl)
-      else if(state == 'master/konversi-barang') return konversi.filterData(input, fl)
+      // // else if(state == 'master/konversi-barang') return konversi.filterData(input, fl)
       else if(state == 'transaksi/pemasukan') return pemasukan.filterData(input, fl)
       else if(state == 'transaksi/produksi') return produksi.filterData(input, fl)
       else if(state == 'transaksi/pengeluaran') return pengeluaran.filterData(input, fl)
@@ -145,7 +145,7 @@ export const store = defineStore('store', {
     filtered(input) {
       let state = router.currentRoute.value.path.slice(1)
       if(state == 'master/data-barang' && input != '') return barang.filtered(input)
-      else if(state == 'master/konversi-barang' && input != '') return konversi.filtered(input)
+      // // else if(state == 'master/konversi-barang' && input != '') return konversi.filtered(input)
       else if(state == 'transaksi/pemasukan' && input != '') return pemasukan.filtered(input)
       else if(state == 'transaksi/produksi' && input != '') return produksi.filtered(input)
       else if(state == 'transaksi/pengeluaran' && input != '') return pengeluaran.filtered(input)
@@ -180,7 +180,7 @@ export const store = defineStore('store', {
     create(data, fl) {
       let state = router.currentRoute.value.path.slice(1)
       if(state == 'master/data-barang' && data != '') return barang.create(data)
-      if(state == 'master/konversi-barang' && data != '') return konversi.create(data)
+      // // if(state == 'master/konversi-barang' && data != '') return konversi.create(data)
       if(state == 'master/data-pelanggan' && data != '') return pelanggan.create(data)
       if(state == 'master/data-user') return user.create(data, fl)
       if(state == 'transaksi/pemasukan' && data != '') return pemasukan.create(data)
@@ -191,7 +191,7 @@ export const store = defineStore('store', {
     update(data, fl) {
       let state = router.currentRoute.value.path.slice(1)
       if(state == 'master/data-barang' && data != '') return barang.update(data)
-      if(state == 'master/konversi-barang' && data != '') return konversi.update(data)
+      // // if(state == 'master/konversi-barang' && data != '') return konversi.update(data)
       if(state == 'master/data-pelanggan' && data != '') return pelanggan.update(data)
       if(state == 'master/data-user') return user.update(data, fl)
     },
@@ -199,7 +199,7 @@ export const store = defineStore('store', {
       let data = this.$state.master
       let state = router.currentRoute.value.path.slice(1)
       if(state == 'master/data-barang' && data != '') return barang.delete(data)
-      else if(state == 'master/konversi-barang' && data != '') return konversi.delete(data)
+      // // else if(state == 'master/konversi-barang' && data != '') return konversi.delete(data)
       else if(state == 'master/data-pelanggan' && data != '') return pelanggan.delete(data)
       else if(state == 'master/data-user' && data != '') return user.delete(data)
       else if(state == 'transaksi/pemasukan' && data != '') return pemasukan.delete(data)

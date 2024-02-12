@@ -31,19 +31,19 @@ export default {
                                 {title: 'Hapus Barang', key: 'hapus_barang', value: detail.find(it => it.jenis_otoritas == 'Hapus Barang' && it.username == head[i].username) == undefined ? 'false' : detail.find(it => it.jenis_otoritas == 'Hapus Barang' && it.username == head[i].username).status},
                             ]
                         },
-                        {
-                            title: 'Data Konversi Barang',
-                            key: 'konversi_barang',
-                            username: head[i].username,
-                            // value: detail[i].status ? detail[i].status : 'false',
-                            value: detail.find(it => it.username == head[i].username && it.jenis_otoritas == 'Data Konversi Barang') == undefined ? 'false' : detail.find(it => it.username == head[i].username && it.jenis_otoritas == 'Data Konversi Barang').status,
-                            active: false,
-                            item: [
-                                {title: 'Tambah Konversi Baru', key: 'tambah_barang_baru', value: detail.find(it => it.jenis_otoritas == 'Tambah Konversi Baru' && it.username == head[i].username) == undefined ? 'false' : detail.find(it => it.jenis_otoritas == 'Tambah Konversi Baru' && it.username == head[i].username).status},
-                                {title: 'Ubah Konversi', key: 'ubah_konversi', value: detail.find(it => it.jenis_otoritas == 'Ubah Konversi' && it.username == head[i].username) == undefined ? 'false' : detail.find(it => it.jenis_otoritas == 'Ubah Konversi' && it.username == head[i].username).status},
-                                {title: 'Hapus Konversi', key: 'hapus_konversi', value: detail.find(it => it.jenis_otoritas == 'Hapus Konversi' && it.username == head[i].username) == undefined ? 'false' : detail.find(it => it.jenis_otoritas == 'Hapus Konversi' && it.username == head[i].username).status},
-                            ]
-                        },
+                        // {
+                        //     title: 'Data Konversi Barang',
+                        //     key: 'konversi_barang',
+                        //     username: head[i].username,
+                        //     // value: detail[i].status ? detail[i].status : 'false',
+                        //     value: detail.find(it => it.username == head[i].username && it.jenis_otoritas == 'Data Konversi Barang') == undefined ? 'false' : detail.find(it => it.username == head[i].username && it.jenis_otoritas == 'Data Konversi Barang').status,
+                        //     active: false,
+                        //     item: [
+                        //         {title: 'Tambah Konversi Baru', key: 'tambah_barang_baru', value: detail.find(it => it.jenis_otoritas == 'Tambah Konversi Baru' && it.username == head[i].username) == undefined ? 'false' : detail.find(it => it.jenis_otoritas == 'Tambah Konversi Baru' && it.username == head[i].username).status},
+                        //         {title: 'Ubah Konversi', key: 'ubah_konversi', value: detail.find(it => it.jenis_otoritas == 'Ubah Konversi' && it.username == head[i].username) == undefined ? 'false' : detail.find(it => it.jenis_otoritas == 'Ubah Konversi' && it.username == head[i].username).status},
+                        //         {title: 'Hapus Konversi', key: 'hapus_konversi', value: detail.find(it => it.jenis_otoritas == 'Hapus Konversi' && it.username == head[i].username) == undefined ? 'false' : detail.find(it => it.jenis_otoritas == 'Hapus Konversi' && it.username == head[i].username).status},
+                        //     ]
+                        // },
                     // }
                     // if(detail[i].jenis_otoritas == 'Data Pelanggan') {
                         {
@@ -129,6 +129,7 @@ export default {
                                 {title: 'Cetak Surat Jalan', key: 'cetak_surat_jalan', value: detail.find(it => it.jenis_otoritas == 'Cetak Surat Jalan' && it.username == head[i].username) == undefined ? 'false' : detail.find(it => it.jenis_otoritas == 'Cetak Surat Jalan' && it.username == head[i].username).status},
                                 {title: 'Cetak DO', key: 'cetak_do', value: detail.find(it => it.jenis_otoritas == 'Cetak DO' && it.username == head[i].username) == undefined ? 'false' : detail.find(it => it.jenis_otoritas == 'Cetak DO' && it.username == head[i].username).status},
                                 {title: 'Batal Pengiriman', key: 'batal_pengiriman', value: detail.find(it => it.jenis_otoritas == 'Batal Pengiriman' && it.username == head[i].username) == undefined ? 'false' : detail.find(it => it.jenis_otoritas == 'Batal Pengiriman' && it.username == head[i].username).status},
+                                {title: 'Alamat Bongkar', key: 'alamat_bongkar', value: detail.find(it => it.jenis_otoritas == 'Alamat Bongkar' && it.username == head[i].username) == undefined ? 'false' : detail.find(it => it.jenis_otoritas == 'Alamat Bongkar' && it.username == head[i].username).status},
                             ]
                         },
                     // }

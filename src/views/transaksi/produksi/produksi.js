@@ -107,13 +107,13 @@ export default {
 		let detail = store().detail;
 		let newDetail = [];
 		for (let i = 0; i < detail.length; i++) {
-			let kode_konversi = detail[i].kode_konversi || "";
-			let jml_konversi = detail[i].kode_konversi || 0;
+			// let kode_konversi = detail[i].kode_konversi || "";
+			// let jml_konversi = detail[i].kode_konversi || 0;
 			newDetail.push({
 				kode_barang: detail[i].kode_barang,
 				jumlah: detail[i].jumlah,
-				kode_konversi: kode_konversi,
-				jumlah_konversi: jml_konversi,
+				// kode_konversi: kode_konversi,
+				// jumlah_konversi: jml_konversi,
 			});
 		}
 		let json = JSON.stringify(newDetail);

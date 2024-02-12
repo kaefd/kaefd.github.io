@@ -213,5 +213,12 @@ export default {
         else return false
       }
     }
+    if(value == 'alamatbongkar') {
+      if(page != undefined) {
+        let o = otoritas.find(item => item.jenis_otoritas == 'Alamat Bongkar')
+        if(o != undefined) return true
+        else return false 
+      }
+    }
   },
 }

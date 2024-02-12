@@ -17,12 +17,12 @@
                     </tr>
                 </thead>
                 <tbody class="w-full h-[79%] md:h-[87%] flex flex-col pb-6 items-center overflow-auto" :class="store().menu.option.key == 'tambah' || store().menu.option.key == 'lihat' ? 'h-max md:h-[80%]' : 'h-max md:h-[90%]'">
-                    <tr v-if="master" v-for="item in items" @click="menu($event, item.head, item.detail)" class="w-full flex items-center break-words" :class="(store().theme == 'dark' ? 'hover:bg-dark-hover' : 'hover:bg-gray-100'), (fields.length > 1 ? 'justify-around' : 'justify-between'), s_table ? '' : 'cursor-pointer'">
+                    <tr v-if="master" v-for="item in items" @contextmenu.prevent="menu($event, item.head, item.detail)" class="w-full flex items-center break-words" :class="(store().theme == 'dark' ? 'hover:bg-dark-hover' : 'hover:bg-gray-100'), (fields.length > 1 ? 'justify-around' : 'justify-between'), s_table ? '' : 'cursor-default'">
                         <td v-for="field, f in fieldCol" scope="row" class="px-6 py-3 w-[15%] min-w-[100px] whitespace-pre-wrap capitalize">
                             {{ field.type == 'number' ? (item.head[field.key] > 0 ? utils.numb(item.head[field.key]) : 0) : (field.type == 'date' ? utils.formatDate(item.head[field.key]) : item.head[field.key]) }}
                         </td>
                     </tr>
-                    <tr v-if="!master" v-for="item in items" @click="menu($event, item, item)" class="w-full flex justify-between items-center break-words" :class="(store().theme == 'dark' ? 'hover:bg-dark-hover' : 'hover:bg-gray-100'), (fields.length > 1 ? 'justify-around' : 'justify-between'), s_table ? '' : 'cursor-pointer'">
+                    <tr v-if="!master" v-for="item in items" @contextmenu.prevent="menu($event, item, item)" class="w-full flex justify-between items-center break-words" :class="(store().theme == 'dark' ? 'hover:bg-dark-hover' : 'hover:bg-gray-100'), (fields.length > 1 ? 'justify-around' : 'justify-between'), s_table ? '' : 'cursor-default'">
                         <td v-for="field, f in fieldCol" scope="row" class="px-6 py-3 w-[15%] min-w-[100px] whitespace-pre-wrap capitalize">
                             {{ field.type == 'number' ? (item[field.key] > 0 ? utils.numb(item[field.key]) : 0) : (field.type == 'date' ? utils.formatDate(item[field.key]) : item[field.key]) }}
                         </td>
@@ -32,7 +32,11 @@
         </div>
     </div>
     <slot name="tb-detail">
-        <base-dialog type="form" :dialog_field="dialog_field" :fields="fields"></base-dialog>
+        <base-dialog v-if="!s_table" type="form" :dialog_field="dialog_field" :fields="fields">
+            <template #dialog-content>
+                <slot name="dialog-content"></slot>
+            </template>
+        </base-dialog>
     </slot>
     <MenuOption v-if="store().menu.show" />
 </template>
@@ -98,13 +102,13 @@ methods: {
                     state.menu.screenY = state.menu.option.key == 'lihat' ? event.clientY - 50 : event.clientY - 120
                     state.menu.show = !state.menu.show
                 })
-                if(this.master && this.$router.currentRoute.value.path != '/transaksi/pengiriman' && this.$router.currentRoute.value.path != '/laporan/laporan-pengiriman') {
+                if(this.master && this.$router.currentRoute.value.path != '/transaksi/pengiriman' && this.$router.currentRoute.value.path != '/laporan/laporan-pengiriman' && this.$router.currentRoute.value.path != '/laporan/laporan-bc') {
                     store().$patch((state) => {
                         state.master = item
                         state.detail = detail
                     })
                 }
-                else if(this.master && (this.$router.currentRoute.value.path == '/transaksi/pengiriman' || this.$router.currentRoute.value.path == '/laporan/laporan-pengiriman')) {
+                else if(this.master && (this.$router.currentRoute.value.path == '/transaksi/pengiriman' || this.$router.currentRoute.value.path == '/laporan/laporan-pengiriman' || this.$router.currentRoute.value.path == '/laporan/laporan-bc')) {
                     store().$patch((state) => {
                         state.master = item
                     })

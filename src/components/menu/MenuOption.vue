@@ -6,6 +6,10 @@
             class="p-3 w-full cursor-pointer" :class="store().theme == 'dark' ? 'hover:bg-dark-hover' : 'hover:bg-gray-100'">
             <span>{{ menu.title }}</span>
         </div>
+        <div v-if="refresh" @click="option('refresh')"
+            class="p-3 w-full cursor-pointer" :class="store().theme == 'dark' ? 'hover:bg-dark-hover' : 'hover:bg-gray-100'">
+            <span>Refresh</span>
+        </div>
     </div>
 </template>
 <script setup>
@@ -14,6 +18,11 @@ import otoritas from '@/router/otoritas'
 </script>
 <script>
 export default {
+    data() {
+        return {
+            refresh: false
+        }
+    },
     computed: {
         elementStyle() {
             return {
@@ -25,11 +34,12 @@ export default {
         menuOpt () {
             let menu = [
                 {title: 'Detail', key: 'detail'},
-                {title: 'Hapus', key: 'hapus_detail'}
+                {title: 'Hapus', key: 'hapus_detail'},
             ]
             if(store().menu.option.key == 'lihat') return menu.slice(0, 1)
             else if(store().menu.option.key == 'tambah') return menu
             else {
+                this.refresh = true
                 if(store().state.title == 'Data User') return store().state.permission.filter(item => item.key != 'tambah' && otoritas.Cakses('Data User') == true)
                 else return store().state.permission.filter(item => item.key != 'tambah' && otoritas.check(item.key) == true)
             }
@@ -39,6 +49,10 @@ export default {
         option(value) {
             let same = store().state.permission.filter((item) => item.key == value.key)
             if(same != '') store().$patch((state) => { state.menu.option = value })
+            if(value == 'refresh') {
+                store().resetState()
+                store().refreshData()
+            }
             if (value.key == 'lihat') {
                 store().$patch((state) => { 
                     state.detail_dialog = true

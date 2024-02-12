@@ -1,5 +1,5 @@
 <template #dokumen>
-    <div class="page bg-white text-black hover:shadow-2xl p-3 flex flex-col items-center gap-y-5">
+    <div class="page bg-white text-black hover:shadow-2xl p-3 flex flex-col items-center gap-y-2">
         <!-- title -->
         <div class="w-full flex flex-col items-center">
             <span class="font-semibold text-lg uppercase">pt. auri steel metalindo</span>
@@ -23,7 +23,7 @@
                     <div class="flex flex-col">
                         <span>: {{ store().master.no_pengiriman }}</span>
                         <span>: {{ utils.formatDate(store().master.tgl_pengiriman) + '/' }}
-                        <span contenteditable>{{ utils.TimeNow().slice(0, 5) }}</span></span>
+                        <span>{{ utils.TimeNow().slice(0, 5) }}</span></span>
                         <span>: {{ store().master.supir + '/' + store().master.no_polisi }}</span>
                     </div>
                 </div>
@@ -45,9 +45,9 @@
                     <tr v-for="(item, i) in dataitem" class="w-full">
                         <td class="w-max whitespace-pre-wrap px-3 text-left">{{ i + 1 }}</td>
                         <td class="w-max whitespace-pre-wrap px-3 text-left">{{ item.nama_barang }}</td>
-                        <td contenteditable class="w-max whitespace-pre-wrap px-3 text-left">{{
+                        <td class="w-max whitespace-pre-wrap px-3 text-left">{{
                             utils.numb(item.jumlah_konversi) }}</td>
-                        <td contenteditable class="w-max whitespace-pre-wrap px-3 text-left">{{ item.satuan_konversi }}</td>
+                        <td class="w-max whitespace-pre-wrap px-3 text-left">{{ item.satuan_konversi }}</td>
                         <td class="w-max whitespace-pre-wrap px-3 text-left">{{ utils.numb(item.jumlah) }}</td>
                         <td class="max-w-[400px] whitespace-pre-wrap px-3 text-left">
                             <span>{{ item.nopen }}</span>
@@ -80,6 +80,9 @@
             <span>(Bag. Gudang)</span>
             <span>(Bag. Exim)</span>
         </div>
+        <div class="onlyPrinted flex w-full justify-end">
+            <span class="italic text-[14px]">Print by: {{ user }}</span>
+        </div>
     </div>
 </template>
 <script setup>
@@ -88,6 +91,11 @@ import utils from '@/utils/utils'
 </script>
 <script>
 export default {
+    data() {
+        return {
+            user: localStorage.getItem('user')
+        }
+    },
     methods: {
         close() {
             store().$patch((state) => {
@@ -153,7 +161,7 @@ export default {
 					});
 				}
 				return k;
-			},
+		},
     }
 }
 </script>
@@ -162,7 +170,9 @@ export default {
     width: 21cm;
     height: 12cm;
 }
-
+.onlyPrinted {
+    visibility: hidden;
+}
 @media print {
     body {
         visibility: hidden;
@@ -178,6 +188,9 @@ export default {
     padding: 0 !important;
     margin: 0 !important;
 } */
+    .onlyPrinted {
+        visibility: visible;
+    }
     .page {
         width: 20cm;
         height: 11cm;

@@ -175,7 +175,7 @@ export default {
 		let newDetail = [];
 		for (let i = 0; i < detail.length; i++) {
 			newDetail.push({
-				no_pengiriman: data.no_pengiriman,
+				// no_pengiriman: data.no_pengiriman,
 				no_penjualan: detail[i].no_penjualan,
 				no_urut: 1,
 				kode_barang: detail[i].kode_barang,

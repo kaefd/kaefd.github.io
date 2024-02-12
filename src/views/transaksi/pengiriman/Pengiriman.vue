@@ -38,7 +38,7 @@ export default {
                     {title: 'No Pengiriman', key: 'no_pengiriman', type: 'text', show: true, sort: 'asc'},
                     {title: 'Tgl Pengiriman', key: 'tgl_pengiriman', type: 'date', show: true, sort: 'desc'},
                     {title: 'Pelanggan', key: 'pelanggan', type: 'text', show: true, sort: 'desc'},
-                    {title: 'Tujuan Bongkar', key: 'tujuan_bongkar', type: 'text', show: true, sort: 'desc'},
+                    {title: 'Tujuan Bongkar', key: 'tujuan_bongkar', type: 'text', show: '', sort: 'desc'},
                     {title: 'Supir', key: 'supir', type: 'text', show: true, sort: 'desc'},
                     {title: 'No Polisi', key: 'no_polisi', type: 'text', show: true, sort: 'desc'},
                 ],
@@ -49,7 +49,7 @@ export default {
                     {title: 'Tujuan Bongkar', key: 'tujuan_bongkar', type: 'dialog', item: {point: 'nama', endpoint: 'alamat_bongkar', title: 'Alamat Bongkar', child: false, leftCustom: [
                         {content: ['nama']},
                         {content: ['alamat', 'kabupaten'], separate: '-'},
-                    ]}, show: true, rules: ['required']},
+                    ]}, show: '', rules: ['required']},
                     {title: 'Supir', key: 'supir', type: 'text', show: true, rules: ['required']},
                     {title: 'No Polisi', key: 'no_polisi', type: 'text', show: true, rules: ['required']},
                 ],
@@ -89,8 +89,11 @@ export default {
     beforeMount() {
         return store().resetState()
     },
-    async mounted() {
+    mounted() {
         this.get()
+        this.config.fields[3].show = otoritas.check('alamatbongkar')
+        this.config.field_detail[3].show = otoritas.check('alamatbongkar')
+        store().$patch((state) => { state.state = this.config })
     }
 }
 </script>

@@ -158,7 +158,7 @@ export default {
 			kode_supplier: data.supplier.kode_supplier,
 			no_invoice: data.no_invoice,
 			no_bl: data.no_bl,
-			persentase: data.persentase,
+			// persentase: data.persentase,
 			mata_uang: data.mata_uang,
 			kurs: data.kurs,
 			pembelian_detail: json,

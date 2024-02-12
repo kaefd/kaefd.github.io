@@ -45,7 +45,7 @@ export default {
                     {title: 'No BL', key: 'no_bl', type: 'text', show: true, rules: ['required']},
                     {title: 'Mata Uang', key: 'mata_uang', type: 'text', show: true, rules: ['required']},
                     {title: 'Kurs', key: 'kurs', type: 'number', show: true, rules: ['required']},
-                    {title: 'Persentase', key: 'persentase', type: 'number', show: true}
+                    // {title: 'Persentase', key: 'persentase', type: 'number', show: true}
                 ],
                 dialog_field: [
                     {title: 'Kode Barang', key: 'kode_barang', type: 'text', show: false, rules: ['unique']},
