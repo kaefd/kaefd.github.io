@@ -1,5 +1,5 @@
 <template>
-    <VueDatePicker v-if="type == 'date' && !variant"
+    <VueDatePicker v-if="type == 'date' && !variant && !disabled"
         :dark="store().theme == 'dark' ? true : false"
         :clearable="false"
         :format-locale="id"
@@ -17,6 +17,26 @@
         class="w-[60%] min-w-[200px]"
         :disabled="disabled"
         v-model="date"
+        @update:model-value="selectDate"
+    ></VueDatePicker>
+    <VueDatePicker v-if="type == 'date' && !variant && disabled"
+        :dark="store().theme == 'dark' ? true : false"
+        :clearable="false"
+        :format-locale="id"
+        :min-date="rangedate.min"
+        :max-date="rangedate.max"
+        required
+        locale="id"
+        cancelText="batal"
+        selectText="pilih"
+        format="PP"
+        calendar-cell-class-name="dp-custom-cell"
+        menu-class-name="dp-custom-menu"
+        :input-class-name="store().theme == 'dark' ? 'dp-custom-input-dark' : 'dp-custom-input'"
+        :enable-time-picker="false"
+        class="w-[60%] min-w-[200px]"
+        :disabled="disabled"
+        :model-value="value"
         @update:model-value="selectDate"
     ></VueDatePicker>
     <VueDatePicker v-if="type == 'date' && variant == 'pills'"

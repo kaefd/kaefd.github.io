@@ -1,5 +1,10 @@
 <template>
-    <!-- <base-table :fields="config.fields" :items="store().detail" :master="s_table" :dialog_field="d_field || store().state.dialog_field" :s_table="s_table"></base-table> -->
+    <base-table :fields="config.fields" :items="store().detail || passItem" :master="s_table"
+        :dialog_field="d_field || store().state.dialog_field" :s_table="s_table">
+        <template #body-row>
+            <slot name="body-table"></slot>
+        </template>
+    </base-table>
 </template>
 <script setup>
 import { store } from '@/utils/store'
@@ -32,26 +37,26 @@ export default {
             }
         }
     },
-    watch: {
-        items(v) {
-            items = v
-        }
-    },
     methods: {
-        get() {
-            if (this.$router.currentRoute.value.path == '/laporan/laporan-bc') {
-                if(this.items.no_pengiriman) {
-                    const item = lapbc.content_detail(this.items.no_pengiriman)
-                    store().$patch((state) => {
-                        state.detail = item
-                    })
-                }
-            }
+        async get() {
+            // console.log(store().master);
+            // if (this.$router.currentRoute.value.path == '/laporan/laporan-bc') {
+            //     if (this.items.no_pengiriman) {
+            //         const item = await lapbc.content_detail(this.items.no_pengiriman)
+            //         console.log(item);
+            //         store().$patch((state) => {
+            //             state.detail = item
+            //         })
+            //     }
+            // }
 
-        }
+        },
+        updated() {
+            this.get()
+        },
     },
     mounted() {
-        this.get()
+        this.updated()
     }
 }
 </script>

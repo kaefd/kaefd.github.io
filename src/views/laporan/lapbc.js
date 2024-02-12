@@ -85,13 +85,27 @@ export default {
 		let param = {
 			no_pengiriman: no_pgm
 		}
-		console.log(param);
 		const h = await api.getData('pengiriman_head/no_pengiriman', param)
-		const d = await api.getData('pengiriman_detail/no_pengiriman', param)
-
+		let d = await api.getData('pengiriman_detail/no_pengiriman', param)
+		let data = []
+		for (let i = 0; i < d.length; i++) {
+			let pjl = await api.getData('penjualan_head/no_penjualan', {no_penjualan: d[i].no_penjualan})
+			data.push({
+				no_penjualan: d[i].no_penjualan,
+				tipe_dokumen: pjl[0].tipe_dokumen,
+				no_dokumen: pjl[0].no_dokumen,
+				kode_group: d[i].kode_group,
+				kode_barang: d[i].kode_barang,
+				nama_barang: d[i].nama_barang,
+				jumlah: d[i].jumlah,
+				satuan: d[i].satuan,
+				jumlah_konversi: d[i].jumlah_konversi,
+				satuan_konversi: d[i].satuan_konversi,
+			})
+		}
 		return {
 			head: h,
-			detail: d
+			detail: data
 		}
 	},
 	filterData(input, fl) {

@@ -15,7 +15,7 @@
                             <div v-for="fl in field.filter(it => it.show == true)">
                                 <div class="flex justify-between items-center md:w-72">
                                     <label class="w-[24%] break-normal">{{ fl.title }}</label>
-                                    <base-input :type="fl.type" :value="store().master[fl.key]" :option="fl.item" :fl_item="fl.item" :default="fl.default" :rules="fl.rules" :label="fl.key" @input="input" :disabled="fl.disabled || disabled || (store().menu.option.key == 'edit' && fl.edit == false)"></base-input>
+                                    <base-input :type="fl.type" :value="headItem[fl.key]" :option="fl.item" :fl_item="fl.item" :default="fl.default" :rules="fl.rules" :label="fl.key" @input="input" :disabled="fl.disabled || disabled || (store().menu.option.key == 'edit' && fl.edit == false)"></base-input>
                                 </div>
                             </div>
                         </div>
@@ -60,7 +60,7 @@ import pengiriman from '@/views/transaksi/pengiriman/pengiriman';
 </script>
 <script>
 export default {
-    props: {field: {type: Object},child: {type: Boolean}, param: {type: Object}},
+    props: {field: {type: Object},child: {type: Boolean}, param: {type: Object}, items: {type: Object}},
     data(){
         return{
             dataitem: {},
@@ -72,6 +72,9 @@ export default {
         disabled() {
             return store().menu.option.key == 'lihat'
         },
+        headItem() {
+            return this.items? this.items[0] : store().master
+        }
     },
     methods: {
         close() {

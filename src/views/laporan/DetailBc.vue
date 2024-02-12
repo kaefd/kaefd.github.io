@@ -1,15 +1,21 @@
 <template>
     <div class="h-full w-full">
         <base-table :fields="config.fields" :items="items" :master="true">
-            <!-- <template #tb-detail> -->
-                <template #dialog-content>
-                    <base-detail :field="config.field_detail" :child="config.child" :param="config.param">
-                        <template #detail="passItem">
-                            <PengirimanDetail :passItem="passItem.passItem" :d_field="config.dialog_field" :s_table="true" />
-                        </template>
-                    </base-detail>
-                </template>
-            <!-- </template> -->
+            <template #dialog-content>
+                <base-detail :field="config.field_detail" :items="store().master.head" :child="config.child" :param="config.param">
+                    <template #detail="passItem">
+                        <PengirimanDetail :passItem="passItem.passItem" :d_field="config.dialog_field" :s_table="true">
+                            <template #body-table>
+                                <tr v-for="item in passItem.passItem.detail" class="w-full flex items-center break-words cursor-default" :class="(store().theme == 'dark' ? 'hover:bg-dark-hover' : 'hover:bg-gray-100'), (config.fields_detail.length > 1 ? 'justify-around' : 'justify-between')">
+                                    <td v-for="field, f in config.fields_detail" scope="row" class="px-6 py-3 w-[15%] min-w-[100px] whitespace-pre-wrap capitalize">
+                                        {{ field.type == 'number' ? (item[field.key] > 0 ? utils.numb(item[field.key]) : 0) : (field.type == 'date' ? utils.formatDate(item[field.key]) : item[field.key]) }}
+                                    </td>
+                                </tr>
+                            </template>
+                        </PengirimanDetail>
+                    </template>
+                </base-detail>
+            </template>
         </base-table>
     </div>
 </template>
@@ -18,7 +24,7 @@ import { store } from '@/utils/store';
 import lapbc from './lapbc'
 import utils from '@/utils/utils';
 import PengirimanDetail from '../transaksi/pengiriman/PengirimanDetail.vue';
-// import DetailPgm from './DetailPgm.vue';
+import DetailPgm from './DetailPgm.vue';
 </script>
 <script>
 export default {
@@ -36,7 +42,7 @@ export default {
                 ],
                 field_detail: [
                     {title: 'No Pengiriman', key: 'no_pengiriman', type: 'text', show: true, rules: ['required']},
-                    {title: 'Tgl Pengiriman', key: 'tgl_pengiriman', type: 'date', show: true, rules: ['required', 'date:min '+utils.last_month(), 'date:max '+ utils.today()]},
+                    {title: 'Tgl Pengiriman', key: 'tgl_pengiriman', type: 'date', show: true},
                     {title: 'Pelanggan', key: 'pelanggan', type: 'dialog', item: {point: 'nama', endpoint: 'pelanggan', title: 'Data Pelanggan', child: false, left: ['nama']}, show: true, rules: ['required']},
                     {title: 'Tujuan Bongkar', key: 'tujuan_bongkar', type: 'dialog', item: {point: 'nama', endpoint: 'alamat_bongkar', title: 'Alamat Bongkar', child: false, leftCustom: [
                         {content: ['nama']},
@@ -44,6 +50,20 @@ export default {
                     ]}, show: '', rules: ['required']},
                     {title: 'Supir', key: 'supir', type: 'text', show: true, rules: ['required']},
                     {title: 'No Polisi', key: 'no_polisi', type: 'text', show: true, rules: ['required']},
+                ],
+                fields_detail: [
+                    { title: 'No Penjualan', key: 'no_penjualan', type: 'text', show: true },
+                    { title: 'Tipe Dokumen', key: 'tipe_dokumen', type: 'text', show: true },
+                    { title: 'No Dokumen', key: 'no_dokumen', type: 'text', show: true },
+                    { title: 'Kode Group', key: 'kode_group', type: 'text', show: true },
+                    { title: 'Kode Barang', key: 'kode_barang', type: 'text', show: true },
+                    { title: 'Nama Barang', key: 'nama_barang', type: 'text', show: true },
+                    { title: 'Jumlah', key: 'jumlah', type: 'number', show: true },
+                    { title: 'Satuan', key: 'satuan', type: 'text', show: true },
+                    // {title: 'Kode Konversi', key: 'kode_konversi', type: 'text', show: true},
+                    // {title: 'Nama Konversi', key: 'nama_konversi', type: 'text', show: true},
+                    { title: 'Jumlah Konversi', key: 'jumlah_konversi', type: 'number', show: true },
+                    { title: 'Satuan Konversi', key: 'satuan_konversi', type: 'text', show: true },
                 ],
                 child: [
                     {title: 'No Penjualan', key: 'no_penjualan', type: 'text', show: true},

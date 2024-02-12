@@ -7,7 +7,9 @@
                     <pills-button v-if="config.permission.find(item => item.key == 'tambah') && otoritas.check('tambah')" @click="option({title: 'tambah '+ $router.currentRoute.value.name, key: 'tambah'})" class="bg-primary z-[1] w-max" label="Tambah Data"></pills-button>
                 </div>
                 <div class="flex items-center justify-center md:justify-end space-x-2 w-max">
-                    <base-input type="search" variant="tonal" @search="input"></base-input>
+                    <slot name="search">
+                        <base-input type="search" variant="tonal" @search="input"></base-input>
+                    </slot>
                     <div class="flex gap-x-0 md:gap-x-2 items-center">
                         <div class="group flex relative">
                             <button @click="active('col')" class="h-[40px] w-[40px] rounded-full hover:bg-primary-hover">
