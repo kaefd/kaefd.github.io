@@ -23,7 +23,7 @@
                     <div class="flex flex-col">
                         <span>: {{ store().master.no_pengiriman }}</span>
                         <span>: {{ utils.formatDate(store().master.tgl_pengiriman) + '/' }}
-                        <span>{{ utils.TimeNow().slice(0, 5) }}</span></span>
+                        <span contenteditable>{{ utils.TimeNow().slice(0, 5) }}</span></span>
                         <span>: {{ store().master.supir + '/' + store().master.no_polisi }}</span>
                     </div>
                 </div>
@@ -45,9 +45,9 @@
                     <tr v-for="(item, i) in dataitem" class="w-full">
                         <td class="w-max whitespace-pre-wrap px-3 text-left">{{ i + 1 }}</td>
                         <td class="w-max whitespace-pre-wrap px-3 text-left">{{ item.nama_barang }}</td>
-                        <td class="w-max whitespace-pre-wrap px-3 text-left">{{
+                        <td contenteditable class="w-max whitespace-pre-wrap px-3 text-left">{{
                             utils.numb(item.jumlah_konversi) }}</td>
-                        <td class="w-max whitespace-pre-wrap px-3 text-left">{{ item.satuan_konversi }}</td>
+                        <td contenteditable class="w-max whitespace-pre-wrap px-3 text-left">{{ item.satuan_konversi }}</td>
                         <td class="w-max whitespace-pre-wrap px-3 text-left">{{ utils.numb(item.jumlah) }}</td>
                         <td class="max-w-[400px] whitespace-pre-wrap px-3 text-left">
                             <span>{{ item.nopen }}</span>
