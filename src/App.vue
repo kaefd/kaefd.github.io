@@ -1,6 +1,6 @@
 <template>
   <k-provider theme="ios">
-    <div class="flex justify-center w-screen h-full overflow-hidden">
+    <div oncontextmenu="return false;" class="flex justify-center w-screen h-full overflow-hidden">
       <div class="flex w-full max-w-[3840px] h-full" :class="store().theme == 'dark' ? 'bg-dark-base' : 'bg-base'">
         <!-- APP BAR -->
         <TopBar v-if="$router.currentRoute.value.path != '/login' && !store().suratjalan && !store().do && $router.currentRoute.value.path != '/ubah-password'"/>
@@ -9,6 +9,7 @@
         <div v-if="store().nav" @click="close()" class="absolute z-[0] md:z-[-1] h-full w-full"></div>
         <base-loader v-if="store().loading && $router.currentRoute.value.path != '/login'"></base-loader>
       </div>
+      <MenuOption v-if="store().menu.show" />
     </div>
   </k-provider>
   </template>
@@ -19,6 +20,7 @@
     import { store } from '@/utils/store'
     import api from '@/utils/api'
     import { kProvider } from 'konsta/vue';
+import MenuOption from './components/menu/MenuOption.vue';
   </script>
   <script>
   export default {

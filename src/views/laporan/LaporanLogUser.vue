@@ -14,7 +14,7 @@ export default {
         return {
             config: {
                 title: 'Laporan Log User',
-                child: true,
+                child: false,
                 permission: [],
                 fields: [
                     {title: 'Tanggal', key: 'tanggal', type: 'date', show: true, sort: 'asc'},

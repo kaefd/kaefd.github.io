@@ -3,7 +3,7 @@
 		class="page bg-white text-black hover:shadow-2xl hover:border-0 p-5 flex flex-col items-center justify-between gap-y-5">
 		<div class="w-full flex flex-col">
 			<div class="w-full flex flex-col gap-y-7 items-center">
-				<span class="font-semibold text-xl uppercase">Delivery Order</span>
+				<span class="font-semibold text-xl uppercase">Surat Delivery Order</span>
 				<div class="w-full flex gap-x-3 text-[0.9rem]">
 					<div class="flex gap-x-2">
 						<div class="flex flex-col gap-y-0">
@@ -92,7 +92,7 @@
 		</div>
 		<div class="relative bottom-[10vh] left-[30%]">
 			<span class="onlyPrinted italic"
-				>Print by: {{ `${user} / ${utils.today()}` }}</span
+				>Print by: {{ `${user} / ${utils.today()} ${utils.TimeNow()}` }}</span
 			>
 		</div>
 	</div>

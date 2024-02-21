@@ -18,12 +18,12 @@
                 </thead>
                 <tbody class="w-full h-[79%] md:h-[87%] flex flex-col pb-6 items-center overflow-auto" :class="store().menu.option.key == 'tambah' || store().menu.option.key == 'lihat' ? 'h-max md:h-[80%]' : 'h-max md:h-[90%]'">
                     <slot name="body-row">
-                        <tr v-if="master" v-for="item in items" @contextmenu.prevent="menu($event, item.head, item.detail)" class="w-full flex items-center break-words" :class="(store().theme == 'dark' ? 'hover:bg-dark-hover' : 'hover:bg-gray-100'), (fields.length > 1 ? 'justify-around' : 'justify-between'), s_table ? '' : 'cursor-default'">
+                        <tr v-if="master" v-for="item in items" @contextmenu.prevent="menu($event, item.head, item.detail)" @dblclick="openDetail($event, item.head, item.detail)" class="w-full flex items-center break-words" :class="(store().theme == 'dark' ? 'hover:bg-dark-hover' : 'hover:bg-gray-100'), (fields.length > 1 ? 'justify-around' : 'justify-between'), s_table ? '' : 'cursor-default'">
                             <td v-for="field, f in fieldCol" scope="row" class="px-6 py-3 w-[15%] min-w-[100px] whitespace-pre-wrap capitalize">
                                 {{ field.type == 'number' ? (item.head ? (item.head[field.key] > 0 ? utils.numb(item.head[field.key]) : 0) : 0) : (field.type == 'date' ? utils.formatDate(item.head[field.key]) : (item.head ? item.head[field.key] : '')) }}
                             </td>
                         </tr>
-                        <tr v-if="!master" v-for="item in items" @contextmenu.prevent="menu($event, item, item)" class="w-full flex justify-between items-center break-words" :class="(store().theme == 'dark' ? 'hover:bg-dark-hover' : 'hover:bg-gray-100'), (fields.length > 1 ? 'justify-around' : 'justify-between'), s_table ? '' : 'cursor-default'">
+                        <tr v-if="!master" v-for="item in items" @contextmenu.prevent="menu($event, item, item)" @dblclick="openDetail($event, item, item)" class="w-full flex justify-between items-center break-words" :class="(store().theme == 'dark' ? 'hover:bg-dark-hover' : 'hover:bg-gray-100'), (fields.length > 1 ? 'justify-around' : 'justify-between'), s_table ? '' : 'cursor-default'">
                             <td v-for="field, f in fieldCol" scope="row" class="px-6 py-3 w-[15%] min-w-[100px] whitespace-pre-wrap capitalize">
                                 {{ field.type == 'number' ? (item[field.key] > 0 ? utils.numb(item[field.key]) : 0) : (field.type == 'date' ? utils.formatDate(item[field.key]) : item[field.key]) }}
                             </td>
@@ -40,7 +40,6 @@
             </template>
         </base-dialog>
     </slot>
-    <MenuOption v-if="store().menu.show" />
 </template>
 <script setup>
 import utils from '@/utils/utils'
@@ -57,7 +56,8 @@ export default {
     master: {type: Boolean},
     permission: {type: Object},
     dialog_field: {type: Object},
-    s_table: {type: Boolean}
+    s_table: {type: Boolean},
+    custom: {type: Boolean}
   },
   data() {
     return {
@@ -99,23 +99,23 @@ methods: {
         }
     },
     menu (event, item, detail) {
-        if(!this.s_table || this.permission.permission != '') {
+        if (!this.s_table || this.permission.permission != '') {
             store().$patch((state) => {
-                state.menu.screenX = event.clientX - 90
-                state.menu.screenY = state.menu.option.key == 'lihat' ? event.clientY - 50 : event.clientY - 120
-                state.menu.show = !state.menu.show
+                state.menu.screenX = event.clientX
+                state.menu.screenY = state.menu.option.key == 'lihat' ? event.clientY : event.clientY
+                state.menu.show = true
             })
-            if(this.master && this.$router.currentRoute.value.path != '/transaksi/pengiriman' && this.$router.currentRoute.value.path != '/laporan/laporan-pengiriman' && this.$router.currentRoute.value.path != '/laporan/laporan-bc') {
+            if (this.master && this.$router.currentRoute.value.path != '/transaksi/pengiriman' && this.$router.currentRoute.value.path != '/laporan/laporan-pengiriman' && this.$router.currentRoute.value.path != '/laporan/laporan-bc') {
                 store().$patch((state) => {
                     state.master = item
                     state.detail = detail
                 })
             }
-            else if(this.master && (this.$router.currentRoute.value.path == '/transaksi/pengiriman' || this.$router.currentRoute.value.path == '/laporan/laporan-pengiriman' || this.$router.currentRoute.value.path == '/laporan/laporan-bc')) {
-                if(this.$router.currentRoute.value.path == '/laporan/laporan-bc') {
-                    if(item.no_pengiriman) {
+            else if (this.master && (this.$router.currentRoute.value.path == '/transaksi/pengiriman' || this.$router.currentRoute.value.path == '/laporan/laporan-pengiriman' || this.$router.currentRoute.value.path == '/laporan/laporan-bc')) {
+                if (this.$router.currentRoute.value.path == '/laporan/laporan-bc') {
+                    if (item.no_pengiriman) {
                         store().$patch(async (state) => {
-                            state.master = await lapbc.content_detail(item.no_pengiriman)
+                            state.master2 = await lapbc.content_detail(item.no_pengiriman)
                         })
                     } else {
                         store().$patch((state) => {
@@ -128,11 +128,51 @@ methods: {
                     })
                 }
                 pengiriman.detail(detail)
-            } else { 
-                store().$patch((state) => { 
-                    state.s_detail = detail
-                    state.menu.show = true
+            }
+            store().$patch((state) => {
+                state.s_detail = detail
+            })
+        }
+    },
+    openDetail (event, item, detail) {
+        if(!this.s_table || this.permission.permission != '') {
+            if (this.master && this.$router.currentRoute.value.path != '/transaksi/pengiriman' && this.$router.currentRoute.value.path != '/laporan/laporan-pengiriman' && this.$router.currentRoute.value.path != '/laporan/laporan-bc') {
+                store().$patch((state) => {
+                    state.master = item
+                    state.detail = detail
+                    state.menu.option.key = state.menu.option.key == 'lihat' ? 'detail' : 'lihat'
+                    state.detail_dialog = true
+                    state.dialog = state.menu.option.key == 'detail' ? true : false
                 })
+            }
+            else if (this.master && (this.$router.currentRoute.value.path == '/transaksi/pengiriman' || this.$router.currentRoute.value.path == '/laporan/laporan-pengiriman' || this.$router.currentRoute.value.path == '/laporan/laporan-bc')) {
+                if (this.$router.currentRoute.value.path == '/laporan/laporan-bc') {
+                    if (item.no_pengiriman) {
+                        store().$patch(async (state) => {
+                            state.master2 = await lapbc.content_detail(item.no_pengiriman)
+                            state.menu.option.key = 'lihat'
+                            state.dialog = true
+                        })
+                    } else {
+                        store().$patch((state) => {
+                            state.master = item
+                            state.menu.option.key = 'lihat'
+                            state.detail_dialog = true
+                        })
+                    }
+                } else {
+                    store().$patch((state) => {
+                        state.master = item
+                        state.menu.option.key = 'lihat'
+                        state.detail_dialog = true
+                    })
+                }
+                pengiriman.detail(detail)
+            } else {
+                store().$patch((state) => {
+                    state.s_detail = detail
+                })
+                store().openDialog()
             }
         }
     },

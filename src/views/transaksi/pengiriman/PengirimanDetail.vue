@@ -1,6 +1,6 @@
 <template>
     <base-table :fields="config.fields" :items="store().detail || passItem" :master="s_table"
-        :dialog_field="d_field || store().state.dialog_field" :s_table="s_table">
+        :dialog_field="d_field || store().state.dialog_field" :s_table="s_table" :custom="custom">
         <template #body-row>
             <slot name="body-table"></slot>
         </template>
@@ -12,7 +12,7 @@ import lapbc from '@/views/laporan/lapbc';
 </script>
 <script>
 export default {
-    props: ['passItem', 'd_field', 's_table'],
+    props: ['passItem', 'd_field', 's_table', 'custom'],
     data() {
         return {
             items: this.passItem,
@@ -38,7 +38,7 @@ export default {
         }
     },
     methods: {
-        async get() {
+        get() {
             // console.log(store().master);
             // if (this.$router.currentRoute.value.path == '/laporan/laporan-bc') {
             //     if (this.items.no_pengiriman) {
@@ -51,12 +51,8 @@ export default {
             // }
 
         },
-        updated() {
-            this.get()
-        },
     },
     mounted() {
-        this.updated()
     }
 }
 </script>

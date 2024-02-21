@@ -45,6 +45,7 @@ export const store = defineStore('store', {
       cpr: '',
       items: '',
       master: '',
+      master2: '',
       detail: '',
       s_detail: '',
       Rmenu: {
@@ -54,7 +55,7 @@ export const store = defineStore('store', {
       },
       menu: {
         show: false,
-        option: '',
+        option: {},
         screenX: 0,
         screenY: 0,
       },
@@ -73,6 +74,7 @@ export const store = defineStore('store', {
       this.detail_dialog = false,
       this.detail = ''
       this.temp = ''
+      this.master2 =''
       this.s_detail = ''
       this.filter = false
       this.column = false
@@ -91,7 +93,7 @@ export const store = defineStore('store', {
       },
       this.menu= {
         show: false,
-        option: '',
+        option: {},
         screenX: 0,
         screenY: 0,
       }

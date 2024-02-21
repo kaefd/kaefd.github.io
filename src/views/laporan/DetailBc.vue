@@ -1,10 +1,10 @@
 <template>
     <div class="h-full w-full">
         <base-table :fields="config.fields" :items="items" :master="true">
-            <template #dialog-content>
+        <template #dialog-content>
                 <base-detail :field="config.field_detail" :items="store().master.head" :child="config.child" :param="config.param">
                     <template #detail="passItem">
-                        <PengirimanDetail :passItem="passItem.passItem" :d_field="config.dialog_field" :s_table="true">
+                        <PengirimanDetail :passItem="passItem.passItem" :d_field="config.dialog_field" :s_table="true" :custom="true">
                             <template #body-table>
                                 <tr v-for="item in passItem.passItem.detail" class="w-full flex items-center break-words cursor-default" :class="(store().theme == 'dark' ? 'hover:bg-dark-hover' : 'hover:bg-gray-100'), (config.fields_detail.length > 1 ? 'justify-around' : 'justify-between')">
                                     <td v-for="field, f in config.fields_detail" scope="row" class="px-6 py-3 w-[15%] min-w-[100px] whitespace-pre-wrap capitalize">
@@ -38,18 +38,18 @@ export default {
                 permission: [],
                 fields: [
                     {title: 'No Pengiriman', key: 'no_pengiriman', type: 'text', show: true},
-                    {title: 'Jumlah', key: 'jumlah', type: 'number', show: true},
+                    {title: 'Tgl Pengiriman', key: 'tgl_pengiriman', type: 'date', show: true},
+                    {title: 'Tujuan Bongkar', key: 'tujuan_bongkar', type: 'dialog'},
+                    {title: 'Supir', key: 'supir', type: 'text', show: true},
+                    {title: 'No Polisi', key: 'no_polisi', type: 'text', show: true},
                 ],
                 field_detail: [
-                    {title: 'No Pengiriman', key: 'no_pengiriman', type: 'text', show: true, rules: ['required']},
+                    {title: 'No Pengiriman', key: 'no_pengiriman', type: 'text', show: true},
                     {title: 'Tgl Pengiriman', key: 'tgl_pengiriman', type: 'date', show: true},
-                    {title: 'Pelanggan', key: 'pelanggan', type: 'dialog', item: {point: 'nama', endpoint: 'pelanggan', title: 'Data Pelanggan', child: false, left: ['nama']}, show: true, rules: ['required']},
-                    {title: 'Tujuan Bongkar', key: 'tujuan_bongkar', type: 'dialog', item: {point: 'nama', endpoint: 'alamat_bongkar', title: 'Alamat Bongkar', child: false, leftCustom: [
-                        {content: ['nama']},
-                        {content: ['alamat', 'kabupaten'], separate: '-'},
-                    ]}, show: '', rules: ['required']},
-                    {title: 'Supir', key: 'supir', type: 'text', show: true, rules: ['required']},
-                    {title: 'No Polisi', key: 'no_polisi', type: 'text', show: true, rules: ['required']},
+                    {title: 'Pelanggan', key: 'pelanggan', type: 'dialog', show: true},
+                    {title: 'Tujuan Bongkar', key: 'tujuan_bongkar', type: 'dialog'},
+                    {title: 'Supir', key: 'supir', type: 'text', show: true},
+                    {title: 'No Polisi', key: 'no_polisi', type: 'text', show: true},
                 ],
                 fields_detail: [
                     { title: 'No Penjualan', key: 'no_penjualan', type: 'text', show: true },

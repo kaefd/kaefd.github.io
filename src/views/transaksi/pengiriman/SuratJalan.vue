@@ -10,8 +10,8 @@
                     <span class="uppercase">penerima : </span>
                     <div class="flex flex-col gap-y-0">
                         <span class="uppercase">{{ store().master.pelanggan }}</span>
-                        <span class="uppercase">{{ store().master.alamat }}</span>
-                        <span class="uppercase">{{ store().master.kabupaten }}</span>
+                        <span class="uppercase w-4/5">{{ store().master.alamat }}</span>
+                        <!-- <span class="uppercase">{{ store().master.kabupaten }}</span> -->
                     </div>
                 </div>
                 <div class="flex gap-x-2">
@@ -23,7 +23,7 @@
                     <div class="flex flex-col">
                         <span>: {{ store().master.no_pengiriman }}</span>
                         <span>: {{ utils.formatDate(store().master.tgl_pengiriman) + '/' }}
-                        <span contenteditable>{{ utils.TimeNow().slice(0, 5) }}</span></span>
+                        <span>{{ utils.TimeNow().slice(0, 5) }}</span></span>
                         <span>: {{ store().master.supir + '/' + store().master.no_polisi }}</span>
                     </div>
                 </div>
@@ -45,9 +45,9 @@
                     <tr v-for="(item, i) in dataitem" class="w-full">
                         <td class="w-max whitespace-pre-wrap px-3 text-left">{{ i + 1 }}</td>
                         <td class="w-max whitespace-pre-wrap px-3 text-left">{{ item.nama_barang }}</td>
-                        <td contenteditable class="w-max whitespace-pre-wrap px-3 text-left">{{
+                        <td class="w-max whitespace-pre-wrap px-3 text-left">{{
                             utils.numb(item.jumlah_konversi) }}</td>
-                        <td contenteditable class="w-max whitespace-pre-wrap px-3 text-left">{{ item.satuan_konversi }}</td>
+                        <td class="w-max whitespace-pre-wrap px-3 text-left">{{ item.satuan_konversi }}</td>
                         <td class="w-max whitespace-pre-wrap px-3 text-left">{{ utils.numb(item.jumlah) }}</td>
                         <td class="max-w-[400px] whitespace-pre-wrap px-3 text-left">
                             <span>{{ item.nopen }}</span>
@@ -81,7 +81,7 @@
             <span>(Bag. Exim)</span>
         </div>
         <div class="onlyPrinted flex w-full justify-end">
-            <span class="italic text-[14px]">Print by: {{ user }}</span>
+            <span class="italic text-[14px]">Print by: {{ `${user} / ${utils.today()} ${utils.TimeNow()}` }}</span>
         </div>
     </div>
 </template>

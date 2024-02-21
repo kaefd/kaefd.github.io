@@ -25,9 +25,9 @@
                 <div v-if="child && store().menu.option.key == 'tambah'" class="px-3 md:px-5">
                     <base-button @click="addDetail()" class="bg-primary w-full md:w-max" label="Tambah Barang"></base-button>
                 </div>
-                <div v-if="child" class="rounded-lg mx-0 md:mx-5 min-h-[350px] h-full flex flex-col justify-between animate__animated animate__fadeIn animate__slow" :class="store().theme == 'dark' ? 'dark' : 'bg-white'">
+                <div v-if="child" class="rounded-lg mx-0 md:mx-5 min-h-[350px] h-full flex flex-col justify-between animate__animated animate__fadeIn animate__faster" :class="store().theme == 'dark' ? 'dark' : 'bg-white'">
                     <div class="w-full h-full rounded-0 md:rounded-lg p-3" :class="store().theme == 'dark' ? 'dark' : 'bg-white'">
-                        <slot name="detail" :passItem="store().master"></slot>
+                        <slot name="detail" :passItem="store().master2 || store().master"></slot>
                     </div>
                     <div class="pt-1 pb-3 px-3 gap-x-5 rounded-b-0 md:rounded-b-lg" :class="store().theme == 'dark' ? 'dark' : 'bg-white'">
                         <!-- <span v-for="p in param" class="font-bold capitalize">{{ 'Total ' + p.title + ': ' }} {{ sumTotalN(p) }}</span> -->
@@ -73,7 +73,7 @@ export default {
             return store().menu.option.key == 'lihat'
         },
         headItem() {
-            return this.items? this.items[0] : store().master
+            return this.items? this.items[0] : (store().master2 != "" && store().master2 != false ? store().master2.head[0] : store().master)
         }
     },
     methods: {
@@ -81,6 +81,7 @@ export default {
             if(store().dialog) {
                 store().$patch((state) => {
                     state.dialog = false
+                    state.master2 = ""
                 })
             } else {
                 this.tmp = []

@@ -1,10 +1,14 @@
 <template>
-    <div class="h-screen w-full ps-0 md:ps-24 pt-16 pb-3 text-sm" :class="store().menu.option.key == undefined ? 'overflow-auto md:overflow-hidden' : 'overflow-hidden'">
-        <div class="pt-5 mx-3 md:mx-5 h-[90%] md:h-full overflow-visible md:overflow-hidden rounded-xl animate__animated animate__fadeIn animate__slow" :class="store().theme == 'dark' ? 'dark' : 'bg-white'">
+    <div class="h-screen w-full ps-0 md:ps-24 pt-16 pb-3 text-sm"
+        :class="store().menu.option.key == undefined ? 'overflow-auto md:overflow-hidden' : 'overflow-hidden'">
+        <div class="pt-5 mx-3 md:mx-5 h-[90%] md:h-full overflow-visible md:overflow-hidden rounded-xl animate__animated animate__fadeIn animate__faster"
+            :class="store().theme == 'dark' ? 'dark' : 'bg-white'">
             <div class="flex flex-wrap justify-between items-end space-y-2 px-3 ms:px-4">
                 <div class="flex flex-col space-y-3 w-max">
                     <!-- <span class="text-xl font-semibold">{{ $router.currentRoute.value.name }}</span> -->
-                    <pills-button v-if="config.permission.find(item => item.key == 'tambah') && otoritas.check('tambah')" @click="option({title: 'tambah '+ $router.currentRoute.value.name, key: 'tambah'})" class="bg-primary z-[1] w-max" label="Tambah Data"></pills-button>
+                    <!-- <pills-button v-if="config.permission.find(item => item.key == 'tambah') && otoritas.check('tambah')"
+                        @click="option({ title: 'tambah ' + $router.currentRoute.value.name, key: 'tambah' })"
+                        class="bg-primary z-[1] w-max" label="Tambah Data"></pills-button> -->
                 </div>
                 <div class="flex items-center justify-center md:justify-end space-x-2 w-max">
                     <slot name="search">
@@ -19,12 +23,15 @@
                             -translate-x-1/2 translate-y-full opacity-0 mt-2 mx-auto capitalize">pilih kolom</span>
                         </div>
                         <div class="group flex relative">
-                            <ExportOption v-if="otoritas.check('pdf') || otoritas.check('xlsx')" :fields="store().state.fields"/>
+                            <ExportOption v-if="otoritas.check('pdf') || otoritas.check('xlsx')"
+                                :fields="store().state.fields" />
                             <span class="z-[1] w-max group-hover:opacity-100 transition-opacity bg-gray-500 p-2 text-xs text-gray-100 rounded-md absolute left-1/2 
                             -translate-x-1/2 translate-y-full opacity-0 mt-2 mx-auto capitalize">export data</span>
                         </div>
                         <div class="group flex relative">
-                            <button v-if="config.filter != false" @click="active('filter')" class="h-[40px] w-[40px] rounded-full hover:bg-primary-hover"><i class="ri-filter-line text-primary text-base"></i></button>
+                            <button v-if="config.filter != false" @click="active('filter')"
+                                class="h-[40px] w-[40px] rounded-full hover:bg-primary-hover"><i
+                                    class="ri-filter-line text-primary text-base"></i></button>
                             <span class="z-[1] w-max group-hover:opacity-100 transition-opacity bg-gray-500 p-2 text-xs text-gray-100 rounded-md absolute left-1/2 
                             -translate-x-1/2 translate-y-full opacity-0 mt-2 mx-auto capitalize">filter data</span>
                         </div>
@@ -38,7 +45,8 @@
                 <!-- <div class="w-full h-full bg-red-500 mb-48 md:mb-0"> -->
                 <slot name="base-content">
                     <div class="w-full h-full p-3" :class="store().theme == 'dark' ? 'dark' : 'bg-white'">
-                        <base-table :fields="config.fields" :items="datatable" :master="true" :permission="config" :s_table="config.permission != '' ? false : true"></base-table>
+                        <base-table :fields="config.fields" :items="datatable" :master="true" :permission="config"
+                            :s_table="config.permission != '' ? false : true"></base-table>
                     </div>
                 </slot>
                 <!-- </div> -->
@@ -63,7 +71,7 @@
                 </template>
                 <template #header-content>
                     <!-- <div class="h-full -ms-3 -me-3"> -->
-                        <slot name="header-content"></slot>
+                    <slot name="header-content"></slot>
                     <!-- </div> -->
                 </template>
             </base-detail>
@@ -105,13 +113,13 @@ export default {
         rightClick(e) {
             e = e || window.event
             console.log(e);
-           store().Rmenu.show = !store().Rmenu.show
-           store().$patch((state) => {
-            state.Rmenu.screenX = e.clientX
-            state.Rmenu.screenY = e.clientY - 50
-           })
-           console.log(store().Rmenu);
-           
+            store().Rmenu.show = !store().Rmenu.show
+            store().$patch((state) => {
+                state.Rmenu.screenX = e.clientX
+                state.Rmenu.screenY = e.clientY - 50
+            })
+            console.log(store().Rmenu);
+
         },
         active(param) {
             if (param == 'filter') {
@@ -138,9 +146,9 @@ export default {
                 store().$patch((state) => {
                     state.detail_dialog = true
                     state.master = '',
-                    state.detail= ''
+                        state.detail = ''
                 })
-            }else if (value.key == 'edit') {
+            } else if (value.key == 'edit') {
                 store().$patch((state) => {
                     state.detail_dialog = true
                 })
@@ -153,8 +161,8 @@ export default {
                 state.menu.show = false
             })
         },
-        async input(value){
-            if(value) this.search = store().search(value, store().items, this.config.fields)
+        async input(value) {
+            if (value) this.search = store().search(value, store().items, this.config.fields)
             else this.search = 'false'
         }
     }

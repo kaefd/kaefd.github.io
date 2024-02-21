@@ -75,8 +75,14 @@ export default {
 		let detail = await api.getData('/pengiriman_detail/no_penjualan', param)
 		let data = []
 		for (let i = 0; i < detail.length; i++) {
+			let h = await api.getData(`/pengiriman_head/no_pengiriman?no_pengiriman=${detail[i].no_pengiriman}`)
 			data.push({
-				head: detail[i]
+				head: {
+					no_pengiriman: detail[i].no_pengiriman,
+					tgl_pengiriman: h[0].tgl_pengiriman,
+					supir: h[0].supir,
+					no_polisi: h[0].no_polisi,
+				}
 			})
 		}
 		return data
@@ -165,75 +171,5 @@ export default {
 		});
         console.log(x);
         return x
-	},
-	create(data) {
-		store().loader("on");
-		let detail = store().detail;
-		let newDetail = [];
-		for (let i = 0; i < detail.length; i++) {
-			newDetail.push({
-				kode_barang: detail[i].kode_barang,
-				jumlah: detail[i].jumlah,
-				harga_jual: detail[i].harga_jual,
-			});
-		}
-		let json = JSON.stringify(newDetail);
-		let payload = {
-			tgl_penjualan: data.tgl_penjualan,
-			tipe_dokumen: data.tipe_dokumen,
-			no_dokumen: data.no_dokumen,
-			tgl_dokumen: data.tgl_dokumen,
-			kode_pelanggan: data.pelanggan.kode_pelanggan,
-			kode_group: data.kode_group.kode_group,
-			penjualan_detail: json,
-		};
-		let result = api
-			.create("/penjualan_head", payload)
-			.then((res) => {
-				if (res.status == 200) {
-					alert.success(null, res.data);
-				} else alert.success(null, "Data Berhasil Disimpan");
-				store().resetState();
-				this.pengeluaran();
-				return "success";
-			})
-			.catch((error) => {
-				if (error.response.status == 500) {
-					alert.failed(null, error.response.data);
-				} else alert.failed(null);
-				return "failed";
-			});
-		setTimeout(() => {
-			store().loader("off");
-		}, 2500);
-		return result;
-	},
-	delete(data) {
-		alert
-			.confirm(
-				"Apakah anda yakin ?",
-				"Anda akan membatalkan " + data.no_penjualan
-			)
-			.then((result) => {
-				if (result.isConfirmed) {
-					store().loader("on");
-					api
-						.delete("penjualan_head", { no_penjualan: data.no_penjualan })
-						.then((res) => {
-							if (res.status == 200) {
-								alert.success(null, res.data);
-							} else alert.success(null, "Data Berhasil Dibatalkan");
-							this.pengeluaran();
-						})
-						.catch((error) => {
-							if (error.response.status == 500) {
-								alert.failed(null, error.response.data);
-							} else alert.failed(null);
-						});
-					setTimeout(() => {
-						store().loader("off");
-					}, 2500);
-				}
-			});
 	},
 };

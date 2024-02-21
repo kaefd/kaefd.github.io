@@ -30,8 +30,8 @@ export default {
 			(item.tujuan_bongkar = bongkar.filter(
 				(it) => it.kode_pelanggan == item.kode_alamat_bongkar
 			)[0].nama),
-				(item.alamat = bongkar.filter(
-					(it) => it.kode_pelanggan == item.kode_alamat_bongkar
+				(item.alamat = pelanggan.filter(
+					(p) => p.kode_pelanggan == item.kode_pelanggan
 				)[0].alamat);
 			(item.kabupaten = bongkar.filter(
 				(it) => it.kode_pelanggan == item.kode_alamat_bongkar
