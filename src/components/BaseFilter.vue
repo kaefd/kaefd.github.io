@@ -124,10 +124,10 @@
                     let module = ''
                     if(k) {
                         let path = this.$router.currentRoute.value.path
-                        module = await import(/* @vite-ignore */`../views${path}/${k}`)
+                        module = await import(`../views${path}/${k}.js`)
                     } else {
                         k = 'stokbarang'
-                        module = await import(/* @vite-ignore */`../views/laporan/stok-barang/stokbarang`)
+                        module = await import(/* @vite-ignore */`../views/laporan/stok-barang/stokbarang.js`)
                     }
                     // if(!this.change) {
                         let data = await module.default[k]()

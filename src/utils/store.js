@@ -30,19 +30,19 @@ export const store = defineStore('store', {
         async getDetail(key, data) {
             let k = key
             let path = router.currentRoute.value.path
-            let module = await import(/* @vite-ignore */`../views${path}/${k}`)
+            let module = await import(/* @vite-ignore */`../views${path}/${k}.js`)
             return await module.default.getDetail(data)
         },
         async create(key, head, detail) {
             let k = key
             let path = router.currentRoute.value.path
-            let module = await import(/* @vite-ignore */`../views${path}/${k}`)
+            let module = await import(/* @vite-ignore */`../views${path}/${k}.js`)
             return module.default.create(head, detail)
         },
         async edit(key, head) {
             let k = key
             let path = router.currentRoute.value.path
-            let module = await import(/* @vite-ignore */`../views${path}/${k}`)
+            let module = await import(/* @vite-ignore */`../views${path}/${k}.js`)
             return module.default.edit(head)
         },
     }

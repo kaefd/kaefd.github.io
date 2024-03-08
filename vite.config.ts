@@ -1,4 +1,5 @@
 import legacy from '@vitejs/plugin-legacy'
+import dynamicImport from 'vite-plugin-dynamic-import'
 import vue from '@vitejs/plugin-vue'
 import path from 'path'
 import { fileURLToPath, URL } from 'node:url'
@@ -13,7 +14,8 @@ export default defineConfig({
   plugins: [
     vue(),
     legacy(),
-    splitVendorChunkPlugin()
+    splitVendorChunkPlugin(),
+    dynamicImport(/* options */)
   ],
   resolve: {
     // alias: {
