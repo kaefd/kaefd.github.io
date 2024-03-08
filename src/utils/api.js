@@ -5,10 +5,11 @@ import {store} from '@/utils/store'
 import config from '@/config'
 import alert from './alert'
 
+const session = JSON.parse(localStorage.getItem('session'))
 const instance = axios.create({
-  baseURL: config.server[mode.server] ,
+  baseURL: config.server[mode.server],
   headers: {
-    csrf: localStorage.getItem('token'),
+    csrf: session?.token,
     'Content-Type': 'application/json',
     'Access-Control-Allow-Origin': '*',
     'Cache-Control': 'no-cache; no-store; must-revalidate',
@@ -23,7 +24,9 @@ export default {
       const response = await instance.get(url, { params: param })
       return response.data
     } catch (error) {
-      return this.logout()
+      if(error.response.data == 'Bad Token') return this.logout()
+      alert.failed(null, error.response.data)
+      return false
     }
   },
   create(url, param) {
@@ -36,10 +39,10 @@ export default {
     return instance.delete(url, {data: data})
   },
   logout() {
-    localStorage.removeItem('token')
-    localStorage.removeItem('user')
+    localStorage.removeItem('otoritas')
+    localStorage.removeItem('otoritas')
+    store().loading = false
     store().resetState()
-    store().$patch((state) => { state.theme = 'light' })
     return router.push('/login')
   }
 }

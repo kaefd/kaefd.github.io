@@ -1,6 +1,6 @@
 <template>
     <VueDatePicker v-if="type == 'date' && !variant && !disabled"
-        :dark="store().theme == 'dark' ? true : false"
+        :dark="store().dark ? true : false"
         :clearable="false"
         :format-locale="id"
         :min-date="rangedate.min"
@@ -12,7 +12,7 @@
         format="PP"
         calendar-cell-class-name="dp-custom-cell"
         menu-class-name="dp-custom-menu"
-        :input-class-name="store().theme == 'dark' ? 'dp-custom-input-dark' : 'dp-custom-input'"
+        :input-class-name="store().dark ? 'dp-custom-input-dark' : 'dp-custom-input'"
         :enable-time-picker="false"
         class="w-[60%] min-w-[200px]"
         :disabled="disabled"
@@ -20,7 +20,7 @@
         @update:model-value="selectDate"
     ></VueDatePicker>
     <VueDatePicker v-if="type == 'date' && !variant && disabled"
-        :dark="store().theme == 'dark' ? true : false"
+        :dark="store().dark ? true : false"
         :clearable="false"
         :format-locale="id"
         :min-date="rangedate.min"
@@ -32,15 +32,14 @@
         format="PP"
         calendar-cell-class-name="dp-custom-cell"
         menu-class-name="dp-custom-menu"
-        :input-class-name="store().theme == 'dark' ? 'dp-custom-input-dark' : 'dp-custom-input'"
+        :input-class-name="store().dark ? 'dp-custom-input-dark' : 'dp-custom-input'"
         :enable-time-picker="false"
         class="w-[60%] min-w-[200px]"
         :disabled="disabled"
         :model-value="value"
-        @update:model-value="selectDate"
     ></VueDatePicker>
     <VueDatePicker v-if="type == 'date' && variant == 'pills'"
-        :dark="store().theme == 'dark' ? true : false"
+        :dark="store().dark ? true : false"
         placeholder="periode"
         :clearable="false"
         :format-locale="id"
@@ -51,56 +50,59 @@
         selectText="pilih"
         format="MMMM uu"
         calendar-cell-class-name="dp-custom-cell"
-        :input-class-name="store().theme == 'dark' ? 'dp-custom-pill-dark' : 'dp-custom-pill'"
+        :input-class-name="store().dark ? 'dp-custom-pill-dark' : 'dp-custom-pill'"
         :enable-time-picker="false"
-        class="w-[60%] min-w-[200px]"
+        class="w-full min-w-[200px]"
         :disabled="disabled"
         v-model="date"
         @update:model-value="selectDate"
     ></VueDatePicker>
-    <div v-if="type == 'search' && variant == 'underlined'" class="flex items-center justify-end">
-        <input type="text" variant="underlined" placeholder="search" v-model="search" v-on:input="$emit('search', search)" class="h-[45px] border-b border-primary px-4 bg-white-hover focus-within:outline-none w-full min-w-[250px]" />
+    <div v-if="type == 'search'" class="relative w-full flex items-center justify-end text-sm">
+        <input type="text" placeholder="search" v-model="search" v-on:input="$emit('search', search)" class="h-[45px] px-4 rounded-full focus-within:outline-none w-full min-w-[150px]" :class="store().dark ? 'bg-dark-base' : 'bg-disabled-color'"/>
         <i class="ri-search-line absolute me-4 text-base text-primary"></i>
     </div>
-    <div v-if="type == 'search'&& variant == 'tonal'" class="relative flex items-center justify-end">
-        <input type="text" variant="tonal" placeholder="search" v-model="search" v-on:input="$emit('search', search)" class="h-[45px] px-4 rounded-full focus-within:outline-none w-full min-w-[150px]" :class="store().theme == 'dark' ? 'bg-dark-base' : 'bg-disabled-color'"/>
-        <i class="ri-search-line absolute me-4 text-base text-primary"></i>
-    </div>
-    <input v-if="type == 'text'" type="text" v-model="dataitem.text" @update:model-value="inputData" :disabled="disabled" class="h-[40px] w-[60%] min-w-[200px] rounded px-3" :class="store().theme == 'dark' ? (disabled && store().menu.option.key != 'lihat' ? 'bg-[#363636] text-gray-400' : 'bg-dark-base') : (disabled && store().menu.option.key != 'lihat' ? 'bg-zinc-50 text-zinc-400' : 'bg-disabled-color')"/>
-    <input v-if="type == 'password'" type="password" v-model="dataitem.text" @update:model-value="inputData" :disabled="disabled" class="h-[40px] w-[60%] min-w-[200px] rounded px-3" :class="store().theme == 'dark' ? 'bg-dark-base' : 'bg-disabled-color'"/>
+    <input v-if="type == 'text'" type="text" v-model="dataitem.text" @update:model-value="inputData" :disabled="disabled" class="h-[40px] w-[60%] min-w-[200px] rounded px-3 text-sm" :class="store().dark ? (disabled && store().state.action != 'read' ? 'bg-[#363636] text-gray-400' : 'bg-dark-base') : (disabled && store().state.action != 'read' ? 'bg-zinc-50 text-zinc-400' : 'bg-disabled-color')"/>
+    <input v-if="type == 'password'" type="password" v-model="dataitem.text" @update:model-value="inputData" :disabled="disabled" class="h-[40px] w-[60%] min-w-[200px] rounded px-3 text-sm" :class="store().dark ? 'bg-dark-base' : 'bg-disabled-color'"/>
     <template v-if="type == 'number'">
-        <input v-if="value != undefined && store().menu.option.key != 'lihat'" type="text" v-model="dataNumbs.numb" @update:model-value="inputData" :disabled="disabled" class="h-[40px] w-[60%] min-w-[200px] rounded px-3" :class="store().theme == 'dark' ? 'bg-dark-base' : 'bg-disabled-color'"/>
-        <input v-if="value == undefined && store().menu.option.key != 'lihat'" type="text" v-model="numbs" @update:model-value="inputData" :disabled="disabled" class="h-[40px] w-[60%] min-w-[200px] rounded px-3" :class="store().theme == 'dark' ? 'bg-dark-base' : 'bg-disabled-color'"/>
-        <input v-if="store().menu.option.key == 'lihat'" type="text" v-model="dataitem.numbs" :disabled="disabled" class="h-[40px] w-[60%] min-w-[200px] rounded px-3" :class="store().theme == 'dark' ? 'bg-dark-base' : 'bg-disabled-color'"/>
-        <!-- <input v-else type="text" v-model="numbs" @update:model-value="inputData" :disabled="disabled" class="h-[40px] w-[60%] min-w-[200px] rounded px-3" :class="store().theme == 'dark' ? 'bg-dark-base' : 'bg-disabled-color'"/> -->
+        <input v-if="value != undefined && store().state.action != 'read'" type="text" v-model="dataNumbs.numb" @update:model-value="inputData" :disabled="disabled" class="h-[40px] w-[60%] min-w-[200px] rounded px-3 text-sm" :class="store().dark ? 'bg-dark-base' : 'bg-disabled-color'"/>
+        <input v-if="value == undefined && store().state.action != 'read'" type="text" v-model="numbs" @update:model-value="inputData" :disabled="disabled" class="h-[40px] w-[60%] min-w-[200px] rounded px-3 text-sm" :class="store().dark ? 'bg-dark-base' : 'bg-disabled-color'"/>
+        <input v-if="store().state.action == 'read'" type="text" v-model="dataitem.numbs" :disabled="disabled" class="h-[40px] w-[60%] min-w-[200px] rounded px-3 text-sm" :class="store().dark ? 'bg-dark-base' : 'bg-disabled-color'"/>
+        <!-- <input v-else type="text" v-model="numbs" @update:model-value="inputData" :disabled="disabled" class="h-[40px] w-[60%] min-w-[200px] rounded px-3 text-sm" :class="store().dark ? 'bg-dark-base' : 'bg-disabled-color'"/> -->
     </template>
     <div v-if="type == 'checkbox'" class="flex space-x-2">
         <input type="checkbox" v-model="dataitem.check" :disabled="disabled" @change="checked" class="w-4 h-4 accent-primary-tint"/>
         <label>{{ label }}</label>
     </div>
+    <label v-if="type == 'toggle'" class="flex items-center cursor-pointer gap-x-2">
+        <input type="checkbox" v-model="dataitem.check" :disabled="disabled" @change="toggle" class="sr-only peer"/>
+        <div class="relative w-9 h-5 bg-gray-200 rounded-full peer peer-focus:ring-2 peer-focus:ring-blue-300 dark:peer-focus:ring-primary dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
+        <span>{{ label }}</span>
+    </label>
     <div v-if="type == 'option'" class="w-[60%] min-w-[200px]">
         <div class="relative w-full flex justify-end items-center">
-            <input @click="selectOpt = !selectOpt" type="text" v-model="text" readonly class="h-[40px] w-full rounded px-3 cursor-pointer" :class="store().theme == 'dark' ? 'bg-dark-base' : 'bg-disabled-color'"/>
-            <button v-if="!disabled" @click="clearOption()" class="w-5 h-5 rounded-full absolute me-2" type="button"><i class="ri-close-line"></i></button>
+            <input @click="selectOpt = !selectOpt" type="text" :value="text" readonly class="h-[40px] w-full rounded px-3 cursor-pointer" :class="store().dark ? 'bg-dark-base' : 'bg-disabled-color'"/>
+            <button v-if="!disabled && rules?.find(e => e == 'required') == undefined " @click="dt_options()" class="w-5 h-5 rounded-full absolute me-2" type="button"><i class="ri-close-line"></i></button>
         </div>
-        <div v-if="!disabled" class="rounded-lg shadow-xl absolute flex flex-col duration-300 overflow-auto z-[2]" :class="!selectOpt ? 'h-0 p-0 w-0' : store().theme == 'dark' ? 'dark h-max max-h-[200px] py-3 w-[200px]' : 'bg-white h-max max-h-[200px] py-3 w-[200px]' ">
+        <div v-if="!disabled" class="rounded-lg shadow-xl absolute flex flex-col duration-300 overflow-auto z-[2] w-[200px]" :class="!selectOpt ? 'h-0 p-0' : store().dark ? 'dark h-max max-h-[200px] py-3' : 'bg-white h-max max-h-[200px] py-3' ">
             <div class="h-max py-1">
-                <span v-for="opt in option" @click="dt_options(opt)" class="px-3 flex items-center hover:bg-primary-hover cursor-pointer duration-300 overflow-hidden" :class="selectOpt ? 'h-9 ' : 'h-0' ">{{ opt }}</span>
+                <span v-for="opt in option" @click="dt_options(opt)" class="px-3 flex items-center hover:bg-primary-hover cursor-pointer duration-300 overflow-hidden" :class="selectOpt ? 'h-9 ' : 'h-0' ">{{ opt.title }}</span>
             </div>
         </div>
         <div v-if="selectOpt" @click="selectOpt = false" class="fixed w-full h-full top-0 left-0 z-[1]"></div>
     </div>
-    <input v-if="type == 'auto'" type="text" :value="autoData" @update:model-value="autoData" readonly class="h-[40px] w-[60%] min-w-[200px] rounded px-3" :class="store().theme == 'dark' ? 'bg-dark-base' : 'bg-disabled-color'"/>
+    <input v-if="type == 'auto'" type="text" :value="autoData" @update:model-value="autoData" readonly class="h-[40px] w-[60%] min-w-[200px] rounded px-3" :class="store().dark ? 'bg-dark-base' : 'bg-disabled-color'"/>
     <template v-if="type == 'dialog'">
-        <input @click="open_id()" type="text" :value="data_dialog" @update:model-value="dialogInput" readonly class="h-[40px] w-[60%] min-w-[200px] rounded px-3 cursor-pointer" :class="store().theme == 'dark' ? 'bg-dark-base' : 'bg-disabled-color'"/>
-        <input-dialog v-if="open" :open="open" :fl_item="fl_item" :dialog_field="dialog_field" @close="close" @input_i="dialogInput"></input-dialog>
+        <input @click="open_id()" type="text" :value="data_dialog" readonly class="h-[40px] w-[60%] min-w-[200px] rounded px-3 text-sm cursor-pointer" :class="store().dark ? 'bg-dark-base' : 'bg-disabled-color'"/>
+        <input-dialog v-if="open" :open="open" :data_dialog="fl_item" :allItems="allItems" :dialog_field="dialog_field" @close="close" @resDialInput="resDialInput"></input-dialog>
     </template>
 </template>
 <script setup>
 import { id } from 'date-fns/locale';
+import { format } from 'date-fns';
 import { store } from '@/utils/store'
 import utils from '@/utils/utils'
 import { ref } from 'vue';
+import validation from '@/utils/validation';
 </script>
 <script>
 const month = ref({
@@ -110,6 +112,7 @@ const month = ref({
 export default {
     props: {
         type: {type: String},
+        keys: {type: String},
         label: {type: String},
         value: {type: String},
         option: {type: Array},
@@ -118,7 +121,8 @@ export default {
         rules: {type: Array},
         fl_item: {type: Array},
         default: {type: Object},
-        dialog_field: {type: Object}
+        dialog_field: {type: Object},
+        allItems: {type: Object}
     },
     data() {
         return {
@@ -126,7 +130,7 @@ export default {
             selectOpt: false,
             date: this.value,
             search: '',
-            text: this.value,
+            text: this.value?.title || this.value,
             data_dialog: this.value,
             numbs: this.value || 0,
             fNumber: 0,
@@ -137,51 +141,15 @@ export default {
     computed: {
         dataitem() {
             return {
-                text: this.value ,
-                numbs: this.value ? utils.numb(this.value) : 0,
                 check: this.value,
+                text: this.value,
+                numbs: utils.numb(this.value) || 0,
             }
         },
         dataNumbs() {
             return {
                 numb: this.value?.toString()
             }
-        },
-        autoData() {
-                if(store().detailDump && this.default != undefined && this.default.f == undefined) {
-                    if(store().detailDump[this.default.key] != undefined) {
-                        if(store().detailDump[this.default.key][this.default.key].slice(0, 4) == 'BC23') this.auto = 'BC25'
-                        if(store().detailDump[this.default.key][this.default.key].slice(0, 4) == 'BC40') this.auto = 'BC41'
-                        if(store().detailDump[this.default.key][this.default.key].slice(0, 9) == 'PPKEK-LDP') this.auto = 'BC25'
-                        if(store().detailDump[this.default.key][this.default.key].slice(0, 11) == 'PPKEK-TLDDP') this.auto = 'BC41'
-                            let val = {
-                                title: this.label,
-                                value: this.auto
-                            }
-                        this.$emit("input", val)
-                        return this.auto
-                    }
-                } else if(this.default != undefined && this.default.f != undefined) {
-                    let dt = store().s_detail
-                    let res = dt[this.default.set[0].input] * dt[this.default.set[1].input]
-                    this.auto = res || 0
-                    if(this.auto) dt[this.default.key] = this.auto
-                    return utils.numb(this.auto)
-                } else if(this.value){
-                    let val = {
-                            title: this.label,
-                            value: this.value
-                        }
-                    this.$emit("input", val)
-                    return this.value
-                }
-            // if(this.default.f != undefined) {
-            //     let val = {
-            //             title: this.default.key,
-            //             value: this.auto
-            //         }
-            //     this.$emit("input", val)
-            // }
         },
         rangedate() {
             if(this.type == 'date') {
@@ -212,63 +180,88 @@ export default {
                     }
                 } else return 'false'
             }
-        }
+        },
+        autoData() {
+            if(this.type == 'auto' && this.default) {
+                if(this.default.f == undefined) {
+                    if(this.default?.key && this.allItems[this.default.key]) {
+                        for (let i = 0; i < this.default.set.length; i++) {
+                            if(this.allItems[this.default.key].slice(0, this.default.set[i].input.length) == this.default.set[i].input) {
+                                this.auto = this.default.set[i].value
+                                break
+                            }
+                        }
+                        let val = {
+                            title: this.keys,
+                            value: this.auto
+                        }
+                        this.$emit('input', val)
+                        return this.auto
+                    }
+                } else {
+                    let dt = this.allItems
+                    let res = dt?.[this.default.set[0].input] * dt?.[this.default.set[1].input]
+                    this.auto = res || 0
+                    if(this.auto) dt[this.default.key] = this.auto
+                    return this.auto == 0 ? (this.value ? utils.numb(this.value) : 0) : utils.numb(this.auto)
+                }
+            }
+        },
     },
     watch: {
         numbs(v) {
-            if(store().menu.option.key != 'lihat' && this.type == 'number') this.numbs = this.formatNmbr(v)
+            if(store().state.action != 'read' && this.type == 'number') this.numbs = this.formatNmbr(v)
             
         },
         dataNumbs(v) {
-            if(store().menu.option.key != 'lihat' && this.type == 'number') this.dataNumbs.numb = this.formatNmbr(v.numb)
+            if(store().state.action != 'read' && this.type == 'number') this.dataNumbs.numb = this.formatNmbr(v.numb)
             
-        }
+        },
     },
     methods: {
+        toggle() {
+            let val = {
+                title: this.keys,
+                value: this.dataitem.check
+            }
+            this.$emit("input", val);
+        },
         checked() {
             let val = {
                 title: this.label,
                 value: this.dataitem.check
             }
-            this.$emit("input", val);
+            this.$emit("input", val, this.keys, this.type);
         },
         selectDate() {
             let val = ''
             if(!this.variant) {
                 val = {
-                    title: this.label,
+                    title: this.keys,
                     value: this.date.toJSON().slice(0, 10)
                 }
             } else {
                 val = {
-                    title: this.label,
+                    title: this.keys,
                     value: this.date
                 }
             }
             this.$emit("input", val);
         },
-        async dialogInput(value) {
-            this.data_dialog = await value[this.option.point]
-            let val = {
-                title: this.label,
-                value: value
+        inputData() {
+            let val = {}
+            if(this.type == 'number' && this.dataNumbs.numb) {
+                val = {
+                    title: this.label,
+                    value: Number(this.dataNumbs.numb.split(',').join(''))
+                }
+            } else {
+                val = {
+                    title: this.label,
+                    value: this.type == 'number' ? (this.numbs ? Number(this.numbs.split(',').join('')) : 0) : this.dataitem.text
+                }
             }
             this.$emit("input", val)
-            store().$patch((state) => {
-                state.temp = value
-                // state.i_dialog.show = false
-                state.i_dialog.item = ''
-            })
-            this.open = false
-        },
-        dt_options(val) {
-            this.text = val
-            let dt = {
-                title: this.label,
-                value: this.text
-            }
-            this.$emit("input", dt);
-            this.selectOpt = false
         },
         formatNmbr(v) {
             if(v) {
@@ -286,54 +279,42 @@ export default {
                     return res
             }
         },
-        inputData() {
-            let val = {}
-            if(this.type == 'number' && this.dataNumbs.numb) {
-                val = {
-                    title: this.label,
-                    value: Number(this.dataNumbs.numb.split(',').join(''))
-                }
-            } else {
-                val = {
-                    title: this.label,
-                    value: this.type == 'number' ? Number(this.numbs.split(',').join('')) : this.dataitem.text
-                }
-            }
-            this.$emit("input", val)
-        },
-        clearOption() {
-            if(!this.disabled) this.text = ''
-        },
         open_id() {
-            // if(this.rules.find(item => item == 'absolute')) {
-            //     if(store().detailDump != '' && store().detailDump[this.label] != '') {
-            //         store().$patch((state) => {
-            //             state.detailDump[this.label] = ''
-            //             state.detailDump.kode_bahan = ''
-            //             state.detail = ''
-            //         })
-            //         this.data_dialog = ''
-            //     }
-            // }
-            // if(this.rules.find(item => item == 'required kode_group' && store().detailDump != '')) {
-            //     if(store().detailDump.kode_group == '') {
-            //         this.data_dialog = ''
-            //     }
-            // }
-            if(store().menu.option.key != 'lihat') {
-                let a = store().validate(this.rules, null, store().detailDump)
-                if(a == true) this.open = true
-                if(!this.disabled) store().$patch((state) => { 
-                    // state.i_dialog.show = !state.i_dialog.show
-                    state.i_dialog.item = this.option
-                })
-            }
-            
+                if(this.rules) {
+                    let a = validation.validate(this.rules, null, this.allItems)
+                    if(a == true) this.open = !this.disabled
+                } else this.open = !this.disabled
         },
-        close(v) {
-            this.open = v
-        }
-    },
+        close() {
+            this.open = false
+        },
+        resDialInput(value) {
+            this.data_dialog = value[this.fl_item.point]
+            let val = {
+                title: this.label,
+                value: value[this.fl_item.key] || value[this.fl_item.point]
+            }
+            this.$emit('input', val)
+        },
+        dt_options(val) {
+            if(val) {
+                this.text = val.title
+                let dt = {
+                    title: this.keys,
+                    value: val.key
+                }
+                this.$emit("input", dt);
+            } else {
+                this.text = ''
+                let dt = {
+                    title: this.keys,
+                    value: false
+                }
+                this.$emit("input", dt);
+            }
+            this.selectOpt = false
+        },
+    }
 }
 </script>
 <style lang="css">

@@ -55,7 +55,7 @@ export default {
           },
           legend: {
             labels: {
-              colors: store().theme == 'dark' ? '#dfdfdf' : 'dark'
+              colors: store().dark ? '#dfdfdf' : 'dark'
             },
             markers: {
               fillColors: ['#d4526e', '#ffa726','#5fa0cb', '#77D4A3'],
@@ -72,7 +72,7 @@ export default {
             labels: {
               show: false,
               style: {
-                  colors: store().theme == 'dark' ? ['#dfdfdf', '#dfdfdf', '#dfdfdf', '#dfdfdf'] : ['#212121', '#212121', '#212121', '#212121'],
+                  colors: store().dark ? ['#dfdfdf', '#dfdfdf', '#dfdfdf', '#dfdfdf'] : ['#212121', '#212121', '#212121', '#212121'],
               },
             }
           },
@@ -81,18 +81,18 @@ export default {
             title: {
               text: 'Jumlah (Ton)',
               style: {
-                color: store().theme == 'dark' ? '#dfdfdf' : '#212121'
+                color: store().dark ? '#dfdfdf' : '#212121'
               }
             },
             labels: {
               show: true,
               style: {
-                  colors: store().theme == 'dark' ? ['#dfdfdf'] : ['#212121'],
+                  colors: store().dark ? ['#dfdfdf'] : ['#212121'],
               },
             },
           },
           tooltip: {
-            theme: store().theme == 'dark' ? 'dark' : 'light',
+            theme: store().dark ? 'dark' : 'light',
             y: {
               formatter: function (val) {
                 return utils.numb(val) + " Ton"

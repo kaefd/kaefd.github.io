@@ -1,6 +1,8 @@
-import api from "@/utils/api";
+import api from "@/utils/api"
+import { store } from "@/utils/store"
 import alert from "@/utils/alert";
-import { store } from "@/utils/store";
+import router from "@/router";
+
 export default {
 	async pengiriman(param, fl) {
 		let parameters = "";
@@ -10,28 +12,16 @@ export default {
 				tgl_awal: store().periode[0],
 				tgl_akhir: store().periode[1],
 			};
-		store().loader("on");
+		store().loading = true;
 		let head = await api.getData("/pengiriman_head", parameters);
-		let detail = await api.getData("/pengiriman_detail", parameters);
 		let bongkar = await api.getData("/alamat_bongkar");
 		let pelanggan = await api.getData("/pelanggan");
 		head.map((item) => {
-			let dtl = detail.filter((p) => p.no_pengiriman == item.no_pengiriman);
-			let kodeg = [];
-			let kode = [];
-			let nama = [];
-			let satuan = [];
-			for (let i = 0; i < dtl.length; i++) {
-				kodeg.push(dtl[i].kode_group);
-				kode.push(dtl[i].kode_barang);
-				nama.push(dtl[i].nama_barang);
-				satuan.push(dtl[i].satuan);
-			}
 			(item.tujuan_bongkar = bongkar.filter(
 				(it) => it.kode_pelanggan == item.kode_alamat_bongkar
 			)[0].nama),
-				(item.alamat = bongkar.filter(
-					(it) => it.kode_pelanggan == item.kode_alamat_bongkar
+				(item.alamat = pelanggan.filter(
+					(p) => p.kode_pelanggan == item.kode_pelanggan
 				)[0].alamat);
 			(item.kabupaten = bongkar.filter(
 				(it) => it.kode_pelanggan == item.kode_alamat_bongkar
@@ -39,64 +29,39 @@ export default {
 				(item.pelanggan = pelanggan.filter(
 					(p) => p.kode_pelanggan == item.kode_pelanggan
 				)[0].nama);
-			item.kode_group = [...new Set(kodeg)].toString();
-			item.kode_barang = [...new Set(kode)].toString();
-			item.nama_barang = [...new Set(nama)].toString();
-			item.satuan = [...new Set(satuan)].toString();
 		});
-		// detail.map(async item => {
-		//     let p = {
-		//         tgl_awal: store().periode[0],
-		//         tgl_akhir: store().periode[1],
-		//         // no_penjualan: item.no_penjualan
-		//     }
-		//     let pjl = await api.getData('/penjualan_head?', p)
-		//     // item.no_dokumen = pjl[0].no_dokumen
-		//     // item.tipe_dokumen = pjl[0].tipe_dokumen
-		// })
-		let data = [];
-		for (let i = 0; i < head.length; i++) {
-			data.push({
-				head: head[i],
-				detail: detail.filter(
-					(item) => head[i].no_pengiriman == item.no_pengiriman
-				),
-			});
-		}
-		let field = fl || store().state.fields[0]
-		let newdata = data.sort((a, b) => b.head[field.key].localeCompare(a.head[field.key]))
-		store().$patch((state) => { state.items = newdata })
-		store().loader("off");
-		return newdata;
+		store().loading = false;
+		return head;
 	},
-	detail(data) {
-		data?.map(async (item) => {
-			let p = {
-				no_penjualan: item.no_penjualan,
-			};
-			let pjl = await api.getData("/penjualan_head/no_penjualan?", p);
-			item.no_dokumen = pjl[0].no_dokumen;
-			item.tipe_dokumen = pjl[0].tipe_dokumen;
-		});
-		store().$patch((state) => {
-			state.detail = data;
-		});
+	async getDetail(head) {
+		let param = {
+			no_pengiriman: head.no_pengiriman,
+		};
+		const data = await api.getData("pengiriman_detail/no_pengiriman", param);
+        let res = []
+        for (let i = 0; i < data.length; i++) {
+            let pjl = await api.getData('penjualan_head/no_penjualan', {no_penjualan: data[i].no_penjualan})
+            res.push({
+                no_penjualan: data[i].no_penjualan,
+                tipe_dokumen: pjl[0].tipe_dokumen,
+                no_dokumen: pjl[0].no_dokumen,
+                kode_group: data[i].kode_group,
+                kode_barang: data[i].kode_barang,
+                nama_barang: data[i].nama_barang,
+                jumlah: data[i].jumlah,
+                satuan: data[i].satuan,
+                jumlah_konversi: data[i].jumlah_konversi,
+                satuan_konversi: data[i].satuan_konversi,
+            })
+            
+        }
+		
+        return res
 	},
 	async blmTerkirim() {
 		let head = await api.getData("penjualan_head/belum_terkirim");
 		let detail = await api.getData("penjualan_detail/belum_terkirim");
 		let stokBarang = await api.getData("group_barang");
-		// const data = await Promise.all(head.map(async item => {
-		//     let stok = stokBarang.find(async s => {
-		//         const kg = s.kode_group == await item.kode_group
-		//         const kb = s.kode_barang == detail.find(async d => d.no_penjualan == await item.no_penjualan).kode_barang
-		//         return kg && kb
-		//     })
-		//     item.nopen = item.tipe_dokumen + '-' + item.no_dokumen
-		//     item.nama_barang = detail.find(d => d.no_penjualan == item.no_penjualan)
-		//     item.blm_terkirim = detail.find(async d => d.no_penjualan == await item.no_penjualan).jumlah - detail.find(async d => d.no_penjualan == await item.no_penjualan).jumlah_terkirim
-		//     item.stok_barang = stok.stok_akhir
-		// }))
 		let data = [];
 		for (let i = 0; i < head.length; i++) {
 			for (let j = 0; j < detail.length; j++) {
@@ -125,99 +90,45 @@ export default {
 		}
 		return data;
 	},
-	filterData(input, fl) {
-		let data = {};
-		for (let i = 0; i < input.length; i++) {
-			for (let j = 0; j < fl.length; j++) {
-				if (input[i].title == fl[j].key) data[fl[j].key] = input[i].value;
-				if (fl[j].item) {
-					for (let k = 0; k < fl[j].item.length; k++) {
-						if (input[i].title == fl[j].item[k]) {
-							let n_fl = fl[j].item[k].replace("-", "");
-							data[n_fl] = input[i].value;
-						}
-					}
-				}
-			}
-		}
-		return data;
-	},
-	async filtered(input) {
-		const periode = Object.fromEntries(
-			Object.entries(input).filter(([key, value]) => value !== false)
-		);
-		// const periode = [filtered.tgl_awal, filtered.tgl_akhir]
-		let x = "";
-
-		if (periode.tgl_awal != undefined) {
-			store().$patch((state) => {
-				state.periode[0] = periode.tgl_awal;
-			});
-		}
-		if (periode.tgl_akhir != undefined) {
-			store().$patch((state) => {
-				state.periode[1] = periode.tgl_akhir;
-			});
-		}
-
-		let p = {
-			tgl_awal: store().periode[0],
-			tgl_akhir: store().periode[1],
-		};
-		await this.pengiriman(p).then((response) => (x = response));
-		store().$patch((state) => {
-			state.items = x;
-		});
-	},
-	create(data) {
-		store().loader('on');
-		let detail = store().detail;
-		let newDetail = [];
-		for (let i = 0; i < detail.length; i++) {
-			newDetail.push({
-				// no_pengiriman: data.no_pengiriman,
-				no_penjualan: detail[i].no_penjualan,
+	create(head, detail) {
+		let detail_item = detail.map(item => {
+			return {
+				no_penjualan: item.no_penjualan,
 				no_urut: 1,
-				kode_barang: detail[i].kode_barang,
-				jumlah: detail[i].jumlah,
-				kode_konversi: detail[i].kode_konversi || "",
-				jumlah_konversi: detail[i].jumlah_konversi || 0,
-				satuan_konversi: detail[i].satuan_konversi || "",
-			});
-		}
-		let json = JSON.stringify(newDetail);
+				kode_barang: item.kode_barang,
+				jumlah: item.jumlah || 0,
+				kode_konversi: item.kode_konversi || "",
+				jumlah_konversi: item.jumlah_konversi || 0,
+				satuan_konversi: item.satuan_konversi || "",
+			}
+		})
 		let payload = {
-			no_pengiriman: data.no_pengiriman,
-			tgl_pengiriman: data.tgl_pengiriman,
-			kode_pelanggan: data.pelanggan.kode_pelanggan,
-			kode_alamat_bongkar: data.tujuan_bongkar.kode_pelanggan,
-			keterangan: data.keterangan || "",
-			supir: data.supir,
-			no_polisi: data.no_polisi,
-			pengiriman_detail: json,
-		};
-		let result = api
+			no_pengiriman: head.no_pengiriman,
+			tgl_pengiriman: head.tgl_pengiriman,
+			kode_pelanggan: head.pelanggan,
+			kode_alamat_bongkar: head.tujuan_bongkar,
+			keterangan: head.keterangan || "",
+			supir: head.supir,
+			no_polisi: head.no_polisi,
+			pengiriman_detail: JSON.stringify(detail_item),
+		}
+		store().loading = true
+		api
 			.create("/pengiriman_head", payload)
 			.then((res) => {
 				if (res.status == 200) {
 					alert.success(null, res.data);
 				} else alert.success(null, "Data Berhasil Disimpan");
-				store().resetState()
-				this.pengiriman();
-				let a = this.blmTerkirim();
-				store().$patch((state) => { state.state.permission[0].item.item = a})
-				return 'success'
+				router.go()
 			})
 			.catch((error) => {
 				if (error.response.status == 500) {
 					alert.failed(null, error.response.data);
 				} else alert.failed(null);
-				return 'failed'
 			})
 			setTimeout(() => {
-				store().loader('off')
+				store().loading = false
 			}, 2500)
-			return result
 	},
 	delete(data) {
 		alert
@@ -227,15 +138,15 @@ export default {
 			)
 			.then((result) => {
 				if (result.isConfirmed) {
-					store().loader('on');
+					store().loading = true
 					api
 						.delete("pengiriman_head", { no_pengiriman: data.no_pengiriman })
 						.then((res) => {
 							if (res.status == 200) {
 								alert.success(null, res.data);
-								store().loader("off");
+								store().loading = false
 							} else alert.success(null, "Data Berhasil Dibatalkan");
-							this.pengiriman();
+							router.go()
 						})
 						.catch((error) => {
 							if (error.response.status == 500) {
@@ -243,9 +154,9 @@ export default {
 							} else alert.failed(null);
 						})
 						setTimeout(() => {
-							store().loader('off')
+							store().loading = false
 						}, 2500)
 				}
 			});
-	},
+	}
 };

@@ -3,7 +3,7 @@
 		class="page bg-white text-black hover:shadow-2xl hover:border-0 p-5 flex flex-col items-center justify-between gap-y-5">
 		<div class="w-full flex flex-col">
 			<div class="w-full flex flex-col gap-y-7 items-center">
-				<span class="font-semibold text-xl uppercase">Delivery Order</span>
+				<span class="font-semibold text-xl uppercase">Surat Delivery Order</span>
 				<div class="w-full flex gap-x-3 text-[0.9rem]">
 					<div class="flex gap-x-2">
 						<div class="flex flex-col gap-y-0">
@@ -15,10 +15,10 @@
 					<div class="flex gap-x-2">
 						<div class="flex flex-col gap-y-0">
 							<span class="capitalize"
-								>: {{ utils.formatDate(store().master.tgl_pengiriman) }}</span
+								>: {{ utils.formatDate(head.tgl_pengiriman) }}</span
 							>
 							<span contenteditable="" class="capitalize">: </span>
-							<span class="capitalize">: {{ store().master.pelanggan }}</span>
+							<span class="capitalize">: {{ head.pelanggan }}</span>
 						</div>
 					</div>
 				</div>
@@ -45,7 +45,7 @@
 						</tr>
 					</thead>
 					<tbody class="w-full">
-						<tr v-for="(item, i) in store().detail" class="w-full">
+						<tr v-for="(item, i) in detail" class="w-full">
 							<td class="w-max whitespace-pre-wrap px-3 text-left">
 								{{ item.nama_konversi || item.nama_barang }}
 							</td>
@@ -64,7 +64,7 @@
 								{{ utils.numb(item.jumlah) }}
 							</td>
 						</tr>
-						<tr :class="store().detail.length < 3 ? 'h-24' : ''"></tr>
+						<tr :class="detail.length < 3 ? 'h-24' : ''"></tr>
 						<tr class="border-t border-b border-black">
 							<td></td>
 							<td
@@ -92,7 +92,7 @@
 		</div>
 		<div class="relative bottom-[10vh] left-[30%]">
 			<span class="onlyPrinted italic"
-				>Print by: {{ `${user} / ${utils.today()}` }}</span
+				>Print by: {{ `${user} / ${utils.formatDate(utils.today())} ${utils.TimeNow()}` }}</span
 			>
 		</div>
 	</div>
@@ -100,88 +100,91 @@
 <script setup>
 	import { store } from "@/utils/store";
 	import utils from "@/utils/utils";
+    import pengiriman from '../pengiriman/pengiriman'
 </script>
 <script>
 	export default {
-		data() {
-			return {
-				user: localStorage.getItem('user')
-			}
-		},
-		methods: {
-			close() {
-				store().$patch((state) => {
-					state.do = false;
-				});
-			},
-			print() {
-				window.print();
-			},
-			sum(p) {
-				if (p == "konversi") {
-					let key = this.dataitem.map((item) => item.jumlah_konversi);
-					let konversi = key.reduce(
-						(accumulator, currentValue) => accumulator + currentValue,
-						0
-					);
-					return konversi;
-				}
-				if (p == "jumlah") {
-					let key = this.dataitem.map((item) => item.jumlah);
-					let jumlah = key.reduce(
-						(accumulator, currentValue) => accumulator + currentValue,
-						0
-					);
-					return jumlah;
-				}
-			},
-		},
-		computed: {
-			dataitem() {
-				let k = [];
-				let key = store().detail.map((item) => item.nama_barang);
-				// let head = Array.from(new Set(key.map((obj) => obj.nama_barang))).map(
-				// 	(nama_barang) => {
-				// 		return key.find((obj) => obj.nama_barang === nama_barang);
-				// 	}
-				// );
-				let head = [...new Set(key)]
+    props: {
+        head: {type: Object, required: true},
+    },
+    data() {
+        return {
+            user: JSON.parse(localStorage.getItem('session')).user,
+            detail: ''
+        }
+    },
+    methods: {
+        async get() {
+            this.detail = await pengiriman.getDetail(this.head)
+        },
+        sum(p) {
+            if (p == 'konversi') {
+                let j = []
+                for (let i = 0; i < this.detail.length; i++) {
+                    j.push(this.detail[i].jumlah_konversi)
+                }
+                let jumlah = j.reduce((accumulator, currentValue) => accumulator + currentValue, 0)
+                return jumlah
+            }
+            if (p == 'jumlah') {
+                let j = []
+                for (let i = 0; i < this.detail.length; i++) {
+                    j.push(this.detail[i].jumlah)
+                }
+                let jumlah = j.reduce((accumulator, currentValue) => accumulator + currentValue, 0)
+                return jumlah
+            }
+        }
+    },
+    computed: {
+        dataitem() {
+				// let k = [];
+				// let key = this.detail.map((item) => item.nama_barang);
+				// // let head = Array.from(new Set(key.map((obj) => obj.nama_barang))).map(
+				// // 	(nama_barang) => {
+				// // 		return key.find((obj) => obj.nama_barang === nama_barang);
+				// // 	}
+				// // );
+				// let head = [...new Set(key)]
 
-				for (let i = 0; i < head.length; i++) {
-					let kode = [];
-					let jumlah = [];
-					let konversi = [];
-					let nama = "";
-					for (let j = 0; j < store().detail.length; j++) {
-						if (store().detail[j].nama_barang == head[i]) {
-							nama = store().detail[j].nama_barang;
-							kode.push(
-								store().detail[j].no_dokumen +
-									"/" +
-									store().detail[j].kode_group.slice(2, 4)
-							);
-							jumlah.push(store().detail[j].jumlah);
-							konversi.push(store().detail[j].jumlah_konversi);
-						}
-					}
-					k.push({
-						nama_barang: nama,
-						jumlah_konversi: konversi.reduce(
-							(accumulator, currentValue) => accumulator + currentValue,
-							0
-						),
-						satuan: store().detail[i].satuan,
-						jumlah: jumlah.reduce(
-							(accumulator, currentValue) => accumulator + currentValue,
-							0
-						),
-						nopen: [...new Set(kode)].toString(),
-					});
-				}
-				return k;
-			},
+				// for (let i = 0; i < head.length; i++) {
+				// 	let kode = [];
+				// 	let jumlah = [];
+				// 	let konversi = [];
+				// 	let nama = "";
+				// 	for (let j = 0; j < this.detail.length; j++) {
+				// 		if (this.detail[j].nama_barang == head[i]) {
+				// 			nama = this.detail[j].nama_barang;
+				// 			kode.push(
+				// 				this.detail[j].no_dokumen +
+				// 					"/" +
+				// 					this.detail[j].kode_group.slice(2, 4) + ' '
+				// 			);
+				// 			jumlah.push(this.detail[j].jumlah);
+				// 			konversi.push(this.detail[j].jumlah_konversi);
+				// 		}
+				// 	}
+				// 	k.push({
+				// 		nama_barang: nama,
+				// 		jumlah_konversi: konversi.reduce(
+				// 			(accumulator, currentValue) => accumulator + currentValue,
+				// 			0
+				// 		),
+				// 		satuan: this.detail[i].satuan,
+				// 		jumlah: jumlah.reduce(
+				// 			(accumulator, currentValue) => accumulator + currentValue,
+				// 			0
+				// 		),
+				// 		nopen: [...new Set(kode)].toString(),
+				// 	});
+				// }
+				// return k;
 		},
-	};
+    },
+    mounted() {
+        this.get()
+    }
+}
 </script>
 <style scoped>
 	.page {

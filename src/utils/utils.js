@@ -1,3 +1,5 @@
+import { format } from 'date-fns';
+
 export default {
 	formatDate(value) {
 		let options = {
@@ -20,8 +22,9 @@ export default {
 		return date
 	},
 	today() {
-        let currentDate = new Date().toJSON().slice(0, 10);
-        return currentDate
+        let currentDate = format(new Date(), 'yyyy-MM-dd')
+		return currentDate
+        // return currentDate.toLocaleDateString().slice(0, 10);
     },
 	 last_month() {
       // set a month
@@ -35,7 +38,7 @@ export default {
       // d.setDate(d.getDate() - 7)
 
       //tl_awal
-      return d.toJSON().slice(0, 10)
+      return format(d, 'yyyy-MM-dd')
     },
 	numb(value) {
 		let val = (value / 1).toFixed(2).replace(",", ",");

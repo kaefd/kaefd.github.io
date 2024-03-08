@@ -35,7 +35,7 @@
 	color: var(--color-light);
 }
 body {
-	color: #4b5563;
+	color: #404752;
 	background-color: var(--color-base);
 }
 .bg-scrim-lighten {
@@ -71,6 +71,9 @@ body {
 }
 .bg-white-hover {
 	background: rgba(255, 255, 255, 0.541);
+}
+.shadow-full-xl {
+	box-shadow: 1px 1px 15px 1px rgba(0, 0, 0, 0.063), 1px 1px 30px 1px rgba(0, 0, 0, 0.053);
 }
 input:focus-within {
 	outline-color: var(--color-primary);

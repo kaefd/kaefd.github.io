@@ -1,170 +1,175 @@
 <template>
-    <div v-if="store().detail_dialog" class="absolute top-0 right-0 w-full h-full overflow-auto z-[2] ps-0 md:ps-24" :class="store().theme == 'dark' ? 'bg-dark-base' : 'bg-base'">
-        <div class="flex flex-col gap-y-3 h-full pb-20 md:pb-3 overflow-auto md:overflow-auto">
+    <div @contextmenu.prevent="context($event)" class="absolute overflow-x-hidden bottom-0 right-0 w-full h-full text-sm" :class="store().dark ? 'bg-dark-base' : 'bg-base'">
+        <div class="w-[95%] mx-auto flex flex-col gap-y-3 h-full md:pb-3">
             <slot name="full-content">
-                <div class="h-full overflow-visible mx-0 md:mx-5 mt-5 p-5 rounded-0 md:rounded-lg flex flex-col flex-wrap gap-y-5 animate__animated animate__fadeIn animate__faster"  :class="store().dialog ? (store().theme == 'dark' ? 'dark z-[0]' : 'bg-white z-[0]') : (store().theme == 'dark' ? 'dark z-[2]' : 'bg-white z-[2]')">
-                    <div class="flex items-center space-x-3 text-lg md:text-xl">
-                        <button @click="close()">
-                            <i class="ri-arrow-left-line"></i>
-                        </button>
-                        <span class="font-semibold capitalize">{{ store().menu.option.title }}</span>
+                <div class="mt-5 p-5 z-[1] rounded-lg flex flex-col flex-wrap gap-y-5 animate__animated animate__fadeIn animate__faster"  :class="store().dialog ? (store().dark ? 'dark' : 'bg-white') : (store().dark ? 'dark' : 'bg-white'), d_field ? 'h-fit' : 'h-full'">
+                    <div class="flex items-center space-x-3 text-[1.12rem]">
+                        <slot name="header-detail">
+                            <button @click="close('detail')">
+                                <i class="ri-arrow-left-line"></i>
+                            </button>
+                        </slot>
+                        <span class="font-semibold capitalize">{{ `detail ${config.title}` }}</span>
                     </div>
                     <!-- HEAD -->
-                    <slot name="header-content">
-                        <div class="flex flex-col flex-wrap gap-y-2 gap-x-32 pt-1 w-full" :class="store().nav ? 'h-max md:h-max lg:h-[50vh] xl:h-[45vh] 2xl:h-[28vh]' : 'h-max md:h-max lg:h-[43vh] xl:h-[35vh] 2xl:h-[28vh]'">
-                            <div v-for="fl in field.filter(it => it.show == true)">
+                    <slot name="header-content" :h_field="h_field">
+                        <div class="flex flex-col flex-wrap gap-y-2 gap-x-32 pt-1 w-full" :class="!d_field ? 'h-max' : 'h-max md:h-max lg:h-[40vh] xl:h-[23vh]'">
+                            <div v-for="fl in h_field">
                                 <div class="flex justify-between items-center md:w-72">
                                     <label class="w-[24%] break-normal">{{ fl.title }}</label>
-                                    <base-input :type="fl.type" :value="headItem[fl.key]" :option="fl.item" :fl_item="fl.item" :default="fl.default" :rules="fl.rules" :label="fl.key" @input="input" :disabled="fl.disabled || disabled || (store().menu.option.key == 'edit' && fl.edit == false)"></base-input>
+                                    <base-input :type="fl.type"  :option="fl.item" :value="h_items[fl.key]" :fl_item="fl.item" :default="fl.default" :rules="fl.rules" :label="fl.key" :allItems="dataitem" :keys="fl.key" @input="input" :disabled="fl[store().state.action].disabled"></base-input>
                                 </div>
                             </div>
                         </div>
                     </slot>
                 </div>
                 <!-- DETAIL -->
-                <div v-if="child && store().menu.option.key == 'tambah'" class="px-3 md:px-5">
-                    <base-button @click="addDetail()" class="bg-primary w-full md:w-max" label="Tambah Barang"></base-button>
-                </div>
-                <div v-if="child" class="rounded-lg mx-0 md:mx-5 min-h-[350px] h-full flex flex-col justify-between animate__animated animate__fadeIn animate__slow" :class="store().theme == 'dark' ? 'dark' : 'bg-white'">
-                    <div class="w-full h-full rounded-0 md:rounded-lg p-3" :class="store().theme == 'dark' ? 'dark' : 'bg-white'">
-                        <slot name="detail" :passItem="store().master"></slot>
-                    </div>
-                    <div class="pt-1 pb-3 px-3 gap-x-5 rounded-b-0 md:rounded-b-lg" :class="store().theme == 'dark' ? 'dark' : 'bg-white'">
-                        <!-- <span v-for="p in param" class="font-bold capitalize">{{ 'Total ' + p.title + ': ' }} {{ sumTotalN(p) }}</span> -->
-                        <div class="w-full flex flex-col md:flex-row justify-between gap-y-1">
-                            <div v-for="p in param" class="flex gap-x-1">
-                                <div class="flex flex-col w-28 justify-center p-2" :class="store().theme == 'dark' ? 'bg-dark-base' : 'bg-base'">{{ p.title }}</div>
-                                <div class="flex flex-col break-words w-full md:w-44 justify-center p-2" :class="store().theme == 'dark' ? 'bg-dark-base' : 'bg-base'">{{ sumTotalN(p) }}</div>
-                            </div>
-                        </div>
-                    </div>
+                <div v-if="d_field" class="rounded-lg min-h-[350px] h-full overflow-auto p-3 flex flex-col justify-between animate__animated animate__fadeIn animate__faster" :class="store().dark ? 'dark' : 'bg-white'">
+                    <base-table :fields="config.fields.detail" :tbl_footer="config.tbl_footer" :filter="config.filter" :show_filter="false" :select_column="true" :export="false" :search="false" :items="d_items || detail_items" :permission="config.permission" @openDetail="resTable">
+                        <template #body-row="items">
+                            <slot name="rowtbl" :items="items.items" :header="items.header"></slot>
+                        </template>    
+                    </base-table>
                 </div>
             </slot>
-            <div v-if="store().menu.option.key == 'tambah' || store().menu.option.key == 'edit'" class="w-full px-3 md:px-5 flex justify-end space-x-2 z-[1]" :class="store().detail != '' && store().detail?.length > 1 ? 'mt-24 md:mt-0' : ''">
-                <base-button @click="close()" class="bg-primary-hover w-full md:w-max" label="Batal"></base-button>
-                <base-button @click="submited()" class="bg-primary w-full md:w-max" label="Simpan"></base-button>
+            <!-- BUTTON ACTION -->
+            <div v-if="store().state.action == 'create' || store().state.action == 'edit'" class="w-full px-3 md:px-5 pb-2 flex justify-end space-x-2">
+                <base-button  @click="close('detail')" class="bg-primary-hover w-full md:w-max" label="Batal"></base-button>
+                <base-button @click="save()" class="bg-primary w-full md:w-max" label="Simpan"></base-button>
             </div>
+            <!-- CONTEXT MENU -->
+            <ContextMenu v-if="offContext" :isActive="openContext" :items="contextItem" @close="close" @resContext="resContext" />
+            <!-- DIALOG INPUT -->
+            <input-dialog v-if="DialInput" :open="DialInput" :data_dialog="data_dialog" :fields="fl_child" :detail="d_items || detail_items" @close="close" @resDialInput="resDialInput">
+                <template #left="data_left">
+                    <slot name="d-left" :data_left="data_left.data_left"></slot>
+                </template>
+            </input-dialog>
+            <!-- DIALOG -->
+            <base-dialog v-if="dialog" :active="dialog" :fields="fl_child" :items="s_detail" :detail="d_items || detail_items" @resDialog="resDialog" @close="close"></base-dialog>
         </div>
-        <input-dialog v-if="input_d" :open="input_d" @close="close_d" @input_="dialogI">
-            <template #left="data_left">
-                <slot name="d-left" :data_left="data_left.data_left"></slot>
-            </template>
-        </input-dialog>
     </div>
 </template>
 <script setup>
+import ContextMenu from '@/components/menu/ContextMenu.vue';
+import alert from '@/utils/alert';
 import { store } from '@/utils/store'
-import alert from '@/utils/alert'
-import utils from '@/utils/utils'
-import pengiriman from '@/views/transaksi/pengiriman/pengiriman';
+import validation from '@/utils/validation';
 </script>
 <script>
 export default {
-    props: {field: {type: Object},child: {type: Boolean}, param: {type: Object}, items: {type: Object}},
-    data(){
-        return{
-            dataitem: {},
-            input_d: false,
-            tmp: []
+    props: {
+        config: {type: Object, required: true},
+        h_items: {type: Object, required: true},
+        d_items: {type: Object, required: true},
+        isActive: {type: Boolean, required: true},
+    },
+    data() {
+        return {
+            openContext: false,
+            DialInput: false,
+            dialog: false,
+            data_dialog: '',
+            fl_child: '',
+            tmp: [],
+            dataitem: this.h_items || {},
+            detail_items: '',
+            s_detail: ''
         }
     },
     computed: {
-        disabled() {
-            return store().menu.option.key == 'lihat'
+        h_field() {
+            return this.config.fields.head.filter(item => item[store().state.action]?.show == true)
         },
-        headItem() {
-            return this.items? this.items[0] : store().master
+        d_field() {
+            if(this.config.fields.detail) return this.config.fields.detail.filter(item => item[store().state.action]?.show == true)
+            else return false
+        },
+        offContext() {
+            if(!this.openContext || store().state.action == 'read' || this.dialog || this.DialInput ) return false
+            else return true
         }
     },
     methods: {
-        close() {
-            if(store().dialog) {
-                store().$patch((state) => {
-                    state.dialog = false
-                })
-            } else {
-                this.tmp = []
-                this.dataitem = {}
-                store().resetState()
-            }
+        context(event) {
+            store().state.data.Xaxis = event.clientX
+            store().state.data.Yaxis = event.clientY
+            this.openContext = true
         },
-        sumTotalN(prm) {
-            let arr = []
-            let data = store().detail
-            if(data) {
-                for (let i = 0; i < data.length; i++) {
-                    arr.push((data[i][prm.key] == undefined ? 0 : data[i][prm.key]))
-                }
-                let res =  arr.reduce((total, current) => {
-                    return total + current;
-                }, 0) || 0
-                return utils.numb(res)
+        resContext(value) {
+            if(value.key == 'create_detail') {
+                store().single_detail = ''
+                this.data_dialog = this.config.menu.detail[0].item
+                this.fl_child = this.config.fields.detail.filter(item => item.dialog == true)
+                this.DialInput = true
             }
-        },
-        addDetail() {
-            if(this.$router.currentRoute.value.path == '/transaksi/pengiriman') {
-                const data = pengiriman.blmTerkirim()
-                store().$patch((state) => state.state.permission[0].item.item = data)
+            if(value.key == 'edit_detail') {
+                this.fl_child = this.config.fields.detail.filter(item => item.dialog == true)
+                this.s_detail = store().single_detail
+                this.dialog = true
             }
-            this.input_d = true
-            store().$patch((state) => { 
-                // state.i_dialog.show = !state.i_dialog.show
-                state.i_dialog.item = state.state.permission[0].item
-                state.s_detail = ''
-            })
+            if(value.key == 'delete_detail') {
+                this.s_detail = store().single_detail
+                let idx = this.detail_items.indexOf(this.s_detail)
+                this.detail_items.splice(idx, 1)
+            }
+            this.openContext = false
         },
-        dialogI(value) {
+        resTable(value) {
+            this.s_detail = value
+            this.fl_child = this.config.fields.detail.filter(item => item.dialog == true)
+            this.dialog = true
+        },
+        resDialog(key, value) {
+        },
+        resDialInput(value) {
             this.tmp.push(value)
-            store().$patch((state) => { state.detail = this.tmp })
+            this.detail_items = this.tmp
         },
-        close_d(v) {
-            this.input_d = v
+        close(s) {
+            if(s == 'detail') {
+                store().state.action = 'read'
+                this.$emit('close', 'detail')
+            }
+            if(s == 'context') {
+                this.openContext = false
+                store().single_detail = ''
+            }
+            if(s == 'dialog_input') {
+                this.DialInput = false
+            }
+            if(s == 'dialog') {
+                this.dialog = false
+            }
         },
         input(value) {
             let a = []
             a.push(value)
             for (let i = 0; i < a.length; i++) {
-                if(store().menu.option.key != 'edit') {
-                    this.dataitem[a[i].title] = a[i].value
-                }
-                else {
-                    store().master[a[i].title] = a[i].value
-                }
+                this.dataitem[a[i].title] = a[i].value
             }
-            if(store().menu.option.key != 'edit') store().$patch((state) => { state.detailDump = this.dataitem})
-            else store().$patch((state) => { state.detailDump = state.master })
         },
-        async submited() {
-            let opt = store().menu.option.key
-            let head = store().state.field_detail.filter(item => item.rules != undefined)
-            // let detail = store().state.dialog_field.filter(item => item.rules != undefined).slice(1)
-            // let fl = [...head, ...detail]
-            // let input = [...[this.dataitem], ...store().detail]
-            let a = ''
-            if(opt == 'edit') a = head != '' ? store().validate(head, store().master, head) : true
-            else a = head != '' ? store().validate(head, this.dataitem, head) : true
-            if(a && a != undefined) {
-                if(this.child == false) {
-                    if(opt == 'tambah') { 
-                        let a = await store().create(this.dataitem)
-                        if(a == 'success') this.dataitem = {}
-                        console.log(a);
-                    }
-                    else if(opt == 'edit') {
-                        store().update(store().master)
-                    }
-                } else if (this.child && store().detail != '') {
-                    if(opt == 'tambah') { 
-                        let a = await store().create(this.dataitem)
-                        if(a == 'success') {
-                            this.tmp = []
-                            this.dataitem = {}
-                        }
-                    }
-                    // else if(opt == 'edit') store().update(store().master)
-                } else if (store().detail == '') alert.warning(null, 'detail masih kosong') 
+        save() {
+            let head = this.h_field.filter(item => item.rules != undefined)
+            let h_valid = head != '' ? validation.validate(head, this.dataitem, head) : true
+            let d_valid = this.d_field ? (this.detail_items != '' ? true : false) : true
+            if(!d_valid) return alert.warning(null, 'detail masih kosong')
+            if(h_valid && d_valid) {
+                let s = this.$router.currentRoute.value.matched[0].children.find(item => item.title == this.config.title).key.toLowerCase()
+                if(store().state.action == 'create') store().create(s, this.dataitem, this.detail_items)
+                if(store().state.action == 'edit') store().edit(s, this.dataitem, this.detail_items)
             }
         }
     },
+    mounted() {
+        store().TopBar = false
+        store().AppBar = false
+    }
 }
 </script>
+<style scoped>
+::-webkit-scrollbar {
+	width: 0;
+	height: 0;
+}
+</style>

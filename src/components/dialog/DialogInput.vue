@@ -1,8 +1,8 @@
 <template>
-    <div class="fixed top-0 left-0 w-full flex justify-center overflow-hidden" :class="open ? 'z-[2] h-full' : 'z-[-2] h-0'">
+    <div class="fixed top-0 left-0 w-full flex justify-center overflow-hidden text-sm" :class="open ? 'z-[2] h-full' : 'z-[-2] h-0'">
         <div v-if="open" @click="close('parent')" class="fixed top-0 left-0 h-full w-full z-[0] bg-scrim"></div>
         <div v-if="child" @click="close('child')" class="fixed top-0 left-0 h-full w-full z-[1] bg-scrim"></div>
-        <div class="fixed bottom-0 rounded-3xl h-[85vh] md:h-[95vh] w-[28%] min-w-[340px] max-w-[450px] mb-18 md:mb-5 py-7 px-5 md:px-7 duration-300" :class="!open ? '' : (store().theme == 'dark' ? 'dark animate__animated animate__fadeInUp animate__faster duration-400' : 'bg-white animate__animated animate__fadeInUp animate__faster duration-400')">
+        <div class="fixed bottom-0 rounded-3xl h-[85vh] md:h-[95vh] w-[28%] min-w-[340px] max-w-[450px] mb-18 md:mb-5 py-7 px-5 md:px-7 overflow-hidden duration-300" :class="!open ? '' : (store().dark ? 'dark animate__animated animate__fadeInUp animate__faster duration-400' : 'bg-white animate__animated animate__fadeInUp animate__faster duration-400')">
             <div class="relative h-full w-full flex flex-col space-y-3 items-center">
                 <div class="relative flex flex-col gap-y-5 text-center w-full">
                     <div class="not-sr-only md:sr-only absolute text-xl right-0">
@@ -10,20 +10,20 @@
                             <i class="ri-close-line"></i>
                         </button>
                     </div>
-                    <span class="font-semibold text-xl text-center">{{ item.title }}</span>
+                    <span class="font-semibold text-xl text-center">{{ data_dialog.title }}</span>
                     <base-input type="search" variant="tonal" @search="searched"></base-input>
                 </div>
                 <div class="w-full h-full mx-auto overflow-auto" >
-                    <div v-for="data in content" @click="pick(data)" class="flex justify-between items-center min-h-10 h-max px-3 rounded cursor-pointer" :class="store().theme == 'dark' ? 'hover:bg-dark-hover' : 'hover:bg-slate-50'">
+                    <div v-for="data in content" @click="pick(data)" class="flex justify-between items-center min-h-10 h-max px-3 rounded cursor-pointer" :class="store().dark ? 'hover:bg-dark-hover' : 'hover:bg-slate-50'">
                         <!-- leftSide -->
-                        <div v-if="item.left">
+                        <div v-if="data_dialog.left">
                             <slot name="left" :data_left="data">
-                                <span v-for="left in item.left">{{ data[left] }}</span>
+                                <span v-for="left in data_dialog.left">{{ data[left] }}</span>
                             </slot>
                         </div>
                         <!-- leftCustom -->
-                        <div v-if="item.leftCustom" class="flex flex-col py-2">
-                            <div v-for="left in item.leftCustom">
+                        <div v-if="data_dialog.leftCustom" class="flex flex-col py-2">
+                            <div v-for="left in data_dialog.leftCustom">
                                 <span v-if="left.content.length == 1" class="font-bold">{{ data[left.content] }}</span>
                                 <div v-else>
                                     <div class="flex space-x-1 w-full overflow-hidden">
@@ -33,29 +33,32 @@
                             </div>
                         </div>
                         <!-- rightside -->
-                        <div v-if="item.right">
-                            <span v-for="right in item.right">{{ data[right] }}</span>
+                        <div v-if="data_dialog.right">
+                            <span v-for="right in data_dialog.right">{{ data[right] }}</span>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="fixed bottom-0 rounded-3xl md:rounded-3xl min-h-[200px] w-[90%] md:w-max min-w-[340px] max-w-[450px] py-7 px-3 md:px-7 z-[3]" :class="!child ? 'translate-y-[95vh] duration-300' : store().theme == 'dark' ? 'dark -translate-y-[30vh] duration-400' : '-translate-y-[30vh] duration-400 bg-white'">
-            <!-- title -->
-            <div class="flex flex-col-reverse text-center space-y-1">
-                <span v-for="fl in store().state.dialog_field.slice(0, 2)" class="first:text-sm last:text-lg">{{ picked[fl.key] }}</span>
+            <div class="relative w-max h-full">
+                <base-loader v-if="loading"></base-loader>
             </div>
-            <div class="flex flex-col gap-y-5 mt-5">
+        </div>
+        <div v-if="child" class="fixed flex flex-col justify-between gap-y-5 bottom-0 rounded-3xl md:rounded-3xl min-h-[220px] w-[90%] md:w-max min-w-[340px] max-w-[450px] py-7 px-3 md:px-7 z-[3]" :class="!child ? 'translate-y-[95vh] duration-300' : store().dark ? 'dark -translate-y-[30vh] duration-400' : '-translate-y-[30vh] duration-400 bg-white'">
+            <!-- title -->
+            <div class="flex flex-col gap-y-5">
+                <div class="flex flex-col-reverse text-center space-y-1">
+                    <span v-for="fl in fields.slice(0, 2)" class="first:text-sm last:text-lg">{{ picked[fl.key] }}</span>
+                </div>
                 <div class="flex flex-col gap-y-2">
-                    <div v-for="fl in store().state.dialog_field.filter(item => item.show == true)" class="flex justify-between items-center w-80">
+                    <div v-for="fl in fields.slice(2, fields.length)" class="flex justify-between items-center w-80">
                         <label class="w-1/4 md:w-max0">{{ fl.title }}</label>
-                        <base-input v-if="open" :type="fl.type" :default="fl.default" :label="fl.key" :rules="fl.rules ? fl.rules : false" :disabled="disabled" @input="datainput"></base-input>
+                        <base-input v-if="open" :type="fl.type" :default="fl.default" :label="fl.key" :rules="fl.rules ? fl.rules : false" :disabled="disabled" :allItems="dataitem" @input="datainput"></base-input>
                     </div>
                 </div>
-                <div class="flex space-x-2 me-0 ms-auto">
-                    <base-button @click="close('child')" class="bg-primary-hover" label="Batal"></base-button>
-                    <base-button @click="save()" class="bg-primary" label="Simpan"></base-button>
-                </div>
+            </div>
+            <div class="flex space-x-2 me-0 ms-auto">
+                <base-button @click="close('child')" class="bg-primary-hover" label="Batal"></base-button>
+                <base-button @click="save()" class="bg-primary" label="Simpan"></base-button>
             </div>
         </div>
     </div>
@@ -63,83 +66,71 @@
 <script setup>
 import { store } from '@/utils/store'
 import api from '@/utils/api'
+import validation from '@/utils/validation';
 </script>
 <script>
 export default {
     props: {
         open: {type: Boolean},
-        fl_item: {type: Array}
+        data_dialog: {type: Object, required: true},
+        fields: {type: Object, required: true},
+        detail: {type: Object, required: true},
+        allItems: {type: Object, required: true},
     },
     data() {
         return {
             base: '',
             search: '',
-            items: '',
             picked: '',
             child: false,
+            loading: false,
             child_item: '',
             dataitem: {}
         }
     },
     computed: {
-        disabled() {
-            return store().menu.option.key == 'lihat' ? true : false
-        },
-        item() {
-            return store().i_dialog.item
-        },
         content() {
             return this.search || this.base
         }
     },
-    // watch: {
-    //     items() {
-    //         this.get();
-    //     },
-    // },
     methods: {
+        async get() {
+            this.loading = true
+            let ep = ''
+            if(this.data_dialog.endpoint == null) {
+                this.base = this.data_dialog.item
+            } else {
+                let param = this.allItems
+                if(this.data_dialog.param) ep = this.data_dialog.endpoint + param[this.data_dialog.param]
+                else ep = this.data_dialog.endpoint
+                if(this.open) this.base = await api.getData(ep)
+            }
+            this.loading = false
+        },
+        searched(input) {
+            this.search = this.base.filter(item => Object.values(item).some(value => typeof value == 'string' && value.toLowerCase().includes(input.toLowerCase())))
+        },
         close(param) {
             if(param == 'child') this.child = false
             else {
                 this.child = false
-                store().$patch((state) => {
-                    // state.i_dialog.show = false
-                    state.i_dialog.item = ''
-                    state.s_detail = ''
-                })
                 this.child_item = ''
                 this.dataitem = {}
                 this.base = ''
-                this.$emit('close', false)
+                this.$emit('close', 'dialog_input')
             }
-        },
-        async get() {
-            let ep = ''
-            if(this.item.endpoint == null) {
-                if(this.fl_item) this.base = this.fl_item.item
-                else this.base = await store().state.permission[0].item.item
-            } else {
-                let param = store().temp
-                if(this.item.param) ep = this.item.endpoint + param[this.item.param]
-                else ep = this.item.endpoint
-                if(this.open) this.base = await api.getData(ep)
-            }
-        },
-        searched(value) {
-            let a = store().search(value, this.base)
-            this.search = a
         },
         pick(value) {
             this.picked = value
-            if(!this.item.child) {
-                this.$emit('input_i', value)
+            if(!this.data_dialog.child) {
+                this.$emit('resDialInput', value)
+                this.close('parent')
             }
             else {
-                let rules = store().state.dialog_field.filter(it => it.rules == 'unique')
-                let a = rules != '' ? store().validate(rules, value, store().detail) : true
+                let rules = this.fields.filter(it => it.rules == 'unique')
+                let a = rules != '' ? validation.validate(rules, value, this.detail) : true
                 if(a) {
-                    this.child = true,
-                    this.child_item = value
+                    this.child = true
                     this.dataitem = value
                 }
             }
@@ -151,22 +142,21 @@ export default {
                 for (let i = 0; i < a.length; i++) {
                     this.dataitem[a[i].title] = a[i].value
                 }
-                store().$patch((state) => { state.s_detail = this.dataitem })
             }
         },
         save() {
             if(this.child) {
-                let rules = store().state.dialog_field.filter(item => item.rules != undefined)
-                let a = rules != '' ? store().validate(store().state.dialog_field, this.dataitem, store().detail) : true
+                let rules = this.fields.filter(item => item.rules != undefined)
+                let a = rules != '' ? validation.validate(this.fields, this.dataitem, this.detail) : true
                 if(a) {
-                    this.$emit('input_', this.dataitem)
+                    this.$emit('resDialInput', this.dataitem)
                     this.close('parent')
                 }
             }
         }
     },
     mounted() {
-        if(this.open) this.get()
+        this.get()
     },
 }
 </script>

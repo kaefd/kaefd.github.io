@@ -2,8 +2,8 @@
     <button @click="active = !active" class="w-12 h-12 bg-primary rounded-full overflow-hidden flex justify-center items-center">
         <img src="@/assets/img/person1.png" alt="avatar">
     </button>
-    <div v-if="active" @click="active = false" class="absolute h-screen w-screen right-0 top-0 overflow-hidden duration-300 rounded-s-3xl bg-scrim"></div>
-    <div class="absolute h-screen right-0 top-0 overflow-hidden duration-300 rounded-s-3xl" :class="!active ? 'w-0' : (store().theme == 'dark' ? 'dark w-80' : 'bg-white w-80')">
+    <div v-if="active" @click="active = false" class="absolute z-[1] h-screen w-screen right-0 top-0 overflow-hidden duration-300 rounded-s-3xl bg-scrim"></div>
+    <div class="absolute z-[1] h-screen right-0 top-0 overflow-hidden duration-300 rounded-s-3xl" :class="!active ? 'w-0' : (store().dark ? 'dark w-80' : 'bg-white w-80')">
         <div class="w-full flex flex-col gap-y-3 py-5 items-center justify-center">
             <span class="text-xl font-semibold">Profil Pengguna</span>
             <div class="block text-center">
@@ -30,12 +30,12 @@
             </div>
         </div>
     </div>
-    <Pengaturan v-if="setting" @close="close"/>
+    <!-- <Pengaturan v-if="setting" @close="close"/> -->
 </template>
 <script setup>
 import api from '@/utils/api'
 import {store} from '@/utils/store'
-import Pengaturan from '@/views/user/Pengaturan.vue'
+// import Pengaturan from '@/views/user/Pengaturan.vue'
 </script>
 <script>
 export default {
@@ -43,14 +43,14 @@ export default {
         return {
             active: false,
             setting: false,
-            user: localStorage.getItem('user')
+            user: ''
         }
     },
     methods: {
         fun(param) {
             if(param == 'out') api.logout()
-            if(param == 'log') this.$router.push({path: '/log-aktivitas'})
-            if(param == 'change-pass') this.$router.push({path: '/ubah-password'})
+            if(param == 'log') this.$router.push({path: '/user/log'})
+            if(param == 'change-pass') this.$router.push({path: '/'})
             if(param == 'setting') this.setting = true
             this.active = false
         },

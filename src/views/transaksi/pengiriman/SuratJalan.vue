@@ -9,9 +9,9 @@
                 <div class="flex gap-x-2">
                     <span class="uppercase">penerima : </span>
                     <div class="flex flex-col gap-y-0">
-                        <span class="uppercase">{{ store().master.pelanggan }}</span>
-                        <span class="uppercase">{{ store().master.alamat }}</span>
-                        <span class="uppercase">{{ store().master.kabupaten }}</span>
+                        <span class="uppercase">{{ head.pelanggan }}</span>
+                        <span class="uppercase w-4/5">{{ head.alamat }}</span>
+                        <!-- <span class="uppercase">{{ head.kabupaten }}</span> -->
                     </div>
                 </div>
                 <div class="flex gap-x-2">
@@ -21,10 +21,10 @@
                         <span>supir/no polisi</span>
                     </div>
                     <div class="flex flex-col">
-                        <span>: {{ store().master.no_pengiriman }}</span>
-                        <span>: {{ utils.formatDate(store().master.tgl_pengiriman) + '/' }}
-                        <span contenteditable>{{ utils.TimeNow().slice(0, 5) }}</span></span>
-                        <span>: {{ store().master.supir + '/' + store().master.no_polisi }}</span>
+                        <span>: {{ head.no_pengiriman }}</span>
+                        <span>: {{ utils.formatDate(head.tgl_pengiriman) + '/' }}
+                        <span>{{ utils.TimeNow().slice(0, 5) }}</span></span>
+                        <span>: {{ head.supir + '/' + head.no_polisi }}</span>
                     </div>
                 </div>
             </div>
@@ -42,15 +42,15 @@
                     </tr>
                 </thead>
                 <tbody class="w-full">
-                    <tr v-for="(item, i) in dataitem" class="w-full">
+                    <tr v-for="(item, i) in detail" class="w-full">
                         <td class="w-max whitespace-pre-wrap px-3 text-left">{{ i + 1 }}</td>
                         <td class="w-max whitespace-pre-wrap px-3 text-left">{{ item.nama_barang }}</td>
-                        <td contenteditable class="w-max whitespace-pre-wrap px-3 text-left">{{
+                        <td class="w-max whitespace-pre-wrap px-3 text-left">{{
                             utils.numb(item.jumlah_konversi) }}</td>
-                        <td contenteditable class="w-max whitespace-pre-wrap px-3 text-left">{{ item.satuan_konversi }}</td>
+                        <td class="w-max whitespace-pre-wrap px-3 text-left">{{ item.satuan_konversi }}</td>
                         <td class="w-max whitespace-pre-wrap px-3 text-left">{{ utils.numb(item.jumlah) }}</td>
                         <td class="max-w-[400px] whitespace-pre-wrap px-3 text-left">
-                            <span>{{ item.nopen }}</span>
+                            <span>{{ `${item.no_dokumen}/${item.tipe_dokumen.slice(2, item.tipe_dokumen.length)}` }}</span>
                         </td>
                     </tr>
                     <tr>
@@ -81,87 +81,97 @@
             <span>(Bag. Exim)</span>
         </div>
         <div class="onlyPrinted flex w-full justify-end">
-            <span class="italic text-[14px]">Print by: {{ user }}</span>
+            <span class="italic text-[14px]">Print by: {{ `${user} / ${utils.formatDate(utils.today())} ${utils.TimeNow()}` }}</span>
         </div>
     </div>
 </template>
 <script setup>
 import { store } from '@/utils/store'
 import utils from '@/utils/utils'
+import pengiriman from '../pengiriman/pengiriman'
 </script>
 <script>
 export default {
+    props: {
+        head: {type: Object, required: true},
+    },
     data() {
         return {
-            user: localStorage.getItem('user')
+            user: JSON.parse(localStorage.getItem('session')).user,
+            detail: ''
         }
     },
     methods: {
-        close() {
-            store().$patch((state) => {
-                state.suratjalan = false
-            })
-        },
-        print() {
-            window.print()
+        async get() {
+            this.detail = await pengiriman.getDetail(this.head)
         },
         sum(p) {
+            console.log(this.detail);
             if (p == 'konversi') {
-                let key = this.dataitem.map(item => item.jumlah_konversi)
-                let konversi = key.reduce((accumulator, currentValue) => accumulator + currentValue, 0)
-                return konversi
+                let j = []
+                for (let i = 0; i < this.detail.length; i++) {
+                    j.push(this.detail[i].jumlah_konversi)
+                }
+                let jumlah = j.reduce((accumulator, currentValue) => accumulator + currentValue, 0)
+                return jumlah
             }
             if (p == 'jumlah') {
-                let key = this.dataitem.map(item => item.jumlah)
-                let jumlah = key.reduce((accumulator, currentValue) => accumulator + currentValue, 0)
+                let j = []
+                for (let i = 0; i < this.detail.length; i++) {
+                    j.push(this.detail[i].jumlah)
+                }
+                let jumlah = j.reduce((accumulator, currentValue) => accumulator + currentValue, 0)
                 return jumlah
             }
         }
     },
     computed: {
         dataitem() {
-				let k = [];
-				let key = store().detail.map((item) => item.nama_barang);
-				// let head = Array.from(new Set(key.map((obj) => obj.nama_barang))).map(
-				// 	(nama_barang) => {
-				// 		return key.find((obj) => obj.nama_barang === nama_barang);
-				// 	}
-				// );
-				let head = [...new Set(key)]
+				// let k = [];
+				// let key = this.detail.map((item) => item.nama_barang);
+				// // let head = Array.from(new Set(key.map((obj) => obj.nama_barang))).map(
+				// // 	(nama_barang) => {
+				// // 		return key.find((obj) => obj.nama_barang === nama_barang);
+				// // 	}
+				// // );
+				// let head = [...new Set(key)]
 
-				for (let i = 0; i < head.length; i++) {
-					let kode = [];
-					let jumlah = [];
-					let konversi = [];
-					let nama = "";
-					for (let j = 0; j < store().detail.length; j++) {
-						if (store().detail[j].nama_barang == head[i]) {
-							nama = store().detail[j].nama_barang;
-							kode.push(
-								store().detail[j].no_dokumen +
-									"/" +
-									store().detail[j].kode_group.slice(2, 4) + ' '
-							);
-							jumlah.push(store().detail[j].jumlah);
-							konversi.push(store().detail[j].jumlah_konversi);
-						}
-					}
-					k.push({
-						nama_barang: nama,
-						jumlah_konversi: konversi.reduce(
-							(accumulator, currentValue) => accumulator + currentValue,
-							0
-						),
-						satuan: store().detail[i].satuan,
-						jumlah: jumlah.reduce(
-							(accumulator, currentValue) => accumulator + currentValue,
-							0
-						),
-						nopen: [...new Set(kode)].toString(),
-					});
-				}
-				return k;
+				// for (let i = 0; i < head.length; i++) {
+				// 	let kode = [];
+				// 	let jumlah = [];
+				// 	let konversi = [];
+				// 	let nama = "";
+				// 	for (let j = 0; j < this.detail.length; j++) {
+				// 		if (this.detail[j].nama_barang == head[i]) {
+				// 			nama = this.detail[j].nama_barang;
+				// 			kode.push(
+				// 				this.detail[j].no_dokumen +
+				// 					"/" +
+				// 					this.detail[j].kode_group.slice(2, 4) + ' '
+				// 			);
+				// 			jumlah.push(this.detail[j].jumlah);
+				// 			konversi.push(this.detail[j].jumlah_konversi);
+				// 		}
+				// 	}
+				// 	k.push({
+				// 		nama_barang: nama,
+				// 		jumlah_konversi: konversi.reduce(
+				// 			(accumulator, currentValue) => accumulator + currentValue,
+				// 			0
+				// 		),
+				// 		satuan: this.detail[i].satuan,
+				// 		jumlah: jumlah.reduce(
+				// 			(accumulator, currentValue) => accumulator + currentValue,
+				// 			0
+				// 		),
+				// 		nopen: [...new Set(kode)].toString(),
+				// 	});
+				// }
+				// return k;
 		},
+    },
+    mounted() {
+        this.get()
     }
 }
 </script>

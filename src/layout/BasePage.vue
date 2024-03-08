@@ -1,162 +1,154 @@
 <template>
-    <div class="h-screen w-full ps-0 md:ps-24 pt-16 pb-3 text-sm" :class="store().menu.option.key == undefined ? 'overflow-auto md:overflow-hidden' : 'overflow-hidden'">
-        <div class="pt-5 mx-3 md:mx-5 h-[90%] md:h-full overflow-visible md:overflow-hidden rounded-xl animate__animated animate__fadeIn animate__slow" :class="store().theme == 'dark' ? 'dark' : 'bg-white'">
-            <div class="flex flex-wrap justify-between items-end space-y-2 px-3 ms:px-4">
-                <div class="flex flex-col space-y-3 w-max">
-                    <!-- <span class="text-xl font-semibold">{{ $router.currentRoute.value.name }}</span> -->
-                    <pills-button v-if="config.permission.find(item => item.key == 'tambah') && otoritas.check('tambah')" @click="option({title: 'tambah '+ $router.currentRoute.value.name, key: 'tambah'})" class="bg-primary z-[1] w-max" label="Tambah Data"></pills-button>
-                </div>
-                <div class="flex items-center justify-center md:justify-end space-x-2 w-max">
-                    <slot name="search">
-                        <base-input type="search" variant="tonal" @search="input"></base-input>
-                    </slot>
-                    <div class="flex gap-x-0 md:gap-x-2 items-center">
-                        <div class="group flex relative">
-                            <button @click="active('col')" class="h-[40px] w-[40px] rounded-full hover:bg-primary-hover">
-                                <i class="ri-layout-5-line text-primary text-base"></i>
-                            </button>
-                            <span class="z-[1] w-max group-hover:opacity-100 transition-opacity bg-gray-500 p-2 text-xs text-gray-100 rounded-md absolute left-1/2 
-                            -translate-x-1/2 translate-y-full opacity-0 mt-2 mx-auto capitalize">pilih kolom</span>
-                        </div>
-                        <div class="group flex relative">
-                            <ExportOption v-if="otoritas.check('pdf') || otoritas.check('xlsx')" :fields="store().state.fields"/>
-                            <span class="z-[1] w-max group-hover:opacity-100 transition-opacity bg-gray-500 p-2 text-xs text-gray-100 rounded-md absolute left-1/2 
-                            -translate-x-1/2 translate-y-full opacity-0 mt-2 mx-auto capitalize">export data</span>
-                        </div>
-                        <div class="group flex relative">
-                            <button v-if="config.filter != false" @click="active('filter')" class="h-[40px] w-[40px] rounded-full hover:bg-primary-hover"><i class="ri-filter-line text-primary text-base"></i></button>
-                            <span class="z-[1] w-max group-hover:opacity-100 transition-opacity bg-gray-500 p-2 text-xs text-gray-100 rounded-md absolute left-1/2 
-                            -translate-x-1/2 translate-y-full opacity-0 mt-2 mx-auto capitalize">filter data</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <base-filter :fields="drawer" :column="column" :items="store().items"></base-filter>
-            <!-- content -->
-            <div class="w-full h-[94%] duration-500"
-                :class="store().filter || store().column ? '-translate-y-10 md:translate-y-0' : '-translate-y-[473px] md:-translate-y-[250px]'">
-                <!-- <div class="w-full h-full bg-red-500 mb-48 md:mb-0"> -->
-                <slot name="base-content">
-                    <div class="w-full h-full p-3" :class="store().theme == 'dark' ? 'dark' : 'bg-white'">
-                        <base-table :fields="config.fields" :items="datatable" :master="true" :permission="config" :s_table="config.permission != '' ? false : true"></base-table>
-                    </div>
-                </slot>
-                <!-- </div> -->
+    <div @contextmenu.prevent="context($event)" class="w-full h-full" :class="store().dark ? 'bg-dark-base' : 'bg-base'">
+        <!-- CONTENT -->
+        <div class="relative w-[95%] mx-auto h-[88%] md:h-[98%] rounded-xl animate__animated animate__fadeIn animate__faster" :class="store().dark ? 'dark' : 'bg-white'">
+            <!-- TABLE -->
+            <div class="w-full h-full p-5">
+                <base-table :title="config.title" :tbl_footer="config.tbl_footer" :base="true" :s_table="s_table" :fields="tableHeader" :filter="config.filter" :show_filter="true" :select_column="true" :export="true" :search="true" :items="items || store().data.items" :permission="config.permission" @openDetail="resTable"></base-table>
             </div>
         </div>
-        <CetakDokumen v-if="store().print">
-            <template #dokumen>
-                <SuratJalan v-if="store().suratjalan" />
-                <CetakDo v-if="store().do" />
-            </template>
-        </CetakDokumen>
-        <slot name="detail-page">
-            <base-detail :field="config.field_detail" :child="config.child" :param="config.param">
+        <!-- CONTEXT MENU -->
+        <ContextMenu v-if="openContext && !openDetail" :isActive="openContext" :items="contextItem" @close="close" @resContext="resContext" />
+        <!-- DETAIL -->
+        <slot name="detail-page" :d_items="d_items" :h_items="h_items">
+            <base-detail v-if="openDetail" :config="config" @close="close" :h_items="h_items" :d_items="d_items" :base="false">
                 <template #full-content>
-                    <slot name="dt-full-content"></slot>
+                    <slot name="full-content"></slot>
                 </template>
-                <template #detail>
-                    <slot name="base-detail"></slot>
+                <template #header-content>
+                    <slot name="header-content" :items="d_items"></slot>
+                </template>
+                <template #rowtbl="items">
+                    <slot name="row-table" :items="items.items" :header="items.header"></slot>
                 </template>
                 <template #d-left="data_left">
                     <slot name="left" :data_left="data_left.data_left"></slot>
                 </template>
-                <template #header-content>
-                    <!-- <div class="h-full -ms-3 -me-3"> -->
-                        <slot name="header-content"></slot>
-                    <!-- </div> -->
-                </template>
             </base-detail>
         </slot>
-        <!-- <RightClickMenu v-if="store().Rmenu.show" ></RightClickMenu> -->
+        <!-- CETAK DOKUMEN -->
+        <CetakDokumen v-if="print" @close="close">
+            <template #dokumen>
+                <SuratJalan v-if="config.permission.cetak_suratjalan && suratjalan" :head="store().single_detail" />
+                <CetakDo v-if="config.permission.cetak_do && cetak_do" :head="store().single_detail" />
+            </template>
+        </CetakDokumen>
     </div>
 </template>
 
 <script setup>
-import ExportOption from '@/components/menu/ExportOption.vue';
+import ContextMenu from '@/components/menu/ContextMenu.vue'
 import { store } from '@/utils/store'
-import otoritas from '@/router/otoritas'
 import CetakDokumen from '@/components/print/CetakDokumen.vue'
 import SuratJalan from '@/views/transaksi/pengiriman/SuratJalan.vue'
 import CetakDo from '@/views/transaksi/pengiriman/CetakDo.vue'
-import RightClickMenu from '@/components/menu/RightClickMenu.vue'
 </script>
 <script>
-export default {
-    props: {
-        config: {
-            type: Object
-        }
-    },
-    data() {
-        return {
-            drawer: '',
-            column: false,
-            detail: false,
-            search: 'false'
-        }
-    },
-    computed: {
-        datatable() {
-            return this.search != 'false' || this.search == '' ? this.search : store().items
-        }
-    },
-    methods: {
-        rightClick(e) {
-            e = e || window.event
-            console.log(e);
-           store().Rmenu.show = !store().Rmenu.show
-           store().$patch((state) => {
-            state.Rmenu.screenX = e.clientX
-            state.Rmenu.screenY = e.clientY - 50
-           })
-           console.log(store().Rmenu);
-           
+    export default {
+        props: {
+            config: {type: Object, required: true},
+            items: {type: Object},
+            s_table: {type: Boolean}
         },
-        active(param) {
-            if (param == 'filter') {
-                store().$patch((state) => {
-                    state.filter = !state.filter
-                    state.column = false
-                })
-                this.drawer = store().state.filter
-                this.column = false
-            } else if (param == 'col') {
-                store().$patch((state) => {
-                    state.column = !state.column
-                    state.filter = false
-                })
-                this.drawer = this.config.fields
-                this.column = true
+        data() {
+            return {
+                openContext: false,
+                openDetail: false,
+                h_items: '',
+                d_items: '',
+                print: false,
+                suratjalan: false,
+                cetak_do: false
             }
         },
-        option(value) {
-            store().$patch((state) => { state.menu.option = value })
-            if (value.key == 'lihat') {
-                store().$patch((state) => { state.detail_dialog = true })
-            } else if (value.key == 'tambah') {
-                store().$patch((state) => {
-                    state.detail_dialog = true
-                    state.master = '',
-                    state.detail= ''
-                })
-            }else if (value.key == 'edit') {
-                store().$patch((state) => {
-                    state.detail_dialog = true
-                })
-            } else if (value.key == 'hapus') {
-                store().delete()
+        computed: {
+            contextItem () {
+                if(this.config.menu) {
+                    return this.config.menu.head.filter(item => this.config.permission[item.key] == true)
+                } else return ''
+            },
+            tableHeader() {
+                return this.config.fields.head.filter(item => item.show == true)
             }
         },
-        close() {
-            store().$patch((state) => {
-                state.menu.show = false
-            })
+        methods: {
+            init() {
+                store().TopBar = true
+                store().AppBar = true
+            },
+            context(event) {
+                this.openContext = false
+                store().state.data.Xaxis = event.clientX
+                store().state.data.Yaxis = event.clientY
+                setTimeout(() => {
+                    if(!this.openDetail) this.openContext = true
+                }, 90)
+            },
+            async resContext(value) {
+                let k = this.$router.currentRoute.value.matched[0].children.find(item => item.title == this.config.title).key.toLowerCase()
+                let path = this.$router.currentRoute.value.path
+                if(value.key == 'create') {
+                    store().state.action = 'create'
+                    store().single_detail = ''
+                    this.h_items = ''
+                    this.d_items = ''
+                    if(this.config.title == 'Data User') {
+                        let module = await import(/* @vite-ignore */`../views${path}/${k}`)
+                        this.d_items = await module.default.beforeCreate()
+                        store().s_dialog = true
+                    }
+                    else this.openDetail = true
+                }
+                if(value.key == 'edit') {
+                    store().state.action = 'edit'
+                    this.h_items = store().single_detail
+                    if(this.config.title == 'Data User') {
+                        let module = await import(/* @vite-ignore */`../views${path}/${k}`)
+                        this.d_items = await module.default.getDetail(store().single_detail)
+                        store().s_dialog = true
+                    } else this.openDetail = true
+                }
+                if(value.key == 'delete') {
+                    let module = await import(/* @vite-ignore */`../views${path}/${k}`)
+                    return await module.default.delete(store().single_detail)
+                }
+                if(value.key == 'cetak_suratjalan') {
+                    this.print = true
+                    this.suratjalan = true
+                }
+                if(value.key == 'cetak_do') {
+                    this.print = true
+                    this.cetak_do = true
+                }
+                if(value.key == 'refresh') {
+                    let module = await import(/* @vite-ignore */`../views${path}/${k}`)
+                    return await module.default[k]()
+                }
+            },
+            async resTable(value) {
+                let k = this.$router.currentRoute.value.matched[0].children.find(item => item.title == this.config.title).key.toLowerCase()
+                if(this.config.title == 'Data User') store().s_dialog = true
+                else this.openDetail = true
+                this.h_items = value
+                if(this.config.child) {
+                    store().loading = true
+                    this.d_items = await store().getDetail(k, value)
+                    store().loading = false
+                }
+            },
+            close(obj) {
+                if(obj == 'context') this.openContext = false
+                if(obj == 'detail') this.openDetail = false
+                if(obj == 'print') {
+                    this.print = false
+                    this.suratjalan = false
+                    this.cetak_do = false
+                }
+                this.init()
+            }
         },
-        async input(value){
-            if(value) this.search = store().search(value, store().items, this.config.fields)
-            else this.search = 'false'
+        mounted() {
+            this.init()
         }
     }
-}
 </script>

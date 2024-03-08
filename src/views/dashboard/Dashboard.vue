@@ -1,14 +1,14 @@
 <template>
-    <div class="pt-16 pb-5 h-screen ps-0 md:ps-20 overflow-auto">
+    <div class="py-5 h-max ps-0 md:ps-20">
         <div class="mb-5 ms-0 md:ms-4 px-3 md:px-5">
             <div class="w-[35vw]">
                 <base-input type="date" variant="pills" label="periode" :value="mth" @input="dateInput"></base-input>
             </div>
         </div>
         <div class="ms-0 md:ms-4 px-3 md:px-5 flex flex-wrap items-center justify-center md:justify-between lg:justify-between gap-x-2 xl:gap-x-5 gap-y-5">
-            <div v-for="card in cards" class=" flex flex-grow justify-center items-center rounded-2xl overflow-hidden w-[20vw] min-w-[250px] h-36" :class="store().theme == 'dark' ? 'dark shadow-black' : 'bg-white shadow-slate-300'">
+            <div v-for="card in cards" class=" flex flex-grow justify-center items-center rounded-2xl overflow-hidden w-[20vw] min-w-[250px] h-[10vw] min-h-[120px]" :class="store().dark ? 'dark shadow-black' : 'bg-white shadow-slate-300'">
                 <!-- <div class="absolute w-[20%]"> -->
-                    <div class="h-full w-full flex justify-between px-5 items-center relative">
+                    <div class="h-full w-full flex justify-between px-7 items-center relative">
                         <div class="flex flex-col h-full justify-center space-y-1">
                             <span>{{ card.title }}</span>
                             <span class="text-3xl" :class="'text-'+card.class">{{ card.content + ' T' }}</span>
@@ -25,17 +25,18 @@
             <div v-for="card in cards" @click="active(card)" class="h-10 w-20 rounded-lg flex items-center justify-center text-xs capitalize hover:bg-primary-hover cursor-pointer" :class="card.active ? 'bg-primary-hover' : ''">{{ card.key }}</div>
         </div>
         <div class="ms-0 md:ms-4 px-3 md:px-5 mb-3">
-            <div class="w-full rounded-0 md:rounded-xl px-3 md:px-5 pt-5 capitalize" :class="store().theme == 'dark' ? 'dark' : 'bg-white'">
+            <div class="w-full rounded-0 md:rounded-xl px-3 md:px-5 pt-5 capitalize" :class="store().dark ? 'dark' : 'bg-white'">
                 <p class="mx-3">statistik data {{ activeData.key }}</p>
                 <p class="mx-3 mb-5 text-sm">bulan {{ utils.formatMonth(periode[0]) }}</p>
                 <base-chart :series="chart"/>
             </div>
         </div>
         <div class="ms-0 md:ms-4 px-3 md:px-5">
-            <div class="w-full h-[600px] px-3 md:px-5 pt-5 pb-0 md:pb-12 rounded-0 md:rounded-xl" :class="store().theme == 'dark' ? 'dark' : 'bg-white'">
+            <div class="w-full h-[600px] px-3 md:px-5 pt-5 pb-0 md:pb-12 rounded-0 md:rounded-xl" :class="store().dark ? 'dark' : 'bg-white'">
                 <p class="mx-3">{{ config.title }}</p>
                 <p class="mx-3 text-sm">Bulan {{utils.formatMonth(new Date())}}</p>
-                <base-table :fields="config.fields" :items="items" :master="true" :permission="config" :s_table="config.permission != '' ? false : true"></base-table>
+                <base-table :title="config.title" :fields="config.fields.head" :filter="config.filter" :show_filter="true" :select_column="true" :export="true" :search="true" :items="store().data.items" :permission="config.permission" :s_table="true"></base-table>
+                <!-- <base-table :fields="config.fields" :items="items" :master="true" :permission="config.permission" :s_table="true"></base-table> -->
             </div>
         </div>
     </div>
@@ -44,7 +45,7 @@
 import dashboard from './dashboard'
 import utils from '@/utils/utils'
 import {store} from '@/utils/store'
-import stokbarang from '@/views/laporan/stokbarang'
+import stokbarang from '@/views/laporan/stok-barang/stokbarang'
 </script>
 <script>
 export default {
@@ -64,14 +65,37 @@ export default {
             config: {
                 title: 'Data Stok Barang',
                 child: false,
-                permission: [],
-                fields: [
-                    {title: 'Kategori Barang', key: 'kategori_barang', type: 'text', show: true, sort: 'desc'},
-                    {title: 'Kode Barang', key: 'kode_barang', type: 'text', show: true, sort: 'desc'},
-                    {title: 'Nama Barang', key: 'nama_barang', type: 'text', show: true, sort: 'desc'},
-                    {title: 'Stok Akhir', key: 'stok_akhir', type: 'text', show: true, sort: 'desc'},
+                permission: {
+                    create: false,
+                    edit: false,
+                    delete: false,
+                    search: true,
+                    select_column: true,
+                    export: false,
+                    filter: true,
+                },
+                fields: {
+                    head: [
+                        {title: 'Kategori Barang', key: 'kategori_barang', type: 'text', read: {show: true, disabled: true}, sort: 'desc', column: true},
+                        {title: 'Kode Barang', key: 'kode_barang', type: 'text', read: {show: true, disabled: true}, sort: 'desc', column: true},
+                        {title: 'Nama Barang', key: 'nama_barang', type: 'text', read: {show: true, disabled: true}, sort: 'desc', column: true},
+                        {title: 'HS Kode', key: 'hs_code', type: 'text', read: {show: true, disabled: true}, sort: 'desc', column: true},
+                        {title: 'Satuan', key: 'satuan', type: 'text', read: {show: true, disabled: true}, sort: 'desc', column: true},
+                        {title: 'Stok Akhir', key: 'stok_akhir', type: 'text', read: {show: true, disabled: true}, sort: 'desc', column: true},
+                    ],
+                },
+                filter: [
+                    {title: 'Tanggal', key: 'tanggal', type: 'date', show: true, default:'', rules: ['date:max '+ utils.today()] },
+                    {title: 'Kode Group', key: 'kode_group', type: 'option', item: [{key: 'semua', title: 'Semua'}], default: {key: 'semua', title: 'Semua'}, show: true, rules: ['required']},
+                    {title: 'Kategori Barang', key: 'kategori_barang', type: 'checkbox', show: true, item: [
+                        {title: 'Bahan Baku', key: 'bahan_baku', value: true},
+                        {title: 'Bahan Penolong', key: 'bahan_penolong', value: true},
+                        {title: 'Barang Setengah Jadi', key: 'barang_setengah_jadi', value: true},
+                        {title: 'Barang Jadi', key: 'barang_jadi', value: true},
+                        {title: 'Barang Sisa (Scrap)', key: 'scrap', value: true},
+                        {title: 'Mesin & Peralatan', key: 'peralatan', value: true}
+                    ]},
                 ],
-                filter: [],
             }
         }
     },
@@ -82,19 +106,22 @@ export default {
             this.updateChart()
         },
         async get () {
-            store().loader('on')
-            this.items = await stokbarang.barang()
-            if(this.items) store().loader('off')
+            store().loading = true
+            this.items = await stokbarang.stokbarang()
+            store().data.items = this.items
+            let kode_group = await stokbarang.kode_group()
+            this.config.filter[1].item = this.config.filter[1].item.concat(kode_group)
+            if(this.items) store().loading = false
             // store().$patch((state) => { state.state = this.config })
         },
         async chartData() {
-            store().loader('on')
+            store().loading = true
             let item = await dashboard.items(this.periode)
             this.chart = await dashboard.chart(this.activeData.chart, this.periode)
             for (let i = 0; i < this.cards.length; i++) {
                 this.cards[i].content = utils.numb(item[i].sum)
             }
-            if(item) store().loader('off')
+            if(item) store().loading = false
         },
         async updateChart() {
             this.chart = await dashboard.chart(this.activeData.chart, this.periode)
@@ -135,10 +162,13 @@ export default {
         this.updateChart()
     },
     mounted() {
-        store().loader('on')
+        store().TopBar = true
+        store().AppBar = true
+        store().init()
+        store().loading = true
         this.chartData()
         this.get()
-        store().loader('off')
+        store().loading = false
     }
 }
 </script>

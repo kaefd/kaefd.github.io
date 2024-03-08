@@ -1,12 +1,12 @@
 <template>
-    <div class="hddn w-full h-full absolute top-0 left-0 z-10" :class="store().theme == 'dark' ? 'bg-dark-base' : 'bg-base'">
+    <div class="hddn w-full h-full absolute top-0 left-0 z-10" :class="store().dark ? 'bg-dark-base' : 'bg-base'">
         <div class="hddn rounded-xl h-full animate__animated animate__fadeIn animate__faster">
             <div class="bodyp hddn bg-scrim p-3 flex items-center justify-between text-lg md:text-xl">
                 <div class="flex space-x-3">
                     <button @click="close()">
                         <i class="ri-arrow-left-line"></i>
                     </button>
-                    <span class="font-semibold capitalize">{{ store().menu.option.title }}</span>
+                    <span class="font-semibold capitalize">{{ 'title' }}</span>
                 </div>
                 <button @click="print()" class="mx-3 text-2xl">
                     <i class="ri-printer-line"></i>
@@ -28,66 +28,12 @@ import utils from '@/utils/utils'
 export default {
     methods: {
         close() {
-            store().$patch((state) => {
-                state.print = false
-                state.suratjalan = false
-                state.do = false
-            })
+            this.$emit('close', 'print')
         },
         print() {
             window.print()
         },
-        sum(p) {
-            if(p == 'konversi') {
-                let key = this.dataitem.map(item => item.jumlah_konversi)
-                let head = Array.from(new Set(key.map(obj => obj.jumlah_konversi))).map(jumlah_konversi => {
-                    return key.find(obj => obj.jumlah_konversi === jumlah_konversi)
-                })
-                let konversi = head.reduce((accumulator, currentValue) => accumulator + currentValue, 0)
-                return konversi
-            }
-            if(p == 'jumlah') {
-                let key = this.dataitem.map(item => item.jumlah)
-                let head = Array.from(new Set(key.map(obj => obj.jumlah))).map(jumlah => {
-                    return key.find(obj => obj.jumlah === jumlah)
-                })
-                let jumlah = head.reduce((accumulator, currentValue) => accumulator + currentValue, 0)
-                return jumlah
-            }
-        }
     },
-    computed: {
-        dataitem () {
-            let k = []
-            let key = store().detail.map(item => item.nama_barang)
-            let head = Array.from(new Set(key.map(obj => obj.nama_barang))).map(nama_barang => {
-                return key.find(obj => obj.nama_barang === nama_barang)
-            })
-
-            for (let i = 0; i < head.length; i++) {
-                let kode = []
-                let jumlah = []
-                let konversi = []
-                let nama = ''
-                for (let j = 0; j < store().detail.length; j++) {
-                    if(store().detail[j].nama_barang == head[i]) {
-                        nama = store().detail[j].nama_barang
-                        kode.push(store().detail[j].no_dokumen + '/' + store().detail[j].kode_group.slice(2, 4))
-                        jumlah.push(store().detail[j].jumlah)
-                        konversi.push(store().detail[j].jumlah_konversi)
-                    }
-                }    
-                k.push({
-                    nama_barang: nama,
-                    jumlah_konversi: konversi.reduce((accumulator, currentValue) => accumulator + currentValue, 0),
-                    satuan: store().detail[i].satuan,
-                    jumlah: jumlah.reduce((accumulator, currentValue) => accumulator + currentValue, 0),
-                    nopen: [...new Set(kode)].toString(),
-                })
-            }
-            return k
-        }
-    }
 }
 </script>
 <style scoped>

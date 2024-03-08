@@ -20,6 +20,8 @@ const routes = [
   },
   {
     name: 'Dashboard',
+    title: 'Dashboard',
+    key: 'dashboard',
     path: '/dashboard',
     icon: 'ri-home-5-line',
     meta: {
@@ -40,43 +42,47 @@ const routes = [
     children: [
       {
         name: 'Data Barang',
+        key: 'barang',
+        title: 'Data Barang',
+        icon: 'ri-stack-line',
         path: 'data-barang',
         meta: {
-      middleware: [middleware]
-    },
-        component: () => import('@/views/master/DataBarang.vue')
+          middleware: [middleware]
+        },
+            component: () => import('@/views/master/data-barang/DataBarang.vue')
       },
-    //   {
-    //     name: 'Konversi Barang',
-    //     path: 'konversi-barang',
-    //     meta: {
-    //   middleware: [middleware]
-    // },
-    //     component: () => import('@/views/master/KonversiBarang.vue')
-    //   },
       {
         name: 'Data Pelanggan',
+        key: 'pelanggan',
+        title: 'Data Pelanggan',
+        icon: 'ri-stack-line',
         path: 'data-pelanggan',
         meta: {
-      middleware: [middleware]
-    },
-        component: () => import('@/views/master/DataPelanggan.vue')
+          middleware: [middleware]
+        },
+            component: () => import('@/views/master/data-pelanggan/DataPelanggan.vue')
       },
       {
         name: 'Data Supplier',
+        key: 'supplier',
+        title: 'Data Supplier',
+        icon: 'ri-stack-line',
         path: 'data-supplier',
         meta: {
-      middleware: [middleware]
-    },
-        component: () => import('@/views/master/DataSupplier.vue')
+          middleware: [middleware]
+        },
+            component: () => import('@/views/master/data-supplier/DataSupplier.vue')
       },
       {
         name: 'Data User',
+        key: 'user',
+        title: 'Data User',
+        icon: 'ri-stack-line',
         path: 'data-user',
         meta: {
-      middleware: [middleware]
-    },
-        component: () => import('@/views/master/DataUser.vue')
+          middleware: [middleware]
+        },
+            component: () => import('@/views/master/data-user/DataUser.vue')
       },
     ]
   },
@@ -85,51 +91,56 @@ const routes = [
     subname: 'Transaksi Barang',
     path: '/transaksi',
     icon: 'ri-flow-chart',
-    meta: {
-      middleware: [middleware]
-    },
-    // redirect: '/master/data-barang',
+    middleware: [middleware],
     component: () => import('@/views/transaksi/Transaksi.vue'),
     children: [
       {
-        name: 'Pemasukan Barang',
-        subname: 'Data pemasukan barang',
+        name: 'Pembelian',
+        key: 'Pembelian',
+        title: 'Pemasukan Barang',
+        subname: 'Data Pemasukan barang',
+        icon: 'ri-stack-line',
         path: 'pemasukan',
-        // icon: 'ri-inbox-archive-line',
         meta: {
-          middleware: [middleware]
+            middleware: [middleware]
         },
-        component: () => import('@/views/transaksi/pemasukan/Pemasukan.vue'),
+          component: () => import('@/views/transaksi/pemasukan/Pemasukan.vue'),
       },
       {
-        name: 'Produksi Barang',
+        name: 'Produksi',
+        key: 'Produksi',
+        title: 'Produksi Barang',
         subname: 'Data Produksi barang',
+        icon: 'ri-stack-line',
         path: 'produksi',
-        // icon: 'ri-donut-chart-fill',
         meta: {
-          middleware: [middleware]
+            middleware: [middleware]
         },
-        component: () => import('@/views/transaksi/produksi/Produksi.vue'),
+          component: () => import('@/views/transaksi/produksi/Produksi.vue'),
       },
       {
-        name: 'Pengeluaran Barang',
+        name: 'Penjualan',
+        key: 'pengeluaran',
+        title: 'Pengeluaran Barang',
         subname: 'Data Pengeluaran barang',
+        icon: 'ri-stack-line',
         path: 'pengeluaran',
-        // icon: 'ri-inbox-unarchive-line',
         meta: {
-          middleware: [middleware]
+            middleware: [middleware]
         },
-        component: () => import('@/views/transaksi/pengeluaran/Pengeluaran.vue'),
+          component: () => import('@/views/transaksi/pengeluaran/Pengeluaran.vue'),
       },
       {
-        name: 'Pengiriman Barang',
-        subname: 'Data Pengiriman barang',
-        path: 'pengiriman',
-        // icon: 'ri-send-plane-line',
-        meta: {
-          middleware: [middleware]
-        },
-        component: () => import('@/views/transaksi/pengiriman/Pengiriman.vue'),
+          name: 'Pengiriman',
+          key: 'Pengiriman',
+          title: 'Pengiriman Barang',
+          subname: 'Data Pengiriman barang',
+          icon: 'ri-stack-line',
+          path: 'pengiriman',
+          meta: {
+              middleware: [middleware]
+          },
+          component: () => import('@/views/transaksi/pengiriman/Pengiriman.vue'),
       },
     ]
   },
@@ -138,95 +149,106 @@ const routes = [
     subname: 'Laporan',
     path: '/laporan',
     icon: 'ri-file-list-3-line',
-    // redirect: '/laporan/laporan-pemasukan',
-    meta: {
-      middleware: [middleware]
-    },
+    middleware: [middleware],
     component: () => import('@/views/laporan/Laporan.vue'),
     children: [
       {
         name: 'Laporan Stok Barang',
-        path: 'laporan-stok',
+        key: 'stokbarang',
+        title: 'Laporan Stok Barang',
+        subname: 'Data Laporan Stok barang',
+        icon: 'ri-stack-line',
+        path: 'stok-barang',
         meta: {
-          middleware: [middleware]
+            middleware: [middleware]
         },
-        component: () => import('@/views/laporan/LaporanStokBarang.vue')
+          component: () => import('@/views/laporan/stok-barang/StokBarang.vue'),
       },
       {
-        name: 'Laporan Pemasukan',
-        path: 'laporan-pemasukan',
+        name: 'Laporan Pembelian',
+        key: 'pembelian',
+        title: 'Laporan Pemasukan Barang',
+        subname: 'Data Laporan Pemasukan barang',
+        icon: 'ri-stack-line',
+        path: 'pemasukan',
         meta: {
-          middleware: [middleware]
+            middleware: [middleware]
         },
-        component: () => import('@/views/laporan/LaporanPemasukan.vue')
+          component: () => import('@/views/laporan/pemasukan/Pemasukan.vue'),
       },
       {
-        name: 'Laporan Pengeluaran',
-        path: 'laporan-pengeluaran',
+        name: 'Laporan Penjualan',
+        key: 'pengeluaran',
+        title: 'Laporan Pengeluaran Barang',
+        subname: 'Data Laporan Pengeluaran barang',
+        icon: 'ri-stack-line',
+        path: 'pengeluaran',
         meta: {
-      middleware: [middleware]
-    },
-        component: () => import('@/views/laporan/LaporanPengeluaran.vue')
+            middleware: [middleware]
+        },
+          component: () => import('@/views/laporan/pengeluaran/Pengeluaran.vue'),
       },
       {
         name: 'Laporan Pengiriman',
-        path: 'laporan-pengiriman',
+        key: 'pengiriman',
+        title: 'Laporan Pengiriman Barang',
+        subname: 'Data Laporan Pengiriman barang',
+        icon: 'ri-stack-line',
+        path: 'pengiriman',
         meta: {
-          middleware: [middleware]
+            middleware: [middleware]
         },
-            component: () => import('@/views/laporan/LaporanPengiriman.vue')
+          component: () => import('@/views/laporan/pengiriman/Pengiriman.vue'),
       },
       {
-        name: 'Laporan Bc',
-        path: 'laporan-bc',
+        name: 'Laporan Detail Pengeluaran',
+        key: 'pengeluaran',
+        title: 'Laporan Detail Pengeluaran',
+        subname: 'Data Laporan Detail Pengeluaran',
+        icon: 'ri-stack-line',
+        path: 'detail-pengeluaran',
         meta: {
-          middleware: [middleware]
+            middleware: [middleware]
         },
-        component: () => import('@/views/laporan/LaporanBc.vue')
+          component: () => import('@/views/laporan/detail-pengeluaran/DetailPengeluaran.vue'),
       },
       {
         name: 'Laporan Log User',
+        key: 'loguser',
+        title: 'Laporan Log User',
+        subname: 'Data Laporan Log User',
+        icon: 'ri-stack-line',
         path: 'log-user',
         meta: {
-          middleware: [middleware]
+            middleware: [middleware]
         },
-        component: () => import('@/views/laporan/LaporanLogUser.vue')
+          component: () => import('@/views/laporan/log-user/LogUser.vue'),
       },
-    ],
+    ]
   },
   {
-    name: 'Log Aktivitas',
-    subname: 'histori',
-    path: '/log-aktivitas',
-    icon: false,
-    meta: {
-      middleware: [middleware]
-    },
-    component: () => import('@/views/user/LogActivity.vue'),
-  },
-  {
-    name: 'Log Aktivitas Barang',
-    subname: 'log aktivitas barang',
-    path: '/track',
-    icon: false,
-    meta: {
-      middleware: [middleware]
-    },
-    // component: () => import('@/views/tools/track/TrackBarang.vue'),
-    component: () => import('@/views/TestPage.vue'),
-  },
-  {
-    name: 'Ubah Password',
-    subname: 'ubah password',
-    path: '/ubah-password',
-    icon: false,
-    meta: {
-      middleware: [middleware]
-    },
-    // component: () => import('@/views/tools/track/TrackBarang.vue'),
-    component: () => import('@/layout/ChangePassword.vue'),
-  },
+    name: 'User',
+    subname: 'User',
+    path: '/user',
+    icon: 'ri-file-list-3-line',
+    middleware: [middleware],
+    component: () => import('@/views/user/User.vue'),
+    children: [
+      {
+        name: 'Log User',
+        key: 'stokbarang',
+        title: 'Log User',
+        subname: 'Data Log User',
+        path: 'log',
+        meta: {
+            middleware: [middleware]
+        },
+          component: () => import('@/views/user/log/LogActivity.vue'),
+      },
+    ]}
 ]
+
+
 
 const router = createRouter({
   history: mode.routeMode == 'webHistory' ? createWebHistory(import.meta.env.BASE_URL) : createWebHashHistory(),
