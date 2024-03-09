@@ -121,16 +121,11 @@
                 }
                 if(this.filter) {
                     let k = this.$router.currentRoute.value.matched[0].children.find(item => item.title == this.title)?.key.toLowerCase() || false
-                    let module = ''
-                    if(k) {
-                        let path = this.$router.currentRoute.value.path
-                        module = await import(`/src/views${path}/${k}.js`)
-                    } else {
+                    if(!k) {
                         k = 'stokbarang'
-                        module = await import(/* @vite-ignore */`/src/views/laporan/stok-barang/stokbarang.js`)
                     }
                     // if(!this.change) {
-                        let data = await module.default[k]()
+                        let data = await store().get(k)
                         store().data.items = data
                     // }
                     if(this.fields.find(it => it.type == 'date' && it.key != 'tanggal')) {
@@ -139,7 +134,7 @@
                             tgl_akhir: store().periode[1]
                         }
                         if(k) {
-                            let data = await module.default[k](param)
+                            let data = await store().get(k, param)
                             store().data.items = data
                         } else {
                             this.$emit('reqToReload')
@@ -157,22 +152,22 @@
                                     tanggal: nw_ft.tanggal,
                                     kode_group: nw_ft.kode_group
                                 }
-                                let data = await module.default[k](param)
+                                let data = await store().get(k, param)
                                 store().data.items = data
                             } else if (nw_ft.kode_group != 'semua') {
                                 let param = {
                                     kode_group: nw_ft.kode_group
                                 }
-                                let data = await module.default[k](param)
+                                let data = await store().get(k, param)
                                 store().data.items = data
                             } else if (nw_ft.tanggal) {
                                 let param = {
                                     tanggal: nw_ft.tanggal
                                 }
-                                let data = await module.default[k](param)
+                                let data = await store().get(k, param)
                                 store().data.items = data
                             } else {
-                                let data = await module.default[k]()
+                                let data = await store().get(k)
                                 store().data.items = data
                             }
                         }
@@ -196,6 +191,7 @@
                                     if (!nw_ft[key].length) {
                                         return true;
                                     }
+                                    console.log(item);
                                     return nw_ft[key].includes(item[key]);
                                 });
                             });

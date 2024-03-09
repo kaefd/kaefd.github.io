@@ -162,7 +162,7 @@
                 }
             },
             openDetail(value) {
-                this.$emit('openDetail', value)
+                if(!this.s_table) this.$emit('openDetail', value)
             },
             search_input(input) {
                 this.search_ = this.items.filter(item => Object.values(item).some(value => typeof value == 'string' && value.toLowerCase().includes(input.toLowerCase())))

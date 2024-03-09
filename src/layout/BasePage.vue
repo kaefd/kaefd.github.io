@@ -42,6 +42,7 @@ import { store } from '@/utils/store'
 import CetakDokumen from '@/components/print/CetakDokumen.vue'
 import SuratJalan from '@/views/transaksi/pengiriman/SuratJalan.vue'
 import CetakDo from '@/views/transaksi/pengiriman/CetakDo.vue'
+import user from '@/views/master/data-user/user'
 </script>
 <script>
     export default {
@@ -93,8 +94,7 @@ import CetakDo from '@/views/transaksi/pengiriman/CetakDo.vue'
                     this.h_items = ''
                     this.d_items = ''
                     if(this.config.title == 'Data User') {
-                        let module = await import(/* @vite-ignore */`../views${path}/${k}.js`)
-                        this.d_items = await module.default.beforeCreate()
+                        this.d_items = user.beforeCreate()
                         store().s_dialog = true
                     }
                     else this.openDetail = true
@@ -103,14 +103,12 @@ import CetakDo from '@/views/transaksi/pengiriman/CetakDo.vue'
                     store().state.action = 'edit'
                     this.h_items = store().single_detail
                     if(this.config.title == 'Data User') {
-                        let module = await import(/* @vite-ignore */`../views${path}/${k}.js`)
-                        this.d_items = await module.default.getDetail(store().single_detail)
+                        this.d_items = await user.getDetail(store().single_detail)
                         store().s_dialog = true
                     } else this.openDetail = true
                 }
                 if(value.key == 'delete') {
-                    let module = await import(/* @vite-ignore */`../views${path}/${k}.js`)
-                    return await module.default.delete(store().single_detail)
+                    return await store().delete(k, store().single_detail)
                 }
                 if(value.key == 'cetak_suratjalan') {
                     this.print = true
@@ -121,8 +119,8 @@ import CetakDo from '@/views/transaksi/pengiriman/CetakDo.vue'
                     this.cetak_do = true
                 }
                 if(value.key == 'refresh') {
-                    let module = await import(/* @vite-ignore */`../views${path}/${k}.js`)
-                    return await module.default[k]()
+                    // let module = await import(/* @vite-ignore */`../views${path}/${k}.js`)
+                    return store().get(k)
                 }
             },
             async resTable(value) {

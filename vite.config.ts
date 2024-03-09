@@ -1,7 +1,6 @@
 import legacy from '@vitejs/plugin-legacy'
 import dynamicImport from 'vite-plugin-dynamic-import'
 import vue from '@vitejs/plugin-vue'
-import path from 'path'
 import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vite'
 import { splitVendorChunkPlugin } from 'vite'
@@ -11,11 +10,14 @@ import mode from './src/config'
 // https://vitejs.dev/config/
 export default defineConfig({
   base: config.server[mode.routeMode.base],
+  optimizeDeps: {
+    exclude: ['blip-ds/loader']
+  },
   plugins: [
     vue(),
     legacy(),
     splitVendorChunkPlugin(),
-    dynamicImport(/* options */)
+    dynamicImport(),
   ],
   resolve: {
     // alias: {

@@ -48,7 +48,7 @@
               <div class="mx-auto rounded-full flex flex-col justify-center items-center w-10 h-10">
                 <i v-if="active(go)" :class="go.icon" class="text-xl text-primary"></i>
                 <i v-else :class="go.icon" class="text-xl"></i>
-                <span>{{ go.title }}</span>
+                <!-- <span>{{ go.title }}</span> -->
               </div>
             </kTabbarLink>
           </template>
