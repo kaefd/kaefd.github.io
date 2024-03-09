@@ -54,7 +54,7 @@ export default {
                         {title: 'Kode Barang', key: 'kode_barang', type: 'text', show: true, read: {show: true, disabled: true}, column: true, sort: 'desc'},
                         {title: 'Nama Barang', key: 'nama_barang', type: 'text', show: true, read: {show: true, disabled: true}, column: true, sort: 'desc'},
                         {title: 'Jumlah', key: 'jumlah', type: 'number', show: true, read: {show: true, disabled: true}, column: true, sort: 'desc'},
-                        {title: 'Status', key: 'status', type: 'text', show: true, read: {show: true, disabled: true}, column: true, sort: 'desc'},
+                        {title: 'Status', key: 'status', type: 'text', show: true, read: {show: false, disabled: true}, column: true, sort: 'desc'},
                     ],
                     detail: [
                         {title: 'No Pengiriman', key: 'no_pengiriman', type: 'text', read: {show: true, disabled: true}, column: true, sort: 'asc'},

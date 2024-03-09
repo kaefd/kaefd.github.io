@@ -45,7 +45,7 @@ export default {
                                     { content: ['nama'] },
                                     { content: ['alamat', 'kabupaten'], separate: '-' },
                                 ]
-                            }, show: true, read: {show: otoritas.check('Alamat Bongkar'), disabled: true}, create: {show: true, disabled: false}, column: otoritas.check('Alamat Bongkar'), sort: 'desc', rules: ['required']
+                            }, show: otoritas.check('Alamat Bongkar'), read: {show: otoritas.check('Alamat Bongkar'), disabled: true}, create: {show: true, disabled: false}, column: otoritas.check('Alamat Bongkar'), sort: 'desc', rules: ['required']
                         },
                         { title: 'Supir', key: 'supir', type: 'text', show: true, read: {show: true, disabled: true}, create: {show: true, disabled: false}, column: true, sort: 'desc', rules: ['required'] },
                         { title: 'No Polisi', key: 'no_polisi', type: 'text', show: true, read: {show: true, disabled: true}, create: {show: true, disabled: false}, column: true, sort: 'desc', rules: ['required'] },
