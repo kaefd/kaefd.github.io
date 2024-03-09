@@ -42,7 +42,7 @@
                     </tr>
                 </thead>
                 <tbody class="w-full">
-                    <tr v-for="(item, i) in detail" class="w-full">
+                    <tr v-for="(item, i) in dataitem" class="w-full">
                         <td class="w-max whitespace-pre-wrap px-3 text-left">{{ i + 1 }}</td>
                         <td class="w-max whitespace-pre-wrap px-3 text-left">{{ item.nama_barang }}</td>
                         <td class="w-max whitespace-pre-wrap px-3 text-left">{{
@@ -50,7 +50,7 @@
                         <td class="w-max whitespace-pre-wrap px-3 text-left">{{ item.satuan_konversi }}</td>
                         <td class="w-max whitespace-pre-wrap px-3 text-left">{{ utils.numb(item.jumlah) }}</td>
                         <td class="max-w-[400px] whitespace-pre-wrap px-3 text-left">
-                            <span>{{ `${item.no_dokumen}/${item.tipe_dokumen.slice(2, item.tipe_dokumen.length)}` }}</span>
+                            <span>{{ item.nopen }}</span>
                         </td>
                     </tr>
                     <tr>
@@ -106,7 +106,6 @@ export default {
             this.detail = await pengiriman.getDetail(this.head)
         },
         sum(p) {
-            console.log(this.detail);
             if (p == 'konversi') {
                 let j = []
                 for (let i = 0; i < this.detail.length; i++) {
@@ -127,47 +126,45 @@ export default {
     },
     computed: {
         dataitem() {
-				// let k = [];
-				// let key = this.detail.map((item) => item.nama_barang);
-				// // let head = Array.from(new Set(key.map((obj) => obj.nama_barang))).map(
-				// // 	(nama_barang) => {
-				// // 		return key.find((obj) => obj.nama_barang === nama_barang);
-				// // 	}
-				// // );
-				// let head = [...new Set(key)]
-
-				// for (let i = 0; i < head.length; i++) {
-				// 	let kode = [];
-				// 	let jumlah = [];
-				// 	let konversi = [];
-				// 	let nama = "";
-				// 	for (let j = 0; j < this.detail.length; j++) {
-				// 		if (this.detail[j].nama_barang == head[i]) {
-				// 			nama = this.detail[j].nama_barang;
-				// 			kode.push(
-				// 				this.detail[j].no_dokumen +
-				// 					"/" +
-				// 					this.detail[j].kode_group.slice(2, 4) + ' '
-				// 			);
-				// 			jumlah.push(this.detail[j].jumlah);
-				// 			konversi.push(this.detail[j].jumlah_konversi);
-				// 		}
-				// 	}
-				// 	k.push({
-				// 		nama_barang: nama,
-				// 		jumlah_konversi: konversi.reduce(
-				// 			(accumulator, currentValue) => accumulator + currentValue,
-				// 			0
-				// 		),
-				// 		satuan: this.detail[i].satuan,
-				// 		jumlah: jumlah.reduce(
-				// 			(accumulator, currentValue) => accumulator + currentValue,
-				// 			0
-				// 		),
-				// 		nopen: [...new Set(kode)].toString(),
-				// 	});
-				// }
-				// return k;
+				let k = [];
+                if(this.detail != '') {
+                    let key = this.detail.map((item) => item.nama_barang);
+                    let head = [...new Set(key)]
+    
+                    for (let i = 0; i < head.length; i++) {
+                        let kode = [];
+                        let jumlah = [];
+                        let konversi = [];
+                        let nama = "";
+                        for (let j = 0; j < this.detail.length; j++) {
+                            if (this.detail[j].nama_barang == head[i]) {
+                                nama = this.detail[j].nama_barang;
+                                kode.push(
+                                    this.detail[j].no_dokumen +
+                                        "/" +
+                                        this.detail[j].kode_group.slice(2, 4) + ' '
+                                );
+                                jumlah.push(this.detail[j].jumlah);
+                                konversi.push(this.detail[j].jumlah_konversi);
+                            }
+                        }
+                        k.push({
+                            nama_barang: nama,
+                            jumlah_konversi: konversi.reduce(
+                                (accumulator, currentValue) => accumulator + currentValue,
+                                0
+                            ),
+                            satuan: this.detail[i].satuan,
+                            satuan_konversi: this.detail[i].satuan_konversi,
+                            jumlah: jumlah.reduce(
+                                (accumulator, currentValue) => accumulator + currentValue,
+                                0
+                            ),
+                            nopen: [...new Set(kode)].toString(),
+                        });
+                    }
+                    return k;
+                }
 		},
     },
     mounted() {
@@ -183,34 +180,4 @@ export default {
 .onlyPrinted {
     visibility: hidden;
 }
-@media print {
-    body {
-        visibility: hidden;
-    }
-
-    /* .hddn {
-  visibility: hidden !important;
-  padding: 0 !important;
-  margin: 0 !important;
-}
- .bodyp {
-    visibility: hidden;
-    padding: 0 !important;
-    margin: 0 !important;
-} */
-    .onlyPrinted {
-        visibility: visible;
-    }
-    .page {
-        width: 20cm;
-        height: 11cm;
-        border: none;
-        box-shadow: none !important;
-        margin: 0 !important;
-        /* padding: 0 !important; */
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        visibility: visible;
-        text-rendering: optimizeLegibility;
-        image-rendering: auto;
-    }
-}</style>
+</style>

@@ -39,7 +39,8 @@ export default {
 		let data = [];
 		for (let i = 0; i < url.length; i++) {
 			let h = await api.getData(url[i].head, param);
-			if(h) {
+			if(!h) return api.logout()
+			else {
 				let d = await api.getData(url[i].detail, param);
 				for (let j = 0; j < h.length; j++) {
 					for (let k = 0; k < d.length; k++) {

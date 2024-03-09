@@ -462,7 +462,6 @@ export default {
     },
     create(input, fl) {
         store().loading = true
-        console.log(input);
         let detail = []
         for (let i = 0; i < fl.length; i++) {
             detail.push({

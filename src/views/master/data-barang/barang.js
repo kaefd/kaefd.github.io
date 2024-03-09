@@ -18,7 +18,6 @@ export default {
     create(value) {
         store().loading = true
         let data = JSON.stringify(value)
-        console.log(data);
 		api.create("/barang", data).then((res) => {
 			if(res.status == 200) {
 				alert.success(null, res.data)

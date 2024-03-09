@@ -70,7 +70,7 @@ export default {
                         { title: 'Tipe Dokumen', key: 'tipe_dokumen', type: 'text', read: {show: true, disabled: true}, create: {show: true, disabled: false}, column: true, dialog: false, sort: 'desc' },
                         { title: 'No Dokumen', key: 'no_dokumen', type: 'text', read: {show: true, disabled: true}, create: {show: true, disabled: false}, column: true, dialog: false, sort: 'desc' },
                         { title: 'Kode Group', key: 'kode_group', type: 'text', read: {show: true, disabled: true}, create: {show: true, disabled: false}, column: true, dialog: false, sort: 'desc' },
-                        { title: 'Kode Barang', key: 'kode_barang', type: 'text', read: {show: true, disabled: true}, create: {show: true, disabled: false}, column: true, dialog: true, sort: 'desc', rules: ['unique'] },
+                        { title: 'Kode Barang', key: 'kode_barang', type: 'text', read: {show: true, disabled: true}, create: {show: true, disabled: false}, column: true, dialog: true, sort: 'desc' },
                         { title: 'Nama Barang', key: 'nama_barang', type: 'text', read: {show: true, disabled: true}, create: {show: true, disabled: false}, column: true, dialog: true, sort: 'desc' },
                         { title: 'Jumlah', key: 'jumlah', type: 'number', read: {show: true, disabled: true}, create: {show: true, disabled: false}, column: true, dialog: true, sort: 'desc', rules: ['required'] },
                         { title: 'Satuan', key: 'satuan', type: 'text', read: {show: true, disabled: true}, create: {show: true, disabled: false}, column: true, dialog: false, sort: 'desc' },

@@ -34,6 +34,9 @@
 								qty
 							</th>
 							<th class="w-max whitespace-pre-wrap px-3 font-medium text-left">
+								satuan
+							</th>
+							<th class="w-max whitespace-pre-wrap px-3 font-medium text-left">
 								keterangan
 							</th>
 							<th class="w-max whitespace-pre-wrap px-3 font-medium text-left">
@@ -45,21 +48,21 @@
 						</tr>
 					</thead>
 					<tbody class="w-full">
-						<tr v-for="(item, i) in detail" class="w-full">
+						<tr v-for="(item, i) in dataitem" class="w-full">
 							<td class="w-max whitespace-pre-wrap px-3 text-left">
 								{{ item.nama_konversi || item.nama_barang }}
 							</td>
 							<td
-							
 								class="w-max whitespace-pre-wrap px-3 text-left">
 								{{ utils.numb(item.jumlah_konversi) }}
 							</td>
 							<td class="w-max whitespace-pre-wrap px-3 text-left">
+								{{ item.satuan_konversi }}
+							</td>
+							<td class="w-max whitespace-pre-wrap px-3 text-left">
 								{{ item.keterangan }}
 							</td>
-							<td
-							
-								class="w-max whitespace-pre-wrap px-3 text-left"></td>
+							<td contenteditable class="w-max whitespace-pre-wrap px-3 text-left"></td>
 							<td class="w-max whitespace-pre-wrap px-3 text-left">
 								{{ utils.numb(item.jumlah) }}
 							</td>
@@ -68,7 +71,6 @@
 						<tr class="border-t border-b border-black">
 							<td></td>
 							<td
-							
 								class="w-max whitespace-pre-wrap px-3 text-left font-semibold">
 								{{ utils.numb(sum("konversi")) }}
 							</td>
@@ -138,47 +140,45 @@
     },
     computed: {
         dataitem() {
-				// let k = [];
-				// let key = this.detail.map((item) => item.nama_barang);
-				// // let head = Array.from(new Set(key.map((obj) => obj.nama_barang))).map(
-				// // 	(nama_barang) => {
-				// // 		return key.find((obj) => obj.nama_barang === nama_barang);
-				// // 	}
-				// // );
-				// let head = [...new Set(key)]
+			if(this.detail != '') {
+				let k = [];
+				let key = this.detail.map((item) => item.nama_barang);
+				let head = [...new Set(key)]
 
-				// for (let i = 0; i < head.length; i++) {
-				// 	let kode = [];
-				// 	let jumlah = [];
-				// 	let konversi = [];
-				// 	let nama = "";
-				// 	for (let j = 0; j < this.detail.length; j++) {
-				// 		if (this.detail[j].nama_barang == head[i]) {
-				// 			nama = this.detail[j].nama_barang;
-				// 			kode.push(
-				// 				this.detail[j].no_dokumen +
-				// 					"/" +
-				// 					this.detail[j].kode_group.slice(2, 4) + ' '
-				// 			);
-				// 			jumlah.push(this.detail[j].jumlah);
-				// 			konversi.push(this.detail[j].jumlah_konversi);
-				// 		}
-				// 	}
-				// 	k.push({
-				// 		nama_barang: nama,
-				// 		jumlah_konversi: konversi.reduce(
-				// 			(accumulator, currentValue) => accumulator + currentValue,
-				// 			0
-				// 		),
-				// 		satuan: this.detail[i].satuan,
-				// 		jumlah: jumlah.reduce(
-				// 			(accumulator, currentValue) => accumulator + currentValue,
-				// 			0
-				// 		),
-				// 		nopen: [...new Set(kode)].toString(),
-				// 	});
-				// }
-				// return k;
+				for (let i = 0; i < head.length; i++) {
+					let kode = [];
+					let jumlah = [];
+					let konversi = [];
+					let nama = "";
+					for (let j = 0; j < this.detail.length; j++) {
+						if (this.detail[j].nama_barang == head[i]) {
+							nama = this.detail[j].nama_barang;
+							kode.push(
+								this.detail[j].no_dokumen +
+									"/" +
+									this.detail[j].kode_group.slice(2, 4) + ' '
+							);
+							jumlah.push(this.detail[j].jumlah);
+							konversi.push(this.detail[j].jumlah_konversi);
+						}
+					}
+					k.push({
+						nama_barang: nama,
+						jumlah_konversi: konversi.reduce(
+							(accumulator, currentValue) => accumulator + currentValue,
+							0
+						),
+						satuan: this.detail[i].satuan,
+						satuan_konversi: this.detail[i].satuan_konversi,
+						jumlah: jumlah.reduce(
+							(accumulator, currentValue) => accumulator + currentValue,
+							0
+						),
+						nopen: [...new Set(kode)].toString(),
+					});
+				}
+				return k;
+			}
 		},
     },
     mounted() {
