@@ -66,7 +66,7 @@
                 </tbody>
             </table>
         </div>
-        <div v-if="tbl_footer" class="w-full flex flex-col md:flex-row justify-between gap-y-1">
+        <div v-if="tbl_footer" class="w-full flex flex-col md:flex-row gap-y-1 gap-x-1 justify-end">
             <div v-for="p in footer" class="flex gap-x-1">
                 <div class="flex flex-col w-28 justify-center p-2" :class="store().dark ? 'bg-dark-base' : 'bg-base'">{{ p.title }}</div>
                 <div class="flex flex-col break-words w-full md:w-44 justify-center p-2" :class="store().dark ? 'bg-dark-base' : 'bg-base'">{{ sumTotalN(p) }}</div>

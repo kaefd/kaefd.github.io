@@ -43,7 +43,12 @@ export default {
         return {
             active: false,
             setting: false,
-            user: ''
+        }
+    },
+    computed: {
+        user() {
+            let a = localStorage.getItem('session')
+            return JSON.parse(a).user
         }
     },
     methods: {
