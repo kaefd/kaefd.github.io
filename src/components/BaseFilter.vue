@@ -191,7 +191,6 @@
                                     if (!nw_ft[key].length) {
                                         return true;
                                     }
-                                    console.log(item);
                                     return nw_ft[key].includes(item[key]);
                                 });
                             });
