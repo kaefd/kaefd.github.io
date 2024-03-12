@@ -56,6 +56,7 @@
                     </tr>
                 </thead>
                 <tbody class="w-full h-[90%] flex flex-col pb-12 items-center overflow-auto">
+                    <div v-if="items == ''" class="py-5 text-sm">Belum ada data</div>
                     <slot name="body-row" :items="data_item" :header="tableHeader">
                         <tr v-for="item, i in data_item" @contextmenu.prevent="setItem(item, i)" @dblclick="openDetail(item)" class="w-full flex items-center break-words" :class="(store().dark ? 'hover:bg-dark-hover' : 'hover:bg-gray-100'), (tableHeader.length > 1 ? 'justify-around' : 'justify-between'), s_table ? 'cursor-default' : 'cursor-pointer', rowActive[i] == true ? (store().dark ? 'bg-dark-hover' : 'bg-gray-100') : ''">
                             <td v-for="field, f in tableHeader" scope="row" class="px-6 py-3 w-[15%] min-w-[100px] whitespace-pre-wrap capitalize">

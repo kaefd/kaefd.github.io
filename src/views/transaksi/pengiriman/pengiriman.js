@@ -34,6 +34,7 @@ export default {
 		return head;
 	},
 	async getDetail(head) {
+		store().loading = true
 		let param = {
 			no_pengiriman: head.no_pengiriman,
 		};
@@ -55,7 +56,7 @@ export default {
             })
             
         }
-		
+		store().loading = false
         return res
 	},
 	async blmTerkirim() {
