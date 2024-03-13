@@ -4,8 +4,8 @@
         <!-- RAIL MENU -->
         <div class="w-24 h-screen flex flex-col justify-center items-center border-e" :class="store().dark ? 'dark border-dark-hover' : 'bg-white'">
           <div class="flex flex-col space-y-5">
-            <template v-for="go in $router.options.routes">
-              <div v-if="go.icon != false && otoritas.groupCheck(go.name)" @click="current(go)" class="w-16 h-16 flex flex-col justify-center cursor-pointer items-center rounded" :class="active(go) ? 'text-primary' : store().dark ? 'hover:bg-dark-hover' : 'hover:bg-slate-100'">
+            <template v-for="go, i in $router.options.routes">
+              <div v-if="go.icon != false && otoritas.groupCheck(go.name)" @click="railActive(i, go)" class="w-16 h-16 flex flex-col justify-center cursor-pointer items-center rounded" :class="active(go) ? 'text-primary' : store().dark ? 'hover:bg-dark-hover' : 'hover:bg-slate-100'">
                 <i v-if="active(go)" :class="go.icon" class="text-2xl"></i>
                 <i v-else :class="go.icon" class="text-2xl"></i>
                 <span class="text-center text-xs capitalize">{{ go.path.slice(1) }}</span>
@@ -86,34 +86,25 @@
         parent: '',
         children: '',
         detail: '',
+        rails: []
       }
     },
     methods: {
-      current(value) {
-        let stores = store()
+      railActive(idx, value) {
         let child = value.children
-        let before = this.$router.currentRoute.value.matched
         if(value.children) {
           this.parent = value.path
           this.detail = value
           this.children = child
-          // jika before punya child dan current punya child dan before == current maka (jikan nav true maka false dan jika false maka true)
-          // jika before punya child dan current punya child maka true dan jika before != current maka true
-          // jika before tidak punya child dan current punya child maka true
-          // jika before punya child dan current tidak maka false
-          if(before.length > 1 && before[0].path == value.path && !store().nav) store().$patch((state) => {state.nav = true})
-          else if(before.length > 1 && before[0].path != value.path && !store().nav) store().$patch((state) => {state.nav = true})
-          else if(before.length > 1 && before[0].path == value.path && !store().nav) store().$patch((state) => {state.nav = false})
-          else if(before.length > 1 && before[0].path == value.path && store().nav) store().$patch((state) => {state.nav = false})
-          else if(before.length == 1 && before[0].path != value.path && !store().nav) store().$patch((state) => {state.nav = true})
-  
-        } else {
-          this.$router.push(value.path).then(() => {
-            stores.$patch((state) => {
-              state.nav = false
-            })
-          })
+        } else this.$router.push(value.path)
+        const data = this.$router.options.routes
+        for (let i = 0; i < data.length; i++) {
+          this.rails[i] = idx == i ? !this.rails[i] : false
         }
+
+        let isAct = this.rails.find(item => item == true)
+        if(isAct && value.children) store().nav = true
+        else store().nav = false
       },
       active(value) {
         return this.$router.currentRoute.value.path == value.path || this.$router.currentRoute.value.matched[0].path == value.path ? true : false

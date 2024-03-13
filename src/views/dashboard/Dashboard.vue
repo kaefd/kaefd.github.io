@@ -1,42 +1,44 @@
 <template>
     <div class="py-5 h-max w-full" :class="store().dark ? 'bg-dark-base' : 'bg-base'">
-        <div class="mb-5 px-3 md:px-8">
-            <div class="w-[35vw]">
-                <base-input type="date" variant="pills" label="periode" :value="mth" @input="dateInput"></base-input>
+        <div class="w-full h-full">
+            <div class="mb-5 px-3 md:px-8">
+                <div class="w-[35vw]">
+                    <base-input type="date" variant="pills" label="periode" :value="mth" @input="dateInput"></base-input>
+                </div>
             </div>
-        </div>
-        <div class="px-3 md:px-8 flex flex-wrap items-center justify-center md:justify-between lg:justify-between gap-x-2 xl:gap-x-5 gap-y-5">
-            <div v-for="card in cards" class=" flex flex-grow justify-center items-center rounded-2xl overflow-hidden w-[20vw] min-w-[250px] h-[10vw] min-h-[120px]" :class="store().dark ? 'dark shadow-black' : 'bg-white shadow-slate-300'">
-                <!-- <div class="absolute w-[20%]"> -->
-                    <div class="h-full w-full flex justify-between px-7 items-center relative">
-                        <div class="flex flex-col h-full justify-center space-y-1">
-                            <span>{{ card.title }}</span>
-                            <span class="text-3xl" :class="'text-'+card.class">{{ card.content + ' T' }}</span>
+            <div class="px-3 md:px-8 flex flex-wrap items-center justify-center md:justify-between lg:justify-between gap-x-2 xl:gap-x-5 gap-y-5">
+                <div v-for="card in cards" class=" flex flex-grow justify-center items-center rounded-2xl overflow-hidden w-[20vw] min-w-[250px] h-[10vw] min-h-[120px]" :class="store().dark ? 'dark shadow-black' : 'bg-white shadow-slate-300'">
+                    <!-- <div class="absolute w-[20%]"> -->
+                        <div class="h-full w-full flex justify-between px-7 items-center relative">
+                            <div class="flex flex-col h-full justify-center space-y-1">
+                                <span>{{ card.title }}</span>
+                                <span class="text-3xl" :class="'text-'+card.class">{{ card.content + ' T' }}</span>
+                            </div>
+                            <div class="text-[3.5rem]" :class="'text-'+card.class">
+                                <i :class="card.icon"></i>
+                            </div>
                         </div>
-                        <div class="text-[3.5rem]" :class="'text-'+card.class">
-                            <i :class="card.icon"></i>
-                        </div>
-                    </div>
-                <!-- </div> -->
-                <!-- <div class="w-32 h-28 z-[-1] rounded-2xl ms-auto -me-[4.6rem]" :class="'bg-'+card.class+'-hover'"></div> -->
+                    <!-- </div> -->
+                    <!-- <div class="w-32 h-28 z-[-1] rounded-2xl ms-auto -me-[4.6rem]" :class="'bg-'+card.class+'-hover'"></div> -->
+                </div>
             </div>
-        </div>
-        <div class="px-3 md:px-8 flex justify-center md:justify-start space-x-2 mt-5 mb-3">
-            <div v-for="card in cards" @click="active(card)" class="h-10 w-20 rounded-lg flex items-center justify-center text-xs capitalize hover:bg-primary-hover cursor-pointer" :class="card.active ? 'bg-primary-hover' : ''">{{ card.key }}</div>
-        </div>
-        <div class="px-3 md:px-8 mb-3">
-            <div class="w-full rounded-0 md:rounded-xl px-3 md:px-5 pt-5 capitalize" :class="store().dark ? 'dark' : 'bg-white'">
-                <p class="mx-3">statistik data {{ activeData.key }}</p>
-                <p class="mx-3 mb-5 text-sm">bulan {{ utils.formatMonth(periode[0]) }}</p>
-                <base-chart :series="chart"/>
+            <div class="px-3 md:px-8 flex justify-center md:justify-start space-x-2 mt-5 mb-3">
+                <div v-for="card in cards" @click="active(card)" class="h-10 w-20 rounded-lg flex items-center justify-center text-xs capitalize hover:bg-primary-hover cursor-pointer" :class="card.active ? 'bg-primary-hover' : ''">{{ card.key }}</div>
             </div>
-        </div>
-        <div class="px-3 md:px-8">
-            <div class="w-full h-[600px] px-3 md:px-5 pt-5 pb-0 md:pb-12 rounded-0 md:rounded-xl" :class="store().dark ? 'dark' : 'bg-white'">
-                <p class="mx-3">{{ config.title }}</p>
-                <p class="mx-3 text-sm">Bulan {{utils.formatMonth(new Date())}}</p>
-                <base-table :title="config.title" :fields="config.fields.head" :filter="config.filter" :show_filter="true" :select_column="true" :export="true" :search="true" :items="store().data.items" :permission="config.permission" :s_table="true"></base-table>
-                <!-- <base-table :fields="config.fields" :items="items" :master="true" :permission="config.permission" :s_table="true"></base-table> -->
+            <div class="w-full px-3 md:px-8 mb-3">
+                <div class="relative w-full rounded-0 md:rounded-xl px-3 md:px-5 pt-5 capitalize" :class="store().dark ? 'dark' : 'bg-white'">
+                    <p class="mx-3">statistik data {{ activeData.key }}</p>
+                    <p class="mx-3 mb-5 text-sm">bulan {{ utils.formatMonth(periode[0]) }}</p>
+                    <base-chart :series="chart"/>
+                </div>
+            </div>
+            <div class="px-3 md:px-8">
+                <div class="w-full h-[600px] px-3 md:px-5 pt-5 pb-0 md:pb-12 rounded-0 md:rounded-xl" :class="store().dark ? 'dark' : 'bg-white'">
+                    <p class="mx-3">{{ config.title }}</p>
+                    <p class="mx-3 text-sm">Bulan {{utils.formatMonth(new Date())}}</p>
+                    <base-table :title="config.title" :fields="config.fields.head" :filter="config.filter" :show_filter="true" :select_column="true" :export="true" :search="true" :items="store().data.items" :permission="config.permission" :s_table="true"></base-table>
+                    <!-- <base-table :fields="config.fields" :items="items" :master="true" :permission="config.permission" :s_table="true"></base-table> -->
+                </div>
             </div>
         </div>
     </div>

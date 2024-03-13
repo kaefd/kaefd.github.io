@@ -1,5 +1,5 @@
 <template>
-    <div id="chart">
+    <div id="chart" class="relative w-full">
       <apexchart type="line" height="350" :options="chartOptions" :series="series"></apexchart>
     </div>
 </template>
@@ -10,9 +10,9 @@ import { store } from '@/utils/store'
 <script>
 export default {
     props: {series: {type: Array}},
-    computed: {
-      chartOptions() {
-        return {
+    data() {
+      return { 
+        chartOptions: {
           chart: {
             type: 'line',
             height: 350,
@@ -100,7 +100,7 @@ export default {
             }
           }
         }
-      },
+    }
     },
 }
 </script>
