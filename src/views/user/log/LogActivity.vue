@@ -42,10 +42,7 @@ export default {
     },
     methods: {
         async get() {
-            let param = {
-                username: localStorage.getItem('session')?.user
-            }
-            const data = await log.loguser(null, param)
+            const data = await log.loguser()
             store().data.items = data
         },
     },
