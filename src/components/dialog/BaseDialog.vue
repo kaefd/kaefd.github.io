@@ -1,8 +1,9 @@
 <template>
-    <div class="fixed top-0 left-0 w-full flex justify-center" :class="active ? 'z-[2] h-full' : 'z-[-2] h-0'">
+    <div class="fixed top-0 left-0 w-full flex justify-center z-[2] h-full">
         <div v-if="active" @click="close()" class="fixed top-0 left-0 h-full w-full z-[0] bg-scrim"></div>
         <slot name="dialog-content">
-            <div class="fixed bottom-0 rounded-3xl flex flex-col justify-between gap-y-5" :class="!active ? 'translate-y-0 duration-300 w-0 h-0' : (store().dark ? '-translate-y-[30vh] duration-400 min-h-[220px] w-[60%] md:w-max lg:w-[30%] 2xl:w-[25%] min-w-[340px] max-w-[450px] py-7 px-3 md:px-7 dark' : '-translate-y-[35vh] duration-400 min-h-[220px] w-[60%] md:w-max lg:w-[30%] 2xl:w-[25%] min-w-[340px] max-w-[450px] py-7 px-3 md:px-7 bg-white')">
+            <div class="relative h-full w-[28%] min-w-[340px] max-w-[450px] px-2 flex justify-center items-center animate__animated animate__faster" :class="active ? 'animate__fadeInUp' : ''">
+            <div class="w-full flex flex-col justify-between gap-y-5 bottom-0 rounded-3xl md:rounded-3xl min-h-[220px] py-7 px-3 md:px-7 z-[3]" :class="store().dark ? 'dark' : 'bg-white'" >
                 <div class="flex flex-col space-y-6 items-center">
                     <div class="flex flex-col gap-y-1 text-center w-full">
                         <div class="flex flex-col-reverse space-y-1">
@@ -22,6 +23,7 @@
                     <base-button @click="close()" class="bg-primary-hover" label="Cancel"></base-button>
                     <base-button @click="submited()" class="bg-primary" label="Submit"></base-button>
                 </div>
+            </div>
             </div>
         </slot>
     </div>

@@ -2,8 +2,8 @@
     <button @click="active = !active" class="w-12 h-12 bg-primary rounded-full overflow-hidden flex justify-center items-center">
         <img src="@/assets/img/person1.png" alt="avatar">
     </button>
-    <div v-if="active" @click="active = false" class="absolute z-[1] h-screen w-screen right-0 top-0 overflow-hidden duration-300 rounded-s-3xl bg-scrim"></div>
-    <div class="absolute z-[1] h-screen right-0 top-0 overflow-hidden duration-300 rounded-s-3xl" :class="!active ? 'w-0' : (store().dark ? 'dark w-80' : 'bg-white w-80')">
+    <div v-if="active" @click="active = false" class="fixed z-[2] h-screen w-screen right-0 top-0 overflow-hidden duration-300 rounded-s-3xl bg-scrim"></div>
+    <div class="fixed z-20 h-screen right-0 top-0 overflow-hidden duration-300 rounded-s-3xl" :class="!active ? 'w-0' : (store().dark ? 'dark w-80' : 'bg-white w-80')">
         <div class="w-full flex flex-col gap-y-3 py-5 items-center justify-center">
             <span class="text-xl font-semibold">Profil Pengguna</span>
             <div class="block text-center">

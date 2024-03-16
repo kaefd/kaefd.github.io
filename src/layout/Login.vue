@@ -52,9 +52,8 @@
 <script setup>
     import config from '@/config';
     import mode from '@/mode';
+    import alert from '@/utils/alert';
     import api from '@/utils/api'
-    // import alert from '@/utils/alert'
-    import { store } from '@/utils/store'
     import axios from 'axios';
 </script>
 <script>
@@ -121,8 +120,8 @@ export default {
                 .catch((error) => {
                     // REMOVE ITEM IN LOCALSTORAGE
                     localStorage.clear()
-                    if(error.response) alert(error.response.data)
-                    else alert('periksa koneksi internet')
+                    if(error.response) alert.failed(null, error.response.data)
+                    else alert.failed(null, 'periksa koneksi internet')
                     return this.load = false
                 })
             // store().loader('off')
