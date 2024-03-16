@@ -46,7 +46,7 @@ export default {
             if(store().state.action == 'read') {
                 this.refresh = true
                 if(store().single_detail != '' && store().single_detail != undefined) return this.items
-                else if(this.items) return this.items.filter(item => item.key != 'edit' && item.key != 'delete')
+                else if(this.items) return this.items.filter(item => item.key != 'edit' && item.key != 'delete' && item.key != 'cetak_suratjalan' && item.key != 'cetak_do')
             }
             if(store().state.action == 'create') {
                 this.refresh = false
