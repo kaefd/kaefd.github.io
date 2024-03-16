@@ -38,7 +38,7 @@
                 <base-button @click="save()" class="bg-primary w-full md:w-max" label="Simpan"></base-button>
             </div>
             <!-- CONTEXT MENU -->
-            <ContextMenu v-if="offContext" :isActive="openContext" :items="contextItem" @close="close" @resContext="resContext" />
+            <ContextMenu v-if="offContext" :isActive="openContext" :items="config.menu.detail" @close="close" @resContext="resContext" />
             <!-- DIALOG INPUT -->
             <input-dialog v-if="DialInput" :open="DialInput" :data_dialog="data_dialog" :fields="fl_child" :detail="d_items || detail_items" @close="close" @resDialInput="resDialInput">
                 <template #left="data_left">
