@@ -180,4 +180,9 @@ export default {
 .onlyPrinted {
     visibility: hidden;
 }
+@media print {
+.onlyPrinted {
+    visibility: visible;
+}
+}
 </style>
