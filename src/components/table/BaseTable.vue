@@ -36,7 +36,7 @@
         </div>
         <!-- TOOLS DETAIL -->
         <div class="w-full duration-300" :class="detailFilter ? 'min-h-max h-max md:h-[60vh] lg:h-[100vh] py-2' : 'h-0'">
-            <base-filter :title="title" :fields="toolsItem" :column="column" :base="base" :filter="ft_active" :items="items" :show="detailFilter" @close="close" @resFilter="resFilter" @reqToReload="$emit('reqToReload')"></base-filter>
+            <base-filter :title="title" :fields="toolsItem" :h_items="h_items" :column="column" :base="base" :filter="ft_active" :items="items" :show="detailFilter" @close="close" @resFilter="resFilter" @filteredItm="filteredItm" @reqToReload="$emit('reqToReload')"></base-filter>
         </div>
         <!-- TABLE -->
         <div class="w-full min-h-max h-full overflow-x-auto md:overflow-y-hidden z-[0]" :class="store().dark ? 'dark' : 'bg-white'">
@@ -56,7 +56,7 @@
                     </tr>
                 </thead>
                 <tbody class="w-full h-[90%] flex flex-col pb-12 items-center overflow-auto">
-                    <div v-if="items == ''" class="py-5 text-sm">Belum ada data</div>
+                    <div v-if="data_item == ''" class="py-5 text-sm">Belum ada data</div>
                     <slot name="body-row" :items="data_item" :header="tableHeader">
                         <tr v-for="item, i in data_item" @contextmenu.prevent="setItem(item, i)" @dblclick="openDetail(item)" class="w-full flex items-center break-words" :class="(store().dark ? 'hover:bg-dark-hover' : 'hover:bg-gray-100'), (tableHeader.length > 1 ? 'justify-around' : 'justify-between'), s_table ? 'cursor-default' : 'cursor-pointer', rowActive[i] == true ? (store().dark ? 'bg-dark-hover' : 'bg-gray-100') : ''">
                             <td v-for="field, f in tableHeader" scope="row" class="px-6 py-3 w-[15%] min-w-[100px] whitespace-pre-wrap capitalize">
@@ -90,6 +90,7 @@
             fields: { type: Object, required: true },
             filter: { type: Object, required: false },
             items: { type: Object, required: true },
+            h_items: { type: Object },
             show_filter: { type: Boolean, required: true },
             select_column: { type: Boolean, required: true },
             base: { type: Boolean, required: true },
@@ -100,6 +101,7 @@
         data() {
             return {
                 sortActive: [],
+                filteredItem: undefined,
                 detailFilter: false,
                 column: false,
                 toolsItem: '',
@@ -120,7 +122,7 @@
             else return this.tbl_footer.filter(item => item[store().state.action]?.show == true)
            },
            data_item() {
-             return this.search_ || this.items
+             return this.search_ || this.filteredItem || this.items
            }
         },
         methods: {
@@ -166,7 +168,8 @@
                 if(!this.s_table) this.$emit('openDetail', value)
             },
             search_input(input) {
-                this.search_ = this.items.filter(item => Object.values(item).some(value => typeof value == 'string' && value.toLowerCase().includes(input.toLowerCase())))
+                if(this.filteredItem) this.search_ = this.filteredItem.filter(item => Object.values(item).some(value => typeof value == 'string' && value.toLowerCase().includes(input.toLowerCase())))
+                else this.search_ = this.items.filter(item => Object.values(item).some(value => typeof value == 'string' && value.toLowerCase().includes(input.toLowerCase())))
             },
             close(p) {
                 if(p == 'detail_filter')  {
@@ -180,6 +183,9 @@
                 if(p == 'col') {
                     this.newFl = v
                 }
+            },
+            filteredItm(data) {
+                this.filteredItem = data
             },
             sumTotalN(prm) {
                 let arr = []

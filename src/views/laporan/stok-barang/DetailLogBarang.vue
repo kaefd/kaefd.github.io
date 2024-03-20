@@ -8,7 +8,7 @@
             </template>
             <template #header-content="h_field">
                 <div class="h-[93%] w-full">
-                    <base-table :title="config.title" :fields="h_field.h_field" :show_filter="true" :filter="config.filter" :select_column="true" :export="false" :search="true" :items="items" :permission="config.permission" :s_table="true" @reqToReload="get"></base-table>
+                    <base-table :title="config.title" :fields="h_field.h_field" :h_items="h_items" :show_filter="true" :filter="config.filter" :select_column="true" :export="false" :search="true" :items="items" :permission="config.permission" :s_table="true" @reqToReload="get"></base-table>
                 </div>
             </template>
         </base-detail>
@@ -61,7 +61,7 @@ export default {
     methods: {
         async get() {
             store().loading = true
-            this.items = await stokbarang.logBarang(this.h_items.kode_group, this.h_items.kode_barang)
+            this.items = await stokbarang.logBarang(this.h_items)
             store().loading = false
         },
         close() {

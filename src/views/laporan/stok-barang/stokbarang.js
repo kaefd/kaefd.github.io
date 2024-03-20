@@ -68,13 +68,13 @@ export default {
         let data = Array.from(uniqueSet).map(JSON.parse);
         return data
     },
-    async logBarang(kode_group, kode_barang) {
+    async logBarang(data) {
         // let group = await api.getData('group_barang')
         const params = {
             tgl_awal: store().periode[0],
             tgl_akhir: store().periode[1],
-            kode_group: kode_group,
-            kode_barang: kode_barang
+            kode_group: data.kode_group,
+            kode_barang: data.kode_barang
         }
         const log = await api.getData('/log_barang?', params)
         // let data = store().master

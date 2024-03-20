@@ -43,7 +43,8 @@
             filter: { type: Boolean },
             show: { type: Boolean },
             base: { type: Boolean },
-            items: { type: Object }
+            items: { type: Object },
+            h_items: { type: Object }
         },
         data () {
             return {
@@ -134,8 +135,13 @@
                             tgl_akhir: store().periode[1]
                         }
                         if(k) {
-                            let data = await store().get(k, param)
-                            store().data.items = data
+                            if(this.title == 'Log Barang') { 
+                                let data = await store().get('logBarang', this.h_items)
+                                this.$emit('filteredItm', data)
+                            } else { 
+                                let data = await store().get(k, param)
+                                store().data.items = data
+                            }
                         } else {
                             this.$emit('reqToReload')
                         }
@@ -146,7 +152,7 @@
                             if(this.data_filter[ft] != false && ft != 'tgl_awal' && ft != 'tgl_akhir') nw_ft[ft] = this.data_filter[ft]
                         }
                         // dahla timpa aja awoakoka
-                        if(k == 'stokbarang') {
+                        if(k == 'stokbarang' && this.title != 'Log Barang') {
                             if(nw_ft.tanggal && nw_ft.kode_group != 'semua') {
                                 let param = {
                                     tanggal: nw_ft.tanggal,
