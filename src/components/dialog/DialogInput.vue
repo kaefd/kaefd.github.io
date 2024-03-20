@@ -52,7 +52,7 @@
                     </div>
                     <div class="flex flex-col gap-y-2">
                         <div v-for="fl in fields.slice(2, fields.length)" class="flex justify-between items-center w-full">
-                            <label class="w-1/4 md:w-max0">{{ fl.title }}</label>
+                            <label class="w-1/4 lg:w-max">{{ fl.title }}</label>
                             <base-input v-if="open" :type="fl.type" :default="fl.default" :label="fl.key" :rules="fl.rules ? fl.rules : false" :disabled="disabled" :allItems="dataitem" @input="datainput"></base-input>
                         </div>
                     </div>

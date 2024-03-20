@@ -4,18 +4,16 @@
         <slot name="dialog-content">
             <div class="relative h-full w-[28%] min-w-[340px] max-w-[450px] px-2 flex justify-center items-center animate__animated animate__faster" :class="active ? 'animate__fadeInUp' : ''">
             <div class="w-full flex flex-col justify-between gap-y-5 bottom-0 rounded-3xl md:rounded-3xl min-h-[220px] py-7 px-3 md:px-7 z-[3]" :class="store().dark ? 'dark' : 'bg-white'" >
-                <div class="flex flex-col space-y-6 items-center">
-                    <div class="flex flex-col gap-y-1 text-center w-full">
+                <div class="flex flex-col gap-y-5">
+                    <div class="flex flex-col gap-y-1 text-center">
                         <div class="flex flex-col-reverse space-y-1">
                             <span v-for="field in fields?.slice(0, 2)" class="first:text-sm last:text-lg">{{ items[field.key] }}</span>
                         </div>
                     </div>
                     <div class="flex flex-col gap-y-2">
-                        <div class="flex flex-col gap-y-2">
-                            <div v-for="fl in fields?.slice(2, fields.length)" class="flex justify-between items-center w-80">
-                                <label>{{ fl.title }}</label>
-                                <base-input :type="fl.type" :value="items[fl.key]" :default="fl.default" :label="fl.key" @input="input" :allItems="datainput" :disabled="fl[store().state.action].disabled"></base-input>
-                            </div>
+                        <div v-for="fl in fields?.slice(2, fields.length)" class="flex justify-between items-center w-full">
+                            <label class="w-1/4 lg:w-max">{{ fl.title }}</label>
+                            <base-input :type="fl.type" :value="items[fl.key]" :default="fl.default" :label="fl.key" @input="input" :allItems="datainput" :disabled="fl[store().state.action].disabled"></base-input>
                         </div>
                     </div>
                 </div>

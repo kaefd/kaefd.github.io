@@ -33,7 +33,7 @@ export default {
                     detail: [
                         { title: 'Tambah Detail', key: 'create_detail', read: {show: true, disabled: true}, create: {show: true, disabled: false}, item: {endpoint: 'barang', title: 'Data Barang', child: true, left: ['nama_barang'], right: ['kode_barang']} },
                         { title: 'Edit Detail', key: 'edit_detail', read: false, create: {show: true, disabled: false} },
-                        { title: 'Hapus Detail', key: 'hapus_detail', read: false, create: {show: true, disabled: false} },
+                        { title: 'Hapus Detail', key: 'delete_detail', read: false, create: {show: true, disabled: false} },
                     ]
                 },
                 fields: {
