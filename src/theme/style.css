@@ -35,14 +35,14 @@
 	color: var(--color-light);
 }
 body {
-	color: #404752;
+	color: #131313c5;
 	background-color: var(--color-base);
 }
 .bg-scrim-lighten {
 	background: #fcfcfc77;
 }
 .bg-scrim {
-	background: #00000025;
+	background: #0000002a;
 }
 .bg-primary {
 	background: var(--color-primary);
@@ -69,8 +69,12 @@ body {
 	background: var(--color-primary-hover);
 	color: var(--color-primary);
 }
+.bg-primary-dark-hover {
+	background: #214f6d3a;
+	color: var(--color-primary);
+}
 .bg-white-hover {
-	background: rgba(255, 255, 255, 0.541);
+	background: rgba(255, 255, 255, 0.235);
 }
 .shadow-full-xl {
 	box-shadow: 1px 1px 15px 1px rgba(0, 0, 0, 0.063), 1px 1px 30px 1px rgba(0, 0, 0, 0.053);

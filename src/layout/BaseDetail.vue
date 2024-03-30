@@ -2,7 +2,7 @@
     <div @contextmenu.prevent="context($event)" class="absolute overflow-x-hidden bottom-0 right-0 w-full h-full text-sm" :class="store().dark ? 'bg-dark-base' : 'bg-base'">
         <div class="w-[95%] mx-auto flex flex-col gap-y-3 h-full md:pb-3">
             <slot name="full-content">
-                <div class="mt-5 p-5 z-[1] rounded-lg flex flex-col flex-wrap gap-y-5 animate__animated animate__fadeIn animate__faster"  :class="store().dialog ? (store().dark ? 'dark' : 'bg-white') : (store().dark ? 'dark' : 'bg-white'), d_field ? 'h-fit' : 'h-full'">
+                <div class="mt-5 p-5 z-[1] rounded flex flex-col flex-wrap gap-y-5 animate__animated animate__fadeIn animate__faster"  :class="store().dialog ? (store().dark ? 'dark' : 'bg-white') : (store().dark ? 'dark' : 'bg-white'), d_field ? 'h-fit' : 'h-full'">
                     <div class="flex items-center space-x-3 text-[1.12rem]">
                         <slot name="header-detail">
                             <button @click="close('detail')">
@@ -24,7 +24,7 @@
                     </slot>
                 </div>
                 <!-- DETAIL -->
-                <div v-if="d_field" class="rounded-lg min-h-[350px] h-full overflow-auto p-3 flex flex-col justify-between animate__animated animate__fadeIn animate__faster" :class="store().dark ? 'dark' : 'bg-white'">
+                <div v-if="d_field" class="rounded min-h-[350px] h-full overflow-auto p-3 flex flex-col justify-between animate__animated animate__fadeIn animate__faster" :class="store().dark ? 'dark' : 'bg-white'">
                     <base-table :fields="config.fields.detail" :tbl_footer="config.tbl_footer" :filter="config.filter" :show_filter="false" :select_column="true" :export="false" :search="false" :items="d_items || detail_items" :permission="config.permission" @openDetail="resTable">
                         <template #body-row="items">
                             <slot name="rowtbl" :items="items.items" :header="items.header"></slot>
@@ -141,6 +141,7 @@ export default {
             if(s == 'dialog') {
                 this.dialog = false
             }
+            store().nav = false
         },
         input(value) {
             let a = []

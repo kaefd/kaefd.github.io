@@ -76,6 +76,7 @@ export default {
 								kode_barang: detail[j].kode_barang,
 								nama_barang: detail[j].nama_barang,
 								no_penjualan: head[i].no_penjualan,
+								no_urut: detail[j].no_urut,
 								kode_group: head[i].kode_group,
 								nopen: head[i].tipe_dokumen + "-" + head[i].no_dokumen,
 								tipe_dokumen: head[i].tipe_dokumen,
@@ -95,7 +96,7 @@ export default {
 		let detail_item = detail.map(item => {
 			return {
 				no_penjualan: item.no_penjualan,
-				no_urut: 1,
+				no_urut: item.no_urut,
 				kode_barang: item.kode_barang,
 				jumlah: item.jumlah || 0,
 				kode_konversi: item.kode_konversi || "",

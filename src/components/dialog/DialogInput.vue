@@ -2,7 +2,7 @@
     <div class="fixed top-0 left-0 w-full flex justify-center overflow-hidden text-sm" :class="open ? 'z-[2] h-full' : 'z-[-2] h-0'">
         <div v-if="open" @click="close('parent')" class="fixed top-0 left-0 h-full w-full z-[0] bg-scrim"></div>
         <div v-if="child" @click="close('child')" class="fixed top-0 left-0 h-full w-full z-[1] bg-scrim"></div>
-        <div class="fixed bottom-0 rounded-3xl h-[85vh] md:h-[95vh] w-[28%] min-w-[340px] max-w-[450px] mb-12 md:mb-5 py-7 px-5 md:px-7 overflow-hidden duration-300" :class="!open ? '' : (store().dark ? 'dark animate__animated animate__fadeInUp animate__faster duration-400' : 'bg-white animate__animated animate__fadeInUp animate__faster duration-400')">
+        <div class="fixed bottom-0 rounded h-[85vh] md:h-[95vh] w-[28%] min-w-[340px] max-w-[450px] mb-12 md:mb-5 py-7 px-5 md:px-7 overflow-hidden duration-300" :class="!open ? '' : (store().dark ? 'dark animate__animated animate__fadeInUp animate__faster duration-400' : 'bg-white animate__animated animate__fadeInUp animate__faster duration-400')">
             <div class="relative h-full w-full flex flex-col space-y-3 items-center">
                 <div class="relative flex flex-col gap-y-5 text-center w-full">
                     <div class="not-sr-only md:sr-only absolute text-xl right-0">
@@ -44,7 +44,7 @@
             </div>
         </div>
         <div v-if="child" class="relative h-full w-[28%] min-w-[340px] max-w-[450px] px-2 flex justify-center items-center">
-            <div class="w-full flex flex-col justify-between gap-y-5 bottom-0 rounded-3xl md:rounded-3xl min-h-[220px] py-7 px-3 md:px-7 z-[3] animate__animated animate__faster" :class="store().dark ? 'dark' : 'bg-white', child ? 'animate__fadeInUp' : ''">
+            <div class="w-full flex flex-col justify-between gap-y-5 bottom-0 rounded md:rounded min-h-[220px] py-7 px-3 md:px-7 z-[3] animate__animated animate__faster" :class="store().dark ? 'dark' : 'bg-white', child ? 'animate__fadeInUp' : ''">
                 <!-- title -->
                 <div class="flex flex-col gap-y-5">
                     <div class="flex flex-col-reverse text-center space-y-1">

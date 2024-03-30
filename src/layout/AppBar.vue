@@ -5,7 +5,7 @@
         <div class="w-24 h-screen flex flex-col justify-center items-center border-e" :class="store().dark ? 'dark border-dark-hover' : 'bg-white'">
           <div class="flex flex-col space-y-5">
             <template v-for="go, i in $router.options.routes">
-              <div v-if="go.icon != false && otoritas.groupCheck(go.name)" @click="railActive(i, go)" class="w-16 h-16 flex flex-col justify-center cursor-pointer items-center rounded" :class="active(go) ? 'text-primary' : store().dark ? 'hover:bg-dark-hover' : 'hover:bg-slate-100'">
+              <div v-if="go.icon != false && otoritas.groupCheck(go.name)" @click="railActive(i, go)" class="w-16 h-16 flex flex-col justify-center cursor-pointer items-center rounded" :class="rails[i] ? 'text-primary' : store().dark ? 'hover:bg-dark-hover' : 'hover:bg-slate-100'">
                 <i v-if="active(go)" :class="go.icon" class="text-2xl"></i>
                 <i v-else :class="go.icon" class="text-2xl"></i>
                 <span class="text-center text-xs capitalize">{{ go.path.slice(1) }}</span>
@@ -14,7 +14,7 @@
           </div>
         </div>
         <!-- DETAIL MENU -->
-        <div class="h-screen flex flex-col justify-between pt-12 pb-10 items-start border-e rounded-e-3xl duration-300 overflow-hidden" :class="!store().nav ? 'w-0 ps-0' : (store().dark ? 'dark border-dark-hover w-72 ps-4' : 'bg-white w-72 ps-4')">
+        <div class="h-screen flex flex-col justify-between pt-12 pb-10 items-start border-e rounded-e-lg duration-300 overflow-hidden" :class="!store().nav ? 'w-0 ps-0' : (store().dark ? 'dark border-dark-hover w-72 ps-4' : 'bg-white w-72 ps-4')">
           <div v-if="children" class="flex flex-col space-y-1 w-max">
             <!-- HEADER -->
             <div class="flex flex-col h-18 ms-3">
@@ -46,7 +46,7 @@
           <template v-for="go, i in $router.options.routes.slice(2)">
             <kTabbarLink v-if="go.icon != false && otoritas.groupCheck(go.name) == true" @click="railActive(i, go)">
               <div class="mx-auto rounded-full flex flex-col justify-center items-center w-10 h-10">
-                <i v-if="active(go)" :class="go.icon" class="text-xl text-primary"></i>
+                <i v-if="rails[i]" :class="go.icon" class="text-xl text-primary"></i>
                 <i v-else :class="go.icon" class="text-xl"></i>
                 <!-- <span>{{ go.title }}</span> -->
               </div>
@@ -115,6 +115,7 @@
           stores.$patch((state) => {
             state.nav = !state.nav
           })
+          this.rails = [];
         }
       }
     }

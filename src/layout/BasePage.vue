@@ -1,7 +1,7 @@
 <template>
     <div @contextmenu.prevent="context($event)" class="w-full h-full" :class="store().dark ? 'bg-dark-base' : 'bg-base'">
         <!-- CONTENT -->
-        <div class="relative w-[95%] mx-auto h-[88%] md:h-[98%] rounded-xl animate__animated animate__fadeIn animate__faster" :class="store().dark ? 'dark' : 'bg-white'">
+        <div class="relative w-[95%] mx-auto h-[88%] md:h-[98%] rounded animate__animated animate__fadeIn animate__faster" :class="store().dark ? 'dark' : 'bg-white'">
             <!-- TABLE -->
             <div class="w-full h-full p-5">
                 <base-table :title="config.title" :tbl_footer="config.tbl_footer" :base="true" :s_table="s_table" :fields="tableHeader" :filter="config.filter" :show_filter="true" :select_column="true" :export="true" :search="true" :items="items || store().data.items" :permission="config.permission" @openDetail="resTable"></base-table>
@@ -27,7 +27,7 @@
             </base-detail>
         </slot>
         <!-- CETAK DOKUMEN -->
-        <CetakDokumen v-if="print" @close="close">
+        <CetakDokumen v-if="print" @close="close" :title="print_title">
             <template #dokumen>
                 <SuratJalan v-if="config.permission.cetak_suratjalan && suratjalan" :head="store().single_detail" />
                 <CetakDo v-if="config.permission.cetak_do && cetak_do" :head="store().single_detail" />
@@ -58,6 +58,7 @@ import user from '@/views/master/data-user/user'
                 h_items: '',
                 d_items: '',
                 print: false,
+                print_title: '',
                 suratjalan: false,
                 cetak_do: false
             }
@@ -112,10 +113,12 @@ import user from '@/views/master/data-user/user'
                 }
                 if(value.key == 'cetak_suratjalan') {
                     this.print = true
+                    this.print_title = 'Cetak Surat Jalan'
                     this.suratjalan = true
                 }
                 if(value.key == 'cetak_do') {
                     this.print = true
+                    this.print_title = 'Cetak Surat Delivery Order'
                     this.cetak_do = true
                 }
                 if(value.key == 'refresh') {
@@ -141,6 +144,7 @@ import user from '@/views/master/data-user/user'
                     this.print = false
                     this.suratjalan = false
                     this.cetak_do = false
+                    this.print_title = ''
                 }
                 this.init()
             }

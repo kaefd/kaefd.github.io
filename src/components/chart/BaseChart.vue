@@ -10,9 +10,9 @@ import { store } from '@/utils/store'
 <script>
 export default {
     props: {series: {type: Array}},
-    data() {
-      return { 
-        chartOptions: {
+    computed: {
+      chartOptions() { 
+         return {
           chart: {
             type: 'line',
             height: 350,

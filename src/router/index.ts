@@ -44,7 +44,7 @@ const routes = [
         name: 'Data Barang',
         key: 'barang',
         title: 'Data Barang',
-        icon: 'ri-stack-line',
+        icon: 'ri-instance-line',
         path: 'data-barang',
         meta: {
           middleware: [middleware]
@@ -55,7 +55,7 @@ const routes = [
         name: 'Data Pelanggan',
         key: 'pelanggan',
         title: 'Data Pelanggan',
-        icon: 'ri-stack-line',
+        icon: 'ri-group-line',
         path: 'data-pelanggan',
         meta: {
           middleware: [middleware]
@@ -66,7 +66,7 @@ const routes = [
         name: 'Data Supplier',
         key: 'supplier',
         title: 'Data Supplier',
-        icon: 'ri-stack-line',
+        icon: 'ri-user-shared-line',
         path: 'data-supplier',
         meta: {
           middleware: [middleware]
@@ -77,7 +77,7 @@ const routes = [
         name: 'Data User',
         key: 'user',
         title: 'Data User',
-        icon: 'ri-stack-line',
+        icon: 'ri-user-line',
         path: 'data-user',
         meta: {
           middleware: [middleware]
@@ -99,7 +99,7 @@ const routes = [
         key: 'Pembelian',
         title: 'Pemasukan Barang',
         subname: 'Data Pemasukan barang',
-        icon: 'ri-stack-line',
+        icon: 'ri-inbox-archive-line',
         path: 'pemasukan',
         meta: {
             middleware: [middleware]
@@ -111,7 +111,7 @@ const routes = [
         key: 'Produksi',
         title: 'Produksi Barang',
         subname: 'Data Produksi barang',
-        icon: 'ri-stack-line',
+        icon: 'ri-donut-chart-fill',
         path: 'produksi',
         meta: {
             middleware: [middleware]
@@ -123,7 +123,7 @@ const routes = [
         key: 'pengeluaran',
         title: 'Pengeluaran Barang',
         subname: 'Data Pengeluaran barang',
-        icon: 'ri-stack-line',
+        icon: 'ri-inbox-unarchive-line',
         path: 'pengeluaran',
         meta: {
             middleware: [middleware]
@@ -135,7 +135,7 @@ const routes = [
           key: 'Pengiriman',
           title: 'Pengiriman Barang',
           subname: 'Data Pengiriman barang',
-          icon: 'ri-stack-line',
+          icon: 'ri-send-plane-line',
           path: 'pengiriman',
           meta: {
               middleware: [middleware]
@@ -157,7 +157,7 @@ const routes = [
         key: 'stokbarang',
         title: 'Laporan Stok Barang',
         subname: 'Data Laporan Stok barang',
-        icon: 'ri-stack-line',
+        icon: 'ri-instance-line',
         path: 'stok-barang',
         meta: {
             middleware: [middleware]
@@ -169,7 +169,7 @@ const routes = [
         key: 'pembelian',
         title: 'Laporan Pemasukan Barang',
         subname: 'Data Laporan Pemasukan barang',
-        icon: 'ri-stack-line',
+        icon: 'ri-inbox-archive-line',
         path: 'pemasukan',
         meta: {
             middleware: [middleware]
@@ -181,7 +181,7 @@ const routes = [
         key: 'pengeluaran',
         title: 'Laporan Pengeluaran Barang',
         subname: 'Data Laporan Pengeluaran barang',
-        icon: 'ri-stack-line',
+        icon: 'ri-inbox-unarchive-line',
         path: 'pengeluaran',
         meta: {
             middleware: [middleware]
@@ -193,7 +193,7 @@ const routes = [
         key: 'pengiriman',
         title: 'Laporan Pengiriman Barang',
         subname: 'Data Laporan Pengiriman barang',
-        icon: 'ri-stack-line',
+        icon: 'ri-send-plane-line',
         path: 'pengiriman',
         meta: {
             middleware: [middleware]
@@ -205,7 +205,7 @@ const routes = [
         key: 'pengeluaran',
         title: 'Laporan Detail Pengeluaran',
         subname: 'Data Laporan Detail Pengeluaran',
-        icon: 'ri-stack-line',
+        icon: 'ri-inbox-unarchive-line',
         path: 'detail-pengeluaran',
         meta: {
             middleware: [middleware]
@@ -217,7 +217,7 @@ const routes = [
         key: 'loguser',
         title: 'Laporan Log User',
         subname: 'Data Laporan Log User',
-        icon: 'ri-stack-line',
+        icon: 'ri-history-line',
         path: 'log-user',
         meta: {
             middleware: [middleware]
@@ -230,7 +230,7 @@ const routes = [
     name: 'User',
     subname: 'User',
     path: '/user',
-    icon: 'ri-file-list-3-line',
+    icon: 'ri-file-line',
     middleware: [middleware],
     component: () => import('@/views/user/User.vue'),
     children: [

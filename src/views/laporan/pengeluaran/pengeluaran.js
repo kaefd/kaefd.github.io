@@ -39,6 +39,7 @@ export default {
 			item.jumlah = jumlah.reduce((accumulator, currentValue) => {
 				return accumulator + currentValue;
 			}, 0);
+			item.status_ = item.status == 'open' ? 'Menunggu' : 'Selesai'
 		});
 		
 		store().loading = false

@@ -54,7 +54,8 @@ export default {
                         {title: 'Kode Barang', key: 'kode_barang', type: 'text', show: true, read: {show: true, disabled: true}, column: true, sort: 'desc'},
                         {title: 'Nama Barang', key: 'nama_barang', type: 'text', show: true, read: {show: true, disabled: true}, column: true, sort: 'desc'},
                         {title: 'Jumlah', key: 'jumlah', type: 'number', show: true, read: {show: true, disabled: true}, column: true, sort: 'desc'},
-                        {title: 'Status', key: 'status', type: 'text', show: true, read: {show: false, disabled: true}, column: true, sort: 'desc'},
+                        {title: 'Status', key: 'status', type: 'text', show: false, read: {show: false, disabled: true}, column: true, sort: 'desc'},
+                        {title: 'Status', key: 'status_', type: 'text', show: true, read: {show: false, disabled: true}, create: {show: false, disabled: false}, column: true, sort: 'desc'},
                     ],
                     detail: [
                         {title: 'No Pengiriman', key: 'no_pengiriman', type: 'text', read: {show: true, disabled: true}, column: true, sort: 'asc'},
@@ -63,6 +64,8 @@ export default {
                         {title: 'Tujuan Bongkar', key: 'tujuan_bongkar', type: 'text', show: '', sort: 'desc'},
                         {title: 'Supir', key: 'supir', type: 'text',  read: {show: true, disabled: true}, column: true, sort: 'desc'},
                         {title: 'No Polisi', key: 'no_polisi', type: 'text',  read: {show: true, disabled: true}, column: true, sort: 'desc'},
+                        {title: 'Kode Barang', key: 'kode_barang', type: 'text',  read: {show: true, disabled: true}, column: true, sort: 'desc'},
+                        {title: 'Jumlah Terkirim', key: 'jumlah', type: 'number',  read: {show: true, disabled: true}, column: true, sort: 'desc'},
                     ],
                 },
                 filter: [
@@ -78,6 +81,10 @@ export default {
                         {title: 'Selesai', key: 'close'},
                     ]},
                 ],
+                tbl_footer: [
+                    { title: 'Jumlah Terkirim', key: 'jumlah', type: 'number', show: false, read: {show: true, disabled: true}, create: {show: true, disabled: false} },
+                    { title: 'Jumlah Belum Terkirim', key: 'blmterkirim', type: 'number', default: 'blmterkirim',  show: false, read: {show: true, disabled: true}, create: {show: true, disabled: false} },
+                ]
             }
         }
     },

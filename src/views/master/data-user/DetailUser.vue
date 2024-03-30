@@ -1,7 +1,7 @@
 <template>
     <div  v-if="store().s_dialog" class="text-sm w-full h-full top-0 left-0 absolute flex justify-center items-center overflow-hidden">
         <div v-if="store().s_dialog" @click="close()" class="fixed top-0 left-0 h-full w-full z-[0] bg-scrim"></div>
-        <div class="bottom-0 rounded-3xl h-[86vh] md:h-[95vh] w-[28%] min-w-[350px] max-w-[450px] mb-16 md:mb-0 p-7 flex flex-col items-center duration-300" :class="store().s_dialog ? (store().dark ? ' animate__animated animate__fadeInUp animate__faster duration-400 dark' : ' animate__animated animate__fadeInUp animate__faster duration-400 bg-white') : (store().dark ? ' dark' : ' bg-white')">
+        <div class="bottom-0 rounded h-[86vh] md:h-[95vh] w-[28%] min-w-[350px] max-w-[450px] mb-16 md:mb-0 p-7 flex flex-col items-center duration-300" :class="store().s_dialog ? (store().dark ? ' animate__animated animate__fadeInUp animate__faster duration-400 dark' : ' animate__animated animate__fadeInUp animate__faster duration-400 bg-white') : (store().dark ? ' dark' : ' bg-white')">
             <div class="not-sr-only md:sr-only absolute text-xl right-7">
                 <button  @click="close()">
                     <i class="ri-close-line"></i>
@@ -12,7 +12,7 @@
                 <div class="w-20 h-20 flex justify-center items-center overflow-hidden rounded-full py-10">
                     <img src="@/assets/img/person1.png"/>
                 </div>
-                <div v-for="fl in h_field" class="w-[270px] h-fit flex items-center justify-between">
+                <div v-for="fl in h_field" class="w-[270px] h-fit flex capitalize items-center justify-between">
                     <span>{{ fl.title }}</span>
                     <base-input :type="fl.type" :label="fl.title" :value="h_items[fl.key]" :disabled="fl[store().state.action]?.disabled" @input="account"></base-input>
                 </div>

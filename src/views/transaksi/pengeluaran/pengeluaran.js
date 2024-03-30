@@ -16,7 +16,8 @@ export default {
 		let head = await api.getData("/penjualan_head", parameters);
 		let pelanggan = await api.getData("/pelanggan");
         head.map(item => {
-			item.pelanggan = pelanggan.find(p => p.kode_pelanggan == item.kode_pelanggan)?.nama
+			item.pelanggan = pelanggan.find(p => p.kode_pelanggan == item.kode_pelanggan)?.nama,
+			item.status_ = item.status == 'open' ? 'Menunggu' : 'Selesai'
 		})
 		store().loading = false;
 		return head;

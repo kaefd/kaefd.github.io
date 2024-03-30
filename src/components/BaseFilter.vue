@@ -181,7 +181,7 @@
                             // mecari item yang memiliki value 'semua'
                             const filteredObject = Object.fromEntries(
                                 Object.entries(nw_ft).filter(([key, value]) => {
-                                    return value.includes('semua');
+                                    return value.includes('semua') || key.includes('tanggal')
                                 })
                             )
                             // hapus item

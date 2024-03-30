@@ -52,22 +52,22 @@
         calendar-cell-class-name="dp-custom-cell"
         :input-class-name="store().dark ? 'dp-custom-pill-dark' : 'dp-custom-pill'"
         :enable-time-picker="false"
-        class="w-full min-w-[200px]"
+        class="w-full"
         :disabled="disabled"
         v-model="date"
         @update:model-value="selectDate"
     ></VueDatePicker>
-    <div v-if="type == 'search'" class="relative w-full flex items-center justify-end text-sm">
-        <input type="text" placeholder="search" v-model="search" v-on:input="$emit('search', search)" class="h-[45px] px-4 rounded-full focus-within:outline-none w-full min-w-[150px]" :class="store().dark ? 'bg-dark-base' : 'bg-disabled-color'"/>
+    <div v-if="type == 'search'" class="relative w-full flex items-center justify-end ">
+        <input type="text" placeholder="search" v-model="search" v-on:input="$emit('search', search)" class="h-[45px] px-4 rounded focus-within:outline-none w-full min-w-[150px]" :class="store().dark ? 'bg-dark-base' : 'bg-disabled-color'"/>
         <i class="ri-search-line absolute me-4 text-base text-primary"></i>
     </div>
-    <input v-if="type == 'text'" type="text" v-model="dataitem.text" @update:model-value="inputData" :disabled="disabled" class="h-[40px] w-[60%] min-w-[200px] rounded px-3 text-sm" :class="store().dark ? (disabled && store().state.action != 'read' ? 'bg-[#363636] text-gray-400' : 'bg-dark-base') : (disabled && store().state.action != 'read' ? 'bg-zinc-50 text-zinc-400' : 'bg-disabled-color')"/>
-    <input v-if="type == 'password'" type="password" v-model="dataitem.text" @update:model-value="inputData" :disabled="disabled" class="h-[40px] w-[60%] min-w-[200px] rounded px-3 text-sm" :class="store().dark ? 'bg-dark-base' : 'bg-disabled-color'"/>
+    <input v-if="type == 'text'" type="text" v-model="dataitem.text" @update:model-value="inputData" :disabled="disabled" class="h-[45px] w-[60%] min-w-[200px] rounded px-3 " :class="store().dark ? (disabled && store().state.action != 'read' ? 'bg-[#363636] text-gray-400' : 'bg-dark-base') : (disabled && store().state.action != 'read' ? 'bg-zinc-50 text-zinc-400' : 'bg-disabled-color')"/>
+    <input v-if="type == 'password'" type="password" v-model="dataitem.text" @update:model-value="inputData" :disabled="disabled" class="h-[45px] w-[60%] min-w-[200px] rounded px-3 " :class="store().dark ? 'bg-dark-base' : 'bg-disabled-color'"/>
     <template v-if="type == 'number'">
-        <input v-if="value != undefined && store().state.action != 'read'" type="text" v-model="dataNumbs.numb" @update:model-value="inputData" :disabled="disabled" class="h-[40px] w-[60%] min-w-[200px] rounded px-3 text-sm" :class="store().dark ? 'bg-dark-base' : 'bg-disabled-color'"/>
-        <input v-if="value == undefined && store().state.action != 'read'" type="text" v-model="numbs" @update:model-value="inputData" :disabled="disabled" class="h-[40px] w-[60%] min-w-[200px] rounded px-3 text-sm" :class="store().dark ? 'bg-dark-base' : 'bg-disabled-color'"/>
-        <input v-if="store().state.action == 'read'" type="text" v-model="dataitem.numbs" :disabled="disabled" class="h-[40px] w-[60%] min-w-[200px] rounded px-3 text-sm" :class="store().dark ? 'bg-dark-base' : 'bg-disabled-color'"/>
-        <!-- <input v-else type="text" v-model="numbs" @update:model-value="inputData" :disabled="disabled" class="h-[40px] w-[60%] min-w-[200px] rounded px-3 text-sm" :class="store().dark ? 'bg-dark-base' : 'bg-disabled-color'"/> -->
+        <input v-if="value != undefined && store().state.action != 'read'" type="text" v-model="dataNumbs.numb" @update:model-value="inputData" :disabled="disabled" class="h-[45px] w-[60%] min-w-[200px] rounded px-3 " :class="store().dark ? 'bg-dark-base' : 'bg-disabled-color'"/>
+        <input v-if="value == undefined && store().state.action != 'read'" type="text" v-model="numbs" @update:model-value="inputData" :disabled="disabled" class="h-[45px] w-[60%] min-w-[200px] rounded px-3 " :class="store().dark ? 'bg-dark-base' : 'bg-disabled-color'"/>
+        <input v-if="store().state.action == 'read'" type="text" v-model="dataitem.numbs" :disabled="disabled" class="h-[45px] w-[60%] min-w-[200px] rounded px-3 " :class="store().dark ? 'bg-dark-base' : 'bg-disabled-color'"/>
+        <!-- <input v-else type="text" v-model="numbs" @update:model-value="inputData" :disabled="disabled" class="h-[45px] w-[60%] min-w-[200px] rounded px-3 " :class="store().dark ? 'bg-dark-base' : 'bg-disabled-color'"/> -->
     </template>
     <div v-if="type == 'checkbox'" class="flex space-x-2">
         <input type="checkbox" v-model="dataitem.check" :disabled="disabled" @change="checked" class="w-4 h-4 accent-primary-tint"/>
@@ -80,7 +80,7 @@
     </label>
     <div v-if="type == 'option'" class="w-[60%] min-w-[200px]">
         <div class="relative w-full flex justify-end items-center">
-            <input @click="selectOpt = !selectOpt" type="text" :value="text" readonly class="h-[40px] w-full rounded px-3 cursor-pointer" :class="store().dark ? 'bg-dark-base' : 'bg-disabled-color'"/>
+            <input @click="selectOpt = !selectOpt" type="text" :value="text" readonly class="h-[45px] w-full rounded px-3 cursor-pointer" :class="store().dark ? 'bg-dark-base' : 'bg-disabled-color'"/>
             <button v-if="!disabled && rules?.find(e => e == 'required') == undefined " @click="dt_options()" class="w-5 h-5 rounded-full absolute me-2" type="button"><i class="ri-close-line"></i></button>
         </div>
         <div v-if="!disabled" class="rounded-lg shadow-xl absolute flex flex-col duration-300 overflow-auto z-[2] w-[200px]" :class="!selectOpt ? 'h-0 p-0' : store().dark ? 'dark h-max max-h-[200px] py-3' : 'bg-white h-max max-h-[200px] py-3' ">
@@ -90,9 +90,9 @@
         </div>
         <div v-if="selectOpt" @click="selectOpt = false" class="fixed w-full h-full top-0 left-0 z-[1]"></div>
     </div>
-    <input v-if="type == 'auto'" type="text" :value="autoData" @update:model-value="autoData" readonly class="h-[40px] w-[60%] min-w-[200px] rounded px-3" :class="store().dark ? 'bg-dark-base' : 'bg-disabled-color'"/>
+    <input v-if="type == 'auto'" type="text" :value="autoData" @update:model-value="autoData" readonly class="h-[45px] w-[60%] min-w-[200px] rounded px-3" :class="store().dark ? 'bg-dark-base' : 'bg-disabled-color'"/>
     <template v-if="type == 'dialog'">
-        <input @click="open_id()" type="text" :value="data_dialog" readonly class="h-[40px] w-[60%] min-w-[200px] rounded px-3 text-sm cursor-pointer" :class="store().dark ? 'bg-dark-base' : 'bg-disabled-color'"/>
+        <input @click="open_id()" type="text" :value="data_dialog" readonly class="h-[45px] w-[60%] min-w-[200px] rounded px-3  cursor-pointer" :class="store().dark ? 'bg-dark-base' : 'bg-disabled-color'"/>
         <input-dialog v-if="open" :open="open" :data_dialog="fl_item" :allItems="allItems" :dialog_field="dialog_field" @close="close" @resDialInput="resDialInput"></input-dialog>
     </template>
 </template>
@@ -346,7 +346,7 @@ export default {
         /* width: 20vw; */
         font-size: 10pt;
         background: white;
-        border-radius: 50px;
+        border-radius: 4px;
     }
     .dp-custom-pill-dark {
         border-color: transparent;
@@ -355,7 +355,7 @@ export default {
         font-size: 10pt;
         background: var(--color-dark);
         color: white;
-        border-radius: 50px;
+        border-radius: 4px;
     }
     .dp-custom-pill:hover {
         border-color: transparent;

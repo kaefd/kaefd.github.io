@@ -39,7 +39,7 @@ export default {
 			item.jumlah = jumlah.reduce((accumulator, currentValue) => {
 				return accumulator + currentValue;
 			}, 0);
-			// item.status = item.status == "open" ? "menunggu" : "selesai";
+			item.status_ = item.status == "open" ? "Menunggu" : "Selesai";
 		});
 		
 		store().loading = false
@@ -50,9 +50,13 @@ export default {
 			no_penjualan: head.no_penjualan,
 		};
 		let detail = await api.getData('/pengiriman_detail/no_penjualan', param)
+		let detail_pjl = await api.getData('/penjualan_detail/no_penjualan', param)
 		let plg = await api.getData('pelanggan')
 		let bongkar = await api.getData('alamat_bongkar')
 		let data = []
+		let kuota = detail_pjl.map(it => it.jumlah)
+		let pgm = detail_pjl.map(it => it.jumlah_terkirim)
+		
 		for (let i = 0; i < detail.length; i++) {
 			let h = await api.getData(`/pengiriman_head/no_pengiriman?no_pengiriman=${detail[i].no_pengiriman}`)
 			data.push({
@@ -62,6 +66,9 @@ export default {
 				pelanggan: plg.find(p => p.kode_pelanggan == h[0].kode_pelanggan).nama,
 				tujuan_bongkar: bongkar.find(p => p.kode_pelanggan == h[0].kode_alamat_bongkar).nama,
 				no_polisi: h[0].no_polisi,
+				kode_barang: detail[i].kode_barang,
+				jumlah: detail[i].jumlah,
+				blmterkirim: kuota.reduce((accumulator, currentValue) => accumulator + currentValue, 0) - pgm.reduce((accumulator, currentValue) => accumulator + currentValue, 0),
 			})
 		}
 		return data

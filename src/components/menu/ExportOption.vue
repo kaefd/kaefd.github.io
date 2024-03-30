@@ -1,9 +1,9 @@
 <template>
     <div class="relative text-sm">
-        <button @click="active = !active" class="h-[40px] w-[40px] rounded-full hover:bg-primary-hover">
+        <button @click="active = !active" class="h-[40px] w-[40px] rounded hover:bg-primary-hover">
             <i class="ri-download-line text-primary text-base"></i>
         </button>
-        <div class="rounded-lg shadow-xl absolute z-[2] right-0 w-max  overflow-hidden duration-300" :class="!active ? 'h-0 py-0' : (store().dark ? 'dark h-max py-2' : 'bg-white h-max py-2')">
+        <div class="rounded shadow-xl absolute z-[2] right-0 w-max  overflow-hidden duration-300" :class="!active ? 'h-0 py-0' : (store().dark ? 'dark h-max py-2' : 'bg-white h-max py-2')">
             <template v-for="data in dataExp">
                 <div v-if="otoritas.check(data.title)" @click="exp(data)" class="flex gap-x-2 items-center hover:bg-primary-hover cursor-pointer duration-300" :class="active ? 'p-3' : 'p-0'">
                     <i :class="data.icon"></i>
