@@ -123,14 +123,14 @@ export default {
             }
         },
         submited() {
+            let opt = store().state.action
+            if(opt == 'edit') this.dataitem.username = this.h_items.username
             let head = this.h_field.filter(item => item.rules != undefined)
             let h_valid = head != '' ? validation.validate(head, this.dataitem, head) : true
             if(h_valid) {
-                let opt = store().state.action
                 if(opt == 'create') user.create(this.dataitem, this.items)
                 else if(opt == 'edit') user.update(this.dataitem, this.items)
             }
-            
         }
     },
     mounted () {
