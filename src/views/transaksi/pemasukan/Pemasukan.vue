@@ -61,7 +61,7 @@ export default {
                         { title: 'Nama Barang', key: 'nama_barang', type: 'text', read: {show: true, disabled: true}, create: {show: true, disabled: false}, column: true, dialog: true, sort: 'desc' },
                         { title: 'HS Code', key: 'hs_code', type: 'text', read: {show: true, disabled: true}, create: {show: true, disabled: false}, column: true, dialog: false, sort: 'desc' },
                         { title: 'Jumlah', key: 'jumlah', type: 'number', read: {show: true, disabled: true}, create: {show: true, disabled: false}, column: true, dialog: true, sort: 'desc', rules: ['required'] },
-                        { title: 'Jumlah Diterima', key: 'jumlah_diterima', type: 'number', read: {show: true, disabled: true}, create: {show: true, disabled: false}, column: true, dialog: true, sort: 'desc', rules: ['required'] },
+                        { title: 'Jumlah Diterima', key: 'jumlah_diterima', type: 'number', read: {show: true, disabled: true}, create: {show: true, disabled: false}, column: true, dialog: true, sort: 'desc', rules: ['required', 'max jumlah'] },
                         { title: 'Satuan', key: 'satuan', type: 'text', read: {show: true, disabled: true}, create: {show: true, disabled: false}, column: true, dialog: false, sort: 'desc' },
                         { title: 'Total Nilai', key: 'nilai', type: 'number', read: {show: true, disabled: true}, create: {show: true, disabled: false}, column: true, dialog: true, sort: 'desc',rules: ['required'] },
                     ],

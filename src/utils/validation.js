@@ -1,4 +1,5 @@
 import alert from "./alert";
+import utils from "./utils";
 
 export default {
     validate(rules, input, data) {
@@ -29,7 +30,7 @@ export default {
                 for (let j = 0; j < fl[i].rules.length; j++) {
                   let s_rules = fl[i].rules[j].split(' ')
                   let k_rules = s_rules[0]
-                  let target = s_rules[1]
+                  let target = s_rules[1] > 0 ? s_rules[1] : input[s_rules[1]]
                   if(fl[i].rules[j] == 'unique') {
                     let a = data ? data.find(item => item[fl[i].key] == input[fl[i].key]) : null
                     if(a == undefined || a == null) res.push(true)
@@ -49,6 +50,12 @@ export default {
                     else {
                       res.push(false)
                       mess.push(fl[i].key + ' tidak boleh kurang dari ' + target + ' karakter')
+                    }
+                  } else if(k_rules == 'max' && input[fl[i].key] != undefined && input[fl[i].key] != '') {
+                    if(input[fl[i].key] <= target) res.push(true)
+                    else {
+                      res.push(false)
+                      mess.push(fl[i].title + ' tidak boleh lebih dari ' + utils.numb(target))
                     }
                   }
                 }
