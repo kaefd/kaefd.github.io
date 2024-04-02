@@ -23,7 +23,7 @@
                 </div>
             </div>
             <div class="px-3 md:px-8 flex justify-center md:justify-start space-x-2 my-3">
-                <div v-for="card in cards" @click="active(card)" class="h-12 w-28 rounded flex items-center justify-center capitalize hover:bg-primary-hover cursor-pointer" :class="card.active ? 'bg-primary-hover' : ''">{{ card.key }}</div>
+                <div v-for="card in cards" @click="active(card)" class="h-12 w-28 text-sm rounded flex items-center justify-center capitalize hover:bg-primary-hover cursor-pointer" :class="card.active ? 'bg-primary-hover' : ''">{{ card.key }}</div>
             </div>
             <div class="w-full px-3 md:px-8 mb-3">
                 <div class="relative w-full rounded-0 md:rounded px-3 md:px-5 pt-5 capitalize" :class="store().dark ? 'dark' : 'bg-white'">
@@ -35,7 +35,6 @@
             <div class="px-3 md:px-8">
                 <div class="w-full h-[600px] px-3 md:px-5 pt-5 pb-0 md:pb-15 rounded-0 md:rounded" :class="store().dark ? 'dark' : 'bg-white'">
                     <p class="mx-3 text-lg" :class="store().dark ? 'text-white' : 'text-black'">{{ config.title }}</p>
-                    <p class="mx-3" :class="store().dark ? 'text-gray-400' : 'text-gray-600'">Bulan {{utils.formatMonth(new Date())}}</p>
                     <base-table :title="config.title" :fields="config.fields.head" :filter="config.filter" :show_filter="true" :select_column="true" :export="true" :search="true" :items="store().data.items" :permission="config.permission" :s_table="true"></base-table>
                     <!-- <base-table :fields="config.fields" :items="items" :master="true" :permission="config.permission" :s_table="true"></base-table> -->
                 </div>

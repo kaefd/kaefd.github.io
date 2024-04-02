@@ -39,7 +39,7 @@
             <base-filter :title="title" :fields="toolsItem" :h_items="h_items" :column="column" :base="base" :filter="ft_active" :items="items" :show="detailFilter" @close="close" @resFilter="resFilter" @filteredItm="filteredItm" @reqToReload="$emit('reqToReload')"></base-filter>
         </div>
         <!-- TABLE -->
-        <div class="w-full min-h-max h-full overflow-x-auto md:overflow-y-hidden z-[0] text-sm" :class="store().dark ? 'dark' : 'bg-white'">
+        <div class="w-full min-h-max h-full overflow-x-auto md:overflow-y-hidden z-[0] text-sm select-none" :class="store().dark ? 'dark' : 'bg-white'">
             <table id="table" class="w-full h-full text-left" >
                 <thead class="w-full min-h-[50px] py-2 flex rounded-[4px] text-center uppercase text-[13px]" :class="store().dark ? 'bg-primary-dark-hover' : 'bg-primary-hover'">
                     <tr class="w-full flex items-center" :class="tableHeader.length > 1 ? 'justify-around' : 'justify-between'">

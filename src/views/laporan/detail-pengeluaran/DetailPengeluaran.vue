@@ -94,6 +94,7 @@ export default {
             if(!check) return this.$router.push('/')
             const data = await pengeluaran.pengeluaran(null, this.config.fields.head[0])
             store().data.items = data
+            console.log(data);
         },
         openDetail(item, header) {
             this.head = item

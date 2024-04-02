@@ -44,7 +44,7 @@
             </div>
         </div>
         <div v-if="child" class="relative h-full w-[28%] min-w-[340px] max-w-[450px] px-2 flex justify-center items-center">
-            <div class="w-full flex flex-col justify-between gap-y-5 bottom-0 rounded md:rounded min-h-[220px] py-7 px-3 md:px-7 z-[3] animate__animated animate__faster" :class="store().dark ? 'dark' : 'bg-white', child ? 'animate__fadeInUp' : ''">
+            <div class="w-full flex flex-col justify-between gap-y-5 bottom-0 rounded md:rounded min-h-[220px] pt-5 pb-7 px-3 md:px-7 z-[3] animate__animated animate__faster" :class="store().dark ? 'dark' : 'bg-white', child ? 'animate__fadeInUp' : ''">
                 <!-- title -->
                 <div class="flex flex-col gap-y-5">
                     <div class="flex flex-col-reverse text-center space-y-1">

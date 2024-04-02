@@ -2,8 +2,9 @@
     <div class="fixed top-0 left-0 w-full flex justify-center z-[2] h-full">
         <div v-if="active" @click="close()" class="fixed top-0 left-0 h-full w-full z-[0] bg-scrim"></div>
         <slot name="dialog-content">
-            <div  @click="close()" class="relative h-full w-[28%] min-w-[340px] max-w-[450px] px-2 flex justify-center items-center animate__animated animate__faster" :class="active ? 'animate__fadeInUp' : ''">
-            <div class="w-full flex flex-col justify-between gap-y-5 bottom-0 rounded md:rounded min-h-[220px] py-7 px-3 md:px-7 z-[3]" :class="store().dark ? 'dark' : 'bg-white'" >
+            <div class="relative h-full w-[28%] min-w-[340px] max-w-[450px] px-2 flex justify-center items-center animate__animated animate__faster" :class="active ? 'animate__fadeInUp' : ''">
+            <div v-if="active" @click="close()" class="fixed top-0 left-0 h-full w-full z-[0]"></div>
+            <div class="w-full flex flex-col justify-between gap-y-5 bottom-0 rounded md:rounded min-h-[220px] pt-5 pb-7 px-3 md:px-7 z-[3]" :class="store().dark ? 'dark' : 'bg-white'" >
                 <div class="flex flex-col gap-y-5">
                     <div class="flex flex-col gap-y-1 text-center">
                         <div class="flex flex-col-reverse space-y-1">

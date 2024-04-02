@@ -237,7 +237,7 @@ const routes = [
       {
         name: 'Log User',
         key: 'stokbarang',
-        title: 'Log User',
+        title: 'Log Aktivitas',
         subname: 'Data Log User',
         path: 'log',
         meta: {
