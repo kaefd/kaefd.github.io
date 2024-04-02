@@ -70,8 +70,8 @@
         <!-- <input v-else type="text" v-model="numbs" @update:model-value="inputData" :disabled="disabled" class="h-[45px] w-[60%] min-w-[200px] rounded px-3 " :class="store().dark ? 'bg-dark-base' : 'bg-disabled-color'"/> -->
     </template>
     <div v-if="type == 'checkbox'" class="flex space-x-2">
-        <input type="checkbox" v-model="dataitem.check" :disabled="disabled" @change="checked" class="w-4 h-4 accent-primary-tint"/>
-        <label>{{ label }}</label>
+        <input type="checkbox" v-model="dataitem.check" :name="label" :id="label" :disabled="disabled" @change="checked" class="w-4 h-4 accent-primary-tint"/>
+        <label :for="label" class="select-none cursor-pointer" >{{ label }}</label>
     </div>
     <label v-if="type == 'toggle'" class="flex items-center cursor-pointer gap-x-2">
         <input type="checkbox" v-model="dataitem.check" :disabled="disabled" @change="toggle" class="sr-only peer"/>

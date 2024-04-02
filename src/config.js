@@ -7,10 +7,10 @@ const config = {
     },
     routeMode: {
         webHistory: {
-            base: '/'
+            base: '/inventori'
         },
         webHash: {
-            base: '/'
+            base: '/inventori'
         }
     },
 }

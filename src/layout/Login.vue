@@ -4,7 +4,7 @@
             <img src="../assets/img/bgAuri.jpg" alt="">
         </div>
         <div class="absolute left-0 w-full h-full flex justify-center items-center">
-            <div class="absolute w-[28%] min-w-[350px] h-[80%] rounded-[20px] shadow-2xl flex flex-col justify-between py-13 md:py-[4%] items-center mb-15 bg-white">
+            <div class="absolute w-[25%] min-w-[350px] max-w-[400px] h-[70%] max-h-[550px] min-h-[500px] rounded-[20px] shadow-2xl flex flex-col justify-between py-13 md:py-[4%] items-center mb-15 bg-white">
                 <div class="flex flex-col items-center gap-y-4">
                     <img src="../assets/img/just_logo.png" class="w-15" alt="">
                     <span class="text-[27px] text-primary-tint">IT INVENTORY</span>
@@ -37,7 +37,7 @@
                     </div>
                     <pills-button type="submit" label="login" class="bg-primary-tint text-white w-3/4 shadow-xl focus-within:shadow" :class="load ? 'cursor-wait' : ''"></pills-button>
                 </form>
-                <div class="text-center">
+                <div class="text-center mt-5">
                     <button @click="forget()" class="underline" :class="load ? 'cursor-wait' : ''">lupa password</button>
                 </div>
             </div>
@@ -132,7 +132,7 @@ export default {
                 headers: { csrf: response }
             })
             localStorage.setItem('otoritas', JSON.stringify(d.data))
-            if(d) return window.location.href = '/'
+            if(d) return this.$router.push('/')
         },
         forget() {
             alert.warning(null, 'silakan hubungi administrator')

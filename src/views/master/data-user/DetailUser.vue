@@ -19,10 +19,10 @@
             </div>
             <span class="text-center uppercase my-3">otoritas</span>
             <div class="h-full w-full overflow-auto">
-                <div v-if="store().state.action != 'create'" v-for="dt in d_items">
+                <div v-if="store().state.action != 'create'" v-for="dt in items">
                     <div class="flex justify-between items-center p-2">
                         <base-input type="checkbox" :label="dt.title" :value="dt.value" @input="input" :disabled="disabled"></base-input>
-                        <button @click="open(dt)" >
+                        <button @click="open(dt)" class="w-1/4 py-1 text-right">
                             <i v-if="dt.active" class="ri-arrow-up-s-line"></i>
                             <i v-else class="ri-arrow-down-s-line"></i>
                         </button>
@@ -33,10 +33,10 @@
                         </div>
                     </div>
                 </div>
-                <div v-if="store().state.action == 'create'" v-for="df in d_items">
+                <div v-if="store().state.action == 'create'" v-for="df in items">
                     <div class="flex justify-between items-center p-2">
                         <base-input type="checkbox" :label="df.title" :value="df.value" @input="input"></base-input>
-                        <button @click="open(df)" class="">
+                        <button @click="open(df)" class="w-1/4 py-1 text-right">
                             <i v-if="df.active" class="ri-arrow-up-s-line"></i>
                             <i v-else class="ri-arrow-down-s-line"></i>
                         </button>
@@ -66,7 +66,6 @@ export default {
         h_field: {type: Object, required: true},
         h_items: {type: Object, required: true},
         d_items: {type: Object, required: true},
-        // model: {type: Object, required: true},
     },
     data() {
         return {
@@ -82,6 +81,9 @@ export default {
         disabled() {
             return store().state.action == 'read'
         },
+        items() {
+            return this.d_items
+        }
     },
     methods: {
         open(val) {
@@ -101,19 +103,34 @@ export default {
         },
         input(value) {
             let a = []
-            a.push(value)
+            if(this.items.find(item => item.title == value.title)?.item != undefined) {
+                this.items.map(item => {
+                    if(item.title == value.title) {
+                        let res = item.item?.map(it => {
+                            return {
+                                title: it.title,
+                                value: value.value
+                            }
+                        })
+                        
+                        a = [...[value], ...res]
+                        return item.item?.map(it => it.value = value.value)
+                    }
+                })
+            } else a.push(value)
             for (let i = 0; i < a.length; i++) {
                 this.dataitem[a[i].title] = a[i].value
             }
         },
-        async submited() {
-            let opt = store().state.action
-                if(opt == 'create') {
-                    await user.create(this.dataitem, this.d_items)
-                }
-                else if(opt == 'edit') {
-                    await user.update(this.dataitem, this.d_items)
-                }
+        submited() {
+            let head = this.h_field.filter(item => item.rules != undefined)
+            let h_valid = head != '' ? validation.validate(head, this.dataitem, head) : true
+            if(h_valid) {
+                let opt = store().state.action
+                if(opt == 'create') user.create(this.dataitem, this.items)
+                else if(opt == 'edit') user.update(this.dataitem, this.items)
+            }
+            
         }
     },
     mounted () {

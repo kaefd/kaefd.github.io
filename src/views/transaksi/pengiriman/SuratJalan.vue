@@ -142,7 +142,7 @@ export default {
                                 kode.push(
                                     this.detail[j].no_dokumen +
                                         "/" +
-                                        this.detail[j].kode_group.slice(2, 4) + ' '
+                                        this.detail[j].tipe_dokumen.slice(2, 4) + ' '
                                 );
                                 jumlah.push(this.detail[j].jumlah);
                                 konversi.push(this.detail[j].jumlah_konversi);

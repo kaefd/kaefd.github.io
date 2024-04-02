@@ -13,7 +13,7 @@ export default {
     data() {
         return {
             config: {
-                title: 'Laporan Log User',
+                title: 'Log Aktivitas',
                 child: false,
                 permission: {
                     create: false,
@@ -28,7 +28,7 @@ export default {
                 fields: {
                     head: [
                         { title: 'Tanggal', key: 'tanggal', type: 'date', show: true, read: {show: true, disabled: true}, create: {show: false, disabled: false}, column: true, sort: 'desc' },
-                        { title: 'Username', key: 'username', type: 'text', show: true, read: {show: true, disabled: true}, create: {show: false, disabled: false}, column: true, dialog: false, sort: 'desc' },
+                        { title: 'Username', key: 'username', type: 'text', show: false, read: {show: true, disabled: true}, create: {show: false, disabled: false}, column: true, dialog: false, sort: 'desc' },
                         { title: 'Kategori', key: 'kategori', type: 'text', show: true, read: {show: true, disabled: true}, create: {show: false, disabled: false}, column: true, dialog: false, sort: 'desc' },
                         { title: 'Keterangan', key: 'keterangan', type: 'text', show: true, read: {show: true, disabled: true}, create: {show: false, disabled: false}, column: true, dialog: false, sort: 'desc' },
                     ],

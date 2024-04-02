@@ -85,7 +85,6 @@ export default {
 				}
 			}
 		}
-		console.log(tgl);
 		store().cpr = tgl
 		data = [
 			{

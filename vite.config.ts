@@ -10,6 +10,7 @@ import mode from './src/config'
 // https://vitejs.dev/config/
 export default defineConfig({
   base: config.server[mode.routeMode.base],
+  // base: '/inventori',
   optimizeDeps: {
     exclude: ['blip-ds/loader']
   },

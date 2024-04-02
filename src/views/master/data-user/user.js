@@ -14,16 +14,11 @@ export default {
         let detail = await api.getData('/user_otoritas')
         let data = []
         let newData = []
-        // for (let j = 0; j < head.length; j++) {
             for (let i = 0; i < head.length; i++) {
-                // if(head[i].username == head[j].username) {
-                    // let detail = detail.filter(it => it.username == head[i].username)
-                    // if(detail[i].jenis_otoritas == 'Data Barang') {
                         newData.push({
                             title: 'Data Barang',
                             key: 'data_barang',
                             username: head[i].username,
-                            // value: detail[i].status ? detail[i].status : 'false',
                             value: detail.find(it => it.username == head[i].username && it.jenis_otoritas == 'Data Barang') == undefined ? 'false' : detail.find(it => it.username == head[i].username && it.jenis_otoritas == 'Data Barang').status,
                             active: false,
                             item: [
@@ -32,21 +27,6 @@ export default {
                                 {title: 'Hapus Barang', key: 'hapus_barang', value: detail.find(it => it.jenis_otoritas == 'Hapus Barang' && it.username == head[i].username) == undefined ? 'false' : detail.find(it => it.jenis_otoritas == 'Hapus Barang' && it.username == head[i].username).status},
                             ]
                         },
-                        // {
-                        //     title: 'Data Konversi Barang',
-                        //     key: 'konversi_barang',
-                        //     username: head[i].username,
-                        //     // value: detail[i].status ? detail[i].status : 'false',
-                        //     value: detail.find(it => it.username == head[i].username && it.jenis_otoritas == 'Data Konversi Barang') == undefined ? 'false' : detail.find(it => it.username == head[i].username && it.jenis_otoritas == 'Data Konversi Barang').status,
-                        //     active: false,
-                        //     item: [
-                        //         {title: 'Tambah Konversi Baru', key: 'tambah_barang_baru', value: detail.find(it => it.jenis_otoritas == 'Tambah Konversi Baru' && it.username == head[i].username) == undefined ? 'false' : detail.find(it => it.jenis_otoritas == 'Tambah Konversi Baru' && it.username == head[i].username).status},
-                        //         {title: 'Ubah Konversi', key: 'ubah_konversi', value: detail.find(it => it.jenis_otoritas == 'Ubah Konversi' && it.username == head[i].username) == undefined ? 'false' : detail.find(it => it.jenis_otoritas == 'Ubah Konversi' && it.username == head[i].username).status},
-                        //         {title: 'Hapus Konversi', key: 'hapus_konversi', value: detail.find(it => it.jenis_otoritas == 'Hapus Konversi' && it.username == head[i].username) == undefined ? 'false' : detail.find(it => it.jenis_otoritas == 'Hapus Konversi' && it.username == head[i].username).status},
-                        //     ]
-                        // },
-                    // }
-                    // if(detail[i].jenis_otoritas == 'Data Pelanggan') {
                         {
                             title: 'Data Pelanggan',
                             key: 'data_pelanggan',
@@ -59,25 +39,18 @@ export default {
                                 {title: 'Hapus Pelanggan', key: 'hapus_pelanggan', value: detail.find(it => it.jenis_otoritas == 'Hapus Pelanggan' && it.username == head[i].username) == undefined ? 'false' : detail.find(it => it.jenis_otoritas == 'Hapus Pelanggan' && it.username == head[i].username).status},
                             ]
                         },
-                    // }
-                    // if(detail[i].jenis_otoritas == 'Data Supplier') {
                         {
                             title: 'Data Supplier',
                             key: 'data_supplier',
                             username: head[i].username,
                             value: detail.find(it => it.username == head[i].username && it.jenis_otoritas == 'Data Supplier') == undefined ? 'false' : detail.find(it => it.username == head[i].username && it.jenis_otoritas == 'Data Supplier').status,
                         },
-                    // }
-                    // if(detail[i].jenis_otoritas == 'Data User') {
                         {
                             title: 'Data User',
                             key: 'data_user',
                             username: head[i].username,
                             value: detail.find(it => it.username == head[i].username && it.jenis_otoritas == 'Data User') == undefined ? 'false' : detail.find(it => it.username == head[i].username && it.jenis_otoritas == 'Data User').status,
                         },
-                    // }
-                    // if(detail[i].jenis_otoritas == 'Pembelian') {
-                        // console.log(detail.find(it => it.jenis_otoritas == 'Persentase'));
                         {
                             title: 'Pembelian',
                             key: 'pembelian',
@@ -90,8 +63,6 @@ export default {
                                 {title: 'Persentase', key: 'persentase', value: detail.find(it => it.jenis_otoritas == 'Persentase' && it.username == head[i].username) != undefined ? detail.find(it => it.jenis_otoritas == 'Persentase' && it.username == head[i].username).status : 'false'},
                             ]
                         },
-                    // }
-                    // if(detail[i].jenis_otoritas == 'Produksi') {
                         {
                             title: 'Produksi',
                             key: 'produksi',
@@ -103,8 +74,6 @@ export default {
                                 {title: 'Batal Produksi', key: 'batal_produksi', value: detail.find(it => it.jenis_otoritas == 'Batal Produksi' && it.username == head[i].username) == undefined ? 'false' : detail.find(it => it.jenis_otoritas == 'Batal Produksi' && it.username == head[i].username).status},
                             ]
                         },
-                    // }
-                    // if(detail[i].jenis_otoritas == 'Penjualan') {
                         {
                             title: 'Penjualan',
                             key: 'penjualan',
@@ -117,8 +86,6 @@ export default {
                                 {title: 'Status Penjualan', key: 'status_penjualan', value: detail.find(it => it.jenis_otoritas == 'Status Penjualan' && it.username == head[i].username) == undefined ? 'false' : detail.find(it => it.jenis_otoritas == 'Status Penjualan' && it.username == head[i].username).status},
                             ]
                         },
-                    // }
-                    // if(detail[i].jenis_otoritas == 'Pengiriman') {
                         {
                             title: 'Pengiriman',
                             key: 'pengiriman',
@@ -133,8 +100,6 @@ export default {
                                 {title: 'Alamat Bongkar', key: 'alamat_bongkar', value: detail.find(it => it.jenis_otoritas == 'Alamat Bongkar' && it.username == head[i].username) == undefined ? 'false' : detail.find(it => it.jenis_otoritas == 'Alamat Bongkar' && it.username == head[i].username).status},
                             ]
                         },
-                    // }
-                    // if(detail[i].jenis_otoritas == 'Laporan') {
                         {
                             title: 'Laporan',
                             key: 'laporan',
@@ -150,8 +115,6 @@ export default {
                                 {title: 'Laporan Log User', key: 'laporan_log_user', value: detail.find(it => it.jenis_otoritas == 'Laporan Log User' && it.username == head[i].username) == undefined ? 'false' : detail.find(it => it.jenis_otoritas == 'Laporan Log User' && it.username == head[i].username).status},
                             ]
                         },
-                    // }
-                    // if(detail[i].jenis_otoritas == 'Pengaturan Umum') {
                         {
                             title: 'Pengaturan Umum',
                             key: 'pengaturan_umum',
@@ -163,18 +126,7 @@ export default {
                                 {title: 'Export xlsx', key: 'xlsx', value: detail.find(it => it.jenis_otoritas == 'Export xlsx' && it.username == head[i].username) == undefined ? 'false' : detail.find(it => it.jenis_otoritas == 'Export xlsx' && it.username == head[i].username).status},
                             ]
                         })
-                    // }
-                // }
-            // }
         }
-        // for (let i = 0; i < head.length; i++) {
-        //     data.push({
-        //         head: head[i],
-        //         detail: newData.filter(item => head[i].username == item.username)
-        //     })
-            
-        // }
-        // store().$patch((state) => { state.items = data })
         store().loading = false
         return head
     },
@@ -204,25 +156,18 @@ export default {
                 {title: 'Hapus Pelanggan', key: 'hapus_pelanggan', value: false},
             ]
         },
-    // }
-    // if(detail[i].jenis_otoritas == 'Data Supplier') {
         {
             title: 'Data Supplier',
             key: 'data_supplier',
             username: false,
             value: false,
         },
-    // }
-    // if(detail[i].jenis_otoritas == 'Data User') {
         {
             title: 'Data User',
             key: 'data_user',
             username: false,
             value: false,
         },
-    // }
-    // if(detail[i].jenis_otoritas == 'Pembelian') {
-        // console.log(detail.find(it => it.jenis_otoritas == 'Persentase'));
         {
             title: 'Pembelian',
             key: 'pembelian',
@@ -235,8 +180,6 @@ export default {
                 {title: 'Persentase', key: 'persentase', value: false},
             ]
         },
-    // }
-    // if(detail[i].jenis_otoritas == 'Produksi') {
         {
             title: 'Produksi',
             key: 'produksi',
@@ -248,8 +191,6 @@ export default {
                 {title: 'Batal Produksi', key: 'batal_produksi', value: false},
             ]
         },
-    // }
-    // if(detail[i].jenis_otoritas == 'Penjualan') {
         {
             title: 'Penjualan',
             key: 'penjualan',
@@ -262,8 +203,6 @@ export default {
                 {title: 'Status Penjualan', key: 'status_penjualan', value: false},
             ]
         },
-    // }
-    // if(detail[i].jenis_otoritas == 'Pengiriman') {
         {
             title: 'Pengiriman',
             key: 'pengiriman',
@@ -278,8 +217,6 @@ export default {
                 {title: 'Alamat Bongkar', key: 'alamat_bongkar', value: false},
             ]
         },
-    // }
-    // if(detail[i].jenis_otoritas == 'Laporan') {
         {
             title: 'Laporan',
             key: 'laporan',
@@ -295,8 +232,6 @@ export default {
                 {title: 'Laporan Log User', key: 'laporan_log_user', value: false},
             ]
         },
-    // }
-    // if(detail[i].jenis_otoritas == 'Pengaturan Umum') {
         {
             title: 'Pengaturan Umum',
             key: 'pengaturan_umum',
@@ -317,7 +252,6 @@ export default {
                 title: 'Data Barang',
                 key: 'data_barang',
                 username: head.username,
-                // value: detail[i].status ? detail[i].status : 'false',
                 value: detail.find(it => it.username == head.username && it.jenis_otoritas == 'Data Barang') == undefined ? 'false' : detail.find(it => it.username == head.username && it.jenis_otoritas == 'Data Barang').status,
                 active: false,
                 item: [
@@ -326,21 +260,6 @@ export default {
                     {title: 'Hapus Barang', key: 'hapus_barang', value: detail.find(it => it.jenis_otoritas == 'Hapus Barang' && it.username == head.username) == undefined ? 'false' : detail.find(it => it.jenis_otoritas == 'Hapus Barang' && it.username == head.username).status},
                 ]
             },
-            // {
-            //     title: 'Data Konversi Barang',
-            //     key: 'konversi_barang',
-            //     username: head.username,
-            //     // value: detail[i].status ? detail[i].status : 'false',
-            //     value: detail.find(it => it.username == head.username && it.jenis_otoritas == 'Data Konversi Barang') == undefined ? 'false' : detail.find(it => it.username == head.username && it.jenis_otoritas == 'Data Konversi Barang').status,
-            //     active: false,
-            //     item: [
-            //         {title: 'Tambah Konversi Baru', key: 'tambah_barang_baru', value: detail.find(it => it.jenis_otoritas == 'Tambah Konversi Baru' && it.username == head.username) == undefined ? 'false' : detail.find(it => it.jenis_otoritas == 'Tambah Konversi Baru' && it.username == head.username).status},
-            //         {title: 'Ubah Konversi', key: 'ubah_konversi', value: detail.find(it => it.jenis_otoritas == 'Ubah Konversi' && it.username == head.username) == undefined ? 'false' : detail.find(it => it.jenis_otoritas == 'Ubah Konversi' && it.username == head.username).status},
-            //         {title: 'Hapus Konversi', key: 'hapus_konversi', value: detail.find(it => it.jenis_otoritas == 'Hapus Konversi' && it.username == head.username) == undefined ? 'false' : detail.find(it => it.jenis_otoritas == 'Hapus Konversi' && it.username == head.username).status},
-            //     ]
-            // },
-        // }
-        // if(detail[i].jenis_otoritas == 'Data Pelanggan') {
             {
                 title: 'Data Pelanggan',
                 key: 'data_pelanggan',
@@ -353,25 +272,18 @@ export default {
                     {title: 'Hapus Pelanggan', key: 'hapus_pelanggan', value: detail.find(it => it.jenis_otoritas == 'Hapus Pelanggan' && it.username == head.username) == undefined ? 'false' : detail.find(it => it.jenis_otoritas == 'Hapus Pelanggan' && it.username == head.username).status},
                 ]
             },
-        // }
-        // if(detail[i].jenis_otoritas == 'Data Supplier') {
             {
                 title: 'Data Supplier',
                 key: 'data_supplier',
                 username: head.username,
                 value: detail.find(it => it.username == head.username && it.jenis_otoritas == 'Data Supplier') == undefined ? 'false' : detail.find(it => it.username == head.username && it.jenis_otoritas == 'Data Supplier').status,
             },
-        // }
-        // if(detail[i].jenis_otoritas == 'Data User') {
             {
                 title: 'Data User',
                 key: 'data_user',
                 username: head.username,
                 value: detail.find(it => it.username == head.username && it.jenis_otoritas == 'Data User') == undefined ? 'false' : detail.find(it => it.username == head.username && it.jenis_otoritas == 'Data User').status,
             },
-        // }
-        // if(detail[i].jenis_otoritas == 'Pembelian') {
-            // console.log(detail.find(it => it.jenis_otoritas == 'Persentase'));
             {
                 title: 'Pembelian',
                 key: 'pembelian',
@@ -384,8 +296,6 @@ export default {
                     {title: 'Persentase', key: 'persentase', value: detail.find(it => it.jenis_otoritas == 'Persentase' && it.username == head.username) != undefined ? detail.find(it => it.jenis_otoritas == 'Persentase' && it.username == head.username).status : 'false'},
                 ]
             },
-        // }
-        // if(detail[i].jenis_otoritas == 'Produksi') {
             {
                 title: 'Produksi',
                 key: 'produksi',
@@ -397,8 +307,6 @@ export default {
                     {title: 'Batal Produksi', key: 'batal_produksi', value: detail.find(it => it.jenis_otoritas == 'Batal Produksi' && it.username == head.username) == undefined ? 'false' : detail.find(it => it.jenis_otoritas == 'Batal Produksi' && it.username == head.username).status},
                 ]
             },
-        // }
-        // if(detail[i].jenis_otoritas == 'Penjualan') {
             {
                 title: 'Penjualan',
                 key: 'penjualan',
@@ -411,8 +319,6 @@ export default {
                     {title: 'Status Penjualan', key: 'status_penjualan', value: detail.find(it => it.jenis_otoritas == 'Status Penjualan' && it.username == head.username) == undefined ? 'false' : detail.find(it => it.jenis_otoritas == 'Status Penjualan' && it.username == head.username).status},
                 ]
             },
-        // }
-        // if(detail[i].jenis_otoritas == 'Pengiriman') {
             {
                 title: 'Pengiriman',
                 key: 'pengiriman',
@@ -427,8 +333,6 @@ export default {
                     {title: 'Alamat Bongkar', key: 'alamat_bongkar', value: detail.find(it => it.jenis_otoritas == 'Alamat Bongkar' && it.username == head.username) == undefined ? 'false' : detail.find(it => it.jenis_otoritas == 'Alamat Bongkar' && it.username == head.username).status},
                 ]
             },
-        // }
-        // if(detail[i].jenis_otoritas == 'Laporan') {
             {
                 title: 'Laporan',
                 key: 'laporan',
@@ -444,8 +348,6 @@ export default {
                     {title: 'Laporan Log User', key: 'laporan_log_user', value: detail.find(it => it.jenis_otoritas == 'Laporan Log User' && it.username == head.username) == undefined ? 'false' : detail.find(it => it.jenis_otoritas == 'Laporan Log User' && it.username == head.username).status},
                 ]
             },
-        // }
-        // if(detail[i].jenis_otoritas == 'Pengaturan Umum') {
             {
                 title: 'Pengaturan Umum',
                 key: 'pengaturan_umum',

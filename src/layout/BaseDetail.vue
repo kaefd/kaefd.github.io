@@ -13,7 +13,7 @@
                     </div>
                     <!-- HEAD -->
                     <slot name="header-content" :h_field="h_field">
-                        <div class="flex flex-col flex-wrap gap-y-2 gap-x-32 pt-1 w-full" :class="!d_field ? 'h-max' : 'h-max md:h-max lg:h-[40vh] xl:h-[23vh]'">
+                        <div class="flex flex-col flex-wrap gap-y-2 gap-x-32 pt-1 w-full" :class="!d_field ? 'h-max' : 'h-max md:h-max lg:h-[40vh] xl:h-[33vh]'">
                             <div v-for="fl in h_field">
                                 <div class="flex justify-between items-center md:w-72">
                                     <label class="w-[24%] break-normal">{{ fl.title }}</label>
