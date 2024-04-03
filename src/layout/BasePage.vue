@@ -123,7 +123,8 @@ import user from '@/views/master/data-user/user'
                 }
                 if(value.key == 'refresh') {
                     // let module = await import(/* @vite-ignore */`../views${path}/${k}.js`)
-                    return store().get(k)
+                    let data = await store().get(k)
+                    store().data.items = data
                 }
             },
             async resTable(value) {

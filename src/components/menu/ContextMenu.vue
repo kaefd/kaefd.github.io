@@ -1,7 +1,7 @@
 <template>
-    <div @click="close()" class="absolute top-0 left-0 bottom-0 right-0 h-screen w-screen z-[2]"></div>
+    <div v-if="isActive" @click="close()" class="absolute top-0 left-0 bottom-0 right-0 h-screen w-screen z-[2]"></div>
     <div class="absolute top-0 left-0 bottom-0 right-0 h-screen w-screen">
-        <div v-if="isActive && menuOpt" ref="boxMenu" class="absolute rounded w-48 min-h-12 space-y-1 text-sm shadow-full-xl p-2 z-[3]" :class="store().dark ? 'dark' : 'bg-white'"
+        <div v-if="isActive" ref="boxMenu" class="absolute rounded w-48 min-h-12 space-y-1 text-sm shadow-full-xl p-2 z-[3]" :class="store().dark ? 'dark' : 'bg-white'"
         :style="elementStyle">
             <slot name="menu-item" :menuOpt="menuOpt">
                 <div v-for="menu in menuOpt" @click="option(menu)"

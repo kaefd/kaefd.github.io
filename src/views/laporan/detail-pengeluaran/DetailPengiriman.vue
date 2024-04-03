@@ -1,13 +1,11 @@
 <template>
-    <div class="absolute top-0 left-0 w-full h-full">
-        <base-detail :config="config" @close="close" :h_items="h_items" :d_items="items">
-            <template #header-detail>
-                <button @click="close()">
-                    <i class="ri-arrow-left-line"></i>
-                </button>
-            </template>
-        </base-detail>
-    </div>
+    <base-detail :config="config" @close="close" :h_items="h_items" :d_items="[h_items]">
+        <template #header-detail>
+            <button @click="close()">
+                <i class="ri-arrow-left-line"></i>
+            </button>
+        </template>
+    </base-detail>
 </template>
 
 <script setup>

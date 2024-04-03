@@ -11,7 +11,8 @@
         </base-page>
          <!-- CUSTOM DETAIL -->
          <div v-if="open_detail">
-            <DetailPengiriman v-if="open_detail" :h_items="head" :h_field="h_field" @close="close" />
+            <!-- <DetailPengiriman v-if="open_detail" :h_items="head" :h_field="h_field" @close="close" /> -->
+            <DetailBarangPengeluaran v-if="open_detail" :h_items="head" :h_field="h_field" @close="close" />
          </div>
     </div>
 </template>
@@ -22,6 +23,7 @@ import { store } from '@/utils/store'
 import utils from '@/utils/utils'    
 import pengeluaran from './pengeluaran';
 import DetailPengiriman from './DetailPengiriman.vue';
+import DetailBarangPengeluaran from './DetailBarangPengeluaran.vue';
 </script>
 <script>
 export default {
@@ -46,8 +48,8 @@ export default {
                 },
                 fields: {
                     head: [
-                        {title: 'No Pengeluaran', key: 'no_penjualan', type: 'text', show: true, read: {show: true, disabled: true}, column: true, sort: 'desc'},
-                        {title: 'Tgl Keluar', key: 'tgl_penjualan', type: 'date', show: true, read: {show: true, disabled: true}, column: true, sort: 'desc'},
+                        // {title: 'No Pengeluaran', key: 'no_penjualan', type: 'text', show: true, read: {show: true, disabled: true}, column: true, sort: 'desc'},
+                        // {title: 'Tgl Keluar', key: 'tgl_penjualan', type: 'date', show: true, read: {show: true, disabled: true}, column: true, sort: 'desc'},
                         {title: 'Tipe Dokumen', key: 'tipe_dokumen', type: 'text', show: true, read: {show: true, disabled: true}, column: true, sort: 'desc'},
                         {title: 'No Dokumen', key: 'no_dokumen', type: 'text', show: true, read: {show: true, disabled: true}, column: true, sort: 'desc'},
                         {title: 'Kode Group', key: 'kode_group', type: 'text', show: true, read: {show: true, disabled: true}, column: true, sort: 'desc'},
@@ -55,17 +57,16 @@ export default {
                         {title: 'Nama Barang', key: 'nama_barang', type: 'text', show: true, read: {show: true, disabled: true}, column: true, sort: 'desc'},
                         {title: 'Jumlah', key: 'jumlah', type: 'number', show: true, read: {show: true, disabled: true}, column: true, sort: 'desc'},
                         {title: 'Status', key: 'status', type: 'text', show: false, read: {show: false, disabled: true}, column: true, sort: 'desc'},
-                        {title: 'Status', key: 'status_', type: 'text', show: true, read: {show: false, disabled: true}, create: {show: false, disabled: false}, column: true, sort: 'desc'},
+                        // {title: 'Status', key: 'status_', type: 'text', show: true, read: {show: false, disabled: true}, create: {show: false, disabled: false}, column: true, sort: 'desc'},
                     ],
                     detail: [
-                        {title: 'No Pengiriman', key: 'no_pengiriman', type: 'text', read: {show: true, disabled: true}, column: true, sort: 'asc'},
-                        {title: 'Tgl Pengiriman', key: 'tgl_pengiriman', type: 'date',  read: {show: true, disabled: true}, column: true, sort: 'desc'},
-                        {title: 'Pelanggan', key: 'pelanggan', type: 'text',  read: {show: true, disabled: true}, column: true, sort: 'desc'},
-                        {title: 'Tujuan Bongkar', key: 'tujuan_bongkar', type: 'text', show: '', sort: 'desc'},
-                        {title: 'Supir', key: 'supir', type: 'text',  read: {show: true, disabled: true}, column: true, sort: 'desc'},
-                        {title: 'No Polisi', key: 'no_polisi', type: 'text',  read: {show: true, disabled: true}, column: true, sort: 'desc'},
+                        {title: 'No Pengeluaran', key: 'no_penjualan', type: 'text', read: {show: true, disabled: true}, column: true, sort: 'asc'},
+                        {title: 'Tgl Pengeluaran', key: 'tgl_penjualan', type: 'date',  read: {show: true, disabled: true}, column: true, sort: 'desc'},
                         {title: 'Kode Barang', key: 'kode_barang', type: 'text',  read: {show: true, disabled: true}, column: true, sort: 'desc'},
-                        {title: 'Jumlah Terkirim', key: 'jumlah', type: 'number',  read: {show: true, disabled: true}, column: true, sort: 'desc'},
+                        {title: 'Nama Barang', key: 'nama_barang', type: 'text',  read: {show: true, disabled: true}, column: true, sort: 'desc'},
+                        {title: 'Jumlah', key: 'jumlah', type: 'number',  read: {show: true, disabled: true}, column: true, sort: 'desc'},
+                        {title: 'Jumlah Terkirim', key: 'jumlah_terkirim', type: 'number',  read: {show: true, disabled: true}, column: true, sort: 'desc'},
+                        {title: 'Belum Terkirim', key: 'blmterkirim', type: 'number',  read: {show: true, disabled: true}, column: true, sort: 'desc'},
                     ],
                 },
                 filter: [
@@ -82,8 +83,8 @@ export default {
                     ]},
                 ],
                 tbl_footer: [
-                    { title: 'Jumlah Terkirim', key: 'jumlah', type: 'number', show: false, read: {show: true, disabled: true}, create: {show: true, disabled: false} },
-                    { title: 'Jumlah Belum Terkirim', key: 'blmterkirim', type: 'number', default: 'blmterkirim',  show: false, read: {show: true, disabled: true}, create: {show: true, disabled: false} },
+                    { title: 'Jumlah Terkirim', key: 'jumlah_terkirim', type: 'number', show: false, read: {show: true, disabled: true}, create: {show: true, disabled: false} },
+                    { title: 'Jumlah Belum Terkirim', key: 'blmterkirim', type: 'number',  show: false, read: {show: true, disabled: true}, create: {show: true, disabled: false} },
                 ]
             }
         }
@@ -94,7 +95,6 @@ export default {
             if(!check) return this.$router.push('/')
             const data = await pengeluaran.pengeluaran(null, this.config.fields.head[0])
             store().data.items = data
-            console.log(data);
         },
         openDetail(item, header) {
             this.head = item

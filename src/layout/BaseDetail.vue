@@ -13,7 +13,7 @@
                     </div>
                     <!-- HEAD -->
                     <slot name="header-content" :h_field="h_field">
-                        <div class="flex flex-col flex-wrap gap-y-2 gap-x-32 pt-1 w-full" :class="!d_field ? 'h-max' : 'h-max md:h-max lg:h-[40vh] xl:h-[33vh]'">
+                        <div class="flex flex-col flex-wrap gap-y-2 gap-x-32 pt-1 w-full" :class="!d_field ? 'h-max' : 'h-max md:h-max lg:h-[45vh] xl:h-[33vh]'">
                             <div v-for="fl in h_field">
                                 <div class="flex justify-between items-center md:w-72">
                                     <label class="w-[24%] break-normal">{{ fl.title }}</label>
@@ -24,7 +24,7 @@
                     </slot>
                 </div>
                 <!-- DETAIL -->
-                <div v-if="d_field" class="rounded min-h-[350px] h-full overflow-auto p-3 flex flex-col justify-between animate__animated animate__fadeIn animate__faster" :class="store().dark ? 'dark' : 'bg-white'">
+                <div v-if="d_field" class="rounded min-h-[300px] h-full overflow-auto p-3 flex flex-col justify-between animate__animated animate__fadeIn animate__faster" :class="store().dark ? 'dark' : 'bg-white'">
                     <base-table :fields="config.fields.detail" :tbl_footer="config.tbl_footer" :filter="config.filter" :show_filter="false" :select_column="true" :export="false" :search="false" :items="d_items || detail_items" :permission="config.permission" @openDetail="resTable">
                         <template #body-row="items">
                             <slot name="rowtbl" :items="items.items" :header="items.header"></slot>
