@@ -27,7 +27,7 @@ export default {
                 },
                 fields: {
                     head: [
-                        {title: 'No Pengeluaran', key: 'no_penjualan', type: 'text', show: true, read: {show: true, disabled: true}, create: {show: true, disabled: true}, column: true, sort: 'desc' },
+                        {title: 'No Pengeluaran', key: 'no_penjualan', type: 'text', show: true, read: {show: true, disabled: true}, create: {show: true, disabled: true}, column: true, sort: 'asc' },
                         {title: 'Tgl Keluar', key: 'tgl_penjualan', type: 'date', show: true, read: {show: true, disabled: true}, create: {show: true, disabled: false}, column: true, sort: 'desc', rules: ['required', `date:min ${utils.last_month()}`, `date:max ${utils.today()}`]},
                         {title: 'Pelanggan', key: 'pelanggan', type: 'dialog', item: { point: 'nama', key: 'kode_pelanggan', endpoint: 'pelanggan', title: 'Data Pelanggan', child: false, left: ['nama'] }, show: true, read: {show: true, disabled: true}, create: {show: true, disabled: false}, column: true, sort: 'desc', rules: ['required'] },
                         {title: 'Tgl Dokumen', key: 'tgl_dokumen', type: 'date', show: true, read: {show: true, disabled: true}, create: {show: true, disabled: false}, column: true, sort: 'desc', rules: ['required', `date:min ${utils.last_month()}`, `date:max ${utils.today()}`]},

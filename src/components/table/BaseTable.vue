@@ -123,7 +123,17 @@
             else return this.tbl_footer.filter(item => item[store().state.action]?.show == true)
            },
            data_item() {
-             return this.search_ || this.filteredItem || this.items
+             let data = this.search_ || this.filteredItem || this.items
+             let sortKey = this.tableHeader[0].key
+             if(data != '') {
+                 return data?.slice().sort((a, b) => {
+                    let modifier = 1;
+                    if (!this.desc) modifier = -1;
+                    if (a[sortKey] < b[sortKey]) return -1 * modifier;
+                    if (a[sortKey] > b[sortKey]) return 1 * modifier;
+                    return 0;
+                })
+             } else return data
            }
         },
         methods: {
@@ -139,11 +149,11 @@
                     this.tableHeader.map(it => it.sort = it.key == data.key ? 'desc' : it.sort)
                 }
                 if(data.type != 'number') {
-                    if(this.desc) this.items.sort((a, b) => b[data.key].localeCompare(a[data.key]))
-                    else this.items.sort((a, b) => a[data.key].localeCompare(b[data.key]))
+                    if(this.desc) this.data_item.sort((a, b) => b[data.key].localeCompare(a[data.key]))
+                    else this.data_item.sort((a, b) => a[data.key].localeCompare(b[data.key]))
                 } else {
-                    if(this.desc) this.items.sort((a, b) => b[data.key] - (a[data.key]))
-                    else this.items.sort((a, b) => a[data.key] - (b[data.key]))
+                    if(this.desc) this.data_item.sort((a, b) => b[data.key] - (a[data.key]))
+                    else this.data_item.sort((a, b) => a[data.key] - (b[data.key]))
                 }
             },
             active(p) {

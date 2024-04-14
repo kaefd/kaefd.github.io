@@ -5,11 +5,12 @@ export default {
 	async pengeluaran(param, fl) {
 		let parameters = "";
 		if (param) parameters = param;
-		else
+		else {
 			parameters = {
 				tgl_awal: store().periode[0],
 				tgl_akhir: store().periode[1],
 			};
+		}
 		store().loading = true
 		let head = await api.getData("/penjualan_head", parameters);
 		let detail = await api.getData("/penjualan_detail", parameters);
@@ -62,12 +63,12 @@ export default {
 					if(it.no_dokumen == nopen[i]) return it.kode_group
 				}).filter(n => n != undefined))].toString(),
 				pelanggan: head.find(it => it.no_dokumen == nopen[i]).pelanggan,
-				kode_barang: head.map(it => {
+				kode_barang: [...new Set(head.map(it => {
 					if(it.no_dokumen == nopen[i]) return it.kode_barang
-				}).filter(n => n != undefined).toString(),
-				nama_barang: head.map(it => {
+				}).filter(n => n != undefined))].toString(),
+				nama_barang: [...new Set(head.map(it => {
 					if(it.no_dokumen == nopen[i]) return it.nama_barang
-				}).filter(n => n != undefined).toString(),
+				}).filter(n => n != undefined))].toString(),
 				no_urut: head.map(it => {
 					if(it.no_dokumen == nopen[i]) return it.no_urut
 				}).filter(n => n != undefined),
@@ -82,6 +83,12 @@ export default {
 				}).filter(n => n != undefined).reduce((accumulator, currentValue) => {
 					return accumulator + currentValue;
 				}, 0),
+				status: [...new Set(head.map(it => {
+					if(it.no_dokumen == nopen[i]) return it.status
+				}).filter(n => n != undefined))].toString(),
+				status_: [...new Set(head.map(it => {
+					if(it.no_dokumen == nopen[i]) return it.status_
+				}).filter(n => n != undefined))].toString(),
 			})
 			
 		}
@@ -95,6 +102,7 @@ export default {
 				no_penjualan: head.no_penjualan[i]
 			}
 			let urut = head.no_urut[i]
+			let h = await api.getData('penjualan_head/no_penjualan', param)
 			let item = await api.getData('penjualan_detail/no_penjualan', param)
 			for (let k = 0; k < urut.length; k++) {
 				data.push({
@@ -103,7 +111,7 @@ export default {
 					tgl_penjualan: head.tgl_penjualan[i],
 					tipe_dokumen: head.tipe_dokumen,
 					no_dokumen: head.no_dokumen,
-					kode_group: head.kode_group,
+					kode_group: h[0].kode_group,
 					kode_barang: item[k].kode_barang,
 					nama_barang: item[k].nama_barang,
 					jumlah: item[k].jumlah,
@@ -134,7 +142,7 @@ export default {
 				no_dokumen: pjl.find(p => p.no_penjualan == detail[i].no_penjualan).no_dokumen,
 				kode_group: pjl.find(p => p.no_penjualan == detail[i].no_penjualan).kode_group,
 				no_urut: h.no_urut,
-				tgl_pengiriman: head[0].no_pengiriman,
+				tgl_pengiriman: head[0].tgl_pengiriman,
 				supir: head[0].supir,
 				no_polisi: head[0].no_polisi,
 				pelanggan: pelanggan.find(p => p.kode_pelanggan == head[0].kode_pelanggan).nama,

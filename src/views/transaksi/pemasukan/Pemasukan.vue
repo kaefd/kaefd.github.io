@@ -38,7 +38,7 @@ export default {
                 },
                 fields: {
                     head: [
-                        { title: 'No Pemasukan', key: 'no_pembelian', type: 'text', show: true, read: {show: true, disabled: true}, create: {show: true, disabled: true}, column: true, sort: 'desc' },
+                        { title: 'No Pemasukan', key: 'no_pembelian', type: 'text', show: true, read: {show: true, disabled: true}, create: {show: true, disabled: true}, column: true, sort: 'asc' },
                         { title: 'Tgl Masuk', key: 'tgl_pembelian', type: 'date', show: true, read: {show: true, disabled: true}, create: {show: true, disabled: false}, column: true, sort: 'desc', rules: ['required', 'date:min ' + utils.last_month(), 'date:max ' + utils.today()] },
                         { title: 'Tgl Dokumen', key: 'tgl_dokumen', type: 'date', show: true, read: {show: true, disabled: true}, create: {show: true, disabled: false}, column: true, sort: 'desc', rules: ['required', 'date:min ' + utils.last_month(), 'date:max ' + utils.today()] },
                         { title: 'Tipe Dokumen', key: 'tipe_dokumen', show: true, type: 'option', item: [

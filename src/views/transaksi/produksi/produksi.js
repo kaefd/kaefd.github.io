@@ -20,18 +20,27 @@ export default {
         for (let i = 0; i < head.length; i++) {
 			let b = bahan.filter((item) => item.no_produksi == head[i].no_produksi);
 			let c = barang.filter((item) => item.no_produksi == head[i].no_produksi);
+			let kodebhn = [];
+			let jmlbhn = [];
 			let kodebrg = [];
 			let jml = [];
 			for (let j = 0; j < c.length; j++) {
 				kodebrg.push(c[j].kode_barang);
 				jml.push(c[j].jumlah);
 			}
+			for (let k = 0; k < b.length; k++) {
+				kodebhn.push(b[k].kode_barang);
+				jmlbhn.push(b[k].jumlah);
+			}
 			a.push({
 				no_produksi: head[i].no_produksi,
 				tgl_produksi: head[i].tgl_produksi,
 				kode_group: head[i].kode_group,
-				kode_bahan: b[0].kode_barang,
-				jumlah_bahan: b[0].jumlah,
+				kode_bahan: [...new Set(kodebhn)].toString(),
+				jumlah_bahan: jmlbhn.reduce(
+					(accumulator, currentValue) => accumulator + currentValue,
+					0
+				),
 				kode_barang: [...new Set(kodebrg)].toString(),
 				jumlah: jml.reduce(
 					(accumulator, currentValue) => accumulator + currentValue,

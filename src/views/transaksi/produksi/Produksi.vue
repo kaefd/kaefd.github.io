@@ -38,7 +38,7 @@ export default {
                 },
                 fields: {
                     head: [
-                        {title: 'No Produksi', key: 'no_produksi', type: 'text', show: true, read: {show: true, disabled: true}, create: {show: true, disabled: true}, column: true, sort: 'desc' },
+                        {title: 'No Produksi', key: 'no_produksi', type: 'text', show: true, read: {show: true, disabled: true}, create: {show: true, disabled: true}, column: true, sort: 'asc' },
                         {title: 'Tgl Produksi', key: 'tgl_produksi', type: 'date', show: true, read: {show: true, disabled: true}, create: {show: true, disabled: false}, column: true, sort: 'desc', rules: ['required', `date:min ${utils.last_month()}`, `date:max ${utils.today()}`]},
                         {title: 'Kode Group', key: 'kode_group', type: 'dialog', item: {point: 'kode_group', key: 'kode_group', item: [], title: 'Kode Group', child: false, left: ['kode_group']}, show: true, read: {show: true, disabled: true}, create: {show: true, disabled: false}, column: true, sort: 'desc', rules: ['required']},
                         {title: 'Bahan Baku', key: 'kode_bahan', type: 'dialog', rules: ['required kode_group', 'required'], item: {point: 'kode_barang', endpoint: 'group_barang?kode_group=', param: 'kode_group', title: 'Stok Barang', child: false, left: ['kode_barang'], right: ['stok_akhir']}, show: true, read: {show: true, disabled: true}, create: {show: true, disabled: false}, column: true, sort: 'desc'},

@@ -70,17 +70,16 @@ export default {
                         {title: 'Supir', key: 'supir', type: 'text', show: true, read: {show: true, disabled: true}, column: true, sort: 'desc'},
                         {title: 'No Polisi', key: 'no_polisi', type: 'text',  read: {show: true, disabled: true}, column: true, sort: 'desc'},
                         {title: 'Kode Barang', key: 'kode_barang', type: 'text',  read: {show: true, disabled: true}, column: true, sort: 'desc'},
-                        {title: 'Jumlah Terkirim', key: 'jumlah', type: 'number',  read: {show: true, disabled: true}, column: true, sort: 'desc'},
+                        {title: 'Jumlah', key: 'jumlah', type: 'number',  read: {show: true, disabled: true}, column: true, sort: 'desc'},
                     ],
                 },
                 filter: [
                     { title: 'Tanggal Awal', key: 'tgl_awal', type: 'date', show: true, default: store().periode[0], rules: ['date:max tgl_akhir'] },
                     { title: 'Tanggal Akhir', key: 'tgl_akhir', type: 'date', show: true, default: store().periode[1], rules: ['date:min tgl_awal', 'date:max ' + utils.today()] },
                 ],
-                // tbl_footer: [
-                //     { title: 'Jumlah', key: 'jumlah', type: 'number', show: false, read: {show: true, disabled: true}, create: {show: true, disabled: false} },
-                //     { title: 'Jumlah Konversi', key: 'jumlah_konversi', type: 'number', show: false, read: {show: true, disabled: true}, create: {show: true, disabled: false} },
-                // ]
+                tbl_footer: [
+                    { title: 'Jumlah', key: 'jumlah', type: 'number', show: false, read: {show: true, disabled: true}, create: {show: true, disabled: false} },
+                ]
             }
         }
     },
