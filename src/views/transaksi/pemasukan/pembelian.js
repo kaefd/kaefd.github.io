@@ -2,11 +2,12 @@ import router from "@/router";
 import alert from "@/utils/alert";
 import api from "@/utils/api";
 import { store } from "@/utils/store";
+import utils from "@/utils/utils";
 
 export default {
     async pembelian(param, fl) {
 		let parameters = "";
-		if (param) parameters = param;
+		if (store().param) parameters = store().param;
 		else
 			parameters = {
 				tgl_awal: store().periode[0],
@@ -19,7 +20,8 @@ export default {
 			(item.supplier = supplier.filter(
 				(it) => it.kode_supplier == item.kode_supplier
 			)[0]?.nama),
-			(item.rupiah = item.total_nilai * item.kurs)
+			(item.rupiah = item.total_nilai * item.kurs),
+			item.tanggal_masuk = utils.formatDate(item.tgl_pembelian)
 		});
 		store().loading = false;
 		return head;

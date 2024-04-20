@@ -30,7 +30,7 @@
 							<th class="w-max whitespace-pre-wrap px-3 font-medium text-left">
 								barang
 							</th>
-							<th class="w-max whitespace-pre-wrap px-3 font-medium text-left">
+							<th class="w-max whitespace-pre-wrap px-3 font-medium text-right">
 								qty
 							</th>
 							<th class="w-max whitespace-pre-wrap px-3 font-medium text-left">
@@ -42,7 +42,7 @@
 							<th class="w-max whitespace-pre-wrap px-3 font-medium text-left">
 								catatan
 							</th>
-							<th class="w-max whitespace-pre-wrap px-3 font-medium text-left">
+							<th class="w-max whitespace-pre-wrap px-3 font-medium text-right">
 								berat total (kg)
 							</th>
 						</tr>
@@ -53,7 +53,7 @@
 								{{ item.nama_konversi || item.nama_barang }}
 							</td>
 							<td
-								class="w-max whitespace-pre-wrap px-3 text-left">
+								class="w-max whitespace-pre-wrap px-3 text-right">
 								{{ utils.numb(item.jumlah_konversi) }}
 							</td>
 							<td class="w-max whitespace-pre-wrap px-3 text-left">
@@ -63,7 +63,7 @@
 								{{ item.keterangan }}
 							</td>
 							<td contenteditable class="w-max whitespace-pre-wrap px-3 text-left"></td>
-							<td class="w-max whitespace-pre-wrap px-3 text-left">
+							<td class="w-max whitespace-pre-wrap px-3 text-right">
 								{{ utils.numb(item.jumlah) }}
 							</td>
 						</tr>
@@ -71,22 +71,22 @@
 						<tr class="border-t border-b border-black">
 							<td></td>
 							<td
-								class="w-max whitespace-pre-wrap px-3 text-left font-semibold">
+								class="w-max whitespace-pre-wrap px-3 text-right font-semibold">
 								{{ utils.numb(sum("konversi")) }}
 							</td>
 							<td></td>
 							<td></td>
+							<td></td>
 							<td
-								class="w-max whitespace-pre-wrap px-3 text-left font-semibold">
+								class="w-max whitespace-pre-wrap px-3 text-right font-semibold">
 								{{ utils.numb(sum("jumlah")) }}
 							</td>
-							<td></td>
 						</tr>
 					</tbody>
 				</table>
 			</div>
 		</div>
-		<div class="w-full flex justify-between items-end mb-[25vh] capitalize">
+		<div class="w-full flex justify-between items-end mb-[25vh] capitalize text-sm">
 			<span>yang mengajukan</span>
 			<span>mengetahui</span>
 			<span>mengetahui</span>
@@ -209,8 +209,8 @@
 			visibility: visible;
 		}
 		.page {
-			width: 21cm;
-			height: 29cm;
+			width: 20cm;
+			height: 28cm;
 			box-shadow: none !important;
 			font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
             visibility: visible;

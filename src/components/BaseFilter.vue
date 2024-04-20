@@ -158,18 +158,21 @@
                                     tanggal: nw_ft.tanggal,
                                     kode_group: nw_ft.kode_group
                                 }
+                                store().param = param
                                 let data = await store().get(k, param)
                                 store().data.items = data
                             } else if (nw_ft.kode_group != 'semua') {
                                 let param = {
                                     kode_group: nw_ft.kode_group
                                 }
+                                store().param = param
                                 let data = await store().get(k, param)
                                 store().data.items = data
                             } else if (nw_ft.tanggal) {
                                 let param = {
                                     tanggal: nw_ft.tanggal
                                 }
+                                store().param = param
                                 let data = await store().get(k, param)
                                 store().data.items = data
                             } else {

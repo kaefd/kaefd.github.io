@@ -47,6 +47,8 @@ export default {
                                 ]
                             }, show: otoritas.check('Alamat Bongkar'), read: {show: otoritas.check('Alamat Bongkar'), disabled: true}, create: {show: true, disabled: false}, column: otoritas.check('Alamat Bongkar'), sort: 'desc', rules: ['required']
                         },
+                        { title: 'Kode Barang', key: 'kode_barang', type: 'text', show: true, read: {show: true, disabled: true}, create: {show: true, disabled: false}, column: true, dialog: true, sort: 'desc' },
+                        { title: 'Jumlah', key: 'jumlah', type: 'number', show: true, read: {show: true, disabled: true}, create: {show: true, disabled: false}, column: true, dialog: true, sort: 'desc' },
                         { title: 'Supir', key: 'supir', type: 'text', show: true, read: {show: true, disabled: true}, create: {show: true, disabled: false}, column: true, sort: 'desc', rules: ['required'] },
                         { title: 'No Polisi', key: 'no_polisi', type: 'text', show: true, read: {show: true, disabled: true}, create: {show: true, disabled: false}, column: true, sort: 'desc', rules: ['required'] },
                     ],

@@ -1,11 +1,11 @@
 <template #dokumen>
-    <div class="page bg-white text-black hover:shadow-2xl p-3 flex flex-col items-center gap-y-2">
+    <div class="page tnr bg-white text-black hover:shadow-2xl p-3 flex flex-col items-center gap-y-2">
         <!-- title -->
         <div class="w-full flex flex-col items-center">
-            <span class="font-semibold text-lg uppercase">pt. auri steel metalindo</span>
+            <span class="font-semibold text-[16px] uppercase">pt. auri steel metalindo</span>
             <div class="w-full border border-black my-1"></div>
-            <span class="font-semibold text-lg uppercase">surat jalan</span>
-            <div class="w-full flex justify-between text-[10.5pt]">
+            <span class="font-semibold text-[16px] uppercase">surat jalan</span>
+            <div class="w-full flex justify-between text-sm">
                 <div class="flex gap-x-2">
                     <span class="uppercase">penerima : </span>
                     <div class="flex flex-col gap-y-0">
@@ -31,24 +31,24 @@
         </div>
         <div class="w-full h-[180px] min-h-max">
             <table class="w-full">
-                <thead class="border-b border-black">
-                    <tr class="w-full capitalize">
-                        <th class="w-max whitespace-pre-wrap px-3 font-medium text-left">no</th>
-                        <th class="w-max whitespace-pre-wrap px-3 font-medium text-left">nama barang</th>
-                        <th class="w-max whitespace-pre-wrap px-3 font-medium text-left">qty</th>
-                        <th class="w-max whitespace-pre-wrap px-3 font-medium text-left">satuan</th>
-                        <th class="w-max whitespace-pre-wrap px-3 font-medium text-left">berat(Kg)</th>
-                        <th class="w-max whitespace-pre-wrap px-3 font-medium text-left">keterangan(Ex.BC)</th>
+                <thead class="border-b border-black text-[15px]">
+                    <tr class="w-full capitalize font-semibold">
+                        <th class="w-max whitespace-pre-wrap px-3 text-left">no</th>
+                        <th class="w-max whitespace-pre-wrap px-3 text-left">nama barang</th>
+                        <th class="w-max whitespace-pre-wrap px-3 text-right">qty</th>
+                        <th class="w-max whitespace-pre-wrap px-3 text-left">satuan</th>
+                        <th class="w-max whitespace-pre-wrap px-3 text-right">berat(Kg)</th>
+                        <th class="w-max whitespace-pre-wrap px-3 text-left">keterangan(Ex.BC)</th>
                     </tr>
                 </thead>
-                <tbody class="w-full">
+                <tbody class="w-full text-[15px]">
                     <tr v-for="(item, i) in dataitem" class="w-full">
                         <td class="w-max whitespace-pre-wrap px-3 text-left">{{ i + 1 }}</td>
                         <td class="w-max whitespace-pre-wrap px-3 text-left">{{ item.nama_barang }}</td>
-                        <td class="w-max whitespace-pre-wrap px-3 text-left">{{
+                        <td class="w-max whitespace-pre-wrap px-3 text-right">{{
                             utils.numb(item.jumlah_konversi) }}</td>
                         <td class="w-max whitespace-pre-wrap px-3 text-left">{{ item.satuan_konversi }}</td>
-                        <td class="w-max whitespace-pre-wrap px-3 text-left">{{ utils.numb(item.jumlah) }}</td>
+                        <td class="w-max whitespace-pre-wrap px-3 text-right">{{ utils.numb(item.jumlah) }}</td>
                         <td class="max-w-[400px] whitespace-pre-wrap px-3 text-left">
                             <span>{{ item.nopen }}</span>
                         </td>
@@ -59,29 +59,29 @@
                         <td></td>
                         <!-- <td class="w-max whitespace-pre-wrap px-3 text-left font-semibold">{{ utils.numb(sum('konversi')) }}</td> -->
                         <td></td>
-                        <td class="w-max whitespace-pre-wrap px-3 text-left font-semibold">{{ utils.numb(sum('jumlah')) }}
+                        <td class="w-max whitespace-pre-wrap px-3 text-right font-semibold">{{ utils.numb(sum('jumlah')) }}
                         </td>
                         <td></td>
                     </tr>
                 </tbody>
             </table>
         </div>
-        <div class="w-full flex flex-col -mt-5">
-            <span>keterangan :</span>
+        <div class="w-full flex flex-col -mt-5 text-sm">
+            <span>Keterangan :</span>
             <span class="ms-3">
                 1. Surat Jalan ini merupakan bukti penerimaan barang <br>
                 2. Surat Jalan ini bukan bukti penjualan (Faktur/Invoice)
             </span>
             <span>Barang sudah diterima dalam keadaan Baik dan Cukup oleh :</span>
         </div>
-        <div class="w-full flex justify-between items-end mt-[2%]">
+        <div class="w-full flex justify-between items-end mt-[2%] text-xs">
             <span>(Penerima)</span>
             <span>(Supir)</span>
             <span>(Bag. Gudang)</span>
             <span>(Bag. Exim)</span>
         </div>
-        <div class="onlyPrinted flex w-full justify-end">
-            <span class="italic text-[14px]">Print by: {{ `${user} / ${utils.formatDate(utils.today())} ${utils.TimeNow()}` }}</span>
+        <div class="onlyPrinte flex w-full justify-end -mt-2">
+            <span class="italic text-xs">Print by: {{ `${user} / ${utils.formatDate(utils.today())} ${utils.TimeNow()}` }}</span>
         </div>
     </div>
 </template>
@@ -142,7 +142,7 @@ export default {
                                 kode.push(
                                     this.detail[j].no_dokumen +
                                         "/" +
-                                        this.detail[j].tipe_dokumen.slice(2, 4) + ' '
+                                        this.detail[j].tipe_dokumen.slice(2, 4)
                                 );
                                 jumlah.push(this.detail[j].jumlah);
                                 konversi.push(this.detail[j].jumlah_konversi);
@@ -160,7 +160,7 @@ export default {
                                 (accumulator, currentValue) => accumulator + currentValue,
                                 0
                             ),
-                            nopen: [...new Set(kode)].toString(),
+                            nopen: ([...new Set(kode)].toString()).replaceAll(",", ", "),
                         });
                     }
                     return k;
@@ -173,8 +173,11 @@ export default {
 }
 </script>
 <style scoped>
+.tnr {
+    font-family: Arial, Helvetica, sans-serif !important;
+}
 .page {
-    width: 21cm;
+    width: 20cm;
     height: 12cm;
 }
 .onlyPrinted {

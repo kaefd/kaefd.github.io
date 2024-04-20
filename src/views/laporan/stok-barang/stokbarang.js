@@ -9,9 +9,12 @@ export default {
     async stokbarang (param) {
         // if(param.tgl_awal) return this.logBarang()
         store().loading = true
-        let url = param && param.tanggal ? 'group_barang/tanggal' : '/group_barang'
+        // if(param && param.tanggal) store().tgl = param.tanggal
+        let url = store().param && store().param.tanggal ? 'group_barang/tanggal' : 'group_barang'
         let barang = await api.getData('/barang?status=true')
-        let group = await api.getData(url, param)
+        let group = await api.getData(url, store().param)
+        console.log(url);
+        console.log(store().param);
         if(!group) {
             setTimeout(() => {
 				router.go()
@@ -40,9 +43,17 @@ export default {
         let barang = await api.getData('/barang?status=true')
 
 		for (let i = 0; i < detail.length; i++) {
-			let h = await api.getData(`group_barang?kode_group=${detail[i]}&kode_barang=${head.kode_barang}`)
+            let param = ''
+            if(store().param.tanggal) {
+                param = {
+                    tanggal: store().param.tanggal,
+                    kode_group: detail[i],
+                    kode_barang: head.kode_barang
+                }
+            }
+			let h = param == '' ? await api.getData(`group_barang?kode_group=${detail[i]}&kode_barang=${head.kode_barang}`) : await api.getData('group_barang/tanggal', param)
 			data.push({
-				kode_group: h[0].kode_group,
+				kode_group: h[0]?.kode_group,
 				kategori_barang: barang.find(b => b.kode_barang == h[0].kode_barang).kategori_barang,
 				kode_barang: h[0].kode_barang,
 				nama_barang: barang.find(b => b.kode_barang == h[0].kode_barang).nama_barang,

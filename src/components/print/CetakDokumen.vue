@@ -1,7 +1,7 @@
 <template>
     <div class="hddn w-full h-full absolute top-0 left-0 z-10" :class="store().dark ? 'bg-dark-base' : 'bg-base'">
         <div class="hddn rounded h-full animate__animated animate__fadeIn animate__faster">
-            <div class="bodyp hddn bg-scrim p-3 flex items-center justify-between text-lg md:text-xl">
+            <div class="bodyp hddn bg-scrim fixed w-full p-3 flex items-center justify-between text-lg md:text-xl">
                 <div class="hddn flex space-x-3">
                     <button @click="close()">
                         <i class="ri-arrow-left-line"></i>
@@ -12,7 +12,7 @@
                     <i class="ri-printer-line"></i>
                 </button>
             </div>
-            <div id="print" class="w-full h-full flex justify-center py-10 overflow-auto">
+            <div id="print" class="w-full h-full flex justify-center pt-16 overflow-auto">
                 <div class="page w-screen md:w-max h-max">
                     <slot name="dokumen"></slot>
                 </div>
@@ -52,8 +52,8 @@ export default {
     margin: 0 !important;
 } */
 .page {
-    width: 20cm;
-    height: 11cm;
+    /* width: 20cm;
+    height: 11cm; */
     width: unset !important;
     border: none;
     box-shadow: none !important;

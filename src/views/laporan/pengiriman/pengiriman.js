@@ -14,6 +14,7 @@ export default {
 			};
 		store().loading = true;
 		let head = await api.getData("/pengiriman_head", parameters);
+		let detail = await api.getData("/pengiriman_detail", parameters);
 		let bongkar = await api.getData("/alamat_bongkar");
 		let pelanggan = await api.getData("/pelanggan");
 		head.map((item) => {
@@ -28,7 +29,9 @@ export default {
 			)[0].kabupaten),
 				(item.pelanggan = pelanggan.filter(
 					(p) => p.kode_pelanggan == item.kode_pelanggan
-				)[0].nama);
+				)[0].nama),
+			item.kode_barang = [...new Set(detail.filter(d => d.no_pengiriman == item.no_pengiriman).map(dm => dm.kode_barang))].toString()
+			item.jumlah = detail.filter(d => d.no_pengiriman == item.no_pengiriman).map(dm => dm.jumlah).reduce((accumulator, currentValue) => accumulator + currentValue, 0)
 		});
 		store().loading = false;
 		return head;

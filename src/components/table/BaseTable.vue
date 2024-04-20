@@ -124,8 +124,8 @@
            },
            data_item() {
              let data = this.search_ || this.filteredItem || this.items
-             let sortKey = this.tableHeader[0].key
-             if(data != '') {
+             let sortKey = this.tableHeader[0]?.key
+             if(data != '' && sortKey) {
                  return data?.slice().sort((a, b) => {
                     let modifier = 1;
                     if (!this.desc) modifier = -1;

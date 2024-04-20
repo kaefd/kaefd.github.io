@@ -14,7 +14,7 @@
                     <base-input type="search" variant="tonal" @search="searched"></base-input>
                 </div>
                 <div class="w-full h-full mx-auto overflow-auto" >
-                    <div v-for="data in content" @click="pick(data)" class="flex justify-between items-center min-h-10 h-max px-3 rounded cursor-pointer" :class="store().dark ? 'hover:bg-dark-hover' : 'hover:bg-slate-50'">
+                    <div v-for="data in content" @click="pick(data)" class="flex justify-between items-center min-h-10 h-max px-3 rounded cursor-pointer overflow-auto no-scrollbar" :class="store().dark ? 'hover:bg-dark-hover' : 'hover:bg-slate-50'">
                         <!-- leftSide -->
                         <div v-if="data_dialog.left">
                             <slot name="left" :data_left="data">

@@ -52,7 +52,7 @@ export default {
                 fields: {
                     head: [
                         { title: 'No Pengiriman', key: 'no_pengiriman', type: 'text', show: true, read: {show: true, disabled: true}, create: {show: true, disabled: false}, column: true, sort: 'asc', rules: ['required'] },
-                        { title: 'Tgl Pengiriman', key: 'tgl_pengiriman', type: 'date', show: true, read: {show: true, disabled: true}, create: {show: true, disabled: false}, column: true, sort: 'desc', rules: ['required', `date:min ${utils.last_month()}`, `date:max ${utils.today()}`] },
+                        { title: 'Tgl Pengiriman', key: 'tgl_pengiriman', type: 'date', show: true, read: {show: true, disabled: true}, create: {show: true, disabled: false}, column: true, sort: 'desc', rules: ['required', 'date:min ' + utils.last_month(), 'date:max ' + utils.today()] },
                         { title: 'Pelanggan', key: 'pelanggan', type: 'dialog', item: { point: 'nama', key: 'kode_pelanggan', endpoint: 'pelanggan', title: 'Data Pelanggan', child: false, left: ['nama'] }, show: true, read: {show: true, disabled: true}, create: {show: true, disabled: false}, column: true, sort: 'desc', rules: ['required'] },
                         {
                             title: 'Tujuan Bongkar', key: 'tujuan_bongkar', type: 'dialog', item: {

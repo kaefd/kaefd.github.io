@@ -2,7 +2,7 @@
     <div @contextmenu.prevent="context($event)" class="absolute overflow-x-hidden bottom-0 right-0 w-full h-full text-sm" :class="store().dark ? 'bg-dark-base' : 'bg-base'">
         <div class="w-[95%] mx-auto flex flex-col gap-y-3 h-full md:pb-3">
             <slot name="full-content">
-                <div class="mt-5 p-5 z-[1] rounded flex flex-col flex-wrap gap-y-5 animate__animated animate__fadeIn animate__faster"  :class="store().dialog ? (store().dark ? 'dark' : 'bg-white') : (store().dark ? 'dark' : 'bg-white'), d_field ? 'h-fit' : 'h-full'">
+                <div class=" mt-5 p-5 z-[1] rounded flex flex-col flex-wrap gap-y-5 animate__animated animate__fadeIn animate__faster"  :class="store().dialog ? (store().dark ? 'dark' : 'bg-white') : (store().dark ? 'dark' : 'bg-white'), d_field ? 'h-fit' : 'h-full'">
                     <div class="flex items-center space-x-3 text-[1.12rem]">
                         <slot name="header-detail">
                             <button @click="close('detail')">
@@ -13,8 +13,8 @@
                     </div>
                     <!-- HEAD -->
                     <slot name="header-content" :h_field="h_field">
-                        <div class="flex flex-col flex-wrap gap-y-2 gap-x-32 pt-1 w-full" :class="!d_field ? 'h-max' : 'h-max md:h-max lg:h-[45vh] xl:h-[33vh] 2xl:h-[26vh]'">
-                            <div v-for="fl in h_field">
+                        <div class="flex flex-col flex-wrap gap-y-2 pt-1 w-full" :class="!d_field ? 'h-max' : 'h-max md:h-max lg:h-[45vh] xl:h-[33vh] 2xl:h-[26vh]'">
+                            <div v-for="fl in h_field" class="w-fit">
                                 <div class="flex justify-between items-center md:w-72">
                                     <label class="w-[24%] break-normal">{{ fl.title }}</label>
                                     <base-input :type="fl.type"  :option="fl.item" :value="h_items[fl.key]" :fl_item="fl.item" :default="fl.default" :rules="fl.rules" :label="fl.key" :allItems="dataitem" :keys="fl.key" @input="input" :disabled="fl[store().state.action].disabled"></base-input>
