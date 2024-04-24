@@ -6,6 +6,6 @@ const mode = {
     // ROUTER MODE
     // webHash => '#/'
     // webHistory => '/'
-    routeMode: 'webHistory'
+    routeMode: 'webHash'
 }
 export default mode
