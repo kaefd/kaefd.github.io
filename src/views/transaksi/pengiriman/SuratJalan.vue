@@ -2,9 +2,9 @@
     <div class="page tnr bg-white text-black hover:shadow-2xl p-3 flex flex-col items-center gap-y-2">
         <!-- title -->
         <div class="w-full flex flex-col items-center">
-            <span class="font-semibold text-[16px] uppercase">pt. auri steel metalindo</span>
+            <span class="font-semibold text-[17px] uppercase">pt. auri steel metalindo</span>
             <div class="w-full border border-black my-1"></div>
-            <span class="font-semibold text-[16px] uppercase">surat jalan</span>
+            <span class="font-semibold text-[17px] uppercase">surat jalan</span>
             <div class="w-full flex justify-between text-sm">
                 <div class="flex gap-x-2">
                     <span class="uppercase">penerima : </span>
@@ -74,7 +74,7 @@
             </span>
             <span>Barang sudah diterima dalam keadaan Baik dan Cukup oleh :</span>
         </div>
-        <div class="w-full flex justify-between items-end mt-[2%] text-xs">
+        <div class="w-full flex justify-between items-end mt-[4%] text-xs">
             <span>(Penerima)</span>
             <span>(Supir)</span>
             <span>(Bag. Gudang)</span>

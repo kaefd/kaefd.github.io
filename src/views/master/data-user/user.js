@@ -15,7 +15,14 @@ export default {
         let data = []
         let newData = []
             for (let i = 0; i < head.length; i++) {
-                        newData.push({
+                        newData.push(
+                        {
+                            title: 'Dashboard',
+                            key: 'dashboard',
+                            username: head[i].username,
+                            value: detail.find(it => it.username == head[i].username && it.jenis_otoritas == 'Dashboard') == undefined ? 'false' : detail.find(it => it.username == head[i].username && it.jenis_otoritas == 'Dashboard').status,
+                        },
+                        {
                             title: 'Data Barang',
                             key: 'data_barang',
                             username: head[i].username,
@@ -133,7 +140,14 @@ export default {
     },
     beforeCreate() {
         let newData = []
-        newData.push({
+        newData.push(
+        {
+            title: 'Dashboard',
+            key: 'dashboard',
+            username: false,
+            value: false,
+        },
+        {
             title: 'Data Barang',
             key: 'data_barang',
             username: '',
@@ -250,6 +264,12 @@ export default {
     async getDetail(head) {
         let detail = await api.getData('user_otoritas', {username: head.username})
         let res = [
+            {
+                title: 'Dashboard',
+                key: 'dashboard',
+                username: head.username,
+                value: detail.find(it => it.username == head.username && it.jenis_otoritas == 'Dashboard') == undefined ? 'false' : detail.find(it => it.username == head.username && it.jenis_otoritas == 'Dashboard').status,
+            },
             {
                 title: 'Data Barang',
                 key: 'data_barang',

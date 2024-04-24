@@ -9,7 +9,11 @@ export default {
 		return result;
 	},
 	groupCheck(o) {
-		if (o == "Dashboard") return true;
+		if (o == "Dashboard") {
+			let data = otoritas.filter((item) => item.jenis_otoritas == "Dashboard")
+			if (data != "") return true;
+			else return false;
+		}
 		else if (o == "Master") {
 			let data = otoritas.filter(
 			    (item) =>

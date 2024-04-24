@@ -133,7 +133,7 @@ export default {
                 headers: { csrf: response }
             })
             localStorage.setItem('otoritas', JSON.stringify(d.data))
-            if(d) window.location.href = '/'
+            if(d) window.location.href = '/inventori'
         },
         forget() {
             alert.warning(null, 'silakan hubungi administrator')
@@ -141,8 +141,8 @@ export default {
 
     },
     mounted() {
-        // localStorage.removeItem('token')
-        // localStorage.removeItem('user')
+        localStorage.removeItem('otoritas')
+        localStorage.removeItem('session')
     },
 }
 </script>

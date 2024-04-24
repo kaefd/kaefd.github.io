@@ -44,7 +44,7 @@ export default {
                         {title: 'No Dokumen', key: 'no_dokumen', type: 'text', show: true, read: {show: true, disabled: true}, create: {show: true, disabled: false}, column: true, sort: 'desc', rules: ['required']},
                         {title: 'Total Penjualan', key: 'total_penjualan', type: 'number', show: true, read: {show: false, disabled: true}, create: {show: false, disabled: false}, column: true, sort: 'desc', rules: ['required']},
                         {title: 'Status', key: 'status', type: 'text', show: false, read: {show: false, disabled: true}, create: {show: false, disabled: false}, column: true, sort: 'desc'},
-                        {title: 'Status', key: 'status_', type: 'text', show: true, read: {show: false, disabled: true}, create: {show: false, disabled: false}, column: true, sort: 'desc'},
+                        {title: 'Status', key: 'status_', type: 'text', show: otoritas.check('Status Penjualan'), read: {show: false, disabled: true}, create: {show: false, disabled: false}, column: true, sort: 'desc'},
                     ],
                     detail: [
                         {title: 'Kode Barang', key: 'kode_barang', type: 'text', read: {show: true, disabled: true}, create: {show: true, disabled: false}, column: true, dialog: true,},
@@ -71,7 +71,7 @@ export default {
                         {title: 'BC25', key: 'BC25', value: true},
                         {title: 'BC41', key: 'BC41', value: true},
                     ]},
-                    { title: 'Status', key: 'status', show: true, type: 'option', rules: ['required'], default: {title: 'semua', key: 'semua', value: true}, item: [
+                    { title: 'Status', key: 'status', show: otoritas.check('Status Penjualan'), type: 'option', rules: ['required'], default: {title: 'semua', key: 'semua', value: true}, item: [
                         {title: 'Semua', key: 'semua'},
                         {title: 'Menunggu', key: 'open'},
                         {title: 'Selesai', key: 'close'},

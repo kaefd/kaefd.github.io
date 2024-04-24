@@ -82,7 +82,7 @@ export default {
                         {title: 'BC25', key: 'BC25', value: true},
                         {title: 'BC41', key: 'BC41', value: true},
                     ]},
-                    { title: 'Status', key: 'status', show: true, type: 'option', rules: ['required'], default: {title: 'semua', key: 'semua', value: true}, item: [
+                    { title: 'Status', key: 'status', show: otoritas.check('Status Penjualan'), type: 'option', rules: ['required'], default: {title: 'semua', key: 'semua', value: true}, item: [
                         {title: 'Semua', key: 'semua'},
                         {title: 'Menunggu', key: 'open'},
                         {title: 'Selesai', key: 'close'},

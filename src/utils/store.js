@@ -21,6 +21,7 @@ export const store = defineStore('store', {
         return {
             nav: false,
             dark: false,
+            filter: undefined,
             periode: [utils.last_month(), utils.today()],
             state: {},
             data: {}
@@ -32,6 +33,7 @@ export const store = defineStore('store', {
         },
         init() {
             this.resetPeriode()
+            this.filter = undefined,
             this.state = {
                 action: 'read',
                 data: {}
@@ -40,6 +42,8 @@ export const store = defineStore('store', {
         resetState() {
             this.data = {}
             this.state = {}
+            this.filter = undefined
+
         },
         async get(k, data) {
             let path = router.currentRoute.value.path

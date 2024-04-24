@@ -48,6 +48,7 @@ import dashboard from './dashboard'
 import utils from '@/utils/utils'
 import {store} from '@/utils/store'
 import stokbarang from '@/views/laporan/stok-barang/stokbarang'
+import otoritas from '@/router/otoritas'
 </script>
 <script>
 export default {
@@ -107,6 +108,14 @@ export default {
             this.activeData = value
             this.updateChart()
         },
+        init() {
+            const check = otoritas.check("Dashboard")
+            if(check) {
+                this.updateChart()
+                this.get()
+                this.chartData()
+            } else return this.$router.push('master/data-barang')
+        },
         async get () {
             this.items = await stokbarang.stokbarang()
             store().data.items = this.items
@@ -121,8 +130,8 @@ export default {
                 this.cards[i].content = utils.numb(item[i].sum)
             }
         },
-        async updateChart() {
-            this.chart = await dashboard.chart(this.activeData.chart, this.periode)
+        updateChart() {
+            this.chart = dashboard.chart(this.activeData.chart, this.periode)
         },
         dateInput (val) {
             const m = val.value.month + 1
@@ -157,15 +166,13 @@ export default {
         // this.periode = store().periode
         this.mth = awal
         this.active(this.cards[0])
-        this.updateChart()
     },
     mounted() {
+        this.init()
         store().TopBar = true
         store().AppBar = true
         store().init()
         store().loading = true
-        this.chartData()
-        this.get()
     }
 }
 </script>
