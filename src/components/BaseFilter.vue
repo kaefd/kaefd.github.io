@@ -184,7 +184,7 @@
                             // mecari item yang memiliki value 'semua'
                             const filteredObject = Object.fromEntries(
                                 Object.entries(nw_ft).filter(([key, value]) => {
-                                    return value.includes('semua') || key.includes('tanggal')
+                                    return value.includes('semua') || key.includes('tanggal') || value.includes('undefined')
                                 })
                             )
                             // hapus item
@@ -195,14 +195,18 @@
                                 }
                             });
                             // filter data by kriteria
-                            const filteredData = store().data.items.filter(item => {
-                                return Object.keys(nw_ft).every(key => {
-                                    if (!nw_ft[key].length) {
-                                        return true;
-                                    }
-                                    return nw_ft[key].includes(item[key]);
-                                });
-                            });
+                            // const filteredData = store().data.items.filter(item => {
+                            //     return Object.keys(nw_ft).every(key => {
+                            //         if (!nw_ft[key].length) {
+                            //             return true;
+                            //         }
+                            //         return nw_ft[key].includes(item[key]);
+                            //     });
+                            // });
+                            // console.log(nw_ft);
+                            store().filter = nw_ft
+                            const filteredData = await store().get(k, nw_ft)
+                            // store().filter = nw_ft
                             store().data.items = filteredData
                         }
                     }
@@ -218,6 +222,8 @@
                 }
                 if(this.filter) {
                     store().resetPeriode()
+                    store().param = undefined
+                    store().filter = undefined
                     this.data_filter = {},
                     this.checkbox = {},
                     this.change = false

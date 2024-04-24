@@ -1,7 +1,7 @@
 <template>
     <div v-if="isActive" @click="close()" class="absolute top-0 left-0 bottom-0 right-0 h-screen w-screen z-[2]"></div>
     <div class="absolute top-0 left-0 bottom-0 right-0 h-screen w-screen">
-        <div v-if="isActive" ref="boxMenu" class="absolute rounded w-48 min-h-12 space-y-1 text-sm shadow-full-xl p-2 z-[3]" :class="store().dark ? 'dark' : 'bg-white'"
+        <div v-if="isActive && menuOpt" ref="boxMenu" class="absolute rounded w-48 min-h-12 space-y-1 text-sm shadow-full-xl p-2 z-[3]" :class="store().dark ? 'dark' : 'bg-white'"
         :style="elementStyle">
             <slot name="menu-item" :menuOpt="menuOpt">
                 <div v-for="menu in menuOpt" @click="option(menu)"
@@ -45,16 +45,11 @@ export default {
         menuOpt () {
             if(store().state.action == 'read') {
                 this.refresh = true
-                if(store().single_detail != '' && store().single_detail != undefined) return this.items
+                if(store().single_detail != '' && store().single_detail != undefined) return this.items || []
                 else if(this.items) return this.items.filter(item => item.key != 'edit' && item.key != 'delete' && item.key != 'cetak_suratjalan' && item.key != 'cetak_do')
             }
             if(store().state.action == 'create') {
                 this.refresh = false
-                // let menu = [
-                //     {title: 'Tambah detail', key: 'create_detail'},
-                //     {title: 'Edit detail', key: 'edit_detail'},
-                //     {title: 'Hapus detail', key: 'delete_detail'},
-                // ]
                 if(store().single_detail && store().single_detail != '') return this.items
                 else return this.items?.slice(0,1)
             }
@@ -64,7 +59,6 @@ export default {
             }
             else {
                 this.refresh = true
-                // if(store().state.title == 'Data User') return store().state.permission.filter(p => p.key != 'lihat')
                 return this.items
             }
         }

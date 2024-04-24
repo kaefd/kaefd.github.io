@@ -2,6 +2,7 @@ import api from '@/utils/api'
 import utils from '@/utils/utils'
 import {store} from '@/utils/store'
 import router from '@/router'
+import filter from '@/utils/filter'
 export default {
     kodeg(v) {
         return v
@@ -13,8 +14,6 @@ export default {
         let url = store().param && store().param.tanggal ? 'group_barang/tanggal' : 'group_barang'
         let barang = await api.getData('/barang?status=true')
         let group = await api.getData(url, store().param)
-        console.log(url);
-        console.log(store().param);
         if(!group) {
             setTimeout(() => {
 				router.go()
@@ -33,8 +32,10 @@ export default {
             item.kode_group = [...new Set(kode)]
         })
         let newBrg = barang.filter(item => item.stok_akhir != 0)
+        const nw_ft = store().filter
+        let filteredData = nw_ft ? filter.ft_object(nw_ft, newBrg) : newBrg
         store().loading = false
-        return newBrg
+        return await filteredData
     },
     async getDetail(head) {
         store().loading = true
@@ -44,7 +45,7 @@ export default {
 
 		for (let i = 0; i < detail.length; i++) {
             let param = ''
-            if(store().param.tanggal) {
+            if(store().param?.tanggal) {
                 param = {
                     tanggal: store().param.tanggal,
                     kode_group: detail[i],

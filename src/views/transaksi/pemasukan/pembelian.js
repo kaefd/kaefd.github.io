@@ -1,6 +1,7 @@
 import router from "@/router";
 import alert from "@/utils/alert";
 import api from "@/utils/api";
+import filter from "@/utils/filter";
 import { store } from "@/utils/store";
 import utils from "@/utils/utils";
 
@@ -23,8 +24,10 @@ export default {
 			(item.rupiah = item.total_nilai * item.kurs),
 			item.tanggal_masuk = utils.formatDate(item.tgl_pembelian)
 		});
+		const nw_ft = store().filter
+		let filteredData = nw_ft ? filter.ft_object(nw_ft, head) : head
 		store().loading = false;
-		return head;
+		return filteredData;
 	},
 	async getDetail(head) {
 		let param = {

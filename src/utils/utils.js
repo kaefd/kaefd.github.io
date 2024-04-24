@@ -59,5 +59,37 @@ export default {
 		const now = new Date();
         const formattedTime = now.toLocaleTimeString('ID')
         return formattedTime
+	},
+	Code(user) {
+		let time = new Date()
+		// mengganti spasi dengan _
+		// membagi 2 kata
+		// masukan ke dalam array
+		let _user = user.replaceAll(" ", "_").toUpperCase()
+		let user2 = user.length % 2 == 1
+		let arrUser = []
+		if(user2) {
+			let prefix = _user.slice(0, (_user.length + 1)/2)
+			let suffix = _user.slice((_user.length + 1)/2, _user.length)
+			arrUser = [prefix, suffix]
+		} else {
+			let prefix = _user.slice(0, _user.length/2)
+			let suffix = _user.slice(_user.length/2, _user.length)
+			arrUser = [prefix, suffix]
+		}
+		
+		// TANGGAL
+		let year = time.getFullYear().toString();
+		let year2 = year.slice(2, year.length);
+        let month = ('0' + (time.getMonth() + 1)).slice(-2)
+        let day = ('0' + time.getDate()).slice(-2);
+		let hour = time.getHours().toString()
+		let minute = time.getMinutes().toString()
+		let second = time.getSeconds().toString()
+		let timeInput = hour+minute+second
+        let timeformat = day+month+year2+timeInput;
+
+		let code = arrUser[0]+timeformat+arrUser[1]
+		return code
 	}
 };

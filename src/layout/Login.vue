@@ -127,13 +127,13 @@ export default {
             // store().loader('off')
         },
         async setOtority(response) {
-            let d = await axios.get(`api/user_otoritas?username=${this.username}&status=true`, {
-                // baseURL: config.server[mode.server],
-                baseURL: import.meta.env.BASE_URL,
+            let d = await axios.get(`user_otoritas?username=${this.username}&status=true`, {
+                baseURL: config.server[mode.server],
+                // baseURL: import.meta.env.BASE_URL,
                 headers: { csrf: response }
             })
             localStorage.setItem('otoritas', JSON.stringify(d.data))
-            if(d) window.location.href = '/'
+            if(d) window.location.href = '/inventori'
         },
         forget() {
             alert.warning(null, 'silakan hubungi administrator')

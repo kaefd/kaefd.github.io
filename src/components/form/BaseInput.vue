@@ -235,11 +235,11 @@ export default {
         },
         selectDate() {
             let val = ''
+            if(!this.variant) {
             let year = this.date.getFullYear();
             let month = ('0' + (this.date.getMonth() + 1)).slice(-2); // Menambahkan leading zero jika perlu
             let day = ('0' + this.date.getDate()).slice(-2);
             let formattedDate = year + '-' + month + '-' + day;
-            if(!this.variant) {
                 val = {
                     title: this.keys,
                     value: formattedDate

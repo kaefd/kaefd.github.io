@@ -2,11 +2,12 @@ import api from "@/utils/api"
 import { store } from "@/utils/store"
 import alert from "@/utils/alert";
 import router from "@/router";
+import filter from "@/utils/filter";
 
 export default {
 	async pengeluaran(param, fl) {
 		let parameters = "";
-		if (param) parameters = param;
+		if (store().param) parameters = store().param;
 		else
 			parameters = {
 				tgl_awal: store().periode[0],
@@ -19,8 +20,10 @@ export default {
 			item.pelanggan = pelanggan.find(p => p.kode_pelanggan == item.kode_pelanggan)?.nama,
 			item.status_ = item.status == 'open' ? 'Menunggu' : 'Selesai'
 		})
+		const nw_ft = store().filter
+        let filteredData = nw_ft ? filter.ft_object(nw_ft, head) : head
 		store().loading = false;
-		return head;
+		return filteredData;
 	},
 	async getDetail(head) {
 		let param = {

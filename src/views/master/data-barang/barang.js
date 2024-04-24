@@ -2,6 +2,7 @@ import { store } from '@/utils/store'
 import api from '@/utils/api'
 import router from '@/router';
 import alert from '@/utils/alert';
+import filter from '@/utils/filter';
 
 export default {
     parameters(value) {
@@ -9,11 +10,12 @@ export default {
 		else return "";
 	},
     async barang(param) {
+		const nw_ft = store().filter
         store().loading = true
-        let data = await api.getData("/barang?status=true", this.parameters(param));
-        store().data.items = data
+        let data = await api.getData("/barang?status=true");
+        let filteredData = nw_ft ? filter.ft_object(nw_ft, data) : data
         store().loading = false
-        return data;
+        return filteredData;
     },
     create(value) {
         store().loading = true

@@ -40,6 +40,7 @@
                 </div>
             </div>
         </div>
+        <base-loader v-if="store().loading"></base-loader>
     </div>
 </template>
 <script setup>
@@ -107,22 +108,18 @@ export default {
             this.updateChart()
         },
         async get () {
-            store().loading = true
             this.items = await stokbarang.stokbarang()
             store().data.items = this.items
             let kode_group = await stokbarang.kode_group()
             this.config.filter[1].item = this.config.filter[1].item.concat(kode_group)
-            if(this.items) store().loading = false
             // store().$patch((state) => { state.state = this.config })
         },
         async chartData() {
-            store().loading = true
             let item = await dashboard.items(this.periode)
             this.chart = await dashboard.chart(this.activeData.chart, this.periode)
             for (let i = 0; i < this.cards.length; i++) {
                 this.cards[i].content = utils.numb(item[i].sum)
             }
-            if(item) store().loading = false
         },
         async updateChart() {
             this.chart = await dashboard.chart(this.activeData.chart, this.periode)
@@ -169,7 +166,6 @@ export default {
         store().loading = true
         this.chartData()
         this.get()
-        store().loading = false
     }
 }
 </script>

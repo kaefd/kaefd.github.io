@@ -108,6 +108,7 @@ export default {
                             active: false,
                             item: [
                                 {title: 'Laporan Stok Barang', key: 'laporan_stok_barang', value: detail.find(it => it.jenis_otoritas == 'Laporan Stok Barang' && it.username == head[i].username) == undefined ? 'false' : detail.find(it => it.jenis_otoritas == 'Laporan Stok Barang' && it.username == head[i].username).status},
+                                {title: 'Detail Stok Barang', key: 'detail_stok_barang', value: detail.find(it => it.jenis_otoritas == 'Detail Stok Barang' && it.username == head[i].username) == undefined ? 'false' : detail.find(it => it.jenis_otoritas == 'Detail Stok Barang' && it.username == head[i].username).status},
                                 {title: 'Laporan Pembelian', key: 'laporan_pembelian', value: detail.find(it => it.jenis_otoritas == 'Laporan Pembelian' && it.username == head[i].username) == undefined ? 'false' : detail.find(it => it.jenis_otoritas == 'Laporan Pembelian' && it.username == head[i].username).status},
                                 {title: 'Laporan Penjualan', key: 'laporan_penjualan', value: detail.find(it => it.jenis_otoritas == 'Laporan Penjualan' && it.username == head[i].username) == undefined ? 'false' : detail.find(it => it.jenis_otoritas == 'Laporan Penjualan' && it.username == head[i].username).status},
                                 {title: 'Laporan Pengiriman', key: 'laporan_pengiriman', value: detail.find(it => it.jenis_otoritas == 'Laporan Pengiriman' && it.username == head[i].username) == undefined ? 'false' : detail.find(it => it.jenis_otoritas == 'Laporan Pengiriman' && it.username == head[i].username).status},
@@ -225,6 +226,7 @@ export default {
             active: false,
             item: [
                 {title: 'Laporan Stok Barang', key: 'laporan_stok_barang', value: false},
+                {title: 'Detail Stok Barang', key: 'detail_stok_barang', value: false},
                 {title: 'Laporan Pembelian', key: 'laporan_pembelian', value: false},
                 {title: 'Laporan Penjualan', key: 'laporan_penjualan', value: false},
                 {title: 'Laporan Pengiriman', key: 'laporan_pengiriman', value: false},
@@ -341,6 +343,7 @@ export default {
                 active: false,
                 item: [
                     {title: 'Laporan Stok Barang', key: 'laporan_stok_barang', value: detail.find(it => it.jenis_otoritas == 'Laporan Stok Barang' && it.username == head.username) == undefined ? 'false' : detail.find(it => it.jenis_otoritas == 'Laporan Stok Barang' && it.username == head.username).status},
+                    {title: 'Detail Stok Barang', key: 'detail_stok_barang', value: detail.find(it => it.jenis_otoritas == 'Detail Stok Barang' && it.username == head.username) == undefined ? 'false' : detail.find(it => it.jenis_otoritas == 'Detail Stok Barang' && it.username == head.username).status},
                     {title: 'Laporan Pembelian', key: 'laporan_pembelian', value: detail.find(it => it.jenis_otoritas == 'Laporan Pembelian' && it.username == head.username) == undefined ? 'false' : detail.find(it => it.jenis_otoritas == 'Laporan Pembelian' && it.username == head.username).status},
                     {title: 'Laporan Penjualan', key: 'laporan_penjualan', value: detail.find(it => it.jenis_otoritas == 'Laporan Penjualan' && it.username == head.username) == undefined ? 'false' : detail.find(it => it.jenis_otoritas == 'Laporan Penjualan' && it.username == head.username).status},
                     {title: 'Laporan Pengiriman', key: 'laporan_pengiriman', value: detail.find(it => it.jenis_otoritas == 'Laporan Pengiriman' && it.username == head.username) == undefined ? 'false' : detail.find(it => it.jenis_otoritas == 'Laporan Pengiriman' && it.username == head.username).status},

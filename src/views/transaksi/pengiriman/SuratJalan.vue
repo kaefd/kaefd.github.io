@@ -80,8 +80,9 @@
             <span>(Bag. Gudang)</span>
             <span>(Bag. Exim)</span>
         </div>
-        <div class="onlyPrinte flex w-full justify-end -mt-2">
-            <span class="italic text-xs">Print by: {{ `${user} / ${utils.formatDate(utils.today())} ${utils.TimeNow()}` }}</span>
+        <div class="onlyPrinted flex w-full justify-end -mt-2">
+            <!-- <span class="italic text-xs">Print by: {{ `${user} / ${utils.formatDate(utils.today())} ${utils.TimeNow()}` }}</span> -->
+            <span class="text-[10px]">{{ utils.Code(user) }}</span>
         </div>
     </div>
 </template>

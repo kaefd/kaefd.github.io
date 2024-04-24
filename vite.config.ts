@@ -9,8 +9,8 @@ import mode from './src/config'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  // base: config.server[mode.routeMode.base],
-  // base: '/inventori',
+  // base: config.routeMode[mode.routeMode].base,
+  base: '/inventori',
   optimizeDeps: {
     exclude: ['blip-ds/loader']
   },
@@ -20,16 +20,16 @@ export default defineConfig({
     splitVendorChunkPlugin(),
     dynamicImport(),
   ],
-  server: {
-    proxy: {
-      "/api": {
-        target: "https://auristeel.com/api/",
-        changeOrigin: true,
-        secure: false,
-        rewrite: (path) => path.replace(/^\/api/, ""),
-      },
-    },
-  },
+  // server: {
+  //   proxy: {
+  //     "/api": {
+  //       target: "https://auristeel.com/api/",
+  //       changeOrigin: true,
+  //       secure: false,
+  //       rewrite: (path) => path.replace(/^\/api/, ""),
+  //     },
+  //   },
+  // },
   resolve: {
     // alias: {
     //   '@': path.resolve(__dirname, './src'),
@@ -39,10 +39,10 @@ export default defineConfig({
       "@": fileURLToPath(new URL('./src', import.meta.url))
     },
   },
-  test: {
-    globals: true,
-    environment: 'jsdom'
-  },
+  // test: {
+  //   globals: true,
+  //   environment: 'jsdom'
+  // },
   build: {
     chunkSizeWarningLimit: 1600,
   },

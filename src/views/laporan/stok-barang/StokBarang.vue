@@ -2,7 +2,7 @@
     <div class="w-full h-full">
         <base-page :config="config">
             <template #header-content="items">
-                <DetailBarang :items="items.items"></DetailBarang>
+                <DetailBarang v-if="otoritas.check('Detail Stok Barang')" :items="items.items"></DetailBarang>
             </template>
         </base-page>
          <!-- CUSTOM DETAIL -->

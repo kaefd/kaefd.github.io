@@ -1,10 +1,10 @@
 <template>
-    <div @contextmenu.prevent="context($event)" class="w-full h-full" :class="store().dark ? 'bg-dark-base' : 'bg-base'">
+    <div class="w-full h-full" :class="store().dark ? 'bg-dark-base' : 'bg-base'">
         <!-- CONTENT -->
         <div class="relative w-[95%] mx-auto h-[88%] md:h-[98%] rounded animate__animated animate__fadeIn animate__faster" :class="store().dark ? 'dark' : 'bg-white'">
             <!-- TABLE -->
             <div class="w-full h-full p-5">
-                <base-table :title="config.title" :tbl_footer="config.tbl_footer" :base="true" :s_table="s_table" :fields="tableHeader" :filter="config.filter" :show_filter="true" :select_column="true" :export="true" :search="true" :items="items || store().data.items" :permission="config.permission" @openDetail="resTable"></base-table>
+                <base-table @contextmenu.prevent="context($event)" :title="config.title" :tbl_footer="config.tbl_footer" :base="true" :s_table="s_table" :fields="tableHeader" :filter="config.filter" :show_filter="true" :select_column="true" :export="true" :search="true" :items="items || store().data.items" :permission="config.permission" @openDetail="resTable"></base-table>
             </div>
         </div>
         <!-- CONTEXT MENU -->

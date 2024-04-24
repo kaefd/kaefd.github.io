@@ -1,10 +1,11 @@
 import api from "@/utils/api";
 import alert from "@/utils/alert";
 import { store } from "@/utils/store";
+import filter from "@/utils/filter";
 export default {
 	async pengeluaran(param, fl) {
 		let parameters = "";
-		if (param) parameters = param;
+		if (store().param) parameters = store().param;
 		else {
 			parameters = {
 				tgl_awal: store().periode[0],
@@ -92,8 +93,10 @@ export default {
 			})
 			
 		}
+		const nw_ft = store().filter
+        let filteredData = nw_ft ? filter.ft_object(nw_ft, data) : data
 		store().loading = false
-		return data;
+		return filteredData;
 	},
 	async getDetail(head) {
 		let data = []

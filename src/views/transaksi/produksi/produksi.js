@@ -2,6 +2,7 @@ import api from "@/utils/api"
 import { store } from "@/utils/store"
 import alert from "@/utils/alert";
 import router from "@/router";
+import filter from "@/utils/filter";
 
 export default {
 	async produksi(param, fl) {
@@ -48,8 +49,10 @@ export default {
 				),
 			});
 		}
+		const nw_ft = store().filter
+        let filteredData = nw_ft ? filter.ft_object(nw_ft, a) : a
 		store().loading = false;
-		return a;
+		return filteredData;
 	},
 	async getDetail(head) {
 		let param = {

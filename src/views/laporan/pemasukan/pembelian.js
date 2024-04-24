@@ -1,4 +1,5 @@
 import api from "@/utils/api";
+import filter from "@/utils/filter";
 import { store } from "@/utils/store";
 
 export default {
@@ -14,7 +15,6 @@ export default {
 		let head = await api.getData("/pembelian_head", parameters);
 		let detail = await api.getData("/pembelian_detail", parameters);
 		let supplier = await api.getData("/supplier");
-		let data = [];
 		head.map((item) => {
 			let sp = supplier.filter((it) => it.kode_supplier == item.kode_supplier);
 			let dtl = detail.filter((it) => it.no_pembelian == item.no_pembelian);
@@ -32,8 +32,10 @@ export default {
 			item.hs_code = [...new Set(hsc)].toString();
 			item.rupiah = item.total_nilai * item.kurs;
 		});
+		const nw_ft = store().filter
+		let filteredData = nw_ft ? filter.ft_object(nw_ft, head) : head
 		store().loading = false;
-		return head;
+		return filteredData;
 	},
 	async getDetail(head) {
 		let param = {

@@ -65,7 +65,7 @@ export default {
         async get() {
             const check = otoritas.check(this.config.title)
             if(!check) return this.$router.push('/')
-            await barang.barang(null, this.config.fields.head[0])
+            store().data.items = await barang.barang(null, this.config.fields.head[0])
         },
     },
     beforeMount() {
