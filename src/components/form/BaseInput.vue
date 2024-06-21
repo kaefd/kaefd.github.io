@@ -3,8 +3,8 @@
         :dark="store().dark ? true : false"
         :clearable="false"
         :format-locale="id"
-        :min-date="rangedate.min"
-        :max-date="rangedate.max"
+        :min-date="otoritas.check('Periode') ? null : rangedate.min"
+        :max-date="otoritas.check('Periode') ? null : rangedate.max"
         required
         locale="id"
         cancelText="batal"
@@ -23,8 +23,8 @@
         :dark="store().dark ? true : false"
         :clearable="false"
         :format-locale="id"
-        :min-date="rangedate.min"
-        :max-date="rangedate.max"
+        :min-date="otoritas.check('Periode') ? null : rangedate.min"
+        :max-date="otoritas.check('Periode') ? null : rangedate.max"
         required
         locale="id"
         cancelText="batal"
@@ -103,6 +103,7 @@ import { store } from '@/utils/store'
 import utils from '@/utils/utils'
 import { ref } from 'vue';
 import validation from '@/utils/validation';
+import otoritas from '@/router/otoritas';
 </script>
 <script>
 const month = ref({

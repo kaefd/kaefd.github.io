@@ -132,6 +132,7 @@ export default {
                             item: [
                                 {title: 'Export pdf', key: 'pdf', value: detail.find(it => it.jenis_otoritas == 'Export pdf' && it.username == head[i].username) == undefined ? 'false' : detail.find(it => it.jenis_otoritas == 'Export pdf' && it.username == head[i].username).status},
                                 {title: 'Export xlsx', key: 'xlsx', value: detail.find(it => it.jenis_otoritas == 'Export xlsx' && it.username == head[i].username) == undefined ? 'false' : detail.find(it => it.jenis_otoritas == 'Export xlsx' && it.username == head[i].username).status},
+                                {title: 'Periode', key: 'periode', value: detail.find(it => it.jenis_otoritas == 'Periode' && it.username == head[i].username) == undefined ? 'false' : detail.find(it => it.jenis_otoritas == 'Periode' && it.username == head[i].username).status},
                             ]
                         })
         }
@@ -257,6 +258,7 @@ export default {
             item: [
                 {title: 'Export pdf', key: 'pdf', value: false},
                 {title: 'Export xlsx', key: 'xlsx', value: false},
+                {title: 'Periode', key: 'periode', value: false},
             ]
         })
         return newData
@@ -380,6 +382,7 @@ export default {
                 item: [
                     {title: 'Export pdf', key: 'pdf', value: detail.find(it => it.jenis_otoritas == 'Export pdf' && it.username == head.username) == undefined ? 'false' : detail.find(it => it.jenis_otoritas == 'Export pdf' && it.username == head.username).status},
                     {title: 'Export xlsx', key: 'xlsx', value: detail.find(it => it.jenis_otoritas == 'Export xlsx' && it.username == head.username) == undefined ? 'false' : detail.find(it => it.jenis_otoritas == 'Export xlsx' && it.username == head.username).status},
+                    {title: 'Periode', key: 'xlsx', value: detail.find(it => it.jenis_otoritas == 'Periode' && it.username == head.username) == undefined ? 'false' : detail.find(it => it.jenis_otoritas == 'Periode' && it.username == head.username).status},
                 ]
             }
         ]

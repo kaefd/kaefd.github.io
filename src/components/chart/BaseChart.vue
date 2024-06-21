@@ -1,6 +1,6 @@
 <template>
     <div id="chart" class="relative w-full">
-      <apexchart type="line" height="350" :options="chartOptions" :series="series"></apexchart>
+      <apexchart type="line" height="350" :options="chartOptions" :series="series || []"></apexchart>
     </div>
 </template>
 <script setup>
@@ -9,7 +9,7 @@ import { store } from '@/utils/store'
 </script>
 <script>
 export default {
-    props: {series: {type: Array}},
+    props: { series: {type: Array} },
     computed: {
       chartOptions() { 
          return {
@@ -34,7 +34,7 @@ export default {
                 color: '#000',
                 top: 15,
                 left: 3,
-                blur: 5,
+                blur: 3,
                 opacity: 0.09
             },
           },

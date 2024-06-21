@@ -8,7 +8,7 @@ export default {
 	},
     async supplier(param) {
         store().loading = true
-        let data = await api.getData("/supplier?status=true", this.parameters(param));
+        let data = await api.getData("/supplier", this.parameters(param));
         store().data.items = data
         store().loading = false
         return data;

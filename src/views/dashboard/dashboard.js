@@ -78,12 +78,15 @@ export default {
 		if (!head) api.logout();
 		let detail = await api.getData(value.detail, param);
 		for (let k = 0; k < head.length; k++) {
+			let jml = 0;
 			for (let j = 0; j < detail.length; j++) {
 				if (detail[j]["no_" + value.key] == head[k]["no_" + value.key]) {
-					other.push(detail[j].jumlah / 1000);
-					tgl.push(utils.formatDate(head[k]["tgl_" + value.key]));
-				}
+					jml += detail[j].jumlah
+					// tgl.push(utils.formatDate(head[k]["tgl_" + value.key]));
+					tgl.push("1");
+				} else {}
 			}
+			if((new Date(head[k]["tgl_" + value.key]).getDay() + 1) < 8 ) other.push(jml / 1000);
 		}
 		store().cpr = tgl
 		data = [

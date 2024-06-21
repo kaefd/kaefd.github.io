@@ -52,7 +52,8 @@ export default {
             let data = otoritas.filter(
 			    (item) =>
                     item.jenis_otoritas == "Export pdf" ||
-                    item.jenis_otoritas == "Export xlsx"
+                    item.jenis_otoritas == "Export xlsx" ||
+                    item.jenis_otoritas == "Periode"
 			)
 			if (data != "") return true;
 			else return false;

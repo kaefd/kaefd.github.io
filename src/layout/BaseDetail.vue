@@ -15,8 +15,8 @@
                     <slot name="header-content" :h_field="h_field">
                         <div class="flex flex-col flex-wrap gap-y-2 pt-1 w-full" :class="!d_field ? 'h-max' : 'h-max md:h-max lg:h-[45vh] xl:h-[33vh] 2xl:h-[26vh]'">
                             <div v-for="fl in h_field" class="w-fit">
-                                <div class="flex justify-between items-center md:w-72">
-                                    <label class="w-[24%] break-normal">{{ fl.title }}</label>
+                                <div class="flex justify-start items-center md:w-72">
+                                    <label class="w-[80px] break-normal">{{ fl.title }}</label>
                                     <base-input :type="fl.type"  :option="fl.item" :value="h_items[fl.key]" :fl_item="fl.item" :default="fl.default" :rules="fl.rules" :label="fl.key" :allItems="dataitem" :keys="fl.key" @input="input" :disabled="fl[store().state.action].disabled"></base-input>
                                 </div>
                             </div>

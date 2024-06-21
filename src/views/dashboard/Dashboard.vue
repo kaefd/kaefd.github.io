@@ -36,7 +36,6 @@
                 <div class="w-full h-[600px] px-3 md:px-5 pt-5 pb-0 md:pb-15 rounded-0 md:rounded" :class="store().dark ? 'dark' : 'bg-white'">
                     <p class="mx-3 text-lg" :class="store().dark ? 'text-white' : 'text-black'">{{ config.title }}</p>
                     <base-table :title="config.title" :fields="config.fields.head" :filter="config.filter" :show_filter="true" :select_column="true" :export="true" :search="true" :items="store().data.items" :permission="config.permission" :s_table="true"></base-table>
-                    <!-- <base-table :fields="config.fields" :items="items" :master="true" :permission="config.permission" :s_table="true"></base-table> -->
                 </div>
             </div>
         </div>
@@ -114,7 +113,10 @@ export default {
                 this.updateChart()
                 this.get()
                 this.chartData()
-            } else return this.$router.push('master/data-barang')
+            } else {
+                let d = JSON.parse(localStorage.getItem('otoritas')).filter(i => i.jenis_otoritas != "Laporan")
+                return this.$router.push({name: d[0].jenis_otoritas})
+            }
         },
         async get () {
             this.items = await stokbarang.stokbarang()
@@ -130,8 +132,8 @@ export default {
                 this.cards[i].content = utils.numb(item[i].sum)
             }
         },
-        updateChart() {
-            this.chart = dashboard.chart(this.activeData.chart, this.periode)
+        async updateChart() {
+            this.chart = await dashboard.chart(this.activeData.chart, this.periode)
         },
         dateInput (val) {
             const m = val.value.month + 1

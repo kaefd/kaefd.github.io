@@ -136,6 +136,8 @@ export default {
                         let kode = [];
                         let jumlah = [];
                         let konversi = [];
+                        let satuan_konversi = []
+                        let satuan = []
                         let nama = "";
                         for (let j = 0; j < this.detail.length; j++) {
                             if (this.detail[j].nama_barang == head[i]) {
@@ -147,6 +149,8 @@ export default {
                                 );
                                 jumlah.push(this.detail[j].jumlah);
                                 konversi.push(this.detail[j].jumlah_konversi);
+                                satuan_konversi.push(this.detail[j].satuan_konversi)
+                                satuan.push(this.detail[j].satuan)
                             }
                         }
                         k.push({
@@ -155,15 +159,16 @@ export default {
                                 (accumulator, currentValue) => accumulator + currentValue,
                                 0
                             ),
-                            satuan: this.detail[i].satuan,
-                            satuan_konversi: this.detail[i].satuan_konversi,
+                            satuan: [...new Set(satuan)].toString(),
                             jumlah: jumlah.reduce(
                                 (accumulator, currentValue) => accumulator + currentValue,
                                 0
                             ),
+                            satuan_konversi: [...new Set(satuan_konversi)].toString(),
                             nopen: ([...new Set(kode)].toString()).replaceAll(",", ", "),
                         });
                     }
+                    console.log(k);
                     return k;
                 }
 		},

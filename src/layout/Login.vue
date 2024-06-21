@@ -133,7 +133,7 @@ export default {
                 headers: { csrf: response }
             })
             localStorage.setItem('otoritas', JSON.stringify(d.data))
-            if(d) window.location.href = '/inventori'
+            if(d) window.location.href = '/'
         },
         forget() {
             alert.warning(null, 'silakan hubungi administrator')
